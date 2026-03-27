@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "problem_brief_id": "problem_brief_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Problem brief: starter discovery trace demo",
+  "problem_summary": "Teams adopting ProductOS need a concrete example of what good lifecycle traceability looks like before they can apply the standard to their own product work.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_scaling_product_orgs"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_ops_lead"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_starter_trace_demo"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opp_starter_trace_demo"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "research",
+      "source_id": "research_notebook_starter_trace_demo",
+      "justification": "The notebook explains why the starter needs a concrete lifecycle trace example."
+    }
+  ],
+  "upstream_artifact_ids": [
+    "research_notebook_starter_trace_demo",
+    "segment_map_starter_trace_demo",
+    "persona_pack_starter_trace_demo"
+  ],
+  "recommended_next_step": "prd",
+  "created_at": "2026-03-23T11:12:00Z"
+}

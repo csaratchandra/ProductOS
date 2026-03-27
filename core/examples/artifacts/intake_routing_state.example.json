@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "intake_routing_state_id": "intake_routing_state_ws_productos_v2_runtime",
+  "workspace_id": "ws_productos_v2",
+  "ingestion_mode": "continuous",
+  "status": "monitoring",
+  "routing_summary": "The runtime is monitoring inbox paths continuously and routing captured items into transcript, note-card, and synthesis workflows.",
+  "active_inbox_paths": [
+    "workspaces/productos-v2/inbox/raw-notes",
+    "workspaces/productos-v2/inbox/transcripts",
+    "workspaces/productos-v2/inbox/screenshots"
+  ],
+  "intake_items": [
+    {
+      "item_id": "inbox_readme_raw_notes",
+      "inbox_path": "workspaces/productos-v2/inbox/raw-notes/README.md",
+      "input_type": "raw_note",
+      "captured_at": "2026-03-21T23:30:00Z",
+      "provenance_status": "partial",
+      "normalization_status": "pending",
+      "recommended_workflow_ids": [
+        "wf_research_notebook_to_synthesis"
+      ],
+      "derived_artifact_ids": [],
+      "notes": "Partial-provenance notes stay visible for follow-up without blocking the release gate."
+    },
+    {
+      "item_id": "inbox_readme_transcripts",
+      "inbox_path": "workspaces/productos-v2/inbox/transcripts/README.md",
+      "input_type": "transcript",
+      "captured_at": "2026-03-21T23:30:00Z",
+      "provenance_status": "complete",
+      "normalization_status": "routed",
+      "recommended_workflow_ids": [
+        "wf_transcript_to_notes",
+        "wf_issue_log_maintenance"
+      ],
+      "derived_artifact_ids": [
+        "meeting_record_v3_runtime_review",
+        "issue_log_2026_03_21"
+      ],
+      "notes": "Transcript intake route remains active for runtime reviews."
+    },
+    {
+      "item_id": "inbox_readme_screenshots",
+      "inbox_path": "workspaces/productos-v2/inbox/screenshots/README.md",
+      "input_type": "screenshot",
+      "captured_at": "2026-03-21T23:30:00Z",
+      "provenance_status": "complete",
+      "normalization_status": "normalized",
+      "recommended_workflow_ids": [
+        "wf_source_ingestion_to_note_card"
+      ],
+      "derived_artifact_ids": [
+        "source_note_card_runtime_queue_state"
+      ],
+      "notes": "Screenshot intake supports blocked-route explanation in the cockpit."
+    }
+  ],
+  "blocked_item_ids": [],
+  "created_at": "2026-03-21T23:30:00Z",
+  "updated_at": "2026-03-21T23:30:00Z"
+}

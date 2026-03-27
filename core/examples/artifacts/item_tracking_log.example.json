@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "item_tracking_log_id": "item_tracking_log_2026_03_19",
+  "workspace_id": "ws_productos_v2",
+  "items": [
+    {
+      "item_id": "item_add_status_mail_schema",
+      "description": "Add status mail, issue log, and meeting record schemas.",
+      "owner": "ProductOS PM",
+      "status": "done",
+      "due_date": "2026-03-20",
+      "source_meeting_record_id": "meeting_2026_03_19_leadership_review"
+    },
+    {
+      "item_id": "item_define_transcript_thresholds",
+      "description": "Define transcript extraction workflow and confidence thresholds.",
+      "owner": "ProductOS PM",
+      "status": "open",
+      "due_date": "2026-03-24",
+      "source_meeting_record_id": "meeting_2026_03_19_leadership_review"
+    }
+  ],
+  "updated_at": "2026-03-19T16:20:00Z"
+}

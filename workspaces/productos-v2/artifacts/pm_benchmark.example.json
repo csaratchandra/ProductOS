@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "pm_benchmark_id": "pm_benchmark_ws_productos_v2_runtime",
+  "workspace_id": "ws_productos_v2",
+  "pm_identifier": "pm_productos_core",
+  "evaluation_period": {
+    "start_date": "2026-03-21",
+    "end_date": "2026-03-21"
+  },
+  "baseline_metrics": [
+    {
+      "metric_name": "time_to_identify_blocked_route_minutes",
+      "value": 12,
+      "unit": "minutes"
+    },
+    {
+      "metric_name": "time_to_route_new_inbox_item_minutes",
+      "value": 18,
+      "unit": "minutes"
+    },
+    {
+      "metric_name": "time_to_find_relevant_prior_context_minutes",
+      "value": 25,
+      "unit": "minutes"
+    }
+  ],
+  "current_metrics": [
+    {
+      "metric_name": "time_to_identify_blocked_route_minutes",
+      "value": 2,
+      "unit": "minutes"
+    },
+    {
+      "metric_name": "time_to_route_new_inbox_item_minutes",
+      "value": 4,
+      "unit": "minutes"
+    },
+    {
+      "metric_name": "time_to_find_relevant_prior_context_minutes",
+      "value": 8,
+      "unit": "minutes"
+    }
+  ],
+  "benchmark_assessment": {
+    "output_quality_trend": "improved",
+    "decision_quality_trend": "improved",
+    "speed_to_insight_trend": "improved",
+    "rewrite_rate_trend": "improved",
+    "overall_assessment": "The V3 runtime foundation materially reduces PM reconstruction work and makes operating state more legible than the V2 baseline."
+  },
+  "world_class_reference_examples": [
+    "Blocked runtime work is visible from one PM-facing cockpit surface.",
+    "New inbox material routes forward with provenance instead of disappearing into ad hoc notes."
+  ],
+  "recommended_focus_areas": [
+    "Use the completed benchmark evidence to prioritize the first V3.1 runtime expansion.",
+    "Keep broader learning-loop automation deferred until post-launch evidence justifies it."
+  ],
+  "generated_at": "2026-03-21T23:30:00Z"
+}

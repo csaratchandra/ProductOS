@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "concept_brief_id": "concept_brief_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Concept brief: seeded lifecycle trace starter",
+  "hypothesis": "If the starter workspace includes one fully linked discovery item, teams will understand the ProductOS trace model faster and adapt it with less confusion.",
+  "why_now": "V5 introduces lifecycle traceability as a first-class capability and needs a reusable adoption baseline.",
+  "why_us": "The starter workspace is the cleanest way to demonstrate ProductOS outside the self-hosting workspace.",
+  "advantage_hypothesis": "A seeded, readable discovery path lowers adoption friction more than an empty scaffold.",
+  "status": "validated",
+  "idea_record_ids": [
+    "idea_record_starter_trace_demo"
+  ],
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_scaling_product_orgs"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_ops_lead"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_starter_trace_demo"
+    }
+  ],
+  "created_at": "2026-03-23T11:14:00Z"
+}

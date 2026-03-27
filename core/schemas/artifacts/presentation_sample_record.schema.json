@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/presentation_sample_record.schema.json",
+  "title": "ProductOS Presentation Sample Record",
+  "description": "Captures a candidate presentation sample and why it is strong before any pattern is adopted into ProductOS.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "presentation_sample_record_id",
+    "workspace_id",
+    "sample_name",
+    "sample_type",
+    "source_mode",
+    "source_ref",
+    "target_audience",
+    "quality_rationale",
+    "narrative_patterns",
+    "visual_patterns",
+    "adoption_scope",
+    "licensing_and_usage_notes",
+    "review_status",
+    "review_refs",
+    "captured_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "presentation_sample_record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sample_name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "sample_type": {
+      "type": "string",
+      "enum": [
+        "deck",
+        "memo",
+        "one_page",
+        "html_presentation",
+        "pptx_export"
+      ]
+    },
+    "source_mode": {
+      "type": "string",
+      "enum": [
+        "internal_reference",
+        "external_reference"
+      ]
+    },
+    "source_ref": {
+      "type": "string",
+      "minLength": 3
+    },
+    "target_audience": {
+      "type": "string",
+      "enum": [
+        "leadership",
+        "working_team",
+        "cross_functional",
+        "customer"
+      ]
+    },
+    "quality_rationale": {
+      "$ref": "#/$defs/stringList"
+    },
+    "narrative_patterns": {
+      "$ref": "#/$defs/stringList"
+    },
+    "visual_patterns": {
+      "$ref": "#/$defs/stringList"
+    },
+    "adoption_scope": {
+      "type": "string",
+      "enum": [
+        "inspiration_only",
+        "candidate_for_internal_pattern",
+        "approved_internal_pattern",
+        "rejected"
+      ]
+    },
+    "licensing_and_usage_notes": {
+      "type": "string",
+      "minLength": 10
+    },
+    "review_status": {
+      "type": "string",
+      "enum": [
+        "captured",
+        "reviewed",
+        "approved",
+        "rejected"
+      ]
+    },
+    "review_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "stringList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    }
+  }
+}

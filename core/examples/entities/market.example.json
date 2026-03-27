@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "market_id": "market-b2b-product-operations",
+  "workspace_id": "ws_productos_v2",
+  "name": "B2B Product Operations",
+  "region": "Global",
+  "opportunity_summary": "B2B product teams need a structured operating system to reduce recurring planning and communication overhead.",
+  "status": "priority",
+  "linked_segment_ids": ["segment_b2b_product_teams"]
+}

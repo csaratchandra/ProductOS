@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/prd.schema.json",
+  "title": "ProductOS PRD",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "prd_id",
+    "workspace_id",
+    "title",
+    "problem_summary",
+    "outcome_summary",
+    "scope_summary",
+    "target_segment_refs",
+    "target_persona_refs",
+    "linked_entity_refs",
+    "upstream_artifact_ids",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "prd_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "problem_summary": { "type": "string", "minLength": 10 },
+    "outcome_summary": { "type": "string", "minLength": 10 },
+    "scope_summary": { "type": "string", "minLength": 10 },
+    "target_segment_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "target_persona_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "linked_entity_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "upstream_artifact_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id"],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": ["segment", "persona", "problem", "outcome", "opportunity", "feature", "metric", "decision"]
+        },
+        "entity_id": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

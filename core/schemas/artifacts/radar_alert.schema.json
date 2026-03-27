@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/radar_alert.schema.json",
+  "title": "ProductOS Radar Alert",
+  "description": "Ranked radar alert derived from change events with suppression and downstream trigger guidance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "radar_alert_id",
+    "workspace_id",
+    "title",
+    "summary",
+    "priority",
+    "impact_scope",
+    "source_change_event_ids",
+    "recommended_triggers",
+    "suppression_state",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "radar_alert_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "impact_scope": {
+      "type": "string",
+      "enum": [
+        "local",
+        "cross_workflow",
+        "cross_team",
+        "program",
+        "portfolio"
+      ]
+    },
+    "source_change_event_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "recommended_triggers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "status",
+          "workflow",
+          "reliability",
+          "leadership",
+          "escalation",
+          "none"
+        ]
+      },
+      "minItems": 1
+    },
+    "suppression_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "is_suppressed",
+        "rationale"
+      ],
+      "properties": {
+        "is_suppressed": {
+          "type": "boolean"
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "recommended_owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

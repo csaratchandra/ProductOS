@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "decision_log_id": "decision_log_bad_missing_sources",
+  "workspace_id": "ws_productos_v2",
+  "updated_at": "2026-03-19T17:30:00Z",
+  "decisions": [
+    {
+      "decision_id": "dec_bad",
+      "statement": "Make bi-weekly status mail a first-class ProductOS output.",
+      "status": "approved",
+      "rationale": "It sounds right.",
+      "decided_at": "2026-03-19T15:45:00Z"
+    }
+  ]
+}

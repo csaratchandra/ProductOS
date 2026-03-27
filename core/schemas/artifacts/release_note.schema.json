@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/release_note.schema.json",
+  "title": "ProductOS Release Note",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_note_id",
+    "workspace_id",
+    "title",
+    "summary",
+    "feature_ids",
+    "audience",
+    "change_classification",
+    "version_impact",
+    "customer_visible",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "release_note_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "summary": { "type": "string", "minLength": 10 },
+    "feature_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "audience": {
+      "type": "string",
+      "enum": ["internal", "customer", "leadership"]
+    },
+    "change_classification": {
+      "type": "string",
+      "enum": [
+        "major_product_change",
+        "feature_enhancement",
+        "minor_improvement",
+        "bug_fix",
+        "internal_only_maintenance"
+      ]
+    },
+    "version_impact": {
+      "type": "string",
+      "enum": ["major", "minor", "patch"]
+    },
+    "customer_visible": {
+      "type": "boolean"
+    },
+    "classification_rationale": {
+      "type": "string",
+      "minLength": 5
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

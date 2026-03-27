@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/signal_landscape.schema.json",
+  "title": "ProductOS Signal Landscape",
+  "description": "Structured multi-source signal landscape showing clusters, strength, and watch status.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "signal_landscape_id",
+    "workspace_id",
+    "title",
+    "signal_clusters",
+    "decision_watchlist",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "signal_landscape_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "signal_clusters": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/cluster" },
+      "minItems": 1
+    },
+    "decision_watchlist": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "cluster": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "signal_class",
+        "cluster_summary",
+        "watch_status",
+        "signals"
+      ],
+      "properties": {
+        "signal_class": {
+          "type": "string",
+          "enum": ["customer", "market", "competitor", "product", "support", "delivery", "stakeholder", "ecosystem"]
+        },
+        "cluster_summary": { "type": "string", "minLength": 10 },
+        "watch_status": {
+          "type": "string",
+          "enum": ["noise", "watch", "emerging_pattern", "decision_relevant"]
+        },
+        "signals": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/signal" },
+          "minItems": 1
+        }
+      }
+    },
+    "signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_ref", "signal_summary", "signal_strength", "evidence_refs"],
+      "properties": {
+        "source_ref": { "type": "string", "minLength": 1 },
+        "signal_summary": { "type": "string", "minLength": 10 },
+        "signal_strength": {
+          "type": "string",
+          "enum": ["weak", "moderate", "strong"]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/presentation_pattern_review.schema.json",
+  "title": "ProductOS Presentation Pattern Review",
+  "description": "Reviews whether a sampled narrative or visual presentation pattern may be adopted into ProductOS under governed controls.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "presentation_pattern_review_id",
+    "workspace_id",
+    "presentation_sample_record_ref",
+    "pattern_name",
+    "pattern_scope",
+    "validation_tier",
+    "adoption_decision",
+    "rationale",
+    "extracted_rules",
+    "risk_controls",
+    "regression_fixture_refs",
+    "manual_validation_required",
+    "manual_validation_status",
+    "publish_constraints",
+    "reviewed_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "presentation_pattern_review_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "presentation_sample_record_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pattern_name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "pattern_scope": {
+      "type": "string",
+      "enum": [
+        "narrative",
+        "visual",
+        "layout",
+        "audience_policy",
+        "presentation_system"
+      ]
+    },
+    "validation_tier": {
+      "type": "string",
+      "enum": [
+        "tier_3"
+      ]
+    },
+    "adoption_decision": {
+      "type": "string",
+      "enum": [
+        "adopt",
+        "trial",
+        "revise",
+        "reject"
+      ]
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 10
+    },
+    "extracted_rules": {
+      "$ref": "#/$defs/stringList"
+    },
+    "risk_controls": {
+      "$ref": "#/$defs/stringList"
+    },
+    "regression_fixture_refs": {
+      "$ref": "#/$defs/refList"
+    },
+    "manual_validation_required": {
+      "type": "boolean"
+    },
+    "manual_validation_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "passed",
+        "revise",
+        "rejected"
+      ]
+    },
+    "publish_constraints": {
+      "$ref": "#/$defs/stringList"
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "stringList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    },
+    "refList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    }
+  }
+}

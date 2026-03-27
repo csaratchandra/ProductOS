@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "test_case_set_id": "test_cases_status_draft_story",
+  "workspace_id": "ws_productos_v2",
+  "acceptance_criteria_set_id": "acceptance_status_draft_story",
+  "test_cases": [
+    {
+      "test_case_id": "tc_status_1",
+      "criterion_id": "ac_status_1",
+      "title": "Status draft includes key sections",
+      "steps": [
+        "Generate a status draft from workspace inputs.",
+        "Inspect the generated draft for key sections."
+      ],
+      "expected_result": "The draft includes what happened, open issues, decisions, and next steps."
+    },
+    {
+      "test_case_id": "tc_status_2",
+      "criterion_id": "ac_status_2",
+      "title": "Targeted PM context is requested only when needed",
+      "steps": [
+        "Generate a draft with missing contextual nuance.",
+        "Inspect the missing-context prompts."
+      ],
+      "expected_result": "The draft requests targeted PM context only for gaps that cannot be inferred from source data."
+    }
+  ]
+}

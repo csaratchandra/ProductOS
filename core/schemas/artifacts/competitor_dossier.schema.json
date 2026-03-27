@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/competitor_dossier.schema.json",
+  "title": "ProductOS Competitor Dossier",
+  "description": "Structured summary of competitor context relevant to a segment, persona, and problem space.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "competitor_dossier_id",
+    "workspace_id",
+    "title",
+    "target_segment_refs",
+    "target_persona_refs",
+    "source_artifact_ids",
+    "competitors",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "competitor_dossier_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "research_scope": {
+      "type": "string",
+      "minLength": 5
+    },
+    "target_segment_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entityRef"
+      },
+      "minItems": 1
+    },
+    "target_persona_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entityRef"
+      },
+      "minItems": 1
+    },
+    "linked_entity_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entityRef"
+      },
+      "default": []
+    },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "feature_taxonomy": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "competitors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/competitor"
+      },
+      "minItems": 1
+    },
+    "last_refreshed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id"],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": ["segment", "persona", "problem", "outcome", "opportunity", "feature", "metric", "decision"]
+        },
+        "entity_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "competitor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "competitor_type",
+        "target_customer",
+        "positioning_summary",
+        "go_to_market_motion",
+        "pricing_signal",
+        "strengths",
+        "weaknesses",
+        "implications"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "direct_pm_platform",
+            "indirect_pm_platform",
+            "adjacent_work_platform",
+            "agentic_research_tool",
+            "competitive_intelligence_tool"
+          ]
+        },
+        "competitor_type": {
+          "type": "string",
+          "enum": ["direct", "indirect", "tech_platform", "vendor", "startup"]
+        },
+        "target_customer": {
+          "type": "string",
+          "minLength": 5
+        },
+        "positioning_summary": {
+          "type": "string",
+          "minLength": 10
+        },
+        "go_to_market_motion": {
+          "type": "string",
+          "minLength": 5
+        },
+        "pricing_signal": {
+          "type": "string",
+          "minLength": 3
+        },
+        "icp_overlap": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        },
+        "substitution_risk": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        },
+        "ecosystem_role": {
+          "type": "string",
+          "minLength": 5
+        },
+        "agentic_features": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "default": []
+        },
+        "governance_features": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "default": []
+        },
+        "capability_gaps": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "default": []
+        },
+        "strengths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "minItems": 1
+        },
+        "weaknesses": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "minItems": 1
+        },
+        "implications": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 5
+          },
+          "minItems": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "last_checked_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

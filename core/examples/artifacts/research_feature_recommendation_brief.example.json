@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "research_feature_recommendation_brief_id": "research_feature_recommendation_brief_pm_market_intelligence",
+  "workspace_id": "ws_productos_v2",
+  "title": "Research Feature Recommendation Brief: Agentic market intelligence",
+  "research_scope": "Direct PM platforms, adjacent work platforms, agentic research tools, and competitive-intelligence software relevant to ProductOS research and auto-research.",
+  "market_thesis": "The market is converging on grounded multi-source research, agentic planning, and human-visible control. ProductOS should differentiate by combining PM-native structure with stricter validation and loophole memory.",
+  "source_artifact_ids": [
+    "research_notebook_agentic_market_intelligence",
+    "landscape_matrix_agentic_market_intelligence",
+    "competitor_dossier_agentic_market_intelligence",
+    "market_analysis_brief_agentic_market_intelligence"
+  ],
+  "recommendations": [
+    {
+      "recommendation_id": "rec_competitor_watchlists",
+      "title": "Competitor watchlists with structured deltas",
+      "target_surface": "research",
+      "priority": "high",
+      "summary": "Track named competitors, classify direct and indirect overlap, and store capability deltas instead of static summaries.",
+      "rationale": "PM competitors and CI tools now normalize always-on monitoring and change detection.",
+      "evidence_refs": [
+        "source_note_card_crayon_ci_official_2026",
+        "source_note_card_klue_compete_agent_official_2026",
+        "source_note_card_semrush_eyeon_official_2026"
+      ],
+      "competitor_refs": [
+        "Crayon",
+        "Klue",
+        "Semrush EyeOn"
+      ],
+      "capability_tags": [
+        "competitor-monitoring",
+        "delta-detection",
+        "evidence-memory"
+      ],
+      "implementation_shape": "Add competitor watchlists, recurring evidence refresh, and diff-first summaries to the research command center.",
+      "acceptance_signals": [
+        "ProductOS can refresh a named competitor set without recreating the matrix.",
+        "Changed positioning or feature claims are surfaced as deltas, not full rewrites."
+      ],
+      "guardrails": [
+        "Do not promote a delta to a recommendation without source evidence and freshness metadata."
+      ]
+    },
+    {
+      "recommendation_id": "rec_guided_deep_research",
+      "title": "Guided deep-research plans with source controls",
+      "target_surface": "auto_research",
+      "priority": "high",
+      "summary": "Create reviewable research plans that let the PM constrain sources before autonomous synthesis begins.",
+      "rationale": "Deep research products are making planning, source selection, and citation-backed reports table stakes.",
+      "evidence_refs": [
+        "source_note_card_openai_deep_research_official_2026",
+        "source_note_card_gemini_deep_research_official_2026",
+        "source_note_card_perplexity_deep_research_official_2026"
+      ],
+      "competitor_refs": [
+        "OpenAI Deep Research",
+        "Gemini Deep Research",
+        "Perplexity Deep Research"
+      ],
+      "capability_tags": [
+        "research-planning",
+        "source-controls",
+        "citations"
+      ],
+      "implementation_shape": "Add a plan preview step, scoped-source selection, and a report artifact that keeps evidence links and confidence visible.",
+      "acceptance_signals": [
+        "The PM can approve or edit a research plan before the run starts.",
+        "The final report separates evidence, inference, and open questions."
+      ],
+      "guardrails": [
+        "Do not hide contradictions or missing sources behind a polished report."
+      ]
+    }
+  ],
+  "validation_tier": "tier_2",
+  "recommended_next_action": "Implement the agentic market-intelligence workflow and Ralph loop before expanding autonomous research claims.",
+  "created_at": "2026-03-21T05:30:00Z"
+}

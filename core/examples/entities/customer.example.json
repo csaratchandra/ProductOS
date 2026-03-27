@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "customer_id": "customer-acme-product-group",
+  "workspace_id": "ws_productos_v2",
+  "account_name": "Acme Product Group",
+  "market_id": "market-b2b-product-operations",
+  "segment_id": "segment_b2b_product_teams",
+  "lifecycle_stage": "active",
+  "status": "healthy",
+  "primary_persona_ids": ["persona_product_manager"]
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "followup_tracker_id": "followup_tracker_ws_productos_v2_2026_w12",
+  "workspace_id": "ws_productos_v2",
+  "items": [
+    {
+      "followup_id": "followup_001",
+      "description": "Finalize SAFe increment boundary definitions with delivery leads",
+      "owner": "ProductOS PM",
+      "status": "in_progress",
+      "source_type": "meeting",
+      "source_id": "meeting_record_sprint_planning_2026_03_18",
+      "due_date": "2026-03-25",
+      "escalated": false
+    },
+    {
+      "followup_id": "followup_002",
+      "description": "Schedule customer interview batch for pulse validation",
+      "owner": "Research Lead",
+      "status": "open",
+      "source_type": "decision",
+      "source_id": "decision_log_2026_03_19",
+      "due_date": "2026-03-22",
+      "escalated": false
+    },
+    {
+      "followup_id": "followup_003",
+      "description": "Provide vendor API access for Jira integration connector",
+      "owner": "Platform Team",
+      "status": "overdue",
+      "source_type": "stakeholder_request",
+      "source_id": "meeting_record_stakeholder_review_2026_03_10",
+      "due_date": "2026-03-18",
+      "escalated": true
+    }
+  ],
+  "overdue_count": 1,
+  "generated_at": "2026-03-20T10:30:00Z"
+}

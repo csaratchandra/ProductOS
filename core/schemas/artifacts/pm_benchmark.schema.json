@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/pm_benchmark.schema.json",
+  "title": "ProductOS PM Benchmark",
+  "description": "Structured benchmark and evaluation record for PM improvement over time.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pm_benchmark_id",
+    "workspace_id",
+    "pm_identifier",
+    "evaluation_period",
+    "baseline_metrics",
+    "current_metrics",
+    "benchmark_assessment",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "pm_benchmark_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pm_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evaluation_period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start_date",
+        "end_date"
+      ],
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "baseline_metrics": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/metric"
+      },
+      "minItems": 1
+    },
+    "current_metrics": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/metric"
+      },
+      "minItems": 1
+    },
+    "benchmark_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "output_quality_trend",
+        "decision_quality_trend",
+        "speed_to_insight_trend",
+        "rewrite_rate_trend",
+        "overall_assessment"
+      ],
+      "properties": {
+        "output_quality_trend": {
+          "type": "string",
+          "enum": [
+            "improved",
+            "flat",
+            "worse"
+          ]
+        },
+        "decision_quality_trend": {
+          "type": "string",
+          "enum": [
+            "improved",
+            "flat",
+            "worse"
+          ]
+        },
+        "speed_to_insight_trend": {
+          "type": "string",
+          "enum": [
+            "improved",
+            "flat",
+            "worse"
+          ]
+        },
+        "rewrite_rate_trend": {
+          "type": "string",
+          "enum": [
+            "improved",
+            "flat",
+            "worse"
+          ]
+        },
+        "overall_assessment": {
+          "type": "string",
+          "minLength": 10
+        }
+      }
+    },
+    "world_class_reference_examples": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "recommended_focus_areas": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metric_name",
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "metric_name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

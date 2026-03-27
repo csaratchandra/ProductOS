@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/opportunity_advantage_brief.schema.json",
+  "title": "ProductOS Opportunity Advantage Brief",
+  "description": "Assessment of why an opportunity matters now and why the organization can win defensibly.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "opportunity_advantage_brief_id",
+    "workspace_id",
+    "opportunity_summary",
+    "why_now",
+    "why_us",
+    "hard_to_copy",
+    "learning_flywheel",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "opportunity_advantage_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "opportunity_summary": { "type": "string", "minLength": 10 },
+    "why_now": { "type": "string", "minLength": 10 },
+    "why_us": { "type": "string", "minLength": 10 },
+    "hard_to_copy": { "type": "string", "minLength": 10 },
+    "learning_flywheel": { "type": "string", "minLength": 10 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

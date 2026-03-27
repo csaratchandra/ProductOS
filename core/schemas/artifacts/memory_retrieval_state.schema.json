@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/memory_retrieval_state.schema.json",
+  "title": "ProductOS Memory Retrieval State",
+  "description": "Runtime state describing how prior decisions, evidence, artifacts, and issues were retrieved for the current task.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "memory_retrieval_state_id",
+    "workspace_id",
+    "request_summary",
+    "status",
+    "retrieval_scope",
+    "provenance_status",
+    "retrieved_records",
+    "unresolved_questions",
+    "provenance_warnings",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "memory_retrieval_state_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "request_summary": {
+      "type": "string",
+      "minLength": 3
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "collecting",
+        "ready",
+        "watch",
+        "blocked"
+      ]
+    },
+    "retrieval_scope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "decisions",
+          "evidence",
+          "prior_artifacts",
+          "repeated_issues",
+          "strategic_memory"
+        ]
+      },
+      "minItems": 1
+    },
+    "provenance_status": {
+      "type": "string",
+      "enum": [
+        "complete",
+        "watch",
+        "blocked"
+      ]
+    },
+    "retrieved_records": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/retrievedRecord"
+      },
+      "minItems": 1
+    },
+    "unresolved_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "provenance_warnings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "retrievedRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_type",
+        "record_id",
+        "source_artifact_id",
+        "reason",
+        "freshness_status",
+        "confidence"
+      ],
+      "properties": {
+        "record_type": {
+          "type": "string",
+          "enum": [
+            "decision",
+            "evidence",
+            "artifact",
+            "issue",
+            "strategic_memory"
+          ]
+        },
+        "record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 3
+        },
+        "freshness_status": {
+          "type": "string",
+          "enum": [
+            "fresh",
+            "usable_with_review",
+            "stale"
+          ]
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "provenance_ref": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

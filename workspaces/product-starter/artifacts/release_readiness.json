@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.1.0",
+  "release_readiness_id": "release_readiness_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "feature_id": "feature_starter_trace_demo",
+  "status": "ready",
+  "launch_roles": [
+    {
+      "role_name": "Starter demo owner",
+      "responsibility": "Confirm the seeded example is coherent enough for onboarding review.",
+      "assignment_status": "assigned",
+      "owner_name": "ProductOS PM",
+      "owner_function": "Workspace onboarding"
+    },
+    {
+      "role_name": "Trace reviewer",
+      "responsibility": "Confirm the starter example makes lifecycle stages visible through release readiness.",
+      "assignment_status": "assigned",
+      "owner_name": "ProductOS PM",
+      "owner_function": "Product management"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Starter story-planning proof",
+      "status": "passed",
+      "notes": "The starter example includes one bounded story pack for the canonical item."
+    },
+    {
+      "name": "Starter acceptance readiness",
+      "status": "passed",
+      "notes": "The starter example includes one explicit acceptance criteria set for the bounded delivery story."
+    },
+    {
+      "name": "Explicit deferred boundary",
+      "status": "passed",
+      "notes": "Launch preparation and outcome review remain explicitly not_started in the starter example."
+    }
+  ],
+  "generated_at": "2026-03-27T08:30:00Z"
+}

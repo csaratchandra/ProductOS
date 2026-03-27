@@ -1,0 +1,270 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/presentation_brief.schema.json",
+  "title": "ProductOS Presentation Brief",
+  "description": "Rendering-oriented brief for modern HTML and PPT presentations derived from ProductOS source artifacts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "presentation_brief_id",
+    "workspace_id",
+    "title",
+    "presentation_archetype",
+    "audience",
+    "objective",
+    "presentation_mode",
+    "presenter_mode",
+    "audience_type",
+    "audience_familiarity",
+    "decision_required",
+    "decision_stakes",
+    "delivery_context",
+    "density_preference",
+    "narrative_goal",
+    "deck_length_target",
+    "appendix_mode",
+    "redaction_policy",
+    "tone_profile",
+    "success_outcome",
+    "theme_preset",
+    "slide_outlines",
+    "source_artifact_ids",
+    "customer_safe",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "presentation_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "presentation_archetype": {
+      "type": "string",
+      "enum": [
+        "decision_recommendation",
+        "executive_status_update",
+        "roadmap_dependency_review",
+        "portfolio_review",
+        "launch_readiness_review",
+        "risk_escalation",
+        "customer_narrative",
+        "one_page_operating_summary"
+      ]
+    },
+    "audience": { "type": "string", "minLength": 2 },
+    "objective": { "type": "string", "minLength": 10 },
+    "presentation_mode": {
+      "type": "string",
+      "enum": ["live", "async", "memo", "one_page", "meeting_brief", "customer_narrative"]
+    },
+    "presenter_mode": {
+      "type": "string",
+      "enum": ["presenter_led", "self_explanatory", "hybrid"]
+    },
+    "audience_type": {
+      "type": "string",
+      "enum": ["leadership", "working_team", "cross_functional", "customer"]
+    },
+    "audience_familiarity": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "decision_required": { "type": "string", "minLength": 3 },
+    "decision_stakes": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "strategic"]
+    },
+    "delivery_context": { "type": "string", "minLength": 3 },
+    "density_preference": {
+      "type": "string",
+      "enum": ["light", "balanced", "dense"]
+    },
+    "narrative_goal": { "type": "string", "minLength": 8 },
+    "deck_length_target": {
+      "type": "string",
+      "enum": ["tight", "standard", "expanded"]
+    },
+    "appendix_mode": {
+      "type": "string",
+      "enum": ["none", "light", "evidence_trace", "full"]
+    },
+    "redaction_policy": {
+      "type": "string",
+      "enum": ["none", "customer_safe", "leadership_safe", "internal_only"]
+    },
+    "tone_profile": {
+      "type": "string",
+      "enum": ["decisive", "analytical", "editorial", "operational"]
+    },
+    "success_outcome": { "type": "string", "minLength": 8 },
+    "audience_constraints": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
+    "required_objections": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
+    "non_negotiables": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
+    "comparison_baseline": { "type": "string", "minLength": 3 },
+    "theme_preset": {
+      "type": "string",
+      "enum": ["signal", "atlas", "editorial"]
+    },
+    "presentation_format": {
+      "type": "string",
+      "enum": ["html", "pptx", "both"],
+      "default": "both"
+    },
+    "slide_outlines": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/slideOutline" },
+      "minItems": 1
+    },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "source_material_snapshots": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/sourceMaterialSnapshot" },
+      "default": []
+    },
+    "customer_safe": { "type": "boolean" },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "sourceMaterialSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "artifact_type", "facts"],
+      "properties": {
+        "artifact_id": { "type": "string", "minLength": 1 },
+        "artifact_type": { "type": "string", "minLength": 3 },
+        "facts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sourceFact" },
+          "minItems": 1
+        }
+      }
+    },
+    "sourceFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fact_id", "fact_type", "statement", "relevance_tags"],
+      "properties": {
+        "fact_id": { "type": "string", "minLength": 1 },
+        "fact_type": {
+          "type": "string",
+          "enum": ["decision", "status", "risk", "metric", "timeline", "constraint", "observation"]
+        },
+        "statement": { "type": "string", "minLength": 8 },
+        "metric_value": { "type": ["number", "integer", "string"] },
+        "baseline_value": { "type": ["number", "integer", "string"] },
+        "metric_target": { "type": ["number", "integer", "string"] },
+        "metric_unit": { "type": "string", "minLength": 1 },
+        "chart_preference": {
+          "type": "string",
+          "enum": ["auto", "trend", "comparison", "stacked_bar", "heatmap", "combo"]
+        },
+        "axis_role": {
+          "type": "string",
+          "enum": ["primary", "secondary"]
+        },
+        "trend_points": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/trendPoint" },
+          "default": []
+        },
+        "metric_components": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/metricComponent" },
+          "default": []
+        },
+        "portfolio_cells": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/portfolioCell" },
+          "default": []
+        },
+        "relevance_tags": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 },
+          "minItems": 1
+        }
+      }
+    },
+    "trendPoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "value"],
+      "properties": {
+        "label": { "type": "string", "minLength": 1 },
+        "value": { "type": ["number", "integer"] }
+      }
+    },
+    "metricComponent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "value"],
+      "properties": {
+        "label": { "type": "string", "minLength": 1 },
+        "value": { "type": ["number", "integer"] }
+      }
+    },
+    "portfolioCell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x_label", "y_label", "value"],
+      "properties": {
+        "x_label": { "type": "string", "minLength": 1 },
+        "y_label": { "type": "string", "minLength": 1 },
+        "value": { "type": ["number", "integer"] },
+        "label": { "type": "string", "minLength": 1 }
+      }
+    },
+    "slideOutline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slide_id", "title", "intent", "audience_question", "claim", "proof_requirements"],
+      "properties": {
+        "slide_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "intent": {
+          "type": "string",
+          "enum": ["cover", "summary", "status", "timeline", "risks", "decision", "portfolio", "closing"]
+        },
+        "key_points": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "default": []
+        },
+        "audience_question": { "type": "string", "minLength": 8 },
+        "claim": { "type": "string", "minLength": 8 },
+        "proof_requirements": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "core_message": { "type": "string", "minLength": 8 },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "must_show_risk": { "type": "boolean", "default": false },
+        "must_show_owner": { "type": "boolean", "default": false },
+        "cta": { "type": "string", "minLength": 3 },
+        "appendix_link": { "type": "string", "minLength": 3 },
+        "speaker_notes": { "type": "string", "minLength": 8 },
+        "visual_direction": { "type": "string", "minLength": 5 }
+      }
+    }
+  }
+}

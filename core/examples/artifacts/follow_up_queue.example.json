@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "follow_up_queue_id": "follow_up_queue_productos_v3",
+  "workspace_id": "ws_productos_v2",
+  "generated_at": "2026-03-21T22:07:00Z",
+  "items": [
+    {
+      "follow_up_id": "followup_archive_v3_validation_evidence",
+      "title": "Archive the automated V3.0 validation evidence before manual verification",
+      "source_type": "review",
+      "source_id": "release_gate_decision_productos_v3_0",
+      "owner": "ProductOS PM",
+      "due_date": "2026-03-22",
+      "priority": "time_sensitive",
+      "status": "open",
+      "escalation_needed": false
+    },
+    {
+      "follow_up_id": "followup_collect_first_post_launch_feedback_cluster",
+      "title": "Collect the first post-launch feedback cluster for V3.1 planning",
+      "source_type": "review",
+      "source_id": "feedback_cluster_state_productos_v3_2026_03_21",
+      "owner": "ProductOS PM",
+      "due_date": "2026-03-25",
+      "priority": "routine",
+      "status": "open",
+      "escalation_needed": false
+    }
+  ]
+}

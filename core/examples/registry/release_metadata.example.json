@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "release_id": "release_0_2_1",
+  "core_version": "0.2.1",
+  "released_at": "2026-03-21T18:30:00Z",
+  "release_type": "patch",
+  "change_classification": "internal_only_maintenance",
+  "customer_visible": false,
+  "classification_rationale": "The release materially improves validation, structure, and PM-facing terminology but does not change the end-user operating model enough to qualify as a major or minor version.",
+  "summary": "Release-candidate integration update with PM-facing queue terminology, current-state assessment coverage, and a local validation and test harness.",
+  "breaking_changes": [],
+  "upgrade_actions": [
+    "Adopt current-state assessment artifacts and workflows in the self-hosting workspace.",
+    "Use follow-up queue as the PM-facing queue term.",
+    "Run local validation and pytest before declaring V2 release-candidate ready."
+  ]
+}

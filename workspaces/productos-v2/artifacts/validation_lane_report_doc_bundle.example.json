@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "validation_lane_report_id": "validation_lane_report_ws_productos_v2_doc_bundle_v4_0",
+  "workspace_id": "ws_productos_v2",
+  "artifact_ref": "document_sync_state_ws_productos_v2_v4_readable_docs",
+  "artifact_type": "document_sync_state",
+  "stage_name": "v4_0_readable_doc_generation_and_sync",
+  "validation_tier": "tier_2",
+  "overall_status": "blocked",
+  "review_summary": "AI review says the readable-doc bundle is traceable and internally usable, while AI test still wants metadata hardening before broader publishing.",
+  "ai_reviewer_lane": {
+    "status": "proceed",
+    "reviewer_role": "AI Reviewer",
+    "blocking_findings": [],
+    "non_blocking_findings": [
+      "The readable docs preserve source linkage and cover the intended PM-facing sections."
+    ],
+    "unresolved_questions": [
+      "Which external publishing metadata fields should be mandatory before broader sync is allowed?"
+    ]
+  },
+  "ai_tester_lane": {
+    "status": "revise",
+    "tester_role": "AI Tester",
+    "checks_run": [
+      "schema validation",
+      "document path existence check",
+      "source-artifact coverage check"
+    ],
+    "blocking_findings": [],
+    "non_blocking_findings": [
+      "All required readable-doc paths exist in the workspace docs tree."
+    ],
+    "automation_gaps": [
+      "External publishing metadata rules still require targeted manual confirmation."
+    ]
+  },
+  "manual_validation_policy": {
+    "required": true,
+    "scope": "targeted",
+    "owner_role": "PM Operator",
+    "status": "pending",
+    "rationale": "Tier 2 readable documents require a PM usefulness review before broader adoption."
+  },
+  "referee_trigger": {
+    "required": true,
+    "rationale": "AI Reviewer allows internal proceed while AI Tester still requires revise for publishing-metadata hardening, so the disagreement needs an explicit tie-break.",
+    "conflicting_lanes": [
+      "AI Reviewer",
+      "AI Tester"
+    ]
+  },
+  "governance_layer_refs": [
+    "core/docs/validation-tier-policy.md",
+    "core/docs/product-document-system.md",
+    "core/docs/v4-artifact-workflow-matrix.md"
+  ],
+  "next_action": "Run targeted PM manual validation on the roadmap and PRD docs, then use referee routing to decide whether internal adoption may proceed before external sync is enabled.",
+  "generated_at": "2026-03-21T23:55:00Z"
+}

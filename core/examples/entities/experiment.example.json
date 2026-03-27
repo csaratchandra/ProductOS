@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "experiment_id": "exp-status-mail-draft-usability-test",
+  "workspace_id": "ws_productos_v2",
+  "hypothesis_id": "hyp-automated-status-draft-reduces-reporting-time",
+  "title": "Status mail draft usability test",
+  "method": "prototype_test",
+  "status": "running",
+  "decision": "iterate",
+  "linked_feature_ids": ["feature_biweekly_status_mail_automation"]
+}

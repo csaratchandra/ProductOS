@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/eval_run_report.schema.json",
+  "title": "ProductOS Eval Run Report",
+  "description": "Pairwise comparison summary for a ProductOS candidate against the locked eval suite baseline.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "eval_run_report_id",
+    "workspace_id",
+    "eval_suite_manifest_id",
+    "baseline_version",
+    "candidate_version",
+    "status",
+    "run_scope",
+    "summary",
+    "total_cases",
+    "passed_cases",
+    "warning_cases",
+    "failed_cases",
+    "regression_count",
+    "truthfulness_status",
+    "case_results",
+    "recommended_next_action",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "eval_run_report_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "eval_suite_manifest_id": { "type": "string", "minLength": 1 },
+    "baseline_version": { "type": "string", "minLength": 1 },
+    "candidate_version": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["passed", "warning", "failed"]
+    },
+    "run_scope": { "type": "string", "minLength": 10 },
+    "summary": { "type": "string", "minLength": 10 },
+    "total_cases": { "type": "integer", "minimum": 1 },
+    "passed_cases": { "type": "integer", "minimum": 0 },
+    "warning_cases": { "type": "integer", "minimum": 0 },
+    "failed_cases": { "type": "integer", "minimum": 0 },
+    "regression_count": { "type": "integer", "minimum": 0 },
+    "truthfulness_status": {
+      "type": "string",
+      "enum": ["healthy", "watch", "blocked"]
+    },
+    "case_results": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/caseResult" },
+      "minItems": 1
+    },
+    "recommended_next_action": { "type": "string", "minLength": 10 },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "caseResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "title",
+        "outcome",
+        "regression",
+        "provenance_classification",
+        "notes",
+        "evidence_refs"
+      ],
+      "properties": {
+        "case_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "outcome": {
+          "type": "string",
+          "enum": ["pass", "warning", "fail"]
+        },
+        "regression": { "type": "boolean" },
+        "provenance_classification": {
+          "type": "string",
+          "enum": ["real", "seeded", "mixed"]
+        },
+        "notes": { "type": "string", "minLength": 5 },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

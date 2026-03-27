@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "portfolio_update_id": "portfolio_update_suite_productos_market_intelligence_distribution",
+  "suite_id": "suite_productos",
+  "summary": "The ProductOS suite now distributes the refreshed market-intelligence slice through a leadership-ready digest without weakening refresh or governance controls.",
+  "workspace_summaries": [
+    {
+      "workspace_id": "ws_productos_v2",
+      "headline": "The self-hosting workspace now turns governed market-intelligence output into a leadership-ready digest with explicit proof boundaries.",
+      "status": "healthy"
+    }
+  ],
+  "portfolio_risks": [
+    "External publishing adapters remain the next packaging risk after the leadership-digest path.",
+    "Broader cross-functional distribution should keep the same evidence and contradiction controls."
+  ],
+  "generated_at": "2026-03-23T09:22:00Z"
+}

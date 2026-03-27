@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/customer.schema.json",
+  "title": "ProductOS Customer Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "customer_id",
+    "workspace_id",
+    "account_name",
+    "market_id",
+    "segment_id",
+    "lifecycle_stage",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "customer_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "account_name": { "type": "string", "minLength": 3 },
+    "market_id": { "type": "string", "minLength": 1 },
+    "segment_id": { "type": "string", "minLength": 1 },
+    "lifecycle_stage": {
+      "type": "string",
+      "enum": ["prospect", "pilot", "active", "expanding", "churn_risk"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["healthy", "at_risk", "escalated", "inactive"]
+    },
+    "primary_persona_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    }
+  }
+}

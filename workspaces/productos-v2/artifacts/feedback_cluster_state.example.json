@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "feedback_cluster_state_id": "feedback_cluster_state_ws_productos_v2_runtime",
+  "workspace_id": "ws_productos_v2",
+  "status": "ready_for_scope_review",
+  "cluster_summary": "The strongest repeated V3 build pain is PM-visible coordination clarity, followed by provenance-aware memory reuse.",
+  "clusters": [
+    {
+      "cluster_id": "cluster_pm_visible_coordination",
+      "label": "PM-visible coordination clarity",
+      "feedback_ids": [
+        "pfb_001",
+        "pfb_004"
+      ],
+      "dominant_category": "workflow_friction",
+      "impact_level": "high",
+      "recommended_route": "release_scope_review",
+      "linked_output_refs": [
+        "cockpit_state_ws_productos_v2_runtime",
+        "orch_state_ws_productos_v2_runtime"
+      ],
+      "notes": "Repeated friction should stay inside the V3.0 runtime scope."
+    },
+    {
+      "cluster_id": "cluster_provenance_aware_memory",
+      "label": "Provenance-aware memory reuse",
+      "feedback_ids": [
+        "pfb_005"
+      ],
+      "dominant_category": "reliability_incident",
+      "impact_level": "medium",
+      "recommended_route": "improvement_record",
+      "linked_output_refs": [
+        "memory_retrieval_state_ws_productos_v2_runtime",
+        "intake_routing_state_ws_productos_v2_runtime"
+      ],
+      "notes": "The memory warning should remain explicit and downgrade confidence rather than disappear."
+    }
+  ],
+  "generated_at": "2026-03-21T23:30:00Z"
+}

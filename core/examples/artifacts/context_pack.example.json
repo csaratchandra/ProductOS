@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "context_pack_id": "context_pack_ws_productos_v2_bounded_baseline",
+  "workspace_id": "ws_productos_v2",
+  "request_summary": "Assemble the context needed to review the truthful control-surface slice before expanding the bounded baseline.",
+  "decision_to_be_made": "Should ProductOS treat the current runtime bundle as trustworthy enough to score and promote release claims?",
+  "status": "watch",
+  "audience": [
+    "PM",
+    "engineering",
+    "leadership"
+  ],
+  "quality_contract": {
+    "audience": [
+      "PM",
+      "engineering",
+      "leadership"
+    ],
+    "decision_needed": "Decide whether the current runtime can score itself without additional provenance and eval hardening.",
+    "evidence": [
+      "The design review reports mixed seeded and generated provenance.",
+      "The current CLI still reports all-green summaries."
+    ],
+    "alternatives": [
+      "Hold release scoring until provenance is explicit",
+      "Ship the bounded baseline with watch-level review gates"
+    ],
+    "recommendation": "Ship the bounded baseline, but keep truthfulness and eval regressions visible instead of claiming full promotion.",
+    "metrics": [
+      "regression_count",
+      "mixed_provenance_feature_count"
+    ],
+    "risks": [
+      "The system may still sound healthier than it is.",
+      "Scoring can drift if evals are not frozen."
+    ],
+    "owner": "ProductOS PM",
+    "next_action": "Run the frozen eval suite and route the failing slices into bounded fixes."
+  },
+  "evidence_bundle": [
+    {
+      "source_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+      "source_type": "artifact",
+      "summary": "The current portfolio review still reports all major slices as promoted.",
+      "confidence": 0.91,
+      "freshness_status": "fresh",
+      "claim_mode": "direct_evidence"
+    },
+    {
+      "source_id": "feedback_2026_03_23_design_and_architecture_review",
+      "source_type": "feedback_note",
+      "summary": "The architecture review says runtime truth, seeded fixtures, and self-scoring remain too tightly coupled.",
+      "confidence": 0.94,
+      "freshness_status": "fresh",
+      "claim_mode": "direct_evidence"
+    }
+  ],
+  "contradictions": [
+    "CLI health is green while the review notes unresolved truthfulness gaps."
+  ],
+  "open_questions": [
+    "Which feature should be rescored first once provenance is explicit?"
+  ],
+  "source_artifact_ids": [
+    "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+    "validation_lane_report_next_version_completion"
+  ],
+  "recommended_next_action": "Treat the runtime as watch-level until eval and provenance signals become explicit inputs to scoring.",
+  "created_at": "2026-03-26T08:00:00Z",
+  "updated_at": "2026-03-26T08:00:00Z"
+}

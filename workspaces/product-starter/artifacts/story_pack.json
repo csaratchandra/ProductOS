@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.1.0",
+  "story_pack_id": "story_pack_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "feature_id": "feature_starter_trace_demo",
+  "stories": [
+    {
+      "story_id": "story_starter_trace_delivery_demo",
+      "title": "Carry the starter trace through delivery and release readiness",
+      "narrative": "As a new ProductOS adopter, I want the starter workspace to show one canonical item through release readiness so I can understand the intended lifecycle shape before replacing the demo data.",
+      "implementation_context_refs": [
+        {
+          "context_type": "markdown",
+          "title": "Starter Release-Readiness Review",
+          "path": "workspaces/product-starter/docs/delivery/release-readiness-review.md",
+          "summary": "A simple walkthrough of how the seeded starter trace reaches bounded release readiness."
+        }
+      ],
+      "linked_entity_refs": [
+        {
+          "entity_type": "persona",
+          "entity_id": "persona_pm_operator"
+        },
+        {
+          "entity_type": "feature",
+          "entity_id": "feature_starter_trace_demo"
+        },
+        {
+          "entity_type": "opportunity",
+          "entity_id": "opp_starter_trace_demo"
+        }
+      ]
+    }
+  ]
+}

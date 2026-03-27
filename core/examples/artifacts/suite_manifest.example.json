@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "suite_id": "suite_productos",
+  "name": "ProductOS Portfolio Suite",
+  "workspace_ids": [
+    "ws_productos_v2"
+  ],
+  "shared_artifact_paths": [
+    "shared/portfolio_update.example.json"
+  ]
+}

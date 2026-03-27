@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/decision_premortem.schema.json",
+  "title": "ProductOS Decision Premortem",
+  "description": "Pre-commitment failure analysis for a strategic or roadmap decision.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "decision_premortem_id",
+    "workspace_id",
+    "decision_statement",
+    "failure_causes",
+    "early_warning_indicators",
+    "reversal_triggers",
+    "success_conditions",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "decision_premortem_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "decision_statement": { "type": "string", "minLength": 10 },
+    "failure_causes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 10 },
+      "minItems": 1
+    },
+    "early_warning_indicators": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 10 },
+      "minItems": 1
+    },
+    "reversal_triggers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 10 },
+      "minItems": 1
+    },
+    "success_conditions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 10 },
+      "minItems": 1
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

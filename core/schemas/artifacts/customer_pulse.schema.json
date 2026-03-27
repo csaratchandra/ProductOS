@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/customer_pulse.schema.json",
+  "title": "ProductOS Customer Pulse",
+  "description": "Customer intelligence summary covering health scores, signal trends, churn risks, and expansion signals.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "customer_pulse_id",
+    "workspace_id",
+    "cadence",
+    "reporting_period",
+    "top_pain_points",
+    "segment_health",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "customer_pulse_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cadence": {
+      "type": "string",
+      "enum": [
+        "weekly",
+        "monthly",
+        "quarterly"
+      ]
+    },
+    "reporting_period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start_date",
+        "end_date"
+      ],
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "top_pain_points": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/painPoint"
+      },
+      "minItems": 1
+    },
+    "emerging_signals": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "default": []
+    },
+    "churn_risks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/churnRisk"
+      },
+      "default": []
+    },
+    "expansion_opportunities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "default": []
+    },
+    "trending_feature_requests": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "segment_health": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/segmentHealth"
+      },
+      "minItems": 1
+    },
+    "signal_source_mix": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sourceMix"
+      },
+      "default": []
+    },
+    "voice_of_customer_quotes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/customerQuote"
+      },
+      "default": []
+    },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "painPoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "severity",
+        "frequency"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 5
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "frequency": {
+          "type": "string",
+          "enum": [
+            "daily",
+            "weekly",
+            "monthly",
+            "sporadic"
+          ]
+        },
+        "affected_segment": {
+          "type": "string"
+        },
+        "corroboration_status": {
+          "type": "string",
+          "enum": [
+            "single_source_raw",
+            "cross_source_supported"
+          ]
+        }
+      }
+    },
+    "churnRisk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identifier",
+        "risk_level",
+        "signal"
+      ],
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "risk_level": {
+          "type": "string",
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "signal": {
+          "type": "string",
+          "minLength": 5
+        }
+      }
+    },
+    "segmentHealth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "segment_name",
+        "health",
+        "trend"
+      ],
+      "properties": {
+        "segment_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "health": {
+          "type": "string",
+          "enum": [
+            "green",
+            "amber",
+            "red"
+          ]
+        },
+        "trend": {
+          "type": "string",
+          "enum": [
+            "improving",
+            "stable",
+            "declining"
+          ]
+        }
+      }
+    },
+    "customerQuote": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "quote",
+        "source"
+      ],
+      "properties": {
+        "quote": {
+          "type": "string",
+          "minLength": 5
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sentiment": {
+          "type": "string",
+          "enum": [
+            "positive",
+            "negative",
+            "neutral"
+          ]
+        }
+      }
+    },
+    "sourceMix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_type",
+        "signal_count",
+        "confidence"
+      ],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "support",
+            "nps_csat",
+            "crm",
+            "app_reviews",
+            "social",
+            "interviews",
+            "research",
+            "other"
+          ]
+        },
+        "signal_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "raw",
+            "moderate",
+            "high"
+          ]
+        }
+      }
+    }
+  }
+}

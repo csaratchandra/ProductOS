@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/workflow_spec.schema.json",
+  "title": "ProductOS Workflow Spec",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "workflow_spec_id",
+    "workspace_id",
+    "name",
+    "objective",
+    "actors",
+    "steps",
+    "linked_entity_refs"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "workflow_spec_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 3 },
+    "objective": { "type": "string", "minLength": 10 },
+    "actors": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "steps": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "minItems": 1
+    },
+    "linked_entity_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id"],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": ["segment", "persona", "problem", "outcome", "opportunity", "feature", "metric", "decision"]
+        },
+        "entity_id": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_productboard_spark_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://support.productboard.com/hc/en-us/articles/44571897288723-Beta-Productboard-s-AI-Assistant",
+  "title": "Productboard Spark positions AI as PM strategic infrastructure",
+  "claim": "Productboard Spark is presented as an AI assistant for product managers that equips initiatives from idea to delivery readiness and can ingest competitors, personas, strategic docs, and feedback notes.",
+  "source_snippet": "Spark is AI that equips initiatives from idea to delivery readiness.",
+  "implication": "ProductOS research cannot stop at summaries. It needs competitor-aware research, structured context loading, and decision-path continuity.",
+  "confidence": "high",
+  "followup_questions": [
+    "Which Spark capabilities are beta-only versus generally available in customer accounts?"
+  ],
+  "source_metadata": {
+    "source_url": "https://support.productboard.com/hc/en-us/articles/44571897288723-Beta-Productboard-s-AI-Assistant",
+    "retrieved_at": "2026-03-21T08:40:00Z",
+    "source_slice_ref": "support-overview",
+    "dedupe_key": "productboard-spark-support-overview",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "productboard-spark-support-overview",
+  "linked_entity_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" },
+    { "entity_type": "opportunity", "entity_id": "opp_pm_operating_rhythm_automation" }
+  ],
+  "tags": ["research", "competitor", "productboard", "spark"],
+  "created_at": "2026-03-21T08:41:00Z"
+}

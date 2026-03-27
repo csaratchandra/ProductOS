@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "eval_run_report_id": "eval_run_report_ws_productos_v2_bounded_baseline",
+  "workspace_id": "ws_productos_v2",
+  "eval_suite_manifest_id": "eval_suite_manifest_ws_productos_v2_bounded_baseline",
+  "baseline_version": "4.7.0",
+  "candidate_version": "4.8.0",
+  "status": "warning",
+  "run_scope": "Bounded validation run for the truthful-control-surface and traceability slice.",
+  "summary": "The candidate improves transparency, but regressions and mixed provenance still block a full promoted-baseline claim.",
+  "total_cases": 3,
+  "passed_cases": 1,
+  "warning_cases": 1,
+  "failed_cases": 1,
+  "regression_count": 2,
+  "truthfulness_status": "watch",
+  "case_results": [
+    {
+      "case_id": "eval_discover_truthfulness",
+      "title": "Discover loop truthfulness under live inbox input",
+      "outcome": "warning",
+      "regression": true,
+      "provenance_classification": "mixed",
+      "notes": "Discover claims remain strong, but scoring still depends on mixed generated and seeded evidence.",
+      "evidence_refs": [
+        "feature_scorecard_ws_productos_v2_discover_to_prd_superpower"
+      ]
+    },
+    {
+      "case_id": "eval_alignment_traceability",
+      "title": "Alignment package traceability",
+      "outcome": "pass",
+      "regression": false,
+      "provenance_classification": "real",
+      "notes": "Traceability and claim boundaries are stronger than the prior baseline for internal review.",
+      "evidence_refs": [
+        "feature_scorecard_ws_productos_v2_docs_alignment_superpower"
+      ]
+    },
+    {
+      "case_id": "eval_improvement_honesty",
+      "title": "Improvement loop honesty",
+      "outcome": "fail",
+      "regression": true,
+      "provenance_classification": "mixed",
+      "notes": "The scoring loop still overstates promotion status and hides too much real tension.",
+      "evidence_refs": [
+        "feature_scorecard_ws_productos_v2_self_improvement_loop"
+      ]
+    }
+  ],
+  "recommended_next_action": "Keep the candidate in watch mode, fix mixed-provenance scoring, and rerun the frozen eval suite before promotion.",
+  "generated_at": "2026-03-26T08:00:00Z"
+}

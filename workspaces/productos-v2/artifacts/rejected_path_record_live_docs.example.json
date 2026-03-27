@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "rejected_path_record_id": "rejected_path_record_ws_productos_v2_live_docs_claims",
+  "workspace_id": "ws_productos_v2",
+  "path_type": "release_claim",
+  "title": "Do not market ProductOS as a fully autonomous PM system yet",
+  "related_refs": [
+    "document_sync_state_ws_productos_v2_v4_2_live_docs",
+    "ralph_loop_state_ws_productos_v2_v4_2_live_docs"
+  ],
+  "rejection_stage": "ralph_fix",
+  "decision": "deferred",
+  "rejection_reason": "The current product and messaging bundle is stronger and clearer, but ProductOS still depends on explicit PM review, validation lanes, and bounded governance rather than unattended autonomous operation.",
+  "failure_signals": [
+    "Unattended market refresh remains a documented follow-up gap rather than a proven runtime guarantee.",
+    "Leadership-facing communication still requires PM approval and should not be positioned as self-authorizing automation."
+  ],
+  "retry_conditions": [
+    "Retry after autonomous-claim surfaces are backed by runtime enforcement and explicit benchmark proof.",
+    "Retry after publication policies and claim boundaries are validated for external distribution."
+  ],
+  "retained_lessons": [
+    "Clearer messaging is valuable only when it remains subordinate to product truth.",
+    "Marketing confidence should increase after proof and governance improve, not before."
+  ],
+  "benchmark_guardrail_refs": [
+    "pm_superpower_benchmark_ws_productos_v2_v4_0",
+    "ai_agent_benchmark_ws_productos_v2_v4_0"
+  ],
+  "recorded_at": "2026-03-22T09:55:00Z"
+}

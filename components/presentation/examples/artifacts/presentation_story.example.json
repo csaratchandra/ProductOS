@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0.0",
+  "presentation_story_id": "presentation_story_presentation_brief_pm_ops_q2",
+  "workspace_id": "ws_productos_core",
+  "presentation_brief_id": "presentation_brief_pm_ops_q2",
+  "evidence_pack_id": "evidence_pack_presentation_brief_pm_ops_q2",
+  "audience": "Leadership",
+  "presentation_mode": "async",
+  "primary_question": "How should ProductOS upgrade the presentation capability so it becomes decision-grade?",
+  "decision_required": "Approve the current presentation-system scope and publishing model.",
+  "recommendation": "Adopt a narrative rendering pipeline with explicit evidence, story, and publish-check stages.",
+  "narrative_pattern": "answer_first",
+  "audience_key_question": "How should ProductOS upgrade the presentation capability so it becomes decision-grade?",
+  "opening_answer": "Treat presentation creation as a narrative and evidence operating system, not a styling feature.",
+  "main_recommendation": "Approve the current presentation-system scope and publishing model.",
+  "objections_addressed": [
+    "Why is stronger styling alone insufficient?",
+    "How do we keep better storytelling from overstating certainty?"
+  ],
+  "appendix_strategy": "evidence_trace",
+  "story_arc": [
+    "Lead with the decision and why the current pipeline is structurally limited.",
+    "Show the evidence for where fidelity and narrative quality break down.",
+    "Close with the bounded current presentation operating model."
+  ],
+  "story_transitions": [
+    "Open with the answer first.",
+    "Build from PM Operating System Update into Where We Are without breaking the recommendation thread.",
+    "Build from Where We Are into What Still Needs Work without breaking the recommendation thread."
+  ],
+  "slides": [
+    {
+      "slide_id": "slide_cover",
+      "title": "PM Operating System Update",
+      "story_role": "hook",
+      "headline": "The presentation system should become a narrative renderer.",
+      "core_message": "The next version needs better thinking, evidence, and publishing controls, not just better slide styling.",
+      "supporting_points": [
+        "The current system renders quickly but compresses too much structure too early.",
+        "A new story layer can preserve decisions, evidence, and notes."
+      ],
+      "evidence_refs": [
+        "presentation_brief_pm_ops_q2",
+        "leadership_review_2026_03_19"
+      ],
+      "speaker_notes": "Set the frame: the capability problem is architectural, not cosmetic.",
+      "visual_direction": "Hero statement with a short recommendation strip.",
+      "confidence_state": "high",
+      "audience_question_answered": "What decision should leadership make about the presentation capability now?",
+      "claim": "The presentation system should be funded as a narrative rendering system, not treated as a visual polish pass.",
+      "why_now": "Leadership should approve the current presentation-system investment and understand why this is a trust-and-execution upgrade rather than cosmetic work.",
+      "proof_strategy": "State the decision clearly; Show why the current architecture, not just the current styling, is the real constraint",
+      "transition_from_previous": "Open with the answer first.",
+      "cta": "Approve the current presentation-system scope.",
+      "appendix_reference": "appendix_decision_scope"
+    },
+    {
+      "slide_id": "slide_summary",
+      "title": "Where We Are",
+      "story_role": "evidence",
+      "headline": "The platform already has strong product source artifacts.",
+      "core_message": "The weak output comes from a thin presentation grammar, not from missing upstream context.",
+      "supporting_points": [
+        "Leadership and portfolio artifacts already exist.",
+        "The current pipeline discards speaker notes and traceable evidence."
+      ],
+      "evidence_refs": [
+        "portfolio_update_2026_03_19",
+        "presentation_brief_pm_ops_q2"
+      ],
+      "speaker_notes": "Make clear that the current presentation upgrade is an orchestration and rendering upgrade on top of existing artifact quality.",
+      "visual_direction": "Evidence grid with source labels.",
+      "confidence_state": "high",
+      "audience_question_answered": "Do we already have enough product context and source material to generate stronger decks?",
+      "claim": "ProductOS already has enough structured operating material; the quality loss happens in evidence packaging and story planning.",
+      "why_now": "Leadership should approve the current presentation-system investment and understand why this is a trust-and-execution upgrade rather than cosmetic work.",
+      "proof_strategy": "Show that upstream source artifacts already exist; Show where the current presentation pipeline compresses or drops useful structure",
+      "transition_from_previous": "Build from PM Operating System Update into Where We Are without breaking the recommendation thread.",
+      "cta": "Align on the architectural diagnosis before debating styling.",
+      "appendix_reference": "appendix_source_artifacts"
+    },
+    {
+      "slide_id": "slide_risks",
+      "title": "What Still Needs Work",
+      "story_role": "risk",
+      "headline": "Without publish controls, better rhetoric could weaken trust.",
+      "core_message": "The system needs bounded roles and publish checks before it adds stronger narrative or design agents.",
+      "supporting_points": [
+        "PPT export may require simpler layouts.",
+        "Risk and uncertainty must stay explicit in executive summaries."
+      ],
+      "evidence_refs": [
+        "portfolio_state_suite_productos_2026_03_19",
+        "leadership_review_2026_03_19"
+      ],
+      "speaker_notes": "Close the problem statement by connecting narrative improvement to governance and trust.",
+      "visual_direction": "Risk matrix with confidence labels.",
+      "confidence_state": "medium",
+      "audience_question_answered": "What would make a stronger presentation engine trustworthy rather than dangerously persuasive?",
+      "claim": "Narrative upgrades are only acceptable if publish controls keep evidence, uncertainty, and export tradeoffs visible.",
+      "why_now": "Leadership should approve the current presentation-system investment and understand why this is a trust-and-execution upgrade rather than cosmetic work.",
+      "proof_strategy": "Show where publish controls are still thin; Show why confidence and fidelity treatment must stay explicit",
+      "transition_from_previous": "Build from Where We Are into What Still Needs Work without breaking the recommendation thread.",
+      "cta": "Treat publish checks and fidelity controls as part of the current presentation-system scope.",
+      "appendix_reference": "appendix_publish_controls"
+    }
+  ],
+  "appendix_candidates": [
+    "Detailed PPT composition fallback rules.",
+    "Customer-safe publishing mode examples."
+  ],
+  "generated_at": "2026-03-20T13:10:00Z"
+}

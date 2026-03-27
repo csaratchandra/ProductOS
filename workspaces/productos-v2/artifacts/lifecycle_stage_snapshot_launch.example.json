@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "lifecycle_stage_snapshot_id": "lifecycle_stage_snapshot_launch_pm_visibility",
+  "workspace_id": "ws_productos_v2",
+  "focus_area": "launch",
+  "snapshot_summary": "Launch-stage trace surfaces exist explicitly, but the bounded V6 slice leaves launch preparation intentionally not started.",
+  "item_count": 1,
+  "segment_count": 3,
+  "persona_count": 3,
+  "artifact_counts": {
+    "item_lifecycle_state": 1
+  },
+  "active_item_ids": [
+    "opp_pm_lifecycle_traceability"
+  ],
+  "gate_counts": {
+    "passed": 0,
+    "pending": 0,
+    "blocked": 0,
+    "not_started": 2
+  },
+  "stage_summaries": [
+    {
+      "stage_key": "launch_preparation",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [],
+      "gate_status_counts": {
+        "passed": 0,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 1
+      },
+      "summary": "Launch preparation remains outside the V6 release-readiness slice."
+    }
+  ],
+  "created_at": "2026-03-27T08:30:00Z"
+}

@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0.0",
+  "document_sync_state_id": "document_sync_state_ws_productos_v2_v4_readable_docs",
+  "workspace_id": "ws_productos_v2",
+  "sync_scope": "v4_0_readable_doc_bundle",
+  "validation_tier": "tier_2",
+  "status": "review_pending",
+  "source_artifact_refs": [
+    "productos_feedback_log_2026_03_21",
+    "problem_brief_pm_operating_rhythm",
+    "concept_brief_pm_operating_rhythm",
+    "prototype_record_status_mail_draft",
+    "prd_pm_operating_rhythm",
+    "inc_plan_2026_q2_01",
+    "release_gate_decision_ws_productos_v2_runtime"
+  ],
+  "documents": [
+    {
+      "doc_key": "discovery_summary",
+      "title": "Discovery Summary",
+      "readable_path": "workspaces/productos-v2/docs/discovery/discovery-summary.md",
+      "source_artifact_refs": [
+        "productos_feedback_log_2026_03_21",
+        "problem_brief_pm_operating_rhythm"
+      ],
+      "audience": [
+        "PM",
+        "leadership",
+        "design",
+        "engineering"
+      ],
+      "status": "review_pending",
+      "last_sync_status": "Readable draft exists and remains traceable to the current discovery and feedback evidence."
+    },
+    {
+      "doc_key": "problem_brief",
+      "title": "Problem Brief",
+      "readable_path": "workspaces/productos-v2/docs/discovery/problem-brief.md",
+      "source_artifact_refs": [
+        "problem_brief_pm_operating_rhythm"
+      ],
+      "audience": [
+        "PM",
+        "design",
+        "engineering",
+        "leadership"
+      ],
+      "status": "synced",
+      "last_sync_status": "Problem framing and recommendation match the current structured artifact."
+    },
+    {
+      "doc_key": "concept_brief",
+      "title": "Concept Brief",
+      "readable_path": "workspaces/productos-v2/docs/strategy/concept-brief.md",
+      "source_artifact_refs": [
+        "concept_brief_pm_operating_rhythm"
+      ],
+      "audience": [
+        "PM",
+        "design",
+        "research",
+        "leadership"
+      ],
+      "status": "synced",
+      "last_sync_status": "Concept narrative remains aligned with the validated concept artifact."
+    },
+    {
+      "doc_key": "prototype_review",
+      "title": "Prototype Review",
+      "readable_path": "workspaces/productos-v2/docs/prototype/prototype-review.md",
+      "source_artifact_refs": [
+        "prototype_record_status_mail_draft"
+      ],
+      "audience": [
+        "PM",
+        "design",
+        "engineering",
+        "leadership"
+      ],
+      "status": "synced",
+      "last_sync_status": "Prototype learnings and decision state reflect the current structured prototype record."
+    },
+    {
+      "doc_key": "roadmap",
+      "title": "Product Roadmap",
+      "readable_path": "workspaces/productos-v2/docs/planning/roadmap.md",
+      "source_artifact_refs": [
+        "inc_plan_2026_q2_01",
+        "release_gate_decision_ws_productos_v2_runtime"
+      ],
+      "audience": [
+        "leadership",
+        "design",
+        "engineering",
+        "go-to-market"
+      ],
+      "status": "review_pending",
+      "last_sync_status": "Roadmap document is current enough for targeted PM review but still needs confirmation on publishing metadata."
+    },
+    {
+      "doc_key": "prd",
+      "title": "Product Requirements Document",
+      "readable_path": "workspaces/productos-v2/docs/planning/prd.md",
+      "source_artifact_refs": [
+        "prd_pm_operating_rhythm"
+      ],
+      "audience": [
+        "PM",
+        "design",
+        "engineering",
+        "data or AI implementation"
+      ],
+      "status": "review_pending",
+      "last_sync_status": "PRD narrative is grounded in the current artifact and is waiting on targeted manual validation for adoptability."
+    }
+  ],
+  "drift_summary": "The current readable docs are traceable and mostly aligned, but the discovery summary, roadmap, and PRD still require targeted review before they can be treated as fully synced Tier 2 documents.",
+  "review_requirements": [
+    "Run AI review on narrative clarity and traceability for the document bundle.",
+    "Run AI test checks for required metadata and source-artifact coverage.",
+    "Complete targeted PM manual validation for roadmap and PRD adoption."
+  ],
+  "next_action": "Advance the readable doc bundle through validation-tier review and targeted PM validation before external publishing rules are locked.",
+  "generated_at": "2026-03-21T23:55:00Z"
+}

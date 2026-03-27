@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/uncertainty_map.schema.json",
+  "title": "ProductOS Uncertainty Map",
+  "description": "Classified unknowns and their cheapest next learning method for a concept or strategy path.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "uncertainty_map_id",
+    "workspace_id",
+    "focus_statement",
+    "unknowns",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "uncertainty_map_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "focus_statement": { "type": "string", "minLength": 10 },
+    "unknowns": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/unknown" },
+      "minItems": 1
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "unknown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unknown_id",
+        "unknown_type",
+        "statement",
+        "impact",
+        "cheapest_learning_method"
+      ],
+      "properties": {
+        "unknown_id": { "type": "string", "minLength": 1 },
+        "unknown_type": {
+          "type": "string",
+          "enum": [
+            "market",
+            "customer",
+            "usability",
+            "business_model",
+            "technical",
+            "adoption",
+            "organizational_execution"
+          ]
+        },
+        "statement": { "type": "string", "minLength": 10 },
+        "impact": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "cheapest_learning_method": {
+          "type": "string",
+          "enum": ["research", "prototype", "experiment", "stakeholder_negotiation", "technical_spike"]
+        }
+      }
+    }
+  }
+}

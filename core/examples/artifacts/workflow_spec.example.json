@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_spec_id": "workflow_spec_biweekly_status_mail",
+  "workspace_id": "ws_productos_v2",
+  "name": "Bi-Weekly Status Mail",
+  "objective": "Generate a high-quality PM status update from current workspace state with minimal manual drafting.",
+  "actors": [
+    "pm",
+    "status-communications",
+    "workflow",
+    "validation"
+  ],
+  "steps": [
+    "Collect inputs",
+    "Detect narrative gaps",
+    "Draft status mail",
+    "Validate",
+    "PM review"
+  ],
+  "linked_entity_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" },
+    { "entity_type": "problem", "entity_id": "problem_pm_reporting_bottleneck" },
+    { "entity_type": "feature", "entity_id": "feature_biweekly_status_mail_automation" }
+  ]
+}

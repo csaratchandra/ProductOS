@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "leadership_review_id": "leadership_review_ws_productos_v2_market_intelligence_distribution",
+  "audience": "Product leadership",
+  "summary": "ProductOS can now distribute market-intelligence output through a governed internal leadership digest while keeping freshness, contradiction, and approval boundaries explicit.",
+  "key_decisions": [
+    "Adopt the internal leadership digest as the first broader distribution path for the refreshed market-intelligence slice.",
+    "Reuse the same unattended-refresh guardrails and review boundaries before any broader publication surface is allowed."
+  ],
+  "major_risks": [
+    "External publication adapters are still not directly proven for this slice.",
+    "Broader distribution packaging beyond the leadership digest remains future work."
+  ],
+  "generated_at": "2026-03-23T09:20:00Z"
+}

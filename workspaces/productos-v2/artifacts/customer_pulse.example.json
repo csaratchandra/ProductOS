@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0.0",
+  "customer_pulse_id": "customer_pulse_ws_productos_v2_2026_03",
+  "workspace_id": "ws_productos_v2",
+  "cadence": "monthly",
+  "reporting_period": {
+    "start_date": "2026-03-01",
+    "end_date": "2026-03-20"
+  },
+  "top_pain_points": [
+    {
+      "description": "PMs spending over 30 percent of time on status reporting chores",
+      "severity": "high",
+      "frequency": "daily",
+      "affected_segment": "enterprise_pm",
+      "corroboration_status": "cross_source_supported"
+    },
+    {
+      "description": "Follow-up items from meetings getting lost between tools",
+      "severity": "high",
+      "frequency": "weekly",
+      "affected_segment": "all_pm",
+      "corroboration_status": "cross_source_supported"
+    }
+  ],
+  "emerging_signals": [
+    "Increased interest in AI-assisted demo readout generation from three enterprise prospects",
+    "Support tickets mentioning difficulty tracking what changed between sprints",
+    "More buyers asking how generated outputs can be inspected before they are shared upward"
+  ],
+  "churn_risks": [
+    {
+      "identifier": "enterprise_segment_large_accounts",
+      "risk_level": "medium",
+      "signal": "NPS dropped from 45 to 38 over two months due to manual status reporting burden"
+    }
+  ],
+  "expansion_opportunities": [
+    "Startup PMs requesting lean discovery workflow after seeing enterprise demo",
+    "Three accounts asking for portfolio-level rollup across multiple product workspaces"
+  ],
+  "trending_feature_requests": [
+    "Automated weekly update",
+    "Jira bidirectional sync",
+    "Customer health dashboard",
+    "Evidence trace for generated outputs"
+  ],
+  "segment_health": [
+    {
+      "segment_name": "Enterprise PM",
+      "health": "amber",
+      "trend": "stable"
+    },
+    {
+      "segment_name": "Startup PM",
+      "health": "green",
+      "trend": "improving"
+    }
+  ],
+  "signal_source_mix": [
+    {
+      "source_type": "research",
+      "signal_count": 4,
+      "confidence": "high"
+    },
+    {
+      "source_type": "app_reviews",
+      "signal_count": 2,
+      "confidence": "raw"
+    },
+    {
+      "source_type": "social",
+      "signal_count": 3,
+      "confidence": "moderate"
+    }
+  ],
+  "voice_of_customer_quotes": [
+    {
+      "quote": "I wish I could just approve a draft status update instead of writing one from scratch every week.",
+      "source": "Enterprise PM interview 2026-03-15",
+      "sentiment": "negative"
+    },
+    {
+      "quote": "The prototype-first approach already saved us a week of alignment meetings.",
+      "source": "Startup founder feedback 2026-03-12",
+      "sentiment": "positive"
+    },
+    {
+      "quote": "Speed is nice, but I need to know where the draft came from before I share it with leadership.",
+      "source": "Enterprise PM interview 2026-03-18",
+      "sentiment": "negative"
+    }
+  ],
+  "source_artifact_ids": [
+    "research_brief_pm_operating_rhythm",
+    "meeting_2026_03_19_leadership_review"
+  ],
+  "generated_at": "2026-03-20T12:00:00Z"
+}

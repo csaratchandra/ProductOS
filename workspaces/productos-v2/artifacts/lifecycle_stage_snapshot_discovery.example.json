@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0.0",
+  "lifecycle_stage_snapshot_id": "lifecycle_stage_snapshot_discovery",
+  "workspace_id": "ws_productos_v2",
+  "focus_area": "discovery",
+  "snapshot_summary": "Discovery has one active opportunity with complete research, segmentation, problem framing, prototype validation, and PRD handoff evidence.",
+  "item_count": 1,
+  "segment_count": 3,
+  "persona_count": 3,
+  "artifact_counts": {
+    "intake_routing_state": 1,
+    "research_notebook": 1,
+    "segment_map": 1,
+    "persona_pack": 1,
+    "competitor_dossier": 1,
+    "market_analysis_brief": 1,
+    "idea_record": 1,
+    "problem_brief": 1,
+    "concept_brief": 1,
+    "prototype_record": 1,
+    "ux_design_review": 1,
+    "visual_reasoning_state": 1,
+    "prd": 1,
+    "validation_lane_report": 1,
+    "manual_validation_record": 1,
+    "item_lifecycle_state": 1
+  },
+  "active_item_ids": [
+    "opp_pm_lifecycle_traceability"
+  ],
+  "gate_counts": {
+    "passed": 7,
+    "pending": 0,
+    "blocked": 0,
+    "not_started": 5
+  },
+  "stage_summaries": [
+    {
+      "stage_key": "signal_intake",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "intake_routing_state_ws_productos_v2_discovery_traceability"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "One opportunity has been routed from intake."
+    },
+    {
+      "stage_key": "research_synthesis",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "research_notebook_pm_lifecycle_visibility",
+        "competitor_dossier_pm_lifecycle_visibility",
+        "market_analysis_brief_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The mixed competitor research pass is complete."
+    },
+    {
+      "stage_key": "segmentation_and_personas",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "segment_map_pm_lifecycle_visibility",
+        "persona_pack_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "Three segments and three personas are mapped."
+    },
+    {
+      "stage_key": "problem_framing",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "problem_brief_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The visibility gap is framed and accepted."
+    },
+    {
+      "stage_key": "concept_shaping",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "idea_record_pm_lifecycle_visibility",
+        "concept_brief_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The item-first lifecycle trace is selected."
+    },
+    {
+      "stage_key": "prototype_validation",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "prototype_record_pm_item_timeline",
+        "ux_design_review_pm_lifecycle_visibility",
+        "visual_reasoning_state_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The PM-facing prototype passed validation."
+    },
+    {
+      "stage_key": "prd_handoff",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "prd_pm_lifecycle_visibility",
+        "validation_lane_report_pm_lifecycle_visibility",
+        "manual_validation_record_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The item is ready for planning handoff."
+    }
+  ],
+  "created_at": "2026-03-23T10:45:00Z"
+}

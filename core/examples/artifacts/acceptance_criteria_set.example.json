@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "acceptance_criteria_set_id": "acceptance_status_draft_story",
+  "workspace_id": "ws_productos_v2",
+  "story_id": "story_generate_status_draft",
+  "criteria": [
+    {
+      "criterion_id": "ac_status_1",
+      "statement": "The generated status draft includes what happened, open issues, decisions, and next steps.",
+      "testable": true
+    },
+    {
+      "criterion_id": "ac_status_2",
+      "statement": "The draft requests targeted PM context only when source data is insufficient.",
+      "testable": true
+    }
+  ]
+}

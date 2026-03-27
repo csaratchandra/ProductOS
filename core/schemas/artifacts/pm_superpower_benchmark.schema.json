@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/pm_superpower_benchmark.schema.json",
+  "title": "ProductOS PM Superpower Benchmark",
+  "description": "Benchmark definition and scorecard for measuring whether V4 improves PM leverage across the governed golden loops.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pm_superpower_benchmark_id",
+    "workspace_id",
+    "baseline_version",
+    "candidate_version",
+    "status",
+    "comparison_window",
+    "validation_tier",
+    "baseline_benchmark_refs",
+    "golden_loop_scores",
+    "overall_summary",
+    "recommended_next_action",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "pm_superpower_benchmark_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "baseline_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidate_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "defined",
+        "active",
+        "passed",
+        "failed",
+        "inconclusive"
+      ]
+    },
+    "comparison_window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_cutoff_date",
+        "target_review_date"
+      ],
+      "properties": {
+        "baseline_cutoff_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "target_review_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "validation_tier": {
+      "type": "string",
+      "enum": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ]
+    },
+    "baseline_benchmark_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "golden_loop_scores": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/goldenLoopScore"
+      },
+      "minItems": 3
+    },
+    "overall_summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "recommended_next_action": {
+      "type": "string",
+      "minLength": 10
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "metricTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metric_name",
+        "baseline_value",
+        "target_value",
+        "unit",
+        "target_comparison",
+        "rationale"
+      ],
+      "properties": {
+        "metric_name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "baseline_value": {
+          "type": "number"
+        },
+        "target_value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_comparison": {
+          "type": "string",
+          "enum": [
+            "lte",
+            "gte"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 10
+        }
+      }
+    },
+    "goldenLoopScore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "loop_id",
+        "name",
+        "benchmark_question",
+        "status",
+        "primary_metrics",
+        "success_thresholds",
+        "evidence_refs"
+      ],
+      "properties": {
+        "loop_id": {
+          "type": "string",
+          "enum": [
+            "signal_to_product_decision",
+            "decision_to_stakeholder_alignment",
+            "feedback_to_accepted_improvement"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "benchmark_question": {
+          "type": "string",
+          "minLength": 10
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "baseline_defined",
+            "measuring",
+            "passed",
+            "failed",
+            "inconclusive"
+          ]
+        },
+        "primary_metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/metricTarget"
+          },
+          "minItems": 1
+        },
+        "success_thresholds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 10
+          },
+          "minItems": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "current_pain_points": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "default": []
+        }
+      }
+    }
+  }
+}

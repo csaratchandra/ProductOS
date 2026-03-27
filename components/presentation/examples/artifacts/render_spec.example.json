@@ -1,0 +1,266 @@
+{
+  "schema_version": "1.0.0",
+  "render_spec_id": "render_spec_presentation_brief_pm_ops_q2",
+  "presentation_story_id": "presentation_story_presentation_brief_pm_ops_q2",
+  "presentation_brief_id": "presentation_brief_pm_ops_q2",
+  "workspace_id": "ws_productos_core",
+  "presentation_mode": "async",
+  "theme": {
+    "preset": "atlas",
+    "font_family": "'Space Grotesk', 'Avenir Next', sans-serif",
+    "background": "linear-gradient(135deg, #f7f2e8 0%, #d7e6f5 100%)",
+    "accent": "#1e5aa8"
+  },
+  "aspect_ratio": "16:9",
+  "slides": [
+    {
+      "slide_id": "slide_cover",
+      "title": "PM Operating System Update",
+      "composition_type": "hero_statement",
+      "headline": "The presentation system should become a narrative renderer.",
+      "core_message": "Better slides need better evidence packaging and publish controls, not just stronger CSS.",
+      "composition_payload": {
+        "primary_claim": "The presentation system should be funded as a narrative rendering system, not treated as a visual polish pass.",
+        "summary": "Better slides need better evidence packaging and publish controls, not just stronger CSS.",
+        "recommendation": "Approve the current presentation-system scope.",
+        "decision_ask": "Approve the current presentation-system scope.",
+        "options": [
+          {
+            "option_id": "slide_cover_recommended",
+            "label": "Recommended path",
+            "stance": "recommended",
+            "summary": "Fund the presentation system as a narrative rendering system.",
+            "tradeoffs": [
+              "More schema and runtime complexity in the short term.",
+              "Much higher narrative and trust quality long term."
+            ]
+          }
+        ],
+        "evidence_items": [
+          {
+            "evidence_id": "slide_cover_evidence_1",
+            "label": "Decision frame",
+            "evidence_type": "recommendation",
+            "value": "Current briefs model intent and key points but not story arc or speaker notes.",
+            "source_ref": "presentation_brief_pm_ops_q2",
+            "annotation": "The architecture gap appears before rendering."
+          },
+          {
+            "evidence_id": "slide_cover_evidence_2",
+            "label": "Delivery implication",
+            "evidence_type": "recommendation",
+            "value": "Publishing modes need different density rules.",
+            "source_ref": "leadership_review_2026_03_19",
+            "annotation": "Mode-specific behavior must be designed intentionally."
+          }
+        ],
+        "risk_items": [],
+        "timeline_events": [],
+        "comparison_rows": []
+      },
+      "layout_variant": "hero_with_recommendation_strip",
+      "density_mode": "balanced",
+      "visual_tokens": {
+        "theme_preset": "atlas",
+        "accent": "#1e5aa8",
+        "surface_style": "layered_panel",
+        "emphasis_style": "message_first"
+      },
+      "visibility_rules": {
+        "show_sources": true,
+        "show_confidence": true,
+        "show_appendix_link": true,
+        "customer_safe": false,
+        "redaction_policy": "leadership_safe"
+      },
+      "annotation_rules": {
+        "show_confidence_badge": true,
+        "show_owner_labels": false,
+        "show_risk_labels": false,
+        "show_source_tags": true
+      },
+      "html_render_hints": {
+        "prefer_native_shapes": true,
+        "fallback_layout": "standard",
+        "emphasize_claim": true,
+        "show_evidence_as_cards": false
+      },
+      "ppt_render_hints": {
+        "prefer_native_shapes": true,
+        "fallback_layout": "standard"
+      },
+      "source_refs": [
+        "presentation_brief_pm_ops_q2",
+        "leadership_review_2026_03_19"
+      ],
+      "speaker_notes": "Introduce the recommendation and make the architecture gap explicit.",
+      "visual_direction": "Large hero headline with a compact recommendation strip.",
+      "confidence_state": "high",
+      "variant_rules": {
+        "live": "Keep only the headline and recommendation strip on screen.",
+        "async": "Show both evidence bullets directly on the slide.",
+        "memo": "Expand the core message into a short explanatory paragraph."
+      }
+    },
+    {
+      "slide_id": "slide_summary",
+      "title": "Where We Are",
+      "composition_type": "evidence_grid",
+      "headline": "The platform already has strong source material.",
+      "core_message": "The limiting factor is the presentation grammar, not lack of product context.",
+      "composition_payload": {
+        "primary_claim": "ProductOS already has enough structured operating material; the quality loss happens in evidence packaging and story planning.",
+        "summary": "The limiting factor is the presentation grammar, not lack of product context.",
+        "evidence_items": [
+          {
+            "evidence_id": "slide_summary_evidence_1",
+            "label": "Upstream inputs",
+            "evidence_type": "fact",
+            "value": "Leadership, portfolio, and status artifacts are already available as inputs.",
+            "source_ref": "portfolio_update_2026_03_19",
+            "annotation": "The raw material exists upstream."
+          },
+          {
+            "evidence_id": "slide_summary_evidence_2",
+            "label": "Current loss point",
+            "evidence_type": "fact",
+            "value": "The current deck pipeline removes source-linked evidence from the rendered output.",
+            "source_ref": "presentation_brief_pm_ops_q2",
+            "annotation": "The problem is in the presentation grammar."
+          }
+        ],
+        "risk_items": [],
+        "timeline_events": [],
+        "comparison_rows": []
+      },
+      "layout_variant": "two_column_cards",
+      "density_mode": "balanced",
+      "visual_tokens": {
+        "theme_preset": "atlas",
+        "accent": "#1e5aa8",
+        "surface_style": "layered_panel",
+        "emphasis_style": "evidence_support"
+      },
+      "visibility_rules": {
+        "show_sources": true,
+        "show_confidence": true,
+        "show_appendix_link": true,
+        "customer_safe": false,
+        "redaction_policy": "leadership_safe"
+      },
+      "annotation_rules": {
+        "show_confidence_badge": true,
+        "show_owner_labels": false,
+        "show_risk_labels": false,
+        "show_source_tags": true
+      },
+      "html_render_hints": {
+        "prefer_native_shapes": true,
+        "fallback_layout": "stacked_panels",
+        "emphasize_claim": true,
+        "show_evidence_as_cards": true
+      },
+      "ppt_render_hints": {
+        "prefer_native_shapes": true,
+        "fallback_layout": "stacked_panels"
+      },
+      "source_refs": [
+        "portfolio_update_2026_03_19",
+        "presentation_brief_pm_ops_q2"
+      ],
+      "speaker_notes": "Show the evidence as cards to make the case for a richer intermediate model.",
+      "visual_direction": "Two-column evidence grid with visible source labels.",
+      "confidence_state": "high",
+      "variant_rules": {
+        "live": "Collapse the second card into a presenter note.",
+        "async": "Render both cards with source tags.",
+        "memo": "Convert the cards into a short evidence section."
+      }
+    },
+    {
+      "slide_id": "slide_risks",
+      "title": "What Still Needs Work",
+      "composition_type": "risk_matrix",
+      "headline": "Narrative quality needs trust controls.",
+      "core_message": "More persuasive output is only acceptable if the system keeps uncertainty and export limitations visible.",
+      "composition_payload": {
+        "primary_claim": "Narrative upgrades are only acceptable if publish controls keep evidence, uncertainty, and export tradeoffs visible.",
+        "summary": "More persuasive output is only acceptable if the system keeps uncertainty and export limitations visible.",
+        "evidence_items": [
+          {
+            "evidence_id": "slide_risks_evidence_1",
+            "label": "Fidelity risk",
+            "evidence_type": "risk",
+            "value": "PPT export fidelity still depends on simpler slide compositions.",
+            "source_ref": "portfolio_state_suite_productos_2026_03_19",
+            "annotation": "The publish path still has layout constraints."
+          },
+          {
+            "evidence_id": "slide_risks_evidence_2",
+            "label": "Trust risk",
+            "evidence_type": "risk",
+            "value": "Executive compression cannot hide blockers, risks, or confidence gaps.",
+            "source_ref": "leadership_review_2026_03_19",
+            "annotation": "Narrative power must not outrun governance."
+          }
+        ],
+        "risk_items": [
+          {
+            "risk_id": "slide_risks_risk_1",
+            "label": "PPT export fidelity still depends on simpler slide compositions.",
+            "likelihood": "medium",
+            "impact": "high",
+            "owner": "PM / presentation-system owner",
+            "mitigation": "Publish checks and fallback compositions keep the message intact."
+          }
+        ],
+        "timeline_events": [],
+        "comparison_rows": []
+      },
+      "layout_variant": "matrix_with_mitigation_panel",
+      "density_mode": "balanced",
+      "visual_tokens": {
+        "theme_preset": "atlas",
+        "accent": "#1e5aa8",
+        "surface_style": "layered_panel",
+        "emphasis_style": "evidence_support"
+      },
+      "visibility_rules": {
+        "show_sources": true,
+        "show_confidence": true,
+        "show_appendix_link": true,
+        "customer_safe": false,
+        "redaction_policy": "leadership_safe"
+      },
+      "annotation_rules": {
+        "show_confidence_badge": true,
+        "show_owner_labels": true,
+        "show_risk_labels": true,
+        "show_source_tags": true
+      },
+      "html_render_hints": {
+        "prefer_native_shapes": true,
+        "fallback_layout": "standard",
+        "emphasize_claim": true,
+        "show_evidence_as_cards": true
+      },
+      "ppt_render_hints": {
+        "prefer_native_shapes": true,
+        "fallback_layout": "standard"
+      },
+      "source_refs": [
+        "portfolio_state_suite_productos_2026_03_19",
+        "leadership_review_2026_03_19"
+      ],
+      "speaker_notes": "Position publish checks as a hard requirement for trustworthy automation.",
+      "visual_direction": "Risk matrix with confidence badge and mitigation callout.",
+      "confidence_state": "medium",
+      "variant_rules": {
+        "live": "Keep the highest-risk point visible and move the second point to notes.",
+        "async": "Render both risks with confidence treatment.",
+        "memo": "Expand into a governance paragraph with visible caveats."
+      }
+    }
+  ],
+  "generated_at": "2026-03-20T13:15:00Z"
+}

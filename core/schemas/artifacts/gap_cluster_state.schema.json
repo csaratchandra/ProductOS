@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/gap_cluster_state.schema.json",
+  "title": "ProductOS Gap Cluster State",
+  "description": "Clustered repeated post-release pain used to decide whether another staged release is justified.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gap_cluster_state_id",
+    "workspace_id",
+    "evaluation_scope",
+    "status",
+    "clusters",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "gap_cluster_state_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "evaluation_scope": { "type": "string", "enum": ["post_v3_1", "post_v3_2"] },
+    "status": { "type": "string", "enum": ["collecting", "ready_for_decision", "closed"] },
+    "clusters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cluster_id", "label", "feedback_ids", "impact_level", "recommended_release", "rationale"],
+        "properties": {
+          "cluster_id": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 3 },
+          "feedback_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 1
+          },
+          "impact_level": { "type": "string", "enum": ["medium", "high"] },
+          "recommended_release": { "type": "string", "enum": ["v3_2", "v4", "defer"] },
+          "rationale": { "type": "string", "minLength": 10 }
+        }
+      },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

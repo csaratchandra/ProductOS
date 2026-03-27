@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/presentation_story.schema.json",
+  "title": "ProductOS Presentation Story",
+  "description": "Narrative plan that sits between a presentation brief and final render spec.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "presentation_story_id",
+    "workspace_id",
+    "presentation_brief_id",
+    "evidence_pack_id",
+    "audience",
+    "presentation_mode",
+    "primary_question",
+    "decision_required",
+    "recommendation",
+    "narrative_pattern",
+    "audience_key_question",
+    "opening_answer",
+    "main_recommendation",
+    "objections_addressed",
+    "appendix_strategy",
+    "story_arc",
+    "story_transitions",
+    "slides",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "presentation_story_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "presentation_brief_id": { "type": "string", "minLength": 1 },
+    "evidence_pack_id": { "type": "string", "minLength": 1 },
+    "audience": { "type": "string", "minLength": 2 },
+    "presentation_mode": {
+      "type": "string",
+      "enum": ["live", "async", "memo", "one_page", "meeting_brief"]
+    },
+    "primary_question": { "type": "string", "minLength": 8 },
+    "decision_required": { "type": "string", "minLength": 3 },
+    "recommendation": { "type": "string", "minLength": 8 },
+    "narrative_pattern": {
+      "type": "string",
+      "enum": ["answer_first", "scq", "evidence_first", "option_comparison"]
+    },
+    "audience_key_question": { "type": "string", "minLength": 8 },
+    "opening_answer": { "type": "string", "minLength": 8 },
+    "main_recommendation": { "type": "string", "minLength": 8 },
+    "objections_addressed": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
+    "appendix_strategy": { "type": "string", "minLength": 3 },
+    "story_arc": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "minItems": 2
+    },
+    "story_transitions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "minItems": 1
+    },
+    "slides": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/storySlide" },
+      "minItems": 1
+    },
+    "appendix_candidates": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "storySlide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slide_id",
+        "title",
+        "story_role",
+        "headline",
+        "core_message",
+        "supporting_points",
+        "evidence_refs",
+        "speaker_notes",
+        "visual_direction",
+        "confidence_state",
+        "audience_question_answered",
+        "claim",
+        "why_now",
+        "proof_strategy",
+        "transition_from_previous",
+        "cta",
+        "appendix_reference"
+      ],
+      "properties": {
+        "slide_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "story_role": {
+          "type": "string",
+          "enum": ["hook", "context", "evidence", "decision", "risk", "plan", "closing", "appendix"]
+        },
+        "headline": { "type": "string", "minLength": 8 },
+        "core_message": { "type": "string", "minLength": 8 },
+        "supporting_points": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "speaker_notes": { "type": "string", "minLength": 8 },
+        "visual_direction": { "type": "string", "minLength": 5 },
+        "confidence_state": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        },
+        "audience_question_answered": { "type": "string", "minLength": 8 },
+        "claim": { "type": "string", "minLength": 8 },
+        "why_now": { "type": "string", "minLength": 8 },
+        "proof_strategy": { "type": "string", "minLength": 8 },
+        "transition_from_previous": { "type": "string", "minLength": 8 },
+        "cta": { "type": "string", "minLength": 3 },
+        "appendix_reference": { "type": "string", "minLength": 3 }
+      }
+    }
+  }
+}

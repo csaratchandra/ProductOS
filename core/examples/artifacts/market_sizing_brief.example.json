@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "market_sizing_brief_id": "market_sizing_brief_pm_os",
+  "workspace_id": "ws_productos_v2",
+  "market_name": "AI-assisted PM operating systems",
+  "sizing_method": "blended",
+  "tam": {
+    "amount": 1800000000,
+    "currency": "USD",
+    "formula": "Global PM software spend x estimated share attributable to PM operating workflow and synthesis tools."
+  },
+  "sam": {
+    "amount": 420000000,
+    "currency": "USD",
+    "formula": "English-speaking B2B product teams in startup and enterprise SaaS segments x reachable seat and team pricing."
+  },
+  "som": {
+    "amount": 48000000,
+    "currency": "USD",
+    "formula": "Initial reachable segment of AI-forward PM organizations over a 3-year adoption window."
+  },
+  "top_down_inputs": [
+    {
+      "label": "Category software spend",
+      "value": "$6B annual category estimate",
+      "source_ref": "source_note_card_consultant_ai_pm"
+    }
+  ],
+  "bottom_up_inputs": [
+    {
+      "label": "Design-partner revenue path",
+      "value": "250 organizations x estimated ACV",
+      "source_ref": "source_note_card_consultant_ai_pm"
+    }
+  ],
+  "assumptions": [
+    {
+      "statement": "Reachable PM organizations are concentrated in B2B SaaS teams already adopting AI-assisted workflows.",
+      "source_ref": "source_note_card_consultant_ai_pm"
+    }
+  ],
+  "sensitivity_notes": [
+    "SAM shrinks materially if adoption is limited to enterprise PM teams with formal governance needs."
+  ],
+  "confidence": "moderate",
+  "created_at": "2026-03-20T14:25:00Z"
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0.0",
+  "ralph_loop_state_id": "ralph_loop_state_pm_market_intelligence",
+  "workspace_id": "ws_productos_v2",
+  "target_release": "v4_1_0",
+  "loop_goal": "Inspect, review, validate, implement, fix, and revalidate the V4.1 agentic market-intelligence slice before stable release promotion.",
+  "overall_status": "ready_for_release",
+  "subject_refs": [
+    "research_feature_recommendation_brief_pm_market_intelligence"
+  ],
+  "stages": [
+    {
+      "stage_key": "ship",
+      "status": "passed",
+      "owner": "AI Librarian",
+      "findings_summary": "Invalid stage key for negative testing.",
+      "evidence_refs": [
+        "research_notebook_agentic_market_intelligence"
+      ],
+      "exit_condition": "The invalid fixture should fail schema validation."
+    },
+    {
+      "stage_key": "review",
+      "status": "passed",
+      "owner": "AI Reviewer",
+      "exit_condition": "Placeholder stage."
+    },
+    {
+      "stage_key": "validate",
+      "status": "passed",
+      "owner": "AI Tester",
+      "exit_condition": "Placeholder stage."
+    },
+    {
+      "stage_key": "implement",
+      "status": "passed",
+      "owner": "AI Researcher",
+      "exit_condition": "Placeholder stage."
+    },
+    {
+      "stage_key": "fix",
+      "status": "passed",
+      "owner": "AI Product Shaper",
+      "exit_condition": "Placeholder stage."
+    },
+    {
+      "stage_key": "revalidate",
+      "status": "passed",
+      "owner": "PM Leader / Communicator",
+      "exit_condition": "Placeholder stage."
+    }
+  ],
+  "validation_report_refs": [
+    "validation_lane_report_ws_productos_v2_market_intelligence"
+  ],
+  "manual_review_summary": "This fixture intentionally uses an invalid stage key.",
+  "next_action": "Do not use this fixture outside schema tests.",
+  "generated_at": "2026-03-21T05:45:00Z"
+}

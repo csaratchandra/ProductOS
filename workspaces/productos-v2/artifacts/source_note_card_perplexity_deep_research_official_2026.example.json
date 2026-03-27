@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_perplexity_deep_research_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://www.perplexity.ai/hub/blog/introducing-perplexity-deep-research",
+  "title": "Perplexity frames deep research as iterative search, reasoning, and export",
+  "claim": "Perplexity describes Deep Research as a multi-minute workflow that iteratively searches, reads, reasons, writes a report, and then exports or shares the result.",
+  "source_snippet": "The workflow searches, reads documents, refines its plan, and produces an exportable report.",
+  "implication": "ProductOS should treat iterative planning and export-ready deliverables as baseline expectations for auto-research.",
+  "confidence": "high",
+  "followup_questions": [
+    "Which ProductOS research outputs should export into docs or presentations automatically after review?"
+  ],
+  "source_metadata": {
+    "source_url": "https://www.perplexity.ai/hub/blog/introducing-perplexity-deep-research",
+    "retrieved_at": "2026-03-21T09:09:00Z",
+    "source_slice_ref": "deep-research-announcement",
+    "dedupe_key": "perplexity-deep-research-announcement",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "perplexity-deep-research-announcement",
+  "tags": ["research", "agentic", "perplexity", "deep-research"],
+  "created_at": "2026-03-21T09:10:00Z"
+}

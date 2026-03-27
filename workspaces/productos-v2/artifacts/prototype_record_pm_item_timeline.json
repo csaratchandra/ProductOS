@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "prototype_record_id": "prototype_record_pm_item_timeline",
+  "workspace_id": "ws_productos_v2",
+  "concept_brief_id": "concept_brief_pm_lifecycle_visibility",
+  "title": "Prototype record: PM item timeline and stage snapshot",
+  "prototype_type": "mockup",
+  "objective": "Test whether PMs can inspect one item timeline and a discovery-stage aggregate without opening multiple disconnected artifacts first.",
+  "status": "validated",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_product_led_scaleups"
+    },
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_enterprise_platform_pm_orgs"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_group_pm"
+    }
+  ],
+  "validation_focus": [
+    "workflow_fit",
+    "trust",
+    "clarity"
+  ],
+  "learnings": [
+    "PMs expect the current stage, gate outcome, and linked artifacts to be visible without extra navigation.",
+    "A stage aggregate is useful only when it can still link back to concrete item ids.",
+    "The PRD handoff feels believable when validation evidence is visible beside the timeline."
+  ],
+  "recommendation": "advance_to_problem_brief",
+  "evaluated_at": "2026-03-23T10:20:00Z"
+}

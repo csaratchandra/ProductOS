@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "uncertainty_map_id": "uncertainty_map_pm_strategy",
+  "workspace_id": "ws_productos_v2",
+  "focus_statement": "Determine the cheapest next learning steps for the discovery and strategy upgrade.",
+  "unknowns": [
+    {
+      "unknown_id": "unk_customer_need",
+      "unknown_type": "customer",
+      "statement": "Do PMs feel enough pain in early strategy framing to adopt a new sensing workflow?",
+      "impact": "high",
+      "cheapest_learning_method": "research"
+    },
+    {
+      "unknown_id": "unk_signal_quality",
+      "unknown_type": "technical",
+      "statement": "Can the system cluster weak signals into meaningful hypotheses without amplifying noise?",
+      "impact": "high",
+      "cheapest_learning_method": "prototype"
+    }
+  ],
+  "created_at": "2026-03-20T12:20:00Z"
+}

@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/weekly_update.schema.json",
+  "title": "ProductOS Weekly Update",
+  "description": "Structured weekly PM update covering highlights, blockers, team health, and upcoming focus.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "weekly_update_id",
+    "workspace_id",
+    "week_ending",
+    "audience",
+    "highlights",
+    "blockers",
+    "upcoming_focus",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "weekly_update_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "week_ending": {
+      "type": "string",
+      "format": "date"
+    },
+    "audience": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "highlights": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "minItems": 1
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/blockerItem"
+      },
+      "default": []
+    },
+    "milestones_upcoming": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/milestoneItem"
+      },
+      "default": []
+    },
+    "team_health": {
+      "type": "string",
+      "enum": [
+        "green",
+        "amber",
+        "red"
+      ]
+    },
+    "upcoming_focus": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "minItems": 1
+    },
+    "followup_digest": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/followupSummary"
+      },
+      "default": []
+    },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "blockerItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "severity",
+        "owner"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "milestoneItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "target_date"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "target_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "on_track",
+            "at_risk",
+            "delayed"
+          ]
+        }
+      }
+    },
+    "followupSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "owner",
+        "status"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 3
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "open",
+            "in_progress",
+            "completed",
+            "overdue"
+          ]
+        }
+      }
+    }
+  }
+}

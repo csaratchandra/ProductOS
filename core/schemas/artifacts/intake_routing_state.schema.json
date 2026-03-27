@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/intake_routing_state.schema.json",
+  "title": "ProductOS Intake Routing State",
+  "description": "Runtime state showing how inbox items are being normalized and routed into downstream workflows.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "intake_routing_state_id",
+    "workspace_id",
+    "ingestion_mode",
+    "status",
+    "routing_summary",
+    "active_inbox_paths",
+    "intake_items",
+    "blocked_item_ids",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "intake_routing_state_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ingestion_mode": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "watch",
+        "continuous"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "monitoring",
+        "routing",
+        "blocked",
+        "completed"
+      ]
+    },
+    "routing_summary": {
+      "type": "string",
+      "minLength": 3
+    },
+    "active_inbox_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "intake_items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/intakeItem"
+      },
+      "minItems": 1
+    },
+    "blocked_item_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "intakeItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item_id",
+        "inbox_path",
+        "input_type",
+        "captured_at",
+        "provenance_status",
+        "normalization_status",
+        "recommended_workflow_ids"
+      ],
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inbox_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "input_type": {
+          "type": "string",
+          "enum": [
+            "raw_note",
+            "transcript",
+            "screenshot",
+            "document",
+            "spreadsheet",
+            "support_export",
+            "custom"
+          ]
+        },
+        "captured_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "provenance_status": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "partial",
+            "missing"
+          ]
+        },
+        "normalization_status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "normalized",
+            "routed",
+            "blocked"
+          ]
+        },
+        "recommended_workflow_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "derived_artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

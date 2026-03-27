@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/ppt_export_plan.schema.json",
+  "title": "ProductOS PPT Export Plan",
+  "description": "Normalized export-planning artifact describing how render-spec compositions should map into native PPT shapes and layouts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "ppt_export_plan_id",
+    "render_spec_id",
+    "workspace_id",
+    "engine",
+    "status",
+    "aspect_ratio",
+    "theme_preset",
+    "slide_count",
+    "composition_counts",
+    "layout_counts",
+    "native_shape_counts",
+    "slide_rendering_plan",
+    "fidelity_status",
+    "notes",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "ppt_export_plan_id": { "type": "string", "minLength": 1 },
+    "render_spec_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "engine": { "type": "string", "enum": ["pptxgenjs"] },
+    "status": { "type": "string", "enum": ["composition-aware"] },
+    "aspect_ratio": {
+      "type": "string",
+      "enum": ["16:9", "4:3"]
+    },
+    "theme_preset": {
+      "type": "string",
+      "enum": ["signal", "atlas", "editorial"]
+    },
+    "slide_count": { "type": "integer", "minimum": 1 },
+    "composition_counts": { "$ref": "#/$defs/countMap" },
+    "layout_counts": { "$ref": "#/$defs/countMap" },
+    "native_shape_counts": { "$ref": "#/$defs/countMap" },
+    "slide_rendering_plan": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/slideRenderingInstruction" },
+      "minItems": 1
+    },
+    "fidelity_status": {
+      "type": "string",
+      "enum": ["aligned", "planned_fallbacks"]
+    },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "countMap": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "slideRenderingInstruction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slide_id",
+        "composition_type",
+        "layout_variant",
+        "native_shape_family",
+        "fallback_layout",
+        "prefer_native_shapes",
+        "primitives",
+        "evidence_mode",
+        "connector_policy",
+        "source_refs"
+      ],
+      "properties": {
+        "slide_id": { "type": "string", "minLength": 1 },
+        "composition_type": { "type": "string", "minLength": 3 },
+        "layout_variant": { "type": "string", "minLength": 3 },
+        "native_shape_family": { "type": "string", "minLength": 3 },
+        "fallback_layout": { "type": "string", "minLength": 3 },
+        "prefer_native_shapes": { "type": "boolean" },
+        "primitives": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "evidence_mode": { "type": "string", "enum": ["cards", "minimal"] },
+        "connector_policy": { "type": "string", "enum": ["directional_connectors", "grid_alignment"] },
+        "map_type": { "type": "string", "minLength": 3 },
+        "source_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

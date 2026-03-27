@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/artifact_sensitivity.schema.json",
+  "title": "ProductOS Artifact Sensitivity",
+  "description": "Classifies whether an artifact is customer-safe, internal-only, or restricted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "sensitivity_id",
+    "workspace_id",
+    "artifact_id",
+    "artifact_type",
+    "sensitivity_level",
+    "customer_safe",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "sensitivity_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sensitivity_level": {
+      "type": "string",
+      "enum": [
+        "customer_safe",
+        "internal_only",
+        "restricted"
+      ]
+    },
+    "customer_safe": {
+      "type": "boolean"
+    },
+    "notes": {
+      "type": "string",
+      "minLength": 3
+    }
+  }
+}

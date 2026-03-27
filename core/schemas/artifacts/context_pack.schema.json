@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/context_pack.schema.json",
+  "title": "ProductOS Context Pack",
+  "description": "Decision-ready context bundle assembled before a bounded ProductOS phase runs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "context_pack_id",
+    "workspace_id",
+    "request_summary",
+    "decision_to_be_made",
+    "status",
+    "audience",
+    "quality_contract",
+    "evidence_bundle",
+    "source_artifact_ids",
+    "recommended_next_action",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "context_pack_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "request_summary": { "type": "string", "minLength": 10 },
+    "decision_to_be_made": { "type": "string", "minLength": 10 },
+    "status": {
+      "type": "string",
+      "enum": ["ready", "watch", "blocked"]
+    },
+    "audience": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "quality_contract": { "$ref": "#/$defs/qualityContract" },
+    "evidence_bundle": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceItem" },
+      "minItems": 1
+    },
+    "contradictions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "recommended_next_action": { "type": "string", "minLength": 10 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "qualityContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audience",
+        "decision_needed",
+        "evidence",
+        "alternatives",
+        "recommendation",
+        "metrics",
+        "risks",
+        "owner",
+        "next_action"
+      ],
+      "properties": {
+        "audience": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "decision_needed": { "type": "string", "minLength": 10 },
+        "evidence": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1
+        },
+        "alternatives": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "recommendation": { "type": "string", "minLength": 10 },
+        "metrics": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "risks": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "owner": { "type": "string", "minLength": 1 },
+        "next_action": { "type": "string", "minLength": 10 }
+      }
+    },
+    "evidenceItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_type",
+        "summary",
+        "confidence",
+        "freshness_status"
+      ],
+      "properties": {
+        "source_id": { "type": "string", "minLength": 1 },
+        "source_type": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 10 },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "freshness_status": {
+          "type": "string",
+          "enum": ["fresh", "usable_with_review", "stale"]
+        },
+        "claim_mode": {
+          "type": "string",
+          "enum": ["direct_evidence", "derived_inference", "assumption"]
+        }
+      }
+    }
+  }
+}

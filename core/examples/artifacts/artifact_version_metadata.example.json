@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "version_id": "status_mail_v2",
+  "artifact_id": "status_2026_03_biweekly_02",
+  "artifact_type": "status_mail",
+  "workspace_id": "ws_productos_v2",
+  "version_number": 2,
+  "status": "review_needed",
+  "created_at": "2026-03-19T17:15:00Z",
+  "created_by": "status-communications",
+  "approved_at": "2026-03-19T17:18:00Z",
+  "approved_by": "ProductOS PM",
+  "parent_version_id": "status_mail_v1",
+  "change_summary": "Updated summary framing and next-step wording after validation.",
+  "source_artifact_ids": [
+    "meeting_2026_03_19_leadership_review",
+    "decision_log_productos_core"
+  ],
+  "workflow_state_id": "wf_state_biweekly_status_mail_2026_03_19"
+}

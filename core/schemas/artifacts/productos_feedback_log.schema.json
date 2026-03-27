@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/productos_feedback_log.schema.json",
+  "title": "ProductOS Feedback Log",
+  "description": "Dedicated feedback log capturing how ProductOS itself is helping or failing the PM so issues can route into improvements, backlog work, or release proposals.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "feedback_log_id",
+    "workspace_id",
+    "entries",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "feedback_log_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "entries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/feedbackEntry" },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "feedbackEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "feedback_id",
+        "category",
+        "summary",
+        "impact_level",
+        "status",
+        "source_type"
+      ],
+      "properties": {
+        "feedback_id": { "type": "string", "minLength": 1 },
+        "category": {
+          "type": "string",
+          "enum": [
+            "pm_pain_point",
+            "rejected_output",
+            "workflow_friction",
+            "missing_capability",
+            "naming_confusion",
+            "reliability_incident"
+          ]
+        },
+        "summary": { "type": "string", "minLength": 10 },
+        "impact_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["open", "triaged", "routed", "closed"]
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "manual_note",
+            "scenario_review",
+            "workflow_run",
+            "support_signal",
+            "benchmark_review"
+          ]
+        },
+        "owner": { "type": "string", "minLength": 2 },
+        "recommended_action": { "type": "string", "minLength": 5 },
+        "source_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "linked_artifact_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "converted_output_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        }
+      }
+    }
+  }
+}

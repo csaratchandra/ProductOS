@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "lifecycle_stage_snapshot_id": "lifecycle_stage_snapshot_delivery_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "focus_area": "delivery",
+  "snapshot_summary": "The starter workspace demonstrates bounded delivery planning through release_readiness for one canonical item.",
+  "item_count": 1,
+  "segment_count": 1,
+  "persona_count": 2,
+  "artifact_counts": {
+    "story_pack": 1,
+    "acceptance_criteria_set": 1,
+    "release_readiness": 1,
+    "item_lifecycle_state": 1
+  },
+  "active_item_ids": [
+    "opp_starter_trace_demo"
+  ],
+  "gate_counts": {
+    "passed": 3,
+    "pending": 0,
+    "blocked": 0,
+    "not_started": 2
+  },
+  "stage_summaries": [
+    {
+      "stage_key": "story_planning",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [
+        "story_pack_starter_trace_demo"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "One bounded delivery story is present in the starter demo."
+    },
+    {
+      "stage_key": "acceptance_ready",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [
+        "acceptance_criteria_set_starter_trace_demo"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The starter story is acceptance-ready and testable."
+    },
+    {
+      "stage_key": "release_readiness",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [
+        "release_readiness_starter_trace_demo"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The starter demo reaches a bounded release-readiness checkpoint."
+    }
+  ],
+  "created_at": "2026-03-27T08:30:00Z"
+}

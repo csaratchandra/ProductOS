@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "visual_reasoning_state_id": "visual_reasoning_state_pm_operating_rhythm_v3_1",
+  "workspace_id": "ws_productos_v2",
+  "status": "reviewed",
+  "goal": "Use visual reasoning to make PM operating flow, dependency risk, and stakeholder communication paths easier to explain and review.",
+  "visual_specs": [
+    {
+      "visual_map_spec_id": "visual_map_spec_v3_1_workflow",
+      "map_type": "workflow_map",
+      "purpose": "Show the PM operating loop from signal intake through communication output.",
+      "audience": "PM and engineering",
+      "status": "approved",
+      "primary_message": "The runtime, queues, docs, and review gates should form one continuous PM workflow."
+    },
+    {
+      "visual_map_spec_id": "visual_map_spec_v3_1_journey",
+      "map_type": "user_journey_map",
+      "purpose": "Explain where PM cognitive load is reduced compared with the V3.0 baseline.",
+      "audience": "Leadership",
+      "status": "reviewed",
+      "primary_message": "Visual reasoning should improve persuasion and clarity, not only runtime introspection."
+    }
+  ],
+  "benchmark_hypotheses": [
+    "A workflow map should reduce the time needed to explain the PM operating loop to engineering.",
+    "A journey-style explanation should improve leadership understanding of where PM load is reduced."
+  ],
+  "linked_artifact_ids": [
+    "ux_design_review_pm_operating_rhythm_v3_1",
+    "prd_pm_operating_rhythm",
+    "inc_plan_2026_q2_01"
+  ],
+  "generated_at": "2026-03-21T23:46:00Z"
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "hypothesis_id": "hyp-automated-status-draft-reduces-reporting-time",
+  "workspace_id": "ws_productos_v2",
+  "statement": "If ProductOS generates a structured first draft of status mail, PMs will spend substantially less time preparing bi-weekly updates.",
+  "hypothesis_type": "value",
+  "status": "planned",
+  "linked_problem_ids": ["problem_pm_reporting_bottleneck"],
+  "success_metric_ids": ["metric_biweekly_status_mail_draft_time"]
+}

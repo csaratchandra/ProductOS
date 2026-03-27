@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "persona_id": "persona_product_manager",
+  "workspace_id": "ws_productos_v2",
+  "segment_id": "segment_b2b_product_teams",
+  "name": "Product Manager",
+  "role": "Product manager responsible for delivery coordination and stakeholder communication.",
+  "summary": "Owns planning, status, and follow-through and loses time when recurring PM work is manual and fragmented.",
+  "status": "active"
+}

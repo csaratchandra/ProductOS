@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "meeting_record_id": "meeting_bad_missing_owner",
+  "workspace_id": "ws_productos_v2",
+  "meeting_type": "leadership_update",
+  "title": "Broken meeting record",
+  "scheduled_at": "2026-03-19T15:30:00Z",
+  "agenda_items": [
+    "Review scope"
+  ],
+  "decisions": [
+    "Make status mail first-class."
+  ],
+  "action_items": [
+    {
+      "description": "Add status mail schema.",
+      "due_date": "2026-03-20"
+    }
+  ],
+  "open_questions": [
+    "Who owns PM context prompts?"
+  ]
+}

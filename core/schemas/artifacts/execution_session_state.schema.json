@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/execution_session_state.schema.json",
+  "title": "ProductOS Execution Session State",
+  "description": "State for a bounded execution session created by the runtime for creation, review, verification, or completion work.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "execution_session_state_id",
+    "workspace_id",
+    "session_name",
+    "session_type",
+    "status",
+    "objective",
+    "owner_agent",
+    "capability_adapter_id",
+    "review_required",
+    "verification_status",
+    "input_refs",
+    "output_refs",
+    "event_log",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "execution_session_state_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "session_name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "session_type": {
+      "type": "string",
+      "enum": [
+        "worker_session",
+        "review_session",
+        "verification_session",
+        "browser_session",
+        "git_execution",
+        "analysis_session",
+        "custom"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "created",
+        "running",
+        "paused",
+        "blocked",
+        "retrying",
+        "awaiting_review",
+        "verifying",
+        "completed",
+        "failed",
+        "cancelled"
+      ]
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 3
+    },
+    "owner_agent": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capability_adapter_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "host_session_ref": {
+      "type": "string"
+    },
+    "parent_orchestration_state_id": {
+      "type": "string"
+    },
+    "source_workflow_state_id": {
+      "type": "string"
+    },
+    "review_required": {
+      "type": "boolean"
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": [
+        "not_started",
+        "in_progress",
+        "passed",
+        "failed",
+        "waived"
+      ]
+    },
+    "input_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "output_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "blocking_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "event_log": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/event"
+      },
+      "minItems": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timestamp",
+        "event_type",
+        "message"
+      ],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "created",
+            "started",
+            "paused",
+            "resumed",
+            "blocked",
+            "retrying",
+            "handed_off",
+            "verification_started",
+            "verification_passed",
+            "verification_failed",
+            "review_requested",
+            "completed",
+            "failed",
+            "cancelled"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    }
+  }
+}

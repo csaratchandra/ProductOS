@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "signal_landscape_id": "signal_landscape_pm_ops_q1",
+  "workspace_id": "ws_productos_v2",
+  "title": "Signal Landscape: PM operating workflows",
+  "signal_clusters": [
+    {
+      "signal_class": "customer",
+      "cluster_summary": "Customer evidence continues to point to reporting and coordination burden as the dominant pain cluster.",
+      "watch_status": "decision_relevant",
+      "signals": [
+        {
+          "source_ref": "source_note_card_consultant_ai_pm",
+          "signal_summary": "PMs are spending increasing time synthesizing fragmented signals rather than making decisions.",
+          "signal_strength": "strong",
+          "evidence_refs": ["source_note_card_consultant_ai_pm"]
+        }
+      ]
+    },
+    {
+      "signal_class": "competitor",
+      "cluster_summary": "Competitor evidence suggests bundled workflow platforms are strong in delivery linkage but weaker in trusted synthesis.",
+      "watch_status": "emerging_pattern",
+      "signals": [
+        {
+          "source_ref": "source_note_card_app_review_jpd",
+          "signal_summary": "Connected workflows reduce friction but still leave PMs stitching the broader picture together elsewhere.",
+          "signal_strength": "moderate",
+          "evidence_refs": ["source_note_card_app_review_jpd"]
+        }
+      ]
+    }
+  ],
+  "decision_watchlist": [
+    "Track whether enterprise buyers prioritize traceability over bundled convenience."
+  ],
+  "created_at": "2026-03-20T12:40:00Z"
+}

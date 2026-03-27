@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/market_sizing_brief.schema.json",
+  "title": "ProductOS Market Sizing Brief",
+  "description": "Market sizing artifact with explicit formula path, assumptions, confidence, and sensitivity notes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "market_sizing_brief_id",
+    "workspace_id",
+    "market_name",
+    "tam",
+    "sam",
+    "som",
+    "assumptions",
+    "confidence",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "market_sizing_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "market_name": { "type": "string", "minLength": 3 },
+    "sizing_method": {
+      "type": "string",
+      "enum": ["top_down", "bottom_up", "blended"],
+      "default": "blended"
+    },
+    "tam": { "$ref": "#/$defs/estimate" },
+    "sam": { "$ref": "#/$defs/estimate" },
+    "som": { "$ref": "#/$defs/estimate" },
+    "top_down_inputs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/inputNote" },
+      "default": []
+    },
+    "bottom_up_inputs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/inputNote" },
+      "default": []
+    },
+    "assumptions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/assumption" },
+      "minItems": 1
+    },
+    "sensitivity_notes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["low", "moderate", "high"]
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "estimate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["amount", "currency", "formula"],
+      "properties": {
+        "amount": { "type": "number", "minimum": 0 },
+        "currency": { "type": "string", "minLength": 3 },
+        "formula": { "type": "string", "minLength": 10 }
+      }
+    },
+    "assumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statement", "source_ref"],
+      "properties": {
+        "statement": { "type": "string", "minLength": 10 },
+        "source_ref": { "type": "string", "minLength": 1 }
+      }
+    },
+    "inputNote": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "value", "source_ref"],
+      "properties": {
+        "label": { "type": "string", "minLength": 3 },
+        "value": { "type": "string", "minLength": 1 },
+        "source_ref": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

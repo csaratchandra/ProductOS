@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "rejected_path_record_id": "rejected_path_record_ws_productos_v2_json_only_docs",
+  "workspace_id": "ws_productos_v2",
+  "path_type": "workflow_route",
+  "title": "Reject JSON-only stakeholder communication path",
+  "related_refs": [
+    "productos_feedback_log_2026_03_21",
+    "document_sync_state_ws_productos_v2_v4_readable_docs",
+    "pm_superpower_benchmark_ws_productos_v2_v4_0"
+  ],
+  "rejection_stage": "decision_to_stakeholder_alignment",
+  "decision": "rejected",
+  "rejection_reason": "Stakeholder-facing communication that depends on raw JSON inspection does not satisfy the V4 document-system objective or the PM leverage benchmark.",
+  "failure_signals": [
+    "Readable stakeholder review still required manual PM translation.",
+    "The same communication pain reappeared in feedback after runtime gains were already proven."
+  ],
+  "retry_conditions": [
+    "Only revisit this path if a readable doc layer becomes unnecessary for the target audience, which is unlikely for PM communication work."
+  ],
+  "retained_lessons": [
+    "Structured artifacts remain the system of record, but they are not sufficient as the human-facing communication surface.",
+    "Anti-loop memory must record rejected workflow routes so the team does not keep relitigating them."
+  ],
+  "benchmark_guardrail_refs": [
+    "pm_superpower_benchmark_ws_productos_v2_v4_0",
+    "ai_agent_benchmark_ws_productos_v2_v4_0"
+  ],
+  "recorded_at": "2026-03-21T23:55:00Z"
+}

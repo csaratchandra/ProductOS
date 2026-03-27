@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "consultant_report_digest_id": "consultant_report_digest_ai_pm",
+  "workspace_id": "ws_productos_v2",
+  "title": "Digest: AI productivity in product management",
+  "source_artifact_id": "report_ai_productivity_2026_q1",
+  "thesis": "AI is shifting PM leverage from drafting volume toward synthesis quality, decision clarity, and trusted operating rhythm.",
+  "relevant_claims": [
+    {
+      "statement": "PMs adopting AI still struggle to trust outputs that do not show evidence and rationale.",
+      "relevance": "Supports a trust-led day-1 positioning wedge."
+    }
+  ],
+  "reusable_assets": [
+    "Chart showing time spent on synthesis versus decision making."
+  ],
+  "strategic_implications": [
+    "ProductOS should package research and evidence visibly from the first interaction.",
+    "Day-1 value should combine speed with confidence, not speed alone."
+  ],
+  "contradictions": [
+    "Some respondents value raw drafting speed more than visible traceability."
+  ],
+  "caveats": [
+    "Report sample skews toward larger product organizations."
+  ],
+  "created_at": "2026-03-20T14:30:00Z"
+}

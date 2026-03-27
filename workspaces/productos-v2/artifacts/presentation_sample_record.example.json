@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "presentation_sample_record_id": "presentation_sample_record_ws_productos_v2_v4_comm_atlas",
+  "workspace_id": "ws_productos_v2",
+  "sample_name": "Atlas leadership decision deck pattern",
+  "sample_type": "html_presentation",
+  "source_mode": "internal_reference",
+  "source_ref": "components/presentation/examples/artifacts/presentation_brief.example.json",
+  "target_audience": "leadership",
+  "quality_rationale": [
+    "Leads with the decision rather than burying it behind setup.",
+    "Keeps evidence and risk visible while still producing a readable executive narrative.",
+    "Maps cleanly to both HTML and PPT export paths."
+  ],
+  "narrative_patterns": [
+    "answer-first opening",
+    "explicit objection handling",
+    "visible appendix trace for deeper evidence"
+  ],
+  "visual_patterns": [
+    "hero statement with recommendation strip",
+    "evidence cards with source labels",
+    "risk matrix with explicit mitigation panel"
+  ],
+  "adoption_scope": "candidate_for_internal_pattern",
+  "licensing_and_usage_notes": "Internal reference sample only; reuse the governed pattern logic and theme tokens, not unreviewed external design assets.",
+  "review_status": "reviewed",
+  "review_refs": [
+    "core/docs/presentation-audience-policy.md",
+    "core/docs/presentation-narrative-quality-checks.md"
+  ],
+  "captured_at": "2026-03-21T23:55:00Z"
+}

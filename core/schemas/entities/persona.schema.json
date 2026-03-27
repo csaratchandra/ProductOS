@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/persona.schema.json",
+  "title": "ProductOS Persona Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "persona_id",
+    "workspace_id",
+    "segment_id",
+    "name",
+    "role",
+    "summary",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "persona_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "segment_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 3 },
+    "role": { "type": "string", "minLength": 3 },
+    "summary": { "type": "string", "minLength": 10 },
+    "status": {
+      "type": "string",
+      "enum": ["candidate", "active", "deprecated"]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "manual_validation_record_id": "manual_validation_record_ws_productos_v2_v6_lifecycle_traceability",
+  "workspace_id": "ws_productos_v2",
+  "subject_ref": "runtime_scenario_report_ws_productos_v2_v6_lifecycle_traceability",
+  "subject_type": "runtime_scenario_report",
+  "validation_tier": "tier_2",
+  "validator_role": "PM Operator",
+  "scope": "targeted",
+  "decision": "accept",
+  "fit_notes": [
+    "The selected V6 slice keeps one opportunity readable from intake through release_readiness without reopening hidden side channels.",
+    "The trace command now has concrete coverage for all advertised lifecycle focus areas."
+  ],
+  "required_follow_ups": [
+    "Extend the lifecycle-traceability model into launch_preparation and outcome_review in a later bounded release.",
+    "Decide how external publication and communication routes should consume launch and outcome lifecycle traces."
+  ],
+  "related_validation_report_ref": "validation_lane_report_ws_productos_v2_v6_lifecycle_traceability",
+  "final_approval": true,
+  "recorded_at": "2026-03-27T08:30:00Z"
+}

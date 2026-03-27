@@ -1,0 +1,408 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/orchestration_state.schema.json",
+  "title": "ProductOS Orchestration State",
+  "description": "Runtime orchestration state describing specialist routing, handoffs, retries, and escalations for a coordinated PM task.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "orchestration_state_id",
+    "workspace_id",
+    "goal",
+    "status",
+    "coordination_summary",
+    "initiating_agent",
+    "active_route_ids",
+    "blocked_route_ids",
+    "awaiting_review_route_ids",
+    "route_plan",
+    "queue_impacts",
+    "handoff_log",
+    "retry_events",
+    "escalations",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "orchestration_state_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 3
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "routing",
+        "in_progress",
+        "awaiting_review",
+        "blocked",
+        "completed",
+        "cancelled"
+      ]
+    },
+    "coordination_summary": {
+      "type": "string",
+      "minLength": 3
+    },
+    "initiating_agent": {
+      "type": "string",
+      "minLength": 1
+    },
+    "active_route_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "blocked_route_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "awaiting_review_route_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "linked_workflow_state_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "linked_execution_session_state_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "route_plan": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/route"
+      },
+      "minItems": 1
+    },
+    "queue_impacts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/queueImpact"
+      },
+      "default": []
+    },
+    "handoff_log": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/handoff"
+      },
+      "default": []
+    },
+    "retry_events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/retryEvent"
+      },
+      "default": []
+    },
+    "escalations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/escalation"
+      },
+      "default": []
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_id",
+        "agent_name",
+        "objective",
+        "rationale",
+        "status"
+      ],
+      "properties": {
+        "route_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "agent_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "objective": {
+          "type": "string",
+          "minLength": 3
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 3
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "planned",
+            "ready",
+            "active",
+            "paused",
+            "retrying",
+            "awaiting_review",
+            "blocked",
+            "completed",
+            "skipped"
+          ]
+        },
+        "depends_on_route_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "input_artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "expected_output_artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "execution_session_state_id": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "queueImpact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "queue_type",
+        "artifact_id",
+        "item_id",
+        "recommended_action",
+        "reason",
+        "status"
+      ],
+      "properties": {
+        "queue_type": {
+          "type": "string",
+          "enum": [
+            "decision_queue",
+            "follow_up_queue",
+            "review_queue",
+            "custom"
+          ]
+        },
+        "artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "item_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recommended_action": {
+          "type": "string",
+          "enum": [
+            "review_now",
+            "approve",
+            "start",
+            "escalate",
+            "defer",
+            "clear_blocker"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 3
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "recommended",
+            "queued",
+            "blocked",
+            "resolved"
+          ]
+        }
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timestamp",
+        "from_agent",
+        "to_agent",
+        "handoff_type",
+        "status",
+        "message"
+      ],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "from_agent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "to_agent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "handoff_type": {
+          "type": "string",
+          "enum": [
+            "workflow_routing",
+            "artifact_transfer",
+            "review_request",
+            "blocker_escalation",
+            "retry_reassignment",
+            "queue_recommendation"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "in_transit",
+            "accepted",
+            "blocked",
+            "completed",
+            "rejected"
+          ]
+        },
+        "artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "message": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "retryEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timestamp",
+        "route_id",
+        "attempt_number",
+        "reason",
+        "status"
+      ],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "route_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attempt_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 3
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "scheduled",
+            "running",
+            "succeeded",
+            "failed"
+          ]
+        }
+      }
+    },
+    "escalation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timestamp",
+        "owner",
+        "reason",
+        "status"
+      ],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 3
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "open",
+            "reviewing",
+            "resolved",
+            "deferred"
+          ]
+        }
+      }
+    }
+  }
+}

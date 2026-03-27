@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "prd_id": "prd_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "PRD: Item-first lifecycle traceability for PM work",
+  "problem_summary": "PMs lack a single view that explains where one opportunity is in discovery, which artifacts exist, who it serves, which gates passed, and what downstream work is ready.",
+  "outcome_summary": "A PM can inspect one item end to end through release readiness and review lifecycle snapshots without losing artifact lineage, gate confidence, or delivery context.",
+  "scope_summary": "V6.0 extends the lifecycle trace from PRD handoff through story planning, acceptance readiness, and release readiness, adds concrete delivery, launch, outcome, and full-lifecycle snapshots, and keeps launch execution and outcome review explicitly deferred.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_product_led_scaleups"
+    },
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_enterprise_platform_pm_orgs"
+    },
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_product_ops_enabled_mid_market"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_group_pm"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_ops_lead"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_pm_discovery_visibility_gap"
+    },
+    {
+      "entity_type": "outcome",
+      "entity_id": "outcome_pm_end_to_end_traceability"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opp_pm_lifecycle_traceability"
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_item_lifecycle_traceability"
+    }
+  ],
+  "upstream_artifact_ids": [
+    "research_notebook_pm_lifecycle_visibility",
+    "segment_map_pm_lifecycle_visibility",
+    "persona_pack_pm_lifecycle_visibility",
+    "competitor_dossier_pm_lifecycle_visibility",
+    "market_analysis_brief_pm_lifecycle_visibility",
+    "problem_brief_pm_lifecycle_visibility",
+    "concept_brief_pm_lifecycle_visibility",
+    "prototype_record_pm_item_timeline",
+    "ux_design_review_pm_lifecycle_visibility",
+    "visual_reasoning_state_pm_lifecycle_visibility"
+  ],
+  "generated_at": "2026-03-27T08:30:00Z"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_linear_asks_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://linear.app/docs/customer-requests",
+  "title": "Linear connects asks, support threads, and customer attribution",
+  "claim": "Linear's customer requests flow links asks from support and Slack into issues while keeping customer association attached to the request.",
+  "source_snippet": "Asks connect customer feedback and customer identity to the downstream issue.",
+  "implication": "ProductOS auto-research should preserve source provenance and customer attribution when turning external asks into internal intelligence.",
+  "confidence": "high",
+  "followup_questions": [
+    "How much of ProductOS research refresh should start from support and Slack asks rather than market scans?"
+  ],
+  "source_metadata": {
+    "source_url": "https://linear.app/docs/customer-requests",
+    "retrieved_at": "2026-03-21T08:50:00Z",
+    "source_slice_ref": "customer-requests",
+    "dedupe_key": "linear-customer-requests",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "linear-customer-requests",
+  "tags": ["research", "competitor", "linear", "asks"],
+  "created_at": "2026-03-21T08:51:00Z"
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "meeting_notes_id": "meeting_notes_2026_03_19_leadership_review",
+  "workspace_id": "ws_productos_v2",
+  "meeting_record_id": "meeting_2026_03_19_leadership_review",
+  "title": "Leadership review on ProductOS PM workflow scope",
+  "summary": "Leadership aligned on prioritizing PM operating rhythm automation and requested first-class support for bi-weekly status mail.",
+  "key_points": [
+    "Status mail should be a first-class output.",
+    "Issue logs and transcript-derived next steps should be prioritized.",
+    "PMs should not become manual communication routers."
+  ],
+  "generated_at": "2026-03-19T16:10:00Z"
+}

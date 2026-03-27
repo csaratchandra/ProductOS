@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "validation_lane_report_id": "validation_lane_report_ws_productos_v2_persona_profile_v4_0",
+  "workspace_id": "ws_productos_v2",
+  "artifact_ref": "persona_operating_profile_ws_productos_v2_v4_0",
+  "artifact_type": "persona_operating_profile",
+  "stage_name": "v4_0_foundation_governance_definition",
+  "validation_tier": "tier_2",
+  "overall_status": "ready_for_manual_validation",
+  "review_summary": "AI review and AI test checks say the persona operating profile is structurally sound and governance-ready, but Tier 2 adoption still requires targeted PM manual validation.",
+  "ai_reviewer_lane": {
+    "status": "proceed",
+    "reviewer_role": "AI Reviewer",
+    "blocking_findings": [],
+    "non_blocking_findings": [
+      "Authority boundaries are explicit enough to prevent silent scope, publish, or release approval by AI personas."
+    ],
+    "unresolved_questions": [
+      "Which PM persona should own sampled manual validation when an artifact spans builder and operator concerns?"
+    ]
+  },
+  "ai_tester_lane": {
+    "status": "passed",
+    "tester_role": "AI Tester",
+    "checks_run": [
+      "schema validation",
+      "bundle generation",
+      "cross-reference tests"
+    ],
+    "blocking_findings": [],
+    "non_blocking_findings": [
+      "The persona profile example and generated bundle output match exactly."
+    ],
+    "automation_gaps": [
+      "Manual usefulness validation for real PM adoption is still outside automated coverage."
+    ]
+  },
+  "manual_validation_policy": {
+    "required": true,
+    "scope": "targeted",
+    "owner_role": "PM Builder",
+    "status": "pending",
+    "rationale": "Tier 2 governance artifacts require targeted human confirmation that approval boundaries and review paths are usable in real work."
+  },
+  "referee_trigger": {
+    "required": false,
+    "rationale": "AI Reviewer and AI Tester agree on proceed versus revise, so there is no lane disagreement to resolve.",
+    "conflicting_lanes": []
+  },
+  "governance_layer_refs": [
+    "core/docs/validation-tier-policy.md",
+    "core/docs/v4-execution-plan.md",
+    "core/docs/governance-review-model.md"
+  ],
+  "next_action": "Run targeted PM manual validation on the persona operating profile before adopting it as the default Tier 2 governance control.",
+  "generated_at": "2026-03-21T23:55:00Z"
+}

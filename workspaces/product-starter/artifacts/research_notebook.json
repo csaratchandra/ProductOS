@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "research_notebook_id": "research_notebook_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Research notebook: starter lifecycle trace demo",
+  "research_question": "What does a good ProductOS discovery trail look like for one item in a normal product workspace?",
+  "source_note_card_ids": [],
+  "synthesis_hypothesis": "A starter workspace should make the discovery story understandable by default, not depend on unstated PM habits.",
+  "ordered_sections": [
+    "problem context",
+    "segments and personas",
+    "traceability expectations"
+  ],
+  "open_questions": [
+    "Which starter artifacts will teams replace first when adapting the workspace to a real product?"
+  ],
+  "created_at": "2026-03-23T11:00:00Z"
+}

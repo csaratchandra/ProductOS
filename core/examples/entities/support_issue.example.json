@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "support_issue_id": "support-status-mail-missing-owner-042",
+  "workspace_id": "ws_productos_v2",
+  "customer_id": "customer-acme-product-group",
+  "title": "Generated status draft omitted a key owner on one follow-up item",
+  "severity": "high",
+  "status": "investigating",
+  "source_channel": "ticket",
+  "linked_release_ids": ["release-2026-04-status-mail-automation"]
+}

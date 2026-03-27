@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "visual_map_spec_id": "visual_map_spec_day1_journey",
+  "workspace_id": "ws_productos_v2",
+  "map_type": "user_journey_map",
+  "title": "New PM first-week journey",
+  "decision_use_case": "Identify where ProductOS should create immediate leverage for a PM starting tomorrow.",
+  "audience": "PM and founder",
+  "rendering_mode": "memo",
+  "source_artifact_ids": [
+    "research_brief_pm_operating_rhythm",
+    "customer_pulse_ws_productos_v2_2026_03"
+  ],
+  "primary_message": "The highest-value interventions happen at research intake, synthesis, and decision framing moments.",
+  "certainty_notes": [
+    "Journey pain points are cross-source supported but still early for some startup-specific steps."
+  ],
+  "payload": {
+    "stages": [
+      "intake",
+      "research",
+      "synthesis",
+      "decision",
+      "communication"
+    ],
+    "items": [
+      {
+        "label": "Intake fragmentation",
+        "description": "Signals arrive from notes, reviews, and ad hoc links."
+      },
+      {
+        "label": "Decision bottleneck",
+        "description": "PM spends time rewriting context instead of choosing."
+      }
+    ]
+  },
+  "created_at": "2026-03-20T14:40:00Z"
+}

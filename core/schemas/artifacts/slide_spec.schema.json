@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/slide_spec.schema.json",
+  "title": "ProductOS Slide Spec",
+  "description": "Normalized slide structure used for responsive HTML rendering and PPT export.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "slide_spec_id",
+    "presentation_brief_id",
+    "workspace_id",
+    "theme",
+    "aspect_ratio",
+    "slides",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "slide_spec_id": { "type": "string", "minLength": 1 },
+    "presentation_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "theme": { "$ref": "#/$defs/theme" },
+    "aspect_ratio": {
+      "type": "string",
+      "enum": ["16:9", "4:3"],
+      "default": "16:9"
+    },
+    "slides": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/slide" },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preset", "font_family", "background", "accent"],
+      "properties": {
+        "preset": {
+          "type": "string",
+          "enum": ["signal", "atlas", "editorial"]
+        },
+        "font_family": { "type": "string", "minLength": 3 },
+        "background": { "type": "string", "minLength": 3 },
+        "accent": { "type": "string", "minLength": 3 }
+      }
+    },
+    "slide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slide_id", "title", "layout", "blocks"],
+      "properties": {
+        "slide_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "layout": {
+          "type": "string",
+          "enum": ["cover", "headline_grid", "two_column", "timeline", "risk_matrix", "closing", "map_canvas", "matrix_map"]
+        },
+        "eyebrow": { "type": "string", "minLength": 2 },
+        "blocks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/block" },
+          "minItems": 1
+        }
+      }
+    },
+    "block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["block_type", "content"],
+      "properties": {
+        "block_type": {
+          "type": "string",
+          "enum": ["headline", "bullets", "stat", "quote", "timeline_item", "risk", "closing_note", "map_canvas", "matrix_map"]
+        },
+        "content": {
+          "oneOf": [
+            { "type": "string", "minLength": 1 },
+            {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "minItems": 1
+            }
+          ]
+        },
+        "data": {
+          "$ref": "#/$defs/blockData"
+        }
+      }
+    },
+    "blockData": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "map_type": { "type": "string", "minLength": 3 },
+        "decision_use_case": { "type": "string", "minLength": 3 },
+        "certainty_notes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "stages": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "lanes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "axes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/mapItem" },
+          "default": []
+        },
+        "nodes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/mapItem" },
+          "default": []
+        }
+      }
+    },
+    "mapItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label"],
+      "properties": {
+        "label": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

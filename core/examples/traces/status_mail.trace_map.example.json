@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "trace_map_id": "trace_status_mail_2026_03_19",
+  "workspace_id": "ws_productos_v2",
+  "artifact_id": "status_2026_03_biweekly_02",
+  "artifact_type": "status_mail",
+  "entity_links": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_pm_reporting_bottleneck",
+      "link_reason": "The status mail reports progress on reducing PM reporting overhead."
+    },
+    {
+      "entity_type": "outcome",
+      "entity_id": "outcome_reduce_pm_reporting_time",
+      "link_reason": "The mail communicates progress toward the reporting-time reduction goal."
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_biweekly_status_mail_automation",
+      "link_reason": "The mail summarizes implementation progress on this feature."
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "meeting_record",
+      "source_id": "meeting_2026_03_19_leadership_review",
+      "justification": "Leadership review clarified that status automation is a first-class priority.",
+      "confidence": 0.93,
+      "freshness_status": "fresh",
+      "claim_role": "direct_evidence"
+    },
+    {
+      "source_type": "decision_log",
+      "source_id": "decision_log_productos_core",
+      "justification": "The decision log records the formal decision to prioritize status mail automation.",
+      "confidence": 0.9,
+      "freshness_status": "usable_with_review",
+      "claim_role": "supporting_context"
+    }
+  ],
+  "upstream_artifact_ids": [
+    "inc_plan_2026_q2_01",
+    "impact_2026_03_19_scope_shift"
+  ],
+  "change_notes": [
+    "Trace updated after adding explicit entity references to status mail."
+  ],
+  "created_at": "2026-03-19T18:40:00Z"
+}

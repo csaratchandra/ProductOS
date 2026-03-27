@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/access_policy.schema.json",
+  "title": "ProductOS Access Policy",
+  "description": "Defines who may view, edit, approve, or publish an artifact class or workflow output.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_id",
+    "workspace_id",
+    "artifact_type",
+    "allowed_view_roles",
+    "allowed_edit_roles",
+    "allowed_approve_roles",
+    "allowed_publish_roles"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "allowed_view_roles": {
+      "$ref": "#/$defs/roleList"
+    },
+    "allowed_edit_roles": {
+      "$ref": "#/$defs/roleList"
+    },
+    "allowed_approve_roles": {
+      "$ref": "#/$defs/roleList"
+    },
+    "allowed_publish_roles": {
+      "$ref": "#/$defs/roleList"
+    }
+  },
+  "$defs": {
+    "roleList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  }
+}

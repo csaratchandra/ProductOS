@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "runtime_adapter_registry_id": "runtime_adapter_registry_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "status": "partial",
+  "adapters": [
+    {
+      "adapter_id": "adapter_worker_session",
+      "name": "Context-Isolated Worker Session Adapter",
+      "capability_type": "worker_session",
+      "availability_status": "available",
+      "supported_actions": [
+        "create_context_isolated_work_session",
+        "capture_session_output",
+        "close_session"
+      ],
+      "requires_host_support": true,
+      "verification_status": "verified",
+      "used_by_default": true,
+      "host_constraints": [
+        "Requires host support for bounded worker sessions."
+      ],
+      "notes": "Primary adapter for runtime proof work."
+    },
+    {
+      "adapter_id": "adapter_git_execution",
+      "name": "Git-Backed Execution Adapter",
+      "capability_type": "git_execution",
+      "availability_status": "available",
+      "supported_actions": [
+        "read_repository_state",
+        "apply_patch",
+        "run_local_validation"
+      ],
+      "requires_host_support": true,
+      "verification_status": "verified",
+      "used_by_default": true,
+      "host_constraints": [
+        "Requires writable workspace access."
+      ],
+      "notes": "Used for local runtime generation and validation."
+    }
+  ],
+  "evaluated_at": "2026-03-21T23:30:00Z"
+}

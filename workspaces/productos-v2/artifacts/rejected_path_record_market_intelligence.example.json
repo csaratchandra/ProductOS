@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "rejected_path_record_id": "rejected_path_record_ws_productos_v2_market_intelligence_gap",
+  "workspace_id": "ws_productos_v2",
+  "path_type": "workflow_route",
+  "title": "Do not auto-publish unattended market refresh conclusions yet",
+  "related_refs": [
+    "research_feature_recommendation_brief_ws_productos_v2_v4_1",
+    "ralph_loop_state_ws_productos_v2_v4_1"
+  ],
+  "rejection_stage": "ralph_fix",
+  "decision": "deferred",
+  "rejection_reason": "The current slice adds research intelligence and governed review, but unattended recurring refresh is still too weak on freshness, contradiction handling, and escalation policy to claim autonomous safety.",
+  "failure_signals": [
+    "Freshness controls are documented but not yet runtime-enforced.",
+    "Contradiction handling is still artifact-level rather than execution-level."
+  ],
+  "retry_conditions": [
+    "Retry after runtime auto-research execution can block on stale or contradictory evidence.",
+    "Retry after recurring watchlists and refresh intervals are test-covered."
+  ],
+  "retained_lessons": [
+    "The market rewards continuous refresh, but ProductOS should not claim unattended trust before the gates are real.",
+    "Loophole capture is part of the product quality story, not an embarrassment to hide."
+  ],
+  "benchmark_guardrail_refs": [
+    "pm_superpower_benchmark_ws_productos_v2_v4_0",
+    "ai_agent_benchmark_ws_productos_v2_v4_0"
+  ],
+  "recorded_at": "2026-03-21T10:09:00Z"
+}

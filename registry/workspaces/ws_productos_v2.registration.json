@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "registration_id": "ws_reg_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "workspace_name": "ProductOS Self-Hosting Workspace",
+  "current_core_version": "6.0.0",
+  "upgrade_history": [
+    {
+      "core_version": "0.1.0",
+      "adopted_at": "2026-03-21T00:00:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Initial V2 workspace registration against ProductOS Core 0.1.0."
+    },
+    {
+      "core_version": "0.2.0",
+      "adopted_at": "2026-03-21T08:30:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS Core 0.2.0 with launch readiness, release communication, and PM mastery workflow support."
+    },
+    {
+      "core_version": "0.2.1",
+      "adopted_at": "2026-03-21T18:45:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS Core 0.2.1 after release-candidate validation, standalone repo setup, and PM terminology cleanup."
+    },
+    {
+      "core_version": "2.0.0",
+      "adopted_at": "2026-03-21T21:20:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS V2.0 after completing inbox intake, ProductOS feedback logging, starter workspace, and end-to-end lifecycle proof."
+    },
+    {
+      "core_version": "4.1.0",
+      "adopted_at": "2026-03-21T22:45:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS V4.1.0 after adding governed readable docs, presentation packaging, agentic market intelligence, and the Ralph release loop while keeping the legacy workspace path."
+    },
+    {
+      "core_version": "4.2.0",
+      "adopted_at": "2026-03-21T22:45:01Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS V4.2.0 after promoting the live-doc and messaging slice through a successful Ralph loop."
+    },
+    {
+      "core_version": "4.3.0",
+      "adopted_at": "2026-03-22T12:35:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS V4.3.0 after promoting the next-version discover and control-surface slice through a successful Ralph loop."
+    },
+    {
+      "core_version": "4.4.0",
+      "adopted_at": "2026-03-22T16:30:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS V4.4.0 after promoting the next-version alignment, weekly operator, and improvement slices through a successful Ralph loop."
+    },
+    {
+      "core_version": "4.5.0",
+      "adopted_at": "2026-03-23T10:15:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS V4.5.0 after promoting the adapter parity and unattended market-refresh hardening slices through a successful Ralph loop."
+    },
+    {
+      "core_version": "4.6.0",
+      "adopted_at": "2026-03-23T10:30:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS V4.6.0 after promoting the governed market-intelligence distribution completion slice through a successful Ralph loop."
+    },
+    {
+      "core_version": "4.7.0",
+      "adopted_at": "2026-03-25T09:35:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS V4.7.0 after promoting the readable-doc and real-workspace completion slice through a successful Ralph loop."
+    },
+    {
+      "core_version": "5.0.0",
+      "adopted_at": "2026-03-26T09:00:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS V5.0.0 after promoting the lifecycle-traceability through prd_handoff slice through a successful Ralph loop."
+    },
+    {
+      "core_version": "6.0.0",
+      "adopted_at": "2026-03-27T09:00:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS V6.0.0 after promoting the lifecycle-traceability through release_readiness slice through a successful Ralph loop."
+    }
+  ],
+  "registered_at": "2026-03-21T00:00:00Z"
+}

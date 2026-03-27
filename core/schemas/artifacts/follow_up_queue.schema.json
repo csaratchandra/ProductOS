@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/follow_up_queue.schema.json",
+  "title": "ProductOS Follow-Up Queue",
+  "description": "PM-facing queue of follow-up items awaiting action, review, or escalation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "follow_up_queue_id",
+    "workspace_id",
+    "generated_at",
+    "items"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "follow_up_queue_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/followUpItem"
+      }
+    }
+  },
+  "$defs": {
+    "followUpItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "follow_up_id",
+        "title",
+        "source_type",
+        "source_id",
+        "owner",
+        "priority",
+        "status"
+      ],
+      "properties": {
+        "follow_up_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 5
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "meeting_record",
+            "decision_log",
+            "review",
+            "status_update",
+            "launch_readiness"
+          ]
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "due_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "routine",
+            "time_sensitive",
+            "escalated"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "open",
+            "in_progress",
+            "completed",
+            "overdue",
+            "deferred"
+          ]
+        },
+        "escalation_needed": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  }
+}

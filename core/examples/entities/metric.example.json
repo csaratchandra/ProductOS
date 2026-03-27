@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "metric_id": "metric_biweekly_status_mail_draft_time",
+  "workspace_id": "ws_productos_v2",
+  "name": "biweekly_status_mail_draft_time",
+  "definition": "Time required for a PM to produce a publishable bi-weekly update.",
+  "current_value": "90 minutes",
+  "target_value": "< 10 minutes",
+  "linked_outcome_ids": [
+    "outcome_reduce_pm_reporting_time"
+  ]
+}

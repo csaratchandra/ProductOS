@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/improvement_loop_state.schema.json",
+  "title": "ProductOS Improvement Loop State",
+  "description": "State for an automated feedback-to-discovery improvement loop.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "improvement_loop_state_id",
+    "workspace_id",
+    "status",
+    "loop_goal",
+    "source_feedback_ids",
+    "active_workers",
+    "review_gate",
+    "validation_gate",
+    "pm_decision_gate",
+    "next_recommended_action",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "improvement_loop_state_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["collecting", "routing", "planning", "review", "validation", "awaiting_pm", "completed"]
+    },
+    "loop_goal": { "type": "string", "minLength": 10 },
+    "source_feedback_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "routed_problem_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "routed_idea_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "feature_scorecard_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "active_workers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["worker_name", "status", "current_task"],
+        "properties": {
+          "worker_name": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "enum": ["active", "waiting", "completed"] },
+          "current_task": { "type": "string", "minLength": 5 }
+        }
+      },
+      "minItems": 1
+    },
+    "review_gate": { "$ref": "#/$defs/gate" },
+    "validation_gate": { "$ref": "#/$defs/gate" },
+    "pm_decision_gate": { "$ref": "#/$defs/gate" },
+    "next_recommended_action": { "type": "string", "minLength": 10 },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "owner", "exit_condition"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["not_started", "active", "passed", "failed", "awaiting_pm"]
+        },
+        "owner": { "type": "string", "minLength": 2 },
+        "exit_condition": { "type": "string", "minLength": 10 }
+      }
+    }
+  }
+}

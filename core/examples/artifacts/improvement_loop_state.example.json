@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "improvement_loop_state_id": "improvement_loop_state_productos_v4_docs_and_feedback",
+  "workspace_id": "ws_productos_v2",
+  "status": "awaiting_pm",
+  "loop_goal": "Turn repeated communication and release-planning pain into a bounded V4 improvement loop.",
+  "source_feedback_ids": [
+    "pfb_006",
+    "pfb_007"
+  ],
+  "routed_problem_ids": [
+    "problem_brief_pm_operating_rhythm"
+  ],
+  "routed_idea_ids": [
+    "idea_record_pm_status_automation"
+  ],
+  "feature_scorecard_refs": [
+    "feature_scorecard_ws_productos_v2_readable_doc_bundle_v4_0"
+  ],
+  "active_workers": [
+    {
+      "worker_name": "feedback_collector",
+      "status": "completed",
+      "current_task": "Collected repeated communication and planning pain from workspace feedback."
+    },
+    {
+      "worker_name": "discovery_router",
+      "status": "completed",
+      "current_task": "Routed repeated pain into problem, idea, and next-stage planning paths."
+    },
+    {
+      "worker_name": "improvement_planner",
+      "status": "active",
+      "current_task": "Prepare the next bounded V4 slice for docs and the auto-improvement loop."
+    }
+  ],
+  "review_gate": {
+    "status": "passed",
+    "owner": "critic",
+    "exit_condition": "The proposed fix must directly address the observed PM communication and planning pain."
+  },
+  "validation_gate": {
+    "status": "passed",
+    "owner": "validation",
+    "exit_condition": "The fix must reduce manual rewrite and planning translation work relative to the prior baseline."
+  },
+  "pm_decision_gate": {
+    "status": "awaiting_pm",
+    "owner": "ProductOS PM",
+    "exit_condition": "The PM must accept, defer, or reject the proposed next bounded slice."
+  },
+  "next_recommended_action": "Approve the next bounded V4 slice for publishing metadata, doc freshness hardening, and the automated improvement loop.",
+  "generated_at": "2026-03-21T23:49:00Z"
+}

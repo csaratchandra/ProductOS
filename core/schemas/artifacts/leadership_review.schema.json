@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/leadership_review.schema.json",
+  "title": "ProductOS Leadership Review",
+  "description": "Executive-oriented review packet derived from portfolio or workspace state.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "leadership_review_id",
+    "audience",
+    "summary",
+    "key_decisions",
+    "major_risks",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "leadership_review_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "audience": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 5
+    },
+    "key_decisions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "major_risks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

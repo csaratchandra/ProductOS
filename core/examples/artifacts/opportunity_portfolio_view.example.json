@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "opportunity_portfolio_view_id": "opportunity_portfolio_view_q2",
+  "workspace_id": "ws_productos_v2",
+  "summary": "The discovery portfolio currently has one high-upside strategy bet, one trust-strengthening opportunity, and one lower-priority communication enhancement.",
+  "opportunities": [
+    {
+      "opportunity_id": "opp_pm_foresight",
+      "title": "Strategic sensing for PMs",
+      "value_at_stake": "transformational",
+      "strategic_fit": "high",
+      "confidence": "moderate",
+      "time_sensitivity": "high",
+      "reversibility": "moderate",
+      "learning_potential": "high",
+      "evidence_freshness": "fresh"
+    },
+    {
+      "opportunity_id": "opp_trust_trace",
+      "title": "Decision trace explainability",
+      "value_at_stake": "high",
+      "strategic_fit": "high",
+      "confidence": "high",
+      "time_sensitivity": "moderate",
+      "reversibility": "easy",
+      "learning_potential": "moderate",
+      "evidence_freshness": "current"
+    }
+  ],
+  "generated_at": "2026-03-20T12:10:00Z"
+}

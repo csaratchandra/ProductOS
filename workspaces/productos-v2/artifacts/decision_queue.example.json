@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "decision_queue_id": "decision_queue_productos_v4_4",
+  "workspace_id": "ws_productos_v2",
+  "generated_at": "2026-03-22T16:11:00Z",
+  "decisions": [
+    {
+      "decision_id": "dec_choose_first_external_publication_adapter",
+      "title": "Choose the first external publication adapter after the promoted leadership-digest path",
+      "why_now": "The current named baseline is now fully promoted, so the next decision is which external publication surface should prove the same governed research distribution contract first.",
+      "options": [
+        {
+          "option_id": "opt_sharepoint_first",
+          "label": "Design SharePoint first",
+          "tradeoffs": [
+            "Matches the repo's existing document-publication direction for enterprise PM teams",
+            "Leaves Confluence and site-export behavior for later proof cycles"
+          ],
+          "recommended": true
+        },
+        {
+          "option_id": "opt_confluence_first",
+          "label": "Design Confluence first",
+          "tradeoffs": [
+            "Aligns with common cross-functional documentation flows",
+            "Requires more metadata and sync-boundary clarification in one cycle"
+          ]
+        },
+        {
+          "option_id": "opt_site_export_first",
+          "label": "Design site export first",
+          "tradeoffs": [
+            "Keeps the publication surface repo-native and easier to verify",
+            "Does not exercise enterprise knowledge-base sync behavior directly"
+          ]
+        }
+      ],
+      "evidence_strength": "strong",
+      "recommended_action": "approve",
+      "consequence_of_delay": "The fully promoted baseline will stay internal-first even though the next likely leverage gain sits in publication adapters and broader packaging.",
+      "due_date": "2026-03-30",
+      "status": "open"
+    }
+  ]
+}

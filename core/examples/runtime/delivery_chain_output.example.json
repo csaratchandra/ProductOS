@@ -1,0 +1,9 @@
+{
+  "workflow_state_id": "wf_state_delivery_prd_pm_operating_rhythm",
+  "expected_output_artifact_types": [
+    "story_pack",
+    "test_case_set",
+    "release_note"
+  ],
+  "expected_final_status": "review_needed"
+}

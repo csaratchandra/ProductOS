@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/release_metadata.schema.json",
+  "title": "ProductOS Release Metadata",
+  "description": "Release record for a ProductOS Core version.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_id",
+    "core_version",
+    "released_at",
+    "release_type",
+    "change_classification",
+    "customer_visible",
+    "classification_rationale",
+    "summary",
+    "breaking_changes",
+    "upgrade_actions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "release_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "core_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "released_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "release_type": {
+      "type": "string",
+      "enum": [
+        "major",
+        "minor",
+        "patch"
+      ]
+    },
+    "change_classification": {
+      "type": "string",
+      "enum": [
+        "major_product_change",
+        "feature_enhancement",
+        "minor_improvement",
+        "bug_fix",
+        "internal_only_maintenance",
+        "mixed"
+      ]
+    },
+    "customer_visible": {
+      "type": "boolean"
+    },
+    "classification_rationale": {
+      "type": "string",
+      "minLength": 5
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 5
+    },
+    "breaking_changes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "upgrade_actions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    }
+  }
+}

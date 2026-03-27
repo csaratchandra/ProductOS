@@ -1,0 +1,22 @@
+{
+  "name": "productos-presentation",
+  "version": "5.0.0",
+  "type": "vendored-component",
+  "entrypoints": {
+    "python_runtime": "components/presentation/python/productos_presentation/runtime.py",
+    "node_ppt_export": "components/presentation/node/export_presentation_pptx.mjs"
+  },
+  "artifacts": [
+    "presentation_brief",
+    "evidence_pack",
+    "presentation_story",
+    "render_spec",
+    "publish_check",
+    "ppt_export_plan"
+  ],
+  "dependencies": {
+    "node": {
+      "pptxgenjs": "^4.0.1"
+    }
+  }
+}

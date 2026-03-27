@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "competitor_dossier_id": "competitor_dossier_pm_ops_space",
+  "workspace_id": "ws_productos_v2",
+  "title": "Competitor Dossier: PM operating systems and tooling",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_pm_reporting_bottleneck"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opp_pm_operating_rhythm_automation"
+    }
+  ],
+  "source_artifact_ids": [
+    "research_notebook_pm_day1",
+    "landscape_matrix_pm_tools"
+  ],
+  "competitors": [
+    {
+      "name": "Jira Product Discovery + Jira",
+      "competitor_type": "direct",
+      "target_customer": "B2B product teams already using Atlassian tooling",
+      "positioning_summary": "Provides structured product discovery and delivery tracking inside a connected Atlassian workflow.",
+      "go_to_market_motion": "Expansion inside existing Atlassian accounts",
+      "pricing_signal": "Bundled and seat-based enterprise SaaS pricing",
+      "icp_overlap": "high",
+      "substitution_risk": "high",
+      "ecosystem_role": "Workflow system of record inside the Atlassian ecosystem.",
+      "strengths": [
+        "Strong integration with delivery tooling",
+        "Familiar workflow for many product teams"
+      ],
+      "weaknesses": [
+        "Can still leave PM operating outputs fragmented across multiple artifacts",
+        "Value depends on access and discipline across connected tools"
+      ],
+      "implications": [
+        "ProductOS should support integration-first teams without assuming universal tool access.",
+        "Manual fallback mode remains a meaningful differentiator."
+      ],
+      "evidence_refs": [
+        "source_note_card_app_review_jpd"
+      ]
+    }
+  ],
+  "created_at": "2026-03-20T12:30:00Z"
+}

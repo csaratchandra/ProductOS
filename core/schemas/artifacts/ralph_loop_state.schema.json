@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/ralph_loop_state.schema.json",
+  "title": "ProductOS Ralph Loop State",
+  "description": "State model for the inspect, review, validate, implement, fix, and revalidate governance loop.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "ralph_loop_state_id",
+    "workspace_id",
+    "target_release",
+    "loop_goal",
+    "overall_status",
+    "subject_refs",
+    "stages",
+    "validation_report_refs",
+    "manual_review_summary",
+    "next_action",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "ralph_loop_state_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "target_release": { "type": "string", "pattern": "^v[0-9]+_[0-9]+(_[0-9]+)?$" },
+    "loop_goal": { "type": "string", "minLength": 15 },
+    "overall_status": {
+      "type": "string",
+      "enum": ["in_progress", "ready_for_release", "blocked", "completed"]
+    },
+    "subject_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "stages": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/stage" },
+      "minItems": 6
+    },
+    "validation_report_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "manual_review_summary": { "type": "string", "minLength": 15 },
+    "next_action": { "type": "string", "minLength": 10 },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "stringList": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_key",
+        "status",
+        "owner",
+        "exit_condition"
+      ],
+      "properties": {
+        "stage_key": {
+          "type": "string",
+          "enum": ["inspect", "review", "validate", "implement", "fix", "revalidate"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["not_started", "active", "passed", "revise", "blocked"]
+        },
+        "owner": { "type": "string", "minLength": 2 },
+        "findings_summary": { "type": "string", "minLength": 10 },
+        "evidence_refs": { "$ref": "#/$defs/stringList" },
+        "exit_condition": { "type": "string", "minLength": 10 }
+      }
+    }
+  }
+}

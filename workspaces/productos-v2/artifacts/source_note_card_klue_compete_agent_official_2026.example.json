@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_klue_compete_agent_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://klue.com/llm-info",
+  "title": "Klue ties verified competitive insights to deal support and research mode",
+  "claim": "Klue's Compete Agent is described as generating verified competitive insights from internal and public sources, with a research mode and continuous updates across the go-to-market ecosystem.",
+  "source_snippet": "Compete Agent automates discovery and analysis from CRM, calls, internal docs, and public sources.",
+  "implication": "ProductOS should combine public market research with internal product memory and keep verification status explicit when merging the two.",
+  "confidence": "moderate",
+  "followup_questions": [
+    "Which ProductOS research routes need separate handling for public versus internal source mixes?"
+  ],
+  "source_metadata": {
+    "source_url": "https://klue.com/llm-info",
+    "retrieved_at": "2026-03-21T09:18:00Z",
+    "source_slice_ref": "compete-agent",
+    "dedupe_key": "klue-compete-agent-overview",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "klue-compete-agent-overview",
+  "tags": ["research", "ci", "klue", "verified-intel"],
+  "created_at": "2026-03-21T09:19:00Z"
+}

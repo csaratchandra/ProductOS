@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "market_analysis_brief_id": "market_analysis_brief_pm_ops",
+  "workspace_id": "ws_productos_v2",
+  "title": "Market Analysis Brief: PM operating systems",
+  "market_name": "AI-assisted PM operating systems",
+  "category_summary": "The category is shifting from drafting assistance toward trusted operating systems with evidence visibility and workflow continuity.",
+  "trend_summary": "Platform products are bundling more workflow support while startups differentiate on synthesis depth and usability.",
+  "market_dynamics": [
+    "Bundled ecosystems can compress standalone tool adoption.",
+    "Trust and traceability are becoming category-level expectations."
+  ],
+  "ecosystem_dependencies": [
+    "Tracker integration quality shapes day-to-day product value.",
+    "Workflow lock-in around Atlassian and adjacent systems remains strong."
+  ],
+  "regulatory_considerations": [
+    "Enterprise adoption may require explainability and retention controls."
+  ],
+  "moat_pressures": [
+    "Generic drafting features are being commoditized quickly."
+  ],
+  "key_uncertainties": [
+    "How quickly PM buyers will shift budget from point tools to operating-system products."
+  ],
+  "source_artifact_ids": ["research_brief_pm_operating_rhythm", "competitor_dossier_pm_ops_space"],
+  "created_at": "2026-03-20T12:35:00Z"
+}

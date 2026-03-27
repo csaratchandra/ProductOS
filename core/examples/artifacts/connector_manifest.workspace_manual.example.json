@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "connector_id": "workspace_manual",
+  "workspace_id": "ws_productos_v2",
+  "system_name": "ProductOS Workspace Manual Tracking",
+  "sync_mode": "manual",
+  "last_synced_at": "2026-03-19T12:00:00Z",
+  "stale_sync_threshold_hours": 168,
+  "status": "healthy",
+  "owned_artifact_types": [
+    "requirement",
+    "feature_status",
+    "release_plan",
+    "status_mail",
+    "decision_log",
+    "issue_log"
+  ]
+}

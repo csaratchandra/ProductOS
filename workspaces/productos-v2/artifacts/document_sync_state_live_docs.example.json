@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0.0",
+  "document_sync_state_id": "document_sync_state_ws_productos_v2_v4_2_live_docs",
+  "workspace_id": "ws_productos_v2",
+  "sync_scope": "v4_2_live_doc_and_messaging_bundle",
+  "validation_tier": "tier_2",
+  "status": "in_sync",
+  "source_artifact_refs": [
+    "problem_brief_pm_operating_rhythm",
+    "concept_brief_pm_operating_rhythm",
+    "prd_pm_operating_rhythm",
+    "inc_plan_2026_q2_01",
+    "pm_superpower_benchmark_ws_productos_v2_v4_0",
+    "research_feature_recommendation_brief_ws_productos_v2_v4_1",
+    "presentation_brief_ws_productos_v2_v4_comm"
+  ],
+  "documents": [
+    {
+      "doc_key": "product_overview",
+      "title": "Product Overview",
+      "readable_path": "workspaces/productos-v2/docs/product/product-overview.md",
+      "source_artifact_refs": [
+        "problem_brief_pm_operating_rhythm",
+        "concept_brief_pm_operating_rhythm",
+        "pm_superpower_benchmark_ws_productos_v2_v4_0"
+      ],
+      "audience": [
+        "PM",
+        "leadership",
+        "design",
+        "engineering",
+        "go-to-market"
+      ],
+      "status": "synced",
+      "last_sync_status": "The product overview reflects the current product definition, workflow scope, and benchmark-backed superpower framing."
+    },
+    {
+      "doc_key": "getting_started",
+      "title": "Getting Started",
+      "readable_path": "workspaces/productos-v2/docs/product/getting-started.md",
+      "source_artifact_refs": [
+        "prd_pm_operating_rhythm",
+        "inc_plan_2026_q2_01",
+        "presentation_brief_ws_productos_v2_v4_comm"
+      ],
+      "audience": [
+        "PM",
+        "operator",
+        "internal adopter",
+        "design partner"
+      ],
+      "status": "synced",
+      "last_sync_status": "The getting-started guide matches the current workspace shape and bounded first-run operating advice."
+    },
+    {
+      "doc_key": "positioning",
+      "title": "Positioning",
+      "readable_path": "workspaces/productos-v2/docs/marketing/positioning.md",
+      "source_artifact_refs": [
+        "problem_brief_pm_operating_rhythm",
+        "pm_superpower_benchmark_ws_productos_v2_v4_0",
+        "research_feature_recommendation_brief_ws_productos_v2_v4_1"
+      ],
+      "audience": [
+        "leadership",
+        "go-to-market",
+        "design",
+        "partnerships"
+      ],
+      "status": "synced",
+      "last_sync_status": "The positioning brief uses current product truth and market-intelligence evidence without claiming unsupported autonomy."
+    },
+    {
+      "doc_key": "messaging_house",
+      "title": "Messaging House",
+      "readable_path": "workspaces/productos-v2/docs/marketing/messaging-house.md",
+      "source_artifact_refs": [
+        "concept_brief_pm_operating_rhythm",
+        "research_feature_recommendation_brief_ws_productos_v2_v4_1",
+        "presentation_brief_ws_productos_v2_v4_comm"
+      ],
+      "audience": [
+        "leadership",
+        "go-to-market",
+        "PM communicator"
+      ],
+      "status": "synced",
+      "last_sync_status": "The messaging house now matches the approved value pillars, proof points, and claim boundaries for ProductOS."
+    }
+  ],
+  "drift_summary": "The live product and messaging docs are currently in sync with the approved source artifacts, but they should be refreshed after every release or claim-shaping improvement.",
+  "review_requirements": [
+    "Run AI review on unsupported capability claims, weak differentiation, and vague proof language.",
+    "Run AI test checks on doc metadata, required sections, and source-artifact linkage.",
+    "Complete targeted PM Leader manual validation before reusing the messaging bundle for broader publication."
+  ],
+  "next_action": "Use this bundle as the default ProductOS product and messaging surface while routing future claim changes through the same sync state.",
+  "generated_at": "2026-03-22T09:30:00Z"
+}

@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/current_state_assessment.schema.json",
+  "title": "ProductOS Current-State Assessment",
+  "description": "Decision-ready snapshot of current product state before discovery, prioritization, or execution changes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "assessment_id",
+    "workspace_id",
+    "assessed_at",
+    "product_summary",
+    "current_objectives",
+    "delivery_health",
+    "open_risks",
+    "current_decisions_needed",
+    "recommended_next_steps",
+    "confidence"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "assessment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assessed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "product_summary": {
+      "type": "string",
+      "minLength": 20
+    },
+    "current_objectives": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 5
+      }
+    },
+    "delivery_health": {
+      "type": "string",
+      "enum": [
+        "green",
+        "amber",
+        "red"
+      ]
+    },
+    "open_risks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      }
+    },
+    "open_blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "default": []
+    },
+    "recent_customer_feedback": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "default": []
+    },
+    "current_decisions_needed": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 5
+      }
+    },
+    "recommended_next_steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 5
+      }
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "blocked"
+      ]
+    }
+  }
+}

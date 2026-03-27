@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.1.0",
+  "release_readiness_id": "release_readiness_ws_productos_v2_runtime",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "feature_v3_runtime_foundation",
+  "status": "ready",
+  "launch_roles": [
+    {
+      "role_name": "Launch owner",
+      "responsibility": "Final go or no-go decision and staged rollout coordination",
+      "assignment_status": "assigned",
+      "owner_name": "ProductOS PM",
+      "owner_function": "Product management"
+    },
+    {
+      "role_name": "Runtime reviewer",
+      "responsibility": "Confirm cockpit, orchestration, intake, and memory behaviors are coherent",
+      "assignment_status": "assigned",
+      "owner_name": "ProductOS PM",
+      "owner_function": "Product operations"
+    },
+    {
+      "role_name": "Support readiness reviewer",
+      "responsibility": "Confirm internal guidance for blocked routes and provenance warnings",
+      "assignment_status": "assigned",
+      "owner_name": "ProductOS PM",
+      "owner_function": "Support operations"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Runtime benchmark movement",
+      "status": "passed",
+      "notes": "Benchmark movement is materially stronger than the V2 baseline."
+    },
+    {
+      "name": "Runtime scenario proof",
+      "status": "passed",
+      "notes": "Runtime scenario coverage passed with provenance handling folded into the normal ready-state path."
+    },
+    {
+      "name": "Trust and compliance boundary",
+      "status": "passed",
+      "notes": "Internal-only learning-loop artifacts remain distinct from PM-facing product claims."
+    }
+  ],
+  "generated_at": "2026-03-21T23:30:00Z"
+}

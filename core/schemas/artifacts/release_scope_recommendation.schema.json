@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/release_scope_recommendation.schema.json",
+  "title": "ProductOS Release Scope Recommendation",
+  "description": "Internal recommendation showing which staged release should absorb a clustered improvement and why.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_scope_recommendation_id",
+    "workspace_id",
+    "target_release",
+    "change_classification",
+    "release_type",
+    "customer_visible",
+    "internal_only_artifact",
+    "rationale",
+    "evidence_refs",
+    "recommended_actions",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "release_scope_recommendation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_release": {
+      "type": "string",
+      "enum": [
+        "v3_0",
+        "v3_1",
+        "v3_2",
+        "defer"
+      ]
+    },
+    "change_classification": {
+      "type": "string",
+      "enum": [
+        "major_product_change",
+        "feature_enhancement",
+        "minor_improvement",
+        "bug_fix",
+        "internal_only_maintenance"
+      ]
+    },
+    "release_type": {
+      "type": "string",
+      "enum": [
+        "major",
+        "minor",
+        "patch"
+      ]
+    },
+    "customer_visible": {
+      "type": "boolean"
+    },
+    "internal_only_artifact": {
+      "type": "boolean"
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 10
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "recommended_actions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    },
+    "deferred_feedback_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

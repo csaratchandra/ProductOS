@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "superpower_benchmark_id": "superpower_benchmark_productos_v3_1",
+  "workspace_id": "ws_productos_v2",
+  "baseline_version": "3.0.0",
+  "candidate_version": "3.1.0",
+  "status": "passed",
+  "summary": "The first V3.1 superpower slice improves PM design and communication workflows relative to V3.0.",
+  "scenarios": [
+    {
+      "scenario_id": "scenario_ux_review_before_prd",
+      "name": "UX review before PRD commitment",
+      "status": "passed",
+      "metric_deltas": [
+        {
+          "metric_name": "time_to_identify_usability_risk_minutes",
+          "baseline_value": 45,
+          "candidate_value": 12,
+          "unit": "minutes",
+          "trend": "improved"
+        }
+      ],
+      "evidence_refs": [
+        "ux_design_review_pm_operating_rhythm_v3_1"
+      ],
+      "gaps": []
+    },
+    {
+      "scenario_id": "scenario_visual_reasoning_for_alignment",
+      "name": "Visual reasoning for stakeholder alignment",
+      "status": "passed",
+      "metric_deltas": [
+        {
+          "metric_name": "time_to_explain_pm_operating_flow_minutes",
+          "baseline_value": 20,
+          "candidate_value": 7,
+          "unit": "minutes",
+          "trend": "improved"
+        }
+      ],
+      "evidence_refs": [
+        "visual_reasoning_state_pm_operating_rhythm_v3_1"
+      ],
+      "gaps": []
+    }
+  ],
+  "generated_at": "2026-03-21T23:47:00Z"
+}

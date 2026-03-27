@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "persona_archetype_pack_id": "persona_archetype_pack_b2b_pm",
+  "workspace_id": "ws_productos_v2",
+  "title": "Persona Archetype Pack: B2B PM workflows",
+  "segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "archetype_mode": "operator",
+  "archetypes": [
+    {
+      "persona_ref": {
+        "entity_type": "persona",
+        "entity_id": "persona_product_manager"
+      },
+      "archetype_type": "operator",
+      "role_summary": "Owns the recurring operating rhythm across planning, reporting, and follow-through.",
+      "goals": ["Reduce manual operating overhead", "Keep leadership aligned without constant rewrite"],
+      "pains": ["Fragmented source systems", "Low trust in unsourced automation"],
+      "triggers": ["Leadership review deadlines", "Cross-team dependency buildup"],
+      "blockers": ["Stale source state", "Missing evidence traceability"],
+      "buying_influence": "high",
+      "workflow_traits": ["Reviews drafts carefully", "Prefers visible source links"],
+      "evidence_refs": ["research_brief_pm_operating_rhythm"]
+    }
+  ],
+  "source_artifact_ids": ["research_brief_pm_operating_rhythm", "persona_pack_b2b_product_teams"],
+  "created_at": "2026-03-20T12:25:00Z"
+}

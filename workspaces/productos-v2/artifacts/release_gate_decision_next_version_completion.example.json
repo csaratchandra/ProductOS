@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "release_gate_decision_id": "release_gate_decision_ws_productos_v2_next_version_completion",
+  "workspace_id": "ws_productos_v2",
+  "target_release": "v4_4_0",
+  "decision": "go",
+  "pm_benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "runtime_scenario_report_ref": "runtime_scenario_report_ws_productos_v2_next_version_completion",
+  "release_readiness_ref": "release_readiness_ws_productos_v2_next_version_completion",
+  "rationale": "The V4.4 completion slice now proves the repo-native next-version baseline end to end: the repo can discover from live inputs, align through docs and deck, operate a weekly PM autopilot, and route follow-through through the score-refresh loop without overstating the remaining hardening work.",
+  "next_action": "Promote ProductOS to V4.4.0 stable via the Ralph-gated release command.",
+  "known_gaps": [
+    "Agent adapter parity remains 4 out of 5 until a non-Codex host is verified directly.",
+    "Agentic market intelligence remains 4 out of 5 until unattended refresh and broader distribution proof are added."
+  ],
+  "deferred_items": [
+    "Run the first non-Codex adapter parity cycle next.",
+    "Harden unattended market-refresh proof before broadening the market-intelligence claim surface."
+  ],
+  "generated_at": "2026-03-22T16:23:00Z"
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/test_case_set.schema.json",
+  "title": "ProductOS Test Case Set",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "test_case_set_id",
+    "workspace_id",
+    "acceptance_criteria_set_id",
+    "test_cases"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "test_case_set_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "acceptance_criteria_set_id": { "type": "string", "minLength": 1 },
+    "test_cases": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/testCase" },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "testCase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "test_case_id",
+        "criterion_id",
+        "title",
+        "steps",
+        "expected_result"
+      ],
+      "properties": {
+        "test_case_id": { "type": "string", "minLength": 1 },
+        "criterion_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "steps": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "expected_result": { "type": "string", "minLength": 5 }
+      }
+    }
+  }
+}

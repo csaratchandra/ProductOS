@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0.0",
+  "persona_operating_profile_id": "persona_operating_profile_bad_missing_review_path",
+  "workspace_id": "ws_productos_v2",
+  "status": "defined",
+  "profile_scope": "v4_0_foundation",
+  "validation_tier": "tier_2",
+  "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "governance_refs": [
+    "core/docs/v4-execution-plan.md"
+  ],
+  "review_policy_summary": "This fixture intentionally omits review_path in the first persona profile.",
+  "profiles": [
+    {
+      "persona_key": "ai_orchestrator",
+      "display_name": "AI Orchestrator",
+      "persona_class": "ai",
+      "purpose": "This invalid fixture exists to prove review_path is required.",
+      "allowed_inputs": [
+        "cockpit request"
+      ],
+      "required_outputs": [
+        "routing decision"
+      ],
+      "authority_boundaries": [
+        "May route work."
+      ],
+      "approval_authority": [
+        "No final approval authority."
+      ],
+      "handoff_protocol": [
+        "Hands off work with explicit objective."
+      ],
+      "escalation_rules": [
+        "Escalate on route conflict."
+      ],
+      "memory_scope": [
+        "orchestration state"
+      ],
+      "benchmark_measures": [
+        "time_to_route_bounded_slice_minutes"
+      ],
+      "failure_modes": [
+        "Conflicting downstream workstreams"
+      ],
+      "source_refs": [
+        "core/agents/orchestrator/CONTRACT.md"
+      ]
+    },
+    {
+      "persona_key": "pm_builder",
+      "display_name": "PM Builder",
+      "persona_class": "pm",
+      "purpose": "This second profile keeps the fixture otherwise structurally valid.",
+      "allowed_inputs": [
+        "problem_brief"
+      ],
+      "required_outputs": [
+        "approval decision"
+      ],
+      "authority_boundaries": [
+        "Owns product-shaping approval."
+      ],
+      "approval_authority": [
+        "May approve Tier 2 product-shaping outputs."
+      ],
+      "handoff_protocol": [
+        "Hands approved direction to delivery."
+      ],
+      "escalation_rules": [
+        "Escalate unresolved tradeoffs."
+      ],
+      "memory_scope": [
+        "decision history"
+      ],
+      "benchmark_measures": [
+        "rewrite_rate_before_pm_acceptance"
+      ],
+      "failure_modes": [
+        "Approval of weak framing"
+      ],
+      "review_path": [
+        "Uses AI Reviewer and AI Tester for Tier 2 outputs."
+      ],
+      "source_refs": [
+        "core/docs/v4-execution-plan.md"
+      ]
+    },
+    {
+      "persona_key": "pm_operator",
+      "display_name": "PM Operator",
+      "persona_class": "pm",
+      "purpose": "This third profile keeps the minItems rule from being the only gate.",
+      "allowed_inputs": [
+        "release_readiness"
+      ],
+      "required_outputs": [
+        "release approval"
+      ],
+      "authority_boundaries": [
+        "Owns release readiness review."
+      ],
+      "approval_authority": [
+        "May approve release-operating outputs."
+      ],
+      "handoff_protocol": [
+        "Routes unresolved release risk back to delivery."
+      ],
+      "escalation_rules": [
+        "Escalate unresolved blockers."
+      ],
+      "memory_scope": [
+        "release and runtime state"
+      ],
+      "benchmark_measures": [
+        "blocked_release_detection_rate"
+      ],
+      "failure_modes": [
+        "Hidden blocker in summary language"
+      ],
+      "review_path": [
+        "Runs mandatory manual validation on release-driving packages."
+      ],
+      "source_refs": [
+        "core/workflows/launch/release-readiness-workflow.md"
+      ]
+    }
+  ],
+  "generated_at": "2026-03-21T23:55:00Z"
+}

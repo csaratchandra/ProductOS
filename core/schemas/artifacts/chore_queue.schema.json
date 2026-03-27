@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/chore_queue.schema.json",
+  "title": "ProductOS Legacy Chore Queue",
+  "description": "Deprecated compatibility artifact retained for older automation flows. PM-facing usage should prefer follow_up_queue.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "chore_queue_id",
+    "workspace_id",
+    "chores",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "chore_queue_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "chores": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/choreItem"
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "choreItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chore_id",
+        "chore_type",
+        "trigger",
+        "priority",
+        "status",
+        "title"
+      ],
+      "properties": {
+        "chore_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "chore_type": {
+          "type": "string",
+          "enum": [
+            "status_update",
+            "weekly_update",
+            "task_creation",
+            "task_status_sync",
+            "followup_check",
+            "demo_readout",
+            "release_note",
+            "change_summary",
+            "customer_pulse"
+          ]
+        },
+        "trigger": {
+          "type": "string",
+          "enum": [
+            "scheduled",
+            "event_driven",
+            "pm_requested"
+          ]
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "routine",
+            "time_sensitive",
+            "escalated"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "drafted",
+            "awaiting_review",
+            "approved",
+            "published",
+            "rejected",
+            "deferred"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "source_artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "target_audience": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "deadline": {
+          "type": "string",
+          "format": "date"
+        },
+        "output_artifact_id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

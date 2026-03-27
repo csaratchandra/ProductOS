@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0.0",
+  "feature_scorecard_id": "feature_scorecard_ws_productos_v2_readable_doc_bundle_v4_0",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "readable_doc_bundle",
+  "feature_name": "Readable doc bundle and stakeholder alignment slice",
+  "loop_id": "decision_to_stakeholder_alignment",
+  "status": "reviewed",
+  "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "validation_tier": "tier_2",
+  "scenarios": [
+    {
+      "scenario_id": "scn_readable_docs_self_hosted_bundle",
+      "title": "Self-hosted readable doc bundle generation",
+      "scenario_type": "dogfood_run",
+      "result": "partial",
+      "summary": "ProductOS can generate and review a same-day readable doc bundle from current artifacts, but publishing metadata and broader sync rules still need another pass.",
+      "evidence_refs": [
+        "document_sync_state_ws_productos_v2_v4_readable_docs",
+        "validation_lane_report_ws_productos_v2_doc_bundle_v4_0"
+      ]
+    },
+    {
+      "scenario_id": "scn_readable_docs_pm_internal_review",
+      "title": "PM internal review of readable docs",
+      "scenario_type": "manual_review",
+      "result": "passed",
+      "summary": "PM manual validation confirms the roadmap and PRD are usable internally without forcing stakeholders to inspect raw JSON artifacts.",
+      "evidence_refs": [
+        "manual_validation_record_ws_productos_v2_doc_bundle_v4_0",
+        "outcome_review_ws_productos_v2_v4_readable_docs"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "pm_superpower_benchmark_ws_productos_v2_v4_0",
+    "document_sync_state_ws_productos_v2_v4_readable_docs",
+    "validation_lane_report_ws_productos_v2_doc_bundle_v4_0",
+    "manual_validation_record_ws_productos_v2_doc_bundle_v4_0",
+    "outcome_review_ws_productos_v2_v4_readable_docs"
+  ],
+  "provenance_classification": "mixed",
+  "score_basis": [
+    "validation_lane_report",
+    "manual_validation_record",
+    "outcome_review"
+  ],
+  "truthfulness_summary": "The readable-doc slice is grounded in validated evidence, but the final promotion claim is still mixed with incomplete publishing metadata and sync assumptions.",
+  "context_pack_ref": "context_pack_ws_productos_v2_bounded_baseline",
+  "eval_run_ref": "eval_run_report_ws_productos_v2_bounded_baseline",
+  "dimension_scores": [
+    {
+      "dimension_key": "pm_leverage",
+      "score": 4,
+      "rationale": "Readable docs remove most raw-JSON translation work, but the PM still has to close metadata and freshness gaps before the slice feels fully automatic.",
+      "evidence_refs": [
+        "document_sync_state_ws_productos_v2_v4_readable_docs",
+        "outcome_review_ws_productos_v2_v4_readable_docs"
+      ]
+    },
+    {
+      "dimension_key": "output_quality",
+      "score": 4,
+      "rationale": "The generated roadmap and PRD are audience-fit and traceable, but the bundle still needs one more quality pass before it reaches a true superpower bar.",
+      "evidence_refs": [
+        "manual_validation_record_ws_productos_v2_doc_bundle_v4_0",
+        "outcome_review_ws_productos_v2_v4_readable_docs"
+      ]
+    },
+    {
+      "dimension_key": "reliability",
+      "score": 4,
+      "rationale": "Internal use is safe, but external publishing metadata and sync controls are still incomplete enough to block broader promotion.",
+      "evidence_refs": [
+        "validation_lane_report_ws_productos_v2_doc_bundle_v4_0",
+        "document_sync_state_ws_productos_v2_v4_readable_docs"
+      ]
+    },
+    {
+      "dimension_key": "autonomy_quality",
+      "score": 4,
+      "rationale": "The draft-then-review behavior is correct and useful, but the PM still needs targeted intervention for doc freshness and publishing decisions.",
+      "evidence_refs": [
+        "document_sync_state_ws_productos_v2_v4_readable_docs",
+        "manual_validation_record_ws_productos_v2_doc_bundle_v4_0"
+      ]
+    },
+    {
+      "dimension_key": "repeatability",
+      "score": 4,
+      "rationale": "The workspace bundle and validation lane are stable across repeat runs, but wider sync and adapter parity are not yet proven for this slice.",
+      "evidence_refs": [
+        "validation_lane_report_ws_productos_v2_doc_bundle_v4_0",
+        "outcome_review_ws_productos_v2_v4_readable_docs"
+      ]
+    }
+  ],
+  "overall_score": 4,
+  "adoption_recommendation": "keep_in_internal_use",
+  "reviewer_verdict": {
+    "status": "pass",
+    "summary": "The readable-doc slice is traceable and audience-fit enough for internal stakeholder use.",
+    "evidence_refs": [
+      "validation_lane_report_ws_productos_v2_doc_bundle_v4_0",
+      "document_sync_state_ws_productos_v2_v4_readable_docs"
+    ]
+  },
+  "tester_verdict": {
+    "status": "revise",
+    "summary": "Schema, path, and bundle checks pass, but publishing metadata coverage is not complete enough for broader promotion.",
+    "evidence_refs": [
+      "validation_lane_report_ws_productos_v2_doc_bundle_v4_0",
+      "document_sync_state_ws_productos_v2_v4_readable_docs"
+    ]
+  },
+  "manual_verdict": {
+    "status": "accept",
+    "summary": "The PM can use the bundle internally while metadata hardening and doc freshness automation continue.",
+    "evidence_refs": [
+      "manual_validation_record_ws_productos_v2_doc_bundle_v4_0",
+      "outcome_review_ws_productos_v2_v4_readable_docs"
+    ]
+  },
+  "blocked_by": [
+    "External publishing metadata rules are not yet encoded in the readable-doc control artifacts.",
+    "Broader SharePoint and Confluence sync behavior is still undefined for this slice."
+  ],
+  "feedback_items": [
+    {
+      "feedback_id": "score_feedback_publish_metadata",
+      "summary": "Encode mandatory SharePoint and Confluence publishing metadata before the readable-doc bundle is promoted beyond internal use.",
+      "impact_level": "high",
+      "recommended_action": "Add publishing metadata rules to the doc-sync controls and rescore the feature after another dogfood run.",
+      "route_targets": [
+        "productos_feedback_log",
+        "improvement_loop_state"
+      ],
+      "linked_dimension_keys": [
+        "reliability",
+        "repeatability"
+      ],
+      "linked_artifact_refs": [
+        "document_sync_state_ws_productos_v2_v4_readable_docs",
+        "validation_lane_report_ws_productos_v2_doc_bundle_v4_0"
+      ]
+    },
+    {
+      "feedback_id": "score_feedback_doc_freshness",
+      "summary": "Automate doc freshness refresh so the PM does not need targeted follow-up to keep discovery, roadmap, and PRD docs current.",
+      "impact_level": "medium",
+      "recommended_action": "Add doc-freshness checks and rescore once the next self-hosted bundle proves lower PM intervention.",
+      "route_targets": [
+        "productos_feedback_log",
+        "feedback_cluster_state"
+      ],
+      "linked_dimension_keys": [
+        "pm_leverage",
+        "autonomy_quality"
+      ],
+      "linked_artifact_refs": [
+        "document_sync_state_ws_productos_v2_v4_readable_docs",
+        "outcome_review_ws_productos_v2_v4_readable_docs"
+      ]
+    }
+  ],
+  "next_action": "Keep the readable-doc bundle active internally, route the metadata and freshness gaps into the next bounded improvement slice, and rescore after the next dogfood run.",
+  "generated_at": "2026-03-21T23:55:00Z"
+}

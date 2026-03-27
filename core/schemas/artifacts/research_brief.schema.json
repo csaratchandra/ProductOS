@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/research_brief.schema.json",
+  "title": "ProductOS Research Brief",
+  "description": "Structured summary of research insights used to support or challenge a problem framing.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "research_brief_id",
+    "workspace_id",
+    "title",
+    "research_question",
+    "summary",
+    "strategic_implications",
+    "source_note_card_ids",
+    "target_segment_refs",
+    "target_persona_refs",
+    "insights",
+    "recommendation",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "research_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "research_question": { "type": "string", "minLength": 10 },
+    "summary": { "type": "string", "minLength": 10 },
+    "strategic_implications": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 10 },
+      "minItems": 1
+    },
+    "source_note_card_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "research_notebook_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "target_segment_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "target_persona_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "linked_entity_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "default": []
+    },
+    "insights": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/insight" },
+      "minItems": 1
+    },
+    "contradictions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/contradiction" },
+      "default": []
+    },
+    "synthesis_provenance": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 10 },
+      "default": []
+    },
+    "recommendation": {
+      "type": "string",
+      "enum": ["advance_to_problem_brief", "run_prototype", "gather_more_research", "park"]
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id"],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": ["segment", "persona", "problem", "outcome", "opportunity", "feature", "metric", "decision"]
+        },
+        "entity_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "insight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["insight_id", "statement", "evidence_strength"],
+      "properties": {
+        "insight_id": { "type": "string", "minLength": 1 },
+        "statement": { "type": "string", "minLength": 10 },
+        "evidence_strength": {
+          "type": "string",
+          "enum": ["weak", "moderate", "strong"]
+        },
+        "supporting_source_note_card_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        }
+      }
+    },
+    "contradiction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statement", "severity"],
+      "properties": {
+        "statement": { "type": "string", "minLength": 10 },
+        "severity": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "supporting_source_note_card_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        }
+      }
+    }
+  }
+}

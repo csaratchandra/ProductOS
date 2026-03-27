@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "handoff_id": "handoff_meeting_to_decision_2026_03_19",
+  "workspace_id": "ws_productos_v2",
+  "source_workflow_id": "wf_transcript_to_notes",
+  "target_workflow_id": "wf_decision_log_update",
+  "handoff_type": "meeting_to_decision",
+  "status": "ready",
+  "artifact_refs": [
+    {
+      "artifact_id": "meeting_2026_03_19_leadership_review",
+      "artifact_type": "meeting_record",
+      "path": "artifacts/meeting_record.example.json"
+    }
+  ],
+  "summary": "Meeting decisions are ready to be normalized into the decision log.",
+  "key_points": [
+    "Status mail should be first-class output.",
+    "Issue logs and transcript-derived next steps should be prioritized."
+  ],
+  "pending_questions": [
+    "What minimum PM input is required when systems are incomplete?"
+  ],
+  "created_at": "2026-03-19T17:20:00Z"
+}

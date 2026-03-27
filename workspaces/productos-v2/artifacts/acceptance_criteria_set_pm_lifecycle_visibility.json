@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "acceptance_criteria_set_id": "acceptance_criteria_set_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "story_id": "story_extend_item_trace_into_delivery",
+  "criteria": [
+    {
+      "criterion_id": "ac_lifecycle_delivery_1",
+      "statement": "The canonical item trace shows the approved story-planning output linked back to the originating PRD and opportunity.",
+      "testable": true
+    },
+    {
+      "criterion_id": "ac_lifecycle_delivery_2",
+      "statement": "The trace exposes acceptance-ready criteria that remain testable without inventing downstream scope.",
+      "testable": true
+    },
+    {
+      "criterion_id": "ac_lifecycle_delivery_3",
+      "statement": "The trace reaches release readiness while keeping launch preparation and outcome review explicitly not started.",
+      "testable": true
+    }
+  ]
+}

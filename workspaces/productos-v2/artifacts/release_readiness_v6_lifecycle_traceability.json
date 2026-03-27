@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1.0",
+  "release_readiness_id": "release_readiness_ws_productos_v2_v6_lifecycle_traceability",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "feature_v6_lifecycle_traceability_release_readiness",
+  "status": "ready",
+  "launch_roles": [
+    {
+      "role_name": "Release owner",
+      "responsibility": "Approve the V6.0 promotion for lifecycle traceability through release_readiness.",
+      "assignment_status": "assigned",
+      "owner_name": "ProductOS PM",
+      "owner_function": "Product management"
+    },
+    {
+      "role_name": "Adoption owner",
+      "responsibility": "Confirm the starter workspace remains the reusable adoption surface for the promoted V6 slice.",
+      "assignment_status": "assigned",
+      "owner_name": "ProductOS PM",
+      "owner_function": "Workspace adoption"
+    },
+    {
+      "role_name": "Control-surface reviewer",
+      "responsibility": "Confirm the trace command and workspace snapshots agree on delivery, launch, outcome, and full-lifecycle coverage.",
+      "assignment_status": "assigned",
+      "owner_name": "ProductOS PM",
+      "owner_function": "Runtime governance"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Self-hosting lifecycle trace reaches release_readiness",
+      "status": "passed",
+      "notes": "The self-hosting workspace exposes one item-first lifecycle trace from discovery through delivery planning and release_readiness."
+    },
+    {
+      "name": "Starter-workspace adoption parity through release_readiness",
+      "status": "passed",
+      "notes": "The starter workspace mirrors the selected lifecycle-traceability path through release_readiness."
+    },
+    {
+      "name": "Trace focus-area coverage",
+      "status": "passed",
+      "notes": "All advertised trace focus areas now have concrete workspace snapshots behind the CLI surface."
+    },
+    {
+      "name": "Scoped boundary after release_readiness",
+      "status": "passed",
+      "notes": "Launch preparation and outcome review remain explicit but not_started, which keeps the V6 claim bounded to release_readiness."
+    }
+  ],
+  "generated_at": "2026-03-27T08:30:00Z"
+}

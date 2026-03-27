@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/feedback_intelligence_brief.schema.json",
+  "title": "ProductOS Feedback Intelligence Brief",
+  "description": "Structured synthesis of feedback across explicit source classes such as customers, analysts, vendors, and supply chain partners.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "feedback_intelligence_brief_id",
+    "workspace_id",
+    "title",
+    "feedback_period",
+    "themes",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "feedback_intelligence_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "feedback_period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start_date", "end_date"],
+      "properties": {
+        "start_date": { "type": "string", "format": "date" },
+        "end_date": { "type": "string", "format": "date" }
+      }
+    },
+    "themes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/theme" },
+      "minItems": 1
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_class",
+        "summary",
+        "sentiment",
+        "action_implication",
+        "evidence_refs"
+      ],
+      "properties": {
+        "source_class": {
+          "type": "string",
+          "enum": [
+            "user_feedback",
+            "customer_feedback",
+            "prospect_feedback",
+            "supply_chain_feedback",
+            "partner_feedback",
+            "vendor_feedback",
+            "analyst_feedback",
+            "internal_feedback"
+          ]
+        },
+        "summary": { "type": "string", "minLength": 10 },
+        "sentiment": {
+          "type": "string",
+          "enum": ["positive", "negative", "mixed", "neutral"]
+        },
+        "action_implication": { "type": "string", "minLength": 10 },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

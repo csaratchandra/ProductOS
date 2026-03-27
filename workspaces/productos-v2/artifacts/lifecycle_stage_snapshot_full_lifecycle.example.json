@@ -1,0 +1,241 @@
+{
+  "schema_version": "1.0.0",
+  "lifecycle_stage_snapshot_id": "lifecycle_stage_snapshot_full_lifecycle_pm_visibility",
+  "workspace_id": "ws_productos_v2",
+  "focus_area": "full_lifecycle",
+  "snapshot_summary": "One canonical opportunity is traceable from intake through release_readiness, while launch preparation and outcome review remain explicit deferred stages.",
+  "item_count": 1,
+  "segment_count": 3,
+  "persona_count": 3,
+  "artifact_counts": {
+    "research_notebook": 1,
+    "segment_map": 1,
+    "persona_pack": 1,
+    "competitor_dossier": 1,
+    "market_analysis_brief": 1,
+    "idea_record": 1,
+    "problem_brief": 1,
+    "concept_brief": 1,
+    "prototype_record": 1,
+    "ux_design_review": 1,
+    "visual_reasoning_state": 1,
+    "prd": 1,
+    "validation_lane_report": 1,
+    "manual_validation_record": 1,
+    "story_pack": 1,
+    "acceptance_criteria_set": 1,
+    "increment_plan": 1,
+    "release_readiness": 1,
+    "item_lifecycle_state": 1
+  },
+  "active_item_ids": [
+    "opp_pm_lifecycle_traceability"
+  ],
+  "gate_counts": {
+    "passed": 10,
+    "pending": 0,
+    "blocked": 0,
+    "not_started": 2
+  },
+  "stage_summaries": [
+    {
+      "stage_key": "signal_intake",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "intake_routing_state_ws_productos_v2_discovery_traceability"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The opportunity was routed from intake into lifecycle discovery."
+    },
+    {
+      "stage_key": "research_synthesis",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "research_notebook_pm_lifecycle_visibility",
+        "competitor_dossier_pm_lifecycle_visibility",
+        "market_analysis_brief_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "Fresh market and competitor research established the lifecycle traceability gap."
+    },
+    {
+      "stage_key": "segmentation_and_personas",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "segment_map_pm_lifecycle_visibility",
+        "persona_pack_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "Segments and personas remain linked through the entire bounded lifecycle slice."
+    },
+    {
+      "stage_key": "problem_framing",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "problem_brief_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The root problem is fixed before delivery planning begins."
+    },
+    {
+      "stage_key": "concept_shaping",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "idea_record_pm_lifecycle_visibility",
+        "concept_brief_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The item-first lifecycle trace concept remains the selected solution direction."
+    },
+    {
+      "stage_key": "prototype_validation",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "prototype_record_pm_item_timeline",
+        "ux_design_review_pm_lifecycle_visibility",
+        "visual_reasoning_state_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "Prototype and design review evidence remain intact in the trace."
+    },
+    {
+      "stage_key": "prd_handoff",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "prd_pm_lifecycle_visibility",
+        "validation_lane_report_pm_lifecycle_visibility",
+        "manual_validation_record_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The discovery package is validated and handed into bounded delivery planning."
+    },
+    {
+      "stage_key": "story_planning",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "story_pack_pm_lifecycle_visibility",
+        "inc_plan_2026_q2_01"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "Story planning carries the validated scope into delivery artifacts."
+    },
+    {
+      "stage_key": "acceptance_ready",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "acceptance_criteria_set_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "Acceptance-ready criteria make the delivery slice objectively testable."
+    },
+    {
+      "stage_key": "release_readiness",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "release_readiness_ws_productos_v2_v6_lifecycle_traceability",
+        "release_gate_decision_ws_productos_v2_v6_lifecycle_traceability"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "Release readiness confirms the bounded lifecycle slice is promotable."
+    },
+    {
+      "stage_key": "launch_preparation",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [],
+      "gate_status_counts": {
+        "passed": 0,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 1
+      },
+      "summary": "Launch preparation remains intentionally deferred."
+    },
+    {
+      "stage_key": "outcome_review",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [],
+      "gate_status_counts": {
+        "passed": 0,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 1
+      },
+      "summary": "Outcome review remains intentionally deferred."
+    }
+  ],
+  "created_at": "2026-03-27T08:30:00Z"
+}

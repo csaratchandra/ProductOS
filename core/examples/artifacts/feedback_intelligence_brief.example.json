@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "feedback_intelligence_brief_id": "feedback_intelligence_brief_pm_ops_q1",
+  "workspace_id": "ws_productos_v2",
+  "title": "Feedback Intelligence Brief: PM operating workflows",
+  "feedback_period": {
+    "start_date": "2026-03-01",
+    "end_date": "2026-03-31"
+  },
+  "themes": [
+    {
+      "source_class": "customer_feedback",
+      "summary": "Customers want drafts they can approve quickly, but only when evidence remains visible.",
+      "sentiment": "mixed",
+      "action_implication": "Keep traceability visible in all leadership-facing and cross-functional outputs.",
+      "evidence_refs": ["source_note_card_consultant_ai_pm"]
+    },
+    {
+      "source_class": "analyst_feedback",
+      "summary": "Analyst-style market commentary suggests the category is shifting toward orchestration and trust rather than drafting volume.",
+      "sentiment": "positive",
+      "action_implication": "Position ProductOS as an operating system, not a generic drafting copilot.",
+      "evidence_refs": ["consultant_report_digest_ai_pm"]
+    }
+  ],
+  "created_at": "2026-03-20T12:45:00Z"
+}

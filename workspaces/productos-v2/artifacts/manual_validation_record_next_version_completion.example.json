@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "manual_validation_record_id": "manual_validation_record_ws_productos_v2_next_version_completion",
+  "workspace_id": "ws_productos_v2",
+  "subject_ref": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+  "subject_type": "feature_portfolio_review",
+  "validation_tier": "tier_2",
+  "validator_role": "PM Operator",
+  "scope": "targeted",
+  "decision": "accept",
+  "fit_notes": [
+    "The repo now supports one coherent next-version baseline from live inbox inputs through docs and deck, weekly operator review, and score-refresh follow-through.",
+    "The weekly PM autopilot is strong enough to become the default operating path inside the self-hosting workspace."
+  ],
+  "required_follow_ups": [
+    "Run the first non-Codex adapter parity loop against the same repo contract.",
+    "Define unattended market-refresh proof thresholds before broadening the market-intelligence claim."
+  ],
+  "related_validation_report_ref": "validation_lane_report_ws_productos_v2_next_version_completion",
+  "final_approval": true,
+  "recorded_at": "2026-03-22T16:22:00Z"
+}

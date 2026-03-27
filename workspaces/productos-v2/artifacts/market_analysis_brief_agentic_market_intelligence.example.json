@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "market_analysis_brief_id": "market_analysis_brief_agentic_market_intelligence",
+  "workspace_id": "ws_productos_v2",
+  "title": "Market Analysis Brief: agentic PM and intelligence tooling",
+  "market_name": "AI-assisted PM operating systems and agentic market-intelligence tooling",
+  "research_scope": "Current market signals across PM platforms, adjacent work platforms, deep-research products, and CI tooling that shape ProductOS research expectations.",
+  "category_summary": "The category is converging on grounded synthesis, recurring market refresh, and visible human controls rather than isolated drafting features.",
+  "trend_summary": "Direct PM platforms are adding AI context loading and drafting, while agentic research and CI products push expectations toward plan-and-execute research, watchlists, and exportable reports.",
+  "market_dynamics": [
+    "General-purpose deep research is making cited multi-source synthesis a baseline expectation.",
+    "CI tools are normalizing recurring competitor watchlists and scheduled refreshes.",
+    "Adjacent work platforms are exposing agent-facing access to workspace context."
+  ],
+  "ecosystem_dependencies": [
+    "Context quality depends on how well ProductOS can ingest asks, docs, feedback, and prior decisions.",
+    "External research quality depends on freshness controls and source-tier awareness."
+  ],
+  "regulatory_considerations": [
+    "Enterprise buyers increasingly expect clear source access controls and data-use boundaries.",
+    "Stakeholder-facing reports need explainable provenance when AI summarizes external information."
+  ],
+  "moat_pressures": [
+    "Report generation and summarization are commoditizing quickly.",
+    "Standalone research tools without workflow continuity are easier to copy."
+  ],
+  "key_uncertainties": [
+    "How much PM demand will consolidate into one operating system versus a stack of connected specialists?",
+    "Which agentic features buyers trust enough to run on schedule without manual pre-approval?"
+  ],
+  "feature_shifts": [
+    "From one-shot scans to recurring market refresh and deltas.",
+    "From drafting help to source-controlled research plans.",
+    "From generic chat to grounded context bridges and mixed-source reasoning."
+  ],
+  "agentic_market_signals": [
+    "Source choice and plan previews are becoming a visible part of trustworthy deep research.",
+    "Adaptive planning grounded in organizational context is now a differentiator in enterprise agent products.",
+    "Checkpointed autonomous work is replacing silent background automation."
+  ],
+  "source_note_card_ids": [
+    "source_note_card_openai_deep_research_official_2026",
+    "source_note_card_gemini_deep_research_official_2026",
+    "source_note_card_perplexity_deep_research_official_2026",
+    "source_note_card_glean_agentic_engine_official_2026",
+    "source_note_card_crayon_ci_official_2026",
+    "source_note_card_klue_compete_agent_official_2026",
+    "source_note_card_semrush_eyeon_official_2026"
+  ],
+  "source_artifact_ids": [
+    "research_notebook_agentic_market_intelligence",
+    "landscape_matrix_agentic_market_intelligence",
+    "competitor_dossier_agentic_market_intelligence"
+  ],
+  "last_refreshed_at": "2026-03-21T09:56:00Z",
+  "created_at": "2026-03-21T09:56:00Z"
+}

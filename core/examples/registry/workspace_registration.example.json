@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "registration_id": "ws_reg_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "workspace_name": "ProductOS V2 Workspace",
+  "current_core_version": "0.2.1",
+  "upgrade_history": [
+    {
+      "core_version": "0.1.0",
+      "adopted_at": "2026-03-19T17:40:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Initial workspace registration against ProductOS Core 0.1.0."
+    },
+    {
+      "core_version": "0.2.1",
+      "adopted_at": "2026-03-21T18:45:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS Core 0.2.1 after release-candidate validation and PM terminology cleanup."
+    }
+  ],
+  "registered_at": "2026-03-19T17:40:00Z"
+}

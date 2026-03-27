@@ -1,0 +1,177 @@
+{
+  "schema_version": "1.0.0",
+  "item_lifecycle_state_id": "item_lifecycle_state_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Starter workspace lifecycle trace demo",
+  "item_ref": {
+    "entity_type": "opportunity",
+    "entity_id": "opp_starter_trace_demo"
+  },
+  "current_stage": "release_readiness",
+  "overall_status": "completed",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_scaling_product_orgs"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_ops_lead"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_starter_trace_demo"
+    }
+  ],
+  "lifecycle_stages": [
+    {
+      "stage_key": "signal_intake",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "idea_record_starter_trace_demo"
+      ],
+      "summary": "The demo item was seeded into the starter workspace."
+    },
+    {
+      "stage_key": "research_synthesis",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "research_notebook_starter_trace_demo",
+        "competitor_dossier_starter_trace_demo",
+        "market_analysis_brief_starter_trace_demo"
+      ],
+      "summary": "Research framing is available in the starter demo."
+    },
+    {
+      "stage_key": "segmentation_and_personas",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "segment_map_starter_trace_demo",
+        "persona_pack_starter_trace_demo"
+      ],
+      "summary": "Segments and personas are linked to the demo item."
+    },
+    {
+      "stage_key": "problem_framing",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "problem_brief_starter_trace_demo"
+      ],
+      "summary": "The demo problem is framed."
+    },
+    {
+      "stage_key": "concept_shaping",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "concept_brief_starter_trace_demo"
+      ],
+      "summary": "The starter concept is selected."
+    },
+    {
+      "stage_key": "prototype_validation",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "prototype_record_starter_trace_demo"
+      ],
+      "summary": "The starter example includes a validated prototype record."
+    },
+    {
+      "stage_key": "prd_handoff",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "prd_starter_trace_demo",
+        "validation_lane_report_starter_trace_demo",
+        "manual_validation_record_starter_trace_demo"
+      ],
+      "summary": "The starter demo reaches PRD handoff."
+    },
+    {
+      "stage_key": "story_planning",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "story_pack_starter_trace_demo"
+      ],
+      "summary": "The starter demo includes one bounded delivery story linked to the seeded PRD."
+    },
+    {
+      "stage_key": "acceptance_ready",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "acceptance_criteria_set_starter_trace_demo"
+      ],
+      "summary": "The starter demo includes explicit acceptance-ready criteria for the bounded story."
+    },
+    {
+      "stage_key": "release_readiness",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "release_readiness_starter_trace_demo"
+      ],
+      "summary": "The starter demo reaches a bounded release-readiness checkpoint."
+    },
+    {
+      "stage_key": "launch_preparation",
+      "status": "not_started",
+      "gate_status": "not_started",
+      "artifact_ids": [],
+      "summary": "Launch preparation remains intentionally deferred in the starter demo."
+    },
+    {
+      "stage_key": "outcome_review",
+      "status": "not_started",
+      "gate_status": "not_started",
+      "artifact_ids": [],
+      "summary": "Outcome review remains intentionally deferred in the starter demo."
+    }
+  ],
+  "pending_questions": [
+    "Which launch and outcome artifacts should teams add first after replacing the demo data?"
+  ],
+  "blocked_reasons": [],
+  "audit_log": [
+    {
+      "timestamp": "2026-03-23T11:00:00Z",
+      "actor": "PM Builder",
+      "event_type": "artifact_created",
+      "summary": "The starter lifecycle demo bundle was created."
+    },
+    {
+      "timestamp": "2026-03-23T11:22:00Z",
+      "actor": "PM Builder",
+      "event_type": "handoff_prepared",
+      "summary": "The starter demo was approved for onboarding use."
+    },
+    {
+      "timestamp": "2026-03-27T08:15:00Z",
+      "actor": "PM Builder",
+      "event_type": "status_changed",
+      "summary": "The starter demo was extended beyond PRD handoff into bounded delivery planning."
+    },
+    {
+      "timestamp": "2026-03-27T08:30:00Z",
+      "actor": "PM Builder",
+      "event_type": "gate_passed",
+      "summary": "The starter demo reached release_readiness for the bounded V6 lifecycle slice."
+    }
+  ],
+  "created_at": "2026-03-23T11:00:00Z",
+  "updated_at": "2026-03-27T08:30:00Z"
+}

@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/feature_record.schema.json",
+  "title": "ProductOS Feature Record",
+  "description": "Canonical operational tracking record for a feature across lifecycle stages.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "feature_record_id",
+    "workspace_id",
+    "product_record_id",
+    "feature_id",
+    "title",
+    "lifecycle_stage",
+    "status",
+    "owner",
+    "target_release_or_increment",
+    "approvals",
+    "last_updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "feature_record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "product_record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "feature_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "lifecycle_stage": {
+      "type": "string",
+      "enum": [
+        "discovery",
+        "validation",
+        "delivery",
+        "launch",
+        "support"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "on_track",
+        "at_risk",
+        "blocked",
+        "done",
+        "parked"
+      ]
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_release_or_increment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dependency_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "risk_summary": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "linked_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "linked_decision_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "approvals": {
+      "$ref": "#/$defs/approvals"
+    },
+    "last_updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "approvals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pm",
+        "customer_commitment",
+        "compliance"
+      ],
+      "properties": {
+        "pm": {
+          "type": "string",
+          "enum": [
+            "not_needed",
+            "pending",
+            "approved"
+          ]
+        },
+        "customer_commitment": {
+          "type": "string",
+          "enum": [
+            "not_needed",
+            "pending",
+            "approved"
+          ]
+        },
+        "compliance": {
+          "type": "string",
+          "enum": [
+            "not_needed",
+            "pending",
+            "approved"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "persona_pack_id": "persona_pack_b2b_product_teams",
+  "workspace_id": "ws_productos_v2",
+  "title": "Persona Pack: B2B product teams",
+  "segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "personas": [
+    {
+      "persona_ref": {
+        "entity_type": "persona",
+        "entity_id": "persona_product_manager"
+      },
+      "role": "Product manager responsible for planning, follow-through, and status communication.",
+      "goals": [
+        "Keep stakeholders aligned with minimal manual reporting effort",
+        "Spend more time on product judgment and prioritization"
+      ],
+      "pains": [
+        "Status and action follow-through require manual reconstruction across tools",
+        "Operating state becomes stale quickly when updates are fragmented"
+      ],
+      "behavior_notes": [
+        "Will trust automation only when source state is visibly current",
+        "Needs concise drafts that are easy to review and edit"
+      ]
+    }
+  ],
+  "source_artifact_ids": [
+    "research_brief_pm_operating_rhythm",
+    "problem_brief_pm_operating_rhythm"
+  ],
+  "created_at": "2026-03-20T12:00:00Z"
+}

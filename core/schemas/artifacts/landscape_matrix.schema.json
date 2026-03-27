@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/landscape_matrix.schema.json",
+  "title": "ProductOS Landscape Matrix",
+  "description": "Structured competitor and alternative comparison across the dimensions that matter for product decisions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "landscape_matrix_id",
+    "workspace_id",
+    "title",
+    "comparison_axes",
+    "rows",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "landscape_matrix_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "research_scope": { "type": "string", "minLength": 5 },
+    "comparison_axes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "minItems": 3
+    },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "rows": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/row" },
+      "minItems": 2
+    },
+    "last_refreshed_at": { "type": "string", "format": "date-time" },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "positioning",
+        "pricing_signal",
+        "motion",
+        "strengths",
+        "weaknesses",
+        "implication"
+      ],
+      "properties": {
+        "name": { "type": "string", "minLength": 2 },
+        "category": {
+          "type": "string",
+          "enum": [
+            "direct_pm_platform",
+            "indirect_pm_platform",
+            "adjacent_work_platform",
+            "agentic_research_tool",
+            "competitive_intelligence_tool"
+          ]
+        },
+        "positioning": { "type": "string", "minLength": 5 },
+        "pricing_signal": { "type": "string", "minLength": 3 },
+        "motion": { "type": "string", "minLength": 5 },
+        "grounding_model": { "type": "string", "minLength": 5 },
+        "automation_depth": {
+          "type": "string",
+          "enum": ["assistive", "semi_autonomous", "agentic"]
+        },
+        "governance_posture": { "type": "string", "minLength": 5 },
+        "strengths": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "weaknesses": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "implication": { "type": "string", "minLength": 5 },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "last_checked_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

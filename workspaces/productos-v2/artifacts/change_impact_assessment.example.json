@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "assessment_id": "impact_2026_03_19_scope_shift",
+  "workspace_id": "ws_productos_v2",
+  "change_event_id": "chg_2026_03_19_scope_shift",
+  "generated_at": "2026-03-19T16:45:00Z",
+  "generated_by": {
+    "actor_type": "agent",
+    "actor_id": "workflow",
+    "display_name": "Workflow Agent"
+  },
+  "summary": "The change reduces current increment breadth, improves delivery confidence, and requires refresh of planning and stakeholder artifacts.",
+  "impact_level": "high",
+  "recommended_decision": "approve_replan",
+  "decision_required": true,
+  "pm_decision_deadline": "2026-03-20T10:00:00Z",
+  "assumptions": [
+    "Transcript-to-notes and bi-weekly status mail remain the highest-value PM workflow automations."
+  ],
+  "artifact_impacts": [
+    {
+      "artifact_id": "increment_plan_pi1_v1",
+      "artifact_type": "increment_plan",
+      "impact_type": "needs_refresh",
+      "action_required": "Re-slice increment scope and update the committed item list."
+    }
+  ],
+  "workflow_impacts": [
+    {
+      "workflow_id": "wf_biweekly_status_mail",
+      "workflow_name": "Bi-Weekly Status Mail Automation",
+      "impact_type": "continue",
+      "recommended_state": "active",
+      "rationale": "This workflow is now explicitly in scope."
+    },
+    {
+      "workflow_id": "wf_meeting_automation_full",
+      "workflow_name": "Full Meeting Automation",
+      "impact_type": "resequence",
+      "recommended_state": "replanning",
+      "rationale": "Defer broader automation until the next increment."
+    }
+  ],
+  "delivery_impacts": {
+    "scope_change": "decrease",
+    "timeline_change": "resequence",
+    "dependency_change": "none",
+    "quality_risk_change": "decrease",
+    "affected_increment_ids": [
+      "pi_2026_q2_01"
+    ]
+  },
+  "stakeholder_impacts": [
+    {
+      "stakeholder_group": "Leadership",
+      "impact_summary": "Receives a tighter increment with clearer quality boundaries.",
+      "communication_needed": true,
+      "communication_priority": "this_week"
+    }
+  ],
+  "risk_register": [
+    {
+      "risk_id": "risk_missing_pm_context",
+      "title": "Status mail may miss narrative context if PM inputs are not collected.",
+      "severity": "medium",
+      "mitigation": "Prompt PM only for missing narrative gaps not inferable from system records."
+    }
+  ],
+  "replan_options": [
+    {
+      "option_id": "opt_focus_pm_rhythm",
+      "label": "Focus current increment on PM operating rhythm",
+      "summary": "Deliver status mail, issue log, agenda, and transcript extraction before broader meeting automation.",
+      "customer_impact": "positive",
+      "delivery_risk": "low",
+      "time_cost": "low",
+      "recommended": true
+    }
+  ],
+  "publish_blocked": false
+}

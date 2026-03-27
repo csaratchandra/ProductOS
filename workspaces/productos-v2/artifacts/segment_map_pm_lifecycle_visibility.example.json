@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "segment_map_id": "segment_map_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "Segment map: teams needing lifecycle traceability",
+  "market_name": "PM lifecycle visibility systems",
+  "segmentation_lens": "workflow_maturity",
+  "segments": [
+    {
+      "name": "Product-led scaleups",
+      "definition": "Scaleup product teams that already have several disconnected discovery and delivery tools but weak decision traceability.",
+      "qualifying_traits": [
+        "multiple PMs",
+        "rapid roadmap changes",
+        "stakeholder review overhead"
+      ],
+      "attractiveness": "high",
+      "urgency": "high",
+      "evidence_refs": [
+        "source_note_card_jpd_official_pm_visibility_2026",
+        "source_note_card_linear_official_pm_visibility_2026"
+      ]
+    },
+    {
+      "name": "Enterprise platform PM organizations",
+      "definition": "Larger PM groups that need auditability, reusable gates, and clear handoffs across research, design, and delivery.",
+      "qualifying_traits": [
+        "governance-heavy",
+        "multi-team planning",
+        "audit requests"
+      ],
+      "attractiveness": "high",
+      "urgency": "medium",
+      "evidence_refs": [
+        "source_note_card_jira_official_pm_visibility_2026",
+        "source_note_card_aha_official_pm_visibility_2026"
+      ]
+    },
+    {
+      "name": "Product ops enabled mid-market teams",
+      "definition": "Mid-market teams that have enough process to care about standards but still struggle to keep discovery and launch history coherent.",
+      "qualifying_traits": [
+        "product ops support",
+        "cross-functional reviews",
+        "high manual note-taking"
+      ],
+      "attractiveness": "medium",
+      "urgency": "high",
+      "evidence_refs": [
+        "source_note_card_asana_official_pm_visibility_2026",
+        "source_note_card_clickup_official_pm_visibility_2026"
+      ]
+    }
+  ],
+  "created_at": "2026-03-23T09:40:00Z"
+}

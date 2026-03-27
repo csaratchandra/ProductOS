@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "user_story_id": "story-pm-review-status-draft",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "feature_biweekly_status_mail_automation",
+  "requirement_ids": ["req-status-mail-source-rollup"],
+  "title": "PM reviews generated status draft",
+  "narrative": "As a product manager, I want a generated status draft so that I can publish bi-weekly updates with minimal manual rewriting.",
+  "status": "ready",
+  "acceptance_criteria_refs": ["ac-status-mail-001"]
+}

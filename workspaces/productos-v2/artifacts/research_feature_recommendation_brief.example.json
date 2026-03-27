@@ -1,0 +1,177 @@
+{
+  "schema_version": "1.0.0",
+  "research_feature_recommendation_brief_id": "research_feature_recommendation_brief_ws_productos_v2_v4_1",
+  "workspace_id": "ws_productos_v2",
+  "title": "Research Feature Recommendation Brief: ProductOS V4.1 agentic market intelligence",
+  "research_scope": "Deep market research across direct PM platforms, indirect work platforms, deep-research products, and CI tools to determine what ProductOS should add to research and auto-research.",
+  "market_thesis": "The competitive bar has moved from AI drafting to grounded agentic research, recurring market refresh, and explicit controls. ProductOS should differentiate by combining PM-native structure, traceability, validation lanes, and loophole memory.",
+  "source_artifact_ids": [
+    "research_notebook_agentic_market_intelligence",
+    "landscape_matrix_agentic_market_intelligence",
+    "competitor_dossier_agentic_market_intelligence",
+    "market_analysis_brief_agentic_market_intelligence"
+  ],
+  "recommendations": [
+    {
+      "recommendation_id": "rec_market_watchlists",
+      "title": "Market watchlists with delta-first summaries",
+      "target_surface": "research",
+      "priority": "high",
+      "summary": "Let PMs track named competitors, feature shifts, and narrative deltas over time instead of recreating the landscape from scratch.",
+      "rationale": "Crayon, Klue, and Semrush all normalize recurring competitive refresh, while PM teams still need ProductOS-specific implications.",
+      "evidence_refs": [
+        "source_note_card_crayon_ci_official_2026",
+        "source_note_card_klue_compete_agent_official_2026",
+        "source_note_card_semrush_eyeon_official_2026"
+      ],
+      "competitor_refs": [
+        "Crayon",
+        "Klue",
+        "Semrush EyeOn"
+      ],
+      "capability_tags": [
+        "competitor-monitoring",
+        "delta-detection",
+        "scheduled-refresh"
+      ],
+      "implementation_shape": "Add competitor watchlists, stored delta history, and implication-first summaries to the research command center.",
+      "acceptance_signals": [
+        "A PM can refresh a competitor set and see only material changes since the last check.",
+        "Each delta links back to source note cards with freshness metadata."
+      ],
+      "guardrails": [
+        "Do not elevate a delta into a recommendation without checked-date evidence and confidence labeling."
+      ]
+    },
+    {
+      "recommendation_id": "rec_guided_deep_research",
+      "title": "Guided deep-research plans with scoped sources",
+      "target_surface": "auto_research",
+      "priority": "high",
+      "summary": "Introduce an auto-research mode that proposes a plan, lets the PM constrain sources, and then generates a cited report with open questions.",
+      "rationale": "OpenAI, Gemini, and Perplexity are training the market to expect plan-and-execute research rather than static summarization.",
+      "evidence_refs": [
+        "source_note_card_openai_deep_research_official_2026",
+        "source_note_card_gemini_deep_research_official_2026",
+        "source_note_card_perplexity_deep_research_official_2026"
+      ],
+      "competitor_refs": [
+        "OpenAI Deep Research",
+        "Gemini Deep Research",
+        "Perplexity Deep Research"
+      ],
+      "capability_tags": [
+        "research-planning",
+        "source-controls",
+        "citations"
+      ],
+      "implementation_shape": "Add a plan-preview artifact, source-scope selection, progress state, and report generation that preserves evidence links and confidence.",
+      "acceptance_signals": [
+        "The PM can approve or edit the proposed plan before the run starts.",
+        "The final report separates evidence, inference, contradictions, and next actions."
+      ],
+      "guardrails": [
+        "Do not start auto-research from unrestricted sources by default.",
+        "Do not hide contradictions behind a polished final summary."
+      ]
+    },
+    {
+      "recommendation_id": "rec_source_tier_grounding",
+      "title": "Mixed-source grounding with source-tier awareness",
+      "target_surface": "auto_research",
+      "priority": "high",
+      "summary": "Blend public web research, internal ProductOS memory, and structured asks into one evidence graph while keeping source tiers visible.",
+      "rationale": "Klue and Glean both demonstrate the value of mixed-source grounding, while Linear shows that asks and customer attribution matter operationally.",
+      "evidence_refs": [
+        "source_note_card_klue_compete_agent_official_2026",
+        "source_note_card_glean_agentic_engine_official_2026",
+        "source_note_card_linear_asks_official_2026"
+      ],
+      "competitor_refs": [
+        "Klue",
+        "Glean Agentic Engine",
+        "Linear"
+      ],
+      "capability_tags": [
+        "mixed-source-grounding",
+        "workspace-memory",
+        "ask-ingestion"
+      ],
+      "implementation_shape": "Extend source note cards and retrieval bundles with source tier, freshness, and public versus internal separation before synthesis.",
+      "acceptance_signals": [
+        "ProductOS can explain whether a claim came from public market evidence, internal memory, or customer asks.",
+        "The research output can filter or prioritize by source tier."
+      ],
+      "guardrails": [
+        "Do not collapse internal and external evidence into one trust label."
+      ]
+    },
+    {
+      "recommendation_id": "rec_context_bridge",
+      "title": "Agent-facing context bridge with retrieval-first mode",
+      "target_surface": "research",
+      "priority": "medium",
+      "summary": "Expose a retrieval-first context bridge so external or internal agents can pull approved ProductOS context without unrestricted write access.",
+      "rationale": "Notion MCP and adjacent platforms are normalizing agent-facing context access, but ProductOS needs tighter safety boundaries.",
+      "evidence_refs": [
+        "source_note_card_notion_mcp_official_2026",
+        "source_note_card_coda_ai_official_2026",
+        "source_note_card_asana_ai_teammates_official_2026"
+      ],
+      "competitor_refs": [
+        "Notion MCP",
+        "Coda AI",
+        "Asana AI Teammates"
+      ],
+      "capability_tags": [
+        "context-bridge",
+        "retrieval-first",
+        "agent-integration"
+      ],
+      "implementation_shape": "Start with retrieval-only context bundles and explicit scope controls before allowing workflow-triggered writes.",
+      "acceptance_signals": [
+        "An agent can consume approved ProductOS context without mutating canonical artifacts.",
+        "The PM can see which sources were exposed to the agent."
+      ],
+      "guardrails": [
+        "Write access should remain opt-in and separately governed.",
+        "Do not expose unapproved workspace content as agent context by default."
+      ]
+    },
+    {
+      "recommendation_id": "rec_ralph_governance",
+      "title": "Ralph loop and loophole memory for research outputs",
+      "target_surface": "validation_governance",
+      "priority": "high",
+      "summary": "Run inspect, review, validate, implement, fix, and revalidate over market-intelligence slices and record rejected paths or loopholes explicitly.",
+      "rationale": "The product market increasingly rewards speed, but ProductOS will lose trust if it cannot explain where auto-research failed or overreached.",
+      "evidence_refs": [
+        "market_analysis_brief_agentic_market_intelligence",
+        "competitor_dossier_agentic_market_intelligence",
+        "source_note_card_aha_knowledge_ai_official_2026"
+      ],
+      "competitor_refs": [
+        "Aha! Knowledge AI",
+        "OpenAI Deep Research",
+        "Glean Agentic Engine"
+      ],
+      "capability_tags": [
+        "ralph-loop",
+        "validation",
+        "loophole-memory"
+      ],
+      "implementation_shape": "Add a Ralph state artifact, validation and manual-review handoff, and a loophole audit that records what ProductOS still misses.",
+      "acceptance_signals": [
+        "Every market-intelligence slice has one explicit proceed or revise outcome.",
+        "At least one discovered loophole is recorded when the run exposes a structural weakness."
+      ],
+      "guardrails": [
+        "Do not treat schema validity as sufficient for market-intelligence trust.",
+        "Do not release auto-research claims without a named manual-review outcome."
+      ]
+    }
+  ],
+  "validation_tier": "tier_2",
+  "recommended_next_action": "Ship the V4.1 market-intelligence slice and use the next release to deepen recurring refresh and source controls.",
+  "created_at": "2026-03-21T10:00:00Z"
+}

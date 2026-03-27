@@ -1,0 +1,452 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/change_impact_assessment.schema.json",
+  "title": "ProductOS Change Impact Assessment",
+  "description": "A structured assessment of how a change event affects plans, artifacts, risks, and delivery commitments.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "assessment_id",
+    "workspace_id",
+    "change_event_id",
+    "generated_at",
+    "generated_by",
+    "summary",
+    "impact_level",
+    "recommended_decision",
+    "artifact_impacts",
+    "workflow_impacts",
+    "delivery_impacts",
+    "risk_register",
+    "decision_required"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "assessment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "change_event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "generated_by": {
+      "$ref": "#/$defs/actor"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "impact_level": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "negligible"
+      ]
+    },
+    "recommended_decision": {
+      "type": "string",
+      "enum": [
+        "approve_replan",
+        "refresh_artifacts_only",
+        "hold_current_plan",
+        "escalate",
+        "pause_delivery",
+        "reject_change",
+        "needs_pm_judgment"
+      ]
+    },
+    "decision_required": {
+      "type": "boolean"
+    },
+    "pm_decision_deadline": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "artifact_impacts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/artifactImpact"
+      }
+    },
+    "workflow_impacts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/workflowImpact"
+      }
+    },
+    "delivery_impacts": {
+      "$ref": "#/$defs/deliveryImpacts"
+    },
+    "stakeholder_impacts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/stakeholderImpact"
+      },
+      "default": []
+    },
+    "affected_entity_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entityRef"
+      },
+      "default": []
+    },
+    "risk_register": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/risk"
+      }
+    },
+    "replan_options": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/replanOption"
+      },
+      "default": []
+    },
+    "publish_blocked": {
+      "type": "boolean",
+      "default": false
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actor_type",
+        "actor_id",
+        "display_name"
+      ],
+      "properties": {
+        "actor_type": {
+          "type": "string",
+          "enum": [
+            "pm",
+            "agent",
+            "system"
+          ]
+        },
+        "actor_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "artifactImpact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "artifact_type",
+        "impact_type",
+        "action_required"
+      ],
+      "properties": {
+        "artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "impact_type": {
+          "type": "string",
+          "enum": [
+            "stale",
+            "contradicted",
+            "needs_refresh",
+            "needs_reapproval",
+            "blocked",
+            "no_change"
+          ]
+        },
+        "action_required": {
+          "type": "string",
+          "minLength": 3
+        },
+        "owner_role": {
+          "type": "string"
+        }
+      }
+    },
+    "workflowImpact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workflow_id",
+        "workflow_name",
+        "impact_type",
+        "recommended_state"
+      ],
+      "properties": {
+        "workflow_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workflow_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "impact_type": {
+          "type": "string",
+          "enum": [
+            "continue",
+            "resequence",
+            "pause",
+            "restart",
+            "escalate"
+          ]
+        },
+        "recommended_state": {
+          "type": "string",
+          "enum": [
+            "active",
+            "paused",
+            "blocked",
+            "replanning",
+            "completed"
+          ]
+        },
+        "rationale": {
+          "type": "string"
+        }
+      }
+    },
+    "deliveryImpacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope_change",
+        "timeline_change",
+        "dependency_change",
+        "quality_risk_change"
+      ],
+      "properties": {
+        "scope_change": {
+          "type": "string",
+          "enum": [
+            "increase",
+            "decrease",
+            "reshape",
+            "none"
+          ]
+        },
+        "timeline_change": {
+          "type": "string",
+          "enum": [
+            "accelerate",
+            "delay",
+            "resequence",
+            "none"
+          ]
+        },
+        "dependency_change": {
+          "type": "string",
+          "enum": [
+            "new_dependency",
+            "removed_dependency",
+            "dependency_at_risk",
+            "none"
+          ]
+        },
+        "quality_risk_change": {
+          "type": "string",
+          "enum": [
+            "increase",
+            "decrease",
+            "none"
+          ]
+        },
+        "affected_increment_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        }
+      }
+    },
+    "stakeholderImpact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stakeholder_group",
+        "impact_summary",
+        "communication_needed"
+      ],
+      "properties": {
+        "stakeholder_group": {
+          "type": "string",
+          "minLength": 1
+        },
+        "impact_summary": {
+          "type": "string",
+          "minLength": 5
+        },
+        "communication_needed": {
+          "type": "boolean"
+        },
+        "communication_priority": {
+          "type": "string",
+          "enum": [
+            "immediate",
+            "this_week",
+            "next_update",
+            "none"
+          ]
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "risk_id",
+        "title",
+        "severity",
+        "mitigation"
+      ],
+      "properties": {
+        "risk_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "mitigation": {
+          "type": "string",
+          "minLength": 5
+        },
+        "owner_role": {
+          "type": "string"
+        }
+      }
+    },
+    "replanOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "option_id",
+        "label",
+        "summary",
+        "customer_impact",
+        "delivery_risk",
+        "time_cost",
+        "recommended"
+      ],
+      "properties": {
+        "option_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 3
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 10
+        },
+        "customer_impact": {
+          "type": "string",
+          "enum": [
+            "positive",
+            "mixed",
+            "negative"
+          ]
+        },
+        "delivery_risk": {
+          "type": "string",
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "time_cost": {
+          "type": "string",
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "recommended": {
+          "type": "boolean"
+        }
+      }
+    },
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_type",
+        "entity_id"
+      ],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": [
+            "segment",
+            "persona",
+            "problem",
+            "outcome",
+            "opportunity",
+            "feature",
+            "metric",
+            "decision"
+          ]
+        },
+        "entity_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

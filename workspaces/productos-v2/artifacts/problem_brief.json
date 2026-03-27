@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "problem_brief_id": "problem_brief_pm_operating_rhythm",
+  "workspace_id": "ws_productos_v2",
+  "title": "Problem Brief: PM operating rhythm automation",
+  "problem_summary": "Product managers on B2B product teams lose high-value time because recurring status and coordination outputs must be manually reconstructed across fragmented sources.",
+  "target_segment_refs": [
+    { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
+  ],
+  "target_persona_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" }
+  ],
+  "linked_entity_refs": [
+    { "entity_type": "problem", "entity_id": "problem_pm_reporting_bottleneck" },
+    { "entity_type": "outcome", "entity_id": "outcome_reduce_pm_reporting_time" },
+    { "entity_type": "opportunity", "entity_id": "opp_pm_operating_rhythm_automation" },
+    { "entity_type": "feature", "entity_id": "feature_biweekly_status_mail_automation" }
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "meeting_record",
+      "source_id": "meeting_2026_03_19_leadership_review",
+      "justification": "Leadership review highlighted repeated PM overhead around status reconstruction."
+    },
+    {
+      "source_type": "research",
+      "source_id": "prototype_record_status_mail_draft",
+      "justification": "Prototype showed a viable path when state quality is sufficient."
+    }
+  ],
+  "upstream_artifact_ids": [
+    "idea_record_pm_status_automation",
+    "concept_brief_pm_operating_rhythm",
+    "research_brief_pm_operating_rhythm",
+    "prototype_record_status_mail_draft"
+  ],
+  "recommended_next_step": "prd",
+  "created_at": "2026-03-20T11:00:00Z"
+}

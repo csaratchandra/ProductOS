@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "release_scope_recommendation_id": "release_scope_recommendation_ws_productos_v2_runtime",
+  "workspace_id": "ws_productos_v2",
+  "target_release": "v3_0",
+  "change_classification": "major_product_change",
+  "release_type": "major",
+  "customer_visible": true,
+  "internal_only_artifact": true,
+  "rationale": "The repeated coordination-visibility pain changes the PM's live operating model and therefore belongs in the V3.0 runtime foundation.",
+  "evidence_refs": [
+    "feedback_cluster_state_ws_productos_v2_runtime",
+    "decision_queue_productos_v3",
+    "follow_up_queue_productos_v3",
+    "cockpit_state_ws_productos_v2_runtime"
+  ],
+  "recommended_actions": [
+    "Keep PM-visible coordination and queue-driven next actions in V3.0 scope.",
+    "Use post-launch evidence to decide which runtime expansion should lead V3.1."
+  ],
+  "deferred_feedback_ids": [
+    "pfb_005"
+  ],
+  "generated_at": "2026-03-21T23:30:00Z"
+}

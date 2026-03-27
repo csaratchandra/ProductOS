@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "ux_design_review_id": "ux_design_review_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "request_summary": "Review the item-first lifecycle trace concept and prototype before locking the V5 discovery proof into a PRD handoff package.",
+  "status": "approved",
+  "target_artifact_ids": [
+    "concept_brief_pm_lifecycle_visibility",
+    "prototype_record_pm_item_timeline",
+    "prd_pm_lifecycle_visibility"
+  ],
+  "primary_persona": "Senior product manager",
+  "user_flow_summary": "The PM should move from item identification to stage understanding, evidence review, gate confidence, and PRD handoff without opening unrelated artifacts first.",
+  "information_architecture_summary": "Item summary, stage timeline, linked artifacts, segments, personas, and validation state should appear as one coherent model with aggregate stage context available separately.",
+  "interaction_model_summary": "The trace view should privilege current stage and next action while keeping the full discovery chain scan-friendly and auditable.",
+  "accessibility_considerations": [
+    "Gate meaning should not rely only on color or iconography.",
+    "The stage timeline should remain readable in plain-text CLI output."
+  ],
+  "trust_considerations": [
+    "Every stage label should map to concrete artifacts.",
+    "Manual validation must remain visible before any PRD handoff is marked ready."
+  ],
+  "recommended_next_step": "prd",
+  "evidence_refs": [
+    "prototype_record_pm_item_timeline",
+    "concept_brief_pm_lifecycle_visibility"
+  ],
+  "generated_at": "2026-03-23T10:25:00Z"
+}

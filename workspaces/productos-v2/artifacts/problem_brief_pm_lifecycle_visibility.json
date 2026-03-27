@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "problem_brief_id": "problem_brief_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "Problem brief: PM lifecycle visibility gap",
+  "problem_summary": "PMs can see pieces of discovery and delivery in existing tools, but they still lack a single item narrative that explains stages passed, artifacts created, personas served, and downstream readiness.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_product_led_scaleups"
+    },
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_enterprise_platform_pm_orgs"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_group_pm"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_ops_lead"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_pm_discovery_visibility_gap"
+    },
+    {
+      "entity_type": "outcome",
+      "entity_id": "outcome_pm_end_to_end_traceability"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opp_pm_lifecycle_traceability"
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_item_lifecycle_traceability"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "research",
+      "source_id": "research_notebook_pm_lifecycle_visibility",
+      "justification": "The notebook shows that current tools either centralize work or accelerate output, but do not make the full item story auditable."
+    },
+    {
+      "source_type": "research",
+      "source_id": "competitor_dossier_pm_lifecycle_visibility",
+      "justification": "The mixed competitor set confirms that lifecycle explanation is weaker than planning or execution visibility."
+    },
+    {
+      "source_type": "research",
+      "source_id": "market_analysis_brief_pm_lifecycle_visibility",
+      "justification": "Market dynamics show trust and explainability becoming more important as AI output accelerates."
+    }
+  ],
+  "upstream_artifact_ids": [
+    "research_notebook_pm_lifecycle_visibility",
+    "segment_map_pm_lifecycle_visibility",
+    "persona_pack_pm_lifecycle_visibility"
+  ],
+  "recommended_next_step": "prd",
+  "created_at": "2026-03-23T10:05:00Z"
+}

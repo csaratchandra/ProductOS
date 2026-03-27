@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "manual_validation_record_id": "manual_validation_record_ws_productos_v2_doc_bundle_v4_0",
+  "workspace_id": "ws_productos_v2",
+  "subject_ref": "document_sync_state_ws_productos_v2_v4_readable_docs",
+  "subject_type": "readable_doc_bundle",
+  "validation_tier": "tier_2",
+  "validator_role": "PM Operator",
+  "scope": "targeted",
+  "decision": "accept",
+  "fit_notes": [
+    "The roadmap and PRD are readable enough to review with stakeholders without requiring raw JSON inspection.",
+    "Source linkage remains visible enough for the PM to defend where each claim came from."
+  ],
+  "required_follow_ups": [
+    "Add publishing metadata guidance for external SharePoint and Confluence sync.",
+    "Keep discovery-summary wording under review while the wider document taxonomy stabilizes."
+  ],
+  "related_validation_report_ref": "validation_lane_report_ws_productos_v2_doc_bundle_v4_0",
+  "final_approval": true,
+  "recorded_at": "2026-03-21T23:55:00Z"
+}

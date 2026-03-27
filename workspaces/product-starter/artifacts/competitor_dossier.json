@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "competitor_dossier_id": "competitor_dossier_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Competitor dossier: starter discovery trace demo",
+  "research_scope": "Lightweight starter comparison for teams learning the ProductOS lifecycle trace model.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_scaling_product_orgs"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    }
+  ],
+  "source_artifact_ids": [
+    "research_notebook_starter_trace_demo"
+  ],
+  "competitors": [
+    {
+      "name": "Jira Product Discovery",
+      "competitor_type": "direct",
+      "target_customer": "Teams wanting connected discovery and delivery planning.",
+      "positioning_summary": "Provides discovery capture, prioritization, and roadmap linkage to delivery.",
+      "go_to_market_motion": "Expansion from the broader Atlassian ecosystem.",
+      "pricing_signal": "Subscription SaaS with broader suite leverage.",
+      "strengths": [
+        "Connected workflow story",
+        "Familiar to Jira users"
+      ],
+      "weaknesses": [
+        "Lifecycle explanation can still span multiple surfaces"
+      ],
+      "implications": [
+        "The starter trace model should make the full discovery story easier to review in one place."
+      ]
+    },
+    {
+      "name": "Linear",
+      "competitor_type": "direct",
+      "target_customer": "Fast-moving product and engineering teams.",
+      "positioning_summary": "Unified product development workflow from roadmap to release.",
+      "go_to_market_motion": "Product-led adoption.",
+      "pricing_signal": "Seat-based SaaS pricing.",
+      "strengths": [
+        "Clear roadmap-to-release flow"
+      ],
+      "weaknesses": [
+        "PM audit lineage is not the main surface"
+      ],
+      "implications": [
+        "The starter should show why traceability matters before teams optimize for speed."
+      ]
+    }
+  ],
+  "created_at": "2026-03-23T11:06:00Z"
+}

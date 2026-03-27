@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "manual_validation_record_id": "manual_validation_record_ws_productos_v2_live_docs",
+  "workspace_id": "ws_productos_v2",
+  "subject_ref": "document_sync_state_ws_productos_v2_v4_2_live_docs",
+  "subject_type": "document_sync_state",
+  "validation_tier": "tier_2",
+  "validator_role": "PM Leader / Communicator",
+  "scope": "targeted",
+  "decision": "accept",
+  "fit_notes": [
+    "A new reader can now understand what ProductOS is and how it should be positioned without reading internal-only docs first.",
+    "The messaging bundle is stronger because it names hard claim boundaries instead of hiding them behind polished copy."
+  ],
+  "required_follow_ups": [
+    "Add a release-summary doc once the next stable version is promoted.",
+    "Decide which external publishing adapter should adopt the live-doc bundle first."
+  ],
+  "related_validation_report_ref": "validation_lane_report_ws_productos_v2_live_docs",
+  "final_approval": true,
+  "recorded_at": "2026-03-22T09:50:00Z"
+}

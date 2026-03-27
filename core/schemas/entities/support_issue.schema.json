@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/support_issue.schema.json",
+  "title": "ProductOS Support Issue Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "support_issue_id",
+    "workspace_id",
+    "customer_id",
+    "title",
+    "severity",
+    "status",
+    "source_channel"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "support_issue_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "customer_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "investigating", "mitigating", "resolved"]
+    },
+    "source_channel": {
+      "type": "string",
+      "enum": ["email", "ticket", "slack", "call", "crm"]
+    },
+    "linked_release_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    }
+  }
+}

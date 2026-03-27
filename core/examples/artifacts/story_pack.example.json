@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.1.0",
+  "story_pack_id": "story_pack_status_mail",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "feature_biweekly_status_mail_automation",
+  "stories": [
+    {
+      "story_id": "story_generate_status_draft",
+      "title": "Generate status draft from workspace state",
+      "narrative": "As a PM, I want ProductOS to draft a status update from current artifacts so I do not manually reconstruct work every cycle.",
+      "implementation_context_refs": [
+        {
+          "context_type": "markdown",
+          "title": "Status Draft Engineering Handoff",
+          "path": "workspaces/productos-v2/handoffs/story_generate_status_draft.md",
+          "summary": "Execution notes, required source artifacts, and edge cases for the delivery team."
+        }
+      ],
+      "linked_entity_refs": [
+        { "entity_type": "persona", "entity_id": "persona_product_manager" },
+        { "entity_type": "feature", "entity_id": "feature_biweekly_status_mail_automation" },
+        { "entity_type": "outcome", "entity_id": "outcome_reduce_pm_reporting_time" }
+      ]
+    }
+  ]
+}

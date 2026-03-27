@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "follow_up_queue_id": "follow_up_queue_productos_v4_4",
+  "workspace_id": "ws_productos_v2",
+  "generated_at": "2026-03-22T16:11:30Z",
+  "items": [
+    {
+      "follow_up_id": "followup_archive_v4_6_release_evidence",
+      "title": "Archived the V4.6 release evidence bundle in the historical artifact archive",
+      "source_type": "review",
+      "source_id": "historical_artifact_archive_2026_03_27",
+      "owner": "ProductOS PM",
+      "due_date": "2026-03-24",
+      "priority": "time_sensitive",
+      "status": "completed",
+      "escalation_needed": false
+    },
+    {
+      "follow_up_id": "followup_run_claude_style_adapter_parity",
+      "title": "Archive the adapter-parity proof bundle with the next-version evidence pack",
+      "source_type": "review",
+      "source_id": "feature_scorecard_ws_productos_v2_agent_adapter_layer",
+      "owner": "ProductOS PM",
+      "due_date": "2026-03-24",
+      "priority": "routine",
+      "status": "completed",
+      "escalation_needed": false
+    },
+    {
+      "follow_up_id": "followup_refresh_market_intelligence_guardrails",
+      "title": "Archive the market-intelligence leadership-distribution proof bundle",
+      "source_type": "review",
+      "source_id": "feature_scorecard_ws_productos_v2_market_intelligence_superpower",
+      "owner": "ProductOS PM",
+      "due_date": "2026-03-26",
+      "priority": "routine",
+      "status": "completed",
+      "escalation_needed": false
+    },
+    {
+      "follow_up_id": "followup_choose_external_publication_adapter",
+      "title": "Choose the first external publication adapter after the promoted baseline",
+      "source_type": "review",
+      "source_id": "decision_queue_productos_v4_4",
+      "owner": "ProductOS PM",
+      "due_date": "2026-03-30",
+      "priority": "routine",
+      "status": "open",
+      "escalation_needed": false
+    }
+  ]
+}

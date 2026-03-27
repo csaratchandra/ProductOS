@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "slide_spec_id": "slide_spec_pm_ops_q2",
+  "presentation_brief_id": "presentation_brief_pm_ops_q2",
+  "workspace_id": "ws_productos_v2",
+  "theme": {
+    "preset": "atlas",
+    "font_family": "'Space Grotesk', 'Avenir Next', sans-serif",
+    "background": "linear-gradient(135deg, #f7f2e8 0%, #d7e6f5 100%)",
+    "accent": "#1e5aa8"
+  },
+  "aspect_ratio": "16:9",
+  "slides": [
+    {
+      "slide_id": "slide_cover",
+      "title": "PM Operating System Update",
+      "layout": "cover",
+      "eyebrow": "Leadership Review",
+      "blocks": [
+        {
+          "block_type": "headline",
+          "content": "ProductOS is moving from artifact collection to a controlled operating system."
+        },
+        {
+          "block_type": "closing_note",
+          "content": "Q2 implementation snapshot"
+        }
+      ]
+    },
+    {
+      "slide_id": "slide_summary",
+      "title": "Where We Are",
+      "layout": "headline_grid",
+      "eyebrow": "Current State",
+      "blocks": [
+        {
+          "block_type": "bullets",
+          "content": [
+            "Delivery, tracking, and upstream framing layers are implemented.",
+            "Manual and integrated operating modes both exist.",
+            "Presentation outputs can now be normalized into a reusable slide spec."
+          ]
+        }
+      ]
+    },
+    {
+      "slide_id": "slide_risks",
+      "title": "What Still Needs Work",
+      "layout": "risk_matrix",
+      "eyebrow": "Gaps",
+      "blocks": [
+        {
+          "block_type": "risk",
+          "content": [
+            "Cockpit mode behavior is not fully specified.",
+            "Visual operating system templates are still missing.",
+            "PPT export adapter is planned but not wired to a library yet."
+          ]
+        }
+      ]
+    }
+  ],
+  "generated_at": "2026-03-20T13:10:00Z"
+}

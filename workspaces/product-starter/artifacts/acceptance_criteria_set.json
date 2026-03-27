@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "acceptance_criteria_set_id": "acceptance_criteria_set_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "story_id": "story_starter_trace_delivery_demo",
+  "criteria": [
+    {
+      "criterion_id": "ac_starter_trace_1",
+      "statement": "The starter trace shows one story-planning output linked back to the seeded PRD and canonical item.",
+      "testable": true
+    },
+    {
+      "criterion_id": "ac_starter_trace_2",
+      "statement": "The starter trace exposes acceptance-ready criteria that remain within the seeded story scope.",
+      "testable": true
+    },
+    {
+      "criterion_id": "ac_starter_trace_3",
+      "statement": "The starter trace reaches release readiness while keeping launch preparation and outcome review explicitly not started.",
+      "testable": true
+    }
+  ]
+}

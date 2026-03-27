@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "prd_id": "prd_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "PRD: Starter lifecycle trace demo",
+  "problem_summary": "New teams need a concrete example of what good ProductOS lifecycle traceability looks like.",
+  "outcome_summary": "The starter workspace demonstrates one lifecycle item through release readiness with clear artifacts, gate outcomes, and explicit deferred later stages.",
+  "scope_summary": "Seed the starter with discovery artifacts, a bounded story pack, acceptance criteria, release readiness, and lifecycle snapshots that demonstrate the full V6 trace shape.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_scaling_product_orgs"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_starter_trace_demo"
+    }
+  ],
+  "upstream_artifact_ids": [
+    "research_notebook_starter_trace_demo",
+    "segment_map_starter_trace_demo",
+    "persona_pack_starter_trace_demo",
+    "competitor_dossier_starter_trace_demo",
+    "market_analysis_brief_starter_trace_demo",
+    "problem_brief_starter_trace_demo",
+    "concept_brief_starter_trace_demo",
+    "prototype_record_starter_trace_demo"
+  ],
+  "generated_at": "2026-03-27T08:30:00Z"
+}

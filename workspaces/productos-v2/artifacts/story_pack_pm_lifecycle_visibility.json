@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.1.0",
+  "story_pack_id": "story_pack_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "feature_item_lifecycle_traceability",
+  "stories": [
+    {
+      "story_id": "story_extend_item_trace_into_delivery",
+      "title": "Extend the item trace into delivery and release readiness",
+      "narrative": "As a PM, I want ProductOS to keep one canonical item trace through story planning, acceptance readiness, and release readiness so I can inspect downstream readiness without rebuilding the story manually.",
+      "implementation_context_refs": [
+        {
+          "context_type": "markdown",
+          "title": "Lifecycle Trace Delivery Handoff",
+          "path": "workspaces/productos-v2/docs/delivery/lifecycle-release-readiness-review.md",
+          "summary": "Delivery-boundary notes and release-readiness expectations for the bounded V6 lifecycle slice."
+        }
+      ],
+      "linked_entity_refs": [
+        {
+          "entity_type": "persona",
+          "entity_id": "persona_pm_operator"
+        },
+        {
+          "entity_type": "feature",
+          "entity_id": "feature_item_lifecycle_traceability"
+        },
+        {
+          "entity_type": "outcome",
+          "entity_id": "outcome_pm_end_to_end_traceability"
+        },
+        {
+          "entity_type": "opportunity",
+          "entity_id": "opp_pm_lifecycle_traceability"
+        }
+      ]
+    }
+  ]
+}

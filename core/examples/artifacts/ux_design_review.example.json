@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "ux_design_review_id": "ux_design_review_pm_operating_rhythm_v3_1",
+  "workspace_id": "ws_productos_v2",
+  "request_summary": "Review the PM operating rhythm concept and prototype before expanding into V3.1 UX and visual superpowers.",
+  "status": "approved",
+  "target_artifact_ids": [
+    "concept_brief_pm_operating_rhythm",
+    "prototype_record_status_mail_draft",
+    "prd_pm_operating_rhythm"
+  ],
+  "primary_persona": "Product manager",
+  "user_flow_summary": "The PM should move from signal review to decision, status communication, and roadmap updates without rebuilding context manually.",
+  "information_architecture_summary": "Cockpit, queues, evidence, and human-readable product docs should be clearly separated but cross-linked.",
+  "interaction_model_summary": "The system should surface the next recommended action, required review, design critique, and stakeholder-ready outputs from one coordinated flow.",
+  "accessibility_considerations": [
+    "Status and blocker meaning should not depend only on color.",
+    "Readable docs and visual reasoning outputs should preserve hierarchy in plain-text form."
+  ],
+  "trust_considerations": [
+    "Recommendations must distinguish evidence-backed critique from design inference.",
+    "The PM must remain the approval gate before design recommendations harden into PRD scope."
+  ],
+  "recommended_next_step": "prd",
+  "evidence_refs": [
+    "concept_brief_pm_operating_rhythm",
+    "prototype_record_status_mail_draft",
+    "prd_pm_operating_rhythm"
+  ],
+  "generated_at": "2026-03-21T23:45:00Z"
+}

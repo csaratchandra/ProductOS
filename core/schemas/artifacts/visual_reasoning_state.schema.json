@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/visual_reasoning_state.schema.json",
+  "title": "ProductOS Visual Reasoning State",
+  "description": "State showing how visual reasoning artifacts are being used to improve PM understanding and communication.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "visual_reasoning_state_id",
+    "workspace_id",
+    "status",
+    "goal",
+    "visual_specs",
+    "linked_artifact_ids",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "visual_reasoning_state_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["planned", "active", "reviewed", "completed"]
+    },
+    "goal": { "type": "string", "minLength": 10 },
+    "visual_specs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "visual_map_spec_id",
+          "map_type",
+          "purpose",
+          "audience",
+          "status",
+          "primary_message"
+        ],
+        "properties": {
+          "visual_map_spec_id": { "type": "string", "minLength": 1 },
+          "map_type": {
+            "type": "string",
+            "enum": ["workflow_map", "user_journey_map", "roadmap_view", "capability_map", "process_flow"]
+          },
+          "purpose": { "type": "string", "minLength": 5 },
+          "audience": { "type": "string", "minLength": 3 },
+          "status": { "type": "string", "enum": ["planned", "drafted", "reviewed", "approved"] },
+          "primary_message": { "type": "string", "minLength": 10 }
+        }
+      },
+      "minItems": 1
+    },
+    "benchmark_hypotheses": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "linked_artifact_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/item_lifecycle_state.schema.json",
+  "title": "ProductOS Item Lifecycle State",
+  "description": "Canonical trace state for one opportunity or feature item as it moves through lifecycle stages, artifacts, and review gates.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "item_lifecycle_state_id",
+    "workspace_id",
+    "title",
+    "item_ref",
+    "current_stage",
+    "overall_status",
+    "target_segment_refs",
+    "target_persona_refs",
+    "lifecycle_stages",
+    "audit_log",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "item_lifecycle_state_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "item_ref": {
+      "$ref": "#/$defs/entityRef"
+    },
+    "current_stage": {
+      "$ref": "#/$defs/stageKey"
+    },
+    "overall_status": {
+      "type": "string",
+      "enum": [
+        "active_discovery",
+        "ready_for_handoff",
+        "blocked",
+        "completed",
+        "parked"
+      ]
+    },
+    "target_segment_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entityRef"
+      },
+      "minItems": 1
+    },
+    "target_persona_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entityRef"
+      },
+      "minItems": 1
+    },
+    "linked_entity_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entityRef"
+      },
+      "default": []
+    },
+    "lifecycle_stages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/stageState"
+      },
+      "minItems": 1
+    },
+    "pending_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "default": []
+    },
+    "blocked_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "default": []
+    },
+    "audit_log": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/auditEntry"
+      },
+      "minItems": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "stageKey": {
+      "type": "string",
+      "enum": [
+        "signal_intake",
+        "research_synthesis",
+        "segmentation_and_personas",
+        "problem_framing",
+        "concept_shaping",
+        "prototype_validation",
+        "prd_handoff",
+        "story_planning",
+        "acceptance_ready",
+        "release_readiness",
+        "launch_preparation",
+        "outcome_review"
+      ]
+    },
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id"],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": [
+            "segment",
+            "persona",
+            "problem",
+            "outcome",
+            "opportunity",
+            "feature",
+            "metric",
+            "decision"
+          ]
+        },
+        "entity_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "stageState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_key",
+        "status",
+        "gate_status",
+        "artifact_ids",
+        "summary"
+      ],
+      "properties": {
+        "stage_key": {
+          "$ref": "#/$defs/stageKey"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "completed",
+            "in_progress",
+            "blocked",
+            "not_started"
+          ]
+        },
+        "gate_status": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "pending",
+            "blocked",
+            "not_started"
+          ]
+        },
+        "artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 5
+        }
+      }
+    },
+    "auditEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timestamp",
+        "actor",
+        "event_type",
+        "summary"
+      ],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "actor": {
+          "type": "string",
+          "minLength": 2
+        },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "artifact_created",
+            "gate_passed",
+            "status_changed",
+            "handoff_prepared",
+            "note"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 5
+        }
+      }
+    }
+  }
+}

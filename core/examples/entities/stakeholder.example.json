@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "stakeholder_id": "stakeholder-director-product-ops",
+  "workspace_id": "ws_productos_v2",
+  "name": "Ralph Simmons",
+  "role": "Director of Product Operations",
+  "influence_level": "high",
+  "alignment_status": "supportive",
+  "linked_feature_ids": ["feature_biweekly_status_mail_automation"]
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "prototype_record_id": "prototype_record_status_mail_draft",
+  "workspace_id": "ws_productos_v2",
+  "concept_brief_id": "concept_brief_pm_operating_rhythm",
+  "title": "Status mail draft prototype",
+  "prototype_type": "doc",
+  "objective": "Test whether a structured input bundle can produce a credible first draft for PM review.",
+  "status": "validated",
+  "target_segment_refs": [
+    { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
+  ],
+  "target_persona_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" }
+  ],
+  "validation_focus": [
+    "workflow_fit",
+    "clarity"
+  ],
+  "learnings": [
+    "A structured draft is useful when issue status and decision context are current.",
+    "Narrative quality drops when upstream state is stale."
+  ],
+  "recommendation": "advance_to_problem_brief",
+  "evaluated_at": "2026-03-20T10:00:00Z"
+}

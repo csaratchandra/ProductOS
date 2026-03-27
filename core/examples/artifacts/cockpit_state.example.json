@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "cockpit_state_id": "cockpit_state_ws_productos_v2_runtime",
+  "workspace_id": "ws_productos_v2",
+  "mode": "plan",
+  "status": "active",
+  "coordination_status": "healthy",
+  "request_summary": "Operate the completed V3.0 runtime foundation from one PM-facing cockpit surface.",
+  "current_focus": "Keep queue actions, intake routing, and memory reuse legible now that the V3.0 runtime foundation is live.",
+  "recommended_next_step": {
+    "action_summary": "Review the highest-priority post-launch decision and follow-up item from the live runtime queues.",
+    "target_type": "queue",
+    "target_ref": "decision_queue_productos_v3",
+    "rationale": "V3.0 is complete, so the cockpit should now steer ongoing prioritization instead of waiting on foundation work."
+  },
+  "active_agents": [
+    {
+      "agent_name": "cockpit",
+      "status": "active",
+      "current_task": "Maintain PM-visible runtime state and expose the next controlled action."
+    },
+    {
+      "agent_name": "orchestrator",
+      "status": "completed",
+      "current_task": "Completed the V3.0 foundation route plan and keeps handoff history available for inspection."
+    },
+    {
+      "agent_name": "validation",
+      "status": "completed",
+      "current_task": "Completed schema, artifact, and runtime proof validation for the V3.0 foundation."
+    }
+  ],
+  "active_queue_refs": [
+    {
+      "queue_type": "decision_queue",
+      "artifact_id": "decision_queue_productos_v3",
+      "summary": "Choose the first V3.1 runtime expansion based on the completed V3.0 benchmark evidence"
+    },
+    {
+      "queue_type": "follow_up_queue",
+      "artifact_id": "follow_up_queue_productos_v3",
+      "summary": "Archive the automated V3.0 validation evidence before manual verification"
+    }
+  ],
+  "queue_recommendations": [
+    {
+      "queue_type": "decision_queue",
+      "artifact_id": "decision_queue_productos_v3",
+      "item_id": "dec_prioritize_v3_1_runtime_expansion",
+      "recommended_action": "review_now",
+      "urgency": "routine",
+      "why_now": "The runtime foundation is live and the next decision should shape the first V3.1 expansion based on evidence."
+    },
+    {
+      "queue_type": "follow_up_queue",
+      "artifact_id": "follow_up_queue_productos_v3",
+      "item_id": "followup_archive_v3_validation_evidence",
+      "recommended_action": "start",
+      "urgency": "time_sensitive",
+      "why_now": "Validation evidence is complete and should be archived before the manual verification pass begins."
+    }
+  ],
+  "active_orchestration_state_id": "orch_state_ws_productos_v2_runtime",
+  "active_execution_session_state_ids": [
+    "exec_session_ws_productos_v2_runtime"
+  ],
+  "active_workflow_state_ids": [
+    "wf_state_v3_runtime_foundation_2026_03_21"
+  ],
+  "blocked_route_ids": [],
+  "awaiting_review_route_ids": [],
+  "pending_review_points": [],
+  "missing_context_questions": [],
+  "blocking_reasons": [],
+  "source_artifact_ids": [
+    "decision_queue_productos_v3",
+    "follow_up_queue_productos_v3",
+    "productos_feedback_log_2026_03_21"
+  ],
+  "created_at": "2026-03-21T23:30:00Z",
+  "updated_at": "2026-03-21T23:30:00Z"
+}

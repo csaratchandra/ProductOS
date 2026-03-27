@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/story_pack.schema.json",
+  "title": "ProductOS Story Pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "story_pack_id",
+    "workspace_id",
+    "feature_id",
+    "stories"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.1.0" },
+    "story_pack_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "feature_id": { "type": "string", "minLength": 1 },
+    "stories": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/story" },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "story": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["story_id", "title", "narrative", "linked_entity_refs"],
+      "properties": {
+        "story_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "narrative": { "type": "string", "minLength": 10 },
+        "implementation_context_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/contextRef" },
+          "minItems": 1
+        },
+        "linked_entity_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/entityRef" },
+          "minItems": 1
+        }
+      }
+    },
+    "contextRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context_type", "title", "path"],
+      "properties": {
+        "context_type": {
+          "type": "string",
+          "enum": ["markdown", "wireframe", "api_contract", "test_notes", "other"]
+        },
+        "title": { "type": "string", "minLength": 3 },
+        "path": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 3 }
+      }
+    },
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id"],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": ["segment", "persona", "problem", "outcome", "opportunity", "feature", "metric", "decision"]
+        },
+        "entity_id": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

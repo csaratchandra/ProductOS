@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/publish_check.schema.json",
+  "title": "ProductOS Publish Check",
+  "description": "Validation result for whether a narrative rendering is ready for distribution in a target format.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "publish_check_id",
+    "workspace_id",
+    "presentation_brief_id",
+    "render_spec_id",
+    "target_format",
+    "publish_ready",
+    "blocking_issues",
+    "evidence_coverage",
+    "risk_visibility",
+    "audience_safety_status",
+    "narrative_quality_score",
+    "evidence_quality_score",
+    "audience_fit_score",
+    "visual_clarity_score",
+    "html_fidelity_status",
+    "ppt_fidelity_status",
+    "redaction_status",
+    "claim_support_exceptions",
+    "density_exceptions",
+    "missing_objections",
+    "fidelity_exceptions",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "publish_check_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "presentation_brief_id": { "type": "string", "minLength": 1 },
+    "render_spec_id": { "type": "string", "minLength": 1 },
+    "target_format": {
+      "type": "string",
+      "enum": ["html", "pptx", "memo", "one_page", "meeting_brief", "customer_narrative"]
+    },
+    "publish_ready": { "type": "boolean" },
+    "blocking_issues": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 }
+    },
+    "evidence_coverage": {
+      "type": "string",
+      "enum": ["full", "partial", "missing"]
+    },
+    "risk_visibility": {
+      "type": "string",
+      "enum": ["explicit", "partial", "hidden"]
+    },
+    "audience_safety_status": {
+      "type": "string",
+      "enum": ["safe", "mixed", "blocked"]
+    },
+    "narrative_quality_score": { "type": "number", "minimum": 0, "maximum": 5 },
+    "evidence_quality_score": { "type": "number", "minimum": 0, "maximum": 5 },
+    "audience_fit_score": { "type": "number", "minimum": 0, "maximum": 5 },
+    "visual_clarity_score": { "type": "number", "minimum": 0, "maximum": 5 },
+    "html_fidelity_status": {
+      "type": "string",
+      "enum": ["aligned", "partial", "at_risk"]
+    },
+    "ppt_fidelity_status": {
+      "type": "string",
+      "enum": ["aligned", "planned_fallbacks", "at_risk"]
+    },
+    "redaction_status": {
+      "type": "string",
+      "enum": ["safe", "mixed", "blocked"]
+    },
+    "claim_support_exceptions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 }
+    },
+    "density_exceptions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 }
+    },
+    "missing_objections": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 }
+    },
+    "fidelity_exceptions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 }
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

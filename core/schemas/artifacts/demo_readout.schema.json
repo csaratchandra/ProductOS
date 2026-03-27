@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/demo_readout.schema.json",
+  "title": "ProductOS Demo Readout",
+  "description": "Structured sprint or demo readout artifact covering features demoed, feedback, and next steps.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "demo_readout_id",
+    "workspace_id",
+    "demo_date",
+    "audience",
+    "features_demoed",
+    "next_sprint_focus",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "demo_readout_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "demo_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "increment_id": {
+      "type": "string"
+    },
+    "audience": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "features_demoed": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/demoFeature"
+      },
+      "minItems": 1
+    },
+    "key_learnings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "default": []
+    },
+    "feedback_items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/feedbackItem"
+      },
+      "default": []
+    },
+    "next_sprint_focus": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "minItems": 1
+    },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "demoFeature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "feature_name",
+        "status",
+        "description"
+      ],
+      "properties": {
+        "feature_name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "completed",
+            "partial",
+            "deferred"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 5
+        },
+        "acceptance_result": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "failed",
+            "not_tested"
+          ]
+        }
+      }
+    },
+    "feedbackItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "feedback",
+        "source",
+        "action_required"
+      ],
+      "properties": {
+        "feedback": {
+          "type": "string",
+          "minLength": 5
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "action_required": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

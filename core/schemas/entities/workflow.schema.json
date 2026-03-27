@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/workflow.schema.json",
+  "title": "ProductOS Workflow Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "workflow_id",
+    "workspace_id",
+    "workflow_spec_id",
+    "name",
+    "purpose",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "workflow_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "workflow_spec_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 3 },
+    "purpose": { "type": "string", "minLength": 10 },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "paused", "retired"]
+    },
+    "primary_artifact_types": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "minItems": 1
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/opportunity.schema.json",
+  "title": "ProductOS Opportunity Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "opportunity_id",
+    "workspace_id",
+    "title",
+    "summary",
+    "problem_id",
+    "outcome_id",
+    "confidence_score"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "opportunity_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "summary": { "type": "string", "minLength": 10 },
+    "problem_id": { "type": "string", "minLength": 1 },
+    "outcome_id": { "type": "string", "minLength": 1 },
+    "confidence_score": { "type": "number", "minimum": 0, "maximum": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["candidate", "validated", "prioritized", "deferred"],
+      "default": "candidate"
+    }
+  }
+}

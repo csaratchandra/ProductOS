@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_asana_ai_teammates_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://asana.com/product/ai/ai-teammates",
+  "title": "Asana AI Teammates emphasize context, checkpoints, and control",
+  "claim": "Asana positions AI Teammates as collaborative agents with full or topic-specific context that keep teams informed through checkpoints and operate under user control.",
+  "source_snippet": "AI teammates can synthesize research, analyze data, and flag risks while showing their work.",
+  "implication": "ProductOS should make agent checkpoints and visible work state first-class in auto-research instead of burying autonomous steps.",
+  "confidence": "high",
+  "followup_questions": [
+    "Which ProductOS research checkpoints should be mandatory before downstream planning or release claims?"
+  ],
+  "source_metadata": {
+    "source_url": "https://asana.com/product/ai/ai-teammates",
+    "retrieved_at": "2026-03-21T08:59:00Z",
+    "source_slice_ref": "ai-teammates-overview",
+    "dedupe_key": "asana-ai-teammates-overview",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "asana-ai-teammates-overview",
+  "tags": ["research", "indirect", "asana", "agents"],
+  "created_at": "2026-03-21T09:00:00Z"
+}

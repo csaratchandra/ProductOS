@@ -1,0 +1,177 @@
+{
+  "schema_version": "1.0.0",
+  "presentation_brief_id": "presentation_brief_pm_ops_q2",
+  "workspace_id": "ws_productos_core",
+  "title": "PM Operating System Update",
+  "presentation_archetype": "decision_recommendation",
+  "audience": "Leadership",
+  "objective": "Explain current product operating progress, top risks, and the next decisions needed using a modern concise deck.",
+  "presentation_mode": "async",
+  "presenter_mode": "self_explanatory",
+  "audience_type": "leadership",
+  "audience_familiarity": "medium",
+  "decision_required": "Approve the current presentation-system scope and publishing model.",
+  "decision_stakes": "strategic",
+  "delivery_context": "Quarterly leadership review for ProductOS operating-system maturity.",
+  "density_preference": "balanced",
+  "narrative_goal": "Lead with the decision, back it with operating evidence, and show the publish-safe path for the current presentation system.",
+  "deck_length_target": "tight",
+  "appendix_mode": "evidence_trace",
+  "redaction_policy": "leadership_safe",
+  "tone_profile": "decisive",
+  "success_outcome": "Leadership should approve the current presentation-system investment and understand why this is a trust-and-execution upgrade rather than cosmetic work.",
+  "audience_constraints": [
+    "Keep the deck self-explanatory without relying on a live presenter.",
+    "Make risks and implementation boundaries explicit."
+  ],
+  "required_objections": [
+    "Why is stronger styling alone insufficient?",
+    "How do we keep better storytelling from overstating certainty?"
+  ],
+  "non_negotiables": [
+    "Do not hide risk or confidence limits.",
+    "Do not let rendered slides become the source of truth."
+  ],
+  "comparison_baseline": "Current presentation pipeline in ProductOS",
+  "theme_preset": "atlas",
+  "presentation_format": "both",
+  "slide_outlines": [
+    {
+      "slide_id": "slide_cover",
+      "title": "PM Operating System Update",
+      "intent": "cover",
+      "audience_question": "What decision should leadership make about the presentation capability now?",
+      "claim": "The presentation system should be funded as a narrative rendering system, not treated as a visual polish pass.",
+      "proof_requirements": [
+        "State the decision clearly",
+        "Show why the current architecture, not just the current styling, is the real constraint"
+      ],
+      "core_message": "The presentation system should behave like a narrative rendering system, not a prettier slide generator.",
+      "key_points": [
+        "Q2 view",
+        "Leadership review"
+      ],
+      "evidence_refs": [
+        "portfolio_update_2026_03_19",
+        "leadership_review_2026_03_19"
+      ],
+      "cta": "Approve the current presentation-system scope.",
+      "appendix_link": "appendix_decision_scope",
+      "speaker_notes": "Open with the point of view: the current output is structurally thin, so better styling alone will not fix it.",
+      "visual_direction": "Hero statement with restrained supporting signals."
+    },
+    {
+      "slide_id": "slide_summary",
+      "title": "Where We Are",
+      "intent": "summary",
+      "audience_question": "Do we already have enough product context and source material to generate stronger decks?",
+      "claim": "ProductOS already has enough structured operating material; the quality loss happens in evidence packaging and story planning.",
+      "proof_requirements": [
+        "Show that upstream source artifacts already exist",
+        "Show where the current presentation pipeline compresses or drops useful structure"
+      ],
+      "core_message": "ProductOS already has the raw material for strong presentations, but the current pipeline compresses it too early.",
+      "key_points": [
+        "Structured operating outputs are now implemented",
+        "Upstream discovery and framing layers are in place"
+      ],
+      "evidence_refs": [
+        "portfolio_update_2026_03_19",
+        "presentation_brief_pm_ops_q2"
+      ],
+      "cta": "Align on the architectural diagnosis before debating styling.",
+      "appendix_link": "appendix_source_artifacts",
+      "speaker_notes": "Show that the platform already produces enough structure; the missing step is narrative planning and richer composition.",
+      "visual_direction": "Summary cards with evidence labels."
+    },
+    {
+      "slide_id": "slide_risks",
+      "title": "What Still Needs Work",
+      "intent": "risks",
+      "audience_question": "What would make a stronger presentation engine trustworthy rather than dangerously persuasive?",
+      "claim": "Narrative upgrades are only acceptable if publish controls keep evidence, uncertainty, and export tradeoffs visible.",
+      "proof_requirements": [
+        "Show where publish controls are still thin",
+        "Show why confidence and fidelity treatment must stay explicit"
+      ],
+      "core_message": "The current presentation stack lacks narrative planning, evidence packaging, and publish controls.",
+      "key_points": [
+        "Cockpit modes are still incomplete",
+        "Portfolio visualization is still early"
+      ],
+      "evidence_refs": [
+        "leadership_review_2026_03_19",
+        "portfolio_state_suite_productos_2026_03_19"
+      ],
+      "must_show_risk": true,
+      "must_show_owner": true,
+      "cta": "Treat publish checks and fidelity controls as part of the current presentation-system scope.",
+      "appendix_link": "appendix_publish_controls",
+      "speaker_notes": "Make the system risks explicit so the current investment reads as a quality and trust upgrade, not cosmetic work.",
+      "visual_direction": "Risk matrix with visible confidence cue."
+    }
+  ],
+  "source_artifact_ids": [
+    "portfolio_update_2026_03_19",
+    "portfolio_state_suite_productos_2026_03_19",
+    "leadership_review_2026_03_19"
+  ],
+  "source_material_snapshots": [
+    {
+      "artifact_id": "portfolio_update_2026_03_19",
+      "artifact_type": "portfolio_update",
+      "facts": [
+        {
+          "fact_id": "fact_portfolio_outputs_exist",
+          "fact_type": "status",
+          "statement": "Structured operating outputs are now implemented across leadership, communication, and delivery layers.",
+          "relevance_tags": ["summary", "evidence", "status"]
+        },
+        {
+          "fact_id": "fact_presentation_scope_decision",
+          "fact_type": "decision",
+          "statement": "Leadership approval is needed to fund the presentation system as a narrative rendering capability.",
+          "relevance_tags": ["cover", "decision", "recommendation"]
+        }
+      ]
+    },
+    {
+      "artifact_id": "portfolio_state_suite_productos_2026_03_19",
+      "artifact_type": "portfolio_state",
+      "facts": [
+        {
+          "fact_id": "fact_portfolio_visuals_early",
+          "fact_type": "risk",
+          "statement": "Portfolio visualization and cockpit-mode coverage are still early and should not be overstated.",
+          "relevance_tags": ["risk", "portfolio", "governance"]
+        },
+        {
+          "fact_id": "fact_export_fidelity_gap",
+          "fact_type": "constraint",
+          "statement": "PPT export fidelity still depends on simpler composition mappings than HTML.",
+          "relevance_tags": ["risk", "export", "fidelity"]
+        }
+      ]
+    },
+    {
+      "artifact_id": "leadership_review_2026_03_19",
+      "artifact_type": "leadership_review",
+      "facts": [
+        {
+          "fact_id": "fact_styling_is_not_enough",
+          "fact_type": "observation",
+          "statement": "Better styling alone will not close the current gap because the story and evidence layers are still thin.",
+          "relevance_tags": ["cover", "summary", "recommendation"]
+        },
+        {
+          "fact_id": "fact_publish_controls_needed",
+          "fact_type": "risk",
+          "statement": "Narrative upgrades require publish controls so uncertainty and blockers remain visible in executive decks.",
+          "relevance_tags": ["risk", "governance", "leadership"]
+        }
+      ]
+    }
+  ],
+  "customer_safe": false,
+  "created_at": "2026-03-20T13:00:00Z"
+}
