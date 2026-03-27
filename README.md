@@ -2,6 +2,9 @@
 
 ProductOS V6.0.0 is the current stable ProductOS Core line.
 
+ProductOS is distributed under the Apache License 2.0. Forks, improvements, and
+suggestions are welcome through issues and pull requests.
+
 This repository contains:
 
 - `core/`: reusable ProductOS capabilities such as schemas, templates, workflows, agent contracts, and rubrics
