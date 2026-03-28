@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "ai_agent_benchmark_id": "ai_agent_benchmark_ws_productos_v2_v4_0",
+  "workspace_id": "ws_productos_v2",
+  "status": "defined",
+  "benchmark_scope": "Measure whether the V4 persona stack and validation lanes reduce coordination and fix-loop overhead without replacing the PM benchmark.",
+  "benchmark_window": {
+    "baseline_cutoff_date": "2026-03-21",
+    "target_review_date": "2026-04-18"
+  },
+  "pm_guardrail_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "persona_refs": [
+    "persona_operating_profile_ws_productos_v2_v4_0",
+    "runtime_adapter_registry_ws_productos_v2",
+    "exec_session_ws_productos_v2_runtime"
+  ],
+  "loop_efficiency_scores": [
+    {
+      "loop_id": "doc_generation_and_review",
+      "benchmark_question": "Do the AI personas generate and review a readable document bundle with fewer handoff delays and fewer duplicate passes?",
+      "primary_metrics": [
+        {
+          "metric_name": "handoff_cycles_before_review_ready",
+          "baseline_value": 5,
+          "target_value": 2,
+          "unit": "cycles",
+          "target_comparison": "lte",
+          "rationale": "Explicit persona ownership should reduce repeated route churn."
+        },
+        {
+          "metric_name": "duplicate_fix_loops_per_bundle",
+          "baseline_value": 3,
+          "target_value": 1,
+          "unit": "loops",
+          "target_comparison": "lte",
+          "rationale": "Reviewer, tester, and manual lanes should stop the same fix from being rediscovered repeatedly."
+        }
+      ],
+      "evidence_refs": [
+        "persona_operating_profile_ws_productos_v2_v4_0",
+        "validation_lane_report_ws_productos_v2_persona_profile_v4_0",
+        "exec_session_ws_productos_v2_runtime"
+      ],
+      "guardrail": "Do not treat better agent throughput as success if the PM benchmark does not also improve."
+    },
+    {
+      "loop_id": "feedback_to_bounded_fix",
+      "benchmark_question": "Do the improvement-loop personas reduce the time from repeated pain to a bounded next slice with explicit validation?",
+      "primary_metrics": [
+        {
+          "metric_name": "time_from_feedback_cluster_to_next_slice_days",
+          "baseline_value": 14,
+          "target_value": 5,
+          "unit": "days",
+          "target_comparison": "lte",
+          "rationale": "The auto-improvement loop should route repeated pain faster without waiting for a planning reset."
+        }
+      ],
+      "evidence_refs": [
+        "feedback_cluster_state_ws_productos_v2_runtime",
+        "improvement_loop_state_productos_v4_docs_and_feedback",
+        "runtime_adapter_registry_ws_productos_v2"
+      ],
+      "guardrail": "Do not optimize for faster routing if the resulting slice still fails PM acceptance."
+    }
+  ],
+  "overall_summary": "The AI-agent benchmark defines efficiency measures for the V4 persona stack, but it remains explicitly subordinate to the PM superpower benchmark.",
+  "generated_at": "2026-03-21T23:55:00Z"
+}

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/handoff_contract.schema.json",
+  "title": "ProductOS Handoff Contract",
+  "description": "Structured payload exchanged between workflows or agents.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "handoff_id",
+    "workspace_id",
+    "source_workflow_id",
+    "target_workflow_id",
+    "handoff_type",
+    "status",
+    "artifact_refs",
+    "summary",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "handoff_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_workflow_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_workflow_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "handoff_type": {
+      "type": "string",
+      "enum": [
+        "meeting_to_decision",
+        "meeting_to_issue_log",
+        "decision_to_status",
+        "change_to_replan",
+        "prd_to_engineering",
+        "prd_to_data_science",
+        "prd_to_ai_implementation",
+        "workflow_to_workflow",
+        "custom"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ready",
+        "accepted",
+        "needs_clarification",
+        "blocked",
+        "completed"
+      ]
+    },
+    "artifact_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/artifactRef"
+      },
+      "minItems": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 5
+    },
+    "key_points": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "pending_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "artifact_type"
+      ],
+      "properties": {
+        "artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

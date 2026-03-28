@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/persona_operating_profile.schema.json",
+  "title": "ProductOS Persona Operating Profile",
+  "description": "Contract-first operating profile for the PM and AI persona stack used by V4 workflows.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "persona_operating_profile_id",
+    "workspace_id",
+    "status",
+    "profile_scope",
+    "validation_tier",
+    "benchmark_ref",
+    "governance_refs",
+    "review_policy_summary",
+    "profiles",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "persona_operating_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "defined",
+        "active",
+        "superseded"
+      ]
+    },
+    "profile_scope": {
+      "type": "string",
+      "minLength": 3
+    },
+    "validation_tier": {
+      "type": "string",
+      "enum": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ]
+    },
+    "benchmark_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "governance_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "review_policy_summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "profiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/personaProfile"
+      },
+      "minItems": 3
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "stringList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    },
+    "personaProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "persona_key",
+        "display_name",
+        "persona_class",
+        "purpose",
+        "allowed_inputs",
+        "required_outputs",
+        "authority_boundaries",
+        "approval_authority",
+        "handoff_protocol",
+        "escalation_rules",
+        "memory_scope",
+        "benchmark_measures",
+        "failure_modes",
+        "review_path",
+        "source_refs"
+      ],
+      "properties": {
+        "persona_key": {
+          "type": "string",
+          "minLength": 3
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "persona_class": {
+          "type": "string",
+          "enum": [
+            "ai",
+            "pm"
+          ]
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 10
+        },
+        "allowed_inputs": {
+          "$ref": "#/$defs/stringList"
+        },
+        "required_outputs": {
+          "$ref": "#/$defs/stringList"
+        },
+        "authority_boundaries": {
+          "$ref": "#/$defs/stringList"
+        },
+        "approval_authority": {
+          "$ref": "#/$defs/stringList"
+        },
+        "handoff_protocol": {
+          "$ref": "#/$defs/stringList"
+        },
+        "escalation_rules": {
+          "$ref": "#/$defs/stringList"
+        },
+        "memory_scope": {
+          "$ref": "#/$defs/stringList"
+        },
+        "benchmark_measures": {
+          "$ref": "#/$defs/stringList"
+        },
+        "failure_modes": {
+          "$ref": "#/$defs/stringList"
+        },
+        "review_path": {
+          "$ref": "#/$defs/stringList"
+        },
+        "source_refs": {
+          "$ref": "#/$defs/stringList"
+        }
+      }
+    }
+  }
+}

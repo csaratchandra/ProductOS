@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "chore_queue_id": "chore_queue_legacy_ws_productos_v2_2026_03_20",
+  "workspace_id": "ws_productos_v2",
+  "chores": [
+    {
+      "chore_id": "chore_weekly_update_2026_w12",
+      "chore_type": "weekly_update",
+      "trigger": "scheduled",
+      "priority": "routine",
+      "status": "drafted",
+      "title": "Weekly team update for week ending 2026-03-20",
+      "source_artifact_ids": ["increment_plan_pi_2026_q1_02", "issue_log_2026_03_19"],
+      "target_audience": ["engineering", "design"],
+      "deadline": "2026-03-20"
+    },
+    {
+      "chore_id": "chore_followup_meeting_2026_03_18",
+      "chore_type": "followup_check",
+      "trigger": "event_driven",
+      "priority": "time_sensitive",
+      "status": "awaiting_review",
+      "title": "Follow-up items from sprint planning meeting 2026-03-18",
+      "source_artifact_ids": ["meeting_record_sprint_planning_2026_03_18"],
+      "target_audience": ["product", "engineering"],
+      "deadline": "2026-03-21"
+    },
+    {
+      "chore_id": "chore_demo_readout_pi_2026_q1",
+      "chore_type": "demo_readout",
+      "trigger": "pm_requested",
+      "priority": "routine",
+      "status": "pending",
+      "title": "Sprint demo readout for PI 2026-Q1 Sprint 4",
+      "source_artifact_ids": ["increment_plan_pi_2026_q1_02"],
+      "target_audience": ["leadership", "engineering", "stakeholders"],
+      "deadline": "2026-03-21"
+    }
+  ],
+  "generated_at": "2026-03-20T10:00:00Z"
+}

@@ -1,0 +1,463 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/feature_scorecard.schema.json",
+  "title": "ProductOS Feature Scorecard",
+  "description": "Dogfood review scorecard for grading whether a ProductOS feature slice is superpower-level or should route back into the improvement loop.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "feature_scorecard_id",
+    "workspace_id",
+    "feature_id",
+    "feature_name",
+    "loop_id",
+    "status",
+    "benchmark_ref",
+    "validation_tier",
+    "scenarios",
+    "evidence_refs",
+    "provenance_classification",
+    "score_basis",
+    "truthfulness_summary",
+    "dimension_scores",
+    "overall_score",
+    "adoption_recommendation",
+    "reviewer_verdict",
+    "tester_verdict",
+    "manual_verdict",
+    "blocked_by",
+    "feedback_items",
+    "next_action",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "feature_scorecard_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "feature_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "feature_name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "loop_id": {
+      "type": "string",
+      "enum": [
+        "signal_to_product_decision",
+        "decision_to_stakeholder_alignment",
+        "feedback_to_accepted_improvement",
+        "cross_cutting"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "reviewed",
+        "adopted",
+        "blocked"
+      ]
+    },
+    "benchmark_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "validation_tier": {
+      "type": "string",
+      "enum": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ]
+    },
+    "scenarios": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/scenario"
+      },
+      "minItems": 1
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "provenance_classification": {
+      "type": "string",
+      "enum": [
+        "real",
+        "seeded",
+        "mixed"
+      ]
+    },
+    "score_basis": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    },
+    "truthfulness_summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "context_pack_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "eval_run_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dimension_scores": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/dimensionScore"
+      },
+      "minItems": 5,
+      "maxItems": 5
+    },
+    "overall_score": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "adoption_recommendation": {
+      "type": "string",
+      "enum": [
+        "promote_as_standard",
+        "keep_in_internal_use",
+        "route_to_improvement",
+        "block"
+      ]
+    },
+    "reviewer_verdict": {
+      "$ref": "#/$defs/reviewerTesterVerdict"
+    },
+    "tester_verdict": {
+      "$ref": "#/$defs/reviewerTesterVerdict"
+    },
+    "manual_verdict": {
+      "$ref": "#/$defs/manualVerdict"
+    },
+    "blocked_by": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      }
+    },
+    "feedback_items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/feedbackItem"
+      }
+    },
+    "next_action": {
+      "type": "string",
+      "minLength": 10
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "dimensionKey": {
+      "type": "string",
+      "enum": [
+        "pm_leverage",
+        "output_quality",
+        "reliability",
+        "autonomy_quality",
+        "repeatability"
+      ]
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenario_id",
+        "title",
+        "scenario_type",
+        "result",
+        "summary",
+        "evidence_refs"
+      ],
+      "properties": {
+        "scenario_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "scenario_type": {
+          "type": "string",
+          "enum": [
+            "dogfood_run",
+            "workflow_run",
+            "manual_review",
+            "benchmark_review",
+            "release_review"
+          ]
+        },
+        "result": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "partial",
+            "failed"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 10
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "dimensionScore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dimension_key",
+        "score",
+        "rationale",
+        "evidence_refs"
+      ],
+      "properties": {
+        "dimension_key": {
+          "$ref": "#/$defs/dimensionKey"
+        },
+        "score": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 10
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "reviewerTesterVerdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "summary",
+        "evidence_refs"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "revise",
+            "block"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 10
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "manualVerdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "summary",
+        "evidence_refs"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "accept",
+            "revise",
+            "reject",
+            "defer"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 10
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "feedbackItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "feedback_id",
+        "summary",
+        "impact_level",
+        "recommended_action",
+        "route_targets",
+        "linked_dimension_keys",
+        "linked_artifact_refs"
+      ],
+      "properties": {
+        "feedback_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 10
+        },
+        "impact_level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "recommended_action": {
+          "type": "string",
+          "minLength": 10
+        },
+        "route_targets": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "productos_feedback_log",
+              "feedback_cluster_state",
+              "improvement_loop_state",
+              "release_scope_recommendation"
+            ]
+          },
+          "minItems": 1
+        },
+        "linked_dimension_keys": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dimensionKey"
+          },
+          "minItems": 1
+        },
+        "linked_artifact_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "overall_score": {
+            "const": 5
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adoption_recommendation": {
+            "const": "promote_as_standard"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "overall_score": {
+            "const": 4
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adoption_recommendation": {
+            "const": "keep_in_internal_use"
+          },
+          "feedback_items": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "overall_score": {
+            "minimum": 1,
+            "maximum": 3
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adoption_recommendation": {
+            "enum": [
+              "route_to_improvement",
+              "block"
+            ]
+          },
+          "feedback_items": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

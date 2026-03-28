@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "decision_log_id": "decision_log_productos_core",
+  "workspace_id": "ws_productos_v2",
+  "updated_at": "2026-03-19T17:30:00Z",
+  "decisions": [
+    {
+      "decision_id": "dec_status_mail_first_class",
+      "statement": "Make bi-weekly status mail a first-class ProductOS output.",
+      "status": "approved",
+      "rationale": "PMs should not be manual communication bottlenecks, and recurring status should be generated from system state.",
+      "decided_at": "2026-03-19T15:45:00Z",
+      "decided_by": "Leadership Review",
+      "reversibility": "reversible",
+      "source_references": [
+        "meeting_2026_03_19_leadership_review",
+        "status_communications_agent_contract"
+      ],
+      "affected_artifact_ids": [
+        "status_mail_schema_v1",
+        "meeting_record_schema_v1"
+      ],
+      "affected_workflow_ids": [
+        "wf_biweekly_status_mail",
+        "wf_transcript_to_notes"
+      ],
+      "linked_entity_refs": [
+        {
+          "entity_type": "persona",
+          "entity_id": "persona_product_manager"
+        },
+        {
+          "entity_type": "decision",
+          "entity_id": "decision_status_mail_first_class"
+        },
+        {
+          "entity_type": "problem",
+          "entity_id": "problem_pm_reporting_bottleneck"
+        }
+      ],
+      "open_questions": [
+        "What minimum PM context should be requested when source systems are incomplete?"
+      ],
+      "rejected_options": [
+        "Keep status mail as an unstructured PM-only side task."
+      ],
+      "key_tradeoffs": [
+        "Structured status generation improves consistency but requires stronger source discipline."
+      ],
+      "kill_criteria": [
+        "Stop auto-drafting status if the generated output repeatedly loses owner or risk context."
+      ],
+      "followup_review_by": "2026-04-02",
+      "decision_premortem_refs": [
+        "decision_premortem_discovery_upgrade"
+      ],
+      "outcome_review_notes": [
+        "Trust-led differentiation worked, but the next strategic gap is earlier option framing and sensing."
+      ]
+    }
+  ]
+}

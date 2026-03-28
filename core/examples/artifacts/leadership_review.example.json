@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "leadership_review_id": "leadership_review_2026_03_19",
+  "audience": "CPO",
+  "summary": "ProductOS Core now supports structured PM automation, runtime orchestration, reliability checks, and publish-boundary enforcement.",
+  "key_decisions": [
+    "Treat status mail and meeting follow-through as first-class PM workflows.",
+    "Require reliability and trust/compliance gates before publish."
+  ],
+  "major_risks": [
+    "Multi-workspace dependency coordination is still early-stage."
+  ],
+  "generated_at": "2026-03-19T18:25:00Z"
+}

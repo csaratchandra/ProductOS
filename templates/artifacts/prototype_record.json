@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "prototype_record_id": "prototype_record_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "concept_brief_id": "concept_brief_starter_trace_demo",
+  "title": "Prototype record: starter lifecycle trace review",
+  "prototype_type": "doc",
+  "objective": "Verify that a new product team can understand the lifecycle trace model from a seeded starter example.",
+  "status": "validated",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_scaling_product_orgs"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    }
+  ],
+  "validation_focus": [
+    "clarity",
+    "workflow_fit"
+  ],
+  "learnings": [
+    "A seeded example reduces ambiguity during workspace setup."
+  ],
+  "recommendation": "advance_to_problem_brief",
+  "evaluated_at": "2026-03-23T11:16:00Z"
+}

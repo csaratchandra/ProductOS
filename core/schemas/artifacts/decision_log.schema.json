@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/decision_log.schema.json",
+  "title": "ProductOS Decision Log",
+  "description": "A structured decision log that preserves what was decided, why, and what changed downstream.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "decision_log_id",
+    "workspace_id",
+    "updated_at",
+    "decisions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "decision_log_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/decision"
+      },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_id",
+        "statement",
+        "status",
+        "rationale",
+        "decided_at",
+        "source_references"
+      ],
+      "properties": {
+        "decision_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 5
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "proposed",
+            "approved",
+            "deferred",
+            "rejected",
+            "superseded"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 5
+        },
+        "decided_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "decided_by": {
+          "type": "string"
+        },
+        "reversibility": {
+          "type": "string",
+          "enum": [
+            "reversible",
+            "irreversible"
+          ]
+        },
+        "source_references": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "affected_artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "affected_workflow_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "linked_entity_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/entityRef"
+          },
+          "default": []
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "default": []
+        },
+        "rejected_options": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "default": []
+        },
+        "key_tradeoffs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 5
+          },
+          "default": []
+        },
+        "kill_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 5
+          },
+          "default": []
+        },
+        "followup_review_by": {
+          "type": "string",
+          "format": "date"
+        },
+        "decision_premortem_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "outcome_review_notes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 5
+          },
+          "default": []
+        }
+      }
+    },
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_type",
+        "entity_id"
+      ],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": [
+            "segment",
+            "persona",
+            "problem",
+            "outcome",
+            "opportunity",
+            "feature",
+            "metric",
+            "decision"
+          ]
+        },
+        "entity_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

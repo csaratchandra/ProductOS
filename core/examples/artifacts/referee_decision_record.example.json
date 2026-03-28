@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "referee_decision_record_id": "referee_decision_record_ws_productos_v2_doc_bundle_v4_0",
+  "workspace_id": "ws_productos_v2",
+  "subject_ref": "document_sync_state_ws_productos_v2_v4_readable_docs",
+  "subject_type": "readable_doc_bundle",
+  "related_validation_report_ref": "validation_lane_report_ws_productos_v2_doc_bundle_v4_0",
+  "disagreement_summary": "AI review judged the roadmap and PRD narrative ready for PM use, while AI test requested a revise pass for missing external-publishing metadata guidance.",
+  "lane_positions": [
+    {
+      "lane_name": "AI Reviewer",
+      "position": "proceed",
+      "rationale": "Traceability and audience fit are strong enough for internal stakeholder review."
+    },
+    {
+      "lane_name": "AI Tester",
+      "position": "revise",
+      "rationale": "The document bundle does not yet encode every publishing metadata rule needed for a broader sync target."
+    },
+    {
+      "lane_name": "Manual Validation",
+      "position": "accept",
+      "rationale": "The PM can already use the docs internally while metadata hardening continues."
+    }
+  ],
+  "referee_role": "Referee",
+  "resolution": "proceed",
+  "next_action": "Allow internal adoption of the readable-doc bundle while keeping external publishing blocked until metadata guidance is complete.",
+  "unresolved_questions": [
+    "Which metadata fields must be mandatory before SharePoint sync is allowed?"
+  ],
+  "recorded_at": "2026-03-21T23:55:00Z"
+}

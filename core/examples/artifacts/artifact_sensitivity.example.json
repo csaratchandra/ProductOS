@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "sensitivity_id": "sens_status_mail_2026_03_19",
+  "workspace_id": "ws_productos_v2",
+  "artifact_id": "status_2026_03_biweekly_02",
+  "artifact_type": "status_mail",
+  "sensitivity_level": "internal_only",
+  "customer_safe": false,
+  "notes": "Contains internal planning and risk language not suitable for customer publication."
+}

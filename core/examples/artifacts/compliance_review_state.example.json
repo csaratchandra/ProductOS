@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "review_state_id": "review_status_mail_2026_03_19",
+  "workspace_id": "ws_productos_v2",
+  "artifact_id": "status_2026_03_biweekly_02",
+  "privacy_review_status": "approved",
+  "policy_review_status": "pending",
+  "compliance_review_status": "not_required",
+  "publish_blocked": true,
+  "findings": [
+    "Policy review is still pending for external publication rendering."
+  ],
+  "reviewed_at": "2026-03-19T18:10:00Z"
+}

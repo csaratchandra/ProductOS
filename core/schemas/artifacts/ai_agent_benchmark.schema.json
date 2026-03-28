@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/ai_agent_benchmark.schema.json",
+  "title": "ProductOS AI Agent Benchmark",
+  "description": "Measures AI-agent leverage and loop efficiency for V4 while remaining subordinate to the PM superpower benchmark.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "ai_agent_benchmark_id",
+    "workspace_id",
+    "status",
+    "benchmark_scope",
+    "benchmark_window",
+    "pm_guardrail_ref",
+    "persona_refs",
+    "loop_efficiency_scores",
+    "overall_summary",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "ai_agent_benchmark_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "defined",
+        "active",
+        "reviewed"
+      ]
+    },
+    "benchmark_scope": {
+      "type": "string",
+      "minLength": 10
+    },
+    "benchmark_window": {
+      "$ref": "#/$defs/benchmarkWindow"
+    },
+    "pm_guardrail_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "persona_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "loop_efficiency_scores": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/loopScore"
+      },
+      "minItems": 1
+    },
+    "overall_summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "benchmarkWindow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_cutoff_date",
+        "target_review_date"
+      ],
+      "properties": {
+        "baseline_cutoff_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "target_review_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metric_name",
+        "baseline_value",
+        "target_value",
+        "unit",
+        "target_comparison",
+        "rationale"
+      ],
+      "properties": {
+        "metric_name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "baseline_value": {
+          "type": "number"
+        },
+        "target_value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_comparison": {
+          "type": "string",
+          "enum": [
+            "lte",
+            "gte"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 10
+        }
+      }
+    },
+    "loopScore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "loop_id",
+        "benchmark_question",
+        "primary_metrics",
+        "evidence_refs",
+        "guardrail"
+      ],
+      "properties": {
+        "loop_id": {
+          "type": "string",
+          "minLength": 3
+        },
+        "benchmark_question": {
+          "type": "string",
+          "minLength": 10
+        },
+        "primary_metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/metric"
+          },
+          "minItems": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "guardrail": {
+          "type": "string",
+          "minLength": 10
+        }
+      }
+    }
+  }
+}

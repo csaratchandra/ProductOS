@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "requirement_id": "req-status-mail-source-rollup",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "feature_biweekly_status_mail_automation",
+  "statement": "The system must roll up workspace status, issue log, and meeting signals into a draft-ready status summary.",
+  "requirement_type": "functional",
+  "priority": "must",
+  "status": "approved"
+}

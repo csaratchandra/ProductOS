@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/release_readiness.schema.json",
+  "title": "ProductOS Release Readiness",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_readiness_id",
+    "workspace_id",
+    "feature_id",
+    "status",
+    "launch_roles",
+    "checks",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.1.0" },
+    "release_readiness_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "feature_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["ready", "watch", "blocked"]
+    },
+    "launch_roles": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/launchRole" },
+      "minItems": 1
+    },
+    "checks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/check" },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "status"],
+      "properties": {
+        "name": { "type": "string", "minLength": 3 },
+        "status": {
+          "type": "string",
+          "enum": ["passed", "watch", "failed"]
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "launchRole": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role_name", "responsibility", "assignment_status"],
+      "properties": {
+        "role_name": { "type": "string", "minLength": 3 },
+        "responsibility": { "type": "string", "minLength": 3 },
+        "assignment_status": {
+          "type": "string",
+          "enum": ["assigned", "missing", "waived"]
+        },
+        "owner_name": { "type": "string", "minLength": 2 },
+        "owner_function": { "type": "string", "minLength": 2 },
+        "notes": { "type": "string" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "assignment_status": { "const": "assigned" }
+            }
+          },
+          "then": {
+            "required": ["owner_name"]
+          }
+        }
+      ]
+    }
+  }
+}

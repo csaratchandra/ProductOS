@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "decision_premortem_id": "decision_premortem_discovery_upgrade",
+  "workspace_id": "ws_productos_v2",
+  "decision_statement": "Invest in strategic sensing and option-generation capabilities as a major ProductOS upgrade.",
+  "failure_causes": [
+    "The system surfaces interesting signals but not enough decision-ready clarity to change PM behavior.",
+    "Weak-signal outputs create noise and reduce trust instead of improving foresight."
+  ],
+  "early_warning_indicators": [
+    "PMs repeatedly ask for more evidence before acting on signal hypotheses.",
+    "Recommended options collapse into superficial variants rather than distinct strategic paths."
+  ],
+  "reversal_triggers": [
+    "Signal-hypothesis outputs are frequently ignored over two review cycles.",
+    "Users report lower trust because recommendations feel speculative rather than grounded."
+  ],
+  "success_conditions": [
+    "PMs use the new artifacts to shape discovery priorities before roadmap commitment.",
+    "Leadership reviews identify clearer options and fewer surprise objections."
+  ],
+  "created_at": "2026-03-20T12:00:00Z"
+}

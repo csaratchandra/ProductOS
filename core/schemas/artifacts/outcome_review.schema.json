@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/outcome_review.schema.json",
+  "title": "ProductOS Outcome Review",
+  "description": "Assesses whether a released or adopted V4 change delivered the intended outcome and whether the path should be kept, iterated, or rolled back.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "outcome_review_id",
+    "workspace_id",
+    "reviewed_change_ref",
+    "review_scope",
+    "status",
+    "pm_benchmark_ref",
+    "ai_agent_benchmark_ref",
+    "evidence_refs",
+    "target_outcomes",
+    "adoption_notes",
+    "unresolved_pain_points",
+    "rejected_path_updates",
+    "next_action",
+    "reviewed_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "outcome_review_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewed_change_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "review_scope": {
+      "type": "string",
+      "minLength": 10
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "tracking",
+        "keep",
+        "iterate",
+        "rollback"
+      ]
+    },
+    "pm_benchmark_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ai_agent_benchmark_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "target_outcomes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/targetOutcome"
+      },
+      "minItems": 1
+    },
+    "adoption_notes": {
+      "$ref": "#/$defs/stringList"
+    },
+    "unresolved_pain_points": {
+      "$ref": "#/$defs/stringList"
+    },
+    "rejected_path_updates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "next_action": {
+      "type": "string",
+      "minLength": 10
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "stringList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    },
+    "targetOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome_name",
+        "expected_signal",
+        "observed_signal",
+        "status"
+      ],
+      "properties": {
+        "outcome_name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "expected_signal": {
+          "type": "string",
+          "minLength": 10
+        },
+        "observed_signal": {
+          "type": "string",
+          "minLength": 10
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "met",
+            "partial",
+            "missed"
+          ]
+        }
+      }
+    }
+  }
+}

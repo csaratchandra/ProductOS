@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "status_mail_id": "status_bad_missing_next_steps",
+  "workspace_id": "ws_productos_v2",
+  "cadence": "biweekly",
+  "reporting_period": {
+    "start_date": "2026-03-06",
+    "end_date": "2026-03-19"
+  },
+  "audience": [
+    "leadership"
+  ],
+  "subject_line": "Broken bi-weekly status update",
+  "what_happened": [
+    "This fixture intentionally omits next steps."
+  ],
+  "material_changes": [],
+  "open_issues": [],
+  "decisions": [],
+  "generated_at": "2026-03-19T17:10:00Z"
+}

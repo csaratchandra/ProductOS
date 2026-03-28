@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "change_event_id": "chg_2026_03_19_scope_shift",
+  "workspace_id": "ws_productos_v2",
+  "title": "Leadership requested narrower onboarding scope for the current increment",
+  "summary": "After stakeholder review, the current increment should focus on transcript-to-notes and bi-weekly status mail before adding broader meeting automation.",
+  "change_type": "scope_change",
+  "source_type": "meeting",
+  "source_references": [
+    {
+      "source_id": "meeting_2026_03_19_leadership_review",
+      "source_kind": "conversation",
+      "source_title": "Leadership Review 2026-03-19"
+    }
+  ],
+  "detected_at": "2026-03-19T16:30:00Z",
+  "detected_by": {
+    "actor_type": "agent",
+    "actor_id": "radar",
+    "display_name": "Radar Agent"
+  },
+  "urgency": "high",
+  "signal_strength": "strong",
+  "confidence_score": 0.92,
+  "impact_scope": "cross_workflow",
+  "affected_domains": [
+    "scope",
+    "requirements",
+    "stakeholder_communications"
+  ],
+  "stale_artifact_ids": [
+    "prd_v2",
+    "increment_plan_pi1_v1"
+  ],
+  "recommended_actions": [
+    {
+      "action_type": "update_scope",
+      "description": "Revise the active increment plan to focus on PM operating rhythm automation first."
+    },
+    {
+      "action_type": "notify_stakeholders",
+      "description": "Draft a bi-weekly mail that explains the narrowed scope and next steps."
+    }
+  ],
+  "pm_attention_required": true,
+  "customer_facing_change": false,
+  "status": "triaged",
+  "tags": [
+    "scope",
+    "increment",
+    "status-mail"
+  ]
+}

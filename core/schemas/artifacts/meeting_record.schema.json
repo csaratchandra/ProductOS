@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/meeting_record.schema.json",
+  "title": "ProductOS Meeting Record",
+  "description": "A structured meeting agenda and outcome record derived from planning inputs and transcripts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "meeting_record_id",
+    "workspace_id",
+    "meeting_type",
+    "title",
+    "scheduled_at",
+    "agenda_items",
+    "decisions",
+    "action_items",
+    "open_questions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "meeting_record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "meeting_type": {
+      "type": "string",
+      "enum": [
+        "team_sync",
+        "stakeholder_review",
+        "leadership_update",
+        "standup",
+        "retro",
+        "planning",
+        "custom"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "scheduled_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "transcript_reference": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agenda_items": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    },
+    "summary": {
+      "type": "string"
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      }
+    },
+    "action_items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/actionItem"
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      }
+    },
+    "issues_raised": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    }
+  },
+  "$defs": {
+    "actionItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "owner",
+        "due_date"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 5
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "due_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    }
+  }
+}

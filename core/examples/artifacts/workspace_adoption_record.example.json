@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0.0",
+  "workspace_id": "ws_productos_v2",
+  "core_version": "2.0.0",
+  "adopted_at": "2026-03-21T21:20:00Z",
+  "approved_by": "ProductOS PM",
+  "change_note": "Adopted ProductOS V2.0 after inbox intake, ProductOS feedback logging, starter workspace, and end-to-end lifecycle proof were completed."
+}

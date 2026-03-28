@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/manual_validation_record.schema.json",
+  "title": "ProductOS Manual Validation Record",
+  "description": "Captures human accept, revise, defer, or reject decisions for Tier 2 or Tier 3 V4 outputs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "manual_validation_record_id",
+    "workspace_id",
+    "subject_ref",
+    "subject_type",
+    "validation_tier",
+    "validator_role",
+    "scope",
+    "decision",
+    "fit_notes",
+    "required_follow_ups",
+    "related_validation_report_ref",
+    "final_approval",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "manual_validation_record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject_type": {
+      "type": "string",
+      "minLength": 3
+    },
+    "validation_tier": {
+      "type": "string",
+      "enum": [
+        "tier_2",
+        "tier_3"
+      ]
+    },
+    "validator_role": {
+      "type": "string",
+      "minLength": 3
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "sampled",
+        "targeted",
+        "mandatory"
+      ]
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "accept",
+        "revise",
+        "defer",
+        "reject"
+      ]
+    },
+    "fit_notes": {
+      "$ref": "#/$defs/stringList"
+    },
+    "required_follow_ups": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      }
+    },
+    "related_validation_report_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "final_approval": {
+      "type": "boolean"
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "stringList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    }
+  }
+}

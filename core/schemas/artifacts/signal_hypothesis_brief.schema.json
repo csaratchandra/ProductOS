@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/signal_hypothesis_brief.schema.json",
+  "title": "ProductOS Signal Hypothesis Brief",
+  "description": "Structured interpretation of weak signals before they become a committed discovery path.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "signal_hypothesis_brief_id",
+    "workspace_id",
+    "title",
+    "signal_cluster_summary",
+    "hypothesis_statement",
+    "watch_status",
+    "signals",
+    "what_must_be_true",
+    "recommended_next_step",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "signal_hypothesis_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "signal_cluster_summary": { "type": "string", "minLength": 10 },
+    "hypothesis_statement": { "type": "string", "minLength": 10 },
+    "watch_status": {
+      "type": "string",
+      "enum": ["noise", "watch", "emerging_pattern", "decision_relevant"]
+    },
+    "signals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/signal" },
+      "minItems": 2
+    },
+    "what_must_be_true": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 10 },
+      "minItems": 1
+    },
+    "recommended_next_step": {
+      "type": "string",
+      "enum": ["keep_watching", "research", "prototype", "strategy_review", "park"]
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_type", "source_id", "signal_summary", "signal_strength"],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": ["customer", "market", "support", "delivery", "stakeholder", "research", "other"]
+        },
+        "source_id": { "type": "string", "minLength": 1 },
+        "signal_summary": { "type": "string", "minLength": 10 },
+        "signal_strength": {
+          "type": "string",
+          "enum": ["weak", "moderate", "strong"]
+        }
+      }
+    }
+  }
+}

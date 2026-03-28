@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/opportunity_portfolio_view.schema.json",
+  "title": "ProductOS Opportunity Portfolio View",
+  "description": "Opportunity-level portfolio used to allocate discovery attention and learning effort.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "opportunity_portfolio_view_id",
+    "workspace_id",
+    "summary",
+    "opportunities",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "opportunity_portfolio_view_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string", "minLength": 10 },
+    "opportunities": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/opportunity" },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "opportunity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "opportunity_id",
+        "title",
+        "value_at_stake",
+        "strategic_fit",
+        "confidence",
+        "time_sensitivity",
+        "reversibility",
+        "learning_potential",
+        "evidence_freshness"
+      ],
+      "properties": {
+        "opportunity_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "value_at_stake": {
+          "type": "string",
+          "enum": ["low", "moderate", "high", "transformational"]
+        },
+        "strategic_fit": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "time_sensitivity": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "reversibility": {
+          "type": "string",
+          "enum": ["easy", "moderate", "hard"]
+        },
+        "learning_potential": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "evidence_freshness": {
+          "type": "string",
+          "enum": ["stale", "current", "fresh"]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "decision_queue_id": "decision_queue_productos_v3",
+  "workspace_id": "ws_productos_v2",
+  "generated_at": "2026-03-21T22:06:00Z",
+  "decisions": [
+    {
+      "decision_id": "dec_prioritize_v3_1_runtime_expansion",
+      "title": "Choose the first V3.1 runtime expansion based on the completed V3.0 benchmark evidence",
+      "why_now": "V3.0 is complete, so the next product decision is which proven expansion should lead the V3.1 slice.",
+      "options": [
+        {
+          "option_id": "opt_feedback_routing_expansion",
+          "label": "Expand feedback clustering and recommendation automation first",
+          "tradeoffs": [
+            "Builds directly on the new V3.0 runtime and queue foundation",
+            "Delays deeper longitudinal memory work until more post-launch evidence arrives"
+          ],
+          "recommended": true
+        },
+        {
+          "option_id": "opt_deeper_memory_baseline",
+          "label": "Invest in deeper PM behavior-pattern memory first",
+          "tradeoffs": [
+            "Could improve downstream context reuse faster",
+            "Carries more reliability risk before the post-launch evidence base is larger"
+          ]
+        }
+      ],
+      "evidence_strength": "strong",
+      "recommended_action": "approve",
+      "consequence_of_delay": "The V3.1 roadmap will drift without using the completed V3.0 benchmark and runtime proof evidence.",
+      "due_date": "2026-03-25",
+      "status": "open"
+    }
+  ]
+}

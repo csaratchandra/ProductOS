@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/validation_lane_report.schema.json",
+  "title": "ProductOS Validation Lane Report",
+  "description": "Stage-level validation control artifact summarizing AI review, AI test, manual-validation requirement, and referee-routing need for a V4 output.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "validation_lane_report_id",
+    "workspace_id",
+    "artifact_ref",
+    "artifact_type",
+    "stage_name",
+    "validation_tier",
+    "overall_status",
+    "review_summary",
+    "ai_reviewer_lane",
+    "ai_tester_lane",
+    "manual_validation_policy",
+    "referee_trigger",
+    "governance_layer_refs",
+    "next_action",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "validation_lane_report_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_type": {
+      "type": "string",
+      "minLength": 3
+    },
+    "stage_name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "validation_tier": {
+      "type": "string",
+      "enum": [
+        "tier_0",
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ]
+    },
+    "overall_status": {
+      "type": "string",
+      "enum": [
+        "passed",
+        "ready_for_manual_validation",
+        "revise",
+        "blocked"
+      ]
+    },
+    "review_summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "ai_reviewer_lane": {
+      "$ref": "#/$defs/reviewerLane"
+    },
+    "ai_tester_lane": {
+      "$ref": "#/$defs/testerLane"
+    },
+    "manual_validation_policy": {
+      "$ref": "#/$defs/manualPolicy"
+    },
+    "referee_trigger": {
+      "$ref": "#/$defs/refereeTrigger"
+    },
+    "governance_layer_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "next_action": {
+      "type": "string",
+      "minLength": 10
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "stringList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      }
+    },
+    "reviewerLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reviewer_role",
+        "blocking_findings",
+        "non_blocking_findings",
+        "unresolved_questions"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "proceed",
+            "revise",
+            "block"
+          ]
+        },
+        "reviewer_role": {
+          "type": "string",
+          "minLength": 3
+        },
+        "blocking_findings": {
+          "$ref": "#/$defs/stringList"
+        },
+        "non_blocking_findings": {
+          "$ref": "#/$defs/stringList"
+        },
+        "unresolved_questions": {
+          "$ref": "#/$defs/stringList"
+        }
+      }
+    },
+    "testerLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "tester_role",
+        "checks_run",
+        "blocking_findings",
+        "non_blocking_findings",
+        "automation_gaps"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "revise",
+            "failed"
+          ]
+        },
+        "tester_role": {
+          "type": "string",
+          "minLength": 3
+        },
+        "checks_run": {
+          "$ref": "#/$defs/stringList"
+        },
+        "blocking_findings": {
+          "$ref": "#/$defs/stringList"
+        },
+        "non_blocking_findings": {
+          "$ref": "#/$defs/stringList"
+        },
+        "automation_gaps": {
+          "$ref": "#/$defs/stringList"
+        }
+      }
+    },
+    "manualPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "scope",
+        "owner_role",
+        "status",
+        "rationale"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "none",
+            "sampled",
+            "targeted",
+            "mandatory"
+          ]
+        },
+        "owner_role": {
+          "type": "string",
+          "minLength": 3
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_required",
+            "pending",
+            "passed",
+            "revise",
+            "rejected"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 10
+        }
+      }
+    },
+    "refereeTrigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "rationale",
+        "conflicting_lanes"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 10
+        },
+        "conflicting_lanes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      }
+    }
+  }
+}

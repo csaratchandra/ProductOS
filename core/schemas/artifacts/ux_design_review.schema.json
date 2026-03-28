@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/ux_design_review.schema.json",
+  "title": "ProductOS UX Design Review",
+  "description": "Structured design and usability review artifact used before PRD commitment.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "ux_design_review_id",
+    "workspace_id",
+    "request_summary",
+    "status",
+    "target_artifact_ids",
+    "primary_persona",
+    "user_flow_summary",
+    "information_architecture_summary",
+    "interaction_model_summary",
+    "recommended_next_step",
+    "evidence_refs",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "ux_design_review_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "request_summary": { "type": "string", "minLength": 10 },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "reviewed", "approved"]
+    },
+    "target_artifact_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "primary_persona": { "type": "string", "minLength": 3 },
+    "user_flow_summary": { "type": "string", "minLength": 10 },
+    "information_architecture_summary": { "type": "string", "minLength": 10 },
+    "interaction_model_summary": { "type": "string", "minLength": 10 },
+    "accessibility_considerations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "trust_considerations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "recommended_next_step": {
+      "type": "string",
+      "enum": ["prototype", "prd", "research", "iterate"]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

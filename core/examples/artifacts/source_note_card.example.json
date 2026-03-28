@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_consultant_ai_pm",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "consultant_report",
+  "source_ref": "report_ai_productivity_2026_q1.pdf#p12",
+  "title": "Consultant note on PM productivity pressure",
+  "claim": "PMs are spending increasing time synthesizing fragmented signals rather than making decisions, which creates demand for trusted operating systems.",
+  "source_snippet": "Product leaders report rising synthesis overhead and slower decision cycles.",
+  "implication": "ProductOS should lead with trusted synthesis and visible decision support rather than drafting alone.",
+  "confidence": "moderate",
+  "unknowns": [
+    "How much of the reported productivity gap is startup-specific versus enterprise-wide?"
+  ],
+  "followup_questions": [
+    "Which PM segments feel this burden most acutely?"
+  ],
+  "source_metadata": {
+    "source_url": "https://example.com/reports/ai-productivity-q1-2026",
+    "published_at": "2026-03-10T00:00:00Z",
+    "retrieved_at": "2026-03-20T13:55:00Z",
+    "author": "Example Strategy Partners",
+    "source_slice_ref": "p12",
+    "dedupe_key": "report_ai_productivity_2026_q1.pdf#p12::p12",
+    "credibility_tier": "secondary"
+  },
+  "dedupe_key": "report_ai_productivity_2026_q1.pdf#p12::p12",
+  "linked_entity_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" },
+    { "entity_type": "opportunity", "entity_id": "opp_pm_operating_rhythm_automation" }
+  ],
+  "tags": ["research", "consultant", "pm-productivity"],
+  "created_at": "2026-03-20T14:00:00Z"
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/research_notebook.schema.json",
+  "title": "ProductOS Research Notebook",
+  "description": "Ordered collection of source note cards tied to a specific research question.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "research_notebook_id",
+    "workspace_id",
+    "title",
+    "research_question",
+    "source_note_card_ids",
+    "synthesis_hypothesis",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "research_notebook_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "research_question": { "type": "string", "minLength": 10 },
+    "source_note_card_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "synthesis_hypothesis": { "type": "string", "minLength": 10 },
+    "ordered_sections": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

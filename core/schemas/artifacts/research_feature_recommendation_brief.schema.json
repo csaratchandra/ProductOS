@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/research_feature_recommendation_brief.schema.json",
+  "title": "ProductOS Research Feature Recommendation Brief",
+  "description": "Evidence-backed recommendations for ProductOS research and auto-research capabilities derived from market and competitor analysis.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "research_feature_recommendation_brief_id",
+    "workspace_id",
+    "title",
+    "research_scope",
+    "market_thesis",
+    "source_artifact_ids",
+    "recommendations",
+    "validation_tier",
+    "recommended_next_action",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "research_feature_recommendation_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "research_scope": { "type": "string", "minLength": 10 },
+    "market_thesis": { "type": "string", "minLength": 20 },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "recommendations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/recommendation" },
+      "minItems": 1
+    },
+    "validation_tier": {
+      "type": "string",
+      "enum": ["tier_1", "tier_2", "tier_3"]
+    },
+    "recommended_next_action": { "type": "string", "minLength": 10 },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "stringList": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "minItems": 1
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recommendation_id",
+        "title",
+        "target_surface",
+        "priority",
+        "summary",
+        "rationale",
+        "evidence_refs",
+        "competitor_refs",
+        "capability_tags",
+        "implementation_shape",
+        "acceptance_signals",
+        "guardrails"
+      ],
+      "properties": {
+        "recommendation_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "target_surface": {
+          "type": "string",
+          "enum": ["research", "auto_research", "validation_governance"]
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        },
+        "summary": { "type": "string", "minLength": 10 },
+        "rationale": { "type": "string", "minLength": 15 },
+        "evidence_refs": { "$ref": "#/$defs/stringList" },
+        "competitor_refs": { "$ref": "#/$defs/stringList" },
+        "capability_tags": { "$ref": "#/$defs/stringList" },
+        "implementation_shape": { "type": "string", "minLength": 15 },
+        "acceptance_signals": { "$ref": "#/$defs/stringList" },
+        "guardrails": { "$ref": "#/$defs/stringList" }
+      }
+    }
+  }
+}

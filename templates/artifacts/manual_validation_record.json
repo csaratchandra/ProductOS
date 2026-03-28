@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "manual_validation_record_id": "manual_validation_record_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "subject_ref": "prd_starter_trace_demo",
+  "subject_type": "prd",
+  "validation_tier": "tier_2",
+  "validator_role": "PM Builder",
+  "scope": "targeted",
+  "decision": "accept",
+  "fit_notes": [
+    "The starter docs and seeded artifacts explain the trace model clearly enough for onboarding."
+  ],
+  "required_follow_ups": [
+    "Replace demo artifacts with product-specific materials after initialization."
+  ],
+  "related_validation_report_ref": "validation_lane_report_starter_trace_demo",
+  "final_approval": true,
+  "recorded_at": "2026-03-23T11:22:00Z"
+}

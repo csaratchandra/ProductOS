@@ -1,0 +1,1 @@
+../../../components/presentation/contracts/visual-design/CONTRACT.md

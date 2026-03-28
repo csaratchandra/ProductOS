@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/release.schema.json",
+  "title": "ProductOS Release Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_id",
+    "workspace_id",
+    "version_label",
+    "scope_summary",
+    "status",
+    "target_date"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "release_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "version_label": { "type": "string", "minLength": 1 },
+    "scope_summary": { "type": "string", "minLength": 10 },
+    "status": {
+      "type": "string",
+      "enum": ["planning", "ready", "released", "rolled_back"]
+    },
+    "target_date": { "type": "string", "format": "date" },
+    "linked_feature_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    }
+  }
+}

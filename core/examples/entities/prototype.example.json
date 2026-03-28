@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "prototype_id": "proto-status-mail-review-flow",
+  "workspace_id": "ws_productos_v2",
+  "title": "Status mail review flow",
+  "prototype_type": "clickthrough",
+  "status": "in_test",
+  "linked_hypothesis_ids": ["hyp-automated-status-draft-reduces-reporting-time"],
+  "linked_problem_ids": ["problem_pm_reporting_bottleneck"]
+}

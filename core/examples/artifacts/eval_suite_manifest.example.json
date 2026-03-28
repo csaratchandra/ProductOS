@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "eval_suite_manifest_id": "eval_suite_manifest_ws_productos_v2_bounded_baseline",
+  "workspace_id": "ws_productos_v2",
+  "suite_name": "ProductOS frozen bounded-release eval suite",
+  "baseline_version": "4.7.0",
+  "candidate_version": "4.8.0",
+  "locked_on": "2026-03-26",
+  "owner": "ProductOS PM",
+  "task_count": 3,
+  "eval_cases": [
+    {
+      "case_id": "eval_discover_truthfulness",
+      "title": "Discover loop truthfulness under live inbox input",
+      "loop_id": "signal_to_product_decision",
+      "prompt_summary": "Check whether discover claims are grounded in live inputs, explicit traceability, and visible uncertainty.",
+      "success_signals": [
+        "fresh artifact refs",
+        "visible provenance",
+        "no hidden confidence leap"
+      ],
+      "required_artifact_types": [
+        "problem_brief",
+        "concept_brief",
+        "prd"
+      ],
+      "weight": 5
+    },
+    {
+      "case_id": "eval_alignment_traceability",
+      "title": "Alignment package traceability",
+      "loop_id": "decision_to_stakeholder_alignment",
+      "prompt_summary": "Check whether docs and decks preserve source truth and claim boundaries.",
+      "success_signals": [
+        "source-linked claims",
+        "audience clarity",
+        "visible risk framing"
+      ],
+      "required_artifact_types": [
+        "document_sync_state",
+        "presentation_brief"
+      ],
+      "weight": 4
+    },
+    {
+      "case_id": "eval_improvement_honesty",
+      "title": "Improvement loop honesty",
+      "loop_id": "feedback_to_accepted_improvement",
+      "prompt_summary": "Check whether scorecards route real sub-5 work instead of auto-promoting the current baseline.",
+      "success_signals": [
+        "sub-5 features stay visible",
+        "next action is explicit"
+      ],
+      "required_artifact_types": [
+        "feature_scorecard",
+        "feature_portfolio_review"
+      ],
+      "weight": 5
+    }
+  ]
+}

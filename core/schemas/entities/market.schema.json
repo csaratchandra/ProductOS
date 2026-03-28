@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/market.schema.json",
+  "title": "ProductOS Market Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "market_id",
+    "workspace_id",
+    "name",
+    "region",
+    "opportunity_summary",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "market_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 3 },
+    "region": { "type": "string", "minLength": 2 },
+    "opportunity_summary": { "type": "string", "minLength": 10 },
+    "status": {
+      "type": "string",
+      "enum": ["monitored", "active", "priority", "exited"]
+    },
+    "linked_segment_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    }
+  }
+}

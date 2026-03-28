@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "feature_record_id": "feature_record_biweekly_status_mail",
+  "workspace_id": "ws_productos_v2",
+  "product_record_id": "product_record_productos_core",
+  "feature_id": "feature_biweekly_status_mail_automation",
+  "title": "Bi-weekly status mail automation",
+  "lifecycle_stage": "delivery",
+  "status": "on_track",
+  "owner": "PM Platform",
+  "target_release_or_increment": "pi_2026_q2_01",
+  "dependency_ids": [
+    "dep_workflow_state_quality"
+  ],
+  "risk_summary": [
+    "Leadership-ready wording still depends on stronger portfolio rollups."
+  ],
+  "linked_artifact_ids": [
+    "increment_plan_q2",
+    "status_mail_2026_03_19"
+  ],
+  "linked_decision_ids": [
+    "decision_status_mail_first_class_output"
+  ],
+  "approvals": {
+    "pm": "approved",
+    "customer_commitment": "not_needed",
+    "compliance": "not_needed"
+  },
+  "last_updated_at": "2026-03-19T18:20:00Z"
+}

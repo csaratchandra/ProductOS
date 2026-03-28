@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "release_id": "release_6_0_0",
+  "core_version": "6.0.0",
+  "released_at": "2026-03-27T09:00:00Z",
+  "release_type": "major",
+  "change_classification": "major_product_change",
+  "customer_visible": true,
+  "classification_rationale": "This release promotes ProductOS to V6.0.0 after the lifecycle-traceability through release_readiness slice passed Ralph-loop inspection, validation, fix, and revalidation.",
+  "summary": "ProductOS V6.0.0 is the stable release for lifecycle-traceability through release_readiness slice.",
+  "breaking_changes": [],
+  "upgrade_actions": [
+    "Adopt the promoted Lifecycle-traceability through release_readiness slice in the current ProductOS operating flow.",
+    "Use the automatic Ralph-gated release promotion command for future successful slices.",
+    "Keep ProductOS self-hosting work under `internal/ProductOS-Next/` and out of PM product workspaces."
+  ]
+}

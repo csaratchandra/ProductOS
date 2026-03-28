@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/cockpit_state.schema.json",
+  "title": "ProductOS Cockpit State",
+  "description": "PM-facing runtime control-surface state showing current mode, active specialists, queue visibility, and the next controlled step.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "cockpit_state_id",
+    "workspace_id",
+    "mode",
+    "status",
+    "coordination_status",
+    "request_summary",
+    "current_focus",
+    "recommended_next_step",
+    "active_agents",
+    "active_queue_refs",
+    "queue_recommendations",
+    "active_orchestration_state_id",
+    "active_execution_session_state_ids",
+    "active_workflow_state_ids",
+    "blocked_route_ids",
+    "awaiting_review_route_ids",
+    "pending_review_points",
+    "blocking_reasons",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "cockpit_state_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "ask",
+        "plan",
+        "research",
+        "prototype",
+        "draft",
+        "review",
+        "status",
+        "leadership"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "idle",
+        "triaging",
+        "routing",
+        "active",
+        "awaiting_review",
+        "blocked",
+        "completed"
+      ]
+    },
+    "coordination_status": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "watch",
+        "blocked"
+      ]
+    },
+    "request_summary": {
+      "type": "string",
+      "minLength": 3
+    },
+    "current_focus": {
+      "type": "string",
+      "minLength": 3
+    },
+    "recommended_next_step": {
+      "$ref": "#/$defs/nextStep"
+    },
+    "active_agents": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/activeAgent"
+      },
+      "default": []
+    },
+    "active_queue_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/queueRef"
+      },
+      "default": []
+    },
+    "queue_recommendations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/queueRecommendation"
+      },
+      "default": []
+    },
+    "active_orchestration_state_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "active_execution_session_state_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "active_workflow_state_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "blocked_route_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "awaiting_review_route_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "pending_review_points": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "missing_context_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "blocking_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "nextStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_summary",
+        "target_type",
+        "target_ref",
+        "rationale"
+      ],
+      "properties": {
+        "action_summary": {
+          "type": "string",
+          "minLength": 3
+        },
+        "target_type": {
+          "type": "string",
+          "enum": [
+            "workflow",
+            "agent",
+            "queue",
+            "pm_review",
+            "artifact",
+            "none"
+          ]
+        },
+        "target_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "activeAgent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agent_name",
+        "status",
+        "current_task"
+      ],
+      "properties": {
+        "agent_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "planned",
+            "active",
+            "awaiting_review",
+            "waiting",
+            "retrying",
+            "paused",
+            "blocked",
+            "completed"
+          ]
+        },
+        "current_task": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "queueRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "queue_type",
+        "artifact_id",
+        "summary"
+      ],
+      "properties": {
+        "queue_type": {
+          "type": "string",
+          "enum": [
+            "decision_queue",
+            "follow_up_queue",
+            "review_queue",
+            "custom"
+          ]
+        },
+        "artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "queueRecommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "queue_type",
+        "artifact_id",
+        "item_id",
+        "recommended_action",
+        "urgency",
+        "why_now"
+      ],
+      "properties": {
+        "queue_type": {
+          "type": "string",
+          "enum": [
+            "decision_queue",
+            "follow_up_queue",
+            "review_queue",
+            "custom"
+          ]
+        },
+        "artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "item_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recommended_action": {
+          "type": "string",
+          "enum": [
+            "review_now",
+            "approve",
+            "start",
+            "escalate",
+            "defer",
+            "clear_blocker"
+          ]
+        },
+        "urgency": {
+          "type": "string",
+          "enum": [
+            "routine",
+            "time_sensitive",
+            "escalated"
+          ]
+        },
+        "why_now": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    }
+  }
+}

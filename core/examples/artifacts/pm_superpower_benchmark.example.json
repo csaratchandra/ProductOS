@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0.0",
+  "pm_superpower_benchmark_id": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "workspace_id": "ws_productos_v2",
+  "baseline_version": "3.1.0",
+  "candidate_version": "4.0.0",
+  "status": "defined",
+  "comparison_window": {
+    "baseline_cutoff_date": "2026-03-21",
+    "target_review_date": "2026-04-18"
+  },
+  "validation_tier": "tier_2",
+  "baseline_benchmark_refs": [
+    "pm_benchmark_ws_productos_v2_runtime",
+    "superpower_benchmark_productos_v3_1"
+  ],
+  "golden_loop_scores": [
+    {
+      "loop_id": "signal_to_product_decision",
+      "name": "Signal to product decision",
+      "benchmark_question": "Does V4 reduce the PM work required to reach a decision-ready package from noisy evidence?",
+      "status": "baseline_defined",
+      "primary_metrics": [
+        {
+          "metric_name": "time_to_decision_ready_package_hours",
+          "baseline_value": 18,
+          "target_value": 6,
+          "unit": "hours",
+          "target_comparison": "lte",
+          "rationale": "Readable decision packages should remove manual reconstruction across problem, concept, and PRD work."
+        },
+        {
+          "metric_name": "rewrite_rounds_before_pm_acceptance",
+          "baseline_value": 3,
+          "target_value": 1,
+          "unit": "rounds",
+          "target_comparison": "lte",
+          "rationale": "Approved source artifacts should translate into decision-ready docs with minimal rewrite."
+        }
+      ],
+      "success_thresholds": [
+        "At least one end-to-end problem-to-PRD package reaches PM review in the same working day.",
+        "The PM should not need more than one material rewrite before approving the package for downstream use."
+      ],
+      "evidence_refs": [
+        "problem_brief_pm_operating_rhythm",
+        "concept_brief_pm_operating_rhythm",
+        "prd_pm_operating_rhythm"
+      ],
+      "current_pain_points": [
+        "Key PM reasoning still has to be manually reconstructed across structured artifacts.",
+        "The transition from evidence to PRD-ready framing is still slower than the target operating rhythm."
+      ]
+    },
+    {
+      "loop_id": "decision_to_stakeholder_alignment",
+      "name": "Decision to stakeholder alignment",
+      "benchmark_question": "Does V4 turn approved product direction into reviewable communication fast enough for real stakeholder alignment?",
+      "status": "baseline_defined",
+      "primary_metrics": [
+        {
+          "metric_name": "time_to_first_reviewable_doc_hours",
+          "baseline_value": 12,
+          "target_value": 3,
+          "unit": "hours",
+          "target_comparison": "lte",
+          "rationale": "Readable docs should be generated quickly from approved artifacts once the direction is stable."
+        },
+        {
+          "metric_name": "stakeholder_alignment_cycles_before_acceptance",
+          "baseline_value": 4,
+          "target_value": 2,
+          "unit": "cycles",
+          "target_comparison": "lte",
+          "rationale": "Better narrative packaging should reduce the number of clarification loops required for alignment."
+        }
+      ],
+      "success_thresholds": [
+        "A PM-facing readable document should be available within the same business day after artifact approval.",
+        "Stakeholder review should usually converge within two cycles when the source artifacts are approved."
+      ],
+      "evidence_refs": [
+        "prd_pm_operating_rhythm",
+        "inc_plan_2026_q2_01",
+        "release_readiness_ws_productos_v2_runtime"
+      ],
+      "current_pain_points": [
+        "Stakeholder-safe communication still depends on manual narrative rebuilding.",
+        "Release and roadmap context are not yet packaged into one governed communication path."
+      ]
+    },
+    {
+      "loop_id": "feedback_to_accepted_improvement",
+      "name": "Feedback to accepted improvement",
+      "benchmark_question": "Does V4 convert repeated feedback into a bounded improvement decision without waiting for a manual planning reset?",
+      "status": "baseline_defined",
+      "primary_metrics": [
+        {
+          "metric_name": "time_from_clustered_feedback_to_pm_ready_improvement_days",
+          "baseline_value": 21,
+          "target_value": 7,
+          "unit": "days",
+          "target_comparison": "lte",
+          "rationale": "The improvement loop should turn repeated pain into a decision-ready bounded slice in under one week."
+        },
+        {
+          "metric_name": "repeated_unresolved_pain_items_per_cycle",
+          "baseline_value": 2,
+          "target_value": 0,
+          "unit": "items",
+          "target_comparison": "lte",
+          "rationale": "Once a repeated pain point is accepted into the loop, it should not keep resurfacing unchanged."
+        }
+      ],
+      "success_thresholds": [
+        "Repeated high-impact feedback should produce a PM-ready bounded improvement proposal inside one weekly planning cycle.",
+        "Accepted fixes should reduce the recurrence of the same unresolved pain in the next observed cycle."
+      ],
+      "evidence_refs": [
+        "feedback_cluster_state_ws_productos_v2_runtime",
+        "gap_cluster_state_post_v3_1_productos",
+        "improvement_loop_state_productos_v4_next_version_baseline"
+      ],
+      "current_pain_points": [
+        "Feedback-to-fix loops still depend on manual release planning translation.",
+        "Repeated communication pain can be identified, but not yet closed through a governed V4 loop."
+      ]
+    }
+  ],
+  "overall_summary": "The first V4.0 slice locks the PM superpower scoreboard before broader document-system implementation continues.",
+  "recommended_next_action": "Use this benchmark as the acceptance bar for the next V4.0 document-system and validation-tier slices.",
+  "generated_at": "2026-03-21T23:55:00Z"
+}

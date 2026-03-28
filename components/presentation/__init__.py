@@ -1,0 +1,1 @@
+"""Vendored presentation component."""

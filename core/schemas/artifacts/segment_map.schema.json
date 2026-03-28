@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/segment_map.schema.json",
+  "title": "ProductOS Segment Map",
+  "description": "Structured segment view across an explicit segmentation lens with evidence-backed attractiveness and urgency.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "segment_map_id",
+    "workspace_id",
+    "title",
+    "market_name",
+    "segmentation_lens",
+    "segments",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "segment_map_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "market_name": { "type": "string", "minLength": 3 },
+    "segmentation_lens": {
+      "type": "string",
+      "enum": [
+        "firmographic",
+        "behavioral",
+        "workflow_maturity",
+        "job_to_be_done",
+        "adoption_readiness",
+        "economic_value"
+      ]
+    },
+    "segments": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/segment" },
+      "minItems": 1
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "definition",
+        "qualifying_traits",
+        "attractiveness",
+        "urgency",
+        "evidence_refs"
+      ],
+      "properties": {
+        "name": { "type": "string", "minLength": 2 },
+        "definition": { "type": "string", "minLength": 10 },
+        "qualifying_traits": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "attractiveness": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        },
+        "urgency": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

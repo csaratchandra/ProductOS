@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/concept_brief.schema.json",
+  "title": "ProductOS Concept Brief",
+  "description": "Sharper framing of an idea into a concept with explicit segment and persona targeting.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "concept_brief_id",
+    "workspace_id",
+    "title",
+    "hypothesis",
+    "why_now",
+    "why_us",
+    "advantage_hypothesis",
+    "status",
+    "idea_record_ids",
+    "target_segment_refs",
+    "target_persona_refs",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "concept_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "hypothesis": { "type": "string", "minLength": 10 },
+    "why_now": { "type": "string", "minLength": 10 },
+    "why_us": { "type": "string", "minLength": 10 },
+    "advantage_hypothesis": { "type": "string", "minLength": 10 },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "candidate", "validated", "parked"]
+    },
+    "idea_record_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "target_segment_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "target_persona_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "linked_entity_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "default": []
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "uncertainty_map_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id"],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": ["segment", "persona", "problem", "outcome", "opportunity", "feature", "metric", "decision"]
+        },
+        "entity_id": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0.0",
+  "portfolio_id": "portfolio-productos-core",
+  "suite_id": "suite_productos",
+  "title": "ProductOS Core Portfolio",
+  "operating_goal": "Improve PM operating rhythm quality and consistency across the ProductOS suite.",
+  "status": "active",
+  "workspace_ids": ["ws_productos_v2"]
+}

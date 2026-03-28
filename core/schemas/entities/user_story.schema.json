@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/user_story.schema.json",
+  "title": "ProductOS User Story Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "user_story_id",
+    "workspace_id",
+    "feature_id",
+    "title",
+    "narrative",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "user_story_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "feature_id": { "type": "string", "minLength": 1 },
+    "requirement_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "title": { "type": "string", "minLength": 3 },
+    "narrative": { "type": "string", "minLength": 15 },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "ready", "in_progress", "done", "blocked"]
+    },
+    "acceptance_criteria_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/superpower_benchmark.schema.json",
+  "title": "ProductOS Superpower Benchmark",
+  "description": "Benchmark artifact comparing PM-superpower workflows across staged ProductOS releases.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "superpower_benchmark_id",
+    "workspace_id",
+    "baseline_version",
+    "candidate_version",
+    "status",
+    "summary",
+    "scenarios",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "superpower_benchmark_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "baseline_version": { "type": "string", "minLength": 1 },
+    "candidate_version": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["passed", "watch", "failed"] },
+    "summary": { "type": "string", "minLength": 10 },
+    "scenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["scenario_id", "name", "status", "metric_deltas", "evidence_refs"],
+        "properties": {
+          "scenario_id": { "type": "string", "minLength": 1 },
+          "name": { "type": "string", "minLength": 3 },
+          "status": { "type": "string", "enum": ["passed", "watch", "failed"] },
+          "metric_deltas": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["metric_name", "baseline_value", "candidate_value", "unit", "trend"],
+              "properties": {
+                "metric_name": { "type": "string", "minLength": 3 },
+                "baseline_value": { "type": "number" },
+                "candidate_value": { "type": "number" },
+                "unit": { "type": "string", "minLength": 1 },
+                "trend": { "type": "string", "enum": ["improved", "flat", "worse"] }
+              }
+            },
+            "minItems": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 1
+          },
+          "gaps": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 3 },
+            "default": []
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "stakeholder_incentive_map_id": "stakeholder_incentive_map_discovery_upgrade",
+  "workspace_id": "ws_productos_v2",
+  "decision_or_initiative": "Upgrade ProductOS discovery and strategy intelligence.",
+  "stakeholders": [
+    {
+      "stakeholder_name": "CPO",
+      "incentive": "Improve strategic leverage and portfolio decision quality without losing governance control.",
+      "likely_resistance": "Concerns that weak-signal outputs could create noise or false certainty.",
+      "trust_state": "moderate",
+      "coalition_role": "approver"
+    },
+    {
+      "stakeholder_name": "Engineering",
+      "incentive": "Keep strategy outputs grounded enough to avoid churn and speculative roadmap changes.",
+      "likely_resistance": "Pushback if option generation creates decision churn without stronger evidence.",
+      "trust_state": "moderate",
+      "coalition_role": "influencer"
+    }
+  ],
+  "created_at": "2026-03-20T12:15:00Z"
+}

@@ -1,0 +1,186 @@
+{
+  "schema_version": "1.0.0",
+  "item_lifecycle_state_id": "item_lifecycle_state_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "Lifecycle traceability and stage visibility for PM work",
+  "item_ref": {
+    "entity_type": "opportunity",
+    "entity_id": "opp_pm_lifecycle_traceability"
+  },
+  "current_stage": "prd_handoff",
+  "overall_status": "ready_for_handoff",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_product_led_scaleups"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_pm_discovery_visibility_gap"
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_item_lifecycle_traceability"
+    }
+  ],
+  "lifecycle_stages": [
+    {
+      "stage_key": "signal_intake",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "intake_routing_state_ws_productos_v2_discovery_traceability"
+      ],
+      "summary": "The opportunity was captured and routed into discovery."
+    },
+    {
+      "stage_key": "research_synthesis",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "research_notebook_pm_lifecycle_visibility",
+        "competitor_dossier_pm_lifecycle_visibility",
+        "market_analysis_brief_pm_lifecycle_visibility"
+      ],
+      "summary": "Competitor and market research established the traceability gap as a real category weakness."
+    },
+    {
+      "stage_key": "segmentation_and_personas",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "segment_map_pm_lifecycle_visibility",
+        "persona_pack_pm_lifecycle_visibility"
+      ],
+      "summary": "Segments and personas were fixed before solution shaping."
+    },
+    {
+      "stage_key": "problem_framing",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "problem_brief_pm_lifecycle_visibility"
+      ],
+      "summary": "The problem was reduced to a decision-ready brief."
+    },
+    {
+      "stage_key": "concept_shaping",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "idea_record_pm_lifecycle_visibility",
+        "concept_brief_pm_lifecycle_visibility"
+      ],
+      "summary": "The solution direction was selected around an item-first lifecycle trace."
+    },
+    {
+      "stage_key": "prototype_validation",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "prototype_record_pm_item_timeline",
+        "ux_design_review_pm_lifecycle_visibility",
+        "visual_reasoning_state_pm_lifecycle_visibility"
+      ],
+      "summary": "Prototype evidence showed the item timeline and gate view were understandable."
+    },
+    {
+      "stage_key": "prd_handoff",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "prd_pm_lifecycle_visibility",
+        "validation_lane_report_pm_lifecycle_visibility",
+        "manual_validation_record_pm_lifecycle_visibility"
+      ],
+      "summary": "Discovery outputs are ready for downstream planning handoff."
+    },
+    {
+      "stage_key": "story_planning",
+      "status": "not_started",
+      "gate_status": "not_started",
+      "artifact_ids": [],
+      "summary": "Story planning is intentionally deferred to the next slice."
+    },
+    {
+      "stage_key": "acceptance_ready",
+      "status": "not_started",
+      "gate_status": "not_started",
+      "artifact_ids": [],
+      "summary": "Acceptance criteria authoring is not yet started."
+    },
+    {
+      "stage_key": "release_readiness",
+      "status": "not_started",
+      "gate_status": "not_started",
+      "artifact_ids": [],
+      "summary": "Release readiness is outside the first discovery proof."
+    },
+    {
+      "stage_key": "launch_preparation",
+      "status": "not_started",
+      "gate_status": "not_started",
+      "artifact_ids": [],
+      "summary": "Launch planning is reserved for a later lifecycle extension."
+    },
+    {
+      "stage_key": "outcome_review",
+      "status": "not_started",
+      "gate_status": "not_started",
+      "artifact_ids": [],
+      "summary": "Outcome review starts only after a launchable increment exists."
+    }
+  ],
+  "pending_questions": [
+    "Which delivery artifacts should become mandatory before the trace model reaches general availability?"
+  ],
+  "blocked_reasons": [],
+  "audit_log": [
+    {
+      "timestamp": "2026-03-23T08:00:00Z",
+      "actor": "PM Builder",
+      "event_type": "artifact_created",
+      "summary": "The discovery trace bundle was initialized."
+    },
+    {
+      "timestamp": "2026-03-23T08:10:00Z",
+      "actor": "Research Lead",
+      "event_type": "gate_passed",
+      "summary": "Research synthesis cleared the mixed-competitor evidence gate."
+    },
+    {
+      "timestamp": "2026-03-23T08:20:00Z",
+      "actor": "PM Builder",
+      "event_type": "gate_passed",
+      "summary": "Segmentation and persona mapping were accepted."
+    },
+    {
+      "timestamp": "2026-03-23T08:35:00Z",
+      "actor": "PM Builder",
+      "event_type": "status_changed",
+      "summary": "The item moved from problem framing into concept shaping."
+    },
+    {
+      "timestamp": "2026-03-23T08:50:00Z",
+      "actor": "UX Reviewer",
+      "event_type": "gate_passed",
+      "summary": "Prototype validation passed with item-first navigation intact."
+    },
+    {
+      "timestamp": "2026-03-23T09:05:00Z",
+      "actor": "PM Operator",
+      "event_type": "handoff_prepared",
+      "summary": "The PRD handoff package was approved for downstream planning."
+    }
+  ],
+  "created_at": "2026-03-23T08:00:00Z",
+  "updated_at": "2026-03-23T09:05:00Z"
+}

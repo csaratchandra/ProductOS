@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/runtime_adapter_registry.schema.json",
+  "title": "ProductOS Runtime Adapter Registry",
+  "description": "Registry of runtime capabilities the host environment currently exposes to ProductOS for live execution behavior.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "runtime_adapter_registry_id",
+    "workspace_id",
+    "status",
+    "adapters",
+    "evaluated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "runtime_adapter_registry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "partial",
+        "blocked"
+      ]
+    },
+    "adapters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/adapter"
+      },
+      "minItems": 1
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter_id",
+        "name",
+        "capability_type",
+        "availability_status",
+        "supported_actions",
+        "requires_host_support",
+        "verification_status"
+      ],
+      "properties": {
+        "adapter_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "capability_type": {
+          "type": "string",
+          "enum": [
+            "worker_session",
+            "git_execution",
+            "browser_control",
+            "filesystem_access",
+            "connector_sync",
+            "validation_runner",
+            "custom"
+          ]
+        },
+        "availability_status": {
+          "type": "string",
+          "enum": [
+            "available",
+            "limited",
+            "planned",
+            "unavailable"
+          ]
+        },
+        "supported_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "requires_host_support": {
+          "type": "boolean"
+        },
+        "verification_status": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "unverified",
+            "planned",
+            "failed"
+          ]
+        },
+        "used_by_default": {
+          "type": "boolean",
+          "default": false
+        },
+        "host_constraints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "default": []
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

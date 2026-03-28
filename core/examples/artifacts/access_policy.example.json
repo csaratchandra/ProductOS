@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "access_status_mail",
+  "workspace_id": "ws_productos_v2",
+  "artifact_type": "status_mail",
+  "allowed_view_roles": [
+    "pm",
+    "leadership",
+    "engineering"
+  ],
+  "allowed_edit_roles": [
+    "pm",
+    "agent"
+  ],
+  "allowed_approve_roles": [
+    "pm"
+  ],
+  "allowed_publish_roles": [
+    "pm"
+  ]
+}

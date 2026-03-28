@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/connector_manifest.schema.json",
+  "title": "ProductOS Connector Manifest",
+  "description": "Describes an external connector and its sync behavior.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "connector_id",
+    "workspace_id",
+    "system_name",
+    "sync_mode",
+    "last_synced_at",
+    "stale_sync_threshold_hours",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "connector_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "system_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sync_mode": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "scheduled",
+        "event_driven"
+      ]
+    },
+    "last_synced_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stale_sync_threshold_hours": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "watch",
+        "failed"
+      ]
+    },
+    "owned_artifact_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    }
+  }
+}

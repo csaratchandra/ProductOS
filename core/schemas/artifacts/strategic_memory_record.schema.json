@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/strategic_memory_record.schema.json",
+  "title": "ProductOS Strategic Memory Record",
+  "description": "Compounding record of prior strategic theses, outcomes, and repeated traps.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "strategic_memory_record_id",
+    "workspace_id",
+    "thesis",
+    "supporting_signals",
+    "later_outcome",
+    "lesson",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "strategic_memory_record_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "thesis": { "type": "string", "minLength": 10 },
+    "supporting_signals": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
+    "later_outcome": { "type": "string", "minLength": 10 },
+    "lesson": { "type": "string", "minLength": 10 },
+    "repeated_traps": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "persona_pack_id": "persona_pack_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Persona pack: starter discovery trace demo",
+  "segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_early_product_teams"
+    },
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_scaling_product_orgs"
+    },
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_ops_enabled_product_teams"
+    }
+  ],
+  "personas": [
+    {
+      "persona_ref": {
+        "entity_type": "persona",
+        "entity_id": "persona_pm_operator"
+      },
+      "role": "Product manager",
+      "goals": [
+        "Understand the status of one discovery item quickly."
+      ],
+      "pains": [
+        "Discovery notes and decisions are easy to lose."
+      ]
+    },
+    {
+      "persona_ref": {
+        "entity_type": "persona",
+        "entity_id": "persona_design_partner"
+      },
+      "role": "Design partner",
+      "goals": [
+        "See the validated concept context before refining flows."
+      ],
+      "pains": [
+        "Upstream rationale is often unclear."
+      ]
+    },
+    {
+      "persona_ref": {
+        "entity_type": "persona",
+        "entity_id": "persona_product_ops_lead"
+      },
+      "role": "Product ops lead",
+      "goals": [
+        "Standardize the minimum lifecycle evidence set."
+      ],
+      "pains": [
+        "Teams use inconsistent artifacts and gates."
+      ]
+    }
+  ],
+  "source_artifact_ids": [
+    "segment_map_starter_trace_demo"
+  ],
+  "created_at": "2026-03-23T11:04:00Z"
+}

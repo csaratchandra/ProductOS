@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/feedback_cluster_state.schema.json",
+  "title": "ProductOS Feedback Cluster State",
+  "description": "Internal runtime state that clusters repeated ProductOS feedback into improvement, backlog, or release-scope recommendations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "feedback_cluster_state_id",
+    "workspace_id",
+    "status",
+    "cluster_summary",
+    "clusters",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "feedback_cluster_state_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "collecting",
+        "triaged",
+        "ready_for_scope_review",
+        "closed"
+      ]
+    },
+    "cluster_summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "clusters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cluster"
+      },
+      "minItems": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "cluster": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cluster_id",
+        "label",
+        "feedback_ids",
+        "dominant_category",
+        "impact_level",
+        "recommended_route"
+      ],
+      "properties": {
+        "cluster_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 3
+        },
+        "feedback_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "dominant_category": {
+          "type": "string",
+          "enum": [
+            "pm_pain_point",
+            "rejected_output",
+            "workflow_friction",
+            "missing_capability",
+            "naming_confusion",
+            "reliability_incident"
+          ]
+        },
+        "impact_level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "recommended_route": {
+          "type": "string",
+          "enum": [
+            "improvement_record",
+            "backlog_candidate",
+            "release_scope_review",
+            "defer"
+          ]
+        },
+        "linked_output_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

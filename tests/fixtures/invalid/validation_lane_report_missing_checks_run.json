@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "validation_lane_report_id": "validation_lane_report_bad_missing_checks",
+  "workspace_id": "ws_productos_v2",
+  "artifact_ref": "persona_operating_profile_ws_productos_v2_v4_0",
+  "artifact_type": "persona_operating_profile",
+  "stage_name": "v4_0_foundation_governance_definition",
+  "validation_tier": "tier_2",
+  "overall_status": "ready_for_manual_validation",
+  "review_summary": "This invalid fixture exists to prove AI tester checks are required.",
+  "ai_reviewer_lane": {
+    "status": "proceed",
+    "reviewer_role": "AI Reviewer",
+    "blocking_findings": [],
+    "non_blocking_findings": [
+      "No reviewer blocking findings."
+    ],
+    "unresolved_questions": [
+      "Manual validation is still pending."
+    ]
+  },
+  "ai_tester_lane": {
+    "status": "passed",
+    "tester_role": "AI Tester",
+    "blocking_findings": [],
+    "non_blocking_findings": [
+      "No tester blocking findings."
+    ],
+    "automation_gaps": [
+      "Manual adoption validation remains out of band."
+    ]
+  },
+  "manual_validation_policy": {
+    "required": true,
+    "scope": "targeted",
+    "owner_role": "PM Builder",
+    "status": "pending",
+    "rationale": "Tier 2 outputs require targeted manual validation."
+  },
+  "referee_trigger": {
+    "required": false,
+    "rationale": "There is no disagreement to resolve.",
+    "conflicting_lanes": []
+  },
+  "governance_layer_refs": [
+    "core/docs/validation-tier-policy.md"
+  ],
+  "next_action": "Reject this payload because the AI tester lane omits checks_run.",
+  "generated_at": "2026-03-21T23:55:00Z"
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/hypothesis.schema.json",
+  "title": "ProductOS Hypothesis Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "hypothesis_id",
+    "workspace_id",
+    "statement",
+    "hypothesis_type",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "hypothesis_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "statement": { "type": "string", "minLength": 10 },
+    "hypothesis_type": {
+      "type": "string",
+      "enum": ["value", "usability", "feasibility", "go_to_market", "retention"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "planned", "in_test", "validated", "invalidated"]
+    },
+    "linked_problem_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "success_metric_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    }
+  }
+}

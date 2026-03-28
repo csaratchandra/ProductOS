@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/rejected_path_record.schema.json",
+  "title": "ProductOS Rejected Path Record",
+  "description": "Stores failed ideas, rejected document or presentation paths, blocked routes, and other dead ends so V4 avoids repeat churn.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "rejected_path_record_id",
+    "workspace_id",
+    "path_type",
+    "title",
+    "related_refs",
+    "rejection_stage",
+    "decision",
+    "rejection_reason",
+    "failure_signals",
+    "retry_conditions",
+    "retained_lessons",
+    "benchmark_guardrail_refs",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "rejected_path_record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "path_type": {
+      "type": "string",
+      "enum": [
+        "idea",
+        "prototype",
+        "document_pattern",
+        "workflow_route",
+        "presentation_pattern",
+        "release_claim"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "related_refs": {
+      "$ref": "#/$defs/stringList"
+    },
+    "rejection_stage": {
+      "type": "string",
+      "minLength": 3
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "rejected",
+        "deferred",
+        "superseded"
+      ]
+    },
+    "rejection_reason": {
+      "type": "string",
+      "minLength": 10
+    },
+    "failure_signals": {
+      "$ref": "#/$defs/stringList"
+    },
+    "retry_conditions": {
+      "$ref": "#/$defs/stringList"
+    },
+    "retained_lessons": {
+      "$ref": "#/$defs/stringList"
+    },
+    "benchmark_guardrail_refs": {
+      "$ref": "#/$defs/stringList"
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "stringList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    }
+  }
+}

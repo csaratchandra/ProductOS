@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "connector_id": "jira_primary",
+  "workspace_id": "ws_productos_v2",
+  "system_name": "Jira",
+  "sync_mode": "scheduled",
+  "last_synced_at": "2026-03-19T12:00:00Z",
+  "stale_sync_threshold_hours": 6,
+  "status": "watch",
+  "owned_artifact_types": [
+    "user_story",
+    "requirement"
+  ]
+}

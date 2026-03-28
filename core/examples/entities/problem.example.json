@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "problem_id": "problem_pm_reporting_bottleneck",
+  "workspace_id": "ws_productos_v2",
+  "title": "PM reporting overhead slows execution",
+  "statement": "PMs spend too much manual time creating status updates and meeting follow-through, reducing time available for high-value product judgment.",
+  "affected_user": "Product Manager",
+  "severity": "high",
+  "status": "validated",
+  "source_artifact_ids": [
+    "meeting_2026_03_19_leadership_review",
+    "status_2026_03_biweekly_02"
+  ],
+  "linked_segment_ids": [
+    "segment_b2b_product_teams"
+  ],
+  "linked_persona_ids": [
+    "persona_product_manager"
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/persona_archetype_pack.schema.json",
+  "title": "ProductOS Persona Archetype Pack",
+  "description": "Persona pack with explicit archetype roles, influence patterns, and workflow traits.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "persona_archetype_pack_id",
+    "workspace_id",
+    "title",
+    "segment_refs",
+    "archetype_mode",
+    "archetypes",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "persona_archetype_pack_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "segment_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "archetype_mode": {
+      "type": "string",
+      "enum": ["buyer", "user", "champion", "blocker", "operator", "executive", "influencer"]
+    },
+    "archetypes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/archetype" },
+      "minItems": 1
+    },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id"],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": ["segment", "persona"]
+        },
+        "entity_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "archetype": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "persona_ref",
+        "archetype_type",
+        "role_summary",
+        "goals",
+        "pains",
+        "triggers",
+        "blockers",
+        "buying_influence",
+        "workflow_traits",
+        "evidence_refs"
+      ],
+      "properties": {
+        "persona_ref": { "$ref": "#/$defs/entityRef" },
+        "archetype_type": {
+          "type": "string",
+          "enum": ["buyer", "user", "champion", "blocker", "operator", "executive", "influencer"]
+        },
+        "role_summary": { "type": "string", "minLength": 10 },
+        "goals": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "pains": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "triggers": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "blockers": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "buying_influence": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        },
+        "workflow_traits": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

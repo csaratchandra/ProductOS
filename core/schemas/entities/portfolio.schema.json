@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/portfolio.schema.json",
+  "title": "ProductOS Portfolio Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "portfolio_id",
+    "suite_id",
+    "title",
+    "operating_goal",
+    "status",
+    "workspace_ids"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "portfolio_id": { "type": "string", "minLength": 1 },
+    "suite_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "operating_goal": { "type": "string", "minLength": 10 },
+    "status": {
+      "type": "string",
+      "enum": ["active", "at_risk", "replanning", "archived"]
+    },
+    "workspace_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    }
+  }
+}

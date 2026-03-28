@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "policy_biweekly_status_mail",
+  "workspace_id": "ws_productos_v2",
+  "workflow_id": "wf_biweekly_status_mail",
+  "minimum_publish_confidence": 0.8,
+  "minimum_transfer_confidence": 0.7,
+  "block_on_contradiction": true,
+  "block_on_missing_owner": true,
+  "pm_override_allowed": true,
+  "notes": "Bi-weekly status mail should not be published if critical next steps lack owners."
+}

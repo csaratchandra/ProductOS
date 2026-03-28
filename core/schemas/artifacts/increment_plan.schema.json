@@ -1,0 +1,530 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/increment_plan.schema.json",
+  "title": "ProductOS Increment Plan",
+  "description": "A structured incremental delivery plan that supports startup, Scrum, Kanban, and SAFe-compatible execution models.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "increment_plan_id",
+    "workspace_id",
+    "planning_model",
+    "increment_name",
+    "timebox",
+    "objective",
+    "business_outcome",
+    "planning_status",
+    "items",
+    "dependencies",
+    "quality_gates",
+    "owners",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "increment_plan_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "program_increment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "planning_model": {
+      "type": "string",
+      "enum": [
+        "startup_iteration",
+        "scrum_sprint",
+        "kanban_delivery_window",
+        "safe_program_increment",
+        "custom"
+      ]
+    },
+    "increment_name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "timebox": {
+      "$ref": "#/$defs/timebox"
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 10
+    },
+    "business_outcome": {
+      "type": "string",
+      "minLength": 10
+    },
+    "success_metrics": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/metric"
+      },
+      "default": []
+    },
+    "planning_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "in_review",
+        "approved",
+        "in_progress",
+        "at_risk",
+        "completed",
+        "replanned"
+      ]
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/incrementItem"
+      },
+      "minItems": 1
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/dependency"
+      }
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/risk"
+      },
+      "default": []
+    },
+    "quality_gates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/qualityGate"
+      },
+      "minItems": 1
+    },
+    "owners": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/owner"
+      },
+      "minItems": 1
+    },
+    "stakeholder_updates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/stakeholderUpdate"
+      },
+      "default": []
+    },
+    "inspect_adapt_inputs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "replan_policy": {
+      "$ref": "#/$defs/replanPolicy"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approved_by": {
+      "$ref": "#/$defs/owner"
+    }
+  },
+  "$defs": {
+    "timebox": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start_date",
+        "end_date"
+      ],
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "cadence_label": {
+          "type": "string"
+        }
+      }
+    },
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "target"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1
+        },
+        "baseline": {
+          "type": "string"
+        }
+      }
+    },
+    "incrementItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item_id",
+        "item_type",
+        "title",
+        "summary",
+        "status",
+        "priority",
+        "customer_value",
+        "acceptance_readiness"
+      ],
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "item_type": {
+          "type": "string",
+          "enum": [
+            "epic",
+            "feature",
+            "story",
+            "enabler",
+            "bug_fix",
+            "experiment",
+            "spike",
+            "prototype"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 10
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "planned",
+            "ready",
+            "in_progress",
+            "blocked",
+            "done",
+            "deferred"
+          ]
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "must",
+            "should",
+            "could",
+            "wont_this_increment"
+          ]
+        },
+        "customer_value": {
+          "type": "string",
+          "minLength": 5
+        },
+        "acceptance_readiness": {
+          "type": "string",
+          "enum": [
+            "ready",
+            "needs_clarification",
+            "not_ready"
+          ]
+        },
+        "linked_artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "linked_entity_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/entityRef"
+          },
+          "default": []
+        },
+        "depends_on_item_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "owning_team": {
+          "type": "string"
+        },
+        "confidence_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dependency_id",
+        "dependency_type",
+        "description",
+        "status"
+      ],
+      "properties": {
+        "dependency_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dependency_type": {
+          "type": "string",
+          "enum": [
+            "team",
+            "system",
+            "data",
+            "vendor",
+            "compliance",
+            "decision"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 5
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "open",
+            "at_risk",
+            "resolved",
+            "blocked"
+          ]
+        },
+        "owner": {
+          "type": "string"
+        },
+        "needed_by": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "risk_id",
+        "title",
+        "severity",
+        "mitigation"
+      ],
+      "properties": {
+        "risk_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "mitigation": {
+          "type": "string",
+          "minLength": 5
+        },
+        "owner": {
+          "type": "string"
+        }
+      }
+    },
+    "qualityGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gate_id",
+        "name",
+        "gate_type",
+        "status"
+      ],
+      "properties": {
+        "gate_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "gate_type": {
+          "type": "string",
+          "enum": [
+            "definition_of_ready",
+            "acceptance_quality",
+            "technical_feasibility",
+            "dependency_clearance",
+            "release_readiness",
+            "compliance_review",
+            "customer_safety_review"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_started",
+            "in_review",
+            "passed",
+            "failed",
+            "waived"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "owner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "name"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "team": {
+          "type": "string"
+        }
+      }
+    },
+    "stakeholderUpdate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audience",
+        "message_goal",
+        "timing"
+      ],
+      "properties": {
+        "audience": {
+          "type": "string",
+          "minLength": 1
+        },
+        "message_goal": {
+          "type": "string",
+          "minLength": 5
+        },
+        "timing": {
+          "type": "string",
+          "enum": [
+            "before_start",
+            "mid_increment",
+            "end_increment",
+            "on_change"
+          ]
+        }
+      }
+    },
+    "replanPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pm_approval_required_for_scope_change",
+        "pm_approval_required_for_customer_facing_change",
+        "auto_refresh_artifacts_on_minor_change"
+      ],
+      "properties": {
+        "pm_approval_required_for_scope_change": {
+          "type": "boolean"
+        },
+        "pm_approval_required_for_customer_facing_change": {
+          "type": "boolean"
+        },
+        "auto_refresh_artifacts_on_minor_change": {
+          "type": "boolean"
+        },
+        "publish_block_threshold": {
+          "type": "string",
+          "enum": [
+            "critical_risk",
+            "low_confidence",
+            "missing_acceptance",
+            "manual_override_only"
+          ]
+        }
+      }
+    },
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_type",
+        "entity_id"
+      ],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": [
+            "segment",
+            "persona",
+            "problem",
+            "outcome",
+            "opportunity",
+            "feature",
+            "metric",
+            "decision"
+          ]
+        },
+        "entity_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

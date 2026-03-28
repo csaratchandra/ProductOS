@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_pack_id": "evidence_pack_presentation_brief_pm_ops_q2",
+  "workspace_id": "ws_productos_core",
+  "presentation_brief_id": "presentation_brief_pm_ops_q2",
+  "source_artifact_ids": [
+    "portfolio_update_2026_03_19",
+    "portfolio_state_suite_productos_2026_03_19",
+    "leadership_review_2026_03_19"
+  ],
+  "evidence_units": [
+    {
+      "evidence_id": "slide_cover_evidence_1",
+      "slide_id": "slide_cover",
+      "claim": "The presentation system should be funded as a narrative rendering system, not treated as a visual polish pass.",
+      "evidence_type": "recommendation",
+      "value": "Q2 view",
+      "source_ref": "portfolio_update_2026_03_19",
+      "confidence_state": "high",
+      "confidence_reason": "Leadership review and current implementation evidence both support the architectural diagnosis.",
+      "freshness": "current_quarter",
+      "materiality": "primary",
+      "proof_requirement": "State the decision clearly",
+      "counterevidence": []
+    },
+    {
+      "evidence_id": "slide_summary_evidence_1",
+      "slide_id": "slide_summary",
+      "claim": "ProductOS already has enough structured operating material; the quality loss happens in evidence packaging and story planning.",
+      "evidence_type": "fact",
+      "value": "Structured operating outputs are now implemented",
+      "source_ref": "portfolio_update_2026_03_19",
+      "confidence_state": "high",
+      "confidence_reason": "This is directly supported by the implemented artifact and workflow layers.",
+      "freshness": "current_quarter",
+      "materiality": "primary",
+      "proof_requirement": "Show that upstream source artifacts already exist",
+      "counterevidence": []
+    },
+    {
+      "evidence_id": "slide_risks_evidence_1",
+      "slide_id": "slide_risks",
+      "claim": "Narrative upgrades are only acceptable if publish controls keep evidence, uncertainty, and export tradeoffs visible.",
+      "evidence_type": "risk",
+      "value": "Cockpit modes are still incomplete",
+      "source_ref": "leadership_review_2026_03_19",
+      "confidence_state": "medium",
+      "confidence_reason": "The risk is grounded but still early enough that delivery confidence should remain visible.",
+      "freshness": "current_quarter",
+      "materiality": "primary",
+      "proof_requirement": "Show where publish controls are still thin",
+      "counterevidence": []
+    }
+  ],
+  "priority_evidence": [
+    {
+      "slide_id": "slide_cover",
+      "claim": "The presentation system should be funded as a narrative rendering system, not treated as a visual polish pass.",
+      "proof_points": [
+        "Q2 view",
+        "Leadership review"
+      ]
+    }
+  ],
+  "deferred_evidence": [
+    {
+      "slide_id": "slide_risks",
+      "reason": "Detailed publish-control proof belongs in appendix rather than the main story.",
+      "deferred_points": [
+        "Expanded fidelity exceptions by composition type."
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "metric_name": "slide_count",
+      "value": 3,
+      "unit": "slides"
+    }
+  ],
+  "confidence_flags": [
+    "PPT fidelity still depends on simplified composition mapping.",
+    "Phase 1 confidence is heuristic and should be replaced by source-derived support scoring in Phase 2."
+  ],
+  "contradictions": [],
+  "gaps": [
+    "No direct customer-facing presentation examples are modeled yet."
+  ],
+  "risk_items": [
+    {
+      "risk_id": "slide_risks_risk_1",
+      "label": "Cockpit modes are still incomplete",
+      "impact": "high",
+      "likelihood": "medium",
+      "owner": "PM / presentation-system owner",
+      "source_ref": "leadership_review_2026_03_19"
+    }
+  ],
+  "timeline_events": [],
+  "decision_options": [],
+  "generated_at": "2026-03-20T13:05:00Z"
+}

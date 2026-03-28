@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/issue_log.schema.json",
+  "title": "ProductOS Issue Log",
+  "description": "A structured log of open product, delivery, and operational issues.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "issue_log_id",
+    "workspace_id",
+    "period_label",
+    "issues",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "issue_log_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "period_label": {
+      "type": "string",
+      "minLength": 3
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/issue"
+      },
+      "minItems": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "issue_id",
+        "title",
+        "category",
+        "severity",
+        "owner",
+        "status",
+        "mitigation"
+      ],
+      "properties": {
+        "issue_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "product",
+            "delivery",
+            "dependency",
+            "quality",
+            "stakeholder",
+            "compliance",
+            "support",
+            "other"
+          ]
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "open",
+            "watch",
+            "mitigating",
+            "blocked",
+            "resolved"
+          ]
+        },
+        "mitigation": {
+          "type": "string",
+          "minLength": 5
+        },
+        "due_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    }
+  }
+}

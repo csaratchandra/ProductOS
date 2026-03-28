@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "decision_id": "decision_status_mail_first_class",
+  "workspace_id": "ws_productos_v2",
+  "statement": "Bi-weekly status mail will be a first-class ProductOS workflow output.",
+  "status": "approved",
+  "rationale": "Status communication should not depend on manual PM drafting each cycle.",
+  "decided_at": "2026-03-19T15:45:00Z",
+  "linked_artifact_ids": [
+    "meeting_2026_03_19_leadership_review",
+    "status_2026_03_biweekly_02"
+  ]
+}

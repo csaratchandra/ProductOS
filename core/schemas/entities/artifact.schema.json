@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/artifact.schema.json",
+  "title": "ProductOS Artifact Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_id",
+    "workspace_id",
+    "artifact_type",
+    "title",
+    "status",
+    "canonical_path",
+    "version"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "artifact_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "artifact_type": { "type": "string", "minLength": 3 },
+    "title": { "type": "string", "minLength": 3 },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "review", "approved", "published", "superseded"]
+    },
+    "canonical_path": { "type": "string", "minLength": 5 },
+    "version": { "type": "string", "minLength": 1 },
+    "linked_entity_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/strategy_option_set.schema.json",
+  "title": "ProductOS Strategy Option Set",
+  "description": "Decision-ready set of materially different strategic paths with explicit tradeoffs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "strategy_option_set_id",
+    "workspace_id",
+    "decision_statement",
+    "options",
+    "recommended_option_id",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "strategy_option_set_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "decision_statement": { "type": "string", "minLength": 10 },
+    "options": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/option" },
+      "minItems": 3
+    },
+    "recommended_option_id": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "option": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "option_id",
+        "title",
+        "option_thesis",
+        "upside_case",
+        "failure_mode",
+        "dependency_burden",
+        "reversibility",
+        "portfolio_interaction",
+        "org_capability_requirement"
+      ],
+      "properties": {
+        "option_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "option_thesis": { "type": "string", "minLength": 10 },
+        "upside_case": { "type": "string", "minLength": 10 },
+        "failure_mode": { "type": "string", "minLength": 10 },
+        "dependency_burden": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "reversibility": {
+          "type": "string",
+          "enum": ["easy", "moderate", "hard"]
+        },
+        "portfolio_interaction": { "type": "string", "minLength": 10 },
+        "org_capability_requirement": { "type": "string", "minLength": 10 }
+      }
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "pm_superpower_benchmark_id": "pm_superpower_benchmark_bad_missing_thresholds",
+  "workspace_id": "ws_productos_v2",
+  "baseline_version": "3.1.0",
+  "candidate_version": "4.0.0",
+  "status": "defined",
+  "comparison_window": {
+    "baseline_cutoff_date": "2026-03-21",
+    "target_review_date": "2026-04-18"
+  },
+  "validation_tier": "tier_2",
+  "baseline_benchmark_refs": [
+    "pm_benchmark_ws_productos_v2_runtime"
+  ],
+  "golden_loop_scores": [
+    {
+      "loop_id": "signal_to_product_decision",
+      "name": "Signal to product decision",
+      "benchmark_question": "This fixture intentionally omits success thresholds.",
+      "status": "baseline_defined",
+      "primary_metrics": [
+        {
+          "metric_name": "time_to_decision_ready_package_hours",
+          "baseline_value": 18,
+          "target_value": 6,
+          "unit": "hours",
+          "target_comparison": "lte",
+          "rationale": "This should fail validation because success thresholds are required."
+        }
+      ],
+      "evidence_refs": [
+        "problem_brief_pm_operating_rhythm"
+      ]
+    },
+    {
+      "loop_id": "decision_to_stakeholder_alignment",
+      "name": "Decision to stakeholder alignment",
+      "benchmark_question": "Placeholder loop included so the minItems gate is not the only failure.",
+      "status": "baseline_defined",
+      "primary_metrics": [
+        {
+          "metric_name": "time_to_first_reviewable_doc_hours",
+          "baseline_value": 12,
+          "target_value": 3,
+          "unit": "hours",
+          "target_comparison": "lte",
+          "rationale": "This loop is structurally valid."
+        }
+      ],
+      "success_thresholds": [
+        "A valid loop still has thresholds."
+      ],
+      "evidence_refs": [
+        "prd_pm_operating_rhythm"
+      ]
+    },
+    {
+      "loop_id": "feedback_to_accepted_improvement",
+      "name": "Feedback to accepted improvement",
+      "benchmark_question": "Placeholder loop included so the fixture remains otherwise valid.",
+      "status": "baseline_defined",
+      "primary_metrics": [
+        {
+          "metric_name": "time_from_clustered_feedback_to_pm_ready_improvement_days",
+          "baseline_value": 21,
+          "target_value": 7,
+          "unit": "days",
+          "target_comparison": "lte",
+          "rationale": "This loop is structurally valid."
+        }
+      ],
+      "success_thresholds": [
+        "A valid loop still has thresholds."
+      ],
+      "evidence_refs": [
+        "improvement_loop_state_productos_v4_docs_and_feedback"
+      ]
+    }
+  ],
+  "overall_summary": "This invalid fixture exists to prove success thresholds are required for each loop.",
+  "recommended_next_action": "Reject this payload because the first loop omits success thresholds.",
+  "generated_at": "2026-03-21T23:55:00Z"
+}

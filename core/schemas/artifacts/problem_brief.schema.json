@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/problem_brief.schema.json",
+  "title": "ProductOS Problem Brief",
+  "description": "Decision-ready summary of a validated problem before PRD creation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "problem_brief_id",
+    "workspace_id",
+    "title",
+    "problem_summary",
+    "target_segment_refs",
+    "target_persona_refs",
+    "linked_entity_refs",
+    "recommended_next_step",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "problem_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "problem_summary": { "type": "string", "minLength": 10 },
+    "target_segment_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "target_persona_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "linked_entity_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceRef" },
+      "default": []
+    },
+    "upstream_artifact_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "recommended_next_step": {
+      "type": "string",
+      "enum": ["research", "prototype", "prd", "park"]
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id"],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": ["segment", "persona", "problem", "outcome", "opportunity", "feature", "metric", "decision"]
+        },
+        "entity_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "evidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_type", "source_id", "justification"],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": ["meeting_record", "change_event", "status_mail", "issue_log", "transcript", "decision_log", "research", "other"]
+        },
+        "source_id": { "type": "string", "minLength": 1 },
+        "justification": { "type": "string", "minLength": 5 }
+      }
+    }
+  }
+}

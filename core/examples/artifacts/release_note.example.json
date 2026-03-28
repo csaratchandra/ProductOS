@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "release_note_id": "release_note_status_mail_internal",
+  "workspace_id": "ws_productos_v2",
+  "title": "Internal Release Note: PM Operating Rhythm Automation",
+  "summary": "This release adds bi-weekly status mail generation, meeting-note extraction, and linked workflow runtime state for ProductOS PM operations.",
+  "feature_ids": [
+    "feature_biweekly_status_mail_automation"
+  ],
+  "audience": "internal",
+  "change_classification": "feature_enhancement",
+  "version_impact": "minor",
+  "customer_visible": false,
+  "classification_rationale": "The release adds meaningful PM operating capability without changing the core ProductOS operating model destructively.",
+  "generated_at": "2026-03-19T18:58:00Z"
+}

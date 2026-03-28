@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/confidence_policy.schema.json",
+  "title": "ProductOS Confidence Policy",
+  "description": "Policy describing confidence thresholds and publish rules for a workflow or workspace.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_id",
+    "workspace_id",
+    "workflow_id",
+    "minimum_publish_confidence",
+    "minimum_transfer_confidence",
+    "block_on_contradiction",
+    "block_on_missing_owner",
+    "pm_override_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflow_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "minimum_publish_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "minimum_transfer_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "block_on_contradiction": {
+      "type": "boolean"
+    },
+    "block_on_missing_owner": {
+      "type": "boolean"
+    },
+    "pm_override_allowed": {
+      "type": "boolean"
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

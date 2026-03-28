@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0.0",
+  "segment_id": "segment_b2b_product_teams",
+  "workspace_id": "ws_productos_v2",
+  "name": "B2B product teams",
+  "summary": "Product teams in B2B software organizations that need recurring operating rhythm support across planning, status, and coordination.",
+  "status": "active"
+}

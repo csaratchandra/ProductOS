@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/outcome.schema.json",
+  "title": "ProductOS Outcome Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "outcome_id",
+    "workspace_id",
+    "title",
+    "target_metric",
+    "target_value",
+    "time_horizon"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "outcome_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "target_metric": { "type": "string", "minLength": 2 },
+    "target_value": { "type": "string", "minLength": 1 },
+    "time_horizon": { "type": "string", "minLength": 2 },
+    "linked_problem_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    }
+  }
+}

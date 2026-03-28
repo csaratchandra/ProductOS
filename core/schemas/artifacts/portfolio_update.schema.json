@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/portfolio_update.schema.json",
+  "title": "ProductOS Portfolio Update",
+  "description": "Leadership-facing summary across a suite of workspaces.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "portfolio_update_id",
+    "suite_id",
+    "summary",
+    "workspace_summaries",
+    "portfolio_risks",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "portfolio_update_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "suite_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 5
+    },
+    "workspace_summaries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/workspaceSummary"
+      },
+      "minItems": 1
+    },
+    "portfolio_risks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "workspaceSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workspace_id",
+        "headline",
+        "status"
+      ],
+      "properties": {
+        "workspace_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "headline": {
+          "type": "string",
+          "minLength": 5
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "healthy",
+            "watch",
+            "blocked"
+          ]
+        }
+      }
+    }
+  }
+}

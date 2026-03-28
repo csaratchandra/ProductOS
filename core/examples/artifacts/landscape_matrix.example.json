@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "landscape_matrix_id": "landscape_matrix_pm_tools",
+  "workspace_id": "ws_productos_v2",
+  "title": "PM operating tools landscape",
+  "comparison_axes": [
+    "positioning",
+    "pricing signal",
+    "motion",
+    "strengths",
+    "weaknesses",
+    "implication"
+  ],
+  "rows": [
+    {
+      "name": "Jira Product Discovery + Jira",
+      "positioning": "Connected discovery plus delivery workflow",
+      "pricing_signal": "Bundled with broader Atlassian footprint",
+      "motion": "Bottom-up and existing account expansion",
+      "strengths": ["Tight delivery linkage", "Familiar operating model"],
+      "weaknesses": ["Fragmented PM communication layer", "Limited strategic synthesis"],
+      "implication": "ProductOS should differentiate above workflow tracking."
+    },
+    {
+      "name": "Productboard",
+      "positioning": "Customer feedback and prioritization system",
+      "pricing_signal": "Mid to high enterprise SaaS pricing",
+      "motion": "PM team expansion and leadership visibility",
+      "strengths": ["Feedback consolidation", "Roadmap communication"],
+      "weaknesses": ["Less emphasis on PM operating choreography", "Limited prototype-first strategy layer"],
+      "implication": "ProductOS can win on integrated PM operating system depth."
+    }
+  ],
+  "created_at": "2026-03-20T14:20:00Z"
+}

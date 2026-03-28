@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/lifecycle_stage_snapshot.schema.json",
+  "title": "ProductOS Lifecycle Stage Snapshot",
+  "description": "Aggregate stage-level summary for a lifecycle focus area such as discovery or launch.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "lifecycle_stage_snapshot_id",
+    "workspace_id",
+    "focus_area",
+    "snapshot_summary",
+    "item_count",
+    "segment_count",
+    "persona_count",
+    "active_item_ids",
+    "gate_counts",
+    "stage_summaries",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "lifecycle_stage_snapshot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "focus_area": {
+      "type": "string",
+      "enum": [
+        "discovery",
+        "delivery",
+        "launch",
+        "outcomes",
+        "full_lifecycle"
+      ]
+    },
+    "snapshot_summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "item_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "segment_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "persona_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "artifact_counts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "default": {}
+    },
+    "active_item_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "gate_counts": {
+      "$ref": "#/$defs/gateCountSummary"
+    },
+    "stage_summaries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/stageSummary"
+      },
+      "minItems": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "stageKey": {
+      "type": "string",
+      "enum": [
+        "signal_intake",
+        "research_synthesis",
+        "segmentation_and_personas",
+        "problem_framing",
+        "concept_shaping",
+        "prototype_validation",
+        "prd_handoff",
+        "story_planning",
+        "acceptance_ready",
+        "release_readiness",
+        "launch_preparation",
+        "outcome_review"
+      ]
+    },
+    "gateCountSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "passed",
+        "pending",
+        "blocked",
+        "not_started"
+      ],
+      "properties": {
+        "passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pending": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocked": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "not_started": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "stageSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_key",
+        "item_ids",
+        "artifact_ids",
+        "gate_status_counts",
+        "summary"
+      ],
+      "properties": {
+        "stage_key": {
+          "$ref": "#/$defs/stageKey"
+        },
+        "item_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "gate_status_counts": {
+          "$ref": "#/$defs/gateCountSummary"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 5
+        }
+      }
+    }
+  }
+}

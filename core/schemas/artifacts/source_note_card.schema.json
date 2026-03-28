@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/source_note_card.schema.json",
+  "title": "ProductOS Source Note Card",
+  "description": "Normalized note unit for any research source so downstream synthesis can reuse claims without rereading the raw material.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_note_card_id",
+    "workspace_id",
+    "source_type",
+    "source_ref",
+    "title",
+    "claim",
+    "implication",
+    "confidence",
+    "tags",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "source_note_card_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "app_review",
+        "social_post",
+        "competitor_site",
+        "consultant_report",
+        "market_report",
+        "interview",
+        "meeting_notes",
+        "spreadsheet",
+        "dashboard",
+        "other"
+      ]
+    },
+    "source_ref": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "claim": { "type": "string", "minLength": 10 },
+    "source_snippet": { "type": "string", "minLength": 5 },
+    "implication": { "type": "string", "minLength": 10 },
+    "confidence": {
+      "type": "string",
+      "enum": ["low", "moderate", "high"]
+    },
+    "freshness_status": {
+      "type": "string",
+      "enum": ["fresh", "usable_with_review", "stale"]
+    },
+    "unknowns": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "followup_questions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "source_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_url": { "type": "string", "minLength": 5 },
+        "published_at": { "type": "string", "format": "date-time" },
+        "retrieved_at": { "type": "string", "format": "date-time" },
+        "author": { "type": "string", "minLength": 2 },
+        "source_slice_ref": { "type": "string", "minLength": 1 },
+        "dedupe_key": { "type": "string", "minLength": 3 },
+        "credibility_tier": {
+          "type": "string",
+          "enum": ["primary", "secondary", "community", "unknown"]
+        }
+      },
+      "default": {}
+    },
+    "dedupe_key": { "type": "string", "minLength": 3 },
+    "linked_entity_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "default": []
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 2 },
+      "minItems": 1
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id"],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": ["segment", "persona", "problem", "outcome", "opportunity", "feature", "metric", "decision"]
+        },
+        "entity_id": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

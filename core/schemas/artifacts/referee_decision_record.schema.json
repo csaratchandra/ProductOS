@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/referee_decision_record.schema.json",
+  "title": "ProductOS Referee Decision Record",
+  "description": "Captures tie-break decisions when V4 validation lanes disagree on whether an output may advance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "referee_decision_record_id",
+    "workspace_id",
+    "subject_ref",
+    "subject_type",
+    "related_validation_report_ref",
+    "disagreement_summary",
+    "lane_positions",
+    "referee_role",
+    "resolution",
+    "next_action",
+    "unresolved_questions",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "referee_decision_record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject_type": {
+      "type": "string",
+      "minLength": 3
+    },
+    "related_validation_report_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "disagreement_summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "lane_positions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/lanePosition"
+      },
+      "minItems": 2
+    },
+    "referee_role": {
+      "type": "string",
+      "minLength": 3
+    },
+    "resolution": {
+      "type": "string",
+      "enum": [
+        "proceed",
+        "revise",
+        "block",
+        "defer"
+      ]
+    },
+    "next_action": {
+      "type": "string",
+      "minLength": 10
+    },
+    "unresolved_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      }
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "lanePosition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lane_name",
+        "position",
+        "rationale"
+      ],
+      "properties": {
+        "lane_name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "position": {
+          "type": "string",
+          "enum": [
+            "proceed",
+            "revise",
+            "block",
+            "passed",
+            "failed",
+            "accept",
+            "reject",
+            "defer"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 10
+        }
+      }
+    }
+  }
+}

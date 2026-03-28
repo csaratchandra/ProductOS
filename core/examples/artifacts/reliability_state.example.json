@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "reliability_state_id": "reliability_biweekly_status_mail_2026_03_19",
+  "workspace_id": "ws_productos_v2",
+  "workflow_id": "wf_biweekly_status_mail",
+  "status": "watch",
+  "confidence_score": 0.78,
+  "publish_blocked": true,
+  "transfer_blocked": false,
+  "override_required": true,
+  "reasons": [
+    "Confidence score is below publish threshold.",
+    "One issue prioritization detail still requires PM judgment."
+  ],
+  "source_artifact_ids": [
+    "status_2026_03_biweekly_02",
+    "wf_state_biweekly_status_mail_2026_03_19"
+  ],
+  "evaluated_at": "2026-03-19T17:16:00Z"
+}

@@ -1,0 +1,254 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/status_mail.schema.json",
+  "title": "ProductOS Status Mail",
+  "description": "A structured PM status update for a reporting period such as a bi-weekly mail.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status_mail_id",
+    "workspace_id",
+    "cadence",
+    "reporting_period",
+    "audience",
+    "subject_line",
+    "what_happened",
+    "material_changes",
+    "open_issues",
+    "decisions",
+    "next_steps",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "status_mail_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cadence": {
+      "type": "string",
+      "enum": [
+        "weekly",
+        "biweekly",
+        "monthly",
+        "custom"
+      ]
+    },
+    "reporting_period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start_date",
+        "end_date"
+      ],
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "audience": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "subject_line": {
+      "type": "string",
+      "minLength": 5
+    },
+    "summary": {
+      "type": "string"
+    },
+    "what_happened": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "minItems": 1
+    },
+    "material_changes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      }
+    },
+    "open_issues": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/issueSummary"
+      },
+      "default": []
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/decision"
+      },
+      "default": []
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/actionItem"
+      },
+      "minItems": 1
+    },
+    "pm_context_requested": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "generated_from_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "linked_entity_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entityRef"
+      },
+      "default": []
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "issueSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "severity",
+        "owner",
+        "status"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "open",
+            "watch",
+            "mitigating",
+            "resolved"
+          ]
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "statement",
+        "status"
+      ],
+      "properties": {
+        "statement": {
+          "type": "string",
+          "minLength": 5
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "made",
+            "needed",
+            "deferred"
+          ]
+        }
+      }
+    },
+    "actionItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "owner",
+        "target_date"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 5
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_type",
+        "entity_id"
+      ],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": [
+            "segment",
+            "persona",
+            "problem",
+            "outcome",
+            "opportunity",
+            "feature",
+            "metric",
+            "decision"
+          ]
+        },
+        "entity_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

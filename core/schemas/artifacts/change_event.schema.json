@@ -1,0 +1,319 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/change_event.schema.json",
+  "title": "ProductOS Change Event",
+  "description": "A normalized record of a meaningful change detected in a product workspace.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "change_event_id",
+    "workspace_id",
+    "title",
+    "summary",
+    "change_type",
+    "source_type",
+    "detected_at",
+    "detected_by",
+    "urgency",
+    "signal_strength",
+    "impact_scope",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "change_event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_version_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "change_type": {
+      "type": "string",
+      "enum": [
+        "customer_signal",
+        "market_shift",
+        "competitor_change",
+        "stakeholder_direction",
+        "requirement_change",
+        "scope_change",
+        "priority_change",
+        "dependency_change",
+        "timeline_change",
+        "delivery_risk",
+        "quality_risk",
+        "compliance_risk",
+        "launch_readiness_change",
+        "evidence_update",
+        "contradiction_detected",
+        "blocked_workflow",
+        "other"
+      ]
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "meeting",
+        "document",
+        "ticketing_system",
+        "analytics",
+        "crm",
+        "support_tool",
+        "research_repository",
+        "design_tool",
+        "engineering_system",
+        "integration_sync",
+        "agent_detection",
+        "other"
+      ]
+    },
+    "source_references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sourceReference"
+      },
+      "default": []
+    },
+    "detected_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "effective_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "detected_by": {
+      "$ref": "#/$defs/actor"
+    },
+    "reported_by": {
+      "$ref": "#/$defs/actor"
+    },
+    "urgency": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "signal_strength": {
+      "type": "string",
+      "enum": [
+        "strong",
+        "moderate",
+        "weak"
+      ]
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "confidence_notes": {
+      "type": "string"
+    },
+    "impact_scope": {
+      "type": "string",
+      "enum": [
+        "local",
+        "cross_workflow",
+        "cross_team",
+        "program",
+        "portfolio"
+      ]
+    },
+    "affected_domains": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "problem_definition",
+          "research",
+          "requirements",
+          "scope",
+          "prioritization",
+          "design",
+          "engineering",
+          "data_science",
+          "quality",
+          "release",
+          "support",
+          "stakeholder_communications",
+          "customer_communications",
+          "compliance"
+        ]
+      },
+      "uniqueItems": true,
+      "default": []
+    },
+    "stale_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "recommended_actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/recommendedAction"
+      },
+      "default": []
+    },
+    "pm_attention_required": {
+      "type": "boolean",
+      "default": true
+    },
+    "customer_facing_change": {
+      "type": "boolean",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "detected",
+        "triaged",
+        "under_review",
+        "approved",
+        "rejected",
+        "deferred",
+        "resolved"
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "default": []
+    }
+  },
+  "$defs": {
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actor_type",
+        "actor_id",
+        "display_name"
+      ],
+      "properties": {
+        "actor_type": {
+          "type": "string",
+          "enum": [
+            "pm",
+            "stakeholder",
+            "agent",
+            "system",
+            "integration"
+          ]
+        },
+        "actor_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "sourceReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_kind"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_kind": {
+          "type": "string",
+          "enum": [
+            "artifact",
+            "document",
+            "conversation",
+            "ticket",
+            "dashboard",
+            "external_url",
+            "other"
+          ]
+        },
+        "source_title": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        },
+        "excerpt": {
+          "type": "string"
+        }
+      }
+    },
+    "recommendedAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_type",
+        "description"
+      ],
+      "properties": {
+        "action_type": {
+          "type": "string",
+          "enum": [
+            "refresh_artifact",
+            "revalidate_decision",
+            "update_scope",
+            "adjust_priority",
+            "resequence_increment",
+            "notify_stakeholders",
+            "pause_publish",
+            "escalate",
+            "ignore_as_noise",
+            "other"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 5
+        },
+        "owner_role": {
+          "type": "string"
+        },
+        "due_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

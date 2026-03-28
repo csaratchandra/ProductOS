@@ -1,0 +1,412 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/render_spec.schema.json",
+  "title": "ProductOS Render Spec",
+  "description": "Normalized presentation rendering spec for HTML, PPT, and other narrative outputs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "render_spec_id",
+    "presentation_story_id",
+    "presentation_brief_id",
+    "workspace_id",
+    "presentation_mode",
+    "theme",
+    "aspect_ratio",
+    "slides",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "render_spec_id": { "type": "string", "minLength": 1 },
+    "presentation_story_id": { "type": "string", "minLength": 1 },
+    "presentation_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "presentation_mode": {
+      "type": "string",
+      "enum": ["live", "async", "memo", "one_page", "meeting_brief", "customer_narrative"]
+    },
+    "theme": { "$ref": "#/$defs/theme" },
+    "aspect_ratio": {
+      "type": "string",
+      "enum": ["16:9", "4:3"],
+      "default": "16:9"
+    },
+    "slides": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/renderSlide" },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preset", "font_family", "background", "accent"],
+      "properties": {
+        "preset": {
+          "type": "string",
+          "enum": ["signal", "atlas", "editorial"]
+        },
+        "font_family": { "type": "string", "minLength": 3 },
+        "background": { "type": "string", "minLength": 3 },
+        "accent": { "type": "string", "minLength": 3 }
+      }
+    },
+    "renderSlide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slide_id",
+        "title",
+        "composition_type",
+        "headline",
+        "core_message",
+        "composition_payload",
+        "layout_variant",
+        "density_mode",
+        "visual_tokens",
+        "visibility_rules",
+        "annotation_rules",
+        "html_render_hints",
+        "ppt_render_hints",
+        "source_refs",
+        "speaker_notes",
+        "visual_direction",
+        "confidence_state",
+        "variant_rules"
+      ],
+      "properties": {
+        "slide_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "composition_type": {
+          "type": "string",
+          "enum": [
+            "hero_statement",
+            "summary_cards",
+            "decision_frame",
+            "evidence_grid",
+            "metric_strip",
+            "timeline_with_dependencies",
+            "risk_matrix",
+            "comparison_table",
+            "appendix_evidence",
+            "roadmap_view",
+            "user_journey_map",
+            "process_flow",
+            "workflow_map",
+            "capability_map",
+            "product_map",
+            "feature_map",
+            "mind_map",
+            "swot_matrix",
+            "impact_effort_matrix"
+          ]
+        },
+        "headline": { "type": "string", "minLength": 8 },
+        "core_message": { "type": "string", "minLength": 8 },
+        "composition_payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primary_claim", "evidence_items", "summary"],
+          "properties": {
+            "primary_claim": { "type": "string", "minLength": 8 },
+            "summary": { "type": "string", "minLength": 8 },
+            "recommendation": { "type": "string", "minLength": 8 },
+            "decision_ask": { "type": "string", "minLength": 3 },
+            "options": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/decisionOption" },
+              "default": []
+            },
+            "evidence_items": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/evidenceItem" }
+            },
+            "risk_items": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/riskItem" },
+              "default": []
+            },
+            "timeline_events": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/timelineEvent" },
+              "default": []
+            },
+            "comparison_rows": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/comparisonRow" },
+              "default": []
+            },
+            "map_payload": {
+              "$ref": "#/$defs/mapPayload"
+            },
+            "chart_spec": {
+              "$ref": "#/$defs/chartSpec"
+            }
+          }
+        },
+        "layout_variant": { "type": "string", "minLength": 3 },
+        "density_mode": { "type": "string", "enum": ["airy", "balanced", "dense"] },
+        "visual_tokens": { "$ref": "#/$defs/visualTokens" },
+        "visibility_rules": { "$ref": "#/$defs/visibilityRules" },
+        "annotation_rules": { "$ref": "#/$defs/annotationRules" },
+        "html_render_hints": { "$ref": "#/$defs/renderHints" },
+        "ppt_render_hints": { "$ref": "#/$defs/renderHints" },
+        "source_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "speaker_notes": { "type": "string", "minLength": 8 },
+        "visual_direction": { "type": "string", "minLength": 5 },
+        "confidence_state": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        },
+        "variant_rules": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["live", "async", "memo"],
+          "properties": {
+            "live": { "type": "string", "minLength": 3 },
+            "async": { "type": "string", "minLength": 3 },
+            "memo": { "type": "string", "minLength": 3 }
+          }
+        }
+      }
+    },
+    "evidenceItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_id", "label", "evidence_type", "value", "source_ref", "annotation"],
+      "properties": {
+        "evidence_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 3 },
+        "evidence_type": { "type": "string", "minLength": 3 },
+        "value": { "type": "string", "minLength": 3 },
+        "source_ref": { "type": "string", "minLength": 1 },
+        "annotation": { "type": "string", "minLength": 3 }
+      }
+    },
+    "decisionOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["option_id", "label", "stance", "summary", "tradeoffs"],
+      "properties": {
+        "option_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 3 },
+        "stance": { "type": "string", "enum": ["recommended", "alternative", "rejected"] },
+        "summary": { "type": "string", "minLength": 8 },
+        "tradeoffs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        }
+      }
+    },
+    "riskItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["risk_id", "label", "likelihood", "impact", "owner", "mitigation"],
+      "properties": {
+        "risk_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 3 },
+        "likelihood": { "type": "string", "enum": ["low", "medium", "high"] },
+        "impact": { "type": "string", "enum": ["low", "medium", "high"] },
+        "owner": { "type": "string", "minLength": 3 },
+        "mitigation": { "type": "string", "minLength": 3 }
+      }
+    },
+    "timelineEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "label", "timing", "dependency", "confidence_state"],
+      "properties": {
+        "event_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 3 },
+        "timing": { "type": "string", "minLength": 1 },
+        "dependency": { "type": "string", "minLength": 3 },
+        "confidence_state": { "type": "string", "enum": ["high", "medium", "low"] }
+      }
+    },
+    "comparisonRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dimension", "current_state", "target_state", "highlight"],
+      "properties": {
+        "dimension": { "type": "string", "minLength": 3 },
+        "current_state": { "type": "string", "minLength": 3 },
+        "target_state": { "type": "string", "minLength": 3 },
+        "highlight": { "type": "string", "minLength": 3 }
+      }
+    },
+    "mapPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["map_type", "decision_use_case"],
+      "properties": {
+        "map_type": { "type": "string", "minLength": 3 },
+        "decision_use_case": { "type": "string", "minLength": 10 },
+        "certainty_notes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "default": []
+        },
+        "nodes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/mapItem" },
+          "default": []
+        },
+        "lanes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 },
+          "default": []
+        },
+        "stages": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 },
+          "default": []
+        },
+        "axes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 },
+          "default": []
+        },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/mapItem" },
+          "default": []
+        }
+      }
+    },
+    "mapItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label"],
+      "properties": {
+        "label": { "type": "string", "minLength": 2 },
+        "description": { "type": "string", "minLength": 3 }
+      }
+    },
+    "chartSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["chart_id", "chart_type", "title", "categories", "series", "interactive"],
+      "properties": {
+        "chart_id": { "type": "string", "minLength": 1 },
+        "chart_type": { "type": "string", "enum": ["bar", "line", "stacked_bar", "combo", "heatmap"] },
+        "title": { "type": "string", "minLength": 3 },
+        "subtitle": { "type": "string", "minLength": 3 },
+        "categories": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "x_categories": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "y_categories": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "series": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/chartSeries" },
+          "default": []
+        },
+        "heatmap_points": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/heatmapPoint" },
+          "default": []
+        },
+        "interactive": { "type": "boolean" },
+        "uses_heuristics": { "type": "boolean" },
+        "unit": { "type": "string", "minLength": 1 },
+        "y_axes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        }
+      }
+    },
+    "chartSeries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "data"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "type": { "type": "string", "enum": ["bar", "line"] },
+        "stack": { "type": "string", "minLength": 1 },
+        "y_axis_index": { "type": "integer", "minimum": 0, "maximum": 1 },
+        "data": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 1
+        }
+      }
+    },
+    "heatmapPoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "value"],
+      "properties": {
+        "x": { "type": "integer", "minimum": 0 },
+        "y": { "type": "integer", "minimum": 0 },
+        "value": { "type": "number" },
+        "label": { "type": "string", "minLength": 1 }
+      }
+    },
+    "visualTokens": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["theme_preset", "accent", "surface_style", "emphasis_style"],
+      "properties": {
+        "theme_preset": { "type": "string", "minLength": 3 },
+        "accent": { "type": "string", "minLength": 3 },
+        "surface_style": { "type": "string", "minLength": 3 },
+        "emphasis_style": { "type": "string", "minLength": 3 }
+      }
+    },
+    "visibilityRules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["show_sources", "show_confidence", "show_appendix_link", "customer_safe", "redaction_policy"],
+      "properties": {
+        "show_sources": { "type": "boolean" },
+        "show_confidence": { "type": "boolean" },
+        "show_appendix_link": { "type": "boolean" },
+        "customer_safe": { "type": "boolean" },
+        "redaction_policy": { "type": "string", "minLength": 3 }
+      }
+    },
+    "annotationRules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["show_confidence_badge", "show_owner_labels", "show_risk_labels", "show_source_tags"],
+      "properties": {
+        "show_confidence_badge": { "type": "boolean" },
+        "show_owner_labels": { "type": "boolean" },
+        "show_risk_labels": { "type": "boolean" },
+        "show_source_tags": { "type": "boolean" }
+      }
+    },
+    "renderHints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prefer_native_shapes", "fallback_layout"],
+      "properties": {
+        "prefer_native_shapes": { "type": "boolean" },
+        "fallback_layout": { "type": "string", "minLength": 3 },
+        "emphasize_claim": { "type": "boolean" },
+        "show_evidence_as_cards": { "type": "boolean" },
+        "max_visible_evidence": { "type": "integer", "minimum": 0, "maximum": 8 }
+      }
+    }
+  }
+}

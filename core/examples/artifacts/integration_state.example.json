@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "integration_state_id": "integration_state_2026_03_19",
+  "workspace_id": "ws_productos_v2",
+  "status": "watch",
+  "stale_connectors": [
+    "jira_primary"
+  ],
+  "failed_connectors": [],
+  "source_of_truth_conflicts": [
+    "Status reporting requires manual PM confirmation before publish."
+  ],
+  "publish_blocked": false,
+  "evaluated_at": "2026-03-19T18:00:00Z"
+}

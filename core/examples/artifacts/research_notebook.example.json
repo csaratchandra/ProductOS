@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "research_notebook_id": "research_notebook_pm_day1",
+  "workspace_id": "ws_productos_v2",
+  "title": "PM Day-1 landscape notebook",
+  "research_question": "What should a new PM understand first about the PM operating-system market, user pain, and evidence quality?",
+  "source_note_card_ids": [
+    "source_note_card_consultant_ai_pm",
+    "source_note_card_app_review_jpd"
+  ],
+  "synthesis_hypothesis": "The best day-1 wedge is faster trusted synthesis of fragmented PM work rather than another document generator.",
+  "ordered_sections": [
+    "market context",
+    "customer pain signals",
+    "competitive gaps"
+  ],
+  "open_questions": [
+    "What part of the workflow is painful enough to buy on immediately?"
+  ],
+  "created_at": "2026-03-20T14:10:00Z"
+}

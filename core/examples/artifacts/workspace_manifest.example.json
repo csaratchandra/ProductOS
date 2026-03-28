@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "workspace_id": "ws_productos_v2",
+  "name": "ProductOS V2 Workspace",
+  "mode": "enterprise",
+  "active_increment_id": "pi_2026_q2_01",
+  "artifact_paths": [
+    "artifacts/current_state_assessment.example.json",
+    "artifacts/decision_queue.example.json",
+    "artifacts/follow_up_queue.example.json",
+    "artifacts/change_event.example.json",
+    "artifacts/change_impact_assessment.example.json",
+    "artifacts/increment_plan.example.json",
+    "artifacts/program_increment_state.example.json",
+    "artifacts/status_mail.example.json",
+    "artifacts/issue_log.example.json",
+    "artifacts/meeting_record.example.json",
+    "artifacts/decision_log.example.json",
+    "artifacts/cockpit_state.example.json",
+    "artifacts/orchestration_state.example.json",
+    "artifacts/execution_session_state.example.json",
+    "artifacts/runtime_adapter_registry.example.json",
+    "artifacts/intake_routing_state.example.json",
+    "artifacts/memory_retrieval_state.example.json",
+    "artifacts/feedback_cluster_state.example.json",
+    "artifacts/feature_scorecard.example.json",
+    "artifacts/feature_portfolio_review.example.json",
+    "artifacts/release_scope_recommendation.example.json",
+    "artifacts/runtime_scenario_report.example.json",
+    "artifacts/release_gate_decision.example.json",
+    "artifacts/pm_benchmark.example.json",
+    "artifacts/release_readiness.example.json"
+  ],
+  "workflow_paths": [
+    "../../core/workflows/discovery/current-state-assessment-workflow.md",
+    "../../core/workflows/mastery/feature-scoring-and-dogfood-review-workflow.md",
+    "../../core/workflows/mastery/next-version-superpower-ops-workflow.md",
+    "../../core/examples/workflows/biweekly_status_mail.workflow_state.example.json"
+  ],
+  "handoff_paths": [
+    "handoffs/handoff_meeting_to_decision.example.json"
+  ],
+  "inbox_paths": [
+    "inbox/raw-notes/",
+    "inbox/transcripts/",
+    "inbox/screenshots/",
+    "inbox/documents/",
+    "inbox/spreadsheets/",
+    "inbox/support-exports/"
+  ],
+  "feedback_paths": [
+    "feedback/",
+    "artifacts/productos_feedback_log.example.json"
+  ]
+}

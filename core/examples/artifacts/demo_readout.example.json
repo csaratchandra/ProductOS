@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "demo_readout_id": "demo_readout_pi_2026_q1_sprint4",
+  "workspace_id": "ws_productos_v2",
+  "demo_date": "2026-03-20",
+  "increment_id": "pi_2026_q1_02",
+  "audience": ["leadership", "engineering", "stakeholders"],
+  "features_demoed": [
+    {
+      "feature_name": "Bi-weekly status mail automation",
+      "status": "completed",
+      "description": "End-to-end automated status mail generation from workspace state with PM review step",
+      "acceptance_result": "passed"
+    },
+    {
+      "feature_name": "Meeting transcript to operational updates",
+      "status": "completed",
+      "description": "Converts meeting transcripts into structured meeting records, decision logs, and action items",
+      "acceptance_result": "passed"
+    },
+    {
+      "feature_name": "Change impact assessment pipeline",
+      "status": "partial",
+      "description": "Detects requirement changes and generates impact assessments with replan recommendations",
+      "acceptance_result": "not_tested"
+    }
+  ],
+  "key_learnings": [
+    "PMs want to see source evidence links inline during review, not just in metadata",
+    "Weekly cadence is preferred over bi-weekly for team-level updates"
+  ],
+  "feedback_items": [
+    {
+      "feedback": "Add option to customize the status mail subject line template",
+      "source": "Engineering Lead",
+      "action_required": true
+    },
+    {
+      "feedback": "The demo flow was clear and well-structured",
+      "source": "Director of Product",
+      "action_required": false
+    }
+  ],
+  "next_sprint_focus": [
+    "Complete chore automation agent with learning model",
+    "Build customer intelligence signal aggregation workflow",
+    "Prototype PM cockpit first-screen information architecture"
+  ],
+  "source_artifact_ids": ["increment_plan_pi_2026_q1_02"],
+  "generated_at": "2026-03-20T11:00:00Z"
+}

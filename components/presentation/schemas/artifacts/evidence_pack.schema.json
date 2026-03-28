@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/evidence_pack.schema.json",
+  "title": "ProductOS Evidence Pack",
+  "description": "Structured evidence package that separates findings, confidence, and source references before narrative shaping.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "evidence_pack_id",
+    "workspace_id",
+    "presentation_brief_id",
+    "source_artifact_ids",
+    "evidence_units",
+    "priority_evidence",
+    "deferred_evidence",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "evidence_pack_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "presentation_brief_id": { "type": "string", "minLength": 1 },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "evidence_units": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceUnit" },
+      "minItems": 1
+    },
+    "priority_evidence": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/priorityEvidence" },
+      "default": []
+    },
+    "deferred_evidence": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/deferredEvidence" },
+      "default": []
+    },
+    "metrics": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/metric" },
+      "default": []
+    },
+    "confidence_flags": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
+    "contradictions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/contradiction" },
+      "default": []
+    },
+    "gaps": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
+    "risk_items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/riskItem" },
+      "default": []
+    },
+    "timeline_events": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/timelineEvent" },
+      "default": []
+    },
+    "decision_options": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/decisionOption" },
+      "default": []
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "evidenceUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_id",
+        "slide_id",
+        "claim",
+        "evidence_type",
+        "value",
+        "source_ref",
+        "confidence_state",
+        "confidence_reason",
+        "freshness",
+        "materiality",
+        "proof_requirement",
+        "counterevidence"
+      ],
+      "properties": {
+        "evidence_id": { "type": "string", "minLength": 1 },
+        "slide_id": { "type": "string", "minLength": 1 },
+        "claim": { "type": "string", "minLength": 8 },
+        "evidence_type": {
+          "type": "string",
+          "enum": [
+            "recommendation",
+            "fact",
+            "metric",
+            "timeline_event",
+            "risk",
+            "decision_option",
+            "comparison",
+            "appendix_note"
+          ]
+        },
+        "value": { "type": "string", "minLength": 3 },
+        "source_ref": { "type": "string", "minLength": 1 },
+        "confidence_state": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        },
+        "confidence_reason": { "type": "string", "minLength": 8 },
+        "freshness": { "type": "string", "minLength": 3 },
+        "materiality": { "type": "string", "enum": ["primary", "supporting", "appendix"] },
+        "proof_requirement": { "type": "string", "minLength": 3 },
+        "counterevidence": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 }
+        }
+      }
+    },
+    "priorityEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slide_id", "claim", "proof_points"],
+      "properties": {
+        "slide_id": { "type": "string", "minLength": 1 },
+        "claim": { "type": "string", "minLength": 8 },
+        "proof_points": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        }
+      }
+    },
+    "deferredEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slide_id", "reason", "deferred_points"],
+      "properties": {
+        "slide_id": { "type": "string", "minLength": 1 },
+        "reason": { "type": "string", "minLength": 8 },
+        "deferred_points": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        }
+      }
+    },
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric_name", "value", "unit"],
+      "properties": {
+        "metric_name": { "type": "string", "minLength": 3 },
+        "value": { "type": ["number", "integer"] },
+        "unit": { "type": "string", "minLength": 1 }
+      }
+    },
+    "contradiction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "severity"],
+      "properties": {
+        "summary": { "type": "string", "minLength": 3 },
+        "severity": { "type": "string", "enum": ["low", "medium", "high"] }
+      }
+    },
+    "riskItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["risk_id", "label", "impact", "likelihood", "owner", "source_ref"],
+      "properties": {
+        "risk_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 3 },
+        "impact": { "type": "string", "enum": ["low", "medium", "high"] },
+        "likelihood": { "type": "string", "enum": ["low", "medium", "high"] },
+        "owner": { "type": "string", "minLength": 3 },
+        "source_ref": { "type": "string", "minLength": 1 }
+      }
+    },
+    "timelineEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "label", "timing", "dependency", "source_ref"],
+      "properties": {
+        "event_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 3 },
+        "timing": { "type": "string", "minLength": 1 },
+        "dependency": { "type": "string", "minLength": 3 },
+        "source_ref": { "type": "string", "minLength": 1 }
+      }
+    },
+    "decisionOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["option_id", "label", "stance", "summary", "source_refs"],
+      "properties": {
+        "option_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 3 },
+        "stance": { "type": "string", "enum": ["recommended", "alternative", "rejected"] },
+        "summary": { "type": "string", "minLength": 8 },
+        "source_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

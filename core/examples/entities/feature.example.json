@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "feature_id": "feature_biweekly_status_mail_automation",
+  "workspace_id": "ws_productos_v2",
+  "title": "Bi-weekly status mail automation",
+  "summary": "Generate review-ready status updates from workspace state, meeting records, and issue logs.",
+  "status": "planned",
+  "priority": "must",
+  "linked_opportunity_ids": [
+    "opp_pm_operating_rhythm_automation"
+  ],
+  "linked_outcome_ids": [
+    "outcome_reduce_pm_reporting_time"
+  ]
+}

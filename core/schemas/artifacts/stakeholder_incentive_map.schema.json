@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/stakeholder_incentive_map.schema.json",
+  "title": "ProductOS Stakeholder Incentive Map",
+  "description": "Structured view of stakeholder incentives, likely resistance, and coalition requirements for a decision.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "stakeholder_incentive_map_id",
+    "workspace_id",
+    "decision_or_initiative",
+    "stakeholders",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "stakeholder_incentive_map_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "decision_or_initiative": { "type": "string", "minLength": 10 },
+    "stakeholders": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/stakeholder" },
+      "minItems": 1
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "stakeholder": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stakeholder_name",
+        "incentive",
+        "likely_resistance",
+        "trust_state",
+        "coalition_role"
+      ],
+      "properties": {
+        "stakeholder_name": { "type": "string", "minLength": 2 },
+        "incentive": { "type": "string", "minLength": 10 },
+        "likely_resistance": { "type": "string", "minLength": 10 },
+        "trust_state": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "coalition_role": {
+          "type": "string",
+          "enum": ["blocker", "influencer", "approver", "ally", "observer"]
+        }
+      }
+    }
+  }
+}

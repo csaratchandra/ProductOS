@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/portfolio_state.schema.json",
+  "title": "ProductOS Portfolio State",
+  "description": "Operational state rollup across multiple product workspaces.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "portfolio_state_id",
+    "suite_id",
+    "summary",
+    "product_summaries",
+    "opportunity_portfolio_summary",
+    "cross_product_dependencies",
+    "portfolio_risks",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "portfolio_state_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "suite_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 5
+    },
+    "product_summaries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/productSummary"
+      },
+      "minItems": 1
+    },
+    "opportunity_portfolio_summary": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/opportunitySummary"
+      },
+      "default": []
+    },
+    "cross_product_dependencies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/dependency"
+      },
+      "default": []
+    },
+    "portfolio_risks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "productSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "product_record_id",
+        "workspace_id",
+        "product_name",
+        "lifecycle_stage",
+        "status",
+        "owner",
+        "target_release_or_increment"
+      ],
+      "properties": {
+        "product_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workspace_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "product_name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "lifecycle_stage": {
+          "type": "string",
+          "enum": [
+            "discovery",
+            "validation",
+            "delivery",
+            "launch",
+            "support"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "on_track",
+            "at_risk",
+            "blocked",
+            "done",
+            "parked"
+          ]
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_release_or_increment": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feature_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dependency_id",
+        "from_product_record_id",
+        "to_product_record_id",
+        "status",
+        "summary"
+      ],
+      "properties": {
+        "dependency_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "from_product_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "to_product_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "on_track",
+            "at_risk",
+            "blocked"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 5
+        }
+      }
+    },
+    "opportunitySummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "opportunity_id",
+        "title",
+        "value_at_stake",
+        "confidence",
+        "time_sensitivity",
+        "learning_priority"
+      ],
+      "properties": {
+        "opportunity_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "value_at_stake": {
+          "type": "string",
+          "enum": ["low", "moderate", "high", "transformational"]
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "time_sensitivity": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "learning_priority": {
+          "type": "string",
+          "enum": ["watch", "explore", "accelerate"]
+        }
+      }
+    }
+  }
+}

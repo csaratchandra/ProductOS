@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "idea_record_id": "idea_record_pm_status_automation",
+  "workspace_id": "ws_productos_v2",
+  "title": "Automate recurring PM operating outputs",
+  "summary": "Capture the recurring PM burden around status, follow-through, and coordination so those outputs can be system-generated from structured state.",
+  "status": "selected",
+  "source_type": "pm_observation",
+  "target_segment_refs": [
+    { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
+  ],
+  "target_persona_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" }
+  ],
+  "linked_entity_refs": [
+    { "entity_type": "problem", "entity_id": "problem_pm_reporting_bottleneck" },
+    { "entity_type": "opportunity", "entity_id": "opp_pm_operating_rhythm_automation" }
+  ],
+  "created_at": "2026-03-20T08:30:00Z"
+}

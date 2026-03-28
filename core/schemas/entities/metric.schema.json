@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/metric.schema.json",
+  "title": "ProductOS Metric Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "metric_id",
+    "workspace_id",
+    "name",
+    "definition",
+    "current_value",
+    "target_value"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "metric_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 2 },
+    "definition": { "type": "string", "minLength": 5 },
+    "current_value": { "type": "string", "minLength": 1 },
+    "target_value": { "type": "string", "minLength": 1 },
+    "linked_outcome_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    }
+  }
+}

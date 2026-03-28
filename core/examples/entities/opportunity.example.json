@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "opportunity_id": "opp_pm_operating_rhythm_automation",
+  "workspace_id": "ws_productos_v2",
+  "title": "Automate PM operating rhythm",
+  "summary": "Automating status mail, issue logs, and transcript-derived next steps can remove recurring PM coordination tax.",
+  "problem_id": "problem_pm_reporting_bottleneck",
+  "outcome_id": "outcome_reduce_pm_reporting_time",
+  "confidence_score": 0.9,
+  "status": "prioritized"
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/source_of_truth_policy.schema.json",
+  "title": "ProductOS Source Of Truth Policy",
+  "description": "Defines authoritative systems and conflict rules for workspace data domains.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_id",
+    "workspace_id",
+    "rules"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/rule"
+      },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "domain",
+        "authoritative_connector_id",
+        "conflict_action"
+      ],
+      "properties": {
+        "domain": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authoritative_connector_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "conflict_action": {
+          "type": "string",
+          "enum": [
+            "prefer_authoritative",
+            "escalate",
+            "pause_publish"
+          ]
+        }
+      }
+    }
+  }
+}

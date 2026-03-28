@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/stakeholder.schema.json",
+  "title": "ProductOS Stakeholder Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "stakeholder_id",
+    "workspace_id",
+    "name",
+    "role",
+    "influence_level",
+    "alignment_status"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "stakeholder_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 3 },
+    "role": { "type": "string", "minLength": 3 },
+    "influence_level": {
+      "type": "string",
+      "enum": ["high", "medium", "low"]
+    },
+    "alignment_status": {
+      "type": "string",
+      "enum": ["supportive", "neutral", "concerned", "blocked"]
+    },
+    "linked_feature_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    }
+  }
+}

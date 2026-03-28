@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/item_tracking_log.schema.json",
+  "title": "ProductOS Item Tracking Log",
+  "description": "Structured tracking of follow-up items extracted from meetings and workflows.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "item_tracking_log_id",
+    "workspace_id",
+    "items",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "item_tracking_log_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/item" },
+      "minItems": 1
+    },
+    "updated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item_id",
+        "description",
+        "owner",
+        "status"
+      ],
+      "properties": {
+        "item_id": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 5 },
+        "owner": { "type": "string", "minLength": 1 },
+        "status": {
+          "type": "string",
+          "enum": ["open", "in_progress", "blocked", "done"]
+        },
+        "due_date": { "type": "string", "format": "date" },
+        "source_meeting_record_id": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "radar_alert_id": "radar_alert_scope_shift_2026_03_19",
+  "workspace_id": "ws_productos_v2",
+  "title": "Scope shift requires plan and communication updates",
+  "summary": "Leadership narrowed current increment scope, which should trigger replan and status communication updates.",
+  "priority": "high",
+  "impact_scope": "cross_workflow",
+  "source_change_event_ids": [
+    "chg_2026_03_19_scope_shift"
+  ],
+  "recommended_triggers": [
+    "workflow",
+    "status"
+  ],
+  "suppression_state": {
+    "is_suppressed": false,
+    "rationale": "Signal is strong, cross-workflow, and decision-relevant."
+  },
+  "recommended_owner": "ProductOS PM",
+  "generated_at": "2026-03-19T16:35:00Z"
+}

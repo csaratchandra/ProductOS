@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "idea_record_id": "idea_record_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Starter item-first lifecycle trace demo",
+  "summary": "Seed the starter workspace with one item that shows how discovery artifacts, gates, and handoff readiness fit together.",
+  "status": "selected",
+  "source_type": "other",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_scaling_product_orgs"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opp_starter_trace_demo"
+    }
+  ],
+  "created_at": "2026-03-23T11:10:00Z"
+}

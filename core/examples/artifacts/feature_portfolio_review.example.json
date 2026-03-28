@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0.0",
+  "feature_portfolio_review_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+  "workspace_id": "ws_productos_v2",
+  "review_scope": "Completed next-version superpower scoring across the current ProductOS self-hosting workspace.",
+  "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "adapter_registry_ref": "runtime_adapter_registry_ws_productos_v2_next_version",
+  "truthfulness_status": "watch",
+  "eval_run_ref": "eval_run_report_ws_productos_v2_bounded_baseline",
+  "scorecard_refs": [
+    "feature_scorecard_ws_productos_v2_discover_to_prd_superpower",
+    "feature_scorecard_ws_productos_v2_docs_alignment_superpower",
+    "feature_scorecard_ws_productos_v2_presentation_superpower",
+    "feature_scorecard_ws_productos_v2_weekly_pm_autopilot",
+    "feature_scorecard_ws_productos_v2_market_intelligence_superpower",
+    "feature_scorecard_ws_productos_v2_runtime_control_surface",
+    "feature_scorecard_ws_productos_v2_agent_adapter_layer",
+    "feature_scorecard_ws_productos_v2_self_improvement_loop"
+  ],
+  "feature_summaries": [
+    {
+      "feature_id": "discover_to_prd_superpower",
+      "feature_name": "Messy input to PRD superpower",
+      "loop_id": "signal_to_product_decision",
+      "scorecard_ref": "feature_scorecard_ws_productos_v2_discover_to_prd_superpower",
+      "overall_score": 5,
+      "adoption_recommendation": "promote_as_standard",
+      "gap_summary": "Promoted: the repo now turns live inbox inputs into a same-day problem, concept, and PRD package through the CLI.",
+      "provenance_classification": "mixed",
+      "next_action": "Keep this discover slice as part of the promoted next-version baseline and reuse it for future hardening cycles."
+    },
+    {
+      "feature_id": "docs_alignment_superpower",
+      "feature_name": "Readable docs and alignment superpower",
+      "loop_id": "decision_to_stakeholder_alignment",
+      "scorecard_ref": "feature_scorecard_ws_productos_v2_docs_alignment_superpower",
+      "overall_score": 5,
+      "adoption_recommendation": "promote_as_standard",
+      "gap_summary": "Promoted: the readable-doc bundle is now the default aligned docs path for the repo-native next-version baseline.",
+      "provenance_classification": "real",
+      "next_action": "Treat the readable-doc bundle as the default alignment path and refresh it after each promoted slice."
+    },
+    {
+      "feature_id": "presentation_superpower",
+      "feature_name": "PRD to deck and executive story",
+      "loop_id": "decision_to_stakeholder_alignment",
+      "scorecard_ref": "feature_scorecard_ws_productos_v2_presentation_superpower",
+      "overall_score": 5,
+      "adoption_recommendation": "promote_as_standard",
+      "gap_summary": "Promoted: the repo now ships the docs-and-deck alignment path as part of the default next-version baseline.",
+      "provenance_classification": "mixed",
+      "next_action": "Use the governed docs-and-deck path as the default alignment package and keep extracting new patterns through the existing review workflow."
+    },
+    {
+      "feature_id": "weekly_pm_autopilot",
+      "feature_name": "Weekly PM autopilot",
+      "loop_id": "feedback_to_accepted_improvement",
+      "scorecard_ref": "feature_scorecard_ws_productos_v2_weekly_pm_autopilot",
+      "overall_score": 5,
+      "adoption_recommendation": "promote_as_standard",
+      "gap_summary": "Promoted: the weekly operator session now turns queue, issue, and release state into one supervised autopilot path.",
+      "provenance_classification": "mixed",
+      "next_action": "Use the weekly operator session as the standard PM cadence path and keep feeding its outputs into the improvement loop."
+    },
+    {
+      "feature_id": "market_intelligence_superpower",
+      "feature_name": "Agentic market intelligence",
+      "loop_id": "decision_to_stakeholder_alignment",
+      "scorecard_ref": "feature_scorecard_ws_productos_v2_market_intelligence_superpower",
+      "overall_score": 5,
+      "adoption_recommendation": "promote_as_standard",
+      "gap_summary": "Promoted: the research slice now clears unattended-refresh proof and a governed leadership-distribution path.",
+      "provenance_classification": "real",
+      "next_action": "Use the market-intelligence slice as the standard internal research-and-leadership distribution path and keep future expansion bounded to external publication adapters."
+    },
+    {
+      "feature_id": "runtime_control_surface",
+      "feature_name": "Repo control surface and orchestration",
+      "loop_id": "cross_cutting",
+      "scorecard_ref": "feature_scorecard_ws_productos_v2_runtime_control_surface",
+      "overall_score": 5,
+      "adoption_recommendation": "promote_as_standard",
+      "gap_summary": "Promoted: the repo CLI is now the canonical next-version control surface.",
+      "provenance_classification": "mixed",
+      "next_action": "Keep the repo CLI as the current standard and use it to route the next bounded expansion slice through the same governed loop."
+    },
+    {
+      "feature_id": "agent_adapter_layer",
+      "feature_name": "Thin multi-agent adapter layer",
+      "loop_id": "cross_cutting",
+      "scorecard_ref": "feature_scorecard_ws_productos_v2_agent_adapter_layer",
+      "overall_score": 5,
+      "adoption_recommendation": "promote_as_standard",
+      "gap_summary": "Promoted: the thin adapter layer now clears repo-contract parity proof across Codex, Claude-style, Windsurf, and Antigravity.",
+      "provenance_classification": "real",
+      "next_action": "Use the verified thin adapter layer as the standard portability contract and apply the same parity proof before adding future hosts."
+    },
+    {
+      "feature_id": "self_improvement_loop",
+      "feature_name": "Self-improvement and scoring loop",
+      "loop_id": "feedback_to_accepted_improvement",
+      "scorecard_ref": "feature_scorecard_ws_productos_v2_self_improvement_loop",
+      "overall_score": 5,
+      "adoption_recommendation": "promote_as_standard",
+      "gap_summary": "Promoted: feature scoring and Ralph-gated release accounting now form the standard next-version improvement loop.",
+      "provenance_classification": "mixed",
+      "next_action": "Keep rescoring major slices and use the portfolio review to choose the next bounded expansion slice."
+    }
+  ],
+  "top_priority_feature_id": "self_improvement_loop",
+  "promoted_feature_ids": [
+    "discover_to_prd_superpower",
+    "docs_alignment_superpower",
+    "presentation_superpower",
+    "weekly_pm_autopilot",
+    "market_intelligence_superpower",
+    "agent_adapter_layer",
+    "runtime_control_surface",
+    "self_improvement_loop"
+  ],
+  "internal_use_feature_ids": [],
+  "active_improvement_feature_ids": [],
+  "blocked_feature_ids": [],
+  "highlighted_risks": [
+    "The control surface still needs stronger truthfulness signaling before full promotion claims are credible.",
+    "Mixed provenance in score-bearing features should route back into the improvement loop."
+  ],
+  "next_action": "Use the fully promoted repo-native next-version baseline as the current standard and let the self-improvement loop choose the next bounded expansion slice.",
+  "generated_at": "2026-03-22T16:30:00Z"
+}

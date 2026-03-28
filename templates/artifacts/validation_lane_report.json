@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "validation_lane_report_id": "validation_lane_report_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "artifact_ref": "prd_starter_trace_demo",
+  "artifact_type": "prd",
+  "stage_name": "starter_discovery_trace_demo",
+  "validation_tier": "tier_2",
+  "overall_status": "passed",
+  "review_summary": "The starter bundle is coherent enough to demonstrate the ProductOS discovery trace model to a new workspace owner.",
+  "ai_reviewer_lane": {
+    "status": "proceed",
+    "reviewer_role": "AI Reviewer",
+    "blocking_findings": [],
+    "non_blocking_findings": [
+      "The starter bundle shows the expected artifact chain."
+    ],
+    "unresolved_questions": [
+      "Which demo artifacts should teams replace first in onboarding?"
+    ]
+  },
+  "ai_tester_lane": {
+    "status": "passed",
+    "tester_role": "AI Tester",
+    "checks_run": [
+      "starter asset presence",
+      "starter manifest wiring"
+    ],
+    "blocking_findings": [],
+    "non_blocking_findings": [
+      "The seeded bundle is sufficient for workspace initialization."
+    ],
+    "automation_gaps": [
+      "Real customer discovery still requires workspace-specific evidence."
+    ]
+  },
+  "manual_validation_policy": {
+    "required": true,
+    "scope": "targeted",
+    "owner_role": "PM Builder",
+    "status": "passed",
+    "rationale": "A human should confirm the starter materials are understandable during onboarding."
+  },
+  "referee_trigger": {
+    "required": false,
+    "rationale": "Reviewer and tester agree the starter example is usable.",
+    "conflicting_lanes": []
+  },
+  "governance_layer_refs": [
+    "core/workflows/mastery/item-lifecycle-trace-workflow.md"
+  ],
+  "next_action": "Initialize a new workspace and replace the demo artifacts with product-specific evidence.",
+  "generated_at": "2026-03-23T11:20:00Z"
+}

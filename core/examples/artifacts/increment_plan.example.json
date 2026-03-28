@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0.0",
+  "increment_plan_id": "inc_plan_2026_q2_01",
+  "workspace_id": "ws_productos_v2",
+  "program_increment_id": "pi_2026_q2_01",
+  "planning_model": "safe_program_increment",
+  "increment_name": "PI 2026 Q2 - PM Operating Rhythm",
+  "timebox": {
+    "start_date": "2026-04-01",
+    "end_date": "2026-06-30",
+    "cadence_label": "Q2 PI"
+  },
+  "objective": "Automate the PM's recurring operating rhythm so status communication and meeting follow-through no longer depend on manual PM drafting.",
+  "business_outcome": "Reduce PM coordination load while improving clarity, timeliness, and quality of stakeholder communication.",
+  "success_metrics": [
+    {
+      "name": "biweekly_status_mail_draft_time",
+      "target": "< 10 minutes with PM review",
+      "baseline": "90 minutes manual"
+    }
+  ],
+  "planning_status": "draft",
+  "items": [
+    {
+      "item_id": "feature_status_mail",
+      "item_type": "feature",
+      "title": "Bi-weekly status mail automation",
+      "summary": "Generate a review-ready PM status mail from issue logs, decisions, and recent work.",
+      "status": "planned",
+      "priority": "must",
+      "customer_value": "Keeps stakeholders aligned without turning the PM into a reporting bottleneck.",
+      "acceptance_readiness": "ready",
+      "linked_artifact_ids": [
+        "status_mail_schema_v1"
+      ],
+      "linked_entity_refs": [
+        {
+          "entity_type": "feature",
+          "entity_id": "feature_biweekly_status_mail_automation"
+        },
+        {
+          "entity_type": "opportunity",
+          "entity_id": "opp_pm_operating_rhythm_automation"
+        }
+      ],
+      "depends_on_item_ids": [
+        "feature_issue_log"
+      ],
+      "owning_team": "ProductOS Core",
+      "confidence_score": 0.88
+    },
+    {
+      "item_id": "feature_issue_log",
+      "item_type": "feature",
+      "title": "Issue log maintenance",
+      "summary": "Track issues, owners, severity, and mitigation from meetings and delivery signals.",
+      "status": "planned",
+      "priority": "must",
+      "customer_value": "Improves risk visibility and status accuracy.",
+      "acceptance_readiness": "ready",
+      "linked_entity_refs": [
+        {
+          "entity_type": "problem",
+          "entity_id": "problem_pm_reporting_bottleneck"
+        },
+        {
+          "entity_type": "outcome",
+          "entity_id": "outcome_reduce_pm_reporting_time"
+        }
+      ],
+      "owning_team": "ProductOS Core",
+      "confidence_score": 0.9
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency_id": "dep_transcript_ingestion",
+      "dependency_type": "system",
+      "description": "Structured transcript ingestion must provide decisions and action items.",
+      "status": "open",
+      "owner": "Platform",
+      "needed_by": "2026-04-10"
+    }
+  ],
+  "risks": [
+    {
+      "risk_id": "risk_low_signal_noise",
+      "title": "Over-reporting low-signal changes could make status mail noisy.",
+      "severity": "medium",
+      "mitigation": "Apply signal-strength thresholds before inclusion.",
+      "owner": "Product"
+    }
+  ],
+  "quality_gates": [
+    {
+      "gate_id": "gate_ready",
+      "name": "Definition of Ready",
+      "gate_type": "definition_of_ready",
+      "status": "passed"
+    },
+    {
+      "gate_id": "gate_acceptance",
+      "name": "Acceptance Quality",
+      "gate_type": "acceptance_quality",
+      "status": "in_review"
+    }
+  ],
+  "owners": [
+    {
+      "role": "pm",
+      "name": "ProductOS PM",
+      "team": "Product"
+    }
+  ],
+  "stakeholder_updates": [
+    {
+      "audience": "Leadership",
+      "message_goal": "Confirm that PM operating rhythm automation is the current increment priority.",
+      "timing": "before_start"
+    }
+  ],
+  "inspect_adapt_inputs": [
+    "status mail usage feedback",
+    "meeting transcript extraction precision"
+  ],
+  "replan_policy": {
+    "pm_approval_required_for_scope_change": true,
+    "pm_approval_required_for_customer_facing_change": true,
+    "auto_refresh_artifacts_on_minor_change": true,
+    "publish_block_threshold": "low_confidence"
+  },
+  "generated_at": "2026-03-19T17:00:00Z"
+}

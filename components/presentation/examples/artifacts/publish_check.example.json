@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "publish_check_id": "publish_check_presentation_brief_pm_ops_q2_html",
+  "workspace_id": "ws_productos_core",
+  "presentation_brief_id": "presentation_brief_pm_ops_q2",
+  "render_spec_id": "render_spec_presentation_brief_pm_ops_q2",
+  "target_format": "html",
+  "publish_ready": true,
+  "blocking_issues": [],
+  "evidence_coverage": "full",
+  "risk_visibility": "explicit",
+  "audience_safety_status": "safe",
+  "narrative_quality_score": 4.1,
+  "evidence_quality_score": 3.8,
+  "audience_fit_score": 4.0,
+  "visual_clarity_score": 3.7,
+  "html_fidelity_status": "aligned",
+  "ppt_fidelity_status": "planned_fallbacks",
+  "redaction_status": "safe",
+  "claim_support_exceptions": [],
+  "density_exceptions": [],
+  "missing_objections": [],
+  "fidelity_exceptions": [
+    "PPT output may simplify evidence-grid composition into stacked text boxes."
+  ],
+  "generated_at": "2026-03-20T13:20:00Z"
+}

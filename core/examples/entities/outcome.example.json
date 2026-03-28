@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "outcome_id": "outcome_reduce_pm_reporting_time",
+  "workspace_id": "ws_productos_v2",
+  "title": "Reduce PM reporting load",
+  "target_metric": "biweekly_status_mail_draft_time",
+  "target_value": "< 10 minutes",
+  "time_horizon": "1 quarter",
+  "linked_problem_ids": [
+    "problem_pm_reporting_bottleneck"
+  ]
+}

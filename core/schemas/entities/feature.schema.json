@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/feature.schema.json",
+  "title": "ProductOS Feature Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "feature_id",
+    "workspace_id",
+    "title",
+    "summary",
+    "status",
+    "priority"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "feature_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "summary": { "type": "string", "minLength": 10 },
+    "status": {
+      "type": "string",
+      "enum": ["proposed", "planned", "in_progress", "done", "deferred"]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["must", "should", "could", "wont_now"]
+    },
+    "linked_opportunity_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "linked_outcome_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "sot_productos_core",
+  "workspace_id": "ws_productos_v2",
+  "rules": [
+    {
+      "domain": "requirements",
+      "authoritative_connector_id": "jira_primary",
+      "conflict_action": "prefer_authoritative"
+    },
+    {
+      "domain": "status_reporting",
+      "authoritative_connector_id": "workspace_manual",
+      "conflict_action": "escalate"
+    }
+  ]
+}

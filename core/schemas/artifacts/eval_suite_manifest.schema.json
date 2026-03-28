@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/eval_suite_manifest.schema.json",
+  "title": "ProductOS Eval Suite Manifest",
+  "description": "Frozen canonical PM tasks used to compare ProductOS candidate behavior against a locked baseline.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "eval_suite_manifest_id",
+    "workspace_id",
+    "suite_name",
+    "baseline_version",
+    "candidate_version",
+    "locked_on",
+    "owner",
+    "task_count",
+    "eval_cases"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "eval_suite_manifest_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "suite_name": { "type": "string", "minLength": 3 },
+    "baseline_version": { "type": "string", "minLength": 1 },
+    "candidate_version": { "type": "string", "minLength": 1 },
+    "locked_on": { "type": "string", "format": "date" },
+    "owner": { "type": "string", "minLength": 1 },
+    "task_count": { "type": "integer", "minimum": 1 },
+    "eval_cases": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evalCase" },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "evalCase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "title",
+        "loop_id",
+        "prompt_summary",
+        "success_signals",
+        "required_artifact_types",
+        "weight"
+      ],
+      "properties": {
+        "case_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "loop_id": {
+          "type": "string",
+          "enum": [
+            "signal_to_product_decision",
+            "decision_to_stakeholder_alignment",
+            "feedback_to_accepted_improvement",
+            "cross_cutting"
+          ]
+        },
+        "prompt_summary": { "type": "string", "minLength": 10 },
+        "success_signals": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "required_artifact_types": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "weight": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      }
+    }
+  }
+}

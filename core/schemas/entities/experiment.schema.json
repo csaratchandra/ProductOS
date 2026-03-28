@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/entities/experiment.schema.json",
+  "title": "ProductOS Experiment Entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "workspace_id",
+    "hypothesis_id",
+    "title",
+    "method",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "experiment_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "hypothesis_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "method": {
+      "type": "string",
+      "enum": ["interview", "prototype_test", "survey", "beta", "ab_test", "operational_trial"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["planned", "running", "completed", "stopped"]
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["advance", "iterate", "pause", "stop"]
+    },
+    "linked_feature_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    }
+  }
+}

@@ -1,0 +1,1 @@
+../../../components/presentation/contracts/publisher/CONTRACT.md
