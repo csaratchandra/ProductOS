@@ -211,3 +211,40 @@ def test_productos_init_workspace_command(root_dir: Path, tmp_path: Path):
     assert lifecycle_state["workspace_id"] == "ws_acme"
     assert "artifacts/story_pack.json" in manifest["artifact_paths"]
     assert "artifacts/release_readiness.json" in manifest["artifact_paths"]
+
+
+def test_productos_validate_workspace_command(root_dir: Path):
+    workspace_dir = root_dir / "workspaces" / "contract-intelligence-platform"
+    result = _run_cli(root_dir, "--workspace-dir", str(workspace_dir), "validate-workspace")
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "Workspace validation passed:" in result.stdout
+    assert "3 source note cards indexed." in result.stdout
+
+
+def test_productos_validate_workspace_command_reports_missing_source_note_cards(root_dir: Path, tmp_path: Path):
+    workspace_dir = tmp_path / "broken-workspace"
+    artifacts_dir = workspace_dir / "artifacts"
+    artifacts_dir.mkdir(parents=True)
+    (artifacts_dir / "research_notebook.json").write_text(
+        json.dumps(
+            {
+                "schema_version": "1.0.0",
+                "research_notebook_id": "research_notebook_demo",
+                "workspace_id": "ws_demo",
+                "title": "Broken notebook",
+                "research_question": "What is missing from this workspace evidence chain?",
+                "source_note_card_ids": ["source_note_card_missing_demo"],
+                "synthesis_hypothesis": "Missing evidence references should fail validation.",
+                "created_at": "2026-03-29T00:00:00Z",
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    result = _run_cli(root_dir, "--workspace-dir", str(workspace_dir), "validate-workspace")
+
+    assert result.returncode == 1
+    assert "references missing source note card 'source_note_card_missing_demo'" in result.stdout

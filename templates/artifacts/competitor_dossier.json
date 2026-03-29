@@ -3,6 +3,8 @@
   "competitor_dossier_id": "competitor_dossier_starter_trace_demo",
   "workspace_id": "ws_product_starter",
   "title": "Competitor dossier: starter discovery trace demo",
+  "competitive_frame": "Tools and templates a new team might compare against when deciding whether ProductOS offers a more useful operating model than a generic starter.",
+  "comparison_basis": "Compared on whether they show a readable lifecycle story, not just whether they cover planning or execution tasks broadly.",
   "research_scope": "Lightweight starter comparison for teams learning the ProductOS lifecycle trace model.",
   "target_segment_refs": [
     {
@@ -19,6 +21,24 @@
   "source_artifact_ids": [
     "research_notebook_starter_trace_demo"
   ],
+  "status_quo_alternatives": [
+    "Blank docs folders",
+    "Generic PM workspace templates"
+  ],
+  "internal_build_risk": "low",
+  "where_we_win": [
+    "Concrete lifecycle explanation",
+    "Opinionated traceability from day one"
+  ],
+  "where_we_lose": [
+    "Breadth of flexible customization",
+    "Familiarity of broad incumbent workspaces"
+  ],
+  "credible_wedge_for_posture": "Win as a niche starter that teaches a strong operating model instead of shipping a blank scaffold.",
+  "required_proof_to_displace": [
+    "New teams understand ProductOS faster with the seeded trace than with a blank starter"
+  ],
+  "recommended_positioning_angle": "Position the starter as a traceable operating model, not another template bundle.",
   "competitors": [
     {
       "name": "Jira Product Discovery",
@@ -27,12 +47,23 @@
       "positioning_summary": "Provides discovery capture, prioritization, and roadmap linkage to delivery.",
       "go_to_market_motion": "Expansion from the broader Atlassian ecosystem.",
       "pricing_signal": "Subscription SaaS with broader suite leverage.",
+      "positioning_gap": "Stronger connected workflow story than a blank starter, but weaker as a one-file demonstration of full lifecycle traceability.",
       "strengths": [
         "Connected workflow story",
         "Familiar to Jira users"
       ],
       "weaknesses": [
         "Lifecycle explanation can still span multiple surfaces"
+      ],
+      "where_they_win": [
+        "Teams already committed to Atlassian",
+        "Teams prioritizing ecosystem continuity over operating-model clarity"
+      ],
+      "where_they_lose": [
+        "Teams wanting one inspectable lifecycle example before customization"
+      ],
+      "displacement_barriers": [
+        "Existing Atlassian familiarity"
       ],
       "implications": [
         "The starter trace model should make the full discovery story easier to review in one place."
@@ -45,11 +76,21 @@
       "positioning_summary": "Unified product development workflow from roadmap to release.",
       "go_to_market_motion": "Product-led adoption.",
       "pricing_signal": "Seat-based SaaS pricing.",
+      "positioning_gap": "Stronger execution coherence, but not a focused teaching surface for lifecycle trace discipline.",
       "strengths": [
         "Clear roadmap-to-release flow"
       ],
       "weaknesses": [
         "PM audit lineage is not the main surface"
+      ],
+      "where_they_win": [
+        "Teams optimizing for execution speed and coherence"
+      ],
+      "where_they_lose": [
+        "Teams wanting a concrete ProductOS-style trace model before tool rollout"
+      ],
+      "displacement_barriers": [
+        "Linear's execution ergonomics and product-led familiarity"
       ],
       "implications": [
         "The starter should show why traceability matters before teams optimize for speed."

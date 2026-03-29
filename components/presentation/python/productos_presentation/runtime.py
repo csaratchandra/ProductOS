@@ -105,6 +105,20 @@ _MAP_COMPOSITIONS = {
 }
 _MATRIX_MAP_COMPOSITIONS = {"swot_matrix", "impact_effort_matrix"}
 _CANVAS_MAP_COMPOSITIONS = _MAP_COMPOSITIONS - _MATRIX_MAP_COMPOSITIONS
+_HTML_RICH_COMPOSITIONS = {
+    "comparison_table",
+    "metric_strip",
+    "roadmap_view",
+    "user_journey_map",
+    "process_flow",
+    "workflow_map",
+    "capability_map",
+    "product_map",
+    "feature_map",
+    "mind_map",
+    "swot_matrix",
+    "impact_effort_matrix",
+}
 
 
 def now_iso() -> str:
@@ -254,6 +268,30 @@ def _layout_variant(composition_type: str, presentation_mode: str) -> str:
     if composition_type in _MAP_COMPOSITIONS:
         return _map_layout_variant(composition_type)
     return "standard_story_panel"
+
+
+def _html_target_profile(presentation_brief: dict[str, Any], composition_type: str) -> str:
+    if presentation_brief.get("presentation_format", "both") == "html" and composition_type in _HTML_RICH_COMPOSITIONS:
+        return "html_rich"
+    return "dual_target"
+
+
+def _ppt_target_profile(
+    presentation_brief: dict[str, Any],
+    composition_type: str,
+    html_target_profile: str,
+) -> str:
+    if presentation_brief.get("presentation_format", "both") == "html" and html_target_profile == "html_rich":
+        return "ppt_safe"
+    return "dual_target"
+
+
+def _slide_html_target_profile(slide: dict[str, Any]) -> str:
+    return slide["html_render_hints"].get("target_profile", "dual_target")
+
+
+def _slide_ppt_target_profile(slide: dict[str, Any]) -> str:
+    return slide["ppt_render_hints"].get("target_profile", "dual_target")
 
 
 def _normalize_whitespace(text: str) -> str:
@@ -1473,6 +1511,8 @@ def build_render_spec(
         )
         if chart_spec:
             composition_payload["chart_spec"] = chart_spec
+        html_target_profile = _html_target_profile(presentation_brief, composition_type)
+        ppt_target_profile = _ppt_target_profile(presentation_brief, composition_type, html_target_profile)
         slides.append(
             _apply_render_budgets(
                 {
@@ -1490,12 +1530,14 @@ def build_render_spec(
                     "html_render_hints": {
                         "prefer_native_shapes": True,
                         "fallback_layout": "stacked_panels" if composition_type in {"comparison_table", "evidence_grid"} else "standard",
+                        "target_profile": html_target_profile,
                         "emphasize_claim": True,
                         "show_evidence_as_cards": composition_type in {"summary_cards", "evidence_grid", "comparison_table"},
                     },
                     "ppt_render_hints": {
                         "prefer_native_shapes": True,
                         "fallback_layout": "stacked_panels" if composition_type in {"comparison_table", "evidence_grid"} else "standard",
+                        "target_profile": ppt_target_profile,
                     },
                     "source_refs": story_slide["evidence_refs"],
                     "speaker_notes": story_slide["speaker_notes"],
@@ -1533,7 +1575,10 @@ def build_publish_check(
     blocking_issues = []
     claim_support_exceptions = []
     density_exceptions = []
+    dual_target_required = presentation_brief.get("presentation_format", "both") == "both"
     for slide in render_spec["slides"]:
+        html_target_profile = _slide_html_target_profile(slide)
+        ppt_target_profile = _slide_ppt_target_profile(slide)
         if not slide["source_refs"]:
             blocking_issues.append(f"{slide['slide_id']} is missing source references.")
         if slide["confidence_state"] == "low" and "risk" not in slide["composition_type"]:
@@ -1554,10 +1599,28 @@ def build_publish_check(
             density_exceptions.append(f"{slide['slide_id']} carries too many evidence blocks for a one-screen render.")
         if not _slide_has_visual_payload(slide):
             density_exceptions.append(f"{slide['slide_id']} lacks composition data needed for a meaningful visual treatment.")
+        if dual_target_required and html_target_profile != "dual_target":
+            blocking_issues.append(
+                f"{slide['slide_id']} is marked {html_target_profile} for HTML and cannot ship in a both-format deck."
+            )
+        if dual_target_required and ppt_target_profile != "dual_target":
+            blocking_issues.append(
+                f"{slide['slide_id']} is marked {ppt_target_profile} for PPT and cannot ship in a both-format deck."
+            )
+        if target_format == "pptx" and html_target_profile == "html_rich" and ppt_target_profile != "ppt_safe":
+            blocking_issues.append(
+                f"{slide['slide_id']} uses an HTML-rich design without an explicit PPT-safe fallback."
+            )
 
     fidelity_exceptions = []
     if target_format == "pptx":
-        fidelity_exceptions.append("Complex evidence-grid and comparison-table layouts may be simplified for native PPT.")
+        ppt_safe_slides = [
+            slide["slide_id"] for slide in render_spec["slides"] if _slide_ppt_target_profile(slide) == "ppt_safe"
+        ]
+        if ppt_safe_slides:
+            fidelity_exceptions.append(
+                "PPT-safe fallback rendering is active for: " + ", ".join(ppt_safe_slides) + "."
+            )
 
     narrative_quality_score, narrative_notes = _narrative_quality(render_spec, presentation_brief)
     evidence_quality_score, evidence_notes = _evidence_quality(render_spec)
@@ -1573,6 +1636,15 @@ def build_publish_check(
         blocking_issues.append("Audience fit is below the minimum publish bar.")
     if visual_clarity_score < 3.0:
         blocking_issues.append("Visual clarity is below the minimum publish bar.")
+
+    html_profiles = {_slide_html_target_profile(slide) for slide in render_spec["slides"]}
+    ppt_profiles = {_slide_ppt_target_profile(slide) for slide in render_spec["slides"]}
+    html_fidelity_status = "aligned" if html_profiles == {"dual_target"} else "partial"
+    if dual_target_required and "html_rich" in html_profiles:
+        html_fidelity_status = "at_risk"
+    ppt_fidelity_status = "aligned" if ppt_profiles == {"dual_target"} else "planned_fallbacks"
+    if dual_target_required and "ppt_safe" in ppt_profiles:
+        ppt_fidelity_status = "at_risk"
 
     return {
         "schema_version": "1.0.0",
@@ -1592,8 +1664,8 @@ def build_publish_check(
         "evidence_quality_score": evidence_quality_score,
         "audience_fit_score": audience_fit_score,
         "visual_clarity_score": visual_clarity_score,
-        "html_fidelity_status": "aligned",
-        "ppt_fidelity_status": "planned_fallbacks",
+        "html_fidelity_status": html_fidelity_status,
+        "ppt_fidelity_status": ppt_fidelity_status,
         "redaction_status": "safe" if not presentation_brief["customer_safe"] or presentation_brief["redaction_policy"] != "none" else "mixed",
         "claim_support_exceptions": claim_support_exceptions + narrative_notes + evidence_notes,
         "density_exceptions": density_exceptions + audience_notes + visual_notes,
@@ -1988,25 +2060,29 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
             chart_payloads.append(chart_spec)
         slide_sections.append(
             f"""
-            <section class="slide composition-{slide['composition_type']}">
-              <div class="slide-frame">
-                <div class="slide-number">{index:02d}</div>
-                <div class="slide-topline">
-                  <span class="eyebrow">{escape(render_spec['presentation_mode'])} / {escape(slide['title'])}</span>
-                  <div class="topline-badges">
-                    <span class="badge badge-mode">{escape(slide['layout_variant']).replace('_', ' ')}</span>
-                    <span class="confidence confidence-{slide['confidence_state']}">{escape(slide['confidence_state'])} confidence</span>
+            <section class="slide composition-{slide['composition_type']} density-{slide['density_mode']} layout-{slide['layout_variant']} profile-{slide['html_render_hints'].get('target_profile', 'dual_target')}">
+              <div class="slide-stage">
+                <div class="slide-frame">
+                  <div class="slide-content">
+                    <div class="slide-number">{index:02d}</div>
+                    <div class="slide-topline">
+                      <span class="eyebrow">{escape(render_spec['presentation_mode'])} / {escape(slide['title'])}</span>
+                      <div class="topline-badges">
+                        <span class="badge badge-mode">{escape(slide['layout_variant']).replace('_', ' ')}</span>
+                        <span class="confidence confidence-{slide['confidence_state']}">{escape(slide['confidence_state'])} confidence</span>
+                      </div>
+                    </div>
+                    <div class="headline-block">
+                      <h2>{escape(slide['headline'])}</h2>
+                      <p class="core-message">{escape(slide['core_message'])}</p>
+                      <p class="primary-claim">{escape(slide['composition_payload'].get('primary_claim', slide['core_message']))}</p>
+                    </div>
+                    <div class="slide-body">{_render_slide_body(slide)}</div>
+                    <div class="slide-footer">
+                      <div class="visual-direction">{escape(slide['visual_direction'])}</div>
+                      <div class="source-rail">Sources: {escape(", ".join(slide['source_refs']))}</div>
+                    </div>
                   </div>
-                </div>
-                <div class="headline-block">
-                  <h2>{escape(slide['headline'])}</h2>
-                  <p class="core-message">{escape(slide['core_message'])}</p>
-                  <p class="primary-claim">{escape(slide['composition_payload'].get('primary_claim', slide['core_message']))}</p>
-                </div>
-                <div class="slide-body">{_render_slide_body(slide)}</div>
-                <div class="slide-footer">
-                  <div class="visual-direction">{escape(slide['visual_direction'])}</div>
-                  <div class="source-rail">Sources: {escape(", ".join(slide['source_refs']))}</div>
                 </div>
               </div>
               <details class="slide-notes">
@@ -2060,23 +2136,26 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
     }}
     .deck {{
       display: grid;
-      gap: 24px;
-      padding: 28px;
-      max-width: 1440px;
+      gap: 36px;
+      padding: 24px 24px 36px;
+      max-width: none;
       margin: 0 auto;
     }}
     .slide {{
+      --slide-stage-width: min(1320px, calc(100vw - 56px));
       display: grid;
-      gap: 10px;
+      gap: 12px;
       position: relative;
       justify-items: center;
     }}
+    .slide-stage {{
+      width: var(--slide-stage-width);
+      max-width: 100%;
+    }}
     .slide-frame {{
-      width: min(100%, 1320px);
+      width: 100%;
       aspect-ratio: 16 / 9;
-      min-height: min(56.25vw, 760px);
-      max-height: 760px;
-      padding: 24px 28px 20px;
+      min-height: 0;
       border-radius: 28px;
       background:
         var(--grain),
@@ -2084,21 +2163,42 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
       border: 1px solid rgba(255,255,255,0.45);
       box-shadow: var(--panel-shadow);
       backdrop-filter: blur(10px);
-      display: grid;
-      grid-template-rows: auto auto minmax(0, 1fr) auto;
-      gap: 14px;
-      align-content: start;
       position: relative;
+      isolation: isolate;
       overflow: hidden;
     }}
     .slide-frame::after {{
       content: "";
       position: absolute;
       inset: 0;
+      border-radius: inherit;
       background:
         radial-gradient(circle at 100% 0%, rgba(30,90,168,0.10), transparent 32%),
         radial-gradient(circle at 0% 100%, rgba(255,111,60,0.08), transparent 28%);
       pointer-events: none;
+      z-index: 0;
+    }}
+    .slide-content {{
+      --fit-scale: 1;
+      position: relative;
+      z-index: 1;
+      width: calc(100% / var(--fit-scale));
+      min-height: calc(100% / var(--fit-scale));
+      padding: 24px 28px 20px;
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr) auto;
+      gap: 14px;
+      align-content: start;
+      transform: scale(var(--fit-scale));
+      transform-origin: top left;
+    }}
+    .slide-topline,
+    .headline-block,
+    .slide-body,
+    .slide-footer,
+    .slide-number {{
+      position: relative;
+      z-index: 1;
     }}
     .slide-number {{
       position: absolute;
@@ -2154,24 +2254,16 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
     .confidence-low {{ background: rgba(176, 43, 43, 0.14); }}
     h2 {{
       margin: 0;
-      font-size: clamp(24px, 2.6vw, 40px);
-      line-height: 1.02;
-      max-width: 18ch;
+      font-size: 32px;
+      line-height: 1.04;
+      max-width: 19ch;
       letter-spacing: -0.04em;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
-      overflow: hidden;
     }}
     .core-message {{
       margin: 0;
-      font-size: clamp(15px, 1.5vw, 20px);
-      line-height: 1.3;
+      font-size: 17px;
+      line-height: 1.32;
       max-width: 46rem;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
-      overflow: hidden;
     }}
     .primary-claim {{
       margin: 0;
@@ -2183,7 +2275,7 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
     .evidence-grid {{
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      gap: 12px;
     }}
     .compact-grid {{
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -2191,10 +2283,10 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
     .evidence-card {{
       border: 1px solid var(--line);
       border-radius: 18px;
-      padding: 12px 14px;
+      padding: 11px 13px;
       background: rgba(255,255,255,0.56);
       display: grid;
-      gap: 10px;
+      gap: 8px;
       align-content: start;
       min-height: 0;
     }}
@@ -2226,11 +2318,11 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
       white-space: nowrap;
     }}
     .evidence-text {{
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.3;
     }}
     .evidence-annotation {{
-      font-size: 12px;
+      font-size: 11px;
       color: rgba(17,17,17,0.65);
     }}
     .source-tag {{
@@ -2244,10 +2336,9 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
     }}
     .slide-body {{
       display: grid;
-      gap: 12px;
+      gap: 10px;
       align-content: start;
       min-height: 0;
-      overflow: hidden;
     }}
     .hero-spotlight {{
       display: grid;
@@ -2272,7 +2363,7 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
     .hero-layout {{
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
-      gap: 12px;
+      gap: 10px;
       align-content: start;
     }}
     .hero-layout .hero-strip,
@@ -2318,8 +2409,8 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
     .hero-strip {{
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      padding: 16px 18px;
+      gap: 12px;
+      padding: 14px 16px;
       border-radius: 18px;
       background: linear-gradient(135deg, rgba(30,90,168,0.12), rgba(255,255,255,0.38));
       border: 1px solid rgba(30,90,168,0.12);
@@ -2357,7 +2448,7 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
     .metric-layout,
     .appendix-layout {{
       display: grid;
-      gap: 16px;
+      gap: 12px;
     }}
     .map-body-layout {{
       display: grid;
@@ -2515,7 +2606,7 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
       gap: 14px;
     }}
     .decision-ask {{
-      padding: 16px 18px;
+      padding: 14px 16px;
       border-radius: 18px;
       background: linear-gradient(135deg, rgba(30,90,168,0.14), rgba(30,90,168,0.05));
       font-weight: 700;
@@ -2525,12 +2616,12 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
       gap: 12px;
     }}
     .decision-option {{
-      padding: 16px 18px;
+      padding: 14px 16px;
       border-radius: 18px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.52);
       display: grid;
-      gap: 10px;
+      gap: 8px;
     }}
     .decision-option-label {{
       text-transform: uppercase;
@@ -2539,7 +2630,7 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
       color: var(--accent);
     }}
     .decision-option-summary {{
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
     }}
     .decision-option-tradeoffs {{
@@ -2551,12 +2642,12 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
     .risk-matrix {{
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
+      gap: 10px;
     }}
     .risk-heatmap-panel {{
       display: grid;
-      grid-template-columns: 250px 1fr;
-      gap: 16px;
+      grid-template-columns: 220px 1fr;
+      gap: 12px;
       align-items: start;
     }}
     .risk-heatmap {{
@@ -2641,7 +2732,7 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
       font-weight: 700;
     }}
     .risk-item {{
-      padding: 16px 18px;
+      padding: 14px 16px;
       border-radius: 18px;
       border: 1px solid rgba(176, 43, 43, 0.18);
       background: rgba(176, 43, 43, 0.06);
@@ -2661,7 +2752,7 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
     .timeline-track {{
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 12px;
+      gap: 10px;
       position: relative;
     }}
     .timeline-track::before {{
@@ -2669,12 +2760,12 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
       position: absolute;
       left: 10px;
       right: 10px;
-      top: 24px;
+      top: 20px;
       height: 2px;
       background: linear-gradient(90deg, rgba(30,90,168,0.2), rgba(30,90,168,0.5), rgba(30,90,168,0.2));
     }}
     .timeline-event {{
-      padding: 16px 18px;
+      padding: 14px 16px;
       border-radius: 18px;
       background: rgba(255,255,255,0.56);
       border: 1px solid var(--line);
@@ -2690,7 +2781,7 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
       color: var(--accent);
     }}
     .timeline-label {{
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
     }}
     .timeline-dependency {{
@@ -2843,7 +2934,7 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
       display: grid;
       grid-template-columns: 1.1fr 1fr 1fr 1fr;
       gap: 10px;
-      padding: 14px 16px;
+      padding: 12px 14px;
       border-radius: 16px;
       background: rgba(255,255,255,0.54);
       border: 1px solid var(--line);
@@ -2873,17 +2964,110 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
     }}
     .composition-hero_statement h2 {{
       max-width: 15ch;
-      font-size: clamp(28px, 3vw, 46px);
+      font-size: 40px;
     }}
     .composition-hero_statement .core-message {{
       max-width: 38rem;
-      font-size: clamp(16px, 1.7vw, 22px);
+      font-size: 19px;
     }}
     .composition-decision_frame .core-message {{
       font-weight: 600;
     }}
+    .composition-decision_frame .headline-block,
+    .composition-risk_matrix .headline-block,
+    .composition-timeline_with_dependencies .headline-block {{
+      gap: 8px;
+      max-width: min(72%, 820px);
+    }}
+    .composition-risk_matrix .risk-layout {{
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+      align-items: start;
+    }}
+    .composition-risk_matrix .risk-layout > :first-child {{
+      grid-column: 1;
+      grid-row: 1;
+    }}
+    .composition-risk_matrix .risk-layout > :nth-child(2) {{
+      grid-column: 2;
+      grid-row: 1 / span 2;
+    }}
+    .composition-risk_matrix .risk-layout > :last-child {{
+      grid-column: 1;
+      grid-row: 2;
+    }}
+    .slide-content.fit-compressed {{
+      gap: 12px;
+    }}
+    .slide-content.fit-compressed h2 {{
+      font-size: 28px;
+    }}
+    .slide-content.fit-compressed .core-message {{
+      font-size: 15px;
+    }}
+    .slide-content.fit-compressed .evidence-card,
+    .slide-content.fit-compressed .timeline-event,
+    .slide-content.fit-compressed .decision-option,
+    .slide-content.fit-compressed .risk-item,
+    .slide-content.fit-compressed .comparison-row {{
+      padding: 10px 12px;
+    }}
+    .slide-content.fit-compressed .hero-strip,
+    .slide-content.fit-compressed .decision-ask {{
+      padding: 12px 14px;
+    }}
+    .slide-content.fit-micro {{
+      gap: 10px;
+    }}
+    .slide-content.fit-micro h2 {{
+      font-size: 25px;
+    }}
+    .slide-content.fit-micro .core-message {{
+      font-size: 14px;
+    }}
+    .slide-content.fit-micro .hero-claim,
+    .slide-content.fit-micro .decision-option-summary,
+    .slide-content.fit-micro .timeline-label,
+    .slide-content.fit-micro .risk-title {{
+      font-size: 14px;
+    }}
+    .slide-content.fit-micro .evidence-card,
+    .slide-content.fit-micro .timeline-event,
+    .slide-content.fit-micro .decision-option,
+    .slide-content.fit-micro .risk-item,
+    .slide-content.fit-micro .comparison-row {{
+      padding: 9px 11px;
+      gap: 7px;
+    }}
+    .slide-content.fit-micro .evidence-text,
+    .slide-content.fit-micro .hero-summary,
+    .slide-content.fit-micro .timeline-dependency,
+    .slide-content.fit-micro .risk-meta,
+    .slide-content.fit-micro .risk-owner,
+    .slide-content.fit-micro .risk-mitigation {{
+      font-size: 12px;
+    }}
+    .density-dense .slide-content,
+    .composition-decision_frame .slide-content,
+    .composition-risk_matrix .slide-content,
+    .composition-timeline_with_dependencies .slide-content {{
+      padding: 20px 22px 18px;
+      gap: 12px;
+    }}
+    .density-dense h2,
+    .composition-decision_frame h2,
+    .composition-risk_matrix h2,
+    .composition-timeline_with_dependencies h2 {{
+      font-size: 29px;
+      max-width: 20ch;
+    }}
+    .density-dense .core-message,
+    .composition-decision_frame .core-message,
+    .composition-risk_matrix .core-message,
+    .composition-timeline_with_dependencies .core-message {{
+      font-size: 16px;
+    }}
     .slide-notes {{
-      width: min(100%, 1320px);
+      width: min(100%, var(--slide-stage-width));
       border-radius: 16px;
       background: rgba(255,255,255,0.42);
       border: 1px solid rgba(255,255,255,0.36);
@@ -2903,14 +3087,71 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
       line-height: 1.45;
       color: rgba(17,17,17,0.72);
     }}
+    @media (max-width: 1440px), (max-height: 900px) {{
+      .slide {{
+        --slide-stage-width: min(1180px, calc(100vw - 40px));
+      }}
+      .slide-content {{
+        padding: 18px 20px 16px;
+        gap: 10px;
+      }}
+      h2 {{
+        font-size: 28px;
+      }}
+      .core-message {{
+        font-size: 15px;
+      }}
+      .composition-hero_statement h2 {{
+        font-size: 34px;
+      }}
+      .composition-hero_statement .core-message {{
+        font-size: 17px;
+      }}
+      .density-dense h2,
+      .composition-decision_frame h2,
+      .composition-risk_matrix h2,
+      .composition-timeline_with_dependencies h2 {{
+        font-size: 25px;
+      }}
+      .density-dense .core-message,
+      .composition-decision_frame .core-message,
+      .composition-risk_matrix .core-message,
+      .composition-timeline_with_dependencies .core-message {{
+        font-size: 14px;
+      }}
+      .evidence-card,
+      .timeline-event,
+      .decision-option,
+      .risk-item,
+      .comparison-row {{
+        padding: 11px 12px;
+      }}
+      .hero-strip,
+      .decision-ask {{
+        padding: 12px 14px;
+      }}
+      .echart-canvas {{
+        height: 210px;
+      }}
+    }}
     @media (max-width: 700px) {{
       .deck {{ padding: 12px; }}
+      .slide {{
+        --slide-stage-width: 100%;
+      }}
+      .slide-stage {{
+        width: 100%;
+      }}
       .slide-frame {{
         aspect-ratio: auto;
         min-height: auto;
-        max-height: none;
-        padding: 20px;
         border-radius: 20px;
+      }}
+      .slide-content {{
+        width: 100%;
+        min-height: auto;
+        transform: none;
+        padding: 20px;
         grid-template-rows: auto;
       }}
       .headline-block {{
@@ -2937,7 +3178,34 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
   </main>
   <script>
     window.__PRODUCTOS_CHARTS__ = {json.dumps(chart_payloads)};
+    window.__PRODUCTOS_fitSlides = function () {{
+      var desktopViewport = window.matchMedia("(min-width: 701px)").matches;
+      document.querySelectorAll(".slide-frame").forEach(function (frame) {{
+        var content = frame.querySelector(".slide-content");
+        if (!content) return;
+        content.classList.remove("fit-compressed", "fit-micro");
+        content.style.setProperty("--fit-scale", "1");
+        if (!desktopViewport || frame.clientHeight === 0) return;
+
+        var availableHeight = frame.clientHeight - 2;
+        var naturalHeight = content.scrollHeight;
+        if (naturalHeight <= availableHeight) return;
+
+        content.classList.add("fit-compressed");
+        naturalHeight = content.scrollHeight;
+        if (naturalHeight > availableHeight * 1.04) {{
+          content.classList.add("fit-micro");
+          naturalHeight = content.scrollHeight;
+        }}
+
+        var scale = Math.min(1, availableHeight / naturalHeight);
+        if (scale < 0.999) {{
+          content.style.setProperty("--fit-scale", scale.toFixed(3));
+        }}
+      }});
+    }};
     window.addEventListener("load", function () {{
+      window.__PRODUCTOS_fitSlides();
       if (!window.echarts || !Array.isArray(window.__PRODUCTOS_CHARTS__)) return;
       window.__PRODUCTOS_CHARTS__.forEach(function (chartSpec) {{
         var element = document.getElementById(chartSpec.chart_id);
@@ -3016,7 +3284,10 @@ def render_render_spec_html(render_spec: dict[str, Any]) -> str:
           }};
         }}
         chart.setOption(option);
-        window.addEventListener("resize", function () {{ chart.resize(); }});
+        window.addEventListener("resize", function () {{
+          window.__PRODUCTOS_fitSlides();
+          chart.resize();
+        }});
       }});
     }});
   </script>
@@ -3072,6 +3343,7 @@ def _ppt_instruction_for_slide(slide: dict[str, Any]) -> dict[str, Any]:
         "native_shape_family": _ppt_shape_family_for_slide(slide),
         "fallback_layout": slide["ppt_render_hints"]["fallback_layout"],
         "prefer_native_shapes": slide["ppt_render_hints"]["prefer_native_shapes"],
+        "target_profile": _slide_ppt_target_profile(slide),
         "primitives": _ppt_primitives_for_slide(slide),
         "evidence_mode": "cards" if slide["ppt_render_hints"].get("max_visible_evidence", 0) else "minimal",
         "connector_policy": (
@@ -3090,6 +3362,7 @@ def build_ppt_export_plan(render_spec: dict[str, Any]) -> dict[str, Any]:
     composition_counts: dict[str, int] = {}
     layout_counts: dict[str, int] = {}
     native_shape_counts: dict[str, int] = {}
+    target_profile_counts: dict[str, int] = {}
     fallback_compositions = []
     slide_rendering_plan = []
     for slide in render_spec["slides"]:
@@ -3099,8 +3372,10 @@ def build_ppt_export_plan(render_spec: dict[str, Any]) -> dict[str, Any]:
         layout_counts[layout] = layout_counts.get(layout, 0) + 1
         native_shape_family = _ppt_shape_family_for_slide(slide)
         native_shape_counts[native_shape_family] = native_shape_counts.get(native_shape_family, 0) + 1
+        target_profile = _slide_ppt_target_profile(slide)
+        target_profile_counts[target_profile] = target_profile_counts.get(target_profile, 0) + 1
         slide_rendering_plan.append(_ppt_instruction_for_slide(slide))
-        if layout != "standard":
+        if target_profile == "ppt_safe":
             fallback_compositions.append(composition)
 
     notes = ["Generate native pptx from normalized render_spec compositions."]
@@ -3118,12 +3393,18 @@ def build_ppt_export_plan(render_spec: dict[str, Any]) -> dict[str, Any]:
         )
     if fallback_compositions:
         notes.append(
-            "Fallback-native layouts are planned for: " + ", ".join(sorted(set(fallback_compositions))) + "."
+            "PPT-safe fallback rendering is planned for: " + ", ".join(sorted(set(fallback_compositions))) + "."
         )
     if native_shape_counts:
         notes.append(
             "Native shape families: "
             + ", ".join(f"{name}={count}" for name, count in sorted(native_shape_counts.items()))
+            + "."
+        )
+    if target_profile_counts:
+        notes.append(
+            "Target profiles: "
+            + ", ".join(f"{name}={count}" for name, count in sorted(target_profile_counts.items()))
             + "."
         )
 
@@ -3141,7 +3422,7 @@ def build_ppt_export_plan(render_spec: dict[str, Any]) -> dict[str, Any]:
         "layout_counts": layout_counts,
         "native_shape_counts": native_shape_counts,
         "slide_rendering_plan": slide_rendering_plan,
-        "fidelity_status": "planned_fallbacks" if fallback_compositions else "aligned",
+        "fidelity_status": "planned_fallbacks" if "ppt_safe" in target_profile_counts else "aligned",
         "notes": notes,
         "generated_at": now_iso(),
     }
@@ -3593,12 +3874,18 @@ def build_visual_map_render_spec(
             "html_render_hints": {
                 "prefer_native_shapes": True,
                 "fallback_layout": _map_fallback_layout(visual_map_spec["map_type"]),
+                "target_profile": _html_target_profile(synthetic_brief, visual_map_spec["map_type"]),
                 "emphasize_claim": True,
                 "show_evidence_as_cards": True,
             },
             "ppt_render_hints": {
                 "prefer_native_shapes": True,
                 "fallback_layout": _map_fallback_layout(visual_map_spec["map_type"]),
+                "target_profile": _ppt_target_profile(
+                    synthetic_brief,
+                    visual_map_spec["map_type"],
+                    _html_target_profile(synthetic_brief, visual_map_spec["map_type"]),
+                ),
             },
             "source_refs": deepcopy(visual_map_spec["source_artifact_ids"]),
             "speaker_notes": (
@@ -3807,12 +4094,16 @@ def render_slide_spec_html(slide_spec: dict[str, Any]) -> str:
                     "show_source_tags": True,
                 },
                 "html_render_hints": {
+                    "prefer_native_shapes": True,
+                    "fallback_layout": slide["layout"],
+                    "target_profile": "dual_target",
                     "emphasize_claim": True,
                     "show_evidence_as_cards": True,
                 },
                 "ppt_render_hints": {
                     "prefer_native_shapes": True,
                     "fallback_layout": slide["layout"],
+                    "target_profile": "dual_target",
                 },
                 "source_refs": [slide.get("eyebrow", "source_unavailable")],
                 "speaker_notes": "Legacy slide spec converted for HTML rendering.",

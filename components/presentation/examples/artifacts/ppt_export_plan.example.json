@@ -30,6 +30,7 @@
       "native_shape_family": "hero_panel",
       "fallback_layout": "standard",
       "prefer_native_shapes": true,
+      "target_profile": "dual_target",
       "primitives": [
         "headline_panel",
         "signal_rail",
@@ -50,6 +51,7 @@
       "native_shape_family": "evidence_cards",
       "fallback_layout": "stacked_panels",
       "prefer_native_shapes": true,
+      "target_profile": "dual_target",
       "primitives": [
         "headline_panel",
         "evidence_cards"
@@ -68,6 +70,7 @@
       "native_shape_family": "risk_matrix",
       "fallback_layout": "standard",
       "prefer_native_shapes": true,
+      "target_profile": "dual_target",
       "primitives": [
         "headline_panel",
         "risk_heatmap",
@@ -87,8 +90,8 @@
     "Generate native pptx from normalized render_spec compositions.",
     "Composition coverage: evidence_grid=1, hero_statement=1, risk_matrix=1.",
     "Layout coverage: stacked_panels=1, standard=2.",
-    "Fallback-native layouts are planned for: evidence_grid.",
-    "Native shape families: evidence_cards=1, hero_panel=1, risk_matrix=1."
+    "Native shape families: evidence_cards=1, hero_panel=1, risk_matrix=1.",
+    "Target profiles: dual_target=3."
   ],
   "generated_at": "2026-03-20T15:20:00Z"
 }

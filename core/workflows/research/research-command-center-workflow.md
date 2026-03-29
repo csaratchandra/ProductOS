@@ -13,6 +13,7 @@ Purpose: Give a new PM a single Day-1 entry point for common research asks such 
 - routed handoff to the correct research workflow
 - explicit research starter pack recommendation
 - decision-ready research pack for the PM
+- recommendation to run `market-strategy-definition-workflow` when the ask is about posture, offering, or positioning rather than raw research alone
 
 ## Rules
 
@@ -28,5 +29,7 @@ Purpose: Give a new PM a single Day-1 entry point for common research asks such 
 - route signal questions to `signal-landscape-workflow`
 - route feedback source questions to `feedback-intelligence-workflow`
 - route mixed-source discovery questions to `research-notebook-to-synthesis-workflow`
+- route posture, offering, positioning, or beachhead-market questions to `market-strategy-definition-workflow` after the relevant research artifacts exist
 - for a PM starting from zero context, recommend one `research_brief`, one `competitor_dossier`, one `customer_pulse`, and one `visual_map_spec`
 - the decision pack should pull from competitor, market share, segment, persona archetype, signal, and feedback intelligence outputs when relevant
+- do not let a positioning or strategic-posture question collapse into a raw research summary without an explicit market-role recommendation

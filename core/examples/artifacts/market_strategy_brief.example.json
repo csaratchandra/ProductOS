@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "market_strategy_brief_id": "market_strategy_brief_pm_ops_challenger",
+  "workspace_id": "ws_productos_v2",
+  "title": "Market strategy brief: PM operating system challenger posture",
+  "strategy_question": "How should ProductOS win in AI-assisted PM operating systems without trying to out-bundle the broadest work platforms first?",
+  "category_definition": "AI-assisted PM operating systems that help teams move from evidence and decisions to aligned execution with less reconstruction work.",
+  "category_maturity": "growing",
+  "strategic_posture": "challenger",
+  "market_role_goal": "Beat broad work platforms on traceability, decision quality, and PM-specific operating discipline rather than on generic workspace breadth.",
+  "target_market_scope": "B2B product teams with recurring planning, status, and delivery coordination pain that already feel the cost of fragmented PM workflows.",
+  "beachhead_segment_refs": [
+    { "entity_type": "segment", "entity_id": "segment_ai_forward_product_teams" }
+  ],
+  "priority_persona_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" }
+  ],
+  "buyer_archetype_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" }
+  ],
+  "operator_archetype_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" }
+  ],
+  "competitive_reference_set": [
+    "Broad PM platforms",
+    "Execution suites",
+    "Internal PM templates and docs",
+    "Status quo manual reconstruction"
+  ],
+  "offering_definition": "A workflow and decision layer that turns fragmented PM state into traceable, reusable operating outputs.",
+  "offering_type": "decision_layer",
+  "positioning_statement": "For PM teams that already have tools but still rebuild context by hand, ProductOS is the PM operating layer that makes evidence, decisions, and downstream artifacts traceable enough to trust.",
+  "value_wedge": "PM-specific traceability and decision-ready workflow memory.",
+  "right_to_win": "ProductOS already combines structured artifacts, validation, and workflow state in a way broad work suites do not center.",
+  "proof_requirements": [
+    "PMs can understand lifecycle state faster than with existing tools",
+    "Outputs remain trustworthy when upstream state is partially stale",
+    "The system can coexist with downstream trackers instead of replacing them"
+  ],
+  "pricing_packaging_hypothesis": "Team-based SaaS pricing with a premium tier for governance, validation, and cross-workspace strategy support.",
+  "gtm_motion": "Land with PM leaders or product ops teams that already feel recurring coordination drag, then expand into adjacent decision and delivery workflows.",
+  "expansion_path": "Start with PM operating rhythm and traceability, then expand into research synthesis, portfolio sensing, and delivery planning.",
+  "key_risks": [
+    "Broad work suites may imitate visible traceability surfaces quickly",
+    "PM buyers may underweight auditability unless time savings are obvious"
+  ],
+  "rejected_paths": [
+    {
+      "path_name": "Be the broadest PM platform",
+      "rejection_reason": "The repo's current advantage is in decision quality and traceability, not generic platform breadth."
+    }
+  ],
+  "linked_artifact_ids": [
+    "segment_map_pm_ops_workflow_maturity",
+    "competitor_dossier_pm_ops_space",
+    "market_analysis_brief_pm_ops"
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "research",
+      "source_id": "market_analysis_brief_pm_ops",
+      "justification": "The market is shifting toward trusted operating systems rather than raw drafting features."
+    },
+    {
+      "source_type": "research",
+      "source_id": "competitor_dossier_pm_ops_space",
+      "justification": "The competitor set shows strong platform breadth but weaker PM-specific traceability."
+    }
+  ],
+  "open_questions": [
+    "How much of the buyer value comes from time savings versus governance confidence?"
+  ],
+  "recommendation": "commit_posture",
+  "created_at": "2026-03-20T12:40:00Z"
+}

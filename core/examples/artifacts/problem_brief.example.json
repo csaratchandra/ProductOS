@@ -4,6 +4,10 @@
   "workspace_id": "ws_productos_v2",
   "title": "Problem Brief: PM operating rhythm automation",
   "problem_summary": "Product managers on B2B product teams lose high-value time because recurring status and coordination outputs must be manually reconstructed across fragmented sources.",
+  "strategic_fit_summary": "This problem fits a challenger posture because it lets ProductOS win on trusted PM workflow continuity rather than broad platform breadth.",
+  "posture_alignment": "challenger",
+  "why_this_problem_now": "AI is accelerating drafting, which makes the remaining reconstruction and trust gap more visible and expensive.",
+  "why_this_problem_for_this_segment": "B2B product teams feel recurring coordination drag often enough to adopt a PM-specific operating layer before considering broader workflow replacement.",
   "target_segment_refs": [
     { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
   ],
@@ -31,6 +35,7 @@
   "upstream_artifact_ids": [
     "idea_record_pm_status_automation",
     "concept_brief_pm_operating_rhythm",
+    "market_strategy_brief_pm_ops_challenger",
     "research_brief_pm_operating_rhythm",
     "prototype_record_status_mail_draft"
   ],

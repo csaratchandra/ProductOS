@@ -6,6 +6,10 @@
 
 {{market_name}}
 
+# Category Structure
+
+{{category_structure}}
+
 # Category Summary
 
 {{category_summary}}
@@ -17,6 +21,22 @@
 # Market Dynamics
 
 {{market_dynamics}}
+
+# Power Centers
+
+{{power_centers}}
+
+# Adoption Barriers
+
+{{adoption_barriers}}
+
+# Switching Costs
+
+{{switching_costs}}
+
+# Market Role Implications
+
+{{market_role_implications}}
 
 # Ecosystem Dependencies
 

@@ -4,7 +4,8 @@ Purpose: Turn a strategic question into a `strategy_option_set` with materially 
 
 ## Inputs
 
-- `problem_brief` or `signal_hypothesis_brief`
+- `market_strategy_brief`
+- optional `problem_brief` or `signal_hypothesis_brief`
 - `portfolio_state`
 - `stakeholder_incentive_map`
 - optional `opportunity_advantage_brief`
@@ -19,5 +20,6 @@ Purpose: Turn a strategic question into a `strategy_option_set` with materially 
 
 - generate at least three materially different options including a conservative path where relevant
 - make tradeoffs explicit across upside, failure mode, dependency burden, reversibility, portfolio interaction, and org capability requirement
+- ensure the options differ materially in posture, offering shape, beachhead choice, or positioning, not just in narrative framing
 - reject cosmetic variants that only rename the same bet
 - call out when missing evidence prevents a credible recommendation

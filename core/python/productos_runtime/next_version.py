@@ -545,6 +545,19 @@ def _build_live_discover_artifacts(
             "ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts "
             "into a same-day, decision-ready PRD package with minimal PM reconstruction."
         ),
+        "strategic_fit_summary": (
+            "This problem fits a challenger posture because ProductOS can win by proving repo-first discover quality "
+            "and PM trust faster than broader PM workflow systems."
+        ),
+        "posture_alignment": "challenger",
+        "why_this_problem_now": (
+            "The next version must prove a concrete discover wedge inside the self-hosting workspace before broader "
+            "strategy claims are credible."
+        ),
+        "why_this_problem_for_this_segment": (
+            "B2B product teams feel the cost of reconstructing context across messy notes, transcripts, and recurring "
+            "PM workflows often enough to value a tighter discover control surface."
+        ),
         "target_segment_refs": [
             {"entity_type": "segment", "entity_id": "segment_b2b_product_teams"}
         ],
@@ -574,6 +587,7 @@ def _build_live_discover_artifacts(
         ],
         "upstream_artifact_ids": [
             "idea_record_pm_status_automation",
+            "market_strategy_brief_pm_ops_challenger",
         ],
         "recommended_next_step": "prd",
         "created_at": generated_at,
@@ -588,6 +602,15 @@ def _build_live_discover_artifacts(
             "If ProductOS routes live notes and transcripts through one repo-native CLI path, one PM can move "
             "from messy input to a reviewable PRD package in the same working day with no more than one material rewrite."
         ),
+        "positioning_hypothesis": (
+            "ProductOS will win as a trusted repo-first discover operating layer rather than a generic drafting wrapper."
+        ),
+        "offering_hypothesis": (
+            "The offering should behave like a discover control surface that turns raw notes into validated PM artifacts."
+        ),
+        "wedge_hypothesis": (
+            "Same-day messy-input-to-PRD conversion is the sharpest believable challenger wedge for the next-version discover path."
+        ),
         "why_now": (
             "The next version is only believable if ProductOS proves its strongest loop inside the current self-hosting workspace."
         ),
@@ -599,6 +622,7 @@ def _build_live_discover_artifacts(
         ),
         "status": "validated",
         "idea_record_ids": ["idea_record_pm_status_automation"],
+        "strategy_artifact_ids": ["market_strategy_brief_pm_ops_challenger"],
         "target_segment_refs": [
             {"entity_type": "segment", "entity_id": "segment_b2b_product_teams"}
         ],
@@ -610,6 +634,10 @@ def _build_live_discover_artifacts(
             {"entity_type": "outcome", "entity_id": "outcome_productos_same_day_prd_package"},
             {"entity_type": "opportunity", "entity_id": "opportunity_productos_discover_superpower"},
             {"entity_type": "feature", "entity_id": "feature_productos_repo_first_discover_cli"},
+        ],
+        "must_be_true_assumptions": [
+            "One PM can review the generated bundle with no more than one material rewrite",
+            "Repo-native validation and structured artifacts are enough to make the discover output trustworthy"
         ],
         "open_questions": [
             "How much of the weekly operating loop can reuse this discover control surface without adding review noise?"

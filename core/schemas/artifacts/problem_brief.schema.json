@@ -11,6 +11,10 @@
     "workspace_id",
     "title",
     "problem_summary",
+    "strategic_fit_summary",
+    "posture_alignment",
+    "why_this_problem_now",
+    "why_this_problem_for_this_segment",
     "target_segment_refs",
     "target_persona_refs",
     "linked_entity_refs",
@@ -23,6 +27,13 @@
     "workspace_id": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 3 },
     "problem_summary": { "type": "string", "minLength": 10 },
+    "strategic_fit_summary": { "type": "string", "minLength": 10 },
+    "posture_alignment": {
+      "type": "string",
+      "enum": ["leader", "challenger", "follower", "niche"]
+    },
+    "why_this_problem_now": { "type": "string", "minLength": 10 },
+    "why_this_problem_for_this_segment": { "type": "string", "minLength": 10 },
     "target_segment_refs": {
       "type": "array",
       "items": { "$ref": "#/$defs/entityRef" },

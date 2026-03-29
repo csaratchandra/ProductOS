@@ -29,6 +29,7 @@ from core.python.productos_runtime import (
     summarize_v5_lifecycle_bundle,
     summarize_v6_lifecycle_bundle,
 )
+from core.python.productos_runtime.validation import inspect_workspace_source_note_card_refs
 from core.python.productos_runtime.next_version import NEXT_VERSION_ARTIFACT_SCHEMAS
 from core.python.productos_runtime.v5 import V5_ARTIFACT_SCHEMAS
 from core.python.productos_runtime.v6 import V6_ARTIFACT_SCHEMAS
@@ -347,6 +348,21 @@ def cmd_init_workspace(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_validate_workspace(args: argparse.Namespace) -> int:
+    summary, failures = inspect_workspace_source_note_card_refs(args.workspace_dir)
+    if failures:
+        for failure in failures:
+            print(f"FAIL: {failure}")
+        return 1
+
+    print(
+        "Workspace validation passed: "
+        f"{summary['artifact_count']} artifacts checked, "
+        f"{summary['source_note_card_count']} source note cards indexed."
+    )
+    return 0
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="ProductOS next-version repo CLI.")
     parser.add_argument("--workspace-dir", type=Path, default=Path("internal/ProductOS-Next"))
@@ -384,6 +400,7 @@ def parse_args() -> argparse.Namespace:
     init_parser.add_argument("--mode", required=True)
 
     subparsers.add_parser("doctor")
+    subparsers.add_parser("validate-workspace")
     v5_parser = subparsers.add_parser("v5")
     v5_parser.add_argument("--output-dir", type=Path)
     v6_parser = subparsers.add_parser("v6")
@@ -413,6 +430,8 @@ def main() -> int:
         return cmd_init_workspace(args)
     if args.command == "doctor":
         return cmd_doctor(args)
+    if args.command == "validate-workspace":
+        return cmd_validate_workspace(args)
     if args.command == "v5":
         return cmd_v5(args)
     if args.command == "v6":

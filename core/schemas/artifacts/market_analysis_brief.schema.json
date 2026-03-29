@@ -11,9 +11,14 @@
     "workspace_id",
     "title",
     "market_name",
+    "category_structure",
     "category_summary",
     "trend_summary",
     "market_dynamics",
+    "power_centers",
+    "adoption_barriers",
+    "switching_costs",
+    "market_role_implications",
     "created_at"
   ],
   "properties": {
@@ -23,9 +28,34 @@
     "title": { "type": "string", "minLength": 3 },
     "market_name": { "type": "string", "minLength": 3 },
     "research_scope": { "type": "string", "minLength": 5 },
+    "category_structure": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
     "category_summary": { "type": "string", "minLength": 10 },
     "trend_summary": { "type": "string", "minLength": 10 },
     "market_dynamics": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
+    "power_centers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
+    "adoption_barriers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
+    "switching_costs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
+    "market_role_implications": {
       "type": "array",
       "items": { "type": "string", "minLength": 5 },
       "minItems": 1

@@ -17,10 +17,23 @@
     "workflow_fit",
     "clarity"
   ],
+  "tested_assumptions": [
+    "A structured first draft reduces PM reconstruction work",
+    "Traceability improves trust in recurring automation"
+  ],
+  "proof_generated": [
+    "A structured draft is credible when workflow state is current",
+    "Stale state remains the main trust failure mode"
+  ],
+  "positioning_signal": "positive",
+  "buying_signal": "mixed",
+  "workflow_adoption_signal": "positive",
+  "displacement_signal": "mixed",
   "learnings": [
     "A structured draft is useful when issue status and decision context are current.",
     "Narrative quality drops when upstream state is stale."
   ],
+  "strategic_implication": "The prototype supports a challenger posture focused on trusted PM operating outputs rather than full workspace replacement.",
   "recommendation": "advance_to_problem_brief",
   "evaluated_at": "2026-03-20T10:00:00Z"
 }

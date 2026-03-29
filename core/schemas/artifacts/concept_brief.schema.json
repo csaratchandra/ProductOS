@@ -11,13 +11,18 @@
     "workspace_id",
     "title",
     "hypothesis",
+    "positioning_hypothesis",
+    "offering_hypothesis",
+    "wedge_hypothesis",
     "why_now",
     "why_us",
     "advantage_hypothesis",
     "status",
     "idea_record_ids",
+    "strategy_artifact_ids",
     "target_segment_refs",
     "target_persona_refs",
+    "must_be_true_assumptions",
     "created_at"
   ],
   "properties": {
@@ -26,6 +31,9 @@
     "workspace_id": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 3 },
     "hypothesis": { "type": "string", "minLength": 10 },
+    "positioning_hypothesis": { "type": "string", "minLength": 10 },
+    "offering_hypothesis": { "type": "string", "minLength": 10 },
+    "wedge_hypothesis": { "type": "string", "minLength": 10 },
     "why_now": { "type": "string", "minLength": 10 },
     "why_us": { "type": "string", "minLength": 10 },
     "advantage_hypothesis": { "type": "string", "minLength": 10 },
@@ -34,6 +42,11 @@
       "enum": ["draft", "candidate", "validated", "parked"]
     },
     "idea_record_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "strategy_artifact_ids": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 },
       "minItems": 1
@@ -52,6 +65,11 @@
       "type": "array",
       "items": { "$ref": "#/$defs/entityRef" },
       "default": []
+    },
+    "must_be_true_assumptions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
     },
     "open_questions": {
       "type": "array",

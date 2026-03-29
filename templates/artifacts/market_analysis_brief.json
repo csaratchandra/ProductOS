@@ -4,11 +4,27 @@
   "workspace_id": "ws_product_starter",
   "title": "Market analysis brief: starter discovery trace demo",
   "market_name": "Product discovery and execution coordination",
+  "category_structure": [
+    "Generic work tools centralize activity but do not guarantee a readable discovery story.",
+    "PM tools improve prioritization but still separate some upstream and downstream context."
+  ],
   "category_summary": "Teams increasingly want fewer disconnected tools and clearer accountability for why work progressed.",
   "trend_summary": "AI speeds up artifact creation, which makes clear traceability and gate discipline more important.",
   "market_dynamics": [
     "Execution tools centralize activity but often do not explain discovery decisions.",
     "PM tools improve prioritization but may still separate discovery context from downstream planning."
+  ],
+  "power_centers": [
+    "PM operators and product ops leads often shape process adoption for starter systems."
+  ],
+  "adoption_barriers": [
+    "Teams may assume a generic template is sufficient until the need for traceability becomes concrete."
+  ],
+  "switching_costs": [
+    "Most teams already have ad hoc docs and process habits, even if they are weak."
+  ],
+  "market_role_implications": [
+    "The starter should act like a niche operating model, not a generic template pack."
   ],
   "source_artifact_ids": [
     "research_notebook_starter_trace_demo",

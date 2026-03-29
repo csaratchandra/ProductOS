@@ -3,6 +3,8 @@
   "competitor_dossier_id": "competitor_dossier_pm_ops_space",
   "workspace_id": "ws_productos_v2",
   "title": "Competitor Dossier: PM operating systems and tooling",
+  "competitive_frame": "PM operating systems that compete to reduce coordination overhead and become the trusted layer around recurring product work.",
+  "comparison_basis": "Compared on workflow coherence, traceability, integration fit, and whether they can displace manual PM reconstruction work.",
   "target_segment_refs": [
     {
       "entity_type": "segment",
@@ -29,6 +31,26 @@
     "research_notebook_pm_day1",
     "landscape_matrix_pm_tools"
   ],
+  "status_quo_alternatives": [
+    "Manually assembled PM docs and spreadsheets",
+    "Loose combinations of trackers, docs, and chat threads"
+  ],
+  "internal_build_risk": "medium",
+  "where_we_win": [
+    "Artifact-level traceability across recurring PM workflows",
+    "PM-specific operating structure rather than generic work management"
+  ],
+  "where_we_lose": [
+    "Breadth of existing platform distribution",
+    "Out-of-the-box delivery system coverage"
+  ],
+  "credible_wedge_for_posture": "Challenge broad platforms with a PM-specific decision and traceability layer that works around incumbent tools.",
+  "required_proof_to_displace": [
+    "Faster PM operating outputs with less reconstruction work",
+    "Coexistence with existing trackers and docs",
+    "Trustworthy traceability for stakeholder-facing communication"
+  ],
+  "recommended_positioning_angle": "Do not claim platform breadth. Claim trusted PM operating workflow continuity.",
   "competitors": [
     {
       "name": "Jira Product Discovery + Jira",
@@ -37,6 +59,7 @@
       "positioning_summary": "Provides structured product discovery and delivery tracking inside a connected Atlassian workflow.",
       "go_to_market_motion": "Expansion inside existing Atlassian accounts",
       "pricing_signal": "Bundled and seat-based enterprise SaaS pricing",
+      "positioning_gap": "Strong connected workflow story, but weaker emphasis on artifact-level PM traceability and manual fallback discipline.",
       "icp_overlap": "high",
       "substitution_risk": "high",
       "ecosystem_role": "Workflow system of record inside the Atlassian ecosystem.",
@@ -47,6 +70,18 @@
       "weaknesses": [
         "Can still leave PM operating outputs fragmented across multiple artifacts",
         "Value depends on access and discipline across connected tools"
+      ],
+      "where_they_win": [
+        "Accounts already standardized on Atlassian",
+        "Teams wanting connected discovery and delivery inside one vendor ecosystem"
+      ],
+      "where_they_lose": [
+        "Teams that need a tighter PM evidence and narrative layer",
+        "Teams that cannot rely on one connected vendor stack"
+      ],
+      "displacement_barriers": [
+        "Existing Atlassian account presence",
+        "Perceived integration risk if a second PM layer is added"
       ],
       "implications": [
         "ProductOS should support integration-first teams without assuming universal tool access.",

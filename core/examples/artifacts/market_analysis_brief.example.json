@@ -4,11 +4,31 @@
   "workspace_id": "ws_productos_v2",
   "title": "Market Analysis Brief: PM operating systems",
   "market_name": "AI-assisted PM operating systems",
+  "category_structure": [
+    "Broad PM platforms bundle planning, prioritization, and some AI assistance.",
+    "Execution suites pull PM use cases downstream through integration and AI helpers."
+  ],
   "category_summary": "The category is shifting from drafting assistance toward trusted operating systems with evidence visibility and workflow continuity.",
   "trend_summary": "Platform products are bundling more workflow support while startups differentiate on synthesis depth and usability.",
   "market_dynamics": [
     "Bundled ecosystems can compress standalone tool adoption.",
     "Trust and traceability are becoming category-level expectations."
+  ],
+  "power_centers": [
+    "PM leadership influences workflow standards and tool adoption.",
+    "Execution system incumbents shape what integrations feel credible."
+  ],
+  "adoption_barriers": [
+    "Teams hesitate to add another PM layer unless it clearly reduces reconstruction work.",
+    "Incumbent tracker ecosystems can make new workflow layers feel duplicative."
+  ],
+  "switching_costs": [
+    "Existing history and workflow habits are distributed across tools.",
+    "Buyers prefer add-on wedges before full workflow replacement."
+  ],
+  "market_role_implications": [
+    "A challenger posture is more credible than a broad leader claim at this stage.",
+    "Winning the PM traceability wedge can create expansion room into adjacent workflows."
   ],
   "ecosystem_dependencies": [
     "Tracker integration quality shapes day-to-day product value.",

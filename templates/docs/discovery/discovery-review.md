@@ -9,6 +9,7 @@ Review these artifacts together:
 - `persona_pack.json`
 - `competitor_dossier.json`
 - `market_analysis_brief.json`
+- `market_strategy_brief.json`
 - `problem_brief.json`
 - `concept_brief.json`
 - `prototype_record.json`

@@ -82,12 +82,14 @@
       "html_render_hints": {
         "prefer_native_shapes": true,
         "fallback_layout": "standard",
+        "target_profile": "dual_target",
         "emphasize_claim": true,
         "show_evidence_as_cards": false
       },
       "ppt_render_hints": {
         "prefer_native_shapes": true,
-        "fallback_layout": "standard"
+        "fallback_layout": "standard",
+        "target_profile": "dual_target"
       },
       "source_refs": [
         "presentation_brief_pm_ops_q2",
@@ -157,12 +159,14 @@
       "html_render_hints": {
         "prefer_native_shapes": true,
         "fallback_layout": "stacked_panels",
+        "target_profile": "dual_target",
         "emphasize_claim": true,
         "show_evidence_as_cards": true
       },
       "ppt_render_hints": {
         "prefer_native_shapes": true,
-        "fallback_layout": "stacked_panels"
+        "fallback_layout": "stacked_panels",
+        "target_profile": "dual_target"
       },
       "source_refs": [
         "portfolio_update_2026_03_19",
@@ -241,12 +245,14 @@
       "html_render_hints": {
         "prefer_native_shapes": true,
         "fallback_layout": "standard",
+        "target_profile": "dual_target",
         "emphasize_claim": true,
         "show_evidence_as_cards": true
       },
       "ppt_render_hints": {
         "prefer_native_shapes": true,
-        "fallback_layout": "standard"
+        "fallback_layout": "standard",
+        "target_profile": "dual_target"
       },
       "source_refs": [
         "portfolio_state_suite_productos_2026_03_19",

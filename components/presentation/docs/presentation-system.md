@@ -38,6 +38,16 @@ HTML slides should:
 - avoid generic default web-app styling
 - preserve readability when aspect ratio changes
 
+HTML may be visually richer than PPT, but only when the render contract says so.
+
+Current target profiles:
+
+- `dual_target`: the slide must hold a premium standard in both HTML and native PPT export
+- `html_rich`: HTML may use richer layout behavior; this is only allowed when the brief is not targeting both formats
+- `ppt_safe`: explicit PPT fallback for an `html_rich` HTML composition
+
+If `presentation_format` is `both`, every slide should remain `dual_target`.
+
 ## 5. PPT Export
 
 Native PPT export should be produced from `render_spec`, `slide_spec`, and `ppt_export_plan`, not arbitrary DOM scraping.

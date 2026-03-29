@@ -17,6 +17,9 @@
     "target_segment_refs",
     "target_persona_refs",
     "validation_focus",
+    "tested_assumptions",
+    "proof_generated",
+    "strategic_implication",
     "evaluated_at"
   ],
   "properties": {
@@ -52,11 +55,38 @@
       },
       "minItems": 1
     },
+    "tested_assumptions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
+    "proof_generated": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
+    "positioning_signal": {
+      "type": "string",
+      "enum": ["positive", "mixed", "negative", "unknown"]
+    },
+    "buying_signal": {
+      "type": "string",
+      "enum": ["positive", "mixed", "negative", "unknown"]
+    },
+    "workflow_adoption_signal": {
+      "type": "string",
+      "enum": ["positive", "mixed", "negative", "unknown"]
+    },
+    "displacement_signal": {
+      "type": "string",
+      "enum": ["positive", "mixed", "negative", "unknown"]
+    },
     "learnings": {
       "type": "array",
       "items": { "type": "string", "minLength": 5 },
       "default": []
     },
+    "strategic_implication": { "type": "string", "minLength": 10 },
     "recommendation": {
       "type": "string",
       "enum": ["advance_to_problem_brief", "iterate", "park", "stop"]

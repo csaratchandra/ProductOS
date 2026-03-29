@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "market_strategy_brief_id": "market_strategy_brief_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Market strategy brief: starter lifecycle trace demo",
+  "strategy_question": "How should the ProductOS starter demonstrate value clearly enough that a new team understands where ProductOS can win before they customize the workspace?",
+  "category_definition": "Structured product operating workspaces that connect discovery, delivery, and release artifacts into one readable operating story.",
+  "category_maturity": "growing",
+  "strategic_posture": "niche",
+  "market_role_goal": "Win with teams that want a disciplined, evidence-heavy product operating model rather than a generic template bundle.",
+  "target_market_scope": "Product teams evaluating ProductOS as a structured operating system instead of a loose documentation starter.",
+  "beachhead_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_scaling_product_orgs"
+    }
+  ],
+  "priority_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_ops_lead"
+    }
+  ],
+  "buyer_archetype_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_ops_lead"
+    }
+  ],
+  "operator_archetype_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    }
+  ],
+  "competitive_reference_set": [
+    "Generic workspace templates",
+    "Empty product docs starters",
+    "Internal PM process docs",
+    "Status quo ad hoc setup"
+  ],
+  "offering_definition": "A seeded ProductOS starter that demonstrates a full traceable discovery-to-delivery path instead of an empty scaffold.",
+  "offering_type": "workflow_tool",
+  "positioning_statement": "For teams that want a concrete product operating model, the ProductOS starter is a readable, traceable starter workspace that shows what good looks like before they adapt it.",
+  "value_wedge": "A seeded and inspectable lifecycle trace rather than a blank template set.",
+  "right_to_win": "ProductOS can demonstrate its artifact system and validation model directly inside the starter workspace.",
+  "proof_requirements": [
+    "A new team can explain the lifecycle trace without reconstructing the story from scattered notes"
+  ],
+  "pricing_packaging_hypothesis": "Included in the base ProductOS starter as the adoption accelerant for deeper workspace use.",
+  "gtm_motion": "Use the starter as the self-serve entry point for evaluation and team onboarding.",
+  "expansion_path": "After the starter proves understandable, teams expand into their own discovery, delivery, and launch work.",
+  "key_risks": [
+    "A seeded example may feel too opinionated if the rationale is not explicit"
+  ],
+  "linked_artifact_ids": [
+    "segment_map_starter_trace_demo",
+    "market_analysis_brief_starter_trace_demo",
+    "competitor_dossier_starter_trace_demo"
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "research",
+      "source_id": "research_notebook_starter_trace_demo",
+      "justification": "The notebook explains why a concrete seed is more useful than an empty starter."
+    }
+  ],
+  "open_questions": [
+    "How much starter opinionation is helpful before it becomes restrictive?"
+  ],
+  "recommendation": "commit_posture",
+  "created_at": "2026-03-23T11:08:00Z"
+}

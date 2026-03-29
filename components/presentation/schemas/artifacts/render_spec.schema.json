@@ -399,10 +399,14 @@
     "renderHints": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["prefer_native_shapes", "fallback_layout"],
+      "required": ["prefer_native_shapes", "fallback_layout", "target_profile"],
       "properties": {
         "prefer_native_shapes": { "type": "boolean" },
         "fallback_layout": { "type": "string", "minLength": 3 },
+        "target_profile": {
+          "type": "string",
+          "enum": ["dual_target", "html_rich", "ppt_safe"]
+        },
         "emphasize_claim": { "type": "boolean" },
         "show_evidence_as_cards": { "type": "boolean" },
         "max_visible_evidence": { "type": "integer", "minimum": 0, "maximum": 8 }

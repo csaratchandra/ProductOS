@@ -4,12 +4,18 @@
   "workspace_id": "ws_productos_v2",
   "title": "PM operating rhythm automation",
   "hypothesis": "If ProductOS keeps structured workspace state current, it can generate high-quality PM coordination outputs with much less manual reconstruction work.",
+  "positioning_hypothesis": "ProductOS will win as the PM operating layer that makes recurring coordination outputs traceable enough to trust.",
+  "offering_hypothesis": "The offering should behave as a workflow and decision layer rather than a generic all-in-one PM suite.",
+  "wedge_hypothesis": "Reducing manual reconstruction in recurring PM rhythms is the most credible entry wedge for a challenger posture.",
   "why_now": "PM operating load is rising while AI-assisted drafting shifts the bar toward judgment and trusted automation.",
   "why_us": "ProductOS already centers structured workflow state, traceability, and validation instead of isolated drafting.",
   "advantage_hypothesis": "The combination of workflow memory and reliability controls can make automation trusted enough for real operating work.",
   "status": "validated",
   "idea_record_ids": [
     "idea_record_pm_status_automation"
+  ],
+  "strategy_artifact_ids": [
+    "market_strategy_brief_pm_ops_challenger"
   ],
   "target_segment_refs": [
     { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
@@ -20,6 +26,10 @@
   "linked_entity_refs": [
     { "entity_type": "problem", "entity_id": "problem_pm_reporting_bottleneck" },
     { "entity_type": "outcome", "entity_id": "outcome_reduce_pm_reporting_time" }
+  ],
+  "must_be_true_assumptions": [
+    "PMs will trust a structured first draft if traceability is visible",
+    "The workflow can fit around existing tools instead of replacing them first"
   ],
   "open_questions": [
     "What minimum source coverage is required before the PM trusts an automated draft?"

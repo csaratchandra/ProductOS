@@ -4,24 +4,100 @@
   "workspace_id": "ws_productos_v2",
   "title": "Segment Map: PM operating workflows",
   "market_name": "AI-assisted PM operating systems",
+  "market_scope_summary": "PM operating systems for teams that already have execution tools but still reconstruct planning, status, and decision context manually.",
   "segmentation_lens": "workflow_maturity",
+  "segmentation_logic": "Segments are separated by how much workflow fragmentation, governance burden, and AI adoption change the urgency of a PM operating layer.",
   "segments": [
     {
+      "segment_id": "segment_ai_forward_product_teams",
       "name": "AI-forward product teams",
       "definition": "Teams already experimenting with AI assistance in recurring PM workflows.",
       "qualifying_traits": ["Uses AI copilots today", "Has recurring reporting burden"],
+      "core_job": "Keep recurring PM communication and coordination work moving without rebuilding context each cycle.",
+      "struggle_moments": [
+        "Weekly updates require manual reconstruction across tools",
+        "AI outputs are fast but still need trusted operating context"
+      ],
+      "primary_value_drivers": [
+        "Time saved on recurring PM outputs",
+        "Higher trust in AI-assisted coordination work"
+      ],
+      "buying_context": "Usually bought by a PM leader or operator trying to remove recurring operational drag before adding broader AI complexity.",
+      "adoption_constraints": [
+        "Must fit around existing work trackers",
+        "Needs believable traceability before automation is trusted"
+      ],
+      "posture_fit": [
+        {
+          "posture": "challenger",
+          "fit": "strong",
+          "rationale": "This segment will switch for sharper PM workflow outcomes without requiring ProductOS to replace every existing tool."
+        },
+        {
+          "posture": "leader",
+          "fit": "weak",
+          "rationale": "The segment is not asking for a broad platform owner yet."
+        }
+      ],
+      "best_fit_posture": "challenger",
+      "solution_entry_points": [
+        "PM operating rhythm automation",
+        "Traceable status and decision outputs"
+      ],
+      "confidence": "moderate",
       "attractiveness": "high",
       "urgency": "high",
       "evidence_refs": ["source_note_card_consultant_ai_pm"]
     },
     {
+      "segment_id": "segment_tool_fragmented_enterprise_teams",
       "name": "Tool-fragmented enterprise teams",
       "definition": "Enterprise teams with multiple systems of record and high coordination overhead.",
       "qualifying_traits": ["Multiple tracker dependencies", "Leadership reporting pressure"],
+      "core_job": "Preserve decision, planning, and delivery context across multiple systems without losing the explanation trail.",
+      "struggle_moments": [
+        "Leadership asks for a defensible story across disconnected tools",
+        "PMs cannot trace why work changed across planning and delivery"
+      ],
+      "primary_value_drivers": [
+        "Auditability across the lifecycle",
+        "Reduced coordination cost across teams"
+      ],
+      "buying_context": "Typically needs PM leadership or product ops sponsorship because adoption affects existing systems and reporting norms.",
+      "adoption_constraints": [
+        "Integration quality is critical",
+        "Proof of governance and traceability is required"
+      ],
+      "posture_fit": [
+        {
+          "posture": "challenger",
+          "fit": "viable",
+          "rationale": "This segment is attractive if ProductOS proves coexistence with incumbent trackers."
+        },
+        {
+          "posture": "niche",
+          "fit": "strong",
+          "rationale": "A governance-heavy wedge can win before platform breadth is necessary."
+        }
+      ],
+      "best_fit_posture": "niche",
+      "solution_entry_points": [
+        "Lifecycle traceability",
+        "Governance-ready PM documentation"
+      ],
+      "disqualifiers": [
+        "Do not enter if the buyer expects ProductOS to replace every incumbent system immediately"
+      ],
+      "confidence": "moderate",
       "attractiveness": "high",
       "urgency": "medium",
       "evidence_refs": ["source_note_card_app_review_jpd"]
     }
+  ],
+  "recommended_beachhead_segment_id": "segment_ai_forward_product_teams",
+  "source_artifact_ids": [
+    "market_analysis_brief_pm_ops",
+    "competitor_dossier_pm_ops_space"
   ],
   "created_at": "2026-03-20T12:20:00Z"
 }

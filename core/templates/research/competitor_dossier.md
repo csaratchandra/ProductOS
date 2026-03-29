@@ -10,6 +10,14 @@
 
 {{title}}
 
+# Competitive Frame
+
+{{competitive_frame}}
+
+# Comparison Basis
+
+{{comparison_basis}}
+
 # Target Segment
 
 {{target_segment_refs}}
@@ -25,6 +33,22 @@
 # Source Artifacts
 
 {{source_artifact_ids}}
+
+# Status Quo Alternatives
+
+{{status_quo_alternatives}}
+
+# Where We Win
+
+{{where_we_win}}
+
+# Where We Lose
+
+{{where_we_lose}}
+
+# Credible Wedge For Posture
+
+{{credible_wedge_for_posture}}
 
 # Competitors
 

@@ -76,6 +76,7 @@
         "native_shape_family",
         "fallback_layout",
         "prefer_native_shapes",
+        "target_profile",
         "primitives",
         "evidence_mode",
         "connector_policy",
@@ -88,6 +89,7 @@
         "native_shape_family": { "type": "string", "minLength": 3 },
         "fallback_layout": { "type": "string", "minLength": 3 },
         "prefer_native_shapes": { "type": "boolean" },
+        "target_profile": { "type": "string", "enum": ["dual_target", "ppt_safe"] },
         "primitives": {
           "type": "array",
           "items": { "type": "string", "minLength": 3 },

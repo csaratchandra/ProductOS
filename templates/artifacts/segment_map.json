@@ -4,15 +4,45 @@
   "workspace_id": "ws_product_starter",
   "title": "Segment map: starter discovery trace demo",
   "market_name": "Collaborative product workspaces",
+  "market_scope_summary": "Product workspaces for teams that need to connect discovery, delivery, and launch context instead of keeping each stage in separate disconnected artifacts.",
   "segmentation_lens": "workflow_maturity",
+  "segmentation_logic": "Segments are separated by how much process discipline, governance need, and product ops support change the value of a traceable operating model.",
   "segments": [
     {
+      "segment_id": "segment_early_product_teams",
       "name": "Early product teams",
       "definition": "Small product teams adopting more structured discovery and delivery habits.",
       "qualifying_traits": [
         "limited tooling",
         "shared PM ownership"
       ],
+      "core_job": "Create enough structure that product work can be reviewed and repeated without adding heavy process too early.",
+      "struggle_moments": [
+        "The team lacks a shared story of what happened during discovery",
+        "Artifacts are lightweight and easy to lose"
+      ],
+      "primary_value_drivers": [
+        "Faster operating clarity",
+        "A visible structure for repeated product work"
+      ],
+      "buying_context": "Usually adopted by a PM or founder trying to introduce structure without enterprise overhead.",
+      "adoption_constraints": [
+        "Too much ceremony will cause rejection",
+        "The starter must feel concrete rather than abstract"
+      ],
+      "posture_fit": [
+        {
+          "posture": "niche",
+          "fit": "viable",
+          "rationale": "The segment values clarity but may not yet feel enough pain to demand strong traceability."
+        }
+      ],
+      "best_fit_posture": "niche",
+      "solution_entry_points": [
+        "Seeded lifecycle example",
+        "Readable starter documents"
+      ],
+      "confidence": "moderate",
       "attractiveness": "high",
       "urgency": "high",
       "evidence_refs": [
@@ -20,12 +50,45 @@
       ]
     },
     {
+      "segment_id": "segment_scaling_product_orgs",
       "name": "Scaling product organizations",
       "definition": "Teams with growing coordination needs and rising handoff overhead.",
       "qualifying_traits": [
         "multiple contributors",
         "stakeholder reviews"
       ],
+      "core_job": "Keep product work understandable across contributors, reviews, and downstream delivery without reconstructing the story each time.",
+      "struggle_moments": [
+        "Reviews require manually connecting multiple artifacts",
+        "Handoffs between discovery and delivery lose important context"
+      ],
+      "primary_value_drivers": [
+        "Clearer lifecycle traceability",
+        "Reduced handoff overhead"
+      ],
+      "buying_context": "Usually adopted by PM operators or product ops leads who want a more disciplined operating model.",
+      "adoption_constraints": [
+        "Needs enough structure to be useful without feeling like process theater",
+        "Starter value must be obvious on day one"
+      ],
+      "posture_fit": [
+        {
+          "posture": "niche",
+          "fit": "strong",
+          "rationale": "This segment values a deep operating model more than a generic workspace."
+        },
+        {
+          "posture": "challenger",
+          "fit": "viable",
+          "rationale": "A sharper workflow wedge can grow here before broader platform claims are needed."
+        }
+      ],
+      "best_fit_posture": "niche",
+      "solution_entry_points": [
+        "Lifecycle trace starter bundle",
+        "Discovery and delivery review flow"
+      ],
+      "confidence": "high",
       "attractiveness": "high",
       "urgency": "medium",
       "evidence_refs": [
@@ -33,12 +96,40 @@
       ]
     },
     {
+      "segment_id": "segment_ops_enabled_product_teams",
       "name": "Ops-enabled product teams",
       "definition": "Teams that already care about process standards and want clearer lifecycle auditability.",
       "qualifying_traits": [
         "product ops support",
         "artifact discipline"
       ],
+      "core_job": "Make product operating standards auditable and reusable across recurring work.",
+      "struggle_moments": [
+        "Standards exist but the evidence chain is not easy to inspect",
+        "Teams want reusable lifecycle discipline"
+      ],
+      "primary_value_drivers": [
+        "Auditability",
+        "Reusable operating structure"
+      ],
+      "buying_context": "Typically influenced by product ops or PM leadership that wants a durable operating baseline.",
+      "adoption_constraints": [
+        "The starter must show strong traceability quickly",
+        "The value must exceed a generic docs template"
+      ],
+      "posture_fit": [
+        {
+          "posture": "niche",
+          "fit": "strong",
+          "rationale": "This segment wants specialist operating discipline and will accept a more opinionated starter."
+        }
+      ],
+      "best_fit_posture": "niche",
+      "solution_entry_points": [
+        "Traceable artifact bundle",
+        "Validation-aware lifecycle review"
+      ],
+      "confidence": "moderate",
       "attractiveness": "medium",
       "urgency": "high",
       "evidence_refs": [
@@ -46,5 +137,6 @@
       ]
     }
   ],
+  "recommended_beachhead_segment_id": "segment_scaling_product_orgs",
   "created_at": "2026-03-23T11:02:00Z"
 }

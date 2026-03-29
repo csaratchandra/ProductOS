@@ -197,6 +197,7 @@ Primary source artifacts:
 
 - `concept_brief`
 - `research_brief`
+- `market_strategy_brief`
 - `decision_log`
 - `strategy_option_set`
 

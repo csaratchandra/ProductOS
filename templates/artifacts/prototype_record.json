@@ -23,9 +23,21 @@
     "clarity",
     "workflow_fit"
   ],
+  "tested_assumptions": [
+    "A seeded example reduces onboarding ambiguity",
+    "Teams can understand the lifecycle model without reconstructing the story manually"
+  ],
+  "proof_generated": [
+    "A concrete example improves startup comprehension of the ProductOS trace model"
+  ],
+  "positioning_signal": "positive",
+  "buying_signal": "unknown",
+  "workflow_adoption_signal": "positive",
+  "displacement_signal": "unknown",
   "learnings": [
     "A seeded example reduces ambiguity during workspace setup."
   ],
+  "strategic_implication": "The prototype supports a niche posture based on concrete lifecycle clarity rather than generic starter breadth.",
   "recommendation": "advance_to_problem_brief",
   "evaluated_at": "2026-03-23T11:16:00Z"
 }
