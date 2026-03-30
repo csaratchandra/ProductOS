@@ -16,6 +16,10 @@
     "user_flow_summary",
     "information_architecture_summary",
     "interaction_model_summary",
+    "prototype_quality_rating",
+    "quality_summary",
+    "quality_dimension_reviews",
+    "improvement_actions",
     "recommended_next_step",
     "evidence_refs",
     "generated_at"
@@ -38,6 +42,21 @@
     "user_flow_summary": { "type": "string", "minLength": 10 },
     "information_architecture_summary": { "type": "string", "minLength": 10 },
     "interaction_model_summary": { "type": "string", "minLength": 10 },
+    "prototype_quality_rating": {
+      "type": "string",
+      "enum": ["excellent", "acceptable", "weak", "fail"]
+    },
+    "quality_summary": { "type": "string", "minLength": 10 },
+    "quality_dimension_reviews": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/qualityDimensionReview" },
+      "minItems": 6
+    },
+    "quality_reference_examples": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
     "accessibility_considerations": {
       "type": "array",
       "items": { "type": "string", "minLength": 5 },
@@ -47,6 +66,11 @@
       "type": "array",
       "items": { "type": "string", "minLength": 5 },
       "default": []
+    },
+    "improvement_actions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
     },
     "recommended_next_step": {
       "type": "string",
@@ -58,5 +82,33 @@
       "minItems": 1
     },
     "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "qualityDimensionReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dimension_key", "rating", "rationale"],
+      "properties": {
+        "dimension_key": {
+          "type": "string",
+          "enum": [
+            "interaction_clarity",
+            "workflow_credibility",
+            "information_hierarchy",
+            "trust_and_traceability",
+            "visual_intent",
+            "accessibility_resilience"
+          ]
+        },
+        "rating": {
+          "type": "string",
+          "enum": ["excellent", "acceptable", "weak", "fail"]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 10
+        }
+      }
+    }
   }
 }

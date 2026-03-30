@@ -13,6 +13,43 @@
   "user_flow_summary": "The PM should move from signal review to decision, status communication, and roadmap updates without rebuilding context manually.",
   "information_architecture_summary": "Cockpit, queues, evidence, and human-readable product docs should be clearly separated but cross-linked.",
   "interaction_model_summary": "The system should surface the next recommended action, required review, design critique, and stakeholder-ready outputs from one coordinated flow.",
+  "prototype_quality_rating": "acceptable",
+  "quality_summary": "The concept is coherent and workflow-aware, but the prototype still needs stronger interaction sharpness before it can claim a top-tier product bar.",
+  "quality_dimension_reviews": [
+    {
+      "dimension_key": "interaction_clarity",
+      "rating": "acceptable",
+      "rationale": "The main states and next actions are understandable, but the transitions between them are still text-heavy."
+    },
+    {
+      "dimension_key": "workflow_credibility",
+      "rating": "acceptable",
+      "rationale": "The PM flow is plausible, though the handoff moments still need more realistic state handling."
+    },
+    {
+      "dimension_key": "information_hierarchy",
+      "rating": "acceptable",
+      "rationale": "The major surfaces are separated correctly, but the most important signals need stronger prioritization."
+    },
+    {
+      "dimension_key": "trust_and_traceability",
+      "rating": "excellent",
+      "rationale": "The concept clearly distinguishes evidence-backed outputs from recommendations and keeps PM approval visible."
+    },
+    {
+      "dimension_key": "visual_intent",
+      "rating": "acceptable",
+      "rationale": "The interaction model has direction, but it is not yet distinctive enough to count as a reference-quality product surface."
+    },
+    {
+      "dimension_key": "accessibility_resilience",
+      "rating": "acceptable",
+      "rationale": "The plain-text fallback is sound, but more explicit state cues are still needed for broader accessibility confidence."
+    }
+  ],
+  "quality_reference_examples": [
+    "A PM control surface that feels decision-ready without presenter narration"
+  ],
   "accessibility_considerations": [
     "Status and blocker meaning should not depend only on color.",
     "Readable docs and visual reasoning outputs should preserve hierarchy in plain-text form."
@@ -20,6 +57,10 @@
   "trust_considerations": [
     "Recommendations must distinguish evidence-backed critique from design inference.",
     "The PM must remain the approval gate before design recommendations harden into PRD scope."
+  ],
+  "improvement_actions": [
+    "Sharpen state transitions so queue, decision, and communication steps feel like one continuous workflow.",
+    "Increase visual distinction around required review, blockers, and current priority."
   ],
   "recommended_next_step": "prd",
   "evidence_refs": [

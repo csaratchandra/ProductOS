@@ -12,13 +12,19 @@
     "concept_brief_id",
     "title",
     "prototype_type",
+    "prototype_fidelity",
+    "interaction_depth",
     "objective",
+    "uncertainty_statement",
+    "primary_test_scenario",
+    "experience_quality_target",
     "status",
     "target_segment_refs",
     "target_persona_refs",
     "validation_focus",
     "tested_assumptions",
     "proof_generated",
+    "improvement_actions",
     "strategic_implication",
     "evaluated_at"
   ],
@@ -32,7 +38,18 @@
       "type": "string",
       "enum": ["doc", "wireframe", "mockup", "clickthrough", "service_simulation", "other"]
     },
+    "prototype_fidelity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "v1_candidate"]
+    },
+    "interaction_depth": {
+      "type": "string",
+      "enum": ["static", "clickthrough", "interactive", "service_simulation"]
+    },
     "objective": { "type": "string", "minLength": 10 },
+    "uncertainty_statement": { "type": "string", "minLength": 10 },
+    "primary_test_scenario": { "type": "string", "minLength": 10 },
+    "experience_quality_target": { "type": "string", "minLength": 10 },
     "status": {
       "type": "string",
       "enum": ["planned", "in_test", "validated", "invalidated", "inconclusive"]
@@ -65,6 +82,11 @@
       "items": { "type": "string", "minLength": 5 },
       "minItems": 1
     },
+    "quality_reference_examples": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
     "positioning_signal": {
       "type": "string",
       "enum": ["positive", "mixed", "negative", "unknown"]
@@ -85,6 +107,11 @@
       "type": "array",
       "items": { "type": "string", "minLength": 5 },
       "default": []
+    },
+    "improvement_actions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
     },
     "strategic_implication": { "type": "string", "minLength": 10 },
     "recommendation": {

@@ -2,14 +2,15 @@
 
 ## Purpose
 
-Design and evaluate lightweight prototypes that reduce ambiguity before ProductOS commits to problem framing, PRD creation, or delivery planning.
+Design and evaluate bounded prototypes that reduce ambiguity before ProductOS commits to problem framing, PRD creation, or delivery planning.
 
 ## Core responsibilities
 
 - create and update `prototype_record`
 - define what question a prototype is meant to answer
+- declare the intended fidelity, interaction depth, and primary test scenario before prototype scope expands
 - preserve target segment and persona context
-- capture learnings and recommendation outcomes cleanly
+- capture learnings, quality targets, and improvement actions cleanly
 
 ## Inputs
 
@@ -39,6 +40,7 @@ Design and evaluate lightweight prototypes that reduce ambiguity before ProductO
 ## Validation expectations
 
 - prototype objective must be specific
+- prototype scope must stay tied to a named uncertainty instead of drifting into open-ended product design
 - learnings must be reusable by downstream workflows
+- every prototype pass must record at least one concrete improvement action for the next iteration
 - recommendation must match what the prototype actually tested
-

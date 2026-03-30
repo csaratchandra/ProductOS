@@ -5,7 +5,12 @@
   "concept_brief_id": "concept_brief_pm_operating_rhythm",
   "title": "Status mail draft prototype",
   "prototype_type": "doc",
+  "prototype_fidelity": "medium",
+  "interaction_depth": "static",
   "objective": "Test whether a structured input bundle can produce a credible first draft for PM review.",
+  "uncertainty_statement": "It is still unclear whether PMs will trust the generated draft enough to edit it instead of rewriting from scratch.",
+  "primary_test_scenario": "A PM reviews the generated status mail draft during weekly update preparation.",
+  "experience_quality_target": "The first draft should feel credible, legible, and structured enough that the PM edits instead of rebuilding the narrative.",
   "status": "validated",
   "target_segment_refs": [
     { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
@@ -25,6 +30,9 @@
     "A structured draft is credible when workflow state is current",
     "Stale state remains the main trust failure mode"
   ],
+  "quality_reference_examples": [
+    "A stakeholder-ready weekly status update that can be edited in one pass"
+  ],
   "positioning_signal": "positive",
   "buying_signal": "mixed",
   "workflow_adoption_signal": "positive",
@@ -32,6 +40,10 @@
   "learnings": [
     "A structured draft is useful when issue status and decision context are current.",
     "Narrative quality drops when upstream state is stale."
+  ],
+  "improvement_actions": [
+    "Refresh issue and decision state before generating the draft.",
+    "Expose missing upstream context inline instead of hiding freshness gaps."
   ],
   "strategic_implication": "The prototype supports a challenger posture focused on trusted PM operating outputs rather than full workspace replacement.",
   "recommendation": "advance_to_problem_brief",

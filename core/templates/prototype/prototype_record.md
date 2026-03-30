@@ -10,9 +10,29 @@
 
 {{prototype_type}}
 
+# Prototype Fidelity
+
+{{prototype_fidelity}}
+
+# Interaction Depth
+
+{{interaction_depth}}
+
 # Objective
 
 {{objective}}
+
+# Uncertainty Statement
+
+{{uncertainty_statement}}
+
+# Primary Test Scenario
+
+{{primary_test_scenario}}
+
+# Experience Quality Target
+
+{{experience_quality_target}}
 
 # Target Segment
 
@@ -29,6 +49,10 @@
 # Learnings
 
 {{learnings}}
+
+# Improvement Actions
+
+{{improvement_actions}}
 
 # Recommendation
 

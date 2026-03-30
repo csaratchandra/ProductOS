@@ -47,6 +47,15 @@ Every sub-`5` gap should route into the existing loop:
 3. route accepted work through `improvement_loop_state`
 4. rescore the feature after the next bounded dogfood pass
 
+## Prototype Heavy Slices
+
+If a slice depends materially on interaction quality or prototype credibility:
+
+- cite the latest `prototype_record` and `ux_design_review` in the score basis
+- use the prototype-quality rubric to justify `output_quality` claims
+- do not claim `5/5` while the latest UX review still records non-trivial improvement actions
+- treat "world-class" language as incomplete unless it names a concrete reference example and earns an `excellent` prototype-quality rating
+
 ## Relationship To Benchmarks
 
 Use `feature_scorecard` to answer:

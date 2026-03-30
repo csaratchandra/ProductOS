@@ -4,8 +4,13 @@
   "workspace_id": "ws_product_starter",
   "concept_brief_id": "concept_brief_starter_trace_demo",
   "title": "Prototype record: starter lifecycle trace review",
-  "prototype_type": "doc",
-  "objective": "Verify that a new product team can understand the lifecycle trace model from a seeded starter example.",
+  "prototype_type": "clickthrough",
+  "prototype_fidelity": "high",
+  "interaction_depth": "interactive",
+  "objective": "Verify that a new product team can understand the lifecycle trace model from a detailed interactive starter example.",
+  "uncertainty_statement": "It is still unclear whether a high-detail interactive prototype will reduce onboarding ambiguity more effectively than a static seeded doc example.",
+  "primary_test_scenario": "A PM reviews the seeded lifecycle item, opens stage evidence, and decides whether the discovery package is ready for PRD handoff.",
+  "experience_quality_target": "The prototype should feel polished and realistic enough to support a serious workflow walkthrough rather than a narrated concept pitch.",
   "status": "validated",
   "target_segment_refs": [
     {
@@ -30,12 +35,20 @@
   "proof_generated": [
     "A concrete example improves startup comprehension of the ProductOS trace model"
   ],
+  "quality_reference_examples": [
+    "A product walkthrough detailed enough for PM review without live narration"
+  ],
   "positioning_signal": "positive",
   "buying_signal": "unknown",
   "workflow_adoption_signal": "positive",
   "displacement_signal": "unknown",
   "learnings": [
-    "A seeded example reduces ambiguity during workspace setup."
+    "A seeded interactive example reduces ambiguity during workspace setup.",
+    "Visible gate evidence makes the prototype feel closer to a credible v1 surface than a static explanation."
+  ],
+  "improvement_actions": [
+    "Add richer interaction around stage transitions and artifact previews in the next prototype pass.",
+    "Tighten visual hierarchy so current state, proof, and deferred work are distinguishable at a glance."
   ],
   "strategic_implication": "The prototype supports a niche posture based on concrete lifecycle clarity rather than generic starter breadth.",
   "recommendation": "advance_to_problem_brief",

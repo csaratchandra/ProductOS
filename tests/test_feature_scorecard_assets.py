@@ -10,6 +10,7 @@ def test_feature_scoring_docs_exist(root_dir: Path):
     required = [
         root_dir / "core" / "docs" / "feature-scoring-model.md",
         root_dir / "core" / "workflows" / "mastery" / "feature-scoring-and-dogfood-review-workflow.md",
+        root_dir / "core" / "rubrics" / "prototype_quality_rubric.md",
     ]
     missing = [path for path in required if not path.exists()]
     assert not missing, f"Missing feature-scoring docs/workflow: {missing}"

@@ -47,6 +47,43 @@ def build_v3_evolution_bundle_from_workspace(
         "user_flow_summary": "The PM should move from signal review to decision, communication, and roadmap updates without rebuilding context manually.",
         "information_architecture_summary": "Cockpit, queue, evidence, design review, and readable docs should be distinct but cross-linked.",
         "interaction_model_summary": "The next recommended action, evidence, critique, and review state should remain visible through one routed PM flow.",
+        "prototype_quality_rating": "acceptable",
+        "quality_summary": "The reviewed concept is internally usable, but the prototype still needs stronger interaction sharpness before it can count as a reference-quality PM surface.",
+        "quality_dimension_reviews": [
+            {
+                "dimension_key": "interaction_clarity",
+                "rating": "acceptable",
+                "rationale": "The main path is understandable, but the transitions between states remain too text-heavy.",
+            },
+            {
+                "dimension_key": "workflow_credibility",
+                "rating": "acceptable",
+                "rationale": "The PM flow is plausible, though the handoff moments still need more realistic state behavior.",
+            },
+            {
+                "dimension_key": "information_hierarchy",
+                "rating": "acceptable",
+                "rationale": "The surfaces are separated correctly, but current priority and blockers need stronger emphasis.",
+            },
+            {
+                "dimension_key": "trust_and_traceability",
+                "rating": "excellent",
+                "rationale": "Evidence-backed recommendations and the PM approval boundary remain visible throughout the flow.",
+            },
+            {
+                "dimension_key": "visual_intent",
+                "rating": "acceptable",
+                "rationale": "The interaction model is deliberate, but it is not yet distinctive enough to serve as a top-tier reference surface.",
+            },
+            {
+                "dimension_key": "accessibility_resilience",
+                "rating": "acceptable",
+                "rationale": "Plain-text structure is preserved, but more redundant state cues are still needed.",
+            },
+        ],
+        "quality_reference_examples": [
+            "A PM control surface that feels decision-ready without presenter narration.",
+        ],
         "accessibility_considerations": [
             "Status and blocker meaning should not depend only on color.",
             "Readable and visual outputs should preserve hierarchy in plain text and structured form.",
@@ -54,6 +91,10 @@ def build_v3_evolution_bundle_from_workspace(
         "trust_considerations": [
             "Design recommendations must distinguish evidence from inference.",
             "The PM should remain the approval gate before UX recommendations harden into PRD scope.",
+        ],
+        "improvement_actions": [
+            "Sharpen state transitions so queue, decision, and communication steps feel like one continuous workflow.",
+            "Increase visual distinction around required review, blockers, and current priority.",
         ],
         "recommended_next_step": "prd",
         "evidence_refs": [

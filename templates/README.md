@@ -17,6 +17,7 @@ The starter now includes:
 - a seeded discovery-plus-delivery bundle
 - one canonical `item_lifecycle_state`
 - lifecycle stage snapshots for `discovery`, `delivery`, `launch`, `outcomes`, and `full_lifecycle`
+- one prototype-validation pass with an interactive-prototype record and UX review
 - one bounded `story_pack`
 - one bounded `acceptance_criteria_set`
 - one bounded `release_readiness`

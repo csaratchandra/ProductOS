@@ -85,9 +85,10 @@
       "status": "completed",
       "gate_status": "passed",
       "artifact_ids": [
-        "prototype_record_starter_trace_demo"
+        "prototype_record_starter_trace_demo",
+        "ux_design_review_starter_trace_demo"
       ],
-      "summary": "The starter example includes a validated prototype record."
+      "summary": "The starter example includes a validated interactive prototype record and UX review."
     },
     {
       "stage_key": "prd_handoff",

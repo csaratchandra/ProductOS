@@ -54,5 +54,7 @@ Turn one opportunity or feature item into a fully traceable lifecycle record tha
 
 - Every discovery-stage artifact is linked back to the canonical item.
 - Every discovery stage has an explicit gate status.
+- Prototype-validation stages should make prototype fidelity, interaction depth, and next improvement actions inspectable.
+- High-fidelity prototype-validation stages should include `ux_design_review` before PRD handoff is treated as passed.
 - `prd_handoff` cannot be marked passed without a validation lane report and manual validation record.
 - Later lifecycle stages must still exist in the item model, even when `not_started`.

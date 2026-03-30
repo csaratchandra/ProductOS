@@ -6,6 +6,7 @@ The seeded example centers on one discovery item so you can inspect:
 
 - which segments and personas were identified
 - which lifecycle artifacts were created
+- how a high-detail interactive prototype and UX review fit into discovery
 - which gates passed
 - what is ready for bounded release-readiness review
 

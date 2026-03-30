@@ -86,6 +86,7 @@ def test_starter_workspace_seeds_traceable_lifecycle_bundle(root_dir: Path):
         starter / "artifacts" / "problem_brief.json",
         starter / "artifacts" / "concept_brief.json",
         starter / "artifacts" / "prototype_record.json",
+        starter / "artifacts" / "ux_design_review.json",
         starter / "artifacts" / "prd.json",
         starter / "artifacts" / "story_pack.json",
         starter / "artifacts" / "acceptance_criteria_set.json",
@@ -105,6 +106,7 @@ def test_starter_workspace_seeds_traceable_lifecycle_bundle(root_dir: Path):
 
     assert "artifacts/item_lifecycle_state.json" in manifest["artifact_paths"]
     assert "artifacts/lifecycle_stage_snapshot.json" in manifest["artifact_paths"]
+    assert "artifacts/ux_design_review.json" in manifest["artifact_paths"]
     assert "artifacts/story_pack.json" in manifest["artifact_paths"]
     assert "artifacts/release_readiness.json" in manifest["artifact_paths"]
     assert "../../core/workflows/mastery/item-lifecycle-trace-workflow.md" in manifest["workflow_paths"]

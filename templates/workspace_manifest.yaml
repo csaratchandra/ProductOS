@@ -15,6 +15,7 @@ artifact_paths:
   - "artifacts/problem_brief.json"
   - "artifacts/concept_brief.json"
   - "artifacts/prototype_record.json"
+  - "artifacts/ux_design_review.json"
   - "artifacts/prd.json"
   - "artifacts/validation_lane_report.json"
   - "artifacts/manual_validation_record.json"

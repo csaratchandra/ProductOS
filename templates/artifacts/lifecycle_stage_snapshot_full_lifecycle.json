@@ -17,6 +17,7 @@
     "problem_brief": 1,
     "concept_brief": 1,
     "prototype_record": 1,
+    "ux_design_review": 1,
     "prd": 1,
     "validation_lane_report": 1,
     "manual_validation_record": 1,
@@ -124,7 +125,8 @@
         "opp_starter_trace_demo"
       ],
       "artifact_ids": [
-        "prototype_record_starter_trace_demo"
+        "prototype_record_starter_trace_demo",
+        "ux_design_review_starter_trace_demo"
       ],
       "gate_status_counts": {
         "passed": 1,
@@ -132,7 +134,7 @@
         "blocked": 0,
         "not_started": 0
       },
-      "summary": "Prototype validation evidence remains linked to the canonical item."
+      "summary": "Interactive prototype validation evidence and UX review remain linked to the canonical item."
     },
     {
       "stage_key": "prd_handoff",

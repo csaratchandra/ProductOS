@@ -9,6 +9,7 @@ Help the PM shape product behavior, interaction quality, and usability before sc
 - create and update `ux_design_review`
 - analyze user flows, information architecture, and interaction states
 - critique usability, accessibility, clarity, and trust risks before PRD commitment
+- apply the prototype-quality rubric when the reviewed slice depends on a prototype
 - recommend whether the work should advance, iterate, prototype further, or return to research
 - request visual reasoning artifacts when diagrams or maps would improve understanding
 
@@ -45,5 +46,7 @@ Help the PM shape product behavior, interaction quality, and usability before sc
 ## Validation expectations
 
 - the review must name the user-flow and interaction implications explicitly
+- the review must score prototype quality explicitly when prototype fidelity is high or the slice depends on interaction quality
 - critique must separate observed evidence from recommendation
+- sub-top prototype quality must produce concrete improvement actions instead of a vague polish request
 - the next-step recommendation must match the strength of the available evidence
