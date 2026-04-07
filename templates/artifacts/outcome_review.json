@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "outcome_review_id": "outcome_review_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "reviewed_change_ref": "release_note_starter_trace_demo",
+  "review_scope": "Review whether the starter lifecycle demo now makes launch and post-release learning explicit enough for onboarding use.",
+  "status": "keep",
+  "pm_benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "ai_agent_benchmark_ref": "ai_agent_benchmark_ws_productos_v2_v4_0",
+  "evidence_refs": [
+    "release_note_starter_trace_demo",
+    "release_readiness_starter_trace_demo",
+    "item_lifecycle_state_starter_trace_demo"
+  ],
+  "target_outcomes": [
+    {
+      "outcome_name": "Starter launch evidence is visible",
+      "expected_signal": "A new workspace owner should see one explicit launch communication artifact tied to the same seeded lifecycle item.",
+      "observed_signal": "The starter demo now includes one release note linked directly to the canonical seeded item trace.",
+      "status": "met"
+    },
+    {
+      "outcome_name": "Starter post-release learning is visible",
+      "expected_signal": "A new workspace owner should see one explicit outcome review tied to the same lifecycle trace.",
+      "observed_signal": "The starter demo now includes one outcome review linked to the same canonical seeded item and launch evidence.",
+      "status": "met"
+    }
+  ],
+  "adoption_notes": [
+    "The starter demo now shows the whole lifecycle from intake through post-release learning.",
+    "Teams should replace the seeded launch and outcome text with product-specific evidence when adopting the template."
+  ],
+  "unresolved_pain_points": [
+    "External publication adapters remain outside the starter demo scope."
+  ],
+  "rejected_path_updates": [
+    "rejected_path_record_starter_trace_demo_manual_reconstruction"
+  ],
+  "next_action": "Use the starter full-lifecycle trace as the onboarding baseline, then replace the seeded evidence with product-specific launch and outcome artifacts.",
+  "reviewed_at": "2026-04-07T07:20:00Z"
+}

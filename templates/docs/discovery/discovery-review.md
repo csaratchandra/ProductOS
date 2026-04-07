@@ -1,6 +1,6 @@
 # Discovery Review
 
-The starter workspace includes one example item that completes the bounded V6 lifecycle trace path through `release_readiness`.
+The starter workspace includes one example item that now continues beyond the bounded V6 lifecycle trace path through launch communication and outcome review.
 
 Review these artifacts together:
 

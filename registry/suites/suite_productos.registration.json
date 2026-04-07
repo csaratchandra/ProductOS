@@ -3,7 +3,7 @@
   "registration_id": "suite_reg_productos",
   "suite_id": "suite_productos",
   "suite_name": "ProductOS Portfolio Suite",
-  "current_core_version": "6.0.0",
+  "current_core_version": "7.0.0",
   "workspace_ids": [
     "ws_productos_v2"
   ],
@@ -79,6 +79,12 @@
       "adopted_at": "2026-03-27T09:00:00Z",
       "approved_by": "ProductOS PM",
       "change_note": "Promoted the suite to ProductOS V6.0.0 after the lifecycle-traceability through release_readiness slice passed automatic Ralph-gated release promotion."
+    },
+    {
+      "core_version": "7.0.0",
+      "adopted_at": "2026-04-07T08:00:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Promoted the suite to ProductOS V7.0.0 after the lifecycle-traceability through outcome review slice passed automatic Ralph-gated release promotion."
     }
   ],
   "registered_at": "2026-03-19T18:30:00Z"

@@ -22,6 +22,8 @@ artifact_paths:
   - "artifacts/story_pack.json"
   - "artifacts/acceptance_criteria_set.json"
   - "artifacts/release_readiness.json"
+  - "artifacts/release_note.json"
+  - "artifacts/outcome_review.json"
   - "artifacts/item_lifecycle_state.json"
   - "artifacts/lifecycle_stage_snapshot.json"
   - "artifacts/lifecycle_stage_snapshot_delivery.json"
@@ -38,6 +40,7 @@ workflow_paths:
   - "../../core/workflows/delivery/stories-to-acceptance-workflow.md"
   - "../../core/workflows/mastery/item-lifecycle-trace-workflow.md"
   - "../../core/workflows/launch/release-readiness-workflow.md"
+  - "../../core/workflows/mastery/post-release-outcome-review-workflow.md"
 handoff_paths:
   - "handoffs/README.md"
 inbox_paths:

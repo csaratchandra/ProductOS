@@ -3,21 +3,22 @@
   "lifecycle_stage_snapshot_id": "lifecycle_stage_snapshot_launch_starter_trace_demo",
   "workspace_id": "ws_product_starter",
   "focus_area": "launch",
-  "snapshot_summary": "Launch-stage trace surfaces exist in the starter workspace, but launch preparation remains intentionally not started in the bounded demo.",
+  "snapshot_summary": "Launch-stage trace surfaces in the starter workspace now include one explicit release communication artifact.",
   "item_count": 1,
   "segment_count": 1,
   "persona_count": 2,
   "artifact_counts": {
+    "release_note": 1,
     "item_lifecycle_state": 1
   },
   "active_item_ids": [
     "opp_starter_trace_demo"
   ],
   "gate_counts": {
-    "passed": 0,
+    "passed": 1,
     "pending": 0,
     "blocked": 0,
-    "not_started": 2
+    "not_started": 0
   },
   "stage_summaries": [
     {
@@ -25,15 +26,17 @@
       "item_ids": [
         "opp_starter_trace_demo"
       ],
-      "artifact_ids": [],
+      "artifact_ids": [
+        "release_note_starter_trace_demo"
+      ],
       "gate_status_counts": {
-        "passed": 0,
+        "passed": 1,
         "pending": 0,
         "blocked": 0,
-        "not_started": 1
+        "not_started": 0
       },
-      "summary": "Launch preparation is intentionally deferred in the starter demo."
+      "summary": "Launch preparation in the starter demo now includes one explicit release note."
     }
   ],
-  "created_at": "2026-03-27T08:30:00Z"
+  "created_at": "2026-04-07T07:15:00Z"
 }

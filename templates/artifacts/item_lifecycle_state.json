@@ -7,7 +7,7 @@
     "entity_type": "opportunity",
     "entity_id": "opp_starter_trace_demo"
   },
-  "current_stage": "release_readiness",
+  "current_stage": "outcome_review",
   "overall_status": "completed",
   "target_segment_refs": [
     {
@@ -130,21 +130,25 @@
     },
     {
       "stage_key": "launch_preparation",
-      "status": "not_started",
-      "gate_status": "not_started",
-      "artifact_ids": [],
-      "summary": "Launch preparation remains intentionally deferred in the starter demo."
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "release_note_starter_trace_demo"
+      ],
+      "summary": "The starter demo now includes one governed launch communication artifact tied to the canonical item."
     },
     {
       "stage_key": "outcome_review",
-      "status": "not_started",
-      "gate_status": "not_started",
-      "artifact_ids": [],
-      "summary": "Outcome review remains intentionally deferred in the starter demo."
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "outcome_review_starter_trace_demo"
+      ],
+      "summary": "The starter demo now includes one post-release outcome review tied to the same lifecycle trace."
     }
   ],
   "pending_questions": [
-    "Which launch and outcome artifacts should teams add first after replacing the demo data?"
+    "Which external publication path should teams wire first after replacing the demo data?"
   ],
   "blocked_reasons": [],
   "audit_log": [
@@ -171,8 +175,20 @@
       "actor": "PM Builder",
       "event_type": "gate_passed",
       "summary": "The starter demo reached release_readiness for the bounded V6 lifecycle slice."
+    },
+    {
+      "timestamp": "2026-04-07T07:15:00Z",
+      "actor": "PM Builder",
+      "event_type": "status_changed",
+      "summary": "The starter demo advanced into launch preparation with one explicit release note."
+    },
+    {
+      "timestamp": "2026-04-07T07:20:00Z",
+      "actor": "PM Builder",
+      "event_type": "gate_passed",
+      "summary": "The starter demo reached outcome_review with one explicit post-release learning artifact."
     }
   ],
   "created_at": "2026-03-23T11:00:00Z",
-  "updated_at": "2026-03-27T08:30:00Z"
+  "updated_at": "2026-04-07T07:20:00Z"
 }

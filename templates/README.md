@@ -8,7 +8,7 @@ Use this when:
 
 - you want to operate a normal product with ProductOS
 - you do not need ProductOS-improvement records as the main product backlog
-- you want a seeded lifecycle bundle that demonstrates traceability from intake through release readiness
+- you want a seeded lifecycle bundle that demonstrates traceability from intake through post-release learning
 
 Do not mix ProductOS self-hosting artifacts into a product workspace created from this template.
 
@@ -21,6 +21,8 @@ The starter now includes:
 - one bounded `story_pack`
 - one bounded `acceptance_criteria_set`
 - one bounded `release_readiness`
+- one governed `release_note`
+- one explicit `outcome_review`
 - starter docs showing how to review the item end to end
 
 Recommended start path:

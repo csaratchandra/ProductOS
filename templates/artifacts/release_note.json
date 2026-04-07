@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "release_note_id": "release_note_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Starter Demo Release Note: Full Lifecycle Traceability",
+  "summary": "The starter workspace now demonstrates launch communication and post-release outcome review on the same canonical lifecycle item.",
+  "feature_ids": [
+    "feature_starter_trace_demo"
+  ],
+  "audience": "internal",
+  "change_classification": "feature_enhancement",
+  "version_impact": "minor",
+  "customer_visible": false,
+  "classification_rationale": "The starter demo adds launch and outcome evidence so teams can inspect the full lifecycle trace before replacing the seeded data.",
+  "generated_at": "2026-04-07T07:15:00Z"
+}

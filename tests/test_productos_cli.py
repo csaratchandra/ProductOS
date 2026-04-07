@@ -22,7 +22,7 @@ def test_productos_status_command(root_dir: Path):
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Mode: status" in result.stdout
-    assert "Top Priority Feature: extend_lifecycle_beyond_release_readiness" in result.stdout
+    assert "Top Priority Feature: external_publication_adapters" in result.stdout
     assert "Truthfulness Status: healthy" in result.stdout
     assert "Eval Status: passed (0 regressions)" in result.stdout
     assert "Stable Promotion: ready" in result.stdout
@@ -35,28 +35,28 @@ def test_productos_doctor_command(root_dir: Path):
     assert "Bundle Status: healthy" in result.stdout
     assert "Stable Promotion: ready" in result.stdout
     assert "Intake Items: 2" in result.stdout
-    assert "Top Priority Feature: extend_lifecycle_beyond_release_readiness" in result.stdout
+    assert "Top Priority Feature: external_publication_adapters" in result.stdout
 
 
 def test_productos_cutover_command(root_dir: Path, tmp_path: Path):
-    output_path = tmp_path / "v6-cutover-plan.md"
+    output_path = tmp_path / "v7-cutover-plan.md"
     result = _run_cli(root_dir, "cutover", "--output-path", str(output_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
-    assert "Target Version: 6.0.0" in result.stdout
+    assert "Target Version: 7.0.0" in result.stdout
     assert "Selection Status: stable_active" in result.stdout
     assert "Promotion Gate: ready" in result.stdout
-    assert "Stable Release: V6.0.0" in result.stdout
-    assert "Build Strategy: stabilize_then_extend" in result.stdout
-    assert "Selected Bundle: Lifecycle traceability through release readiness" in result.stdout
+    assert "Stable Release: V7.0.0" in result.stdout
+    assert "Build Strategy: stabilize_then_externalize" in result.stdout
+    assert "Selected Bundle: Lifecycle traceability through outcome review" in result.stdout
     assert output_path.exists()
     markdown = output_path.read_text(encoding="utf-8")
-    assert "# V6 Cutover Plan" in markdown
+    assert "# V7 Cutover Plan" in markdown
     assert "## Selected Bundle" in markdown
-    assert "Lifecycle traceability through release readiness" in markdown
-    assert "extend_lifecycle_beyond_release_readiness" in markdown
-    assert "keep V6.0.0 as the stable line" in markdown
-    assert "extend beyond release_readiness only through a later bounded release" in markdown
+    assert "Lifecycle traceability through outcome review" in markdown
+    assert "external_publication_adapters" in markdown
+    assert "keep V7.0.0 as the stable line" in markdown
+    assert "extend beyond outcome_review only through a later bounded external-publication release" in markdown
 
 
 def test_productos_v5_command(root_dir: Path, tmp_path: Path):
@@ -88,6 +88,19 @@ def test_productos_v6_command(root_dir: Path, tmp_path: Path):
     assert (tmp_path / "runtime_scenario_report_v6_lifecycle_traceability.json").exists()
     assert (tmp_path / "release_gate_decision_v6_lifecycle_traceability.json").exists()
     assert (tmp_path / "ralph_loop_state_v6_lifecycle_traceability.json").exists()
+
+
+def test_productos_v7_command(root_dir: Path, tmp_path: Path):
+    result = _run_cli(root_dir, "v7", "--output-dir", str(tmp_path))
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "V7 Bundle: Lifecycle traceability through outcome review" in result.stdout
+    assert "Target Release: 7.0.0" in result.stdout
+    assert "Scenario Status: passed" in result.stdout
+    assert "Release Decision: go" in result.stdout
+    assert (tmp_path / "runtime_scenario_report_v7_lifecycle_traceability.json").exists()
+    assert (tmp_path / "release_gate_decision_v7_lifecycle_traceability.json").exists()
+    assert (tmp_path / "ralph_loop_state_v7_lifecycle_traceability.json").exists()
 
 
 def test_productos_run_discover_command_exports_phase_artifacts(root_dir: Path, tmp_path: Path):
@@ -167,7 +180,7 @@ def test_productos_trace_item_command(root_dir: Path):
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Item: Lifecycle traceability and stage visibility for PM work" in result.stdout
-    assert "Current Stage: release_readiness" in result.stdout
+    assert "Current Stage: outcome_review" in result.stdout
     assert "- problem_framing: completed" in result.stdout
 
 

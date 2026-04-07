@@ -19,20 +19,25 @@ from core.python.productos_runtime import (
     build_v5_cutover_plan_from_workspace,
     build_v6_lifecycle_bundle_from_workspace,
     build_v6_cutover_plan_from_workspace,
+    build_v7_lifecycle_bundle_from_workspace,
+    build_v7_cutover_plan_from_workspace,
     format_item_lifecycle_state,
     format_lifecycle_stage_snapshot,
     format_v5_cutover_plan_markdown,
     format_v6_cutover_plan_markdown,
+    format_v7_cutover_plan_markdown,
     init_workspace_from_template,
     load_item_lifecycle_state_from_workspace,
     load_lifecycle_stage_snapshot_from_workspace,
     summarize_v5_lifecycle_bundle,
     summarize_v6_lifecycle_bundle,
+    summarize_v7_lifecycle_bundle,
 )
 from core.python.productos_runtime.validation import inspect_workspace_source_note_card_refs
 from core.python.productos_runtime.next_version import NEXT_VERSION_ARTIFACT_SCHEMAS
 from core.python.productos_runtime.v5 import V5_ARTIFACT_SCHEMAS
 from core.python.productos_runtime.v6 import V6_ARTIFACT_SCHEMAS
+from core.python.productos_runtime.v7 import V7_ARTIFACT_SCHEMAS
 from core.python.productos_runtime.release import evaluate_promotion_gate
 
 SCHEMA_DIR = ROOT / "core" / "schemas" / "artifacts"
@@ -137,9 +142,17 @@ def cmd_status(args: argparse.Namespace) -> int:
         args.workspace_dir,
         generated_at=args.generated_at,
     )
+    if cutover_plan["selection_status"] == "stable_active":
+        cutover_plan = build_v7_cutover_plan_from_workspace(
+            args.workspace_dir,
+            generated_at=args.generated_at,
+        )
     focus = cockpit["current_focus"]
     top_priority_feature = review["top_priority_feature_id"]
-    if cutover_plan["selection_status"] == "stable_active":
+    if cutover_plan["selection_status"] == "stable_active" and cutover_plan["target_version"] == "7.0.0":
+        focus = "Keep ProductOS V7.0.0 stable for lifecycle traceability through outcome_review and prepare the next external publication slice."
+        top_priority_feature = cutover_plan["top_priority_feature_id"]
+    elif cutover_plan["selection_status"] == "stable_active":
         focus = "Keep ProductOS V6.0.0 stable for lifecycle traceability through release_readiness and prepare the next bounded lifecycle expansion."
         top_priority_feature = cutover_plan["top_priority_feature_id"]
     print(f"Mode: {cockpit['mode']}")
@@ -247,6 +260,11 @@ def cmd_doctor(args: argparse.Namespace) -> int:
         args.workspace_dir,
         generated_at=args.generated_at,
     )
+    if cutover_plan["selection_status"] == "stable_active":
+        cutover_plan = build_v7_cutover_plan_from_workspace(
+            args.workspace_dir,
+            generated_at=args.generated_at,
+        )
     top_priority_feature = (
         cutover_plan["top_priority_feature_id"]
         if cutover_plan["selection_status"] == "stable_active"
@@ -276,13 +294,20 @@ def cmd_cutover(args: argparse.Namespace) -> int:
             target_version=args.target_version,
         )
         formatter = format_v5_cutover_plan_markdown
-    else:
+    elif args.target_version.startswith("6."):
         plan = build_v6_cutover_plan_from_workspace(
             args.workspace_dir,
             generated_at=args.generated_at,
             target_version=args.target_version,
         )
         formatter = format_v6_cutover_plan_markdown
+    else:
+        plan = build_v7_cutover_plan_from_workspace(
+            args.workspace_dir,
+            generated_at=args.generated_at,
+            target_version=args.target_version,
+        )
+        formatter = format_v7_cutover_plan_markdown
     print(f"Target Version: {plan['target_version']}")
     print(f"Source Baseline: V{plan['source_baseline_version']}")
     print(f"Selection Status: {plan['selection_status']}")
@@ -321,6 +346,17 @@ def cmd_v6(args: argparse.Namespace) -> int:
     print(summarize_v6_lifecycle_bundle(args.workspace_dir, bundle))
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, list(V6_ARTIFACT_SCHEMAS.keys()))
+    return 0
+
+
+def cmd_v7(args: argparse.Namespace) -> int:
+    bundle = build_v7_lifecycle_bundle_from_workspace(
+        args.workspace_dir,
+        generated_at=args.generated_at,
+    )
+    print(summarize_v7_lifecycle_bundle(args.workspace_dir, bundle))
+    if args.output_dir:
+        _write_artifacts(args.output_dir, bundle, list(V7_ARTIFACT_SCHEMAS.keys()))
     return 0
 
 
@@ -405,8 +441,10 @@ def parse_args() -> argparse.Namespace:
     v5_parser.add_argument("--output-dir", type=Path)
     v6_parser = subparsers.add_parser("v6")
     v6_parser.add_argument("--output-dir", type=Path)
+    v7_parser = subparsers.add_parser("v7")
+    v7_parser.add_argument("--output-dir", type=Path)
     cutover_parser = subparsers.add_parser("cutover")
-    cutover_parser.add_argument("--target-version", default="6.0.0")
+    cutover_parser.add_argument("--target-version", default="7.0.0")
     cutover_parser.add_argument("--output-path", type=Path)
 
     return parser.parse_args()
@@ -436,6 +474,8 @@ def main() -> int:
         return cmd_v5(args)
     if args.command == "v6":
         return cmd_v6(args)
+    if args.command == "v7":
+        return cmd_v7(args)
     if args.command == "cutover":
         return cmd_cutover(args)
     raise AssertionError(f"Unsupported command: {args.command}")

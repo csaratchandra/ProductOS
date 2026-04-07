@@ -34,11 +34,15 @@ def test_workspace_lifecycle_trace_assets_validate(root_dir: Path):
         ("prd.schema.json", artifacts_dir / "prd_pm_lifecycle_visibility.json"),
         ("story_pack.schema.json", artifacts_dir / "story_pack_pm_lifecycle_visibility.json"),
         ("acceptance_criteria_set.schema.json", artifacts_dir / "acceptance_criteria_set_pm_lifecycle_visibility.json"),
+        ("release_note.schema.json", artifacts_dir / "release_note_pm_lifecycle_visibility.json"),
+        ("outcome_review.schema.json", artifacts_dir / "outcome_review_pm_lifecycle_visibility.json"),
         ("validation_lane_report.schema.json", artifacts_dir / "validation_lane_report_pm_lifecycle_visibility.example.json"),
         ("manual_validation_record.schema.json", artifacts_dir / "manual_validation_record_pm_lifecycle_visibility.example.json"),
         ("item_lifecycle_state.schema.json", artifacts_dir / "item_lifecycle_state_pm_lifecycle_visibility.example.json"),
         ("lifecycle_stage_snapshot.schema.json", artifacts_dir / "lifecycle_stage_snapshot_discovery.example.json"),
         ("lifecycle_stage_snapshot.schema.json", artifacts_dir / "lifecycle_stage_snapshot_delivery.example.json"),
+        ("lifecycle_stage_snapshot.schema.json", artifacts_dir / "lifecycle_stage_snapshot_launch.example.json"),
+        ("lifecycle_stage_snapshot.schema.json", artifacts_dir / "lifecycle_stage_snapshot_outcomes.example.json"),
         ("lifecycle_stage_snapshot.schema.json", artifacts_dir / "lifecycle_stage_snapshot_full_lifecycle.example.json"),
     ]
     for schema_name, path in cases:
@@ -66,7 +70,7 @@ def test_mixed_competitor_research_is_present(root_dir: Path):
     assert snapshot["focus_area"] == "discovery"
     assert snapshot["item_count"] == 1
     assert full_lifecycle["focus_area"] == "full_lifecycle"
-    assert full_lifecycle["gate_counts"]["passed"] == 10
+    assert full_lifecycle["gate_counts"]["passed"] == 12
 
 
 def test_starter_workspace_seeds_traceable_lifecycle_bundle(root_dir: Path):
@@ -91,9 +95,13 @@ def test_starter_workspace_seeds_traceable_lifecycle_bundle(root_dir: Path):
         starter / "artifacts" / "story_pack.json",
         starter / "artifacts" / "acceptance_criteria_set.json",
         starter / "artifacts" / "release_readiness.json",
+        starter / "artifacts" / "release_note.json",
+        starter / "artifacts" / "outcome_review.json",
         starter / "artifacts" / "item_lifecycle_state.json",
         starter / "artifacts" / "lifecycle_stage_snapshot.json",
         starter / "artifacts" / "lifecycle_stage_snapshot_delivery.json",
+        starter / "artifacts" / "lifecycle_stage_snapshot_launch.json",
+        starter / "artifacts" / "lifecycle_stage_snapshot_outcomes.json",
         starter / "artifacts" / "lifecycle_stage_snapshot_full_lifecycle.json",
         starter / "artifacts" / "validation_lane_report.json",
         starter / "artifacts" / "manual_validation_record.json",
@@ -109,4 +117,6 @@ def test_starter_workspace_seeds_traceable_lifecycle_bundle(root_dir: Path):
     assert "artifacts/ux_design_review.json" in manifest["artifact_paths"]
     assert "artifacts/story_pack.json" in manifest["artifact_paths"]
     assert "artifacts/release_readiness.json" in manifest["artifact_paths"]
+    assert "artifacts/release_note.json" in manifest["artifact_paths"]
+    assert "artifacts/outcome_review.json" in manifest["artifact_paths"]
     assert "../../core/workflows/mastery/item-lifecycle-trace-workflow.md" in manifest["workflow_paths"]

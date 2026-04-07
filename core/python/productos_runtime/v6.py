@@ -45,6 +45,48 @@ def _load_json(path: Path) -> dict[str, Any]:
         return json.load(handle)
 
 
+def _load_archived_v6_surfaces(
+    workspace_dir: Path | str,
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
+    root_dir = _root_dir_from_workspace(workspace_dir)
+    archive_dir = root_dir / "internal" / "ProductOS-Next" / "archive" / "historical-artifacts" / "v6_lifecycle_traceability"
+    if archive_dir.exists():
+        return (
+            _load_json(archive_dir / "internal" / "item_lifecycle_state_pm_lifecycle_visibility.example.json"),
+            _load_json(archive_dir / "internal" / "lifecycle_stage_snapshot_delivery.example.json"),
+            _load_json(archive_dir / "internal" / "lifecycle_stage_snapshot_full_lifecycle.example.json"),
+            _load_json(archive_dir / "starter" / "item_lifecycle_state.json"),
+            _load_json(archive_dir / "starter" / "lifecycle_stage_snapshot_delivery.json"),
+            _load_json(archive_dir / "starter" / "lifecycle_stage_snapshot_full_lifecycle.json"),
+        )
+
+    workspace_path = Path(workspace_dir).resolve()
+    starter_dir = root_dir / "templates"
+    return (
+        load_item_lifecycle_state_from_workspace(
+            workspace_path,
+            item_id="opp_pm_lifecycle_traceability",
+        ),
+        load_lifecycle_stage_snapshot_from_workspace(
+            workspace_path,
+            focus_area="delivery",
+        ),
+        load_lifecycle_stage_snapshot_from_workspace(
+            workspace_path,
+            focus_area="full_lifecycle",
+        ),
+        load_item_lifecycle_state_from_workspace(starter_dir),
+        load_lifecycle_stage_snapshot_from_workspace(
+            starter_dir,
+            focus_area="delivery",
+        ),
+        load_lifecycle_stage_snapshot_from_workspace(
+            starter_dir,
+            focus_area="full_lifecycle",
+        ),
+    )
+
+
 def _completed_stage_count(item_state: dict[str, Any], stage_order: list[str]) -> int:
     stage_status = {
         stage["stage_key"]: stage["status"]
@@ -89,28 +131,14 @@ def build_v6_lifecycle_bundle_from_workspace(
     workspace_dir = Path(workspace_dir).resolve()
     root_dir = _root_dir_from_workspace(workspace_dir)
     starter_dir = root_dir / "templates"
-
-    workspace_item = load_item_lifecycle_state_from_workspace(
-        workspace_dir,
-        item_id="opp_pm_lifecycle_traceability",
-    )
-    workspace_delivery_snapshot = load_lifecycle_stage_snapshot_from_workspace(
-        workspace_dir,
-        focus_area="delivery",
-    )
-    workspace_full_snapshot = load_lifecycle_stage_snapshot_from_workspace(
-        workspace_dir,
-        focus_area="full_lifecycle",
-    )
-    starter_item = load_item_lifecycle_state_from_workspace(starter_dir)
-    starter_delivery_snapshot = load_lifecycle_stage_snapshot_from_workspace(
-        starter_dir,
-        focus_area="delivery",
-    )
-    starter_full_snapshot = load_lifecycle_stage_snapshot_from_workspace(
-        starter_dir,
-        focus_area="full_lifecycle",
-    )
+    (
+        workspace_item,
+        workspace_delivery_snapshot,
+        workspace_full_snapshot,
+        starter_item,
+        starter_delivery_snapshot,
+        starter_full_snapshot,
+    ) = _load_archived_v6_surfaces(workspace_dir)
 
     workspace_delivery_count = _completed_stage_count(workspace_item, V6_DELIVERY_STAGE_ORDER)
     starter_delivery_count = _completed_stage_count(starter_item, V6_DELIVERY_STAGE_ORDER)
@@ -541,13 +569,7 @@ def summarize_v6_lifecycle_bundle(
     workspace_dir: Path | str,
     bundle: dict[str, dict[str, Any]],
 ) -> str:
-    workspace_item = load_item_lifecycle_state_from_workspace(
-        workspace_dir,
-        item_id="opp_pm_lifecycle_traceability",
-    )
-    starter_item = load_item_lifecycle_state_from_workspace(
-        _root_dir_from_workspace(workspace_dir) / "templates"
-    )
+    workspace_item, _, _, starter_item, _, _ = _load_archived_v6_surfaces(workspace_dir)
     report = bundle["runtime_scenario_report_v6_lifecycle_traceability"]
     decision = bundle["release_gate_decision_v6_lifecycle_traceability"]
     readiness = bundle["release_readiness_v6_lifecycle_traceability"]
