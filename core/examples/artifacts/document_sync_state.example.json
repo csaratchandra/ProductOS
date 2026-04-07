@@ -18,7 +18,7 @@
     {
       "doc_key": "discovery_summary",
       "title": "Discovery Summary",
-      "readable_path": "internal/ProductOS-Next/docs/discovery/discovery-summary.md",
+      "readable_path": "docs/discovery/discovery-summary.md",
       "source_artifact_refs": [
         "productos_feedback_log_2026_03_21",
         "problem_brief_pm_operating_rhythm"
@@ -35,7 +35,7 @@
     {
       "doc_key": "problem_brief",
       "title": "Problem Brief",
-      "readable_path": "internal/ProductOS-Next/docs/discovery/problem-brief.md",
+      "readable_path": "docs/discovery/problem-brief.md",
       "source_artifact_refs": [
         "problem_brief_pm_operating_rhythm"
       ],
@@ -51,7 +51,7 @@
     {
       "doc_key": "concept_brief",
       "title": "Concept Brief",
-      "readable_path": "internal/ProductOS-Next/docs/strategy/concept-brief.md",
+      "readable_path": "docs/strategy/concept-brief.md",
       "source_artifact_refs": [
         "concept_brief_pm_operating_rhythm"
       ],
@@ -67,7 +67,7 @@
     {
       "doc_key": "prototype_review",
       "title": "Prototype Review",
-      "readable_path": "internal/ProductOS-Next/docs/prototype/prototype-review.md",
+      "readable_path": "docs/prototype/prototype-review.md",
       "source_artifact_refs": [
         "prototype_record_status_mail_draft"
       ],
@@ -83,7 +83,7 @@
     {
       "doc_key": "roadmap",
       "title": "Product Roadmap",
-      "readable_path": "internal/ProductOS-Next/docs/planning/roadmap.md",
+      "readable_path": "docs/planning/roadmap.md",
       "source_artifact_refs": [
         "inc_plan_2026_q2_01",
         "release_gate_decision_ws_productos_v2_runtime"
@@ -100,7 +100,7 @@
     {
       "doc_key": "prd",
       "title": "Product Requirements Document",
-      "readable_path": "internal/ProductOS-Next/docs/planning/prd.md",
+      "readable_path": "docs/planning/prd.md",
       "source_artifact_refs": [
         "prd_pm_operating_rhythm"
       ],

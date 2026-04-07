@@ -96,9 +96,23 @@ def _load_json(path: Path) -> dict:
         return json.load(handle)
 
 
+def _workspace_dir(args: argparse.Namespace) -> Path:
+    if args.workspace_dir is not None:
+        return args.workspace_dir
+
+    private_workspace = ROOT / "internal" / "ProductOS-Next"
+    if private_workspace.exists():
+        return private_workspace
+
+    raise SystemExit(
+        "No default self-hosting workspace is included in this repo checkout. "
+        "Pass --workspace-dir to run this command against a specific workspace."
+    )
+
+
 def _build_bundle(args: argparse.Namespace) -> dict[str, dict]:
     return build_next_version_bundle_from_workspace(
-        args.workspace_dir,
+        _workspace_dir(args),
         generated_at=args.generated_at,
         adapter_name=args.adapter,
     )
@@ -139,12 +153,12 @@ def cmd_status(args: argparse.Namespace) -> int:
     eval_report = bundle["eval_run_report"]
     gate = _promotion_gate(bundle)
     cutover_plan = build_v6_cutover_plan_from_workspace(
-        args.workspace_dir,
+        _workspace_dir(args),
         generated_at=args.generated_at,
     )
     if cutover_plan["selection_status"] == "stable_active":
         cutover_plan = build_v7_cutover_plan_from_workspace(
-            args.workspace_dir,
+            _workspace_dir(args),
             generated_at=args.generated_at,
         )
     focus = cockpit["current_focus"]
@@ -257,12 +271,12 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     eval_report = bundle["eval_run_report"]
     gate = _promotion_gate(bundle)
     cutover_plan = build_v6_cutover_plan_from_workspace(
-        args.workspace_dir,
+        _workspace_dir(args),
         generated_at=args.generated_at,
     )
     if cutover_plan["selection_status"] == "stable_active":
         cutover_plan = build_v7_cutover_plan_from_workspace(
-            args.workspace_dir,
+            _workspace_dir(args),
             generated_at=args.generated_at,
         )
     top_priority_feature = (
@@ -288,7 +302,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
 def cmd_cutover(args: argparse.Namespace) -> int:
     if args.target_version.startswith("5."):
         plan = build_v5_cutover_plan_from_workspace(
-            args.workspace_dir,
+            _workspace_dir(args),
             generated_at=args.generated_at,
             adapter_name=args.adapter,
             target_version=args.target_version,
@@ -296,14 +310,14 @@ def cmd_cutover(args: argparse.Namespace) -> int:
         formatter = format_v5_cutover_plan_markdown
     elif args.target_version.startswith("6."):
         plan = build_v6_cutover_plan_from_workspace(
-            args.workspace_dir,
+            _workspace_dir(args),
             generated_at=args.generated_at,
             target_version=args.target_version,
         )
         formatter = format_v6_cutover_plan_markdown
     else:
         plan = build_v7_cutover_plan_from_workspace(
-            args.workspace_dir,
+            _workspace_dir(args),
             generated_at=args.generated_at,
             target_version=args.target_version,
         )
@@ -329,10 +343,10 @@ def cmd_cutover(args: argparse.Namespace) -> int:
 
 def cmd_v5(args: argparse.Namespace) -> int:
     bundle = build_v5_lifecycle_bundle_from_workspace(
-        args.workspace_dir,
+        _workspace_dir(args),
         generated_at=args.generated_at,
     )
-    print(summarize_v5_lifecycle_bundle(args.workspace_dir, bundle))
+    print(summarize_v5_lifecycle_bundle(_workspace_dir(args), bundle))
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, list(V5_ARTIFACT_SCHEMAS.keys()))
     return 0
@@ -340,10 +354,10 @@ def cmd_v5(args: argparse.Namespace) -> int:
 
 def cmd_v6(args: argparse.Namespace) -> int:
     bundle = build_v6_lifecycle_bundle_from_workspace(
-        args.workspace_dir,
+        _workspace_dir(args),
         generated_at=args.generated_at,
     )
-    print(summarize_v6_lifecycle_bundle(args.workspace_dir, bundle))
+    print(summarize_v6_lifecycle_bundle(_workspace_dir(args), bundle))
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, list(V6_ARTIFACT_SCHEMAS.keys()))
     return 0
@@ -351,10 +365,10 @@ def cmd_v6(args: argparse.Namespace) -> int:
 
 def cmd_v7(args: argparse.Namespace) -> int:
     bundle = build_v7_lifecycle_bundle_from_workspace(
-        args.workspace_dir,
+        _workspace_dir(args),
         generated_at=args.generated_at,
     )
-    print(summarize_v7_lifecycle_bundle(args.workspace_dir, bundle))
+    print(summarize_v7_lifecycle_bundle(_workspace_dir(args), bundle))
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, list(V7_ARTIFACT_SCHEMAS.keys()))
     return 0
@@ -362,11 +376,11 @@ def cmd_v7(args: argparse.Namespace) -> int:
 
 def cmd_trace(args: argparse.Namespace) -> int:
     if args.item_id:
-        payload = load_item_lifecycle_state_from_workspace(args.workspace_dir, item_id=args.item_id)
+        payload = load_item_lifecycle_state_from_workspace(_workspace_dir(args), item_id=args.item_id)
         print(format_item_lifecycle_state(payload))
         return 0
 
-    payload = load_lifecycle_stage_snapshot_from_workspace(args.workspace_dir, focus_area=args.stage)
+    payload = load_lifecycle_stage_snapshot_from_workspace(_workspace_dir(args), focus_area=args.stage)
     print(format_lifecycle_stage_snapshot(payload))
     return 0
 
@@ -385,7 +399,7 @@ def cmd_init_workspace(args: argparse.Namespace) -> int:
 
 
 def cmd_validate_workspace(args: argparse.Namespace) -> int:
-    summary, failures = inspect_workspace_source_note_card_refs(args.workspace_dir)
+    summary, failures = inspect_workspace_source_note_card_refs(_workspace_dir(args))
     if failures:
         for failure in failures:
             print(f"FAIL: {failure}")
@@ -401,7 +415,7 @@ def cmd_validate_workspace(args: argparse.Namespace) -> int:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="ProductOS next-version repo CLI.")
-    parser.add_argument("--workspace-dir", type=Path, default=Path("internal/ProductOS-Next"))
+    parser.add_argument("--workspace-dir", type=Path)
     parser.add_argument("--generated-at", default="2026-03-22T08:00:00Z")
     parser.add_argument(
         "--adapter",

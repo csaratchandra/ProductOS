@@ -46,6 +46,14 @@ def root_dir() -> Path:
 
 
 @pytest.fixture
+def self_hosting_workspace_dir(root_dir: Path) -> Path:
+    workspace_dir = root_dir / "internal" / "ProductOS-Next"
+    if not workspace_dir.exists():
+        pytest.skip("Private self-hosting workspace is not included in this repo boundary.")
+    return workspace_dir
+
+
+@pytest.fixture
 def schema_dir() -> Path:
     return SCHEMA_DIR
 

@@ -17,8 +17,12 @@ def _run_cli(root_dir: Path, *args: str) -> subprocess.CompletedProcess[str]:
     )
 
 
-def test_productos_status_command(root_dir: Path):
-    result = _run_cli(root_dir, "status")
+def _run_self_hosting_cli(root_dir: Path, workspace_dir: Path, *args: str) -> subprocess.CompletedProcess[str]:
+    return _run_cli(root_dir, "--workspace-dir", str(workspace_dir), *args)
+
+
+def test_productos_status_command(root_dir: Path, self_hosting_workspace_dir: Path):
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "status")
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Mode: status" in result.stdout
@@ -28,8 +32,8 @@ def test_productos_status_command(root_dir: Path):
     assert "Stable Promotion: ready" in result.stdout
 
 
-def test_productos_doctor_command(root_dir: Path):
-    result = _run_cli(root_dir, "doctor")
+def test_productos_doctor_command(root_dir: Path, self_hosting_workspace_dir: Path):
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "doctor")
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Bundle Status: healthy" in result.stdout
@@ -38,9 +42,9 @@ def test_productos_doctor_command(root_dir: Path):
     assert "Top Priority Feature: external_publication_adapters" in result.stdout
 
 
-def test_productos_cutover_command(root_dir: Path, tmp_path: Path):
+def test_productos_cutover_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
     output_path = tmp_path / "v7-cutover-plan.md"
-    result = _run_cli(root_dir, "cutover", "--output-path", str(output_path))
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "cutover", "--output-path", str(output_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Target Version: 7.0.0" in result.stdout
@@ -59,13 +63,13 @@ def test_productos_cutover_command(root_dir: Path, tmp_path: Path):
     assert "extend beyond outcome_review only through a later bounded external-publication release" in markdown
 
 
-def test_productos_v5_command(root_dir: Path, tmp_path: Path):
-    archived_v5_dir = root_dir / "internal" / "ProductOS-Next" / "archive" / "historical-artifacts" / "v5_lifecycle_traceability"
+def test_productos_v5_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+    archived_v5_dir = self_hosting_workspace_dir / "archive" / "historical-artifacts" / "v5_lifecycle_traceability"
     release_5_path = root_dir / "registry" / "releases" / "release_5_0_0.json"
     if not archived_v5_dir.exists() or not release_5_path.exists():
         pytest.skip("Historical V5 validation surface is not included in this repo boundary.")
 
-    result = _run_cli(root_dir, "v5", "--output-dir", str(tmp_path))
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "v5", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "V5 Bundle: Lifecycle traceability through PRD handoff" in result.stdout
@@ -77,8 +81,8 @@ def test_productos_v5_command(root_dir: Path, tmp_path: Path):
     assert (tmp_path / "ralph_loop_state_v5_lifecycle_traceability.json").exists()
 
 
-def test_productos_v6_command(root_dir: Path, tmp_path: Path):
-    result = _run_cli(root_dir, "v6", "--output-dir", str(tmp_path))
+def test_productos_v6_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "v6", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "V6 Bundle: Lifecycle traceability through release readiness" in result.stdout
@@ -90,8 +94,8 @@ def test_productos_v6_command(root_dir: Path, tmp_path: Path):
     assert (tmp_path / "ralph_loop_state_v6_lifecycle_traceability.json").exists()
 
 
-def test_productos_v7_command(root_dir: Path, tmp_path: Path):
-    result = _run_cli(root_dir, "v7", "--output-dir", str(tmp_path))
+def test_productos_v7_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "v7", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "V7 Bundle: Lifecycle traceability through outcome review" in result.stdout
@@ -103,8 +107,8 @@ def test_productos_v7_command(root_dir: Path, tmp_path: Path):
     assert (tmp_path / "ralph_loop_state_v7_lifecycle_traceability.json").exists()
 
 
-def test_productos_run_discover_command_exports_phase_artifacts(root_dir: Path, tmp_path: Path):
-    result = _run_cli(root_dir, "run", "discover", "--output-dir", str(tmp_path))
+def test_productos_run_discover_command_exports_phase_artifacts(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "run", "discover", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Phase: discover" in result.stdout
@@ -118,8 +122,8 @@ def test_productos_run_discover_command_exports_phase_artifacts(root_dir: Path, 
     assert (tmp_path / "discover_feature_scorecard.json").exists()
 
 
-def test_productos_run_align_command_exports_phase_artifacts(root_dir: Path, tmp_path: Path):
-    result = _run_cli(root_dir, "run", "align", "--output-dir", str(tmp_path))
+def test_productos_run_align_command_exports_phase_artifacts(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "run", "align", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Phase: align" in result.stdout
@@ -132,8 +136,8 @@ def test_productos_run_align_command_exports_phase_artifacts(root_dir: Path, tmp
     assert (tmp_path / "presentation_feature_scorecard.json").exists()
 
 
-def test_productos_run_operate_command_exports_phase_artifacts(root_dir: Path, tmp_path: Path):
-    result = _run_cli(root_dir, "run", "operate", "--output-dir", str(tmp_path))
+def test_productos_run_operate_command_exports_phase_artifacts(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "run", "operate", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Phase: operate" in result.stdout
@@ -145,8 +149,8 @@ def test_productos_run_operate_command_exports_phase_artifacts(root_dir: Path, t
     assert (tmp_path / "weekly_pm_autopilot_feature_scorecard.json").exists()
 
 
-def test_productos_run_improve_command_exports_phase_artifacts(root_dir: Path, tmp_path: Path):
-    result = _run_cli(root_dir, "run", "improve", "--output-dir", str(tmp_path))
+def test_productos_run_improve_command_exports_phase_artifacts(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "run", "improve", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Phase: improve" in result.stdout
@@ -162,9 +166,9 @@ def test_productos_run_improve_command_exports_phase_artifacts(root_dir: Path, t
     assert (tmp_path / "feature_portfolio_review.json").exists()
 
 
-def test_productos_export_command_writes_bundle(root_dir: Path, tmp_path: Path):
+def test_productos_export_command_writes_bundle(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
     output_dir = tmp_path / "bundle"
-    result = _run_cli(root_dir, "export", "--output-dir", str(output_dir))
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "export", "--output-dir", str(output_dir))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Exported 31 artifacts" in result.stdout
@@ -175,8 +179,8 @@ def test_productos_export_command_writes_bundle(root_dir: Path, tmp_path: Path):
     assert payload["top_priority_feature_id"] == "v5_bundle_selection"
 
 
-def test_productos_trace_item_command(root_dir: Path):
-    result = _run_cli(root_dir, "trace", "--item-id", "opp_pm_lifecycle_traceability")
+def test_productos_trace_item_command(root_dir: Path, self_hosting_workspace_dir: Path):
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "trace", "--item-id", "opp_pm_lifecycle_traceability")
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Item: Lifecycle traceability and stage visibility for PM work" in result.stdout
@@ -184,8 +188,8 @@ def test_productos_trace_item_command(root_dir: Path):
     assert "- problem_framing: completed" in result.stdout
 
 
-def test_productos_trace_stage_command(root_dir: Path):
-    result = _run_cli(root_dir, "trace", "--stage", "delivery")
+def test_productos_trace_stage_command(root_dir: Path, self_hosting_workspace_dir: Path):
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "trace", "--stage", "delivery")
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Focus Area: delivery" in result.stdout

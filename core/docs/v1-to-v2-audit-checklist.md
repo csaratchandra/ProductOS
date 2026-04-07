@@ -31,7 +31,7 @@ Evidence to inspect:
 
 - [README.md](../../README.md)
 - [current-state-assessment-workflow.md](../workflows/discovery/current-state-assessment-workflow.md)
-- [workspace_manifest.yaml](../../internal/ProductOS-Next/workspace_manifest.yaml)
+- one private self-hosting workspace manifest, if available outside the public repo boundary
 
 ### 2. PM terminology and usability
 
@@ -59,7 +59,7 @@ Audit:
 
 Evidence to inspect:
 
-- [internal/ProductOS-Next](../../internal/ProductOS-Next)
+- one private self-hosting workspace, if available outside the public repo boundary
 - [registry/releases](../../registry/releases)
 - [registry/improvements](../../registry/improvements)
 

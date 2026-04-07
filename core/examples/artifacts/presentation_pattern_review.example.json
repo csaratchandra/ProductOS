@@ -20,7 +20,7 @@
   ],
   "regression_fixture_refs": [
     "components/presentation/examples/artifacts/presentation_brief.example.json",
-    "internal/ProductOS-Next/artifacts/presentation_brief.example.json"
+    "components/presentation/examples/artifacts/presentation_story.example.json"
   ],
   "manual_validation_required": true,
   "manual_validation_status": "pending",

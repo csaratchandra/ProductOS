@@ -155,7 +155,7 @@ def build_v5_lifecycle_bundle_from_workspace(
                 "evidence_refs": [
                     workspace_item["item_lifecycle_state_id"],
                     workspace_snapshot["lifecycle_stage_snapshot_id"],
-                    "internal/ProductOS-Next/docs/discovery/lifecycle-traceability-review.md",
+                    "templates/docs/discovery/discovery-review.md",
                 ],
                 "gaps": [] if self_hosting_ready else ["Self-hosting lifecycle evidence does not yet cleanly reach prd_handoff."],
             },
@@ -195,7 +195,7 @@ def build_v5_lifecycle_bundle_from_workspace(
                 "evidence_refs": [
                     workspace_item["item_lifecycle_state_id"],
                     starter_item["item_lifecycle_state_id"],
-                    "internal/ProductOS-Next/docs/planning/v5-candidate-note.md",
+                    "templates/README.md",
                 ],
                 "gaps": [] if scoped_boundary_ready else ["Later lifecycle stages are not yet kept explicit as not_started across both adoption surfaces."],
             },
@@ -435,7 +435,7 @@ def build_v5_lifecycle_bundle_from_workspace(
                 "findings_summary": "The repo exposes lifecycle traceability as an explicit V5 build slice and keeps the starter workspace as the reusable adoption surface.",
                 "evidence_refs": [
                     runtime_scenario_report["runtime_scenario_report_id"],
-                    "internal/ProductOS-Next/docs/planning/v5-cutover-plan.md",
+                    "README.md",
                 ],
                 "exit_condition": "The selected V5 slice exists concretely in the repo and can be validated and promoted.",
             },

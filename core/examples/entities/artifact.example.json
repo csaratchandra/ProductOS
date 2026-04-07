@@ -5,7 +5,7 @@
   "artifact_type": "prd",
   "title": "Status Mail Automation PRD",
   "status": "approved",
-  "canonical_path": "internal/ProductOS-Next/artifacts/delivery/prd/status-mail-automation-prd.md",
+  "canonical_path": "artifacts/delivery/prd/status-mail-automation-prd.md",
   "version": "1.0.0",
   "linked_entity_ids": ["problem_pm_reporting_bottleneck", "feature_biweekly_status_mail_automation"]
 }

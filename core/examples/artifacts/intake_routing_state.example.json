@@ -6,14 +6,14 @@
   "status": "monitoring",
   "routing_summary": "The runtime is monitoring inbox paths continuously and routing captured items into transcript, note-card, and synthesis workflows.",
   "active_inbox_paths": [
-    "internal/ProductOS-Next/inbox/raw-notes",
-    "internal/ProductOS-Next/inbox/transcripts",
-    "internal/ProductOS-Next/inbox/screenshots"
+    "inbox/raw-notes",
+    "inbox/transcripts",
+    "inbox/screenshots"
   ],
   "intake_items": [
     {
       "item_id": "inbox_readme_raw_notes",
-      "inbox_path": "internal/ProductOS-Next/inbox/raw-notes/README.md",
+      "inbox_path": "inbox/raw-notes/README.md",
       "input_type": "raw_note",
       "captured_at": "2026-03-21T23:30:00Z",
       "provenance_status": "partial",
@@ -26,7 +26,7 @@
     },
     {
       "item_id": "inbox_readme_transcripts",
-      "inbox_path": "internal/ProductOS-Next/inbox/transcripts/README.md",
+      "inbox_path": "inbox/transcripts/README.md",
       "input_type": "transcript",
       "captured_at": "2026-03-21T23:30:00Z",
       "provenance_status": "complete",
@@ -43,7 +43,7 @@
     },
     {
       "item_id": "inbox_readme_screenshots",
-      "inbox_path": "internal/ProductOS-Next/inbox/screenshots/README.md",
+      "inbox_path": "inbox/screenshots/README.md",
       "input_type": "screenshot",
       "captured_at": "2026-03-21T23:30:00Z",
       "provenance_status": "complete",

@@ -5,9 +5,9 @@ from core.python.productos_runtime import build_v7_lifecycle_bundle_from_workspa
 from core.python.productos_runtime.v7 import V7_ARTIFACT_SCHEMAS
 
 
-def test_build_v7_lifecycle_bundle_from_workspace_validates(root_dir: Path):
+def test_build_v7_lifecycle_bundle_from_workspace_validates(self_hosting_workspace_dir: Path):
     bundle = build_v7_lifecycle_bundle_from_workspace(
-        root_dir / "internal" / "ProductOS-Next",
+        self_hosting_workspace_dir,
         generated_at="2026-04-07T07:20:00Z",
     )
 
@@ -18,9 +18,9 @@ def test_build_v7_lifecycle_bundle_from_workspace_validates(root_dir: Path):
         assert not errors, f"{artifact_name} failed schema validation: {[error.message for error in errors]}"
 
 
-def test_v7_lifecycle_bundle_cross_refs(root_dir: Path):
+def test_v7_lifecycle_bundle_cross_refs(self_hosting_workspace_dir: Path):
     bundle = build_v7_lifecycle_bundle_from_workspace(
-        root_dir / "internal" / "ProductOS-Next",
+        self_hosting_workspace_dir,
         generated_at="2026-04-07T07:20:00Z",
     )
 

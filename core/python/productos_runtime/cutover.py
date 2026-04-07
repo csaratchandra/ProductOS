@@ -16,7 +16,7 @@ SELECTED_V5_BUNDLE_SCOPE = [
     "Use the starter workspace as the clean reusable adoption surface for the same traceability model.",
 ]
 SELECTED_V5_BUNDLE_EVIDENCE = [
-    "internal/ProductOS-Next/docs/discovery/lifecycle-traceability-review.md",
+    "templates/docs/discovery/discovery-review.md",
     "templates/README.md",
 ]
 SELECTED_V6_BUNDLE_ID = "v6_lifecycle_traceability_release_readiness"
@@ -28,9 +28,9 @@ SELECTED_V6_BUNDLE_SCOPE = [
     "Use the starter workspace as the clean reusable adoption surface for the same traceability model.",
 ]
 SELECTED_V6_BUNDLE_EVIDENCE = [
-    "internal/ProductOS-Next/docs/delivery/lifecycle-release-readiness-review.md",
     "templates/docs/delivery/release-readiness-review.md",
-    "internal/ProductOS-Next/feedback/2026-03-23-design-and-architecture-review.md",
+    "templates/docs/delivery/release-readiness-review.md",
+    "README.md",
 ]
 SELECTED_V7_BUNDLE_ID = "v7_lifecycle_traceability_launch_and_outcome"
 SELECTED_V7_BUNDLE_NAME = "Lifecycle traceability through outcome review"
@@ -41,9 +41,9 @@ SELECTED_V7_BUNDLE_SCOPE = [
     "Keep external publication adapters and broader distribution packaging as later bounded releases.",
 ]
 SELECTED_V7_BUNDLE_EVIDENCE = [
-    "internal/ProductOS-Next/docs/delivery/lifecycle-launch-outcome-review.md",
     "templates/docs/delivery/launch-outcome-review.md",
-    "internal/ProductOS-Next/docs/planning/v7-candidate-note.md",
+    "templates/docs/delivery/launch-outcome-review.md",
+    "CHANGELOG.md",
 ]
 
 

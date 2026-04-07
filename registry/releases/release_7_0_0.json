@@ -12,6 +12,6 @@
   "upgrade_actions": [
     "Adopt the promoted Lifecycle-traceability through outcome review slice in the current ProductOS operating flow.",
     "Use the automatic Ralph-gated release promotion command for future successful slices.",
-    "Keep ProductOS self-hosting work under `internal/ProductOS-Next/` and out of PM product workspaces."
+    "Keep private self-hosting work outside PM product workspaces and promote only reusable repo surfaces."
   ]
 }

@@ -204,7 +204,7 @@ def build_v6_lifecycle_bundle_from_workspace(
                 "evidence_refs": [
                     workspace_item["item_lifecycle_state_id"],
                     workspace_delivery_snapshot["lifecycle_stage_snapshot_id"],
-                    "internal/ProductOS-Next/docs/delivery/lifecycle-release-readiness-review.md",
+                    "templates/docs/delivery/release-readiness-review.md",
                 ],
                 "gaps": [] if self_hosting_ready else ["Self-hosting lifecycle evidence does not yet cleanly reach release_readiness."],
             },
@@ -244,7 +244,7 @@ def build_v6_lifecycle_bundle_from_workspace(
                 "evidence_refs": [
                     workspace_full_snapshot["lifecycle_stage_snapshot_id"],
                     starter_full_snapshot["lifecycle_stage_snapshot_id"],
-                    "internal/ProductOS-Next/feedback/2026-03-23-design-and-architecture-review.md",
+                    "README.md",
                 ],
                 "gaps": [] if focus_area_coverage_ready else ["The advertised trace focus areas are still not all backed by workspace snapshots."],
             },
@@ -264,7 +264,7 @@ def build_v6_lifecycle_bundle_from_workspace(
                 "evidence_refs": [
                     workspace_item["item_lifecycle_state_id"],
                     starter_item["item_lifecycle_state_id"],
-                    "internal/ProductOS-Next/docs/planning/v6-candidate-note.md",
+                    "templates/README.md",
                 ],
                 "gaps": [] if scoped_boundary_ready else ["Launch and outcome stages are not yet kept explicit as not_started across both adoption surfaces."],
             },
@@ -514,7 +514,7 @@ def build_v6_lifecycle_bundle_from_workspace(
                 "findings_summary": "The repo exposes lifecycle traceability through release_readiness as an explicit V6 build slice and closes the trace command contract gap.",
                 "evidence_refs": [
                     runtime_scenario_report["runtime_scenario_report_id"],
-                    "internal/ProductOS-Next/docs/planning/v6-cutover-plan.md",
+                    "README.md",
                 ],
                 "exit_condition": "The selected V6 slice exists concretely in the repo and can be validated and promoted.",
             },

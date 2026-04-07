@@ -167,7 +167,7 @@ def build_v7_lifecycle_bundle_from_workspace(
                     workspace_item["item_lifecycle_state_id"],
                     workspace_launch_snapshot["lifecycle_stage_snapshot_id"],
                     workspace_outcomes_snapshot["lifecycle_stage_snapshot_id"],
-                    "internal/ProductOS-Next/docs/delivery/lifecycle-launch-outcome-review.md",
+                    "templates/docs/delivery/launch-outcome-review.md",
                 ],
                 "gaps": [] if self_hosting_ready else ["Self-hosting lifecycle evidence does not yet cleanly reach launch preparation and outcome review."],
             },
@@ -208,7 +208,7 @@ def build_v7_lifecycle_bundle_from_workspace(
                 "evidence_refs": [
                     workspace_full_snapshot["lifecycle_stage_snapshot_id"],
                     starter_full_snapshot["lifecycle_stage_snapshot_id"],
-                    "internal/ProductOS-Next/docs/planning/current-plan.md",
+                    "README.md",
                 ],
                 "gaps": [] if focus_area_coverage_ready else ["The advertised trace focus areas are not all backed by workspace snapshots."],
             },
@@ -228,7 +228,7 @@ def build_v7_lifecycle_bundle_from_workspace(
                 "evidence_refs": [
                     workspace_item["item_lifecycle_state_id"],
                     starter_item["item_lifecycle_state_id"],
-                    "internal/ProductOS-Next/docs/planning/v7-candidate-note.md",
+                    "CHANGELOG.md",
                 ],
                 "gaps": [] if full_lifecycle_completion_ready else ["Launch preparation and outcome review are not yet completed across both adoption surfaces."],
             },
@@ -482,7 +482,7 @@ def build_v7_lifecycle_bundle_from_workspace(
                 "findings_summary": "The repo exposes lifecycle traceability through outcome review as an explicit V7 build slice.",
                 "evidence_refs": [
                     runtime_scenario_report["runtime_scenario_report_id"],
-                    "internal/ProductOS-Next/docs/planning/v7-cutover-plan.md",
+                    "CHANGELOG.md",
                 ],
                 "exit_condition": "The selected V7 slice exists concretely in the repo and can be validated and promoted.",
             },

@@ -145,7 +145,7 @@ def _build_release_metadata(
         "upgrade_actions": [
             f"Adopt the promoted {pretty_slice_label} in the current ProductOS operating flow.",
             "Use the automatic Ralph-gated release promotion command for future successful slices.",
-            "Keep ProductOS self-hosting work under `internal/ProductOS-Next/` and out of PM product workspaces.",
+            "Keep private self-hosting work outside PM product workspaces and promote only reusable repo surfaces.",
         ],
     }
 

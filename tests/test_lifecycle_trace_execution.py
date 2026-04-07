@@ -7,9 +7,9 @@ from core.python.productos_runtime.lifecycle import (
 )
 
 
-def test_load_item_lifecycle_state_from_workspace(root_dir: Path):
+def test_load_item_lifecycle_state_from_workspace(self_hosting_workspace_dir: Path):
     payload = load_item_lifecycle_state_from_workspace(
-        root_dir / "internal" / "ProductOS-Next",
+        self_hosting_workspace_dir,
         item_id="opp_pm_lifecycle_traceability",
     )
 
@@ -30,9 +30,9 @@ def test_load_item_lifecycle_state_from_workspace(root_dir: Path):
     assert payload["lifecycle_stages"][-1]["status"] == "completed"
 
 
-def test_load_lifecycle_stage_snapshot_from_workspace(root_dir: Path):
+def test_load_lifecycle_stage_snapshot_from_workspace(self_hosting_workspace_dir: Path):
     payload = load_lifecycle_stage_snapshot_from_workspace(
-        root_dir / "internal" / "ProductOS-Next",
+        self_hosting_workspace_dir,
         focus_area="discovery",
     )
 
@@ -45,13 +45,13 @@ def test_load_lifecycle_stage_snapshot_from_workspace(root_dir: Path):
     assert payload["stage_summaries"][-1]["stage_key"] == "prd_handoff"
 
 
-def test_load_delivery_and_full_lifecycle_snapshots_from_workspace(root_dir: Path):
+def test_load_delivery_and_full_lifecycle_snapshots_from_workspace(self_hosting_workspace_dir: Path):
     delivery = load_lifecycle_stage_snapshot_from_workspace(
-        root_dir / "internal" / "ProductOS-Next",
+        self_hosting_workspace_dir,
         focus_area="delivery",
     )
     full_lifecycle = load_lifecycle_stage_snapshot_from_workspace(
-        root_dir / "internal" / "ProductOS-Next",
+        self_hosting_workspace_dir,
         focus_area="full_lifecycle",
     )
 

@@ -19,7 +19,7 @@
       "reason": "The runtime proof gate depends on the current PM-visible decision.",
       "freshness_status": "fresh",
       "confidence": 0.95,
-      "provenance_ref": "internal/ProductOS-Next/artifacts/decision_queue.example.json"
+      "provenance_ref": "artifacts/decision_queue.example.json"
     },
     {
       "record_type": "artifact",
@@ -37,7 +37,7 @@
       "reason": "Repeated PM pain should influence runtime gate clarity.",
       "freshness_status": "fresh",
       "confidence": 0.91,
-      "provenance_ref": "internal/ProductOS-Next/artifacts/productos_feedback_log.example.json"
+      "provenance_ref": "artifacts/productos_feedback_log.example.json"
     },
     {
       "record_type": "strategic_memory",
