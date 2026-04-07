@@ -1567,7 +1567,7 @@ def build_v4_market_intelligence_bundle_from_workspace(
 ) -> dict[str, Any]:
     workspace_path = Path(workspace_dir).resolve()
     artifacts_dir = workspace_path / "artifacts"
-    root_dir = workspace_path.parents[1]
+    root_dir = Path(__file__).resolve().parents[3]
 
     source_note_card_files = [
         "source_note_card_productboard_spark_official_2026.example.json",

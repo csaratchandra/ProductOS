@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 from .next_version import build_next_version_bundle_from_workspace
@@ -65,7 +66,7 @@ def build_v5_cutover_plan_from_workspace(
         eval_run_report=eval_report,
         feature_portfolio_review=portfolio,
     )
-    root_dir = workspace_dir.resolve().parents[1]
+    root_dir = Path(__file__).resolve().parents[3]
     latest_release = latest_release_metadata(root_dir)
     promoted = parse_semver(latest_release["core_version"]) >= parse_semver(target_version)
     blocked_feature_ids = [
@@ -215,7 +216,7 @@ def build_v6_cutover_plan_from_workspace(
     )
     readiness = bundle["release_readiness_v6_lifecycle_traceability"]
     release_gate = bundle["release_gate_decision_v6_lifecycle_traceability"]
-    root_dir = workspace_dir.resolve().parents[1]
+    root_dir = Path(__file__).resolve().parents[3]
     latest_release = latest_release_metadata(root_dir)
     promoted = parse_semver(latest_release["core_version"]) >= parse_semver(target_version)
 
@@ -365,7 +366,7 @@ def build_v7_cutover_plan_from_workspace(
     )
     readiness = bundle["release_readiness_v7_lifecycle_traceability"]
     release_gate = bundle["release_gate_decision_v7_lifecycle_traceability"]
-    root_dir = workspace_dir.resolve().parents[1]
+    root_dir = Path(__file__).resolve().parents[3]
     latest_release = latest_release_metadata(root_dir)
     promoted = parse_semver(latest_release["core_version"]) >= parse_semver(target_version)
 

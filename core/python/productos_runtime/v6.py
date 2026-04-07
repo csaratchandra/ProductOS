@@ -37,7 +37,7 @@ V6_ARTIFACT_SCHEMAS = {
 
 
 def _root_dir_from_workspace(workspace_dir: Path | str) -> Path:
-    return Path(workspace_dir).resolve().parents[1]
+    return Path(__file__).resolve().parents[3]
 
 
 def _load_json(path: Path) -> dict[str, Any]:

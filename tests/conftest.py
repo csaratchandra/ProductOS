@@ -54,6 +54,14 @@ def self_hosting_workspace_dir(root_dir: Path) -> Path:
 
 
 @pytest.fixture
+def codesync_workspace_dir(root_dir: Path) -> Path:
+    workspace_dir = root_dir / "workspaces" / "CodeSync"
+    if not workspace_dir.exists():
+        pytest.skip("CodeSync benchmark workspace is not included in this repo boundary.")
+    return workspace_dir
+
+
+@pytest.fixture
 def schema_dir() -> Path:
     return SCHEMA_DIR
 

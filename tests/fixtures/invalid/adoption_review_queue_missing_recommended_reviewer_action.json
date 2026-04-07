@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "adoption_review_queue_id": "adoption_review_queue_codesync_workspace_adoption",
+  "workspace_id": "ws_codesync",
+  "source_workspace_path": "workspaces/CodeSync",
+  "generated_artifact_ids": [
+    "research_brief_codesync_workspace_adoption"
+  ],
+  "review_items": [
+    {
+      "review_item_id": "review_claims_codesync_workspace_adoption",
+      "title": "Validate commercial and performance claims before external reuse.",
+      "uncertainty_type": "claim_evidence",
+      "confidence": "low",
+      "status": "open",
+      "source_refs": [
+        "Notes/research/01-executive-brief.md"
+      ]
+    }
+  ],
+  "created_at": "2026-04-08T00:00:00Z"
+}

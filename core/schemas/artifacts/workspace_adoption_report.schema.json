@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/workspace_adoption_report.schema.json",
+  "title": "ProductOS Workspace Adoption Report",
+  "description": "Summarizes how ProductOS classified and converted a source workspace into first-class ProductOS state.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "workspace_adoption_report_id",
+    "workspace_id",
+    "source_workspace_path",
+    "destination_workspace_path",
+    "source_workspace_mode",
+    "source_file_count",
+    "classified_file_counts",
+    "generated_artifact_ids",
+    "review_item_count",
+    "adoption_summary",
+    "confidence_summary",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "workspace_adoption_report_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_workspace_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "destination_workspace_path": {
+      "type": "string"
+    },
+    "source_workspace_mode": {
+      "type": "string",
+      "enum": [
+        "notes_first",
+        "productos",
+        "mixed",
+        "unknown"
+      ]
+    },
+    "source_file_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "classified_file_counts": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "generated_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "review_item_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "adoption_summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "confidence_summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "unresolved_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
+      "default": []
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

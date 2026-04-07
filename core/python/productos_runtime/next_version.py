@@ -60,7 +60,10 @@ def _artifact_path_with_archive_fallback(artifacts_dir: Path, filename: str) -> 
 
 
 def _relative_path(path: Path) -> str:
-    return str(path.relative_to(ROOT))
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return path.as_posix()
 
 
 def _slug(value: str) -> str:

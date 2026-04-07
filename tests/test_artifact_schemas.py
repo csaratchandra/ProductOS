@@ -13,6 +13,8 @@ SPECIAL_EXAMPLES = {
 
 
 INVALID_FIXTURES = [
+    ("workspace_adoption_report.schema.json", "workspace_adoption_report_missing_generated_artifact_ids.json", "<root>"),
+    ("adoption_review_queue.schema.json", "adoption_review_queue_missing_recommended_reviewer_action.json", "review_items.0"),
     ("status_mail.schema.json", "status_mail_missing_next_steps.json", "next_steps"),
     ("meeting_record.schema.json", "meeting_record_missing_action_owner.json", "action_items.0"),
     ("decision_log.schema.json", "decision_log_missing_sources.json", "decisions.0"),

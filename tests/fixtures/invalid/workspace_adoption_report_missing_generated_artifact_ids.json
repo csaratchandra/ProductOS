@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "workspace_adoption_report_id": "workspace_adoption_report_codesync_workspace_adoption",
+  "workspace_id": "ws_codesync",
+  "source_workspace_path": "workspaces/CodeSync",
+  "destination_workspace_path": "workspaces/CodeSync-ProductOS",
+  "source_workspace_mode": "notes_first",
+  "source_file_count": 24,
+  "classified_file_counts": {
+    "research_note": 18
+  },
+  "review_item_count": 4,
+  "adoption_summary": "ProductOS converted the CodeSync notes and research pack into a bounded discovery artifact set and lifecycle trace.",
+  "confidence_summary": "The adopted artifacts are strong enough for internal product shaping, but proof gaps and customer-facing claims still require explicit review.",
+  "created_at": "2026-04-08T00:00:00Z"
+}

@@ -14,7 +14,10 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from core.python.productos_runtime import (
+    ADOPTION_ARTIFACT_SCHEMAS,
+    adopt_workspace_from_source,
     build_next_version_bundle_from_workspace,
+    build_workspace_adoption_bundle_from_source,
     build_v5_lifecycle_bundle_from_workspace,
     build_v5_cutover_plan_from_workspace,
     build_v6_lifecycle_bundle_from_workspace,
@@ -89,6 +92,7 @@ PHASE_ARTIFACTS = {
     ],
     "all": list(NEXT_VERSION_ARTIFACT_SCHEMAS.keys()),
 }
+ADOPTION_ARTIFACTS = list(ADOPTION_ARTIFACT_SCHEMAS.keys())
 
 
 def _load_json(path: Path) -> dict:
@@ -121,6 +125,19 @@ def _build_bundle(args: argparse.Namespace) -> dict[str, dict]:
 def _validate_bundle(bundle: dict[str, dict]) -> list[str]:
     failures: list[str] = []
     for artifact_name, schema_name in NEXT_VERSION_ARTIFACT_SCHEMAS.items():
+        validator = Draft202012Validator(_load_json(SCHEMA_DIR / schema_name))
+        errors = sorted(validator.iter_errors(bundle[artifact_name]), key=lambda item: list(item.path))
+        if errors:
+            failures.extend(
+                f"{artifact_name} failed {schema_name}: {error.message}"
+                for error in errors
+            )
+    return failures
+
+
+def _validate_named_bundle(bundle: dict[str, dict], schema_map: dict[str, str]) -> list[str]:
+    failures: list[str] = []
+    for artifact_name, schema_name in schema_map.items():
         validator = Draft202012Validator(_load_json(SCHEMA_DIR / schema_name))
         errors = sorted(validator.iter_errors(bundle[artifact_name]), key=lambda item: list(item.path))
         if errors:
@@ -413,6 +430,53 @@ def cmd_validate_workspace(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_adopt_workspace(args: argparse.Namespace) -> int:
+    bundle = build_workspace_adoption_bundle_from_source(
+        ROOT,
+        source_dir=args.source,
+        workspace_id=args.workspace_id,
+        name=args.name,
+        generated_at=args.generated_at,
+        review_threshold=args.review_threshold,
+    )
+    failures = _validate_named_bundle(bundle, ADOPTION_ARTIFACT_SCHEMAS)
+    if failures:
+        for failure in failures:
+            print(f"FAIL: {failure}")
+        return 1
+
+    if args.output_dir:
+        _write_artifacts(args.output_dir, bundle, ADOPTION_ARTIFACTS)
+
+    report = bundle["workspace_adoption_report"]
+    review_queue = bundle["adoption_review_queue"]
+    print(f"Source Workspace Mode: {report['source_workspace_mode']}")
+    print(f"Source Files: {report['source_file_count']}")
+    print(f"Generated Artifacts: {len(report['generated_artifact_ids'])}")
+    print(f"Review Items: {review_queue['review_items'] and len(review_queue['review_items']) or 0}")
+
+    if args.dry_run:
+        print("Adoption Status: dry-run")
+        print("Dry Run: no workspace files were written.")
+        return 0
+
+    destination, adopted_bundle = adopt_workspace_from_source(
+        ROOT,
+        source_dir=args.source,
+        dest=args.dest,
+        workspace_id=args.workspace_id,
+        name=args.name,
+        mode=args.mode,
+        generated_at=args.generated_at,
+        review_threshold=args.review_threshold,
+        emit_report=args.emit_report,
+    )
+    print("Adoption Status: completed")
+    print(f"Destination: {destination}")
+    print(f"Lifecycle Item: {adopted_bundle['item_lifecycle_state']['item_ref']['entity_id']}")
+    return 0
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="ProductOS next-version repo CLI.")
     parser.add_argument("--workspace-dir", type=Path)
@@ -449,6 +513,17 @@ def parse_args() -> argparse.Namespace:
     init_parser.add_argument("--name", required=True)
     init_parser.add_argument("--mode", required=True)
 
+    adopt_parser = subparsers.add_parser("adopt-workspace")
+    adopt_parser.add_argument("--source", type=Path, required=True)
+    adopt_parser.add_argument("--dest", type=Path, required=True)
+    adopt_parser.add_argument("--workspace-id", required=True)
+    adopt_parser.add_argument("--name", required=True)
+    adopt_parser.add_argument("--mode", required=True)
+    adopt_parser.add_argument("--review-threshold", choices=["medium", "high"], default="medium")
+    adopt_parser.add_argument("--output-dir", type=Path)
+    adopt_parser.add_argument("--dry-run", action="store_true")
+    adopt_parser.add_argument("--emit-report", action="store_true")
+
     subparsers.add_parser("doctor")
     subparsers.add_parser("validate-workspace")
     v5_parser = subparsers.add_parser("v5")
@@ -484,6 +559,8 @@ def main() -> int:
         return cmd_doctor(args)
     if args.command == "validate-workspace":
         return cmd_validate_workspace(args)
+    if args.command == "adopt-workspace":
+        return cmd_adopt_workspace(args)
     if args.command == "v5":
         return cmd_v5(args)
     if args.command == "v6":
