@@ -233,10 +233,144 @@ def _update_product_overview(text: str, target_version: str) -> str:
     )
 
 
+def external_research_gate_blockers(
+    research_brief: dict[str, Any] | None = None,
+    external_research_plan: dict[str, Any] | None = None,
+    external_research_source_discovery: dict[str, Any] | None = None,
+    external_research_feed_registry: dict[str, Any] | None = None,
+    selected_manifest: dict[str, Any] | None = None,
+    external_research_review: dict[str, Any] | None = None,
+) -> list[str]:
+    needs_governed_research = False
+    if research_brief is not None:
+        needs_governed_research = bool(
+            research_brief.get("external_research_questions") or research_brief.get("known_gaps")
+        )
+    if (
+        external_research_source_discovery is not None
+        or external_research_feed_registry is not None
+        or selected_manifest is not None
+        or external_research_review is not None
+    ):
+        needs_governed_research = True
+
+    if not needs_governed_research and external_research_review is None and selected_manifest is None:
+        return []
+
+    blockers: list[str] = []
+    if needs_governed_research and external_research_plan is None:
+        blockers.append(
+            "Governed external research is required for this workspace, but no persisted external research plan exists."
+        )
+
+    if external_research_plan is not None and external_research_source_discovery is None:
+        blockers.append(
+            "Governed external research is planned, but source discovery has not been persisted yet."
+        )
+
+    if external_research_source_discovery is not None:
+        search_status = external_research_source_discovery.get("search_status")
+        if search_status == "no_results":
+            blockers.append(
+                "Governed external research source discovery found no usable candidate sources for the bounded questions."
+            )
+        elif search_status == "partial":
+            blockers.append(
+                "Governed external research source discovery only has partial question coverage, so broad release claims remain blocked."
+            )
+        elif selected_manifest is None:
+            blockers.append(
+                "Governed external research discovery completed, but no selected manifest has been persisted yet."
+            )
+
+    if external_research_feed_registry is not None:
+        degraded_feeds: list[str] = []
+        for feed in external_research_feed_registry.get("feeds", []):
+            health_status = feed.get("health_status")
+            cadence_status = feed.get("cadence_status")
+            feed_id = feed.get("feed_id", feed.get("title", "unknown"))
+            if health_status in {"error", "unconfigured"}:
+                degraded_feeds.append(f"{feed_id} ({health_status})")
+            elif cadence_status == "stale":
+                degraded_feeds.append(f"{feed_id} (stale)")
+        if degraded_feeds:
+            blockers.append(
+                "Governed external research feed registry has materially degraded feeds: "
+                + ", ".join(degraded_feeds[:5])
+                + ("." if len(degraded_feeds) <= 5 else ", ...")
+            )
+
+    if selected_manifest is not None and not list(selected_manifest.get("sources", [])):
+        blockers.append(
+            "Governed external research selected zero accepted sources, so the research refresh has not cleared the bounded plan."
+        )
+
+    if (
+        selected_manifest is not None
+        and list(selected_manifest.get("sources", []))
+        and external_research_review is None
+    ):
+        blockers.append(
+            "Governed external research selected sources, but the refreshed research review has not been persisted yet."
+        )
+
+    if external_research_review is None:
+        return blockers
+
+    accepted_source_ids = list(external_research_review.get("accepted_source_ids", []))
+    contradiction_items = list(external_research_review.get("contradiction_items", []))
+    review_required = (
+        external_research_review.get("review_status") == "review_required"
+        or external_research_review.get("recommendation") == "pm_review_required"
+    )
+
+    if review_required:
+        if contradiction_items:
+            topics = ", ".join(
+                sorted({item.get("topic", "evidence_conflict").replace("_", " ") for item in contradiction_items})
+            )
+            blockers.append(
+                "Governed external research still requires PM review due to contradictory evidence"
+                f" on {topics}."
+            )
+        else:
+            blockers.append("Governed external research still requires PM review.")
+
+    if not accepted_source_ids:
+        blockers.append(
+            "Governed external research has zero accepted sources, so research-backed release claims remain unsupported."
+        )
+
+    return blockers
+
+
+def categorize_promotion_blockers(blockers: list[str]) -> dict[str, list[str]]:
+    categories = {
+        "feed_governance_blockers": [],
+        "governed_research_blockers": [],
+        "other_blockers": [],
+    }
+    for blocker in blockers:
+        lower = blocker.lower()
+        if "feed registry" in lower or ("feed " in lower and any(term in lower for term in ["stale", "unconfigured", "error"])):
+            categories["feed_governance_blockers"].append(blocker)
+        elif "external research" in lower or "research " in lower:
+            categories["governed_research_blockers"].append(blocker)
+        else:
+            categories["other_blockers"].append(blocker)
+    return categories
+
+
 def evaluate_promotion_gate(
     *,
     eval_run_report: dict[str, Any] | None = None,
     feature_portfolio_review: dict[str, Any] | None = None,
+    research_brief: dict[str, Any] | None = None,
+    external_research_plan: dict[str, Any] | None = None,
+    external_research_source_discovery: dict[str, Any] | None = None,
+    external_research_feed_registry: dict[str, Any] | None = None,
+    selected_manifest: dict[str, Any] | None = None,
+    external_research_review: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     blockers: list[str] = []
     status = "ready"
@@ -261,12 +395,24 @@ def evaluate_promotion_gate(
         if portfolio_truthfulness and portfolio_truthfulness != "healthy":
             blockers.append(f"Feature portfolio truthfulness is `{portfolio_truthfulness}`.")
 
+    blockers.extend(
+        external_research_gate_blockers(
+            research_brief=research_brief,
+            external_research_plan=external_research_plan,
+            external_research_source_discovery=external_research_source_discovery,
+            external_research_feed_registry=external_research_feed_registry,
+            selected_manifest=selected_manifest,
+            external_research_review=external_research_review,
+        )
+    )
+
     if blockers:
         status = "blocked"
 
     return {
         "status": status,
         "blockers": blockers,
+        "blocker_categories": categorize_promotion_blockers(blockers),
         "top_priority_feature_id": top_priority_feature_id,
     }
 
@@ -275,10 +421,22 @@ def _assert_promotion_gate_ready(
     *,
     eval_run_report: dict[str, Any] | None = None,
     feature_portfolio_review: dict[str, Any] | None = None,
+    research_brief: dict[str, Any] | None = None,
+    external_research_plan: dict[str, Any] | None = None,
+    external_research_source_discovery: dict[str, Any] | None = None,
+    external_research_feed_registry: dict[str, Any] | None = None,
+    selected_manifest: dict[str, Any] | None = None,
+    external_research_review: dict[str, Any] | None = None,
 ) -> None:
     gate = evaluate_promotion_gate(
         eval_run_report=eval_run_report,
         feature_portfolio_review=feature_portfolio_review,
+        research_brief=research_brief,
+        external_research_plan=external_research_plan,
+        external_research_source_discovery=external_research_source_discovery,
+        external_research_feed_registry=external_research_feed_registry,
+        selected_manifest=selected_manifest,
+        external_research_review=external_research_review,
     )
     if gate["status"] != "ready":
         blocker_text = "; ".join(gate["blockers"])
@@ -293,6 +451,12 @@ def promote_release_from_ralph(
     approved_by: str = "ProductOS PM",
     eval_run_report_path: Path | None = None,
     feature_portfolio_review_path: Path | None = None,
+    research_brief_path: Path | None = None,
+    external_research_plan_path: Path | None = None,
+    external_research_source_discovery_path: Path | None = None,
+    external_research_feed_registry_path: Path | None = None,
+    selected_manifest_path: Path | None = None,
+    external_research_review_path: Path | None = None,
     workspace_registration_path: Path | None = None,
     suite_registration_path: Path | None = None,
     readme_path: Path | None = None,
@@ -313,9 +477,53 @@ def promote_release_from_ralph(
             if feature_portfolio_review_path.is_absolute()
             else root_dir / feature_portfolio_review_path
         )
+    research_brief_payload = None
+    if research_brief_path is not None:
+        research_brief_payload = _load_json(
+            research_brief_path if research_brief_path.is_absolute() else root_dir / research_brief_path
+        )
+    external_research_plan_payload = None
+    if external_research_plan_path is not None:
+        external_research_plan_payload = _load_json(
+            external_research_plan_path
+            if external_research_plan_path.is_absolute()
+            else root_dir / external_research_plan_path
+        )
+    external_research_source_discovery_payload = None
+    if external_research_source_discovery_path is not None:
+        external_research_source_discovery_payload = _load_json(
+            external_research_source_discovery_path
+            if external_research_source_discovery_path.is_absolute()
+            else root_dir / external_research_source_discovery_path
+        )
+    external_research_feed_registry_payload = None
+    if external_research_feed_registry_path is not None:
+        external_research_feed_registry_payload = _load_json(
+            external_research_feed_registry_path
+            if external_research_feed_registry_path.is_absolute()
+            else root_dir / external_research_feed_registry_path
+        )
+    selected_manifest_payload = None
+    if selected_manifest_path is not None:
+        selected_manifest_payload = _load_json(
+            selected_manifest_path if selected_manifest_path.is_absolute() else root_dir / selected_manifest_path
+        )
+    external_research_review_payload = None
+    if external_research_review_path is not None:
+        external_research_review_payload = _load_json(
+            external_research_review_path
+            if external_research_review_path.is_absolute()
+            else root_dir / external_research_review_path
+        )
     _assert_promotion_gate_ready(
         eval_run_report=eval_payload,
         feature_portfolio_review=portfolio_payload,
+        research_brief=research_brief_payload,
+        external_research_plan=external_research_plan_payload,
+        external_research_source_discovery=external_research_source_discovery_payload,
+        external_research_feed_registry=external_research_feed_registry_payload,
+        selected_manifest=selected_manifest_payload,
+        external_research_review=external_research_review_payload,
     )
 
     target_version = release_tag_to_version(ralph_payload["target_release"])

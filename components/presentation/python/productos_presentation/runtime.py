@@ -924,7 +924,8 @@ def _build_composition_payload(
                 "tradeoffs": outline.get("key_points") or story_slide["supporting_points"],
             }
         ]
-        if presentation_brief_option := outline.get("proof_requirements"):
+        presentation_brief_option = outline.get("proof_requirements")
+        if presentation_brief_option:
             options.append(
                 {
                     "option_id": f"{story_slide['slide_id']}_alternative",
@@ -1183,6 +1184,8 @@ def _normalize_source_material(presentation_brief: dict[str, Any]) -> list[dict[
                     "fact_id": fact["fact_id"],
                     "fact_type": fact["fact_type"],
                     "statement": fact["statement"],
+                    "claim_mode": fact.get("claim_mode", "observed"),
+                    "validation_note": fact.get("validation_note", ""),
                     "metric_value": fact.get("metric_value"),
                     "relevance_tags": fact["relevance_tags"],
                 }
@@ -1212,6 +1215,16 @@ def _detect_contradictions(normalized_facts: list[dict[str, Any]]) -> list[dict[
                 }
             )
     return contradictions
+
+
+def _explicit_contradictions_from_brief(presentation_brief: dict[str, Any]) -> list[dict[str, Any]]:
+    return [
+        {
+            "summary": summary,
+            "severity": "high",
+        }
+        for summary in presentation_brief.get("contradiction_summaries", [])
+    ]
 
 
 def _fallback_normalized_facts(presentation_brief: dict[str, Any]) -> list[dict[str, Any]]:
@@ -1274,6 +1287,11 @@ def _derive_confidence_from_facts(facts: list[dict[str, Any]], intent: str) -> s
     if not facts:
         return _confidence_for_intent(intent)
     fact_types = {fact["fact_type"] for fact in facts}
+    claim_modes = {fact.get("claim_mode", "observed") for fact in facts}
+    if "hypothesis" in claim_modes:
+        return "low"
+    if "inferred" in claim_modes:
+        return "medium"
     if "risk" in fact_types or "constraint" in fact_types:
         return "medium"
     if len(facts) >= 2:
@@ -1302,6 +1320,30 @@ def _story_arc_for_brief(presentation_brief: dict[str, Any]) -> list[str]:
     ]
 
 
+def _synthetic_outline_for_story_slide(
+    presentation_brief: dict[str, Any],
+    story_slide: dict[str, Any],
+) -> dict[str, Any]:
+    proof_requirements = [item.strip() for item in story_slide.get("proof_strategy", "").split(";") if item.strip()]
+    if not proof_requirements:
+        proof_requirements = ["Keep explicit source labels and confidence visible."]
+    return {
+        "slide_id": story_slide["slide_id"],
+        "title": story_slide["title"],
+        "intent": "risks" if story_slide.get("story_role") in {"risk", "appendix"} else "summary",
+        "audience_question": story_slide["audience_question_answered"],
+        "claim": story_slide["claim"],
+        "proof_requirements": proof_requirements,
+        "core_message": story_slide["core_message"],
+        "key_points": story_slide["supporting_points"],
+        "evidence_refs": story_slide["evidence_refs"],
+        "speaker_notes": story_slide["speaker_notes"],
+        "visual_direction": story_slide["visual_direction"],
+        "cta": story_slide["cta"],
+        "appendix_link": story_slide["appendix_reference"],
+    }
+
+
 def _transition_text(previous_title: str | None, current_title: str, pattern: str) -> str:
     if previous_title is None:
         return "Open with the answer first." if pattern == "answer_first" else "Open by framing the situation before adding detail."
@@ -1312,9 +1354,34 @@ def _transition_text(previous_title: str | None, current_title: str, pattern: st
     return f"Build from {previous_title} into {current_title} without breaking the recommendation thread."
 
 
+def _claim_posture_summary(facts: list[dict[str, Any]]) -> str:
+    if not facts:
+        return "Claim posture: observed facts only."
+    claim_modes = [fact.get("claim_mode", "observed") for fact in facts]
+    if "hypothesis" in claim_modes:
+        return "Claim posture: includes hypothesis-level inputs, so keep uncertainty explicit."
+    if "inferred" in claim_modes:
+        return "Claim posture: includes inferred inputs that still need external or PM validation."
+    return "Claim posture: observed facts support the current narrative."
+
+
+def _validation_note_summary(facts: list[dict[str, Any]]) -> str:
+    notes = [fact.get("validation_note", "").strip() for fact in facts if fact.get("validation_note", "").strip()]
+    if not notes:
+        return ""
+    return f"Validation next: {' '.join(notes[:2])}"
+
+
 def build_evidence_pack(presentation_brief: dict[str, Any]) -> dict[str, Any]:
     normalized_facts = _normalize_source_material(presentation_brief) or _fallback_normalized_facts(presentation_brief)
     contradictions = _detect_contradictions(normalized_facts)
+    contradictions.extend(_explicit_contradictions_from_brief(presentation_brief))
+    seen_contradictions = set()
+    contradictions = [
+        item
+        for item in contradictions
+        if not (item["summary"] in seen_contradictions or seen_contradictions.add(item["summary"]))
+    ]
     evidence_units = []
     priority_evidence = []
     deferred_evidence = []
@@ -1327,22 +1394,36 @@ def build_evidence_pack(presentation_brief: dict[str, Any]) -> dict[str, Any]:
         supporting_points = [fact["statement"] for fact in selected_facts] or (outline.get("key_points") or [presentation_brief["objective"]])
         source_refs = outline.get("evidence_refs") or presentation_brief["source_artifact_ids"]
         confidence_state = _derive_confidence_from_facts(selected_facts, outline["intent"])
+        claim_posture_summary = _claim_posture_summary(selected_facts)
+        validation_note_summary = _validation_note_summary(selected_facts)
         for index, point in enumerate(supporting_points):
             selected_fact = selected_facts[min(index, len(selected_facts) - 1)] if selected_facts else None
-            evidence_units.append(
+            evidence_unit = {
+                "evidence_id": f"{outline['slide_id']}_evidence_{index + 1}",
+                "slide_id": outline["slide_id"],
+                "claim": outline["claim"],
+                "evidence_type": _evidence_kind_for_intent(outline["intent"]),
+                "value": point,
+                "source_ref": selected_fact["artifact_id"] if selected_fact else source_refs[min(index, len(source_refs) - 1)],
+                "confidence_state": confidence_state,
+                "confidence_reason": (
+                    f"Confidence is derived from the number, type, and claim posture of normalized source facts available for this claim. {claim_posture_summary}"
+                ),
+                "claim_mode": selected_fact.get("claim_mode", "observed") if selected_fact else "observed",
+                "freshness": "current_quarter" if selected_fact else "unspecified",
+                "materiality": "primary" if index == 0 else "supporting",
+                "proof_requirement": outline["proof_requirements"][min(index, len(outline["proof_requirements"]) - 1)],
+                "counterevidence": [],
+            }
+            if selected_fact and selected_fact.get("validation_note", "").strip():
+                evidence_unit["validation_note"] = selected_fact["validation_note"].strip()
+            evidence_units.append(evidence_unit)
+        if validation_note_summary:
+            deferred_evidence.append(
                 {
-                    "evidence_id": f"{outline['slide_id']}_evidence_{index + 1}",
                     "slide_id": outline["slide_id"],
-                    "claim": outline["claim"],
-                    "evidence_type": _evidence_kind_for_intent(outline["intent"]),
-                    "value": point,
-                    "source_ref": selected_fact["artifact_id"] if selected_fact else source_refs[min(index, len(source_refs) - 1)],
-                    "confidence_state": confidence_state,
-                    "confidence_reason": "Confidence is derived from the number and type of normalized source facts available for this claim.",
-                    "freshness": "current_quarter" if selected_fact else "unspecified",
-                    "materiality": "primary" if index == 0 else "supporting",
-                    "proof_requirement": outline["proof_requirements"][min(index, len(outline["proof_requirements"]) - 1)],
-                    "counterevidence": [],
+                    "reason": "Validation notes that should remain visible in appendix or speaker guidance.",
+                    "deferred_points": [validation_note_summary],
                 }
             )
         priority_evidence.append(
@@ -1396,6 +1477,17 @@ def build_evidence_pack(presentation_brief: dict[str, Any]) -> dict[str, Any]:
     gaps = []
     if presentation_brief["presentation_mode"] in {"one_page", "meeting_brief", "customer_narrative"}:
         gaps.append("Condensed or audience-safe modes require stronger evidence prioritization and redaction discipline.")
+    gaps.extend(presentation_brief.get("known_gaps", []))
+    if presentation_brief.get("external_research_questions"):
+        gaps.append(
+            "Open external research questions remain: "
+            + "; ".join(presentation_brief["external_research_questions"][:2])
+        )
+    if presentation_brief.get("contradiction_summaries"):
+        gaps.append(
+            "Conflicted external evidence remains visible: "
+            + "; ".join(presentation_brief["contradiction_summaries"][:2])
+        )
 
     return {
         "schema_version": "1.0.0",
@@ -1410,6 +1502,16 @@ def build_evidence_pack(presentation_brief: dict[str, Any]) -> dict[str, Any]:
         "confidence_flags": [
             "Publishing output must preserve explicit source references.",
             "Confidence is now source-fact aware, but contradiction detection still needs deeper artifact-level reasoning.",
+            *(
+                ["Some presentation claims still depend on inferred or hypothesis-level inputs and should keep uncertainty visible."]
+                if any(fact.get("claim_mode") in {"inferred", "hypothesis"} for fact in normalized_facts)
+                else []
+            ),
+            *(
+                ["Conflicted external evidence should be made explicit in the narrative and decision framing."]
+                if contradictions
+                else []
+            ),
         ],
         "contradictions": contradictions,
         "gaps": gaps,
@@ -1429,12 +1531,41 @@ def build_presentation_story(
         evidence_lookup.setdefault(unit["slide_id"], []).append(unit)
     story_slides = []
     narrative_pattern = _narrative_pattern_for_brief(presentation_brief)
+    contradiction_summaries = presentation_brief.get("contradiction_summaries", [])
 
     for outline in presentation_brief["slide_outlines"]:
         evidence_units = evidence_lookup.get(outline["slide_id"], [])
         supporting_points = [unit["value"] for unit in evidence_units] or (outline.get("key_points") or [presentation_brief["objective"]])
+        if outline["intent"] in {"risks", "closing"} and presentation_brief.get("known_gaps"):
+            supporting_points = [
+                *supporting_points,
+                *presentation_brief["known_gaps"][:1],
+            ]
+        if outline["intent"] == "closing" and presentation_brief.get("external_research_questions"):
+            supporting_points = [
+                *supporting_points,
+                f"Next research: {presentation_brief['external_research_questions'][0]}",
+            ]
+        if outline["intent"] in {"risks", "closing"} and contradiction_summaries:
+            supporting_points = [
+                *supporting_points,
+                f"Conflicted evidence: {contradiction_summaries[0]}",
+            ]
         previous_title = story_slides[-1]["title"] if story_slides else None
         transition = _transition_text(previous_title, outline["title"], narrative_pattern)
+        claim_posture_summary = _claim_posture_summary(evidence_units)
+        validation_note_summary = _validation_note_summary(evidence_units)
+        gap_summary = (
+            f"Keep these proof gaps visible: {'; '.join(presentation_brief.get('known_gaps', [])[:2])}."
+            if presentation_brief.get("known_gaps")
+            else ""
+        )
+        contradiction_summary = (
+            f"Call out conflicted evidence explicitly: {'; '.join(contradiction_summaries[:2])}."
+            if contradiction_summaries
+            else ""
+        )
+        base_speaker_notes = outline.get("speaker_notes") or f"Connect {outline['title']} back to the decision required and source evidence."
         story_slides.append(
             {
                 "slide_id": outline["slide_id"],
@@ -1444,17 +1575,81 @@ def build_presentation_story(
                 "core_message": outline.get("core_message") or presentation_brief["narrative_goal"],
                 "supporting_points": supporting_points,
                 "evidence_refs": [unit["source_ref"] for unit in evidence_units] or outline.get("evidence_refs") or presentation_brief["source_artifact_ids"],
-                "speaker_notes": outline.get("speaker_notes")
-                or f"Connect {outline['title']} back to the decision required and source evidence.",
+                "speaker_notes": " ".join(
+                    part
+                    for part in [
+                        base_speaker_notes,
+                        claim_posture_summary,
+                        validation_note_summary,
+                        gap_summary,
+                        contradiction_summary,
+                    ]
+                    if part
+                ),
                 "visual_direction": outline.get("visual_direction") or "Use restrained hierarchy with visible source labels.",
                 "confidence_state": evidence_units[0]["confidence_state"] if evidence_units else _confidence_for_intent(outline["intent"]),
                 "audience_question_answered": outline["audience_question"],
                 "claim": outline["claim"],
                 "why_now": presentation_brief["success_outcome"],
-                "proof_strategy": "; ".join(outline["proof_requirements"]),
+                "proof_strategy": "; ".join(
+                    [
+                        *outline["proof_requirements"],
+                        *(
+                            [f"Claim posture: {claim_posture_summary}"]
+                            if claim_posture_summary
+                            else []
+                        ),
+                        *(
+                            [f"Open research: {presentation_brief['external_research_questions'][0]}"]
+                            if outline["intent"] in {"risks", "closing"} and presentation_brief.get("external_research_questions")
+                            else []
+                        ),
+                        *(
+                            [f"Contradictions: {contradiction_summaries[0]}"]
+                            if outline["intent"] in {"risks", "closing"} and contradiction_summaries
+                            else []
+                        ),
+                    ]
+                ),
                 "transition_from_previous": transition,
                 "cta": outline.get("cta") or presentation_brief["decision_required"],
                 "appendix_reference": outline.get("appendix_link") or f"appendix_{outline['slide_id']}",
+            }
+        )
+
+    if contradiction_summaries:
+        previous_title = story_slides[-1]["title"] if story_slides else None
+        story_slides.append(
+            {
+                "slide_id": "slide_conflicted_evidence",
+                "title": "Conflicted Evidence",
+                "story_role": "appendix",
+                "headline": "External evidence is directionally useful, but not fully settled.",
+                "core_message": "Keep the decision bounded and visible because external sources still disagree on important proof or posture questions.",
+                "supporting_points": contradiction_summaries[:3],
+                "evidence_refs": presentation_brief["source_artifact_ids"],
+                "speaker_notes": " ".join(
+                    [
+                        "Use this slide when stakeholders need to see where the evidence is still contested.",
+                        f"Conflicted evidence: {'; '.join(contradiction_summaries[:2])}.",
+                        "Treat this as a trust-preserving appendix or risk bridge, not as a hidden note.",
+                    ]
+                ),
+                "visual_direction": "Evidence appendix with contradiction callouts and explicit source labels.",
+                "confidence_state": "low",
+                "audience_question_answered": "Where does the external evidence still disagree enough to require bounded decision-making?",
+                "claim": "The current recommendation should stay bounded because some external evidence is still contested.",
+                "why_now": presentation_brief["success_outcome"],
+                "proof_strategy": "; ".join(
+                    [
+                        "Name the contradiction clearly",
+                        "Show the conflicting evidence side by side",
+                        "Keep the next review or research action explicit",
+                    ]
+                ),
+                "transition_from_previous": _transition_text(previous_title, "Conflicted Evidence", narrative_pattern),
+                "cta": "Resolve the conflicted evidence before broadening the external claim set.",
+                "appendix_reference": "appendix_conflicted_evidence",
             }
         )
 
@@ -1483,6 +1678,11 @@ def build_presentation_story(
         "appendix_candidates": [
             "Detailed evidence trace for source artifacts.",
             "Fallback PPT composition notes.",
+            *(
+                ["Conflicted evidence appendix with unresolved external contradictions."]
+                if contradiction_summaries
+                else []
+            ),
         ],
         "generated_at": now_iso(),
     }
@@ -1496,10 +1696,15 @@ def build_render_spec(
     slides = []
     for story_slide in presentation_story["slides"]:
         outline = next(
-            outline
-            for outline in presentation_brief["slide_outlines"]
-            if outline["slide_id"] == story_slide["slide_id"]
+            (
+                outline
+                for outline in presentation_brief["slide_outlines"]
+                if outline["slide_id"] == story_slide["slide_id"]
+            ),
+            None,
         )
+        if outline is None:
+            outline = _synthetic_outline_for_story_slide(presentation_brief, story_slide)
         composition_type = _composition_for_intent(outline["intent"])
         composition_payload = _build_composition_payload(outline, {**story_slide, "composition_type": composition_type})
         chart_spec = _build_chart_spec_for_slide(

@@ -137,6 +137,21 @@
       "items": { "$ref": "#/$defs/sourceMaterialSnapshot" },
       "default": []
     },
+    "known_gaps": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
+    "external_research_questions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
+    "contradiction_summaries": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 8 },
+      "default": []
+    },
     "customer_safe": { "type": "boolean" },
     "created_at": { "type": "string", "format": "date-time" }
   },
@@ -166,6 +181,11 @@
           "enum": ["decision", "status", "risk", "metric", "timeline", "constraint", "observation"]
         },
         "statement": { "type": "string", "minLength": 8 },
+        "claim_mode": {
+          "type": "string",
+          "enum": ["observed", "inferred", "hypothesis"]
+        },
+        "validation_note": { "type": "string", "minLength": 8 },
         "metric_value": { "type": ["number", "integer", "string"] },
         "baseline_value": { "type": ["number", "integer", "string"] },
         "metric_target": { "type": ["number", "integer", "string"] },

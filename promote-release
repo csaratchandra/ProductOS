@@ -1,0 +1,2 @@
+#!/bin/sh
+exec "$(dirname "$0")/scripts/run_with_supported_python.sh" scripts/promote_release.py "$@"

@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/external_research_source_discovery.schema.json",
+  "title": "ProductOS External Research Source Discovery",
+  "description": "Search-backed candidate source discovery derived from a bounded external research plan.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "external_research_source_discovery_id",
+    "workspace_id",
+    "generated_from_plan_id",
+    "search_provider",
+    "search_status",
+    "discovered_questions",
+    "candidate_sources",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "external_research_source_discovery_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "generated_from_plan_id": { "type": "string", "minLength": 1 },
+    "search_provider": { "type": "string", "minLength": 1 },
+    "search_status": {
+      "type": "string",
+      "enum": ["completed", "partial", "no_results"]
+    },
+    "discovered_questions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/discoveredQuestion" },
+      "minItems": 1
+    },
+    "candidate_sources": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/candidateSource" },
+      "default": []
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "discoveredQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question_id", "query", "source_type", "candidate_count"],
+      "properties": {
+        "question_id": { "type": "string", "minLength": 1 },
+        "query": { "type": "string", "minLength": 8 },
+        "source_type": {
+          "type": "string",
+          "enum": ["customer_evidence", "competitor_research", "security_review", "market_validation", "operator_interview"]
+        },
+        "candidate_count": { "type": "integer", "minimum": 0 },
+        "queries_attempted": { "type": "integer", "minimum": 1 },
+        "providers_attempted": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        }
+      }
+    },
+    "candidateSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "question_id",
+        "source_type",
+        "title",
+        "uri",
+        "snippet",
+        "search_query",
+        "selection_status",
+        "freshness_expectation"
+      ],
+      "properties": {
+        "source_id": { "type": "string", "minLength": 1 },
+        "question_id": { "type": "string", "minLength": 1 },
+        "source_type": {
+          "type": "string",
+          "enum": ["customer_evidence", "competitor_research", "security_review", "market_validation", "operator_interview"]
+        },
+        "title": { "type": "string", "minLength": 3 },
+        "uri": { "type": "string", "minLength": 1 },
+        "snippet": { "type": "string", "minLength": 3 },
+        "search_query": { "type": "string", "minLength": 8 },
+        "selection_status": {
+          "type": "string",
+          "enum": ["suggested", "alternate"]
+        },
+        "provider": { "type": "string", "minLength": 1 },
+        "domain": { "type": "string", "minLength": 1 },
+        "quality_score": { "type": "integer", "minimum": 0 },
+        "selection_reason": { "type": "string", "minLength": 10 },
+        "content_quality_score": { "type": "integer", "minimum": 0 },
+        "content_quality_status": {
+          "type": "string",
+          "enum": ["accepted", "review", "rejected"]
+        },
+        "content_quality_reason": { "type": "string", "minLength": 10 },
+        "evidence_excerpt": { "type": "string", "minLength": 10 },
+        "detected_title": { "type": "string", "minLength": 3 },
+        "detected_published_at": { "type": "string", "minLength": 4 },
+        "detected_freshness_status": {
+          "type": "string",
+          "enum": ["fresh", "usable_with_review", "stale"]
+        },
+        "freshness_expectation": {
+          "type": "string",
+          "enum": ["fresh", "usable_with_review"]
+        }
+      }
+    }
+  }
+}

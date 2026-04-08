@@ -40,6 +40,36 @@ def main() -> int:
         type=Path,
         help="Optional path to the feature portfolio review that must be healthy before promotion.",
     )
+    parser.add_argument(
+        "--research-brief-path",
+        type=Path,
+        help="Optional path to the governed research brief for release-gate validation.",
+    )
+    parser.add_argument(
+        "--external-research-plan-path",
+        type=Path,
+        help="Optional path to the bounded external research plan for release-gate validation.",
+    )
+    parser.add_argument(
+        "--external-research-source-discovery-path",
+        type=Path,
+        help="Optional path to the external research source discovery artifact for release-gate validation.",
+    )
+    parser.add_argument(
+        "--external-research-feed-registry-path",
+        type=Path,
+        help="Optional path to the governed external research feed registry for release-gate validation.",
+    )
+    parser.add_argument(
+        "--selected-manifest-path",
+        type=Path,
+        help="Optional path to the selected external research manifest for release-gate validation.",
+    )
+    parser.add_argument(
+        "--external-research-review-path",
+        type=Path,
+        help="Optional path to the governed external research review that must be clear before promotion.",
+    )
     args = parser.parse_args()
 
     result = promote_release_from_ralph(
@@ -49,6 +79,12 @@ def main() -> int:
         approved_by=args.approved_by,
         eval_run_report_path=args.eval_run_report_path,
         feature_portfolio_review_path=args.feature_portfolio_review_path,
+        research_brief_path=args.research_brief_path,
+        external_research_plan_path=args.external_research_plan_path,
+        external_research_source_discovery_path=args.external_research_source_discovery_path,
+        external_research_feed_registry_path=args.external_research_feed_registry_path,
+        selected_manifest_path=args.selected_manifest_path,
+        external_research_review_path=args.external_research_review_path,
     )
     print(
         f"Promoted ProductOS to V{result['target_version']} using {args.ralph_path} "

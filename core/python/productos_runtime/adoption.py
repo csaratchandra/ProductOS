@@ -7,7 +7,7 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-import yaml
+from . import yaml_compat as yaml
 
 from .lifecycle import DISCOVERY_STAGE_ORDER, LIFECYCLE_STAGE_ORDER, init_workspace_from_template
 
@@ -682,7 +682,7 @@ def build_workspace_adoption_bundle_from_source(
             "workspace_id": workspace_id,
             "title": f"Research notebook: {name} workspace adoption",
             "research_question": f"How should ProductOS convert the existing {name} research pack into governed product artifacts and a bounded launch-lane plan?",
-            "source_note_card_ids": source_note_card_ids[:3],
+            "source_note_card_ids": source_note_card_ids,
             "synthesis_hypothesis": context["source_summary"],
             "ordered_sections": [
                 "market timing and wedge",
@@ -731,6 +731,8 @@ def build_workspace_adoption_bundle_from_source(
                     "insight_id": f"insight_{product_slug}_operating_layer",
                     "statement": context["wedge"],
                     "evidence_strength": "moderate",
+                    "claim_mode": "inferred",
+                    "next_validation_step": "Validate the wedge against live customer language, competitor positioning, and one external proof source before using it as a public claim.",
                     "supporting_source_note_card_ids": [
                         source_note_cards["source_note_card_executive_brief"]["source_note_card_id"],
                     ],
@@ -739,8 +741,20 @@ def build_workspace_adoption_bundle_from_source(
                     "insight_id": f"insight_{product_slug}_beachhead",
                     "statement": f"The best initial buyer context is {context['best_beachhead']}",
                     "evidence_strength": "strong",
+                    "claim_mode": "observed",
+                    "next_validation_step": "Confirm the beachhead still matches real buying urgency and current budget ownership before broadening the segment claim.",
                     "supporting_source_note_card_ids": [
                         source_note_cards["source_note_card_segment_map"]["source_note_card_id"],
+                    ],
+                },
+                {
+                    "insight_id": f"insight_{product_slug}_launch_lane",
+                    "statement": context["launch_lane"],
+                    "evidence_strength": "strong",
+                    "claim_mode": "observed",
+                    "next_validation_step": "Pressure-test the initial launch lane with one customer workflow owner and one measurable pilot success metric.",
+                    "supporting_source_note_card_ids": [
+                        source_note_cards["source_note_card_pilot_proposal"]["source_note_card_id"],
                     ],
                 },
             ],
@@ -754,8 +768,37 @@ def build_workspace_adoption_bundle_from_source(
                     ],
                 }
             ],
+            "known_gaps": [
+                context["proof_gap"],
+                "The current source pack still needs explicit external proof for quantified before-after outcomes and customer-reference quality evidence.",
+                "Security, auditability, and implementation-risk claims should not be treated as externally validated until they are backed by named controls and review evidence.",
+            ],
+            "external_research_questions": [
+                {
+                    "question_id": f"research_q_{product_slug}_outcomes_proof",
+                    "question": "What observed customer evidence can validate the strongest ROI and workflow outcome claims in the current wedge narrative?",
+                    "why_it_matters": "External packaging should not overstate impact without specific proof.",
+                    "recommended_source_type": "customer_evidence",
+                    "priority": "high",
+                },
+                {
+                    "question_id": f"research_q_{product_slug}_security_controls",
+                    "question": "Which security, auditability, and compliance controls can be stated as observed product facts versus roadmap or implementation assumptions?",
+                    "why_it_matters": "Customer-facing pilots need clear risk boundaries and proof language.",
+                    "recommended_source_type": "security_review",
+                    "priority": "high",
+                },
+                {
+                    "question_id": f"research_q_{product_slug}_competitive_wedge",
+                    "question": "How does the proposed workflow-control launch lane compare with current competitor positioning and incumbent alternatives in the same operating context?",
+                    "why_it_matters": "The PM needs a sharper wedge than generic platform language before external release.",
+                    "recommended_source_type": "competitor_research",
+                    "priority": "medium",
+                },
+            ],
             "synthesis_provenance": [
                 "Synthesized from the CodeSync executive brief, self-analysis, segment map, persona pack, and customer pilot proposal.",
+                "Observed versus inferred claim modes are kept explicit so external research can refine the product definition rather than overwrite the source corpus.",
             ],
             "recommendation": "advance_to_problem_brief",
             "created_at": generated_at,
@@ -1195,7 +1238,12 @@ def _seed_runtime_support_assets(root: Path, destination: Path, workspace_id: st
         _append_manifest_artifact_path(manifest_path, f"artifacts/{source_path.name}")
 
 
-def _copy_source_into_inbox(source_dir: Path, destination: Path) -> None:
+def _copy_source_into_inbox(
+    source_dir: Path,
+    destination: Path,
+    *,
+    include_internal_dogfood_inputs: bool,
+) -> None:
     inbox_root = destination / "inbox"
     visible_files = [_classify_file(source_dir, path) for path in _visible_files(source_dir)]
     for item in visible_files:
@@ -1207,6 +1255,9 @@ def _copy_source_into_inbox(source_dir: Path, destination: Path) -> None:
             target_path = target_dir / f"{_slug(item['relative_path'])}{item['path'].suffix.lower()}"
         shutil.copy2(item["path"], target_path)
 
+    if not include_internal_dogfood_inputs:
+        return
+
     executive_brief = source_dir / "Notes" / "research" / "01-executive-brief.md"
     if executive_brief.exists():
         (inbox_root / "raw-notes").mkdir(parents=True, exist_ok=True)
@@ -1216,6 +1267,137 @@ def _copy_source_into_inbox(source_dir: Path, destination: Path) -> None:
     if pilot.exists():
         (inbox_root / "transcripts").mkdir(parents=True, exist_ok=True)
         shutil.copy2(pilot, inbox_root / "transcripts" / "2026-03-22-dogfood-next-version-session.txt")
+
+
+def _write_adoption_docs(destination: Path, bundle: dict[str, dict[str, Any]], name: str, *, include_report: bool) -> None:
+    research_brief = bundle["research_brief"]
+    problem_brief = bundle["problem_brief"]
+    prd = bundle["prd"]
+    report = bundle["workspace_adoption_report"]
+    review_queue = bundle["adoption_review_queue"]
+
+    product_dir = destination / "docs" / "product"
+    discovery_dir = destination / "docs" / "discovery"
+    planning_dir = destination / "docs" / "planning"
+    product_dir.mkdir(parents=True, exist_ok=True)
+    discovery_dir.mkdir(parents=True, exist_ok=True)
+    planning_dir.mkdir(parents=True, exist_ok=True)
+
+    insights = research_brief.get("insights", [])
+    observed_insights = [item["statement"] for item in insights if item.get("claim_mode") == "observed"]
+    inferred_insights = [item["statement"] for item in insights if item.get("claim_mode") == "inferred"]
+    hypothesis_insights = [item["statement"] for item in insights if item.get("claim_mode") == "hypothesis"]
+
+    product_lines = [
+        "# Product Overview",
+        "",
+        f"{name} is currently being shaped as a governed workflow-control product rather than a broad platform claim.",
+        "",
+        "## Current Wedge",
+        "",
+        research_brief["summary"],
+        "",
+        "## Product Definition",
+        "",
+        f"- Problem framing: {problem_brief['problem_summary']}",
+        f"- Outcome summary: {prd['outcome_summary']}",
+        f"- Current recommendation: `{research_brief['recommendation']}`",
+        "",
+        "## Claim Discipline",
+        "",
+        "Observed insights:",
+    ]
+    for statement in observed_insights or ["No observed insights are currently tagged."]:
+        product_lines.append(f"- {statement}")
+    product_lines.extend(["", "Inferred insights:"])
+    for statement in inferred_insights or ["No inferred insights are currently tagged."]:
+        product_lines.append(f"- {statement}")
+    if hypothesis_insights:
+        product_lines.extend(["", "Hypothesis-only insights:"])
+        for statement in hypothesis_insights:
+            product_lines.append(f"- {statement}")
+    product_lines.extend(["", "## Known Gaps", ""])
+    for gap in research_brief.get("known_gaps", []) or ["No explicit known gaps recorded."]:
+        product_lines.append(f"- {gap}")
+    product_lines.extend(["", "## Conflicted Evidence", ""])
+    for contradiction in research_brief.get("contradictions", []) or [{"statement": "No explicit evidence conflicts recorded."}]:
+        product_lines.append(f"- {contradiction['statement']}")
+    product_lines.extend(["", "## Next External Research", ""])
+    for question in research_brief.get("external_research_questions", []):
+        product_lines.append(
+            f"- [{question['priority']}] {question['question']} "
+            f"({question['recommended_source_type']}: {question['why_it_matters']})"
+        )
+    if not research_brief.get("external_research_questions"):
+        product_lines.append("- No bounded external research questions recorded.")
+    (product_dir / "product-overview.md").write_text("\n".join(product_lines) + "\n", encoding="utf-8")
+
+    discovery_lines = [
+        "# Discovery Review",
+        "",
+        f"This workspace now treats {name} discovery as an evidence-governed product definition flow rather than a starter demo.",
+        "",
+        "## Core Artifacts",
+        "",
+        "- `research_notebook.json`",
+        "- `research_brief.json`",
+        "- `problem_brief.json`",
+        "- `concept_brief.json`",
+        "- `segment_map.json`",
+        "- `persona_pack.json`",
+        "- `prd.json`",
+        "- `adoption_review_queue.json`",
+        "",
+        "## Evidence Status",
+        "",
+    ]
+    for insight in insights:
+        discovery_lines.append(
+            f"- `{insight.get('claim_mode', 'unspecified')}`: {insight['statement']} "
+            f"Next validation: {insight.get('next_validation_step', 'n/a')}"
+        )
+    discovery_lines.extend(["", "## Conflicted External Evidence", ""])
+    for contradiction in research_brief.get("contradictions", []) or [{"statement": "No explicit evidence conflicts recorded."}]:
+        discovery_lines.append(f"- {contradiction['statement']}")
+    discovery_lines.extend(["", "## Review Queue", ""])
+    for item in review_queue["review_items"]:
+        discovery_lines.append(f"- {item['title']}")
+    discovery_lines.extend(["", "## Bounded External Research", ""])
+    for question in research_brief.get("external_research_questions", []):
+        discovery_lines.append(f"- {question['question']}")
+    if not research_brief.get("external_research_questions"):
+        discovery_lines.append("- No external research questions recorded.")
+    (discovery_dir / "discovery-review.md").write_text("\n".join(discovery_lines) + "\n", encoding="utf-8")
+
+    if include_report:
+        lines = [
+            f"# Workspace Adoption Report: {name}",
+            "",
+            f"- Source workspace: `{report['source_workspace_path']}`",
+            f"- Source mode: `{report['source_workspace_mode']}`",
+            f"- Generated artifacts: `{len(report['generated_artifact_ids'])}`",
+            f"- Review items: `{report['review_item_count']}`",
+            "",
+            "## Summary",
+            "",
+            report["adoption_summary"],
+            "",
+            "## Confidence Summary",
+            "",
+            report["confidence_summary"],
+            "",
+            "## Review Queue",
+            "",
+        ]
+        for item in review_queue["review_items"]:
+            lines.append(f"- {item['title']}")
+        lines.extend(["", "## Conflicted Evidence", ""])
+        for contradiction in research_brief.get("contradictions", []) or [{"statement": "No explicit evidence conflicts recorded."}]:
+            lines.append(f"- {contradiction['statement']}")
+        lines.extend(["", "## External Research Next", ""])
+        for question in research_brief.get("external_research_questions", []):
+            lines.append(f"- {question['question']}")
+        (planning_dir / "workspace-adoption-report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def adopt_workspace_from_source(
@@ -1229,6 +1411,7 @@ def adopt_workspace_from_source(
     generated_at: str,
     review_threshold: str = "medium",
     emit_report: bool = False,
+    include_runtime_support_assets: bool = False,
 ) -> tuple[Path, dict[str, dict[str, Any]]]:
     root = Path(root_dir).resolve()
     source = Path(source_dir).resolve()
@@ -1254,31 +1437,13 @@ def adopt_workspace_from_source(
         _write_json(artifacts_dir / f"{name_key}.json", payload)
         _append_manifest_artifact_path(destination / "workspace_manifest.yaml", f"artifacts/{name_key}.json")
 
-    _seed_runtime_support_assets(root, destination, workspace_id)
-    _copy_source_into_inbox(source, destination)
-
-    if emit_report:
-        docs_dir = destination / "docs" / "planning"
-        docs_dir.mkdir(parents=True, exist_ok=True)
-        report = bundle["workspace_adoption_report"]
-        review_queue = bundle["adoption_review_queue"]
-        lines = [
-            f"# Workspace Adoption Report: {name}",
-            "",
-            f"- Source workspace: `{report['source_workspace_path']}`",
-            f"- Source mode: `{report['source_workspace_mode']}`",
-            f"- Generated artifacts: `{len(report['generated_artifact_ids'])}`",
-            f"- Review items: `{report['review_item_count']}`",
-            "",
-            "## Summary",
-            "",
-            report["adoption_summary"],
-            "",
-            "## Review Queue",
-            "",
-        ]
-        for item in review_queue["review_items"]:
-            lines.append(f"- {item['title']}")
-        (docs_dir / "workspace-adoption-report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    if include_runtime_support_assets:
+        _seed_runtime_support_assets(root, destination, workspace_id)
+    _copy_source_into_inbox(
+        source,
+        destination,
+        include_internal_dogfood_inputs=include_runtime_support_assets,
+    )
+    _write_adoption_docs(destination, bundle, name, include_report=emit_report)
 
     return destination, bundle

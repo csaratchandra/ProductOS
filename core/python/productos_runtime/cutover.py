@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any
 
 from .next_version import build_next_version_bundle_from_workspace
-from .release import evaluate_promotion_gate, latest_release_metadata, parse_semver
+from .release import categorize_promotion_blockers, evaluate_promotion_gate, latest_release_metadata, parse_semver
 from .v6 import build_v6_lifecycle_bundle_from_workspace
 from .v7 import build_v7_lifecycle_bundle_from_workspace
 
@@ -46,8 +46,6 @@ SELECTED_V7_BUNDLE_EVIDENCE = [
     "templates/docs/delivery/launch-outcome-review.md",
     "CHANGELOG.md",
 ]
-
-
 def build_v5_cutover_plan_from_workspace(
     workspace_dir,
     *,
@@ -65,6 +63,12 @@ def build_v5_cutover_plan_from_workspace(
     gate = evaluate_promotion_gate(
         eval_run_report=eval_report,
         feature_portfolio_review=portfolio,
+        research_brief=bundle.get("research_brief"),
+        external_research_plan=bundle.get("external_research_plan"),
+        external_research_source_discovery=bundle.get("external_research_source_discovery"),
+        external_research_feed_registry=bundle.get("external_research_feed_registry"),
+        selected_manifest=bundle.get("external_research_selected_manifest"),
+        external_research_review=bundle.get("external_research_review"),
     )
     root_dir = Path(__file__).resolve().parents[3]
     latest_release = latest_release_metadata(root_dir)
@@ -109,6 +113,7 @@ def build_v5_cutover_plan_from_workspace(
         if promoted and gate["status"] != "blocked"
         else portfolio["top_priority_feature_id"]
     )
+    blocker_categories = categorize_promotion_blockers(gate["blockers"])
 
     return {
         "target_version": target_version,
@@ -120,6 +125,7 @@ def build_v5_cutover_plan_from_workspace(
         "top_priority_feature_id": top_priority_feature_id,
         "blocking_feature_ids": blocked_feature_ids,
         "blockers": gate["blockers"],
+        **blocker_categories,
         "build_strategy": "stabilize_then_extend",
         "selected_bundle_id": None if gate["status"] == "blocked" else SELECTED_V5_BUNDLE_ID,
         "selected_bundle_name": None if gate["status"] == "blocked" else SELECTED_V5_BUNDLE_NAME,
@@ -175,6 +181,18 @@ def format_v5_cutover_plan_markdown(plan: dict[str, Any]) -> str:
     if plan["blockers"]:
         for blocker in plan["blockers"]:
             lines.append(f"- {blocker}")
+        if plan.get("feed_governance_blockers"):
+            lines.extend(["", "## Feed Governance Blockers", ""])
+            for blocker in plan["feed_governance_blockers"]:
+                lines.append(f"- {blocker}")
+        if plan.get("governed_research_blockers"):
+            lines.extend(["", "## Governed Research Blockers", ""])
+            for blocker in plan["governed_research_blockers"]:
+                lines.append(f"- {blocker}")
+        if plan.get("other_blockers"):
+            lines.extend(["", "## Other Blockers", ""])
+            for blocker in plan["other_blockers"]:
+                lines.append(f"- {blocker}")
     elif plan["selection_status"] == "stable_active":
         lines.append("- ProductOS V5.0.0 is already the stable release.")
         lines.append("- The next bounded expansion is extending lifecycle traceability beyond prd_handoff.")
@@ -395,9 +413,9 @@ def build_v7_cutover_plan_from_workspace(
         ]
         if gate_status == "blocked"
         else [
-            "Keep ProductOS V7.0.0 as the canonical stable line while preserving the selected full-lifecycle evidence.",
-            "Extend ProductOS through external publication adapters only as a later bounded release.",
-            "Keep the starter workspace as the default reusable adoption surface for the current V7 slice.",
+            f"Keep ProductOS V{latest_release['core_version']} as the canonical stable line while preserving the selected full-lifecycle evidence.",
+            "Extend ProductOS only through a later bounded release with explicit proof.",
+            "Keep the starter workspace as the default reusable adoption surface for the currently promoted stable line.",
         ]
         if promoted
         else [
@@ -464,9 +482,9 @@ def format_v7_cutover_plan_markdown(plan: dict[str, Any]) -> str:
         [
             "## Build Strategy",
             "",
-            "- keep V7.0.0 as the stable line for lifecycle traceability through outcome_review",
-            "- preserve full-lifecycle evidence, starter-workspace adoption parity, and launch-to-outcome traceability for the current slice",
-            "- extend beyond outcome_review only through a later bounded external-publication release",
+            f"- keep V{plan['stable_release_version']} as the stable line while preserving the promoted PM superpower core",
+            "- preserve lifecycle traceability, governed research, docs-and-deck evidence, weekly PM autopilot, and release-gate truthfulness in the current stable line",
+            "- extend beyond the current PM superpower core only through a later bounded release with explicit proof",
             "",
             "## Current Blockers",
             "",
@@ -476,8 +494,8 @@ def format_v7_cutover_plan_markdown(plan: dict[str, Any]) -> str:
         for blocker in plan["blockers"]:
             lines.append(f"- {blocker}")
     elif plan["selection_status"] == "stable_active":
-        lines.append("- ProductOS V7.0.0 is already the stable release.")
-        lines.append("- The next bounded expansion is external publication adapters and broader distribution packaging.")
+        lines.append(f"- ProductOS V{plan['stable_release_version']} is already the stable release.")
+        lines.append("- The next bounded expansion should stay explicitly scoped and evidence-backed.")
     else:
         lines.append("- The V7 lifecycle-traceability slice is selected and ready for stable promotion.")
     lines.extend(

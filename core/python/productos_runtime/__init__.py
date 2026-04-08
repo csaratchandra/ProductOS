@@ -13,6 +13,17 @@ from .cutover import build_v5_cutover_plan_from_workspace, format_v5_cutover_pla
 from .cutover import build_v6_cutover_plan_from_workspace, format_v6_cutover_plan_markdown
 from .cutover import build_v7_cutover_plan_from_workspace, format_v7_cutover_plan_markdown
 from .release import latest_release_metadata, latest_release_path, promote_release_from_ralph
+from .research import (
+    RESEARCH_DISCOVERY_ARTIFACT_SCHEMAS,
+    RESEARCH_FEED_REGISTRY_ARTIFACT_SCHEMAS,
+    RESEARCH_PLANNING_ARTIFACT_SCHEMAS,
+    RESEARCH_RUNTIME_ARTIFACT_SCHEMAS,
+    build_external_research_feed_registry_from_workspace,
+    build_external_research_plan_from_workspace,
+    discover_external_research_sources_from_workspace,
+    research_workspace_from_manifest,
+    run_external_research_loop_from_workspace,
+)
 from .lifecycle import (
     format_item_lifecycle_state,
     format_lifecycle_stage_snapshot,
@@ -52,4 +63,13 @@ __all__ = [
     "latest_release_metadata",
     "latest_release_path",
     "promote_release_from_ralph",
+    "build_external_research_feed_registry_from_workspace",
+    "build_external_research_plan_from_workspace",
+    "discover_external_research_sources_from_workspace",
+    "run_external_research_loop_from_workspace",
+    "RESEARCH_DISCOVERY_ARTIFACT_SCHEMAS",
+    "RESEARCH_FEED_REGISTRY_ARTIFACT_SCHEMAS",
+    "RESEARCH_PLANNING_ARTIFACT_SCHEMAS",
+    "research_workspace_from_manifest",
+    "RESEARCH_RUNTIME_ARTIFACT_SCHEMAS",
 ]

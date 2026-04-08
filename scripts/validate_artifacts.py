@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 import json
-from typing import Optional
 from pathlib import Path
+from typing import Dict, List, Optional, Tuple
 
 from jsonschema import Draft202012Validator
 
@@ -39,7 +39,7 @@ def load_json(path: Path):
         return json.load(handle)
 
 
-def example_for_schema(schema_path: Path, example_dir: Path, special_examples: dict[str, Path]) -> Optional[Path]:
+def example_for_schema(schema_path: Path, example_dir: Path, special_examples: Dict[str, Path]) -> Optional[Path]:
     if schema_path.name in special_examples:
         return special_examples[schema_path.name]
 
@@ -55,8 +55,8 @@ def validate_surface(
     label: str,
     schema_dir: Path,
     example_dir: Path,
-    special_examples: dict[str, Path],
-) -> tuple[list[str], list[tuple[str, str, list]],]:
+    special_examples: Dict[str, Path],
+) -> Tuple[List[str], List[Tuple[str, str, list]]]:
     missing_examples = []
     failures = []
 

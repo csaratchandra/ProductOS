@@ -246,3 +246,513 @@ def test_promote_release_from_ralph_blocks_watch_level_promotion_gate(tmp_path: 
             eval_run_report_path=root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
             feature_portfolio_review_path=root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
         )
+
+
+def test_promote_release_from_ralph_blocks_unresolved_external_research_review(tmp_path: Path):
+    root = tmp_path / "repo"
+    (root / "registry" / "releases").mkdir(parents=True)
+    (root / "internal" / "ProductOS-Next" / "artifacts").mkdir(parents=True)
+
+    _write_json(
+        root / "registry" / "releases" / "release_4_7_0.json",
+        {
+            "schema_version": "1.0.0",
+            "release_id": "release_4_7_0",
+            "core_version": "4.7.0",
+            "released_at": "2026-03-21T22:45:00Z",
+            "release_type": "minor",
+            "change_classification": "feature_enhancement",
+            "customer_visible": True,
+            "classification_rationale": "Existing stable release.",
+            "summary": "Existing stable release.",
+            "breaking_changes": [],
+            "upgrade_actions": ["Keep using the stable release."],
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+        {
+            "schema_version": "1.0.0",
+            "ralph_loop_state_id": "ralph_loop_state_ws_productos_v2_v4_8_foundation",
+            "workspace_id": "ws_productos_v2",
+            "target_release": "v4_8_0",
+            "loop_goal": "Inspect, review, implement, validate, fix, and revalidate the truthful control-surface slice before stable release promotion.",
+            "overall_status": "ready_for_release",
+            "subject_refs": ["feature_portfolio_review_ws_productos_v2_next_version_baseline"],
+            "stages": [
+                {"stage_key": "inspect", "status": "passed"},
+                {"stage_key": "review", "status": "passed"},
+                {"stage_key": "implement", "status": "passed"},
+                {"stage_key": "validate", "status": "passed"},
+                {"stage_key": "fix", "status": "passed"},
+                {"stage_key": "revalidate", "status": "passed"},
+            ],
+            "validation_report_refs": ["validation_lane_report_ws_productos_v2_next_version_completion"],
+            "manual_review_summary": "Loop is structurally complete but research evidence is still conflicted.",
+            "next_action": "Resolve the external research review blockers before promotion.",
+            "generated_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
+        {
+            "schema_version": "1.0.0",
+            "eval_run_report_id": "eval_run_report_ws_productos_v2_v4_8",
+            "workspace_id": "ws_productos_v2",
+            "eval_suite_manifest_id": "eval_suite_manifest_ws_productos_v2_v4_8",
+            "baseline_version": "4.7.0",
+            "candidate_version": "4.8.0",
+            "status": "passed",
+            "run_scope": "Foundation-only V4.8 validation run.",
+            "summary": "Promotion candidate passes the frozen eval suite.",
+            "total_cases": 3,
+            "passed_cases": 3,
+            "warning_cases": 0,
+            "failed_cases": 0,
+            "regression_count": 0,
+            "truthfulness_status": "healthy",
+            "case_results": [],
+            "recommended_next_action": "Proceed if all release gates are clear.",
+            "generated_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
+        {
+            "schema_version": "1.0.0",
+            "feature_portfolio_review_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+            "workspace_id": "ws_productos_v2",
+            "review_scope": "V4.8 foundation review.",
+            "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+            "adapter_registry_ref": "runtime_adapter_registry_ws_productos_v2_next_version",
+            "truthfulness_status": "healthy",
+            "eval_run_ref": "eval_run_report_ws_productos_v2_v4_8",
+            "scorecard_refs": [],
+            "feature_summaries": [
+                {
+                    "feature_id": "market_intelligence",
+                    "feature_name": "Governed research and market refresh",
+                    "loop_id": "signal_to_product_decision",
+                    "overall_score": 5,
+                    "adoption_recommendation": "promote_as_standard",
+                    "gap_summary": "Promotion would be ready if the external research review were clear.",
+                    "provenance_classification": "real",
+                    "next_action": "Resolve the external research review blockers.",
+                }
+            ],
+            "top_priority_feature_id": "market_intelligence",
+            "promoted_feature_ids": ["market_intelligence"],
+            "internal_use_feature_ids": [],
+            "active_improvement_feature_ids": [],
+            "blocked_feature_ids": [],
+            "highlighted_risks": [],
+            "next_action": "Proceed if all release gates are clear.",
+            "generated_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_review.json",
+        {
+            "schema_version": "1.0.0",
+            "external_research_review_id": "external_research_review_ws_productos_v2",
+            "workspace_id": "ws_productos_v2",
+            "review_status": "review_required",
+            "accepted_source_ids": ["src_proof", "src_competitor"],
+            "contradiction_items": [
+                {
+                    "contradiction_id": "external_contradiction_proof_posture",
+                    "topic": "proof_posture",
+                    "severity": "moderate",
+                    "statement": "External sources disagree on whether buyers already require measurable governance proof.",
+                    "question_ids": ["research_q_codesync_outcomes_proof"],
+                    "source_ids": ["src_proof", "src_competitor"],
+                }
+            ],
+            "review_items": [
+                "External sources disagree on whether buyers already require measurable governance proof."
+            ],
+            "recommendation": "pm_review_required",
+            "created_at": "2026-03-26T08:00:00Z",
+        },
+    )
+
+    with pytest.raises(ValueError, match="external research"):
+        promote_release_from_ralph(
+            root,
+            root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+            released_at="2026-03-26T08:10:00Z",
+            eval_run_report_path=root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
+            feature_portfolio_review_path=root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
+            external_research_review_path=root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_review.json",
+        )
+
+
+def test_promote_release_from_ralph_blocks_planned_research_without_discovery(tmp_path: Path):
+    root = tmp_path / "repo"
+    (root / "registry" / "releases").mkdir(parents=True)
+    (root / "internal" / "ProductOS-Next" / "artifacts").mkdir(parents=True)
+
+    _write_json(
+        root / "registry" / "releases" / "release_4_7_0.json",
+        {
+            "schema_version": "1.0.0",
+            "release_id": "release_4_7_0",
+            "core_version": "4.7.0",
+            "released_at": "2026-03-21T22:45:00Z",
+            "release_type": "minor",
+            "change_classification": "feature_enhancement",
+            "customer_visible": True,
+            "classification_rationale": "Existing stable release.",
+            "summary": "Existing stable release.",
+            "breaking_changes": [],
+            "upgrade_actions": ["Keep using the stable release."],
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+        {
+            "schema_version": "1.0.0",
+            "ralph_loop_state_id": "ralph_loop_state_ws_productos_v2_v4_8_foundation",
+            "workspace_id": "ws_productos_v2",
+            "target_release": "v4_8_0",
+            "loop_goal": "Inspect, review, implement, validate, fix, and revalidate the truthful control-surface slice before stable release promotion.",
+            "overall_status": "ready_for_release",
+            "subject_refs": ["feature_portfolio_review_ws_productos_v2_next_version_baseline"],
+            "stages": [
+                {"stage_key": "inspect", "status": "passed"},
+                {"stage_key": "review", "status": "passed"},
+                {"stage_key": "implement", "status": "passed"},
+                {"stage_key": "validate", "status": "passed"},
+                {"stage_key": "fix", "status": "passed"},
+                {"stage_key": "revalidate", "status": "passed"},
+            ],
+            "validation_report_refs": ["validation_lane_report_ws_productos_v2_next_version_completion"],
+            "manual_review_summary": "Loop is structurally complete but the research loop has not been completed.",
+            "next_action": "Persist discovery and selected research sources before promotion.",
+            "generated_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
+        {
+            "schema_version": "1.0.0",
+            "eval_run_report_id": "eval_run_report_ws_productos_v2_v4_8",
+            "workspace_id": "ws_productos_v2",
+            "eval_suite_manifest_id": "eval_suite_manifest_ws_productos_v2_v4_8",
+            "baseline_version": "4.7.0",
+            "candidate_version": "4.8.0",
+            "status": "passed",
+            "run_scope": "Foundation-only V4.8 validation run.",
+            "summary": "Promotion candidate passes the frozen eval suite.",
+            "total_cases": 3,
+            "passed_cases": 3,
+            "warning_cases": 0,
+            "failed_cases": 0,
+            "regression_count": 0,
+            "truthfulness_status": "healthy",
+            "case_results": [],
+            "recommended_next_action": "Proceed if all release gates are clear.",
+            "generated_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
+        {
+            "schema_version": "1.0.0",
+            "feature_portfolio_review_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+            "workspace_id": "ws_productos_v2",
+            "review_scope": "V4.8 foundation review.",
+            "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+            "adapter_registry_ref": "runtime_adapter_registry_ws_productos_v2_next_version",
+            "truthfulness_status": "healthy",
+            "eval_run_ref": "eval_run_report_ws_productos_v2_v4_8",
+            "scorecard_refs": [],
+            "feature_summaries": [
+                {
+                    "feature_id": "market_intelligence",
+                    "feature_name": "Governed research and market refresh",
+                    "loop_id": "signal_to_product_decision",
+                    "overall_score": 5,
+                    "adoption_recommendation": "promote_as_standard",
+                    "gap_summary": "Promotion would be ready if the governed research loop were complete.",
+                    "provenance_classification": "real",
+                    "next_action": "Persist discovery and selected sources.",
+                }
+            ],
+            "top_priority_feature_id": "market_intelligence",
+            "promoted_feature_ids": ["market_intelligence"],
+            "internal_use_feature_ids": [],
+            "active_improvement_feature_ids": [],
+            "blocked_feature_ids": [],
+            "highlighted_risks": [],
+            "next_action": "Proceed if all release gates are clear.",
+            "generated_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "research_brief.json",
+        {
+            "schema_version": "1.0.0",
+            "research_brief_id": "research_brief_ws_productos_v2",
+            "workspace_id": "ws_productos_v2",
+            "title": "Research Brief: ProductOS proof posture",
+            "summary": "Validate the external proof posture before promotion.",
+            "target_segment_refs": [],
+            "insights": [],
+            "known_gaps": ["Need external validation on governance proof posture."],
+            "external_research_questions": [
+                {
+                    "question_id": "research_q_productos_proof_posture",
+                    "question": "Do buyers expect measurable governance proof before adopting ProductOS-like systems?",
+                    "recommended_source_type": "market_validation",
+                    "why_it_matters": "The release claim should not overstate validated proof posture.",
+                }
+            ],
+            "created_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_plan.json",
+        {
+            "schema_version": "1.0.0",
+            "external_research_plan_id": "external_research_plan_ws_productos_v2",
+            "workspace_id": "ws_productos_v2",
+            "title": "External research plan",
+            "generated_from_artifact_id": "research_brief_ws_productos_v2",
+            "research_objective": "Validate the external proof posture before promotion.",
+            "prioritized_questions": [
+                {
+                    "question_id": "research_q_productos_proof_posture",
+                    "question": "Do buyers expect measurable governance proof before adopting ProductOS-like systems?",
+                    "why_it_matters": "The release claim should not overstate validated proof posture.",
+                    "recommended_source_type": "market_validation",
+                    "priority": "high",
+                    "search_queries": ["product operations governance proof measurable rollout"],
+                    "source_requirements": ["Fresh operator or market validation evidence"],
+                }
+            ],
+            "coverage_summary": {
+                "known_gaps": ["Need external validation on governance proof posture."],
+                "claims_needing_validation": ["Governance proof posture is customer-safe to claim."],
+                "recommended_next_step": "Run source discovery and refresh research artifacts.",
+            },
+            "created_at": "2026-03-26T08:00:00Z",
+        },
+    )
+
+    with pytest.raises(ValueError, match="source discovery has not been persisted"):
+        promote_release_from_ralph(
+            root,
+            root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+            released_at="2026-03-26T08:10:00Z",
+            eval_run_report_path=root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
+            feature_portfolio_review_path=root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
+            research_brief_path=root / "internal" / "ProductOS-Next" / "artifacts" / "research_brief.json",
+            external_research_plan_path=root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_plan.json",
+        )
+
+
+def test_promote_release_from_ralph_blocks_degraded_external_research_feed_registry(tmp_path: Path):
+    root = tmp_path / "repo"
+    (root / "registry" / "releases").mkdir(parents=True)
+    (root / "internal" / "ProductOS-Next" / "artifacts").mkdir(parents=True)
+    (root / "internal" / "ProductOS-Next" / "outputs" / "research").mkdir(parents=True)
+
+    _write_json(
+        root / "registry" / "releases" / "release_4_7_0.json",
+        {
+            "schema_version": "1.0.0",
+            "release_id": "release_4_7_0",
+            "core_version": "4.7.0",
+            "released_at": "2026-03-21T22:45:00Z",
+            "release_type": "minor",
+            "change_classification": "feature_enhancement",
+            "customer_visible": True,
+            "classification_rationale": "Existing stable release.",
+            "summary": "Existing stable release.",
+            "breaking_changes": [],
+            "upgrade_actions": ["Keep using the stable release."],
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+        {
+            "schema_version": "1.0.0",
+            "ralph_loop_state_id": "ralph_loop_state_ws_productos_v2_v4_8_foundation",
+            "workspace_id": "ws_productos_v2",
+            "target_release": "v4_8_0",
+            "loop_goal": "Inspect, review, implement, validate, fix, and revalidate the truthful control-surface slice before stable release promotion.",
+            "overall_status": "ready_for_release",
+            "subject_refs": ["feature_portfolio_review_ws_productos_v2_next_version_baseline"],
+            "stages": [
+                {"stage_key": "inspect", "status": "passed"},
+                {"stage_key": "review", "status": "passed"},
+                {"stage_key": "implement", "status": "passed"},
+                {"stage_key": "validate", "status": "passed"},
+                {"stage_key": "fix", "status": "passed"},
+                {"stage_key": "revalidate", "status": "passed"},
+            ],
+            "validation_report_refs": ["validation_lane_report_ws_productos_v2_next_version_completion"],
+            "manual_review_summary": "Loop is structurally complete but governed feed health is degraded.",
+            "next_action": "Repair degraded governed research feeds before promotion.",
+            "generated_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
+        {
+            "schema_version": "1.0.0",
+            "eval_run_report_id": "eval_run_report_ws_productos_v2_v4_8",
+            "workspace_id": "ws_productos_v2",
+            "eval_suite_manifest_id": "eval_suite_manifest_ws_productos_v2_v4_8",
+            "baseline_version": "4.7.0",
+            "candidate_version": "4.8.0",
+            "status": "passed",
+            "run_scope": "Foundation-only V4.8 validation run.",
+            "summary": "Promotion candidate passes the frozen eval suite.",
+            "total_cases": 3,
+            "passed_cases": 3,
+            "warning_cases": 0,
+            "failed_cases": 0,
+            "regression_count": 0,
+            "truthfulness_status": "healthy",
+            "case_results": [],
+            "recommended_next_action": "Proceed if all release gates are clear.",
+            "generated_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
+        {
+            "schema_version": "1.0.0",
+            "feature_portfolio_review_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+            "workspace_id": "ws_productos_v2",
+            "review_scope": "V4.8 foundation review.",
+            "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+            "adapter_registry_ref": "runtime_adapter_registry_ws_productos_v2_next_version",
+            "truthfulness_status": "healthy",
+            "eval_run_ref": "eval_run_report_ws_productos_v2_v4_8",
+            "scorecard_refs": [],
+            "feature_summaries": [],
+            "top_priority_feature_id": "market_intelligence",
+            "promoted_feature_ids": ["market_intelligence"],
+            "internal_use_feature_ids": [],
+            "active_improvement_feature_ids": [],
+            "blocked_feature_ids": [],
+            "highlighted_risks": [],
+            "next_action": "Proceed if all release gates are clear.",
+            "generated_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "research_brief.json",
+        {
+            "schema_version": "1.0.0",
+            "research_brief_id": "research_brief_ws_productos_v2",
+            "workspace_id": "ws_productos_v2",
+            "title": "Research Brief",
+            "summary": "Validate release posture.",
+            "target_segment_refs": [],
+            "insights": [],
+            "known_gaps": ["Need governed market validation."],
+            "external_research_questions": [
+                {
+                    "question_id": "research_q_productos_proof_posture",
+                    "question": "Do buyers expect proof before adoption?",
+                    "recommended_source_type": "market_validation",
+                    "why_it_matters": "Release claims need evidence.",
+                }
+            ],
+            "created_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_plan.json",
+        {
+            "schema_version": "1.0.0",
+            "external_research_plan_id": "external_research_plan_ws_productos_v2",
+            "workspace_id": "ws_productos_v2",
+            "prioritized_questions": [
+                {
+                    "question_id": "research_q_productos_proof_posture",
+                    "question": "Do buyers expect proof before adoption?",
+                }
+            ],
+            "created_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_source_discovery.json",
+        {
+            "schema_version": "1.0.0",
+            "external_research_source_discovery_id": "external_research_source_discovery_ws_productos_v2",
+            "workspace_id": "ws_productos_v2",
+            "search_status": "completed",
+            "candidate_sources": [{"source_id": "src_market"}],
+            "discovered_questions": [{"question_id": "research_q_productos_proof_posture", "candidate_count": 1}],
+            "created_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_feed_registry.json",
+        {
+            "schema_version": "1.0.0",
+            "external_research_feed_registry_id": "external_research_feed_registry_ws_productos_v2",
+            "workspace_id": "ws_productos_v2",
+            "title": "External research feed registry",
+            "feeds": [
+                {
+                    "feed_id": "feed_market_validation",
+                    "title": "Market validation feed",
+                    "source_type": "market_validation",
+                    "uri": "https://example.com/feed.xml",
+                    "trust_tier": "primary",
+                    "refresh_cadence": "weekly",
+                    "health_status": "healthy",
+                    "cadence_status": "stale",
+                    "cadence_reason": "Feed is materially past its weekly cadence and should not be trusted without refresh.",
+                }
+            ],
+            "created_at": "2026-03-26T08:00:00Z",
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "outputs" / "research" / "external-research-manifest.selected.json",
+        {
+            "sources": [
+                {
+                    "source_id": "src_market",
+                    "question_id": "research_q_productos_proof_posture",
+                }
+            ]
+        },
+    )
+    _write_json(
+        root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_review.json",
+        {
+            "schema_version": "1.0.0",
+            "external_research_review_id": "external_research_review_ws_productos_v2",
+            "workspace_id": "ws_productos_v2",
+            "review_status": "clear",
+            "accepted_source_ids": ["src_market"],
+            "contradiction_items": [],
+            "review_items": [],
+            "recommendation": "continue_with_refresh",
+            "created_at": "2026-03-26T08:00:00Z",
+        },
+    )
+
+    with pytest.raises(ValueError, match="feed registry"):
+        promote_release_from_ralph(
+            root,
+            root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+            released_at="2026-03-26T08:10:00Z",
+            eval_run_report_path=root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
+            feature_portfolio_review_path=root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
+            research_brief_path=root / "internal" / "ProductOS-Next" / "artifacts" / "research_brief.json",
+            external_research_plan_path=root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_plan.json",
+            external_research_source_discovery_path=root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_source_discovery.json",
+            external_research_feed_registry_path=root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_feed_registry.json",
+            selected_manifest_path=root / "internal" / "ProductOS-Next" / "outputs" / "research" / "external-research-manifest.selected.json",
+            external_research_review_path=root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_review.json",
+        )

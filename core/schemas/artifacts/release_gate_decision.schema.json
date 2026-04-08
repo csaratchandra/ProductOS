@@ -79,6 +79,24 @@
       },
       "minItems": 1
     },
+    "blocker_categories": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "feed_governance_blockers": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 }
+        },
+        "governed_research_blockers": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 }
+        },
+        "other_blockers": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 }
+        }
+      }
+    },
     "generated_at": {
       "type": "string",
       "format": "date-time"

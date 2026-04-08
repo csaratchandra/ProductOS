@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/external_research_plan.schema.json",
+  "title": "ProductOS External Research Plan",
+  "description": "Bounded external research plan derived from governed workspace evidence and unresolved proof gaps.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "external_research_plan_id",
+    "workspace_id",
+    "title",
+    "generated_from_artifact_id",
+    "research_objective",
+    "prioritized_questions",
+    "coverage_summary",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "external_research_plan_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "generated_from_artifact_id": { "type": "string", "minLength": 1 },
+    "research_objective": { "type": "string", "minLength": 10 },
+    "prioritized_questions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/questionPlan" },
+      "minItems": 1
+    },
+    "coverage_summary": { "$ref": "#/$defs/coverageSummary" },
+    "suggested_manifest_sources": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/sourceTemplate" },
+      "default": []
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "questionPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "question_id",
+        "question",
+        "why_it_matters",
+        "recommended_source_type",
+        "priority",
+        "search_queries",
+        "source_requirements"
+      ],
+      "properties": {
+        "question_id": { "type": "string", "minLength": 1 },
+        "question": { "type": "string", "minLength": 10 },
+        "why_it_matters": { "type": "string", "minLength": 10 },
+        "recommended_source_type": {
+          "type": "string",
+          "enum": ["customer_evidence", "competitor_research", "security_review", "market_validation", "operator_interview"]
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        },
+        "search_queries": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 8 },
+          "minItems": 1
+        },
+        "source_requirements": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 8 },
+          "minItems": 1
+        }
+      }
+    },
+    "coverageSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["known_gaps", "claims_needing_validation", "recommended_next_step"],
+      "properties": {
+        "known_gaps": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10 },
+          "default": []
+        },
+        "claims_needing_validation": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10 },
+          "default": []
+        },
+        "recommended_next_step": { "type": "string", "minLength": 10 }
+      }
+    },
+    "sourceTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "question_id", "source_type", "title", "uri", "rationale", "freshness_expectation"],
+      "properties": {
+        "source_id": { "type": "string", "minLength": 1 },
+        "question_id": { "type": "string", "minLength": 1 },
+        "source_type": {
+          "type": "string",
+          "enum": ["customer_evidence", "competitor_research", "security_review", "market_validation", "operator_interview"]
+        },
+        "title": { "type": "string", "minLength": 3 },
+        "uri": { "type": "string" },
+        "rationale": { "type": "string", "minLength": 10 },
+        "freshness_expectation": {
+          "type": "string",
+          "enum": ["fresh", "usable_with_review"]
+        }
+      }
+    }
+  }
+}

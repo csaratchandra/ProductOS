@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "external_research_plan_id": "external_research_plan_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "title": "External Research Plan: PM proof posture",
+  "generated_from_artifact_id": "research_brief_pm_operating_rhythm",
+  "research_objective": "Validate the external proof posture for ProductOS claims about governed PM operating leverage.",
+  "prioritized_questions": [
+    {
+      "question_id": "research_q_pm_governance_expectation",
+      "question": "Do PM buyers expect explicit governance and review controls before trusting AI-assisted operating workflows?",
+      "why_it_matters": "The release claim should not imply a trust posture buyers do not actually accept.",
+      "recommended_source_type": "market_validation",
+      "priority": "high",
+      "search_queries": [
+        "product management ai governance buyer expectations",
+        "pm workflow ai trust review controls"
+      ],
+      "source_requirements": [
+        "Fresh operator or market validation evidence",
+        "Named source with clear publication ownership"
+      ]
+    }
+  ],
+  "coverage_summary": {
+    "known_gaps": [
+      "Need external validation that governance-first messaging matches buyer expectations."
+    ],
+    "claims_needing_validation": [
+      "Governed PM workflow messaging is safe to use in the next bounded release."
+    ],
+    "recommended_next_step": "Discover candidate sources, review their freshness, and persist a governed research review."
+  },
+  "suggested_manifest_sources": [
+    {
+      "source_id": "market_validation_governance_expectation_template",
+      "question_id": "research_q_pm_governance_expectation",
+      "source_type": "market_validation",
+      "title": "Governance-first PM AI evidence source",
+      "uri": "https://example.com/research/governance-first-pm-ai",
+      "rationale": "Use a recent source that explicitly addresses AI governance expectations for product or operations buyers.",
+      "freshness_expectation": "fresh"
+    }
+  ],
+  "created_at": "2026-04-09T10:00:00Z"
+}

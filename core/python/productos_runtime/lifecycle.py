@@ -5,7 +5,7 @@ import shutil
 from pathlib import Path
 from typing import Any
 
-import yaml
+from . import yaml_compat as yaml
 
 
 LIFECYCLE_STAGE_ORDER = [

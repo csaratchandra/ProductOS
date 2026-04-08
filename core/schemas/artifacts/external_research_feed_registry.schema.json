@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/external_research_feed_registry.schema.json",
+  "title": "ProductOS External Research Feed Registry",
+  "description": "Workspace-scoped registry of curated external research feeds that can seed governed source discovery.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "external_research_feed_registry_id",
+    "workspace_id",
+    "title",
+    "feeds",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "external_research_feed_registry_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "feeds": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/feedItem" },
+      "minItems": 1
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "feedItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "feed_id",
+        "title",
+        "source_type",
+        "uri",
+        "trust_tier",
+        "refresh_cadence"
+      ],
+      "properties": {
+        "feed_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "source_type": {
+          "type": "string",
+          "enum": ["customer_evidence", "competitor_research", "security_review", "market_validation", "operator_interview"]
+        },
+        "uri": { "type": "string" },
+        "trust_tier": {
+          "type": "string",
+          "enum": ["primary", "secondary", "exploratory"]
+        },
+        "refresh_cadence": {
+          "type": "string",
+          "enum": ["daily", "weekly", "monthly", "manual"]
+        },
+        "question_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "notes": { "type": "string" },
+        "health_status": {
+          "type": "string",
+          "enum": ["healthy", "empty", "error", "unconfigured"]
+        },
+        "health_reason": { "type": "string" },
+        "last_checked_at": { "type": "string", "format": "date-time" },
+        "last_success_at": { "type": "string", "format": "date-time" },
+        "last_item_count": { "type": "integer", "minimum": 0 },
+        "last_error": { "type": "string" },
+        "cadence_status": {
+          "type": "string",
+          "enum": ["current", "due", "stale", "manual", "unknown"]
+        },
+        "cadence_reason": { "type": "string" },
+        "matched_question_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        }
+      }
+    }
+  }
+}

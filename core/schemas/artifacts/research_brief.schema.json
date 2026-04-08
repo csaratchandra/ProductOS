@@ -67,6 +67,16 @@
       "items": { "$ref": "#/$defs/contradiction" },
       "default": []
     },
+    "known_gaps": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 10 },
+      "default": []
+    },
+    "external_research_questions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/externalResearchQuestion" },
+      "default": []
+    },
     "synthesis_provenance": {
       "type": "array",
       "items": { "type": "string", "minLength": 10 },
@@ -102,6 +112,14 @@
           "type": "string",
           "enum": ["weak", "moderate", "strong"]
         },
+        "claim_mode": {
+          "type": "string",
+          "enum": ["observed", "inferred", "hypothesis"]
+        },
+        "next_validation_step": {
+          "type": "string",
+          "minLength": 10
+        },
         "supporting_source_note_card_ids": {
           "type": "array",
           "items": { "type": "string", "minLength": 1 },
@@ -123,6 +141,24 @@
           "type": "array",
           "items": { "type": "string", "minLength": 1 },
           "default": []
+        }
+      }
+    },
+    "externalResearchQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question_id", "question", "why_it_matters", "recommended_source_type", "priority"],
+      "properties": {
+        "question_id": { "type": "string", "minLength": 1 },
+        "question": { "type": "string", "minLength": 10 },
+        "why_it_matters": { "type": "string", "minLength": 10 },
+        "recommended_source_type": {
+          "type": "string",
+          "enum": ["customer_evidence", "competitor_research", "security_review", "market_validation", "operator_interview"]
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
         }
       }
     }

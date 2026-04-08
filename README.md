@@ -1,6 +1,6 @@
 # ProductOS
 
-ProductOS V7.0.0 is the current stable ProductOS Core line.
+ProductOS V7.1.0 is the current stable ProductOS Core line.
 
 ProductOS is distributed under the Apache License 2.0. Forks, improvements, and
 suggestions are welcome through issues and pull requests.
@@ -16,7 +16,7 @@ For PM adoption on a new product, the canonical starting surface is [templates](
 
 ## Operating Model
 
-ProductOS V7.0.0 is organized around the PM lifecycle plus governed research and improvement loops:
+ProductOS V7.1.0 is organized around the PM lifecycle plus governed research and improvement loops:
 
 1. current-state assessment
 2. discovery
@@ -53,10 +53,12 @@ Recommended command:
 
 Validation and tests are intentionally local and simple:
 
-- `python3 scripts/validate_artifacts.py`
+- `./validate-artifacts`
 - `pytest`
 - `./productos v6 --output-dir /tmp/productos-v6-lifecycle`
 - `./productos v7 --output-dir /tmp/productos-v7-lifecycle`
+
+The shell entrypoints select a Python `3.10+` interpreter automatically when one is available on `PATH`.
 
 These checks verify that:
 

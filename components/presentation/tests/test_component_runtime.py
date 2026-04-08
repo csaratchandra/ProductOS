@@ -134,6 +134,57 @@ def test_publish_check_blocks_html_rich_slides_in_dual_target_decks():
     assert publish_check["ppt_fidelity_status"] == "at_risk"
 
 
+def test_component_pipeline_preserves_claim_posture_and_proof_gaps():
+    presentation_brief = load_json(EXAMPLE_DIR / "presentation_brief.example.json")
+    presentation_brief["known_gaps"] = [
+        "Customer-safe claims still need explicit outcome proof before external reuse.",
+    ]
+    presentation_brief["external_research_questions"] = [
+        "Which observed customer evidence can validate the strongest outcome claim?",
+    ]
+    presentation_brief["contradiction_summaries"] = [
+        "External sources disagree on whether the current proof posture is strong enough for launch.",
+    ]
+    for snapshot in presentation_brief.get("source_material_snapshots", []):
+        for fact in snapshot.get("facts", []):
+            fact["claim_mode"] = "inferred"
+            fact["validation_note"] = "Validate this claim with one external proof source before using it publicly."
+
+    evidence_pack = build_evidence_pack(presentation_brief)
+    presentation_story = build_presentation_story(presentation_brief, evidence_pack)
+
+    assert "Customer-safe claims still need explicit outcome proof before external reuse." in evidence_pack["gaps"]
+    assert any("Open external research questions remain" in gap for gap in evidence_pack["gaps"])
+    assert any(unit["claim_mode"] == "inferred" for unit in evidence_pack["evidence_units"])
+    assert any("inferred or hypothesis-level inputs" in flag for flag in evidence_pack["confidence_flags"])
+    assert any("Conflicted external evidence" in flag for flag in evidence_pack["confidence_flags"])
+    assert any("proof posture is strong enough for launch" in item["summary"] for item in evidence_pack["contradictions"])
+    assert any("Claim posture:" in slide["speaker_notes"] for slide in presentation_story["slides"])
+    assert any("Keep these proof gaps visible" in slide["speaker_notes"] for slide in presentation_story["slides"])
+    assert any("Call out conflicted evidence explicitly" in slide["speaker_notes"] for slide in presentation_story["slides"])
+    assert any("Open research:" in slide["proof_strategy"] for slide in presentation_story["slides"])
+    assert any("Contradictions:" in slide["proof_strategy"] for slide in presentation_story["slides"])
+    assert any(slide["slide_id"] == "slide_conflicted_evidence" for slide in presentation_story["slides"])
+    assert any("Conflicted evidence appendix" in item for item in presentation_story["appendix_candidates"])
+
+
+def test_component_render_spec_supports_auto_generated_contradiction_slide():
+    presentation_brief = load_json(EXAMPLE_DIR / "presentation_brief.example.json")
+    presentation_brief["contradiction_summaries"] = [
+        "External sources disagree on whether the current proof posture is strong enough for launch.",
+    ]
+
+    evidence_pack = build_evidence_pack(presentation_brief)
+    presentation_story = build_presentation_story(presentation_brief, evidence_pack)
+    render_spec = build_render_spec(presentation_brief, presentation_story)
+
+    contradiction_slide = next(slide for slide in render_spec["slides"] if slide["slide_id"] == "slide_conflicted_evidence")
+    assert contradiction_slide["composition_type"] == "risk_matrix"
+    assert contradiction_slide["composition_payload"]["primary_claim"] == (
+        "The current recommendation should stay bounded because some external evidence is still contested."
+    )
+
+
 def test_component_manifest_matches_public_surface():
     manifest = load_json(ROOT / "components" / "presentation" / "component.json")
     schema_artifacts = {

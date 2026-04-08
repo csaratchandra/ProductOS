@@ -29,17 +29,17 @@ def test_v6_archive_preserves_original_lifecycle_state(self_hosting_workspace_di
     assert starter_item["current_stage"] == "release_readiness"
 
 
-def test_v7_release_surfaces_are_current(root_dir: Path, self_hosting_workspace_dir: Path):
+def test_v7_1_release_surfaces_are_current(root_dir: Path, self_hosting_workspace_dir: Path):
     release = latest_release(root_dir)
     workspace_registration = load_json(root_dir / "registry" / "workspaces" / "ws_productos_v2.registration.json")
     suite_registration = load_json(root_dir / "registry" / "suites" / "suite_productos.registration.json")
     readme = (root_dir / "README.md").read_text(encoding="utf-8")
     overview = (self_hosting_workspace_dir / "docs" / "product" / "product-overview.md").read_text(encoding="utf-8")
 
-    assert release["core_version"] == "7.0.0"
-    assert release["summary"] == "ProductOS V7.0.0 is the stable release for lifecycle-traceability through outcome review slice."
-    assert workspace_registration["current_core_version"] == "7.0.0"
-    assert suite_registration["current_core_version"] == "7.0.0"
-    assert "ProductOS V7.0.0 is the current stable ProductOS Core line." in readme
-    assert "ProductOS `V7.0.0`" in overview
-    assert "lifecycle traceability through `outcome_review`" in overview
+    assert release["core_version"] == "7.1.0"
+    assert release["summary"] == "ProductOS V7.1.0 is the stable release for PM superpower core slice."
+    assert workspace_registration["current_core_version"] == "7.1.0"
+    assert suite_registration["current_core_version"] == "7.1.0"
+    assert "ProductOS V7.1.0 is the current stable ProductOS Core line." in readme
+    assert "ProductOS `V7.1.0`" in overview
+    assert "PM superpower core" in overview

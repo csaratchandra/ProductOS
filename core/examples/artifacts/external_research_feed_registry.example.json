@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "external_research_feed_registry_id": "external_research_feed_registry_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "title": "External Research Feed Registry: PM proof posture",
+  "feeds": [
+    {
+      "feed_id": "feed_market_validation",
+      "title": "Market validation feed",
+      "source_type": "market_validation",
+      "uri": "https://example.com/feed/market-validation.xml",
+      "trust_tier": "primary",
+      "refresh_cadence": "weekly",
+      "question_ids": [
+        "research_q_pm_governance_expectation"
+      ],
+      "notes": "Primary governed source for buyer trust and proof-posture signals.",
+      "health_status": "healthy",
+      "health_reason": "Feed produced current candidate sources for the bounded research plan.",
+      "last_checked_at": "2026-04-09T10:15:00Z",
+      "last_success_at": "2026-04-09T10:15:00Z",
+      "last_item_count": 2,
+      "cadence_status": "current",
+      "cadence_reason": "Feed refreshed within its weekly cadence window.",
+      "matched_question_ids": [
+        "research_q_pm_governance_expectation"
+      ]
+    }
+  ],
+  "created_at": "2026-04-09T10:15:00Z"
+}

@@ -120,6 +120,11 @@
           "enum": ["high", "medium", "low"]
         },
         "confidence_reason": { "type": "string", "minLength": 8 },
+        "claim_mode": {
+          "type": "string",
+          "enum": ["observed", "inferred", "hypothesis"]
+        },
+        "validation_note": { "type": "string", "minLength": 3 },
         "freshness": { "type": "string", "minLength": 3 },
         "materiality": { "type": "string", "enum": ["primary", "supporting", "appendix"] },
         "proof_requirement": { "type": "string", "minLength": 3 },

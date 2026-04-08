@@ -1,2 +1,2 @@
 #!/bin/sh
-exec python3 scripts/productos.py "$@"
+exec "$(dirname "$0")/scripts/run_with_supported_python.sh" scripts/productos.py "$@"

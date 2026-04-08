@@ -15,7 +15,13 @@ if str(ROOT) not in sys.path:
 
 from core.python.productos_runtime import (
     ADOPTION_ARTIFACT_SCHEMAS,
+    RESEARCH_DISCOVERY_ARTIFACT_SCHEMAS,
+    RESEARCH_FEED_REGISTRY_ARTIFACT_SCHEMAS,
+    RESEARCH_PLANNING_ARTIFACT_SCHEMAS,
+    RESEARCH_RUNTIME_ARTIFACT_SCHEMAS,
     adopt_workspace_from_source,
+    build_external_research_feed_registry_from_workspace,
+    build_external_research_plan_from_workspace,
     build_next_version_bundle_from_workspace,
     build_workspace_adoption_bundle_from_source,
     build_v5_lifecycle_bundle_from_workspace,
@@ -32,6 +38,9 @@ from core.python.productos_runtime import (
     init_workspace_from_template,
     load_item_lifecycle_state_from_workspace,
     load_lifecycle_stage_snapshot_from_workspace,
+    discover_external_research_sources_from_workspace,
+    research_workspace_from_manifest,
+    run_external_research_loop_from_workspace,
     summarize_v5_lifecycle_bundle,
     summarize_v6_lifecycle_bundle,
     summarize_v7_lifecycle_bundle,
@@ -64,6 +73,12 @@ PHASE_ARTIFACTS = {
         "align_execution_session_state",
         "align_document_sync_state",
         "market_distribution_report",
+        "presentation_brief",
+        "presentation_evidence_pack",
+        "presentation_story",
+        "presentation_render_spec",
+        "presentation_publish_check",
+        "presentation_ppt_export_plan",
         "docs_alignment_feature_scorecard",
         "presentation_feature_scorecard",
     ],
@@ -83,6 +98,7 @@ PHASE_ARTIFACTS = {
         "context_pack",
         "eval_suite_manifest",
         "eval_run_report",
+        "next_version_release_gate_decision",
         "improve_execution_session_state",
         "improve_improvement_loop_state",
         "adapter_parity_report",
@@ -93,6 +109,10 @@ PHASE_ARTIFACTS = {
     "all": list(NEXT_VERSION_ARTIFACT_SCHEMAS.keys()),
 }
 ADOPTION_ARTIFACTS = list(ADOPTION_ARTIFACT_SCHEMAS.keys())
+RESEARCH_RUNTIME_ARTIFACTS = list(RESEARCH_RUNTIME_ARTIFACT_SCHEMAS.keys())
+RESEARCH_PLANNING_ARTIFACTS = list(RESEARCH_PLANNING_ARTIFACT_SCHEMAS.keys())
+RESEARCH_FEED_REGISTRY_ARTIFACTS = list(RESEARCH_FEED_REGISTRY_ARTIFACT_SCHEMAS.keys())
+RESEARCH_DISCOVERY_ARTIFACTS = list(RESEARCH_DISCOVERY_ARTIFACT_SCHEMAS.keys())
 
 
 def _load_json(path: Path) -> dict:
@@ -156,11 +176,183 @@ def _write_artifacts(output_dir: Path, bundle: dict[str, dict], names: list[str]
             handle.write("\n")
 
 
+def _write_release_review_markdown(output_dir: Path, bundle: dict[str, dict]) -> None:
+    release_gate = bundle.get("next_version_release_gate_decision")
+    portfolio = bundle.get("feature_portfolio_review")
+    if release_gate is None or portfolio is None:
+        return
+
+    lines = [
+        "# Next-Version Release Review",
+        "",
+        f"- Decision: `{release_gate['decision']}`",
+        f"- Target release: `{release_gate['target_release']}`",
+        f"- Truthfulness: `{portfolio['truthfulness_status']}`",
+        f"- Top priority feature: `{portfolio['top_priority_feature_id']}`",
+        "",
+        "## Rationale",
+        "",
+        release_gate["rationale"],
+        "",
+        "## Next Action",
+        "",
+        release_gate.get("next_action", "No next action recorded."),
+        "",
+    ]
+
+    categories = release_gate.get("blocker_categories", {})
+    grouped_sections = [
+        ("Feed Governance Blockers", list(categories.get("feed_governance_blockers", [])) if isinstance(categories, dict) else []),
+        ("Governed Research Blockers", list(categories.get("governed_research_blockers", [])) if isinstance(categories, dict) else []),
+        ("Other Blockers", list(categories.get("other_blockers", [])) if isinstance(categories, dict) else []),
+    ]
+    rendered = False
+    for title, items in grouped_sections:
+        if not items:
+            continue
+        rendered = True
+        lines.extend([f"## {title}", ""])
+        for item in items:
+            lines.append(f"- {item}")
+        lines.append("")
+
+    if not rendered:
+        lines.extend(["## Blockers", ""])
+        for item in release_gate.get("known_gaps", []):
+            lines.append(f"- {item}")
+        lines.append("")
+
+    lines.extend(["## Deferred Items", ""])
+    for item in release_gate.get("deferred_items", []):
+        lines.append(f"- {item}")
+    lines.extend(["", "## Active Improvement Features", ""])
+    for feature_id in portfolio.get("active_improvement_feature_ids", []) or ["None."]:
+        lines.append(f"- {feature_id}")
+
+    (output_dir / "next_version_release_review.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _write_workspace_release_review_markdown(workspace_dir: Path, bundle: dict[str, dict]) -> None:
+    docs_dir = workspace_dir / "docs" / "planning"
+    docs_dir.mkdir(parents=True, exist_ok=True)
+    _write_release_review_markdown(docs_dir, bundle)
+    source = docs_dir / "next_version_release_review.md"
+    target = docs_dir / "next-version-release-review.md"
+    target.write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
+    source.unlink()
+
+
+def _phase_output_dir(workspace_dir: Path, phase: str) -> Path:
+    return workspace_dir / "outputs" / phase
+
+
 def _promotion_gate(bundle: dict[str, dict]) -> dict[str, object]:
     return evaluate_promotion_gate(
         eval_run_report=bundle["eval_run_report"],
         feature_portfolio_review=bundle["feature_portfolio_review"],
+        research_brief=bundle.get("research_brief"),
+        external_research_plan=bundle.get("external_research_plan"),
+        external_research_source_discovery=bundle.get("external_research_source_discovery"),
+        external_research_feed_registry=bundle.get("external_research_feed_registry"),
+        selected_manifest=bundle.get("external_research_selected_manifest"),
+        external_research_review=bundle.get("external_research_review"),
     )
+
+
+def _governed_research_status(bundle: dict[str, dict]) -> str:
+    if bundle.get("external_research_review") is not None:
+        review = bundle["external_research_review"]
+        return "review_required" if review.get("review_status") == "review_required" else "clear"
+    if bundle.get("external_research_selected_manifest") is not None:
+        selected_manifest = bundle["external_research_selected_manifest"]
+        return "selected_sources" if selected_manifest.get("sources") else "blocked"
+    if bundle.get("external_research_source_discovery") is not None:
+        return bundle["external_research_source_discovery"].get("search_status", "planned")
+    if bundle.get("research_brief") is not None and bundle.get("external_research_plan") is not None:
+        return "planned"
+    return "not_required"
+
+
+def _feed_governance_alerts(bundle: dict[str, dict]) -> list[str]:
+    registry = bundle.get("external_research_feed_registry")
+    if registry is None:
+        return []
+    alerts: list[str] = []
+    for feed in registry.get("feeds", []):
+        feed_id = feed.get("feed_id", feed.get("title", "unknown"))
+        health_status = feed.get("health_status")
+        if health_status in {"error", "unconfigured", "empty"}:
+            alerts.append(
+                f"{feed_id}: {health_status} ({feed.get('health_reason', 'feed health needs review')})"
+            )
+        cadence_status = feed.get("cadence_status")
+        if cadence_status in {"due", "stale"}:
+            alerts.append(
+                f"{feed_id}: cadence {cadence_status} ({feed.get('cadence_reason', 'feed freshness needs review')})"
+            )
+    return alerts
+
+
+def _feed_governance_status(bundle: dict[str, dict]) -> str:
+    registry = bundle.get("external_research_feed_registry")
+    if registry is None:
+        return "not_configured"
+    feeds = list(registry.get("feeds", []))
+    if not feeds:
+        return "not_configured"
+
+    counts = {
+        "error": 0,
+        "unconfigured": 0,
+        "empty": 0,
+        "stale": 0,
+        "due": 0,
+    }
+    for feed in feeds:
+        health_status = feed.get("health_status")
+        cadence_status = feed.get("cadence_status")
+        if health_status in counts:
+            counts[health_status] += 1
+        if cadence_status in {"stale", "due"}:
+            counts[cadence_status] += 1
+
+    if counts["error"] or counts["unconfigured"] or counts["stale"]:
+        details = []
+        for key in ("error", "unconfigured", "stale", "empty", "due"):
+            if counts[key]:
+                details.append(f"{counts[key]} {key}")
+        return f"degraded ({', '.join(details)})"
+    if counts["empty"] or counts["due"]:
+        details = []
+        for key in ("empty", "due"):
+            if counts[key]:
+                details.append(f"{counts[key]} {key}")
+        return f"review ({', '.join(details)})"
+    return f"healthy ({len(feeds)} feeds)"
+
+
+def _print_promotion_blockers(gate: dict[str, object]) -> None:
+    blockers = list(gate.get("blockers", []))
+    if not blockers:
+        return
+    categories = gate.get("blocker_categories", {})
+    print("Promotion Blockers:")
+    grouped_sections = [
+        ("Feed Governance", list(categories.get("feed_governance_blockers", [])) if isinstance(categories, dict) else []),
+        ("Governed Research", list(categories.get("governed_research_blockers", [])) if isinstance(categories, dict) else []),
+        ("Other", list(categories.get("other_blockers", [])) if isinstance(categories, dict) else []),
+    ]
+    rendered = False
+    for title, items in grouped_sections:
+        if not items:
+            continue
+        rendered = True
+        print(f"- {title}:")
+        for item in items:
+            print(f"- {item}")
+    if not rendered:
+        for blocker in blockers:
+            print(f"- {blocker}")
 
 
 def cmd_status(args: argparse.Namespace) -> int:
@@ -180,10 +372,10 @@ def cmd_status(args: argparse.Namespace) -> int:
         )
     focus = cockpit["current_focus"]
     top_priority_feature = review["top_priority_feature_id"]
-    if cutover_plan["selection_status"] == "stable_active" and cutover_plan["target_version"] == "7.0.0":
+    if cutover_plan["selection_status"] == "stable_active" and cutover_plan["stable_release_version"] == "7.0.0":
         focus = "Keep ProductOS V7.0.0 stable for lifecycle traceability through outcome_review and prepare the next external publication slice."
         top_priority_feature = cutover_plan["top_priority_feature_id"]
-    elif cutover_plan["selection_status"] == "stable_active":
+    elif cutover_plan["selection_status"] == "stable_active" and cutover_plan["stable_release_version"] == "6.0.0":
         focus = "Keep ProductOS V6.0.0 stable for lifecycle traceability through release_readiness and prepare the next bounded lifecycle expansion."
         top_priority_feature = cutover_plan["top_priority_feature_id"]
     print(f"Mode: {cockpit['mode']}")
@@ -192,11 +384,15 @@ def cmd_status(args: argparse.Namespace) -> int:
     print(f"Top Priority Feature: {top_priority_feature}")
     print(f"Truthfulness Status: {review['truthfulness_status']}")
     print(f"Eval Status: {eval_report['status']} ({eval_report['regression_count']} regressions)")
+    print(f"Governed Research: {_governed_research_status(bundle)}")
+    print(f"Feed Governance: {_feed_governance_status(bundle)}")
     print(f"Stable Promotion: {gate['status']}")
-    if gate["blockers"]:
-        print("Promotion Blockers:")
-        for blocker in gate["blockers"]:
-            print(f"- {blocker}")
+    _print_promotion_blockers(gate)
+    feed_alerts = _feed_governance_alerts(bundle)
+    if feed_alerts:
+        print("Feed Governance Alerts:")
+        for alert in feed_alerts:
+            print(f"- {alert}")
     print(f"Internal Use Features: {len(review['internal_use_feature_ids'])}")
     print(f"Active Improvement Features: {len(review['active_improvement_feature_ids'])}")
     return 0
@@ -219,6 +415,14 @@ def cmd_run(args: argparse.Namespace) -> int:
     names = PHASE_ARTIFACTS[args.phase]
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, names)
+        if args.phase in {"improve", "all"}:
+            _write_release_review_markdown(args.output_dir, bundle)
+    if args.persist:
+        output_dir = _phase_output_dir(_workspace_dir(args), args.phase)
+        _write_artifacts(output_dir, bundle, names)
+        if args.phase in {"improve", "all"}:
+            _write_release_review_markdown(output_dir, bundle)
+            _write_workspace_release_review_markdown(_workspace_dir(args), bundle)
     session_name = f"{args.phase}_execution_session_state" if args.phase != "all" else "discover_execution_session_state"
     if args.phase != "all":
         session = bundle[session_name]
@@ -240,14 +444,18 @@ def cmd_review(args: argparse.Namespace) -> int:
     portfolio = bundle["feature_portfolio_review"]
     eval_report = bundle["eval_run_report"]
     gate = _promotion_gate(bundle)
+    print(f"Governed Research: {_governed_research_status(bundle)}")
+    print(f"Feed Governance: {_feed_governance_status(bundle)}")
     print("Pending Review Points:")
     for point in cockpit["pending_review_points"]:
         print(f"- {point}")
+    feed_alerts = _feed_governance_alerts(bundle)
+    if feed_alerts:
+        print("Feed Governance Alerts:")
+        for alert in feed_alerts:
+            print(f"- {alert}")
     print(f"Stable Promotion: {gate['status']}")
-    if gate["blockers"]:
-        print("Promotion Blockers:")
-        for blocker in gate["blockers"]:
-            print(f"- {blocker}")
+    _print_promotion_blockers(gate)
     print(f"Eval Summary: {eval_report['summary']}")
     print("Sub-5 Features:")
     for item in portfolio["feature_summaries"]:
@@ -262,6 +470,7 @@ def cmd_review(args: argparse.Namespace) -> int:
 def cmd_export(args: argparse.Namespace) -> int:
     bundle = _build_bundle(args)
     _write_artifacts(args.output_dir, bundle, list(bundle.keys()))
+    _write_release_review_markdown(args.output_dir, bundle)
     print(f"Exported {len(bundle)} artifacts to {args.output_dir}")
     return 0
 
@@ -298,16 +507,24 @@ def cmd_doctor(args: argparse.Namespace) -> int:
         )
     top_priority_feature = (
         cutover_plan["top_priority_feature_id"]
-        if cutover_plan["selection_status"] == "stable_active"
+        if cutover_plan["selection_status"] == "stable_active" and cutover_plan["stable_release_version"] == "7.0.0"
         else review["top_priority_feature_id"]
     )
-    status_label = "healthy" if review["truthfulness_status"] == "healthy" and eval_report["status"] == "passed" else "watch"
+    status_label = (
+        "blocked"
+        if review["truthfulness_status"] == "blocked" or gate["status"] == "blocked"
+        else "healthy" if review["truthfulness_status"] == "healthy" and eval_report["status"] == "passed" else "watch"
+    )
     print(f"Bundle Status: {status_label} ({len(bundle)} artifacts validated)")
+    print(f"Governed Research: {_governed_research_status(bundle)}")
+    print(f"Feed Governance: {_feed_governance_status(bundle)}")
     print(f"Stable Promotion: {gate['status']}")
-    if gate["blockers"]:
-        print("Promotion Blockers:")
-        for blocker in gate["blockers"]:
-            print(f"- {blocker}")
+    _print_promotion_blockers(gate)
+    feed_alerts = _feed_governance_alerts(bundle)
+    if feed_alerts:
+        print("Feed Governance Alerts:")
+        for alert in feed_alerts:
+            print(f"- {alert}")
     print(f"Selected Adapter: {adapter['name']} ({adapter['verification_status']})")
     print(f"Intake Items: {len(bundle['intake_routing_state']['intake_items'])}")
     print(f"Truthfulness Status: {review['truthfulness_status']}")
@@ -470,10 +687,139 @@ def cmd_adopt_workspace(args: argparse.Namespace) -> int:
         generated_at=args.generated_at,
         review_threshold=args.review_threshold,
         emit_report=args.emit_report,
+        include_runtime_support_assets=args.include_runtime_support_assets,
     )
     print("Adoption Status: completed")
     print(f"Destination: {destination}")
     print(f"Lifecycle Item: {adopted_bundle['item_lifecycle_state']['item_ref']['entity_id']}")
+    return 0
+
+
+def cmd_research_workspace(args: argparse.Namespace) -> int:
+    bundle = research_workspace_from_manifest(
+        ROOT,
+        workspace_dir=_workspace_dir(args),
+        manifest_path=args.input_manifest,
+        generated_at=args.generated_at,
+        persist=not args.no_persist,
+    )
+    failures = _validate_named_bundle(bundle, RESEARCH_RUNTIME_ARTIFACT_SCHEMAS)
+    if failures:
+        for failure in failures:
+            print(f"FAIL: {failure}")
+        return 1
+    if args.output_dir:
+        _write_artifacts(args.output_dir, bundle, RESEARCH_RUNTIME_ARTIFACTS)
+    print(f"Research Sources: {args.input_manifest}")
+    print(f"Artifacts Refreshed: {len(bundle)}")
+    print(f"Competitor Dossier: {bundle['competitor_dossier']['competitor_dossier_id']}")
+    print(f"Customer Pulse: {bundle['customer_pulse']['customer_pulse_id']}")
+    print(f"Market Analysis: {bundle['market_analysis_brief']['market_analysis_brief_id']}")
+    return 0
+
+
+def cmd_plan_research(args: argparse.Namespace) -> int:
+    bundle = build_external_research_plan_from_workspace(
+        ROOT,
+        workspace_dir=_workspace_dir(args),
+        generated_at=args.generated_at,
+        persist=not args.no_persist,
+    )
+    failures = _validate_named_bundle(bundle, RESEARCH_PLANNING_ARTIFACT_SCHEMAS)
+    if failures:
+        for failure in failures:
+            print(f"FAIL: {failure}")
+        return 1
+    if args.output_dir:
+        _write_artifacts(args.output_dir, bundle, RESEARCH_PLANNING_ARTIFACTS)
+    plan = bundle["external_research_plan"]
+    print(f"Research Plan: {plan['external_research_plan_id']}")
+    print(f"Planned Questions: {len(plan['prioritized_questions'])}")
+    print(f"Suggested Sources: {len(plan['suggested_manifest_sources'])}")
+    print(f"Next Step: {plan['coverage_summary']['recommended_next_step']}")
+    return 0
+
+
+def cmd_init_feed_registry(args: argparse.Namespace) -> int:
+    bundle = build_external_research_feed_registry_from_workspace(
+        ROOT,
+        workspace_dir=_workspace_dir(args),
+        generated_at=args.generated_at,
+        persist=not args.no_persist,
+    )
+    failures = _validate_named_bundle(bundle, RESEARCH_FEED_REGISTRY_ARTIFACT_SCHEMAS)
+    if failures:
+        for failure in failures:
+            print(f"FAIL: {failure}")
+        return 1
+    if args.output_dir:
+        _write_artifacts(args.output_dir, bundle, RESEARCH_FEED_REGISTRY_ARTIFACTS)
+    registry = bundle["external_research_feed_registry"]
+    print(f"Feed Registry: {registry['external_research_feed_registry_id']}")
+    print(f"Registered Feeds: {len(registry['feeds'])}")
+    return 0
+
+
+def cmd_discover_research_sources(args: argparse.Namespace) -> int:
+    bundle = discover_external_research_sources_from_workspace(
+        ROOT,
+        workspace_dir=_workspace_dir(args),
+        generated_at=args.generated_at,
+        persist=not args.no_persist,
+        search_result_limit=args.search_result_limit,
+        search_fixture_dir=args.search_fixture_dir,
+        search_provider_chain=args.search_provider_chain,
+        feed_registry_path=args.feed_registry_path,
+    )
+    failures = _validate_named_bundle(bundle, RESEARCH_DISCOVERY_ARTIFACT_SCHEMAS)
+    if failures:
+        for failure in failures:
+            print(f"FAIL: {failure}")
+        return 1
+    if args.output_dir:
+        _write_artifacts(args.output_dir, bundle, RESEARCH_DISCOVERY_ARTIFACTS)
+    discovery = bundle["external_research_source_discovery"]
+    print(f"Source Discovery: {discovery['external_research_source_discovery_id']}")
+    print(f"Search Provider: {discovery['search_provider']}")
+    print(f"Search Status: {discovery['search_status']}")
+    print(f"Candidate Sources: {len(discovery['candidate_sources'])}")
+    return 0
+
+
+def cmd_run_research_loop(args: argparse.Namespace) -> int:
+    bundle, summary = run_external_research_loop_from_workspace(
+        ROOT,
+        workspace_dir=_workspace_dir(args),
+        generated_at=args.generated_at,
+        persist=not args.no_persist,
+        search_result_limit=args.search_result_limit,
+        search_fixture_dir=args.search_fixture_dir,
+        search_provider_chain=args.search_provider_chain,
+        feed_registry_path=args.feed_registry_path,
+    )
+    for schema_map in (
+        RESEARCH_PLANNING_ARTIFACT_SCHEMAS,
+        RESEARCH_DISCOVERY_ARTIFACT_SCHEMAS,
+        RESEARCH_RUNTIME_ARTIFACT_SCHEMAS if summary["refresh_status"] == "completed" else {},
+    ):
+        failures = _validate_named_bundle(bundle, schema_map) if schema_map else []
+        if failures:
+            for failure in failures:
+                print(f"FAIL: {failure}")
+            return 1
+    output_names = list(RESEARCH_PLANNING_ARTIFACTS) + list(RESEARCH_DISCOVERY_ARTIFACTS)
+    if summary["refresh_status"] == "completed":
+        output_names.extend(RESEARCH_RUNTIME_ARTIFACTS)
+    if args.output_dir:
+        _write_artifacts(args.output_dir, bundle, output_names)
+    print(f"Research Loop Coverage: {summary['coverage_status']}")
+    print(f"Research Refresh: {summary['refresh_status']}")
+    print(f"Planned Questions: {summary['planned_question_count']}")
+    print(f"Candidate Sources: {summary['candidate_source_count']}")
+    print(f"Selected Sources: {summary['selected_source_count']}")
+    print(f"Review Required: {len(summary['review_items'])}")
+    for item in summary["review_items"]:
+        print(f"- {item}")
     return 0
 
 
@@ -497,6 +843,7 @@ def parse_args() -> argparse.Namespace:
     run_parser = subparsers.add_parser("run")
     run_parser.add_argument("phase", choices=["discover", "align", "operate", "improve", "all"])
     run_parser.add_argument("--output-dir", type=Path)
+    run_parser.add_argument("--persist", action="store_true")
 
     export_parser = subparsers.add_parser("export")
     export_parser.add_argument("--output-dir", type=Path, required=True)
@@ -523,6 +870,40 @@ def parse_args() -> argparse.Namespace:
     adopt_parser.add_argument("--output-dir", type=Path)
     adopt_parser.add_argument("--dry-run", action="store_true")
     adopt_parser.add_argument("--emit-report", action="store_true")
+    adopt_parser.add_argument(
+        "--include-runtime-support-assets",
+        action="store_true",
+        help="Seed internal runtime/example support artifacts for dogfood use instead of creating a customer-clean workspace.",
+    )
+
+    research_parser = subparsers.add_parser("research-workspace")
+    research_parser.add_argument("--input-manifest", type=Path, required=True)
+    research_parser.add_argument("--output-dir", type=Path)
+    research_parser.add_argument("--no-persist", action="store_true")
+
+    plan_research_parser = subparsers.add_parser("plan-research")
+    plan_research_parser.add_argument("--output-dir", type=Path)
+    plan_research_parser.add_argument("--no-persist", action="store_true")
+
+    init_feed_registry_parser = subparsers.add_parser("init-feed-registry")
+    init_feed_registry_parser.add_argument("--output-dir", type=Path)
+    init_feed_registry_parser.add_argument("--no-persist", action="store_true")
+
+    discover_research_parser = subparsers.add_parser("discover-research-sources")
+    discover_research_parser.add_argument("--output-dir", type=Path)
+    discover_research_parser.add_argument("--no-persist", action="store_true")
+    discover_research_parser.add_argument("--search-result-limit", type=int, default=3)
+    discover_research_parser.add_argument("--search-fixture-dir", type=Path)
+    discover_research_parser.add_argument("--search-provider-chain")
+    discover_research_parser.add_argument("--feed-registry-path", type=Path)
+
+    run_research_parser = subparsers.add_parser("run-research-loop")
+    run_research_parser.add_argument("--output-dir", type=Path)
+    run_research_parser.add_argument("--no-persist", action="store_true")
+    run_research_parser.add_argument("--search-result-limit", type=int, default=3)
+    run_research_parser.add_argument("--search-fixture-dir", type=Path)
+    run_research_parser.add_argument("--search-provider-chain")
+    run_research_parser.add_argument("--feed-registry-path", type=Path)
 
     subparsers.add_parser("doctor")
     subparsers.add_parser("validate-workspace")
@@ -561,6 +942,16 @@ def main() -> int:
         return cmd_validate_workspace(args)
     if args.command == "adopt-workspace":
         return cmd_adopt_workspace(args)
+    if args.command == "research-workspace":
+        return cmd_research_workspace(args)
+    if args.command == "plan-research":
+        return cmd_plan_research(args)
+    if args.command == "init-feed-registry":
+        return cmd_init_feed_registry(args)
+    if args.command == "discover-research-sources":
+        return cmd_discover_research_sources(args)
+    if args.command == "run-research-loop":
+        return cmd_run_research_loop(args)
     if args.command == "v5":
         return cmd_v5(args)
     if args.command == "v6":
