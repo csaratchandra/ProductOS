@@ -33,7 +33,7 @@ The separation between ProductOS assets and PM workspaces is strict:
 - product workspaces define product-specific reality
 - core upgrades do not silently rewrite workspace artifacts
 
-See [vendor-neutral-agent-harness-standard.md](core/docs/vendor-neutral-agent-harness-standard.md) for the tool-agnostic agent operating standard and [ralph-loop-model.md](core/docs/ralph-loop-model.md) for the inspect, implement, refine, validate, fix, and revalidate quality loop.
+See [vendor-neutral-agent-harness-standard.md](core/docs/vendor-neutral-agent-harness-standard.md) for the tool-agnostic agent operating standard, [ralph-loop-model.md](core/docs/ralph-loop-model.md) for the inspect, implement, refine, validate, fix, and revalidate quality loop, and [autonomous-pm-swarm-model.md](core/docs/autonomous-pm-swarm-model.md) for the internal governed swarm extension path.
 
 ## PM Adoption
 

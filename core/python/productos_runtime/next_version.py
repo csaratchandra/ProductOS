@@ -29,6 +29,7 @@ NEXT_VERSION_ARTIFACT_SCHEMAS: dict[str, str] = {
     "intake_routing_state": "intake_routing_state.schema.json",
     "memory_retrieval_state": "memory_retrieval_state.schema.json",
     "context_pack": "context_pack.schema.json",
+    "autonomous_pm_swarm_plan": "autonomous_pm_swarm_plan.schema.json",
     "eval_suite_manifest": "eval_suite_manifest.schema.json",
     "eval_run_report": "eval_run_report.schema.json",
     "runtime_adapter_registry": "runtime_adapter_registry.schema.json",
@@ -55,6 +56,7 @@ NEXT_VERSION_ARTIFACT_SCHEMAS: dict[str, str] = {
     "runtime_control_surface_feature_scorecard": "feature_scorecard.schema.json",
     "agent_adapter_feature_scorecard": "feature_scorecard.schema.json",
     "self_improvement_feature_scorecard": "feature_scorecard.schema.json",
+    "autonomous_pm_swarm_feature_scorecard": "feature_scorecard.schema.json",
     "feature_portfolio_review": "feature_portfolio_review.schema.json",
 }
 
@@ -2206,6 +2208,216 @@ def build_next_version_bundle_from_workspace(
         "created_at": generated_at,
         "updated_at": generated_at,
     }
+    autonomous_pm_swarm_plan = {
+        "schema_version": "1.0.0",
+        "autonomous_pm_swarm_plan_id": f"autonomous_pm_swarm_plan_{workspace_id}_internal_governed",
+        "workspace_id": workspace_id,
+        "status": "planned",
+        "plan_scope": "Internal governed swarm expansion for broader autonomous PM coverage behind the repo control surface.",
+        "mission_summary": (
+            "Coordinate specialist personas across discovery, research, shaping, review, and validation so ProductOS can run "
+            "broader autonomous PM missions without dropping PM gates or Ralph-loop discipline."
+        ),
+        "release_boundary": "deferred_external_claim",
+        "operating_mode": "review_gated_autonomy",
+        "active_persona_keys": [
+            "ai_orchestrator",
+            "ai_discoverer",
+            "ai_researcher",
+            "ai_product_shaper",
+            "ai_reviewer",
+            "ai_tester",
+            "pm_builder",
+        ],
+        "success_metrics": [
+            "time_from_signal_to_pm_reviewable_package",
+            "blocked_loop_recovery_rate",
+            "duplicate_route_prevention_rate",
+        ],
+        "swarm_routes": [
+            {
+                "route_id": "route_signal_triage",
+                "persona_key": "ai_discoverer",
+                "objective": "Route repeated or high-signal inputs into one bounded mission queue before downstream work starts.",
+                "stage_refs": ["inspect", "refine", "validate"],
+                "max_retries": 2,
+                "exit_condition": "Only non-duplicate, explainable, and high-signal work reaches the active swarm mission queue.",
+            },
+            {
+                "route_id": "route_problem_to_plan",
+                "persona_key": "ai_product_shaper",
+                "objective": "Turn validated evidence into a PM-reviewable recommendation pack with explicit unresolved questions.",
+                "stage_refs": ["implement", "refine", "validate", "fix", "revalidate"],
+                "max_retries": 2,
+                "exit_condition": "The PM receives one reviewable package with clear evidence, recommendation, risks, and next action.",
+            },
+        ],
+        "review_stack": [
+            {
+                "reviewer_role": "AI Reviewer",
+                "trigger_condition": "Any route that changes problem framing, recommendation posture, or release implication.",
+                "decision_scope": "Logic, traceability, and contradiction handling.",
+            },
+            {
+                "reviewer_role": "AI Tester",
+                "trigger_condition": "Any route that emits score-bearing artifacts or modifies control-surface state.",
+                "decision_scope": "Schema, workflow, and regression validation.",
+            },
+            {
+                "reviewer_role": "PM Builder",
+                "trigger_condition": "Any route that requests scope commitment, stakeholder communication, or release movement.",
+                "decision_scope": "Final approval, deferral, or rejection.",
+            },
+        ],
+        "anti_loop_controls": {
+            "max_parallel_routes": 3,
+            "max_retries_per_stage": 2,
+            "stale_loop_after_hours": 24,
+            "duplicate_route_policy": "Collapse duplicate work into the active route and update the shared rationale instead of opening a second mission.",
+            "contradiction_escalation": "Escalate conflicting recommendations to reviewer and PM gate before any route is allowed to advance.",
+            "blocked_state_action": "Pause the affected route, record the blocker, and emit one explicit PM-visible next action.",
+        },
+        "ralph_plan": {
+            "required_iteration_count": 7,
+            "current_iteration_count": 7,
+            "last_completed_stage": "refine",
+            "next_stage": "validate",
+        },
+        "evidence_refs": [
+            "core/docs/autonomous-pm-swarm-model.md",
+            "core/docs/ai-agent-persona-operating-model.md",
+            context_pack["context_pack_id"],
+            eval_run_report["eval_run_report_id"],
+            f"cockpit_state_{workspace_id}_next_version",
+            f"orchestration_state_{workspace_id}_next_version",
+        ],
+        "source_artifact_ids": [
+            context_pack["context_pack_id"],
+            eval_run_report["eval_run_report_id"],
+            improvement_loop_state["improvement_loop_state_id"],
+            decision_log["decision_log_id"],
+        ],
+        "next_action": "Keep the swarm internal, validate the route plan against the next-version runtime, and only broaden the claim after repeated outcome-review proof exists.",
+        "generated_at": generated_at,
+    }
+    autonomous_pm_swarm_scorecard = _scorecard(
+        workspace_id=workspace_id,
+        feature_id="autonomous_pm_swarm",
+        feature_name="Governed autonomous PM swarm",
+        loop_id="cross_cutting",
+        benchmark_ref=foundation_bundle["pm_superpower_benchmark"]["pm_superpower_benchmark_id"],
+        validation_tier="tier_2",
+        overall_score=4,
+        scenarios=[
+            {
+                "scenario_id": "scn_swarm_plan_definition",
+                "title": "Define the governed swarm plan from current runtime contracts",
+                "scenario_type": "workflow_run",
+                "result": "passed",
+                "summary": "ProductOS can now express the broader swarm as one internal governed plan with routes, review triggers, and anti-loop controls instead of prompt-only intent.",
+                "evidence_refs": [
+                    autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
+                    context_pack["context_pack_id"],
+                ],
+            },
+            {
+                "scenario_id": "scn_swarm_claim_boundary_review",
+                "title": "Hold the external claim boundary while expanding internal swarm coverage",
+                "scenario_type": "manual_review",
+                "result": "passed",
+                "summary": "The broader swarm is visible and actionable internally, but the release boundary still keeps autonomous PM replacement claims out of the external promise set.",
+                "evidence_refs": [
+                    autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
+                    "core/docs/v7-1-scope-brief.md",
+                ],
+            },
+        ],
+        evidence_refs=[
+            autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
+            context_pack["context_pack_id"],
+            eval_run_report["eval_run_report_id"],
+            improvement_loop_state["improvement_loop_state_id"],
+            f"cockpit_state_{workspace_id}_next_version",
+            f"orchestration_state_{workspace_id}_next_version",
+        ],
+        provenance_classification="real",
+        score_basis=["autonomous_pm_swarm_plan", "runtime_control_surface", "ralph_iteration_target"],
+        truthfulness_summary="ProductOS now has a governed internal swarm plan and runtime surfacing for broader autonomous PM work, but the capability remains explicitly internal-only until repeated outcome proof exists.",
+        context_pack_ref=context_pack["context_pack_id"],
+        eval_run_ref=eval_run_report["eval_run_report_id"],
+        dimension_scores=[
+            {
+                "dimension_key": "pm_leverage",
+                "score": 4,
+                "rationale": "The PM can supervise one bounded swarm mission without reconstructing the route plan or reviewer stack from scratch.",
+                "evidence_refs": [
+                    autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
+                    context_pack["context_pack_id"],
+                ],
+            },
+            {
+                "dimension_key": "output_quality",
+                "score": 4,
+                "rationale": "The swarm plan makes route ownership, review triggers, and exit conditions explicit enough to be reviewable and reusable.",
+                "evidence_refs": [
+                    autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
+                    "core/docs/autonomous-pm-swarm-model.md",
+                ],
+            },
+            {
+                "dimension_key": "reliability",
+                "score": 4,
+                "rationale": "Anti-loop controls, PM gates, and Ralph stage requirements are now encoded before broader execution begins.",
+                "evidence_refs": [
+                    autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
+                    eval_run_report["eval_run_report_id"],
+                ],
+            },
+            {
+                "dimension_key": "autonomy_quality",
+                "score": 4,
+                "rationale": "The plan expands autonomous coverage while keeping review-gated behavior and blocked-state handling explicit.",
+                "evidence_refs": [
+                    autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
+                    f"orchestration_state_{workspace_id}_next_version",
+                ],
+            },
+            {
+                "dimension_key": "repeatability",
+                "score": 4,
+                "rationale": "The swarm now has a repo-native plan artifact that can be scored, re-run, and hardened through the same improve phase on future iterations.",
+                "evidence_refs": [
+                    autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
+                    improvement_loop_state["improvement_loop_state_id"],
+                ],
+            },
+        ],
+        reviewer_status="pass",
+        reviewer_summary="The swarm plan is bounded, legible, and keeps PM approval and contradiction escalation explicit.",
+        tester_status="pass",
+        tester_summary="The new swarm artifact validates structurally and now lives in the same runtime surface as the rest of the next-version bundle.",
+        manual_status="accept",
+        manual_summary="Keep the broader swarm in internal use while one bounded mission proves outcome movement before any release-scope change.",
+        blocked_by=[
+            "External autonomous PM replacement and open-ended swarm claims remain deferred until repeated real runs prove outcome movement."
+        ],
+        feedback_items=[
+            _feedback_item(
+                feedback_id="score_feedback_swarm_outcome_proof",
+                summary="Run one bounded internal swarm mission and score its actual outcome movement before broadening the claim set.",
+                impact_level="high",
+                recommended_action="Route the next broader autonomous PM slice through the governed swarm plan, capture outcome review evidence, and rescore readiness.",
+                route_targets=["improvement_loop_state", "feedback_cluster_state"],
+                linked_dimension_keys=["pm_leverage", "repeatability"],
+                linked_artifact_refs=[
+                    autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
+                    improvement_loop_state["improvement_loop_state_id"],
+                ],
+            )
+        ],
+        next_action="Keep the swarm internal, run one bounded mission through outcome review, and rescore only after repeatable evidence exists.",
+        generated_at=generated_at,
+    )
 
     discover_scorecard_id = discover_scorecard["feature_scorecard_id"]
     docs_alignment_scorecard_id = docs_alignment_scorecard["feature_scorecard_id"]
@@ -2215,6 +2427,7 @@ def build_next_version_bundle_from_workspace(
     runtime_control_surface_scorecard_id = runtime_control_surface_scorecard["feature_scorecard_id"]
     agent_adapter_scorecard_id = agent_adapter_scorecard["feature_scorecard_id"]
     self_improvement_scorecard_id = self_improvement_scorecard["feature_scorecard_id"]
+    autonomous_pm_swarm_scorecard_id = autonomous_pm_swarm_scorecard["feature_scorecard_id"]
     feature_scorecards = [
         discover_scorecard,
         docs_alignment_scorecard,
@@ -2478,7 +2691,7 @@ def build_next_version_bundle_from_workspace(
         ),
         "blocker_categories": promotion_gate["blocker_categories"],
         "deferred_items": [
-            "Broader autonomous PM and swarm claims remain out of scope for V7.1.",
+            "External autonomous PM and swarm claims remain out of scope for V7.1, even while the internal governed swarm plan continues to harden.",
             "External publishing and generalized market-intelligence expansion stay deferred until after the PM superpower core is proven.",
         ],
         "generated_at": generated_at,
@@ -2540,10 +2753,15 @@ def build_next_version_bundle_from_workspace(
             "feature_scorecard_refs": [
                 runtime_control_surface_scorecard_id,
                 self_improvement_scorecard_id,
+                autonomous_pm_swarm_scorecard_id,
                 *[
                     ref
                     for ref in improvement_loop_state.get("feature_scorecard_refs", [])
-                    if ref not in {runtime_control_surface_scorecard_id, self_improvement_scorecard_id}
+                    if ref not in {
+                        runtime_control_surface_scorecard_id,
+                        self_improvement_scorecard_id,
+                        autonomous_pm_swarm_scorecard_id,
+                    }
                 ],
             ],
             "active_workers": [
@@ -2866,6 +3084,8 @@ def build_next_version_bundle_from_workspace(
         ],
         output_refs=[
             self_improvement_scorecard_id,
+            autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
+            autonomous_pm_swarm_scorecard_id,
             improvement_loop_state["improvement_loop_state_id"],
         ],
         review_required=improve_review_required,
@@ -3004,6 +3224,8 @@ def build_next_version_bundle_from_workspace(
                 ],
                 "expected_output_artifact_ids": [
                     self_improvement_scorecard_id,
+                    autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
+                    autonomous_pm_swarm_scorecard_id,
                     improvement_loop_state["improvement_loop_state_id"],
                     eval_suite_manifest["eval_suite_manifest_id"],
                     eval_run_report["eval_run_report_id"],
@@ -3292,6 +3514,7 @@ def build_next_version_bundle_from_workspace(
             decision_log["decision_log_id"],
             strategic_memory["strategic_memory_record_id"],
             feature_portfolio_review["feature_portfolio_review_id"],
+            autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
             runtime_adapter_registry["runtime_adapter_registry_id"],
             adapter_parity_report["runtime_scenario_report_id"],
             market_refresh_report["runtime_scenario_report_id"],
@@ -3310,6 +3533,7 @@ def build_next_version_bundle_from_workspace(
             runtime_control_surface_scorecard_id,
             agent_adapter_scorecard_id,
             self_improvement_scorecard_id,
+            autonomous_pm_swarm_scorecard_id,
         ],
         "created_at": generated_at,
         "updated_at": generated_at,
@@ -3324,6 +3548,8 @@ def build_next_version_bundle_from_workspace(
         session["input_refs"] = [context_pack["context_pack_id"], *session["input_refs"]]
     improve_execution_session_state["output_refs"] = [
         self_improvement_scorecard_id,
+        autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
+        autonomous_pm_swarm_scorecard_id,
         improvement_loop_state["improvement_loop_state_id"],
         eval_suite_manifest["eval_suite_manifest_id"],
         eval_run_report["eval_run_report_id"],
@@ -3447,6 +3673,7 @@ def build_next_version_bundle_from_workspace(
         "intake_routing_state": intake_routing_state,
         "memory_retrieval_state": memory_retrieval_state,
         "context_pack": context_pack,
+        "autonomous_pm_swarm_plan": autonomous_pm_swarm_plan,
         "eval_suite_manifest": eval_suite_manifest,
         "eval_run_report": eval_run_report,
         "runtime_adapter_registry": runtime_adapter_registry,
@@ -3479,6 +3706,7 @@ def build_next_version_bundle_from_workspace(
         "runtime_control_surface_feature_scorecard": runtime_control_surface_scorecard,
         "agent_adapter_feature_scorecard": agent_adapter_scorecard,
         "self_improvement_feature_scorecard": self_improvement_scorecard,
+        "autonomous_pm_swarm_feature_scorecard": autonomous_pm_swarm_scorecard,
         "feature_portfolio_review": feature_portfolio_review,
     }
     include_governed_research_context = any(

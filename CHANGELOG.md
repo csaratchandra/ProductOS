@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- internal-only `autonomous_pm_swarm_plan` schema and example
+- governed autonomous PM swarm model and hardening workflow docs
+- next-version runtime surfacing for internal swarm readiness
+- invalid fixture coverage for swarm anti-loop controls
+
 ## V7.0.0 - 2026-04-08
 
 ProductOS V7.0.0 promotes lifecycle traceability through `outcome_review`.

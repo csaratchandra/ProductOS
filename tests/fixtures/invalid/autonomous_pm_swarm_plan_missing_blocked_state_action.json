@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "autonomous_pm_swarm_plan_id": "autonomous_pm_swarm_plan_bad_missing_blocked_state_action",
+  "workspace_id": "ws_productos_v2",
+  "status": "planned",
+  "plan_scope": "Internal governed swarm expansion for ProductOS runtime hardening.",
+  "mission_summary": "Run a bounded specialist swarm under PM supervision and Ralph-loop gates.",
+  "release_boundary": "internal_only",
+  "operating_mode": "review_gated_autonomy",
+  "active_persona_keys": [
+    "ai_orchestrator",
+    "ai_researcher",
+    "pm_builder"
+  ],
+  "success_metrics": [
+    "time_from_signal_to_pm_reviewable_package",
+    "duplicate_route_prevention_rate"
+  ],
+  "swarm_routes": [
+    {
+      "route_id": "route_signal_triage",
+      "persona_key": "ai_orchestrator",
+      "objective": "Route high-signal work into one bounded mission queue.",
+      "stage_refs": [
+        "inspect",
+        "refine"
+      ],
+      "max_retries": 2,
+      "exit_condition": "Only explainable work reaches the active mission queue."
+    },
+    {
+      "route_id": "route_plan_package",
+      "persona_key": "ai_researcher",
+      "objective": "Build a reviewable package for PM decision.",
+      "stage_refs": [
+        "implement",
+        "validate"
+      ],
+      "max_retries": 2,
+      "exit_condition": "The PM receives one bounded package with evidence and risks."
+    }
+  ],
+  "review_stack": [
+    {
+      "reviewer_role": "AI Reviewer",
+      "trigger_condition": "Problem framing or recommendation changes.",
+      "decision_scope": "Logic and traceability."
+    },
+    {
+      "reviewer_role": "PM Builder",
+      "trigger_condition": "Scope or release movement is requested.",
+      "decision_scope": "Final approval."
+    }
+  ],
+  "anti_loop_controls": {
+    "max_parallel_routes": 3,
+    "max_retries_per_stage": 2,
+    "stale_loop_after_hours": 24,
+    "duplicate_route_policy": "Collapse duplicate work into the active route.",
+    "contradiction_escalation": "Escalate contradictory recommendations before advancement."
+  },
+  "ralph_plan": {
+    "required_iteration_count": 7,
+    "current_iteration_count": 3,
+    "last_completed_stage": "implement",
+    "next_stage": "refine"
+  },
+  "evidence_refs": [
+    "cockpit_state_ws_productos_v2_runtime"
+  ],
+  "source_artifact_ids": [
+    "cockpit_state_ws_productos_v2_runtime"
+  ],
+  "next_action": "Add the missing blocked-state control and rerun review.",
+  "generated_at": "2026-04-09T05:45:00Z"
+}

@@ -101,6 +101,8 @@ PHASE_ARTIFACTS = {
         "next_version_release_gate_decision",
         "improve_execution_session_state",
         "improve_improvement_loop_state",
+        "autonomous_pm_swarm_plan",
+        "autonomous_pm_swarm_feature_scorecard",
         "adapter_parity_report",
         "market_refresh_report",
         "self_improvement_feature_scorecard",
@@ -360,6 +362,8 @@ def cmd_status(args: argparse.Namespace) -> int:
     cockpit = bundle["cockpit_state"]
     review = bundle["feature_portfolio_review"]
     eval_report = bundle["eval_run_report"]
+    swarm_plan = bundle["autonomous_pm_swarm_plan"]
+    swarm_scorecard = bundle["autonomous_pm_swarm_feature_scorecard"]
     gate = _promotion_gate(bundle)
     cutover_plan = build_v6_cutover_plan_from_workspace(
         _workspace_dir(args),
@@ -386,6 +390,8 @@ def cmd_status(args: argparse.Namespace) -> int:
     print(f"Eval Status: {eval_report['status']} ({eval_report['regression_count']} regressions)")
     print(f"Governed Research: {_governed_research_status(bundle)}")
     print(f"Feed Governance: {_feed_governance_status(bundle)}")
+    print(f"Swarm Plan: {swarm_plan['status']} ({swarm_plan['operating_mode']})")
+    print(f"Swarm Readiness: {swarm_scorecard['overall_score']}/5 ({swarm_scorecard['adoption_recommendation']})")
     print(f"Stable Promotion: {gate['status']}")
     _print_promotion_blockers(gate)
     feed_alerts = _feed_governance_alerts(bundle)
@@ -443,9 +449,13 @@ def cmd_review(args: argparse.Namespace) -> int:
     cockpit = bundle["cockpit_state"]
     portfolio = bundle["feature_portfolio_review"]
     eval_report = bundle["eval_run_report"]
+    swarm_plan = bundle["autonomous_pm_swarm_plan"]
+    swarm_scorecard = bundle["autonomous_pm_swarm_feature_scorecard"]
     gate = _promotion_gate(bundle)
     print(f"Governed Research: {_governed_research_status(bundle)}")
     print(f"Feed Governance: {_feed_governance_status(bundle)}")
+    print(f"Swarm Plan: {swarm_plan['status']} ({swarm_plan['release_boundary']})")
+    print(f"Swarm Readiness: {swarm_scorecard['overall_score']}/5 -> {swarm_scorecard['next_action']}")
     print("Pending Review Points:")
     for point in cockpit["pending_review_points"]:
         print(f"- {point}")
@@ -495,6 +505,8 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     )
     review = bundle["feature_portfolio_review"]
     eval_report = bundle["eval_run_report"]
+    swarm_plan = bundle["autonomous_pm_swarm_plan"]
+    swarm_scorecard = bundle["autonomous_pm_swarm_feature_scorecard"]
     gate = _promotion_gate(bundle)
     cutover_plan = build_v6_cutover_plan_from_workspace(
         _workspace_dir(args),
@@ -518,6 +530,8 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     print(f"Bundle Status: {status_label} ({len(bundle)} artifacts validated)")
     print(f"Governed Research: {_governed_research_status(bundle)}")
     print(f"Feed Governance: {_feed_governance_status(bundle)}")
+    print(f"Swarm Plan: {swarm_plan['status']} ({swarm_plan['operating_mode']})")
+    print(f"Swarm Readiness: {swarm_scorecard['overall_score']}/5 ({swarm_scorecard['adoption_recommendation']})")
     print(f"Stable Promotion: {gate['status']}")
     _print_promotion_blockers(gate)
     feed_alerts = _feed_governance_alerts(bundle)

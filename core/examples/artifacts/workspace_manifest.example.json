@@ -23,6 +23,7 @@
     "artifacts/intake_routing_state.example.json",
     "artifacts/memory_retrieval_state.example.json",
     "artifacts/feedback_cluster_state.example.json",
+    "artifacts/autonomous_pm_swarm_plan.example.json",
     "artifacts/feature_scorecard.example.json",
     "artifacts/feature_portfolio_review.example.json",
     "artifacts/release_scope_recommendation.example.json",
@@ -33,6 +34,7 @@
   ],
   "workflow_paths": [
     "../../core/workflows/discovery/current-state-assessment-workflow.md",
+    "../../core/workflows/mastery/autonomous-pm-swarm-hardening-workflow.md",
     "../../core/workflows/mastery/feature-scoring-and-dogfood-review-workflow.md",
     "../../core/workflows/mastery/next-version-superpower-ops-workflow.md",
     "../../core/examples/workflows/biweekly_status_mail.workflow_state.example.json"

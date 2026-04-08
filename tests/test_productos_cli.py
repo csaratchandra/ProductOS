@@ -934,7 +934,7 @@ def test_productos_export_command_writes_bundle(root_dir: Path, self_hosting_wor
     result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "export", "--output-dir", str(output_dir))
 
     assert result.returncode == 0, result.stderr or result.stdout
-    assert "Exported 38 artifacts" in result.stdout
+    assert "Exported 40 artifacts" in result.stdout
 
     portfolio_path = output_dir / "feature_portfolio_review.json"
     assert portfolio_path.exists()

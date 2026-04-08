@@ -9,6 +9,7 @@ Dependencies:
 - [runtime-state-model.md](/Users/sarat/Documents/code/ProductOS/core/docs/runtime-state-model.md)
 - [continuous-intake-and-memory-model.md](/Users/sarat/Documents/code/ProductOS/core/docs/continuous-intake-and-memory-model.md)
 - [internal-learning-loop-model.md](/Users/sarat/Documents/code/ProductOS/core/docs/internal-learning-loop-model.md)
+- [autonomous-pm-swarm-model.md](/Users/sarat/Documents/code/ProductOS/core/docs/autonomous-pm-swarm-model.md)
 - [v4-auto-improvement-loop.md](/Users/sarat/Documents/code/ProductOS/core/docs/archive/version-history/v4-auto-improvement-loop.md)
 - [product-document-system.md](/Users/sarat/Documents/code/ProductOS/core/docs/product-document-system.md)
 - [presentation-gap-analysis.md](/Users/sarat/Documents/code/ProductOS/components/presentation/docs/presentation-gap-analysis.md)
@@ -45,6 +46,8 @@ The repository already includes important runtime pieces:
 These are strong foundations.
 
 They are not yet a complete AI Agent operating model.
+
+The newer [autonomous-pm-swarm-model.md](/Users/sarat/Documents/code/ProductOS/core/docs/autonomous-pm-swarm-model.md) turns that gap into an explicit internal-only hardening target instead of leaving broader swarm behavior as prompt lore.
 
 ## Core Gap
 

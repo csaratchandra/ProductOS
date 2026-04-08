@@ -13,6 +13,11 @@ SPECIAL_EXAMPLES = {
 
 
 INVALID_FIXTURES = [
+    (
+        "autonomous_pm_swarm_plan.schema.json",
+        "autonomous_pm_swarm_plan_missing_blocked_state_action.json",
+        "anti_loop_controls",
+    ),
     ("workspace_adoption_report.schema.json", "workspace_adoption_report_missing_generated_artifact_ids.json", "<root>"),
     ("adoption_review_queue.schema.json", "adoption_review_queue_missing_recommended_reviewer_action.json", "review_items.0"),
     ("status_mail.schema.json", "status_mail_missing_next_steps.json", "next_steps"),

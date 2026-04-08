@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/autonomous_pm_swarm_plan.schema.json",
+  "title": "ProductOS Autonomous PM Swarm Plan",
+  "description": "Internal-only governed plan for a bounded autonomous PM swarm running behind PM supervision and Ralph-loop gates.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "autonomous_pm_swarm_plan_id",
+    "workspace_id",
+    "status",
+    "plan_scope",
+    "mission_summary",
+    "release_boundary",
+    "operating_mode",
+    "active_persona_keys",
+    "success_metrics",
+    "swarm_routes",
+    "review_stack",
+    "anti_loop_controls",
+    "ralph_plan",
+    "evidence_refs",
+    "source_artifact_ids",
+    "next_action",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "autonomous_pm_swarm_plan_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "planned",
+        "active",
+        "paused",
+        "validated",
+        "blocked"
+      ]
+    },
+    "plan_scope": {
+      "type": "string",
+      "minLength": 10
+    },
+    "mission_summary": {
+      "type": "string",
+      "minLength": 20
+    },
+    "release_boundary": {
+      "type": "string",
+      "enum": [
+        "internal_only",
+        "deferred_external_claim"
+      ]
+    },
+    "operating_mode": {
+      "type": "string",
+      "enum": [
+        "pm_supervised",
+        "review_gated_autonomy"
+      ]
+    },
+    "active_persona_keys": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 3
+    },
+    "success_metrics": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 2
+    },
+    "swarm_routes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/swarmRoute"
+      },
+      "minItems": 2
+    },
+    "review_stack": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reviewLane"
+      },
+      "minItems": 2
+    },
+    "anti_loop_controls": {
+      "$ref": "#/$defs/antiLoopControls"
+    },
+    "ralph_plan": {
+      "$ref": "#/$defs/ralphPlan"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "next_action": {
+      "type": "string",
+      "minLength": 10
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "swarmRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_id",
+        "persona_key",
+        "objective",
+        "stage_refs",
+        "max_retries",
+        "exit_condition"
+      ],
+      "properties": {
+        "route_id": {
+          "type": "string",
+          "minLength": 3
+        },
+        "persona_key": {
+          "type": "string",
+          "minLength": 3
+        },
+        "objective": {
+          "type": "string",
+          "minLength": 10
+        },
+        "stage_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "inspect",
+              "implement",
+              "refine",
+              "validate",
+              "fix",
+              "revalidate"
+            ]
+          },
+          "minItems": 2
+        },
+        "max_retries": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "exit_condition": {
+          "type": "string",
+          "minLength": 10
+        }
+      }
+    },
+    "reviewLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reviewer_role",
+        "trigger_condition",
+        "decision_scope"
+      ],
+      "properties": {
+        "reviewer_role": {
+          "type": "string",
+          "minLength": 3
+        },
+        "trigger_condition": {
+          "type": "string",
+          "minLength": 10
+        },
+        "decision_scope": {
+          "type": "string",
+          "minLength": 10
+        }
+      }
+    },
+    "antiLoopControls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_parallel_routes",
+        "max_retries_per_stage",
+        "stale_loop_after_hours",
+        "duplicate_route_policy",
+        "contradiction_escalation",
+        "blocked_state_action"
+      ],
+      "properties": {
+        "max_parallel_routes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "max_retries_per_stage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "stale_loop_after_hours": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 168
+        },
+        "duplicate_route_policy": {
+          "type": "string",
+          "minLength": 10
+        },
+        "contradiction_escalation": {
+          "type": "string",
+          "minLength": 10
+        },
+        "blocked_state_action": {
+          "type": "string",
+          "minLength": 10
+        }
+      }
+    },
+    "ralphPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_iteration_count",
+        "current_iteration_count",
+        "last_completed_stage",
+        "next_stage"
+      ],
+      "properties": {
+        "required_iteration_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "current_iteration_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "last_completed_stage": {
+          "type": "string",
+          "enum": [
+            "none",
+            "inspect",
+            "implement",
+            "refine",
+            "validate",
+            "fix",
+            "revalidate"
+          ]
+        },
+        "next_stage": {
+          "type": "string",
+          "enum": [
+            "inspect",
+            "implement",
+            "refine",
+            "validate",
+            "fix",
+            "revalidate"
+          ]
+        }
+      }
+    }
+  }
+}
