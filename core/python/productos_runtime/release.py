@@ -2,10 +2,13 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+
+PUBLIC_RELEASE_BLOCKED_PREFIXES = ("internal/", "workspaces/")
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -22,6 +25,17 @@ def _write_json(path: Path, payload: dict[str, Any]) -> None:
 def parse_semver(version: str) -> tuple[int, int, int]:
     major, minor, patch = version.split(".")
     return int(major), int(minor), int(patch)
+
+
+def infer_next_version(current_version: str, bump: str) -> str:
+    major, minor, patch = parse_semver(current_version)
+    if bump == "major":
+        return f"{major + 1}.0.0"
+    if bump == "minor":
+        return f"{major}.{minor + 1}.0"
+    if bump == "patch":
+        return f"{major}.{minor}.{patch + 1}"
+    raise ValueError(f"Unsupported bump type: {bump}")
 
 
 def release_tag_to_version(tag: str) -> str:
@@ -231,6 +245,236 @@ def _update_product_overview(text: str, target_version: str) -> str:
         text,
         count=1,
     )
+
+
+def _build_public_release_ralph_state(slice_label: str) -> dict[str, Any]:
+    normalized = " ".join(slice_label.split()).strip()
+    if not normalized:
+        raise ValueError("slice_label must not be empty")
+    return {
+        "loop_goal": (
+            f"Inspect, review, implement, validate, fix, and revalidate the {normalized} "
+            "before stable release promotion."
+        )
+    }
+
+
+def _run_git(root_dir: Path, *args: str) -> str:
+    completed = subprocess.run(
+        ["git", *args],
+        cwd=root_dir,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if completed.returncode != 0:
+        command_text = " ".join(["git", *args])
+        detail = (completed.stderr or completed.stdout).strip()
+        raise RuntimeError(f"{command_text} failed: {detail}")
+    return completed.stdout.strip()
+
+
+def _blocked_public_release_paths(paths: list[str]) -> list[str]:
+    return [
+        path
+        for path in paths
+        if any(path == prefix[:-1] or path.startswith(prefix) for prefix in PUBLIC_RELEASE_BLOCKED_PREFIXES)
+    ]
+
+
+def verify_public_release_alignment(
+    root_dir: Path,
+    *,
+    target_version: str,
+    tag_name: str | None = None,
+    workspace_registration_path: Path | None = None,
+    suite_registration_path: Path | None = None,
+    readme_path: Path | None = None,
+) -> dict[str, Any]:
+    root_dir = root_dir.resolve()
+    workspace_registration_path = workspace_registration_path or root_dir / "registry" / "workspaces" / "ws_productos_v2.registration.json"
+    suite_registration_path = suite_registration_path or root_dir / "registry" / "suites" / "suite_productos.registration.json"
+    readme_path = readme_path or root_dir / "README.md"
+
+    mismatches: list[str] = []
+    latest_release = latest_release_metadata(root_dir)
+    if latest_release["core_version"] != target_version:
+        mismatches.append(
+            f"Latest release metadata is {latest_release['core_version']} instead of {target_version}."
+        )
+
+    workspace_payload = _load_json(workspace_registration_path)
+    if workspace_payload["current_core_version"] != target_version:
+        mismatches.append(
+            f"Workspace registration is {workspace_payload['current_core_version']} instead of {target_version}."
+        )
+
+    suite_payload = _load_json(suite_registration_path)
+    if suite_payload["current_core_version"] != target_version:
+        mismatches.append(
+            f"Suite registration is {suite_payload['current_core_version']} instead of {target_version}."
+        )
+
+    readme_text = readme_path.read_text(encoding="utf-8")
+    stable_line = f"ProductOS V{target_version} is the current stable ProductOS Core line."
+    if stable_line not in readme_text:
+        mismatches.append(f"README does not contain the stable-line marker for {target_version}.")
+
+    if tag_name is not None:
+        head_commit = _run_git(root_dir, "rev-parse", "HEAD")
+        tag_commit = _run_git(root_dir, "rev-parse", f"{tag_name}^{{commit}}")
+        if head_commit != tag_commit:
+            mismatches.append(f"Git tag {tag_name} does not point to HEAD.")
+
+    return {
+        "status": "aligned" if not mismatches else "mismatched",
+        "mismatches": mismatches,
+    }
+
+
+def promote_public_release(
+    root_dir: Path,
+    *,
+    slice_label: str,
+    released_at: str,
+    approved_by: str = "ProductOS PM",
+    target_version: str | None = None,
+    bump: str = "minor",
+    workspace_registration_path: Path | None = None,
+    suite_registration_path: Path | None = None,
+    readme_path: Path | None = None,
+) -> dict[str, Any]:
+    root_dir = root_dir.resolve()
+    previous_release = latest_release_metadata(root_dir)
+    target_version = target_version or infer_next_version(previous_release["core_version"], bump)
+    if parse_semver(target_version) <= parse_semver(previous_release["core_version"]):
+        raise ValueError(
+            f"Target version {target_version} must be newer than current stable {previous_release['core_version']}."
+        )
+
+    normalized_released_at = _normalize_released_at(released_at, previous_release)
+    release_payload = _build_release_metadata(
+        previous_release,
+        _build_public_release_ralph_state(slice_label),
+        target_version,
+        normalized_released_at,
+    )
+    release_path = root_dir / "registry" / "releases" / f"{release_payload['release_id']}.json"
+    _write_json(release_path, release_payload)
+
+    workspace_registration_path = workspace_registration_path or root_dir / "registry" / "workspaces" / "ws_productos_v2.registration.json"
+    suite_registration_path = suite_registration_path or root_dir / "registry" / "suites" / "suite_productos.registration.json"
+    readme_path = readme_path or root_dir / "README.md"
+
+    workspace_note = (
+        f"Adopted ProductOS V{target_version} after promoting the {slice_label} through the public release operator."
+    )
+    suite_note = (
+        f"Promoted the suite to ProductOS V{target_version} after the {slice_label} passed the public release operator."
+    )
+    workspace_payload = _update_registration(
+        _load_json(workspace_registration_path),
+        target_version,
+        normalized_released_at,
+        approved_by,
+        workspace_note,
+    )
+    suite_payload = _update_registration(
+        _load_json(suite_registration_path),
+        target_version,
+        normalized_released_at,
+        approved_by,
+        suite_note,
+    )
+    _write_json(workspace_registration_path, workspace_payload)
+    _write_json(suite_registration_path, suite_payload)
+
+    updated_readme = _update_readme(readme_path.read_text(encoding="utf-8"), target_version)
+    readme_path.write_text(updated_readme, encoding="utf-8")
+
+    return {
+        "target_version": target_version,
+        "tag_name": f"v{target_version}",
+        "release_path": release_path,
+        "workspace_registration_path": workspace_registration_path,
+        "suite_registration_path": suite_registration_path,
+        "readme_path": readme_path,
+        "changed_paths": [
+            readme_path.relative_to(root_dir).as_posix(),
+            release_path.relative_to(root_dir).as_posix(),
+            workspace_registration_path.relative_to(root_dir).as_posix(),
+            suite_registration_path.relative_to(root_dir).as_posix(),
+        ],
+    }
+
+
+def run_public_release(
+    root_dir: Path,
+    *,
+    slice_label: str,
+    released_at: str,
+    approved_by: str = "ProductOS PM",
+    target_version: str | None = None,
+    bump: str = "minor",
+    commit_message: str | None = None,
+    tag_message: str | None = None,
+    remote: str = "origin",
+    branch: str | None = None,
+    push: bool = False,
+) -> dict[str, Any]:
+    root_dir = root_dir.resolve()
+    promotion = promote_public_release(
+        root_dir,
+        slice_label=slice_label,
+        released_at=released_at,
+        approved_by=approved_by,
+        target_version=target_version,
+        bump=bump,
+    )
+
+    _run_git(root_dir, "add", "--all", ".")
+    staged_paths = [
+        line.strip()
+        for line in _run_git(root_dir, "diff", "--cached", "--name-only").splitlines()
+        if line.strip()
+    ]
+    if not staged_paths:
+        raise ValueError("Public release found no staged changes to commit.")
+
+    blocked_paths = _blocked_public_release_paths(staged_paths)
+    if blocked_paths:
+        raise ValueError(
+            "Public release attempted to stage blocked paths: " + ", ".join(sorted(blocked_paths))
+        )
+
+    target_version = promotion["target_version"]
+    commit_message = commit_message or f"Release ProductOS v{target_version}"
+    _run_git(root_dir, "commit", "-m", commit_message)
+
+    tag_name = promotion["tag_name"]
+    tag_message = tag_message or f"ProductOS v{target_version} stable release"
+    _run_git(root_dir, "tag", "-a", tag_name, "-m", tag_message)
+
+    branch = branch or _run_git(root_dir, "branch", "--show-current")
+    if push:
+        _run_git(root_dir, "push", remote, branch)
+        _run_git(root_dir, "push", remote, tag_name)
+
+    alignment = verify_public_release_alignment(
+        root_dir,
+        target_version=target_version,
+        tag_name=tag_name,
+    )
+    if alignment["status"] != "aligned":
+        raise ValueError("Public release alignment failed: " + "; ".join(alignment["mismatches"]))
+
+    return {
+        **promotion,
+        "branch": branch,
+        "commit_message": commit_message,
+        "staged_paths": staged_paths,
+        "push": push,
+    }
 
 
 def external_research_gate_blockers(

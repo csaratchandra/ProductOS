@@ -1,14 +1,112 @@
 import json
+import subprocess
 from pathlib import Path
 
 import pytest
 
-from core.python.productos_runtime.release import promote_release_from_ralph
+from core.python.productos_runtime.release import (
+    promote_public_release,
+    promote_release_from_ralph,
+    run_public_release,
+    verify_public_release_alignment,
+)
 
 
 def _write_json(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+
+def _run_git(root: Path, *args: str) -> str:
+    completed = subprocess.run(
+        ["git", *args],
+        cwd=root,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stderr or completed.stdout
+    return completed.stdout.strip()
+
+
+def _seed_public_release_repo(root: Path, *, version: str = "7.2.0") -> None:
+    (root / "registry" / "releases").mkdir(parents=True)
+    (root / "registry" / "workspaces").mkdir(parents=True)
+    (root / "registry" / "suites").mkdir(parents=True)
+    (root / "internal" / "ProductOS-Next" / "docs" / "product").mkdir(parents=True)
+    (root / "docs").mkdir(parents=True)
+
+    (root / ".gitignore").write_text(
+        ".DS_Store\n.pytest_cache/\n__pycache__/\ninternal/*\n!internal/README.md\nworkspaces/*\n!workspaces/.gitkeep\n",
+        encoding="utf-8",
+    )
+    (root / "README.md").write_text(
+        "# ProductOS\n\n"
+        f"ProductOS V{version} is the current stable ProductOS Core line.\n\n"
+        f"ProductOS V{version} is organized around the PM lifecycle plus governed research and improvement loops:\n\n"
+        "- latest stable release assets remain present\n",
+        encoding="utf-8",
+    )
+    (root / "docs" / "public-note.md").write_text("Tracked public release note.\n", encoding="utf-8")
+    (root / "internal" / "ProductOS-Next" / "docs" / "product" / "product-overview.md").write_text(
+        f"The current stable line is ProductOS `V{version}`.\n",
+        encoding="utf-8",
+    )
+    _write_json(
+        root / "registry" / "releases" / f"release_{version.replace('.', '_')}.json",
+        {
+            "schema_version": "1.0.0",
+            "release_id": f"release_{version.replace('.', '_')}",
+            "core_version": version,
+            "released_at": "2026-04-09T12:10:00Z",
+            "release_type": "minor",
+            "change_classification": "feature_enhancement",
+            "customer_visible": True,
+            "classification_rationale": "Existing stable release.",
+            "summary": "Existing stable release.",
+            "breaking_changes": [],
+            "upgrade_actions": ["Keep using the stable release."],
+        },
+    )
+    _write_json(
+        root / "registry" / "workspaces" / "ws_productos_v2.registration.json",
+        {
+            "schema_version": "1.0.0",
+            "registration_id": "ws_reg_productos_v2",
+            "workspace_id": "ws_productos_v2",
+            "workspace_name": "ProductOS Self-Hosting Workspace",
+            "current_core_version": version,
+            "upgrade_history": [
+                {
+                    "core_version": version,
+                    "adopted_at": "2026-04-09T12:10:00Z",
+                    "approved_by": "ProductOS PM",
+                    "change_note": "Previous stable release.",
+                }
+            ],
+            "registered_at": "2026-03-21T00:00:00Z",
+        },
+    )
+    _write_json(
+        root / "registry" / "suites" / "suite_productos.registration.json",
+        {
+            "schema_version": "1.0.0",
+            "registration_id": "suite_reg_productos",
+            "suite_id": "suite_productos",
+            "suite_name": "ProductOS Portfolio Suite",
+            "current_core_version": version,
+            "workspace_ids": ["ws_productos_v2"],
+            "upgrade_history": [
+                {
+                    "core_version": version,
+                    "adopted_at": "2026-04-09T12:10:00Z",
+                    "approved_by": "ProductOS PM",
+                    "change_note": "Previous stable release.",
+                }
+            ],
+            "registered_at": "2026-03-19T18:30:00Z",
+        },
+    )
 
 
 def test_promote_release_from_ralph_updates_current_release_surfaces(tmp_path: Path):
@@ -144,6 +242,64 @@ def test_promote_release_from_ralph_updates_current_release_surfaces(tmp_path: P
         (root / "registry" / "workspaces" / "ws_productos_v2.registration.json").read_text(encoding="utf-8")
     )
     assert len(workspace_after_second_run["upgrade_history"]) == 2
+
+
+def test_promote_public_release_updates_only_tracked_public_surfaces(tmp_path: Path):
+    root = tmp_path / "repo"
+    _seed_public_release_repo(root)
+
+    result = promote_public_release(
+        root,
+        slice_label="public release operator slice",
+        released_at="2026-04-09T12:20:00Z",
+    )
+
+    release = json.loads((root / "registry" / "releases" / "release_7_3_0.json").read_text(encoding="utf-8"))
+    workspace = json.loads((root / "registry" / "workspaces" / "ws_productos_v2.registration.json").read_text(encoding="utf-8"))
+    suite = json.loads((root / "registry" / "suites" / "suite_productos.registration.json").read_text(encoding="utf-8"))
+    readme = (root / "README.md").read_text(encoding="utf-8")
+    overview = (root / "internal" / "ProductOS-Next" / "docs" / "product" / "product-overview.md").read_text(encoding="utf-8")
+
+    assert result["target_version"] == "7.3.0"
+    assert result["tag_name"] == "v7.3.0"
+    assert release["core_version"] == "7.3.0"
+    assert "public release operator slice" in release["summary"]
+    assert workspace["current_core_version"] == "7.3.0"
+    assert suite["current_core_version"] == "7.3.0"
+    assert "ProductOS V7.3.0 is the current stable ProductOS Core line." in readme
+    assert "ProductOS `V7.2.0`" in overview
+
+
+def test_run_public_release_commits_tags_and_blocks_ignored_boundaries(tmp_path: Path):
+    root = tmp_path / "repo"
+    _seed_public_release_repo(root)
+    _run_git(root, "init")
+    _run_git(root, "config", "user.name", "ProductOS Test")
+    _run_git(root, "config", "user.email", "test@example.com")
+    _run_git(root, "add", ".")
+    _run_git(root, "commit", "-m", "Initial state")
+
+    (root / "docs" / "queued-feature.md").write_text("Release the queued public feature.\n", encoding="utf-8")
+    (root / "internal" / "ProductOS-Next" / "artifacts").mkdir(parents=True, exist_ok=True)
+    (root / "internal" / "ProductOS-Next" / "artifacts" / "ignored-proof.json").write_text(
+        "{\"status\": \"local-only\"}\n",
+        encoding="utf-8",
+    )
+
+    result = run_public_release(
+        root,
+        slice_label="public release operator slice",
+        released_at="2026-04-09T12:20:00Z",
+        push=False,
+    )
+
+    committed_paths = set(filter(None, _run_git(root, "show", "--name-only", "--format=", "HEAD").splitlines()))
+    assert result["target_version"] == "7.3.0"
+    assert _run_git(root, "describe", "--tags", "--exact-match") == "v7.3.0"
+    assert "docs/queued-feature.md" in committed_paths
+    assert "registry/releases/release_7_3_0.json" in committed_paths
+    assert all(not path.startswith("internal/") for path in committed_paths)
+    assert verify_public_release_alignment(root, target_version="7.3.0", tag_name="v7.3.0")["status"] == "aligned"
 
 
 def test_promote_release_from_ralph_blocks_watch_level_promotion_gate(tmp_path: Path):

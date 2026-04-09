@@ -7,6 +7,8 @@ from pathlib import Path
 import pytest
 import yaml
 
+from conftest import latest_release
+
 
 def _run_cli(root_dir: Path, *args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
@@ -375,12 +377,13 @@ def test_productos_status_review_and_doctor_surface_feed_governance(
 def test_productos_cutover_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
     output_path = tmp_path / "v7-cutover-plan.md"
     result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "cutover", "--output-path", str(output_path))
+    stable_release_version = latest_release(root_dir)["core_version"]
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Target Version: 7.0.0" in result.stdout
     assert "Selection Status: stable_active" in result.stdout
     assert "Promotion Gate: ready" in result.stdout
-    assert "Stable Release: V7.2.0" in result.stdout
+    assert f"Stable Release: V{stable_release_version}" in result.stdout
     assert "Build Strategy: stabilize_then_externalize" in result.stdout
     assert "Selected Bundle: Lifecycle traceability through outcome review" in result.stdout
     assert output_path.exists()
@@ -389,7 +392,7 @@ def test_productos_cutover_command(root_dir: Path, self_hosting_workspace_dir: P
     assert "## Selected Bundle" in markdown
     assert "Lifecycle traceability through outcome review" in markdown
     assert "external_publication_adapters" in markdown
-    assert "keep V7.2.0 as the stable line" in markdown
+    assert f"keep V{stable_release_version} as the stable line" in markdown
     assert "extend beyond the current PM superpower core only through a later bounded release with explicit proof" in markdown
 
 

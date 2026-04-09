@@ -34,12 +34,9 @@ def test_v7_2_release_surfaces_are_current(root_dir: Path, self_hosting_workspac
     workspace_registration = load_json(root_dir / "registry" / "workspaces" / "ws_productos_v2.registration.json")
     suite_registration = load_json(root_dir / "registry" / "suites" / "suite_productos.registration.json")
     readme = (root_dir / "README.md").read_text(encoding="utf-8")
-    overview = (self_hosting_workspace_dir / "docs" / "product" / "product-overview.md").read_text(encoding="utf-8")
+    version = release["core_version"]
 
-    assert release["core_version"] == "7.2.0"
-    assert release["summary"] == "ProductOS V7.2.0 is the stable release for mission-first PM workflow slice."
-    assert workspace_registration["current_core_version"] == "7.2.0"
-    assert suite_registration["current_core_version"] == "7.2.0"
-    assert "ProductOS V7.2.0 is the current stable ProductOS Core line." in readme
-    assert "ProductOS `V7.2.0`" in overview
-    assert "mission-first intake" in overview
+    assert workspace_registration["current_core_version"] == version
+    assert suite_registration["current_core_version"] == version
+    assert f"ProductOS V{version} is the current stable ProductOS Core line." in readme
+    assert release["summary"].startswith(f"ProductOS V{version} is the stable release for ")

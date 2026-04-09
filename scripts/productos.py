@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 from jsonschema import Draft202012Validator
@@ -53,7 +54,7 @@ from core.python.productos_runtime.next_version import NEXT_VERSION_ARTIFACT_SCH
 from core.python.productos_runtime.v5 import V5_ARTIFACT_SCHEMAS
 from core.python.productos_runtime.v6 import V6_ARTIFACT_SCHEMAS
 from core.python.productos_runtime.v7 import V7_ARTIFACT_SCHEMAS
-from core.python.productos_runtime.release import evaluate_promotion_gate
+from core.python.productos_runtime.release import evaluate_promotion_gate, run_public_release
 
 SCHEMA_DIR = ROOT / "core" / "schemas" / "artifacts"
 PHASE_ARTIFACTS = {
@@ -118,6 +119,10 @@ RESEARCH_RUNTIME_ARTIFACTS = list(RESEARCH_RUNTIME_ARTIFACT_SCHEMAS.keys())
 RESEARCH_PLANNING_ARTIFACTS = list(RESEARCH_PLANNING_ARTIFACT_SCHEMAS.keys())
 RESEARCH_FEED_REGISTRY_ARTIFACTS = list(RESEARCH_FEED_REGISTRY_ARTIFACT_SCHEMAS.keys())
 RESEARCH_DISCOVERY_ARTIFACTS = list(RESEARCH_DISCOVERY_ARTIFACT_SCHEMAS.keys())
+
+
+def _default_timestamp() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def _load_json(path: Path) -> dict:
@@ -614,7 +619,30 @@ def cmd_cutover(args: argparse.Namespace) -> int:
     if args.output_path:
         args.output_path.parent.mkdir(parents=True, exist_ok=True)
         args.output_path.write_text(formatter(plan) + "\n", encoding="utf-8")
-        print(f"Wrote cutover plan to {args.output_path}")
+    print(f"Wrote cutover plan to {args.output_path}")
+    return 0
+
+
+def cmd_release(args: argparse.Namespace) -> int:
+    result = run_public_release(
+        ROOT,
+        slice_label=args.slice_label,
+        released_at=args.released_at,
+        approved_by=args.approved_by,
+        target_version=args.target_version,
+        bump=args.bump,
+        commit_message=args.commit_message,
+        tag_message=args.tag_message,
+        remote=args.remote,
+        branch=args.branch,
+        push=args.push,
+    )
+    print(f"Release Version: {result['target_version']}")
+    print(f"Release Tag: {result['tag_name']}")
+    print(f"Release Branch: {result['branch']}")
+    print(f"Release Commit: {result['commit_message']}")
+    print(f"Release Metadata: {result['release_path'].relative_to(ROOT)}")
+    print(f"Push Status: {'completed' if result['push'] else 'skipped'}")
     return 0
 
 
@@ -995,6 +1023,17 @@ def parse_args() -> argparse.Namespace:
     cutover_parser = subparsers.add_parser("cutover")
     cutover_parser.add_argument("--target-version", default="7.0.0")
     cutover_parser.add_argument("--output-path", type=Path)
+    release_parser = subparsers.add_parser("release")
+    release_parser.add_argument("--slice-label", required=True)
+    release_parser.add_argument("--released-at", default=_default_timestamp())
+    release_parser.add_argument("--approved-by", default="ProductOS PM")
+    release_parser.add_argument("--target-version")
+    release_parser.add_argument("--bump", choices=["major", "minor", "patch"], default="minor")
+    release_parser.add_argument("--commit-message")
+    release_parser.add_argument("--tag-message")
+    release_parser.add_argument("--remote", default="origin")
+    release_parser.add_argument("--branch")
+    release_parser.add_argument("--push", action="store_true")
 
     return parser.parse_args()
 
@@ -1041,6 +1080,8 @@ def main() -> int:
         return cmd_v7(args)
     if args.command == "cutover":
         return cmd_cutover(args)
+    if args.command == "release":
+        return cmd_release(args)
     raise AssertionError(f"Unsupported command: {args.command}")
 
 

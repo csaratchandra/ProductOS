@@ -1,6 +1,6 @@
 # ProductOS
 
-ProductOS V7.2.0 is the current stable ProductOS Core line.
+ProductOS V7.3.0 is the current stable ProductOS Core line.
 
 ProductOS is distributed under the Apache License 2.0. Forks, improvements, and
 suggestions are welcome through issues and pull requests.
@@ -16,7 +16,7 @@ For PM adoption on a new product, the canonical starting surface is [templates](
 
 ## Operating Model
 
-ProductOS V7.2.0 is organized around the PM lifecycle plus governed research and improvement loops:
+ProductOS V7.3.0 is organized around the PM lifecycle plus governed research and improvement loops:
 
 1. current-state assessment
 2. discovery
@@ -71,6 +71,14 @@ These checks verify that:
 - key invalid fixtures fail as expected
 - ProductOS remains standalone from V1 runtime paths
 - latest stable release assets remain present
+
+## Release Ops
+
+Use the public release operator when a bounded feature slice is ready to become the next stable ProductOS line:
+
+`./productos release --slice-label "public release operator slice" --push`
+
+This flow updates tracked public release surfaces, commits them, tags the release commit, and pushes branch plus tag in order. It intentionally excludes `internal/` and `workspaces/` from the release commit.
 
 For approved agent tools, start with [AGENTS.md](/Users/sarat/Documents/code/ProductOS/AGENTS.md) before deeper repo docs.
 

@@ -12,7 +12,15 @@ from .adoption import (
 from .cutover import build_v5_cutover_plan_from_workspace, format_v5_cutover_plan_markdown
 from .cutover import build_v6_cutover_plan_from_workspace, format_v6_cutover_plan_markdown
 from .cutover import build_v7_cutover_plan_from_workspace, format_v7_cutover_plan_markdown
-from .release import latest_release_metadata, latest_release_path, promote_release_from_ralph
+from .release import (
+    infer_next_version,
+    latest_release_metadata,
+    latest_release_path,
+    promote_public_release,
+    promote_release_from_ralph,
+    run_public_release,
+    verify_public_release_alignment,
+)
 from .research import (
     RESEARCH_DISCOVERY_ARTIFACT_SCHEMAS,
     RESEARCH_FEED_REGISTRY_ARTIFACT_SCHEMAS,
@@ -66,7 +74,11 @@ __all__ = [
     "sync_canonical_discover_artifacts",
     "latest_release_metadata",
     "latest_release_path",
+    "infer_next_version",
+    "promote_public_release",
     "promote_release_from_ralph",
+    "run_public_release",
+    "verify_public_release_alignment",
     "build_external_research_feed_registry_from_workspace",
     "build_external_research_plan_from_workspace",
     "discover_external_research_sources_from_workspace",

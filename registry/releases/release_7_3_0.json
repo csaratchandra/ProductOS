@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "release_id": "release_7_3_0",
+  "core_version": "7.3.0",
+  "released_at": "2026-04-09T12:10:01Z",
+  "release_type": "minor",
+  "change_classification": "feature_enhancement",
+  "customer_visible": true,
+  "classification_rationale": "This release promotes ProductOS to V7.3.0 after the public release operator slice passed Ralph-loop inspection, validation, fix, and revalidation.",
+  "summary": "ProductOS V7.3.0 is the stable release for public release operator slice.",
+  "breaking_changes": [],
+  "upgrade_actions": [
+    "Adopt the promoted Public release operator slice in the current ProductOS operating flow.",
+    "Use the automatic Ralph-gated release promotion command for future successful slices.",
+    "Keep private self-hosting work outside PM product workspaces and promote only reusable repo surfaces."
+  ]
+}
