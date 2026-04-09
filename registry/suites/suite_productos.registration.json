@@ -3,7 +3,7 @@
   "registration_id": "suite_reg_productos",
   "suite_id": "suite_productos",
   "suite_name": "ProductOS Portfolio Suite",
-  "current_core_version": "7.1.0",
+  "current_core_version": "7.2.0",
   "workspace_ids": [
     "ws_productos_v2"
   ],
@@ -91,6 +91,12 @@
       "adopted_at": "2026-04-09T12:05:00Z",
       "approved_by": "ProductOS PM",
       "change_note": "Promoted the suite to ProductOS V7.1.0 after the PM superpower core slice passed automatic Ralph-gated release promotion."
+    },
+    {
+      "core_version": "7.2.0",
+      "adopted_at": "2026-04-09T12:10:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Promoted the suite to ProductOS V7.2.0 after the mission-first PM workflow slice passed automatic Ralph-gated release promotion."
     }
   ],
   "registered_at": "2026-03-19T18:30:00Z"

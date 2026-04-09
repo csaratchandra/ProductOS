@@ -3,7 +3,7 @@
   "registration_id": "ws_reg_productos_v2",
   "workspace_id": "ws_productos_v2",
   "workspace_name": "ProductOS Self-Hosting Workspace",
-  "current_core_version": "7.1.0",
+  "current_core_version": "7.2.0",
   "upgrade_history": [
     {
       "core_version": "0.1.0",
@@ -94,6 +94,12 @@
       "adopted_at": "2026-04-09T12:05:00Z",
       "approved_by": "ProductOS PM",
       "change_note": "Adopted ProductOS V7.1.0 after promoting the PM superpower core slice through a successful Ralph loop."
+    },
+    {
+      "core_version": "7.2.0",
+      "adopted_at": "2026-04-09T12:10:00Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS V7.2.0 after promoting the mission-first PM workflow slice through a successful Ralph loop."
     }
   ],
   "registered_at": "2026-03-21T00:00:00Z"

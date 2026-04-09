@@ -380,7 +380,7 @@ def test_productos_cutover_command(root_dir: Path, self_hosting_workspace_dir: P
     assert "Target Version: 7.0.0" in result.stdout
     assert "Selection Status: stable_active" in result.stdout
     assert "Promotion Gate: ready" in result.stdout
-    assert "Stable Release: V7.1.0" in result.stdout
+    assert "Stable Release: V7.2.0" in result.stdout
     assert "Build Strategy: stabilize_then_externalize" in result.stdout
     assert "Selected Bundle: Lifecycle traceability through outcome review" in result.stdout
     assert output_path.exists()
@@ -389,7 +389,7 @@ def test_productos_cutover_command(root_dir: Path, self_hosting_workspace_dir: P
     assert "## Selected Bundle" in markdown
     assert "Lifecycle traceability through outcome review" in markdown
     assert "external_publication_adapters" in markdown
-    assert "keep V7.1.0 as the stable line" in markdown
+    assert "keep V7.2.0 as the stable line" in markdown
     assert "extend beyond the current PM superpower core only through a later bounded release with explicit proof" in markdown
 
 
