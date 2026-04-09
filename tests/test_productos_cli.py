@@ -27,6 +27,7 @@ def test_productos_status_command(root_dir: Path, self_hosting_workspace_dir: Pa
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Mode: status" in result.stdout
+    assert "Mission: PM superpower recovery mission" in result.stdout
     assert "Top Priority Feature: v5_bundle_selection" in result.stdout
     assert "Truthfulness Status: healthy" in result.stdout
     assert "Eval Status: passed (0 regressions)" in result.stdout
@@ -38,9 +39,243 @@ def test_productos_doctor_command(root_dir: Path, self_hosting_workspace_dir: Pa
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Bundle Status: healthy" in result.stdout
+    assert "Mission: PM superpower recovery mission" in result.stdout
     assert "Stable Promotion: ready" in result.stdout
     assert "Intake Items: 2" in result.stdout
     assert "Top Priority Feature: v5_bundle_selection" in result.stdout
+
+
+def test_productos_init_mission_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+    workspace_copy = tmp_path / "workspace-copy"
+    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    for relative_path in [
+        "artifacts/problem_brief.json",
+        "artifacts/concept_brief.json",
+        "artifacts/prd.json",
+    ]:
+        path = workspace_copy / relative_path
+        if path.exists():
+            path.unlink()
+
+    result = _run_self_hosting_cli(
+        root_dir,
+        workspace_copy,
+        "init-mission",
+        "--title",
+        "Customer recovery mission",
+        "--target-user",
+        "Product manager",
+        "--customer-problem",
+        "The PM needs ProductOS to turn messy inputs into reviewable artifacts faster.",
+        "--business-goal",
+        "Recover customer confidence with a clear PM-first operating surface.",
+        "--success-metric",
+        "time to reviewable PRD",
+        "--success-metric",
+        "time to aligned docs and deck",
+        "--operating-mode",
+        "full_loop",
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "Mission Brief: mission_brief_ws_productos_v2_customer_recovery_mission" in result.stdout
+    mission_brief = json.loads((workspace_copy / "artifacts" / "mission_brief.json").read_text(encoding="utf-8"))
+    canonical_problem = json.loads((workspace_copy / "artifacts" / "problem_brief.json").read_text(encoding="utf-8"))
+    canonical_concept = json.loads((workspace_copy / "artifacts" / "concept_brief.json").read_text(encoding="utf-8"))
+    canonical_prd = json.loads((workspace_copy / "artifacts" / "prd.json").read_text(encoding="utf-8"))
+    assert mission_brief["title"] == "Customer recovery mission"
+    assert mission_brief["operating_mode"] == "full_loop"
+    assert canonical_problem["title"] == "Problem Brief: Customer recovery mission"
+    assert canonical_concept["title"] == "Customer recovery mission"
+    assert canonical_prd["title"] == "PRD: Customer recovery mission"
+    assert (workspace_copy / "docs" / "planning" / "mission-brief.md").exists()
+
+    status_result = _run_self_hosting_cli(root_dir, workspace_copy, "status")
+    assert status_result.returncode == 0, status_result.stderr or status_result.stdout
+    assert "Mission: Customer recovery mission" in status_result.stdout
+
+
+def test_productos_run_discover_can_fall_back_to_mission_brief(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+    workspace_copy = tmp_path / "workspace-copy"
+    output_dir = tmp_path / "discover-output"
+    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+
+    for relative_path in [
+        "artifacts/problem_brief.json",
+        "artifacts/concept_brief.json",
+        "artifacts/prd.json",
+        "outputs/discover/discover_problem_brief.json",
+        "outputs/discover/discover_concept_brief.json",
+        "outputs/discover/discover_prd.json",
+        "inbox/raw-notes/2026-03-22-next-version-superpowers.md",
+        "inbox/transcripts/2026-03-22-dogfood-next-version-session.txt",
+    ]:
+        path = workspace_copy / relative_path
+        if path.exists():
+            path.unlink()
+
+    result = _run_self_hosting_cli(
+        root_dir,
+        workspace_copy,
+        "run",
+        "discover",
+        "--output-dir",
+        str(output_dir),
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    generated_problem = json.loads((output_dir / "discover_problem_brief.json").read_text(encoding="utf-8"))
+    generated_concept = json.loads((output_dir / "discover_concept_brief.json").read_text(encoding="utf-8"))
+    generated_prd = json.loads((output_dir / "discover_prd.json").read_text(encoding="utf-8"))
+    assert generated_problem["title"] == "Problem Brief: PM superpower recovery mission"
+    assert "single repo-native way to declare the mission" in generated_problem["problem_summary"]
+    assert generated_concept["title"] == "PM superpower recovery mission"
+    assert generated_prd["title"] == "PRD: PM superpower recovery mission"
+
+
+def test_productos_run_discover_persist_syncs_canonical_discover_artifacts_from_mission(
+    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+):
+    workspace_copy = tmp_path / "workspace-copy"
+    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+
+    for relative_path in [
+        "artifacts/problem_brief.json",
+        "artifacts/concept_brief.json",
+        "artifacts/prd.json",
+        "outputs/discover/discover_problem_brief.json",
+        "outputs/discover/discover_concept_brief.json",
+        "outputs/discover/discover_prd.json",
+        "inbox/raw-notes/2026-03-22-next-version-superpowers.md",
+        "inbox/transcripts/2026-03-22-dogfood-next-version-session.txt",
+    ]:
+        path = workspace_copy / relative_path
+        if path.exists():
+            path.unlink()
+
+    result = _run_self_hosting_cli(
+        root_dir,
+        workspace_copy,
+        "run",
+        "discover",
+        "--persist",
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    canonical_problem = json.loads((workspace_copy / "artifacts" / "problem_brief.json").read_text(encoding="utf-8"))
+    canonical_concept = json.loads((workspace_copy / "artifacts" / "concept_brief.json").read_text(encoding="utf-8"))
+    canonical_prd = json.loads((workspace_copy / "artifacts" / "prd.json").read_text(encoding="utf-8"))
+    persisted_problem = json.loads((workspace_copy / "outputs" / "discover" / "discover_problem_brief.json").read_text(encoding="utf-8"))
+    assert canonical_problem["problem_brief_id"] == persisted_problem["problem_brief_id"]
+    assert canonical_problem["title"] == "Problem Brief: PM superpower recovery mission"
+    assert canonical_concept["title"] == "PM superpower recovery mission"
+    assert canonical_prd["title"] == "PRD: PM superpower recovery mission"
+
+
+def test_productos_init_mission_does_not_overwrite_mature_lifecycle_examples(
+    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+):
+    workspace_copy = tmp_path / "workspace-copy"
+    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+
+    original_item = json.loads(
+        (workspace_copy / "artifacts" / "item_lifecycle_state_pm_lifecycle_visibility.example.json").read_text(
+            encoding="utf-8"
+        )
+    )
+
+    result = _run_self_hosting_cli(
+        root_dir,
+        workspace_copy,
+        "init-mission",
+        "--title",
+        "Customer trust recovery mission",
+        "--target-user",
+        "Product manager",
+        "--customer-problem",
+        "The PM needs ProductOS outputs to stay tied to the real customer problem instead of generic operating language.",
+        "--business-goal",
+        "Recover customer trust with explicit mission traceability across every PM phase.",
+        "--success-metric",
+        "time to reviewable PRD",
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    preserved_item = json.loads(
+        (workspace_copy / "artifacts" / "item_lifecycle_state_pm_lifecycle_visibility.example.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert preserved_item["item_lifecycle_state_id"] == original_item["item_lifecycle_state_id"]
+    assert preserved_item["title"] == original_item["title"]
+    assert not (workspace_copy / "artifacts" / "item_lifecycle_state.json").exists()
+    assert not (workspace_copy / "artifacts" / "lifecycle_stage_snapshot.json").exists()
+
+
+def test_productos_align_and_operate_outputs_include_custom_mission_context(
+    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+):
+    workspace_copy = tmp_path / "workspace-copy"
+    align_output_dir = tmp_path / "align-output"
+    operate_output_dir = tmp_path / "operate-output"
+    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+
+    mission_result = _run_self_hosting_cli(
+        root_dir,
+        workspace_copy,
+        "init-mission",
+        "--title",
+        "Customer trust recovery mission",
+        "--target-user",
+        "Product manager",
+        "--customer-problem",
+        "The PM needs ProductOS outputs to stay tied to the real customer problem instead of generic operating language.",
+        "--business-goal",
+        "Recover customer trust with explicit mission traceability across every PM phase.",
+        "--success-metric",
+        "time to reviewable PRD",
+        "--success-metric",
+        "time to aligned docs and deck",
+    )
+    assert mission_result.returncode == 0, mission_result.stderr or mission_result.stdout
+
+    align_result = _run_self_hosting_cli(
+        root_dir,
+        workspace_copy,
+        "run",
+        "align",
+        "--output-dir",
+        str(align_output_dir),
+    )
+    operate_result = _run_self_hosting_cli(
+        root_dir,
+        workspace_copy,
+        "run",
+        "operate",
+        "--output-dir",
+        str(operate_output_dir),
+    )
+
+    assert align_result.returncode == 0, align_result.stderr or align_result.stdout
+    assert operate_result.returncode == 0, operate_result.stderr or operate_result.stdout
+
+    presentation_brief = json.loads((align_output_dir / "presentation_brief.json").read_text(encoding="utf-8"))
+    document_sync_state = json.loads((align_output_dir / "align_document_sync_state.json").read_text(encoding="utf-8"))
+    status_mail = json.loads((operate_output_dir / "operate_status_mail.json").read_text(encoding="utf-8"))
+    issue_log = json.loads((operate_output_dir / "operate_issue_log.json").read_text(encoding="utf-8"))
+
+    assert "Customer trust recovery mission" in presentation_brief["objective"]
+    assert "mission_brief_ws_productos_v2_customer_trust_recovery_mission" in presentation_brief["source_artifact_ids"]
+    assert any(
+        snapshot["artifact_type"] == "mission_brief" for snapshot in presentation_brief["source_material_snapshots"]
+    )
+    assert "Customer trust recovery mission" in document_sync_state["next_action"]
+    assert "mission_brief_ws_productos_v2_customer_trust_recovery_mission" in document_sync_state["source_artifact_refs"]
+    assert "Customer trust recovery mission" in status_mail["summary"]
+    assert "mission_brief_ws_productos_v2_customer_trust_recovery_mission" in status_mail["generated_from_artifact_ids"]
+    assert any(
+        "Customer trust recovery mission" in issue["title"] for issue in issue_log["issues"]
+    )
 
 
 def test_productos_status_review_and_doctor_surface_feed_governance(
@@ -991,6 +1226,123 @@ def test_productos_init_workspace_command(root_dir: Path, tmp_path: Path):
     assert lifecycle_state["workspace_id"] == "ws_acme"
     assert "artifacts/story_pack.json" in manifest["artifact_paths"]
     assert "artifacts/release_readiness.json" in manifest["artifact_paths"]
+
+
+def test_productos_init_mission_updates_delivery_and_launch_artifacts_in_initialized_workspace(
+    root_dir: Path, tmp_path: Path
+):
+    destination = tmp_path / "acme-workspace"
+    init_result = _run_cli(
+        root_dir,
+        "init-workspace",
+        "--dest",
+        str(destination),
+        "--workspace-id",
+        "ws_acme",
+        "--name",
+        "Acme Product Workspace",
+        "--mode",
+        "enterprise",
+    )
+    assert init_result.returncode == 0, init_result.stderr or init_result.stdout
+
+    mission_result = _run_cli(
+        root_dir,
+        "--workspace-dir",
+        str(destination),
+        "init-mission",
+        "--title",
+        "Activation recovery mission",
+        "--target-user",
+        "Product manager",
+        "--customer-problem",
+        "Customers are not reaching activation fast enough and the PM needs one canonical mission across delivery and launch artifacts.",
+        "--business-goal",
+        "Increase activation while keeping execution artifacts and launch messaging aligned.",
+        "--success-metric",
+        "activation rate uplift",
+    )
+    assert mission_result.returncode == 0, mission_result.stderr or mission_result.stdout
+
+    story_pack = json.loads((destination / "artifacts" / "story_pack.json").read_text(encoding="utf-8"))
+    acceptance = json.loads((destination / "artifacts" / "acceptance_criteria_set.json").read_text(encoding="utf-8"))
+    release_readiness = json.loads((destination / "artifacts" / "release_readiness.json").read_text(encoding="utf-8"))
+    release_note = json.loads((destination / "artifacts" / "release_note.json").read_text(encoding="utf-8"))
+    outcome_review = json.loads((destination / "artifacts" / "outcome_review.json").read_text(encoding="utf-8"))
+    item_lifecycle_state = json.loads((destination / "artifacts" / "item_lifecycle_state.json").read_text(encoding="utf-8"))
+    discovery_snapshot = json.loads((destination / "artifacts" / "lifecycle_stage_snapshot.json").read_text(encoding="utf-8"))
+    delivery_snapshot = json.loads(
+        (destination / "artifacts" / "lifecycle_stage_snapshot_delivery.json").read_text(encoding="utf-8")
+    )
+    launch_snapshot = json.loads(
+        (destination / "artifacts" / "lifecycle_stage_snapshot_launch.json").read_text(encoding="utf-8")
+    )
+    outcomes_snapshot = json.loads(
+        (destination / "artifacts" / "lifecycle_stage_snapshot_outcomes.json").read_text(encoding="utf-8")
+    )
+    full_snapshot = json.loads(
+        (destination / "artifacts" / "lifecycle_stage_snapshot_full_lifecycle.json").read_text(encoding="utf-8")
+    )
+
+    assert "Activation recovery mission" in story_pack["stories"][0]["title"]
+    assert any(
+        ref["path"] == "docs/planning/mission-brief.md" for ref in story_pack["stories"][0]["implementation_context_refs"]
+    )
+    assert story_pack["feature_id"] == "feature_activation_recovery_mission_discover_loop"
+    assert any(
+        ref["entity_type"] == "opportunity" and ref["entity_id"] == "opportunity_activation_recovery_mission"
+        for ref in story_pack["stories"][0]["linked_entity_refs"]
+    )
+    assert any("Activation recovery mission" in criterion["statement"] for criterion in acceptance["criteria"])
+    assert release_readiness["feature_id"] == "feature_activation_recovery_mission_discover_loop"
+    assert all("Activation recovery mission" in role["responsibility"] for role in release_readiness["launch_roles"])
+    assert "Activation recovery mission" in release_note["summary"]
+    assert release_note["feature_ids"] == ["feature_activation_recovery_mission_discover_loop"]
+    assert "mission_brief_ws_acme_activation_recovery_mission" in outcome_review["evidence_refs"]
+    assert "item_lifecycle_state_activation_recovery_mission_mission_trace" in outcome_review["evidence_refs"]
+    assert "Activation recovery mission" in outcome_review["review_scope"]
+    assert item_lifecycle_state["item_lifecycle_state_id"] == "item_lifecycle_state_activation_recovery_mission_mission_trace"
+    assert item_lifecycle_state["item_ref"]["entity_id"] == "opportunity_activation_recovery_mission"
+    assert item_lifecycle_state["title"] == "Mission lifecycle trace for Activation recovery mission"
+    assert item_lifecycle_state["lifecycle_stages"][0]["artifact_ids"] == ["mission_brief_ws_acme_activation_recovery_mission"]
+    assert item_lifecycle_state["lifecycle_stages"][3]["artifact_ids"] == [
+        "problem_brief_activation_recovery_mission_mission_discover"
+    ]
+    assert item_lifecycle_state["lifecycle_stages"][4]["artifact_ids"] == [
+        "concept_brief_activation_recovery_mission_mission_discover"
+    ]
+    assert item_lifecycle_state["lifecycle_stages"][6]["artifact_ids"][0] == "prd_activation_recovery_mission_mission_discover"
+    assert discovery_snapshot["lifecycle_stage_snapshot_id"] == (
+        "lifecycle_stage_snapshot_discovery_activation_recovery_mission_mission_trace"
+    )
+    assert delivery_snapshot["lifecycle_stage_snapshot_id"] == (
+        "lifecycle_stage_snapshot_delivery_activation_recovery_mission_mission_trace"
+    )
+    assert launch_snapshot["lifecycle_stage_snapshot_id"] == (
+        "lifecycle_stage_snapshot_launch_activation_recovery_mission_mission_trace"
+    )
+    assert outcomes_snapshot["lifecycle_stage_snapshot_id"] == (
+        "lifecycle_stage_snapshot_outcomes_activation_recovery_mission_mission_trace"
+    )
+    assert full_snapshot["lifecycle_stage_snapshot_id"] == (
+        "lifecycle_stage_snapshot_full_lifecycle_activation_recovery_mission_mission_trace"
+    )
+    assert discovery_snapshot["active_item_ids"] == ["opportunity_activation_recovery_mission"]
+    assert delivery_snapshot["active_item_ids"] == ["opportunity_activation_recovery_mission"]
+    assert launch_snapshot["active_item_ids"] == ["opportunity_activation_recovery_mission"]
+    assert outcomes_snapshot["active_item_ids"] == ["opportunity_activation_recovery_mission"]
+    assert full_snapshot["active_item_ids"] == ["opportunity_activation_recovery_mission"]
+    assert discovery_snapshot["stage_summaries"][0]["artifact_ids"] == ["mission_brief_ws_acme_activation_recovery_mission"]
+    assert any(
+        summary["stage_key"] == "problem_framing"
+        and summary["artifact_ids"] == ["problem_brief_activation_recovery_mission_mission_discover"]
+        for summary in discovery_snapshot["stage_summaries"]
+    )
+    assert any(
+        summary["stage_key"] == "release_readiness"
+        and summary["artifact_ids"] == ["release_readiness_starter_trace_demo"]
+        for summary in delivery_snapshot["stage_summaries"]
+    )
 
 
 def test_productos_validate_workspace_command(root_dir: Path):

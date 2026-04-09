@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "mission_brief_id": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+  "workspace_id": "ws_productos_v2",
+  "title": "PM superpower recovery mission",
+  "mission_summary": "ProductOS should help PMs turn messy product reality into governed artifacts, alignment outputs, and execution loops while driving repeatable customer and business outcomes.",
+  "target_user": "Product manager using ProductOS with approved AI agents",
+  "customer_problem": "PMs spend too much time reconstructing the same truth into artifacts, presentations, reviews, and weekly operating loops.",
+  "business_goal": "Reduce PM setup friction and make ProductOS credible as the PM operating system for the first impatient customer.",
+  "success_metrics": [
+    "time from intake to reviewable PRD",
+    "time from PRD to aligned docs and deck",
+    "weekly PM autopilot quality"
+  ],
+  "constraints": [
+    "Keep PM approval explicit for decision-driving scope and release movement.",
+    "Preserve observed versus inferred claims when evidence is incomplete."
+  ],
+  "audience": [
+    "PM",
+    "engineering",
+    "design",
+    "leadership"
+  ],
+  "operating_mode": "full_loop",
+  "primary_workflow_refs": [
+    "../../core/workflows/workspace-ingestion/inbox-to-normalized-evidence-workflow.md",
+    "../../core/workflows/discovery/idea-to-concept-workflow.md",
+    "../../core/workflows/research/research-command-center-workflow.md",
+    "../../core/workflows/delivery/problem-brief-to-prd-workflow.md",
+    "../../core/workflows/delivery/prd-to-stories-workflow.md",
+    "../../core/workflows/delivery/stories-to-acceptance-workflow.md",
+    "../../core/workflows/launch/release-readiness-workflow.md",
+    "../../core/workflows/mastery/post-release-outcome-review-workflow.md",
+    "../../core/workflows/mastery/bounded-improvement-workflow.md"
+  ],
+  "source_refs": [
+    "internal/ProductOS-Next/workspace_manifest.yaml",
+    "internal/ProductOS-Next/artifacts/problem_brief.json"
+  ],
+  "next_action": "Run the mission through discover first, keep evidence and approvals explicit, then expand phase coverage only when the prior outputs stay reviewable.",
+  "created_at": "2026-04-09T08:00:00Z",
+  "updated_at": "2026-04-09T08:00:00Z"
+}

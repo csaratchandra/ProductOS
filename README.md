@@ -49,6 +49,10 @@ Recommended command:
 
 `./productos init-workspace --dest /path/to/new-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode startup`
 
+Recommended next step:
+
+`./productos --workspace-dir /path/to/new-workspace init-mission --title "Your mission" --target-user "Your PM" --customer-problem "Customer problem" --business-goal "Business goal" --success-metric "time to reviewable PRD"`
+
 ## Validation And Testing
 
 Validation and tests are intentionally local and simple:
@@ -67,6 +71,8 @@ These checks verify that:
 - key invalid fixtures fail as expected
 - ProductOS remains standalone from V1 runtime paths
 - latest stable release assets remain present
+
+For approved agent tools, start with [AGENTS.md](/Users/sarat/Documents/code/ProductOS/AGENTS.md) before deeper repo docs.
 
 ## Standalone Rule
 

@@ -31,6 +31,7 @@ from .lifecycle import (
     load_item_lifecycle_state_from_workspace,
     load_lifecycle_stage_snapshot_from_workspace,
 )
+from .mission import init_mission_in_workspace, load_mission_brief_from_workspace, sync_canonical_discover_artifacts
 from .next_version import build_next_version_bundle_from_workspace
 from .v5 import build_v5_lifecycle_bundle_from_workspace, summarize_v5_lifecycle_bundle
 from .v6 import build_v6_lifecycle_bundle_from_workspace, summarize_v6_lifecycle_bundle
@@ -60,6 +61,9 @@ __all__ = [
     "format_item_lifecycle_state",
     "format_lifecycle_stage_snapshot",
     "init_workspace_from_template",
+    "init_mission_in_workspace",
+    "load_mission_brief_from_workspace",
+    "sync_canonical_discover_artifacts",
     "latest_release_metadata",
     "latest_release_path",
     "promote_release_from_ralph",

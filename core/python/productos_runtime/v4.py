@@ -15,6 +15,7 @@ from components.presentation.python.productos_presentation import (
     build_render_spec,
     build_slide_spec,
 )
+from .mission import build_discover_artifacts_from_mission
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -36,10 +37,26 @@ def build_v4_foundation_bundle_from_workspace(
     docs_dir = workspace_path / "docs"
     workspace_name = workspace_path.name
 
-    problem_brief = _load_json(artifacts_dir / "problem_brief.json")
-    concept_brief = _load_json(artifacts_dir / "concept_brief.json")
+    mission_brief_path = artifacts_dir / "mission_brief.json"
+    mission_brief = _load_json(mission_brief_path) if mission_brief_path.exists() else None
+    problem_brief_path = artifacts_dir / "problem_brief.json"
+    concept_brief_path = artifacts_dir / "concept_brief.json"
+    prd_path = artifacts_dir / "prd.json"
+    if problem_brief_path.exists() and concept_brief_path.exists() and prd_path.exists():
+        problem_brief = _load_json(problem_brief_path)
+        concept_brief = _load_json(concept_brief_path)
+        prd = _load_json(prd_path)
+    elif mission_brief is not None:
+        problem_brief, concept_brief, prd = build_discover_artifacts_from_mission(
+            workspace_id=mission_brief["workspace_id"],
+            generated_at=generated_at,
+            mission_brief=mission_brief,
+        )
+    else:
+        problem_brief = _load_json(problem_brief_path)
+        concept_brief = _load_json(concept_brief_path)
+        prd = _load_json(prd_path)
     prototype_record = _load_json(artifacts_dir / "prototype_record.json")
-    prd = _load_json(artifacts_dir / "prd.json")
     increment_plan = _load_json(artifacts_dir / "increment_plan.json")
     release_readiness = _load_json(artifacts_dir / "release_readiness.example.json")
     release_gate_decision = _load_json(artifacts_dir / "release_gate_decision.example.json")

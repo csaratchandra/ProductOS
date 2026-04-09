@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "mission_brief_id": "mission_brief_product_starter",
+  "workspace_id": "ws_product_starter",
+  "title": "Starter mission brief",
+  "mission_summary": "Use this artifact to capture the few high-signal PM questions that should drive the first bounded ProductOS execution loop.",
+  "target_user": "Primary PM or product lead",
+  "customer_problem": "Describe the user problem ProductOS should help solve first.",
+  "business_goal": "Describe the business outcome or strategic goal this loop should support.",
+  "success_metrics": [
+    "time to reviewable problem brief",
+    "time to reviewable PRD"
+  ],
+  "constraints": [
+    "Keep PM approval explicit for decision-driving scope.",
+    "Mark inferred claims explicitly when evidence is incomplete."
+  ],
+  "audience": [
+    "PM",
+    "engineering",
+    "design",
+    "leadership"
+  ],
+  "operating_mode": "discover_to_align",
+  "primary_workflow_refs": [
+    "../../core/workflows/workspace-ingestion/inbox-to-normalized-evidence-workflow.md",
+    "../../core/workflows/discovery/idea-to-concept-workflow.md",
+    "../../core/workflows/research/research-command-center-workflow.md",
+    "../../core/workflows/delivery/problem-brief-to-prd-workflow.md",
+    "../../core/workflows/mastery/readable-doc-review-and-sync-workflow.md",
+    "../../core/workflows/mastery/document-to-presentation-packaging-workflow.md"
+  ],
+  "source_refs": [
+    "workspace_manifest.yaml"
+  ],
+  "next_action": "Replace this starter mission with your product-specific mission before running the first discover loop.",
+  "created_at": "2026-04-09T08:00:00Z",
+  "updated_at": "2026-04-09T08:00:00Z"
+}

@@ -4,6 +4,7 @@ name: "ProductOS Starter Workspace"
 mode: "startup"
 active_increment_id: "pi_YYYY_qX_01"
 artifact_paths:
+  - "artifacts/mission_brief.json"
   - "artifacts/README.md"
   - "artifacts/research_notebook.json"
   - "artifacts/segment_map.json"

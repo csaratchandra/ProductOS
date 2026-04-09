@@ -13,6 +13,7 @@ from components.presentation.python.productos_presentation import (
     build_publish_check,
     build_render_spec,
 )
+from .mission import build_discover_artifacts_from_mission
 from .baseline import (
     build_foundation_bundle_from_workspace,
     build_market_intelligence_bundle_from_workspace,
@@ -549,9 +550,21 @@ def _build_live_discover_artifacts(
     *,
     workspace_id: str,
     generated_at: str,
+    mission_brief: dict[str, Any] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     raw_note_path = workspace_path / "inbox" / "raw-notes" / "2026-03-22-next-version-superpowers.md"
     transcript_path = workspace_path / "inbox" / "transcripts" / "2026-03-22-dogfood-next-version-session.txt"
+
+    if (not raw_note_path.exists() or not transcript_path.exists()) and mission_brief is not None:
+        return _build_mission_discover_artifacts(
+            workspace_id=workspace_id,
+            generated_at=generated_at,
+            mission_brief=mission_brief,
+        )
+    if not raw_note_path.exists() or not transcript_path.exists():
+        raise FileNotFoundError(
+            "Discover fallback inputs are missing. Provide the self-hosting discover inputs or a mission_brief artifact."
+        )
 
     raw_note_headline = raw_note_path.read_text(encoding="utf-8").strip().splitlines()[0]
     transcript_excerpt = transcript_path.read_text(encoding="utf-8").strip().splitlines()[1]
@@ -692,6 +705,52 @@ def _build_live_discover_artifacts(
     }
 
     return problem_brief, concept_brief, prd
+
+
+def _build_mission_discover_artifacts(
+    *,
+    workspace_id: str,
+    generated_at: str,
+    mission_brief: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    return build_discover_artifacts_from_mission(
+        workspace_id=workspace_id,
+        generated_at=generated_at,
+        mission_brief=mission_brief,
+    )
+
+
+def _load_or_build_workspace_discover_artifacts(
+    workspace_path: Path,
+    *,
+    workspace_id: str,
+    generated_at: str,
+    mission_brief: dict[str, Any] | None,
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    artifacts_dir = workspace_path / "artifacts"
+    problem_brief = _load_persisted_json(artifacts_dir / "problem_brief.json")
+    concept_brief = _load_persisted_json(artifacts_dir / "concept_brief.json")
+    prd = _load_persisted_json(artifacts_dir / "prd.json")
+    if problem_brief and concept_brief and prd:
+        return problem_brief, concept_brief, prd
+    if mission_brief is not None:
+        return _build_mission_discover_artifacts(
+            workspace_id=workspace_id,
+            generated_at=generated_at,
+            mission_brief=mission_brief,
+        )
+    missing = [
+        filename
+        for filename, payload in {
+            "problem_brief.json": problem_brief,
+            "concept_brief.json": concept_brief,
+            "prd.json": prd,
+        }.items()
+        if payload is None
+    ]
+    raise FileNotFoundError(
+        f"Workspace is missing required discover artifacts: {', '.join(missing)}"
+    )
 
 
 def _load_persisted_discover_artifacts(workspace_path: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]] | None:
@@ -842,6 +901,196 @@ def _augment_presentation_brief_with_workspace_research(
     return enriched
 
 
+def _augment_presentation_brief_with_mission(
+    presentation_brief: dict[str, Any],
+    *,
+    mission_brief: dict[str, Any] | None,
+) -> dict[str, Any]:
+    if mission_brief is None:
+        return presentation_brief
+
+    enriched = copy.deepcopy(presentation_brief)
+    mission_title = mission_brief["title"]
+    mission_problem = mission_brief["customer_problem"]
+    mission_goal = mission_brief["business_goal"]
+    mission_id = mission_brief["mission_brief_id"]
+    source_artifact_ids = list(enriched.get("source_artifact_ids", []))
+    source_material_snapshots = list(enriched.get("source_material_snapshots", []))
+    known_gaps = list(enriched.get("known_gaps", []))
+    non_negotiables = list(enriched.get("non_negotiables", []))
+    required_objections = list(enriched.get("required_objections", []))
+
+    enriched["objective"] = (
+        f"{enriched['objective']} Keep the mission '{mission_title}' explicit while packaging the aligned recommendation."
+    )
+    enriched["narrative_goal"] = (
+        f"{enriched['narrative_goal']} Show how the mission '{mission_title}' ties customer pain to the current aligned recommendation."
+    )
+    enriched["success_outcome"] = (
+        f"{enriched['success_outcome']} The audience should also understand how this package advances the mission '{mission_title}'."
+    )
+    source_artifact_ids.append(mission_id)
+    known_gaps.append(
+        f"Keep the mission '{mission_title}' visible across docs and deck so PM intent does not get flattened into generic release narration."
+    )
+    required_objections.append(
+        f"How does this aligned package specifically advance the mission '{mission_title}'?"
+    )
+    non_negotiables.append(
+        f"Do not let presentation polish obscure the mission-specific customer problem: {mission_problem}"
+    )
+    source_material_snapshots.append(
+        {
+            "artifact_id": mission_id,
+            "artifact_type": "mission_brief",
+            "facts": [
+                {
+                    "fact_id": f"fact_{_slug(mission_title)}_mission_problem",
+                    "fact_type": "constraint",
+                    "statement": mission_problem,
+                    "claim_mode": "observed",
+                    "validation_note": "Taken directly from the canonical mission brief.",
+                    "relevance_tags": ["cover", "recommendation", "mission"],
+                },
+                {
+                    "fact_id": f"fact_{_slug(mission_title)}_business_goal",
+                    "fact_type": "decision",
+                    "statement": mission_goal,
+                    "claim_mode": "observed",
+                    "validation_note": "Taken directly from the canonical mission brief.",
+                    "relevance_tags": ["summary", "decision", "mission"],
+                },
+            ],
+        }
+    )
+    enriched["source_artifact_ids"] = list(dict.fromkeys(source_artifact_ids))
+    enriched["known_gaps"] = list(dict.fromkeys(known_gaps))
+    enriched["required_objections"] = list(dict.fromkeys(required_objections))
+    enriched["non_negotiables"] = list(dict.fromkeys(non_negotiables))
+    enriched["source_material_snapshots"] = source_material_snapshots
+    return enriched
+
+
+def _augment_document_sync_state_with_mission(
+    document_sync_state: dict[str, Any],
+    *,
+    mission_brief: dict[str, Any] | None,
+) -> dict[str, Any]:
+    if mission_brief is None:
+        return document_sync_state
+
+    enriched = copy.deepcopy(document_sync_state)
+    mission_id = mission_brief["mission_brief_id"]
+    mission_title = mission_brief["title"]
+    mission_problem = mission_brief["customer_problem"]
+    mission_goal = mission_brief["business_goal"]
+    enriched["source_artifact_refs"] = list(dict.fromkeys([*enriched["source_artifact_refs"], mission_id]))
+    enriched["drift_summary"] = (
+        f"{enriched['drift_summary']} The sync bundle must also preserve the mission '{mission_title}' across product and messaging docs."
+    )
+    enriched["review_requirements"] = list(
+        dict.fromkeys(
+            [
+                *enriched["review_requirements"],
+                f"Confirm the docs still reflect the mission '{mission_title}' and its customer problem without flattening it into generic positioning.",
+            ]
+        )
+    )
+    enriched["next_action"] = (
+        f"{enriched['next_action']} Keep the mission '{mission_title}' explicit in the synced docs and messaging bundle."
+    )
+    updated_documents: list[dict[str, Any]] = []
+    for document in enriched["documents"]:
+        updated_document = copy.deepcopy(document)
+        if mission_id not in updated_document["source_artifact_refs"]:
+            updated_document["source_artifact_refs"].append(mission_id)
+        if updated_document["doc_key"] in {"product_overview", "getting_started", "positioning", "messaging_house"}:
+            updated_document["last_sync_status"] = (
+                f"{updated_document['last_sync_status']} The current sync also preserves the mission '{mission_title}' "
+                f"and its business goal: {mission_goal}"
+            )
+        updated_documents.append(updated_document)
+    enriched["documents"] = updated_documents
+    return enriched
+
+
+def _augment_status_mail_with_mission(
+    status_mail: dict[str, Any],
+    *,
+    mission_brief: dict[str, Any] | None,
+) -> dict[str, Any]:
+    if mission_brief is None:
+        return status_mail
+
+    enriched = copy.deepcopy(status_mail)
+    mission_id = mission_brief["mission_brief_id"]
+    mission_title = mission_brief["title"]
+    mission_problem = mission_brief["customer_problem"]
+    mission_goal = mission_brief["business_goal"]
+    enriched["summary"] = (
+        f"{enriched.get('summary', '')} The current operator cycle also stays anchored to the mission '{mission_title}'."
+    ).strip()
+    enriched["what_happened"] = list(
+        dict.fromkeys(
+            [
+                *enriched["what_happened"],
+                f"Kept the mission '{mission_title}' visible while routing aligned execution and review work.",
+            ]
+        )
+    )
+    enriched["next_steps"] = list(enriched["next_steps"])
+    enriched["next_steps"].append(
+        {
+            "description": f"Confirm the next aligned and operating outputs still advance the mission '{mission_title}'.",
+            "owner": "ProductOS PM",
+            "target_date": enriched["reporting_period"]["end_date"],
+        }
+    )
+    enriched["pm_context_requested"] = list(
+        dict.fromkeys(
+            [
+                *enriched.get("pm_context_requested", []),
+                f"Are the current outputs still directly addressing the mission problem: {mission_problem}?",
+                f"What is the next highest-leverage move to achieve this business goal: {mission_goal}?",
+            ]
+        )
+    )
+    enriched["generated_from_artifact_ids"] = list(
+        dict.fromkeys([*enriched.get("generated_from_artifact_ids", []), mission_id])
+    )
+    return enriched
+
+
+def _augment_issue_log_with_mission(
+    issue_log: dict[str, Any],
+    *,
+    mission_brief: dict[str, Any] | None,
+) -> dict[str, Any]:
+    if mission_brief is None:
+        return issue_log
+
+    enriched = copy.deepcopy(issue_log)
+    mission_slug = _slug(mission_brief["title"])
+    mission_title = mission_brief["title"]
+    enriched["period_label"] = f"{enriched['period_label']} for {mission_title}"
+    existing_issue_ids = {issue["issue_id"] for issue in enriched["issues"]}
+    mission_issue_id = f"issue_{mission_slug}_mission_traceability"
+    if mission_issue_id not in existing_issue_ids:
+        enriched["issues"].append(
+            {
+                "issue_id": mission_issue_id,
+                "title": f"Mission traceability for '{mission_title}' must stay explicit across aligned docs and operating outputs",
+                "category": "product",
+                "severity": "medium",
+                "owner": "ProductOS PM",
+                "status": "watch",
+                "mitigation": "Keep the mission brief in the source chain for docs, deck, status, and issue routing until downstream traceability is routine.",
+                "due_date": issue_log["updated_at"][:10],
+            }
+        )
+    return enriched
+
+
 def build_next_version_bundle_from_workspace(
     workspace_dir: Path | str,
     *,
@@ -860,9 +1109,19 @@ def build_next_version_bundle_from_workspace(
         generated_at=generated_at,
     )
 
-    problem_brief = _load_json(artifacts_dir / "problem_brief.json")
-    concept_brief = _load_json(artifacts_dir / "concept_brief.json")
-    prd = _load_json(artifacts_dir / "prd.json")
+    workspace_mission_brief = _load_persisted_json(artifacts_dir / "mission_brief.json")
+    seeded_problem_brief = _load_persisted_json(artifacts_dir / "problem_brief.json")
+    workspace_id = (
+        workspace_mission_brief.get("workspace_id")
+        if workspace_mission_brief is not None
+        else seeded_problem_brief.get("workspace_id") if seeded_problem_brief is not None else ""
+    )
+    problem_brief, concept_brief, prd = _load_or_build_workspace_discover_artifacts(
+        workspace_path,
+        workspace_id=workspace_id,
+        generated_at=generated_at,
+        mission_brief=workspace_mission_brief,
+    )
     decision_queue = _load_json(artifacts_dir / "decision_queue.example.json")
     decision_log = _load_json(artifacts_dir / "decision_log.example.json")
     follow_up_queue = _load_json(artifacts_dir / "follow_up_queue.example.json")
@@ -894,7 +1153,7 @@ def build_next_version_bundle_from_workspace(
         workspace_path / "outputs" / "research" / "external-research-manifest.selected.json"
     )
     workspace_external_research_review = _load_persisted_json(artifacts_dir / "external_research_review.json")
-    workspace_problem_brief = _load_persisted_json(artifacts_dir / "problem_brief.json")
+    workspace_problem_brief = _load_persisted_json(artifacts_dir / "problem_brief.json") or problem_brief
     strategic_memory = _load_json(ROOT / "core" / "examples" / "artifacts" / "strategic_memory_record.example.json")
     workspace_id = problem_brief["workspace_id"]
 
@@ -908,6 +1167,7 @@ def build_next_version_bundle_from_workspace(
             workspace_path,
             workspace_id=workspace_id,
             generated_at=generated_at,
+            mission_brief=workspace_mission_brief,
         )
     else:
         discover_problem_brief, discover_concept_brief, discover_prd = persisted_discover_artifacts
@@ -934,17 +1194,112 @@ def build_next_version_bundle_from_workspace(
             research_brief=workspace_research_brief,
             problem_brief=workspace_problem_brief,
         )
+        presentation_brief = _augment_presentation_brief_with_mission(
+            presentation_brief,
+            mission_brief=workspace_mission_brief,
+        )
         presentation_evidence_pack = build_evidence_pack(presentation_brief)
         presentation_story = build_presentation_story(presentation_brief, presentation_evidence_pack)
         presentation_render_spec = build_render_spec(presentation_brief, presentation_story)
         presentation_publish_check = build_publish_check(presentation_brief, presentation_render_spec, target_format="html")
         presentation_ppt_export_plan = build_ppt_export_plan(presentation_render_spec)
+    if persisted_presentation_artifacts is not None:
+        presentation_brief = _augment_presentation_brief_with_mission(
+            presentation_brief,
+            mission_brief=workspace_mission_brief,
+        )
+        presentation_evidence_pack = build_evidence_pack(presentation_brief)
+        presentation_story = build_presentation_story(presentation_brief, presentation_evidence_pack)
+        presentation_render_spec = build_render_spec(presentation_brief, presentation_story)
+        presentation_publish_check = build_publish_check(presentation_brief, presentation_render_spec, target_format="html")
+        presentation_ppt_export_plan = build_ppt_export_plan(presentation_render_spec)
+    live_doc_sync_state = _augment_document_sync_state_with_mission(
+        live_doc_sync_state,
+        mission_brief=workspace_mission_brief,
+    )
+    status_mail = _augment_status_mail_with_mission(
+        status_mail,
+        mission_brief=workspace_mission_brief,
+    )
+    issue_log = _augment_issue_log_with_mission(
+        issue_log,
+        mission_brief=workspace_mission_brief,
+    )
     eval_suite_manifest = _build_eval_suite_manifest(
         workspace_id=workspace_id,
         generated_at=generated_at,
     )
     eval_run_report = {"eval_run_report_id": f"eval_run_report_{workspace_id}_bounded_baseline"}
     context_pack = {"context_pack_id": f"context_pack_{workspace_id}_bounded_baseline"}
+    context_pack_request_summary = "Assemble the evidence, memory, and decision context needed to review the current bounded baseline."
+    context_pack_decision_to_be_made = "Should ProductOS treat the current next-version runtime as trustworthy enough to score and promote release claims?"
+    context_pack_audience = ["PM", "engineering", "leadership"]
+    context_pack_evidence_bundle = [
+        {
+            "source_id": decision_log["decision_log_id"],
+            "source_type": "decision_log",
+            "summary": "The decision log records the baseline release decisions with reversibility, tradeoffs, rejected options, kill criteria, and follow-up review timing.",
+            "confidence": 0.9,
+            "freshness_status": "usable_with_review",
+            "claim_mode": "direct_evidence",
+        },
+        {
+            "source_id": strategic_memory["strategic_memory_record_id"],
+            "source_type": "strategic_memory",
+            "summary": "Strategic memory captures the prior thesis, later outcome, and lesson for reusable recall.",
+            "confidence": 0.84,
+            "freshness_status": "usable_with_review",
+            "claim_mode": "direct_evidence",
+        },
+        {
+            "source_id": eval_run_report["eval_run_report_id"],
+            "source_type": "eval_run_report",
+            "summary": "The frozen eval suite remains a first-class release input for the bounded baseline.",
+            "confidence": 0.95,
+            "freshness_status": "fresh",
+            "claim_mode": "direct_evidence",
+        },
+        {
+            "source_id": discover_prd["prd_id"],
+            "source_type": "prd",
+            "summary": "The live discover route can still produce a decision-ready PRD package from the inbox.",
+            "confidence": 0.92,
+            "freshness_status": "fresh",
+            "claim_mode": "direct_evidence",
+        },
+    ]
+    context_pack_open_questions = [
+        "Which remaining mixed-provenance feature should be forced through the next bounded hardening cycle first?"
+    ]
+    context_pack_source_artifact_ids = [
+        decision_log["decision_log_id"],
+        strategic_memory["strategic_memory_record_id"],
+        eval_run_report["eval_run_report_id"],
+        discover_prd["prd_id"],
+    ]
+    context_pack_recommended_next_action = "Use the bounded baseline to make truthfulness, frozen evals, and decision memory visible in every promotion decision."
+    if workspace_mission_brief is not None:
+        context_pack_request_summary = (
+            f"Assemble the evidence, memory, and execution context needed to run the mission '{workspace_mission_brief['title']}'."
+        )
+        context_pack_decision_to_be_made = (
+            f"How should ProductOS execute the mission '{workspace_mission_brief['title']}' without dropping truthfulness, review gates, or PM approval?"
+        )
+        context_pack_audience = list(dict.fromkeys([*context_pack_audience, *workspace_mission_brief.get("audience", [])]))
+        context_pack_evidence_bundle.insert(
+            0,
+            {
+                "source_id": workspace_mission_brief["mission_brief_id"],
+                "source_type": "mission_brief",
+                "summary": workspace_mission_brief["mission_summary"],
+                "confidence": 0.97,
+                "freshness_status": "fresh",
+                "claim_mode": "direct_evidence",
+            },
+        )
+        context_pack_open_questions.append(workspace_mission_brief["customer_problem"])
+        context_pack_source_artifact_ids.insert(0, workspace_mission_brief["mission_brief_id"])
+        context_pack_recommended_next_action = workspace_mission_brief.get("next_action", context_pack_recommended_next_action)
 
     runtime_adapter_registry = {
         "schema_version": "1.0.0",
@@ -2130,12 +2485,12 @@ def build_next_version_bundle_from_workspace(
         "schema_version": "1.0.0",
         "context_pack_id": context_pack["context_pack_id"],
         "workspace_id": workspace_id,
-        "request_summary": "Assemble the evidence, memory, and decision context needed to review the current bounded baseline.",
-        "decision_to_be_made": "Should ProductOS treat the current next-version runtime as trustworthy enough to score and promote release claims?",
+        "request_summary": context_pack_request_summary,
+        "decision_to_be_made": context_pack_decision_to_be_made,
         "status": "watch",
-        "audience": ["PM", "engineering", "leadership"],
+        "audience": context_pack_audience,
         "quality_contract": _quality_contract(
-            audience=["PM", "engineering", "leadership"],
+            audience=context_pack_audience,
             decision_needed="Decide whether the current runtime can score and narrate itself without stronger provenance and eval controls.",
             evidence=[
                 "Current next-version scoring still combines generated state with seeded artifacts.",
@@ -2158,53 +2513,13 @@ def build_next_version_bundle_from_workspace(
             owner="ProductOS PM",
             next_action="Route the truthful control surface and self-improvement loop back into bounded fixes before promotion.",
         ),
-        "evidence_bundle": [
-            {
-                "source_id": decision_log["decision_log_id"],
-                "source_type": "decision_log",
-                "summary": "The decision log records the baseline release decisions with reversibility, tradeoffs, rejected options, kill criteria, and follow-up review timing.",
-                "confidence": 0.9,
-                "freshness_status": "usable_with_review",
-                "claim_mode": "direct_evidence",
-            },
-            {
-                "source_id": strategic_memory["strategic_memory_record_id"],
-                "source_type": "strategic_memory",
-                "summary": "Strategic memory captures the prior thesis, later outcome, and lesson for reusable recall.",
-                "confidence": 0.84,
-                "freshness_status": "usable_with_review",
-                "claim_mode": "direct_evidence",
-            },
-            {
-                "source_id": eval_run_report["eval_run_report_id"],
-                "source_type": "eval_run_report",
-                "summary": eval_run_report["summary"],
-                "confidence": 0.95,
-                "freshness_status": "fresh",
-                "claim_mode": "direct_evidence",
-            },
-            {
-                "source_id": discover_prd["prd_id"],
-                "source_type": "prd",
-                "summary": "The live discover route can still produce a decision-ready PRD package from the inbox.",
-                "confidence": 0.92,
-                "freshness_status": "fresh",
-                "claim_mode": "direct_evidence",
-            },
-        ],
+        "evidence_bundle": context_pack_evidence_bundle,
         "contradictions": [
             "The CLI previously reported an all-green baseline while the review model described unresolved truthfulness gaps.",
         ],
-        "open_questions": [
-            "Which remaining mixed-provenance feature should be forced through the next bounded hardening cycle first?"
-        ],
-        "source_artifact_ids": [
-            decision_log["decision_log_id"],
-            strategic_memory["strategic_memory_record_id"],
-            eval_run_report["eval_run_report_id"],
-            discover_prd["prd_id"],
-        ],
-        "recommended_next_action": "Use the bounded baseline to make truthfulness, frozen evals, and decision memory visible in every promotion decision.",
+        "open_questions": context_pack_open_questions,
+        "source_artifact_ids": context_pack_source_artifact_ids,
+        "recommended_next_action": context_pack_recommended_next_action,
         "created_at": generated_at,
         "updated_at": generated_at,
     }
@@ -2828,6 +3143,75 @@ def build_next_version_bundle_from_workspace(
         "updated_at": generated_at,
     }
 
+    memory_retrieved_records = [
+        {
+            "record_type": "artifact",
+            "record_id": problem_brief["problem_brief_id"],
+            "source_artifact_id": problem_brief["problem_brief_id"],
+            "reason": "The current problem framing anchors the next-version discover loop.",
+            "freshness_status": "fresh",
+            "confidence": 0.95,
+            "provenance_ref": _relative_path(artifacts_dir / "problem_brief.json"),
+        },
+        {
+            "record_type": "artifact",
+            "record_id": concept_brief["concept_brief_id"],
+            "source_artifact_id": concept_brief["concept_brief_id"],
+            "reason": "The current concept framing remains the source of truth for next-version shaping.",
+            "freshness_status": "fresh",
+            "confidence": 0.94,
+            "provenance_ref": _relative_path(artifacts_dir / "concept_brief.json"),
+        },
+        {
+            "record_type": "artifact",
+            "record_id": prd["prd_id"],
+            "source_artifact_id": prd["prd_id"],
+            "reason": "The current PRD is the downstream package the discover loop should eventually regenerate from live inputs.",
+            "freshness_status": "fresh",
+            "confidence": 0.96,
+            "provenance_ref": _relative_path(artifacts_dir / "prd.json"),
+        },
+        {
+            "record_type": "issue",
+            "record_id": feedback_log["entries"][0]["feedback_id"],
+            "source_artifact_id": feedback_log["feedback_log_id"],
+            "reason": "Repeated PM pain should shape what becomes a next-version superpower first.",
+            "freshness_status": "fresh",
+            "confidence": 0.91,
+            "provenance_ref": _relative_path(artifacts_dir / "productos_feedback_log.example.json"),
+        },
+        {
+            "record_type": "artifact",
+            "record_id": foundation_bundle["pm_superpower_benchmark"]["pm_superpower_benchmark_id"],
+            "source_artifact_id": foundation_bundle["pm_superpower_benchmark"]["pm_superpower_benchmark_id"],
+            "reason": "The benchmark remains the release bar for every next-version loop.",
+            "freshness_status": "fresh",
+            "confidence": 0.93,
+            "provenance_ref": "generated_v4_foundation_bundle",
+        },
+        {
+            "record_type": "artifact",
+            "record_id": discover_prd["prd_id"],
+            "source_artifact_id": discover_prd["prd_id"],
+            "reason": "The promoted discover slice now proves the repo can generate a fresh next-version PRD package from live inbox inputs.",
+            "freshness_status": "fresh",
+            "confidence": 0.98,
+            "provenance_ref": "generated_next_version_bundle",
+        },
+    ]
+    if workspace_mission_brief is not None:
+        memory_retrieved_records.insert(
+            0,
+            {
+                "record_type": "artifact",
+                "record_id": workspace_mission_brief["mission_brief_id"],
+                "source_artifact_id": workspace_mission_brief["mission_brief_id"],
+                "reason": "The mission brief defines the current PM-first execution goal and should stay visible across every downstream phase.",
+                "freshness_status": "fresh",
+                "confidence": 0.97,
+                "provenance_ref": _relative_path(artifacts_dir / "mission_brief.json"),
+            },
+        )
     memory_retrieval_state = {
         "schema_version": "1.0.0",
         "memory_retrieval_state_id": memory_retrieval_state_id,
@@ -2842,62 +3226,7 @@ def build_next_version_bundle_from_workspace(
             "strategic_memory",
         ],
         "provenance_status": "complete",
-        "retrieved_records": [
-            {
-                "record_type": "artifact",
-                "record_id": problem_brief["problem_brief_id"],
-                "source_artifact_id": problem_brief["problem_brief_id"],
-                "reason": "The current problem framing anchors the next-version discover loop.",
-                "freshness_status": "fresh",
-                "confidence": 0.95,
-                "provenance_ref": _relative_path(artifacts_dir / "problem_brief.json"),
-            },
-            {
-                "record_type": "artifact",
-                "record_id": concept_brief["concept_brief_id"],
-                "source_artifact_id": concept_brief["concept_brief_id"],
-                "reason": "The current concept framing remains the source of truth for next-version shaping.",
-                "freshness_status": "fresh",
-                "confidence": 0.94,
-                "provenance_ref": _relative_path(artifacts_dir / "concept_brief.json"),
-            },
-            {
-                "record_type": "artifact",
-                "record_id": prd["prd_id"],
-                "source_artifact_id": prd["prd_id"],
-                "reason": "The current PRD is the downstream package the discover loop should eventually regenerate from live inputs.",
-                "freshness_status": "fresh",
-                "confidence": 0.96,
-                "provenance_ref": _relative_path(artifacts_dir / "prd.json"),
-            },
-            {
-                "record_type": "issue",
-                "record_id": feedback_log["entries"][0]["feedback_id"],
-                "source_artifact_id": feedback_log["feedback_log_id"],
-                "reason": "Repeated PM pain should shape what becomes a next-version superpower first.",
-                "freshness_status": "fresh",
-                "confidence": 0.91,
-                "provenance_ref": _relative_path(artifacts_dir / "productos_feedback_log.example.json"),
-            },
-            {
-                "record_type": "artifact",
-                "record_id": foundation_bundle["pm_superpower_benchmark"]["pm_superpower_benchmark_id"],
-                "source_artifact_id": foundation_bundle["pm_superpower_benchmark"]["pm_superpower_benchmark_id"],
-                "reason": "The benchmark remains the release bar for every next-version loop.",
-                "freshness_status": "fresh",
-                "confidence": 0.93,
-                "provenance_ref": "generated_v4_foundation_bundle",
-            },
-            {
-                "record_type": "artifact",
-                "record_id": discover_prd["prd_id"],
-                "source_artifact_id": discover_prd["prd_id"],
-                "reason": "The promoted discover slice now proves the repo can generate a fresh next-version PRD package from live inbox inputs.",
-                "freshness_status": "fresh",
-                "confidence": 0.98,
-                "provenance_ref": "generated_next_version_bundle",
-            },
-        ],
+        "retrieved_records": memory_retrieved_records,
         "unresolved_questions": [
             (
                 "Which external publication or packaging slice should follow the fully promoted baseline?"

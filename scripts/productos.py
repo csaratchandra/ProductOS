@@ -44,6 +44,9 @@ from core.python.productos_runtime import (
     summarize_v5_lifecycle_bundle,
     summarize_v6_lifecycle_bundle,
     summarize_v7_lifecycle_bundle,
+    init_mission_in_workspace,
+    load_mission_brief_from_workspace,
+    sync_canonical_discover_artifacts,
 )
 from core.python.productos_runtime.validation import inspect_workspace_source_note_card_refs
 from core.python.productos_runtime.next_version import NEXT_VERSION_ARTIFACT_SCHEMAS
@@ -248,6 +251,14 @@ def _phase_output_dir(workspace_dir: Path, phase: str) -> Path:
     return workspace_dir / "outputs" / phase
 
 
+def _print_mission_summary(workspace_dir: Path) -> None:
+    mission_brief = load_mission_brief_from_workspace(workspace_dir)
+    if mission_brief is None:
+        return
+    print(f"Mission: {mission_brief['title']}")
+    print(f"Mission Mode: {mission_brief['operating_mode']}")
+
+
 def _promotion_gate(bundle: dict[str, dict]) -> dict[str, object]:
     return evaluate_promotion_gate(
         eval_run_report=bundle["eval_run_report"],
@@ -359,6 +370,7 @@ def _print_promotion_blockers(gate: dict[str, object]) -> None:
 
 def cmd_status(args: argparse.Namespace) -> int:
     bundle = _build_bundle(args)
+    workspace_dir = _workspace_dir(args)
     cockpit = bundle["cockpit_state"]
     review = bundle["feature_portfolio_review"]
     eval_report = bundle["eval_run_report"]
@@ -366,12 +378,12 @@ def cmd_status(args: argparse.Namespace) -> int:
     swarm_scorecard = bundle["autonomous_pm_swarm_feature_scorecard"]
     gate = _promotion_gate(bundle)
     cutover_plan = build_v6_cutover_plan_from_workspace(
-        _workspace_dir(args),
+        workspace_dir,
         generated_at=args.generated_at,
     )
     if cutover_plan["selection_status"] == "stable_active":
         cutover_plan = build_v7_cutover_plan_from_workspace(
-            _workspace_dir(args),
+            workspace_dir,
             generated_at=args.generated_at,
         )
     focus = cockpit["current_focus"]
@@ -385,6 +397,7 @@ def cmd_status(args: argparse.Namespace) -> int:
     print(f"Mode: {cockpit['mode']}")
     print(f"Status: {cockpit['status']}")
     print(f"Focus: {focus}")
+    _print_mission_summary(workspace_dir)
     print(f"Top Priority Feature: {top_priority_feature}")
     print(f"Truthfulness Status: {review['truthfulness_status']}")
     print(f"Eval Status: {eval_report['status']} ({eval_report['regression_count']} regressions)")
@@ -418,17 +431,29 @@ def cmd_ingest(args: argparse.Namespace) -> int:
 
 def cmd_run(args: argparse.Namespace) -> int:
     bundle = _build_bundle(args)
+    workspace_dir = _workspace_dir(args)
     names = PHASE_ARTIFACTS[args.phase]
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, names)
         if args.phase in {"improve", "all"}:
             _write_release_review_markdown(args.output_dir, bundle)
     if args.persist:
-        output_dir = _phase_output_dir(_workspace_dir(args), args.phase)
+        output_dir = _phase_output_dir(workspace_dir, args.phase)
         _write_artifacts(output_dir, bundle, names)
+        if args.phase in {"discover", "all"}:
+            mission_brief = load_mission_brief_from_workspace(workspace_dir)
+            if mission_brief is not None:
+                sync_canonical_discover_artifacts(
+                    workspace_dir,
+                    mission_brief=mission_brief,
+                    generated_at=args.generated_at,
+                    problem_brief=bundle.get("discover_problem_brief"),
+                    concept_brief=bundle.get("discover_concept_brief"),
+                    prd=bundle.get("discover_prd"),
+                )
         if args.phase in {"improve", "all"}:
             _write_release_review_markdown(output_dir, bundle)
-            _write_workspace_release_review_markdown(_workspace_dir(args), bundle)
+            _write_workspace_release_review_markdown(workspace_dir, bundle)
     session_name = f"{args.phase}_execution_session_state" if args.phase != "all" else "discover_execution_session_state"
     if args.phase != "all":
         session = bundle[session_name]
@@ -446,12 +471,14 @@ def cmd_run(args: argparse.Namespace) -> int:
 
 def cmd_review(args: argparse.Namespace) -> int:
     bundle = _build_bundle(args)
+    workspace_dir = _workspace_dir(args)
     cockpit = bundle["cockpit_state"]
     portfolio = bundle["feature_portfolio_review"]
     eval_report = bundle["eval_run_report"]
     swarm_plan = bundle["autonomous_pm_swarm_plan"]
     swarm_scorecard = bundle["autonomous_pm_swarm_feature_scorecard"]
     gate = _promotion_gate(bundle)
+    _print_mission_summary(workspace_dir)
     print(f"Governed Research: {_governed_research_status(bundle)}")
     print(f"Feed Governance: {_feed_governance_status(bundle)}")
     print(f"Swarm Plan: {swarm_plan['status']} ({swarm_plan['release_boundary']})")
@@ -487,6 +514,7 @@ def cmd_export(args: argparse.Namespace) -> int:
 
 def cmd_doctor(args: argparse.Namespace) -> int:
     bundle = _build_bundle(args)
+    workspace_dir = _workspace_dir(args)
     failures = _validate_bundle(bundle)
     if failures:
         for failure in failures:
@@ -509,12 +537,12 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     swarm_scorecard = bundle["autonomous_pm_swarm_feature_scorecard"]
     gate = _promotion_gate(bundle)
     cutover_plan = build_v6_cutover_plan_from_workspace(
-        _workspace_dir(args),
+        workspace_dir,
         generated_at=args.generated_at,
     )
     if cutover_plan["selection_status"] == "stable_active":
         cutover_plan = build_v7_cutover_plan_from_workspace(
-            _workspace_dir(args),
+            workspace_dir,
             generated_at=args.generated_at,
         )
     top_priority_feature = (
@@ -528,6 +556,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
         else "healthy" if review["truthfulness_status"] == "healthy" and eval_report["status"] == "passed" else "watch"
     )
     print(f"Bundle Status: {status_label} ({len(bundle)} artifacts validated)")
+    _print_mission_summary(workspace_dir)
     print(f"Governed Research: {_governed_research_status(bundle)}")
     print(f"Feed Governance: {_feed_governance_status(bundle)}")
     print(f"Swarm Plan: {swarm_plan['status']} ({swarm_plan['operating_mode']})")
@@ -643,6 +672,28 @@ def cmd_init_workspace(args: argparse.Namespace) -> int:
         mode=args.mode,
     )
     print(f"Initialized workspace from templates at {args.dest}")
+    return 0
+
+
+def cmd_init_mission(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
+    mission_brief = init_mission_in_workspace(
+        workspace_dir,
+        title=args.title,
+        target_user=args.target_user,
+        customer_problem=args.customer_problem,
+        business_goal=args.business_goal,
+        success_metrics=args.success_metric,
+        constraints=args.constraint,
+        audience=args.audience,
+        operating_mode=args.operating_mode,
+        generated_at=args.generated_at,
+    )
+    print(f"Mission Brief: {mission_brief['mission_brief_id']}")
+    print(f"Workspace: {workspace_dir}")
+    print(f"Operating Mode: {mission_brief['operating_mode']}")
+    print(f"Primary Workflows: {len(mission_brief['primary_workflow_refs'])}")
+    print(f"Next Action: {mission_brief['next_action']}")
     return 0
 
 
@@ -874,6 +925,20 @@ def parse_args() -> argparse.Namespace:
     init_parser.add_argument("--name", required=True)
     init_parser.add_argument("--mode", required=True)
 
+    mission_parser = subparsers.add_parser("init-mission")
+    mission_parser.add_argument("--title", required=True)
+    mission_parser.add_argument("--target-user", required=True)
+    mission_parser.add_argument("--customer-problem", required=True)
+    mission_parser.add_argument("--business-goal", required=True)
+    mission_parser.add_argument("--success-metric", action="append", required=True)
+    mission_parser.add_argument("--constraint", action="append")
+    mission_parser.add_argument("--audience", action="append")
+    mission_parser.add_argument(
+        "--operating-mode",
+        choices=["discover", "discover_to_align", "full_loop"],
+        default="discover_to_align",
+    )
+
     adopt_parser = subparsers.add_parser("adopt-workspace")
     adopt_parser.add_argument("--source", type=Path, required=True)
     adopt_parser.add_argument("--dest", type=Path, required=True)
@@ -950,6 +1015,8 @@ def main() -> int:
         return cmd_trace(args)
     if args.command == "init-workspace":
         return cmd_init_workspace(args)
+    if args.command == "init-mission":
+        return cmd_init_mission(args)
     if args.command == "doctor":
         return cmd_doctor(args)
     if args.command == "validate-workspace":
