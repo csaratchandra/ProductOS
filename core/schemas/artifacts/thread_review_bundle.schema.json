@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/thread_review_bundle.schema.json",
+  "title": "Thread Review Bundle",
+  "description": "Lightweight review surface bundle for one canonical lifecycle item.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "thread_review_bundle_id",
+    "workspace_id",
+    "item_ref",
+    "title",
+    "current_stage",
+    "overall_status",
+    "review_status",
+    "review_status_summary",
+    "stage_rail",
+    "sections",
+    "pinned_context",
+    "action_items",
+    "recommended_next_step",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "thread_review_bundle_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "item_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id"],
+      "properties": {
+        "entity_type": { "type": "string", "minLength": 1 },
+        "entity_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "current_stage": { "type": "string", "minLength": 1 },
+    "overall_status": { "type": "string", "minLength": 1 },
+    "review_status": { "type": "string", "minLength": 1 },
+    "review_status_summary": { "type": "string", "minLength": 1 },
+    "stage_rail": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stage_key", "title", "status", "gate_status", "artifact_ids", "summary"],
+        "properties": {
+          "stage_key": { "type": "string", "minLength": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "minLength": 1 },
+          "gate_status": { "type": "string", "minLength": 1 },
+          "artifact_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "summary": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section_id",
+          "selector_key",
+          "title",
+          "headline",
+          "summary",
+          "key_points",
+          "stage_states",
+          "artifact_ids",
+          "source_refs",
+          "backing_mode",
+          "confidence"
+        ],
+        "properties": {
+          "section_id": { "type": "string", "minLength": 1 },
+          "selector_key": { "type": "string", "minLength": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "headline": { "type": "string", "minLength": 1 },
+          "summary": { "type": "string", "minLength": 1 },
+          "key_points": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "stage_states": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["stage_key", "status", "gate_status", "artifact_ids", "summary"],
+              "properties": {
+                "stage_key": { "type": "string", "minLength": 1 },
+                "status": { "type": "string", "minLength": 1 },
+                "gate_status": { "type": "string", "minLength": 1 },
+                "artifact_ids": {
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1 }
+                },
+                "summary": { "type": "string", "minLength": 1 }
+              }
+            }
+          },
+          "artifact_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "source_refs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "backing_mode": {
+            "type": "string",
+            "enum": ["artifact_backed", "lifecycle_fallback", "deferred"]
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["high", "medium", "low"]
+          }
+        }
+      }
+    },
+    "action_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "action_id",
+          "title",
+          "rationale",
+          "priority",
+          "action_type",
+          "source_refs"
+        ],
+        "properties": {
+          "action_id": { "type": "string", "minLength": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "rationale": { "type": "string", "minLength": 1 },
+          "priority": {
+            "type": "string",
+            "enum": ["high", "medium", "low"]
+          },
+          "action_type": { "type": "string", "minLength": 1 },
+          "source_refs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "pinned_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_segments",
+        "target_personas",
+        "pending_questions",
+        "key_risks",
+        "decisions",
+        "source_artifact_ids",
+        "confidence_summary"
+      ],
+      "properties": {
+        "target_segments": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "target_personas": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "pending_questions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "key_risks": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "decisions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "source_artifact_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "confidence_summary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "recommended_next_step": { "type": "string", "minLength": 1 },
+    "generated_at": { "type": "string", "minLength": 1 }
+  }
+}

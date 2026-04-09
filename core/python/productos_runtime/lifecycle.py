@@ -86,6 +86,16 @@ def load_item_lifecycle_state_from_workspace(
     raise KeyError(f"No item lifecycle state found for item id {item_id}")
 
 
+def load_all_item_lifecycle_states_from_workspace(workspace_dir: Path | str) -> list[dict[str, Any]]:
+    artifacts_dir = _workspace_artifacts_dir(workspace_dir)
+    candidates = _find_matching_artifacts(artifacts_dir, "item_lifecycle_state")
+    if not candidates:
+        raise FileNotFoundError(f"No item lifecycle state artifacts found under {artifacts_dir}")
+
+    payloads = [_load_json(path) for path in candidates]
+    return sorted(payloads, key=lambda payload: (payload.get("current_stage", ""), payload.get("title", ""), payload["item_ref"]["entity_id"]))
+
+
 def load_lifecycle_stage_snapshot_from_workspace(
     workspace_dir: Path | str,
     *,

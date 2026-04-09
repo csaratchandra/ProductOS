@@ -1199,6 +1199,105 @@ def test_productos_trace_stage_command(root_dir: Path, self_hosting_workspace_di
     assert "- release_readiness: items=1, gate_passed=1" in result.stdout
 
 
+def test_productos_thread_review_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+    output_path = tmp_path / "thread-review.html"
+    markdown_path = tmp_path / "thread-review.md"
+    package_dir = tmp_path / "thread-package"
+    result = _run_self_hosting_cli(
+        root_dir,
+        self_hosting_workspace_dir,
+        "thread-review",
+        "--item-id",
+        "opp_pm_lifecycle_traceability",
+        "--output-path",
+        str(output_path),
+        "--markdown-path",
+        str(markdown_path),
+        "--package-dir",
+        str(package_dir),
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "Thread Review: Thread Review: Lifecycle traceability and stage visibility for PM work" in result.stdout
+    assert "Current Stage: outcome_review" in result.stdout
+    assert "Package:" in result.stdout
+    assert "Slides: 4" in result.stdout
+    assert output_path.exists()
+    assert markdown_path.exists()
+    assert (package_dir / "presentation" / "thread-review-deck.html").exists()
+
+    html = output_path.read_text(encoding="utf-8")
+    assert "Market and competitor context" in html
+    assert "Release readiness" in html
+    assert "Outcome review" in html
+    assert "artifact-backed" in html
+    assert "Decision now" in html
+    assert "What the PM should do next" in html
+    assert "Stable full lifecycle" in html
+    assert "Summary mode" in html
+    assert "opp_pm_lifecycle_traceability" in html
+    markdown = markdown_path.read_text(encoding="utf-8")
+    assert "## Review Actions" in markdown
+    assert "## Stage Rail" in markdown
+
+
+def test_productos_thread_review_index_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+    workspace_copy = tmp_path / "workspace-copy"
+    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    artifacts_dir = workspace_copy / "artifacts"
+    source_path = artifacts_dir / "item_lifecycle_state_pm_lifecycle_visibility.example.json"
+    payload = json.loads(source_path.read_text(encoding="utf-8"))
+    payload["item_lifecycle_state_id"] = "item_lifecycle_state_pm_release_lane"
+    payload["item_ref"]["entity_id"] = "opp_pm_release_lane"
+    payload["title"] = "Release lane and launch alignment"
+    payload["current_stage"] = "launch_preparation"
+    payload["overall_status"] = "active_delivery"
+    (artifacts_dir / "item_lifecycle_state_pm_release_lane.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+    output_dir = tmp_path / "thread-index"
+    result = _run_cli(
+        root_dir,
+        "--workspace-dir",
+        str(workspace_copy),
+        "thread-review-index",
+        "--output-dir",
+        str(output_dir),
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "Thread Review Index:" in result.stdout
+    assert "Threads: 2" in result.stdout
+    assert (output_dir / "index.html").exists()
+    assert (output_dir / "threads" / "opp_pm_lifecycle_traceability" / "thread-review.html").exists()
+    assert (output_dir / "threads" / "opp_pm_release_lane" / "presentation" / "thread-review-deck.html").exists()
+    index_html = (output_dir / "index.html").read_text(encoding="utf-8")
+    assert "Release lane and launch alignment" in index_html
+    assert "Lifecycle traceability and stage visibility for PM work" in index_html
+
+
+def test_productos_thread_review_release_check_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+    output_dir = tmp_path / "thread-release-check"
+    result = _run_self_hosting_cli(
+        root_dir,
+        self_hosting_workspace_dir,
+        "thread-review-release-check",
+        "--item-id",
+        "opp_pm_lifecycle_traceability",
+        "--output-dir",
+        str(output_dir),
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "Thread Review Release Check:" in result.stdout
+    assert "Validation: ready_for_manual_validation" in result.stdout
+    assert "Decision: conditional_go" in result.stdout
+    assert "Target Release: v8_0_0" in result.stdout
+    assert (output_dir / "release" / "validation_lane_report_thread_review_release.json").exists()
+    assert (output_dir / "release" / "release_gate_decision_thread_review_release.json").exists()
+    release_gate = json.loads((output_dir / "release" / "release_gate_decision_thread_review_release.json").read_text(encoding="utf-8"))
+    assert release_gate["decision"] == "conditional_go"
+
+
 def test_productos_init_workspace_command(root_dir: Path, tmp_path: Path):
     destination = tmp_path / "acme-workspace"
     result = _run_cli(

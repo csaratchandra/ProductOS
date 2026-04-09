@@ -20,10 +20,14 @@ from core.python.productos_runtime import (
     RESEARCH_FEED_REGISTRY_ARTIFACT_SCHEMAS,
     RESEARCH_PLANNING_ARTIFACT_SCHEMAS,
     RESEARCH_RUNTIME_ARTIFACT_SCHEMAS,
+    THREAD_REVIEW_RELEASE_ARTIFACT_SCHEMAS,
     adopt_workspace_from_source,
     build_external_research_feed_registry_from_workspace,
     build_external_research_plan_from_workspace,
     build_next_version_bundle_from_workspace,
+    build_thread_review_bundle_from_workspace,
+    build_thread_review_presentation_package,
+    build_thread_review_release_bundle_from_workspace,
     build_workspace_adoption_bundle_from_source,
     build_v5_lifecycle_bundle_from_workspace,
     build_v5_cutover_plan_from_workspace,
@@ -48,6 +52,10 @@ from core.python.productos_runtime import (
     init_mission_in_workspace,
     load_mission_brief_from_workspace,
     sync_canonical_discover_artifacts,
+    write_thread_review_index_site,
+    write_thread_review_markdown,
+    write_thread_review_package,
+    write_thread_review_page,
 )
 from core.python.productos_runtime.validation import inspect_workspace_source_note_card_refs
 from core.python.productos_runtime.next_version import NEXT_VERSION_ARTIFACT_SCHEMAS
@@ -740,6 +748,71 @@ def cmd_validate_workspace(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_thread_review(args: argparse.Namespace) -> int:
+    bundle = build_thread_review_bundle_from_workspace(
+        _workspace_dir(args),
+        item_id=args.item_id,
+        generated_at=args.generated_at,
+    )
+    failures = _validate_named_bundle({"thread_review_bundle": bundle}, {"thread_review_bundle": "thread_review_bundle.schema.json"})
+    if failures:
+        for failure in failures:
+            print(f"FAIL: {failure}")
+        return 1
+
+    write_thread_review_page(bundle, args.output_path)
+    if args.markdown_path:
+        write_thread_review_markdown(bundle, args.markdown_path)
+    if args.package_dir:
+        package = build_thread_review_presentation_package(bundle, aspect_ratio=args.aspect_ratio)
+        package_paths = write_thread_review_package(bundle, args.package_dir, aspect_ratio=args.aspect_ratio)
+        print(f"Package: {args.package_dir}")
+        print(f"Deck: {package_paths['presentation_html']}")
+        print(f"Slides: {len(package['presentation_story']['slides'])}")
+    print(f"Thread Review: {bundle['title']}")
+    print(f"Item: {bundle['item_ref']['entity_id']}")
+    print(f"Current Stage: {bundle['current_stage']}")
+    print(f"Output: {args.output_path}")
+    return 0
+
+
+def cmd_thread_review_index(args: argparse.Namespace) -> int:
+    site = write_thread_review_index_site(
+        _workspace_dir(args),
+        args.output_dir,
+        generated_at=args.generated_at,
+        aspect_ratio=args.aspect_ratio,
+    )
+    print(f"Thread Review Index: {site['index_path']}")
+    print(f"Threads: {site['thread_count']}")
+    return 0
+
+
+def cmd_thread_review_release_check(args: argparse.Namespace) -> int:
+    result = build_thread_review_release_bundle_from_workspace(
+        _workspace_dir(args),
+        item_id=args.item_id,
+        generated_at=args.generated_at,
+        output_dir=args.output_dir,
+        target_release=args.target_release,
+    )
+    failures = _validate_named_bundle(result["release_bundle"], THREAD_REVIEW_RELEASE_ARTIFACT_SCHEMAS)
+    if failures:
+        for failure in failures:
+            print(f"FAIL: {failure}")
+        return 1
+
+    release_gate = result["release_bundle"]["release_gate_decision_thread_review_release"]
+    validation = result["release_bundle"]["validation_lane_report_thread_review_release"]
+    print(f"Thread Review Release Check: {args.output_dir}")
+    print(f"Item: {result['thread_review_bundle']['item_ref']['entity_id']}")
+    print(f"Validation: {validation['overall_status']}")
+    print(f"Decision: {release_gate['decision']}")
+    print(f"Target Release: {release_gate['target_release']}")
+    print(f"Index Threads: {result['index_site']['thread_count']}")
+    return 0
+
+
 def cmd_adopt_workspace(args: argparse.Namespace) -> int:
     bundle = build_workspace_adoption_bundle_from_source(
         ROOT,
@@ -757,6 +830,8 @@ def cmd_adopt_workspace(args: argparse.Namespace) -> int:
 
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, ADOPTION_ARTIFACTS)
+        if args.emit_thread_page:
+            write_thread_review_page(bundle["thread_review_bundle"], args.output_dir / "thread-review.html")
 
     report = bundle["workspace_adoption_report"]
     review_queue = bundle["adoption_review_queue"]
@@ -780,11 +855,14 @@ def cmd_adopt_workspace(args: argparse.Namespace) -> int:
         generated_at=args.generated_at,
         review_threshold=args.review_threshold,
         emit_report=args.emit_report,
+        emit_thread_page=args.emit_thread_page,
         include_runtime_support_assets=args.include_runtime_support_assets,
     )
     print("Adoption Status: completed")
     print(f"Destination: {destination}")
     print(f"Lifecycle Item: {adopted_bundle['item_lifecycle_state']['item_ref']['entity_id']}")
+    if args.emit_thread_page:
+        print(f"Thread Review Page: {destination / 'docs' / 'review' / 'thread-review.html'}")
     return 0
 
 
@@ -946,6 +1024,22 @@ def parse_args() -> argparse.Namespace:
     trace_group.add_argument("--item-id")
     trace_group.add_argument("--stage", choices=["discovery", "delivery", "launch", "outcomes", "full_lifecycle"])
 
+    thread_review_parser = subparsers.add_parser("thread-review")
+    thread_review_parser.add_argument("--item-id")
+    thread_review_parser.add_argument("--output-path", type=Path, required=True)
+    thread_review_parser.add_argument("--markdown-path", type=Path)
+    thread_review_parser.add_argument("--package-dir", type=Path)
+    thread_review_parser.add_argument("--aspect-ratio", choices=["16:9", "4:3"], default="16:9")
+
+    thread_review_index_parser = subparsers.add_parser("thread-review-index")
+    thread_review_index_parser.add_argument("--output-dir", type=Path, required=True)
+    thread_review_index_parser.add_argument("--aspect-ratio", choices=["16:9", "4:3"], default="16:9")
+
+    thread_review_release_parser = subparsers.add_parser("thread-review-release-check")
+    thread_review_release_parser.add_argument("--item-id")
+    thread_review_release_parser.add_argument("--output-dir", type=Path, required=True)
+    thread_review_release_parser.add_argument("--target-release", default="v8_0_0")
+
     init_parser = subparsers.add_parser("init-workspace")
     init_parser.add_argument("--template", choices=["templates"], default="templates")
     init_parser.add_argument("--dest", type=Path, required=True)
@@ -977,6 +1071,7 @@ def parse_args() -> argparse.Namespace:
     adopt_parser.add_argument("--output-dir", type=Path)
     adopt_parser.add_argument("--dry-run", action="store_true")
     adopt_parser.add_argument("--emit-report", action="store_true")
+    adopt_parser.add_argument("--emit-thread-page", action="store_true")
     adopt_parser.add_argument(
         "--include-runtime-support-assets",
         action="store_true",
@@ -1062,6 +1157,12 @@ def main() -> int:
         return cmd_validate_workspace(args)
     if args.command == "adopt-workspace":
         return cmd_adopt_workspace(args)
+    if args.command == "thread-review":
+        return cmd_thread_review(args)
+    if args.command == "thread-review-index":
+        return cmd_thread_review_index(args)
+    if args.command == "thread-review-release-check":
+        return cmd_thread_review_release_check(args)
     if args.command == "research-workspace":
         return cmd_research_workspace(args)
     if args.command == "plan-research":

@@ -46,6 +46,7 @@ def test_adopt_workspace_dry_run_exports_codesync_bundle(root_dir: Path, codesyn
     report = json.loads((output_dir / "workspace_adoption_report.json").read_text(encoding="utf-8"))
     review_queue = json.loads((output_dir / "adoption_review_queue.json").read_text(encoding="utf-8"))
     lifecycle_state = json.loads((output_dir / "item_lifecycle_state.json").read_text(encoding="utf-8"))
+    thread_review_bundle = json.loads((output_dir / "thread_review_bundle.json").read_text(encoding="utf-8"))
     note_card = json.loads((output_dir / "source_note_card_executive_brief.json").read_text(encoding="utf-8"))
     research_brief = json.loads((output_dir / "research_brief.json").read_text(encoding="utf-8"))
 
@@ -55,6 +56,9 @@ def test_adopt_workspace_dry_run_exports_codesync_bundle(root_dir: Path, codesyn
     assert len(review_queue["review_items"]) >= 4
     assert lifecycle_state["current_stage"] == "prd_handoff"
     assert lifecycle_state["overall_status"] == "active_discovery"
+    assert thread_review_bundle["item_ref"]["entity_id"] == lifecycle_state["item_ref"]["entity_id"]
+    assert any(section["section_id"] == "market_context" for section in thread_review_bundle["sections"])
+    assert any(section["section_id"] == "prd" for section in thread_review_bundle["sections"])
     assert note_card["source_ref"] == "Notes/research/01-executive-brief.md"
     assert len(research_brief["known_gaps"]) >= 2
     assert len(research_brief["external_research_questions"]) >= 2
@@ -77,6 +81,7 @@ def test_adopt_workspace_persists_traceable_workspace(root_dir: Path, codesync_w
         "--mode",
         "research",
         "--emit-report",
+        "--emit-thread-page",
     )
 
     assert result.returncode == 0, result.stderr or result.stdout
@@ -89,17 +94,24 @@ def test_adopt_workspace_persists_traceable_workspace(root_dir: Path, codesync_w
     assert "artifacts/research_brief.json" in manifest["artifact_paths"]
     assert "artifacts/workspace_adoption_report.json" in manifest["artifact_paths"]
     assert "artifacts/adoption_review_queue.json" in manifest["artifact_paths"]
+    assert "artifacts/thread_review_bundle.json" in manifest["artifact_paths"]
 
     prd = json.loads((destination / "artifacts" / "prd.json").read_text(encoding="utf-8"))
     report = json.loads((destination / "artifacts" / "workspace_adoption_report.json").read_text(encoding="utf-8"))
     snapshot = json.loads((destination / "artifacts" / "lifecycle_stage_snapshot.json").read_text(encoding="utf-8"))
+    thread_review_bundle = json.loads((destination / "artifacts" / "thread_review_bundle.json").read_text(encoding="utf-8"))
     product_overview = (destination / "docs" / "product" / "product-overview.md").read_text(encoding="utf-8")
     discovery_review = (destination / "docs" / "discovery" / "discovery-review.md").read_text(encoding="utf-8")
+    thread_review_page = (destination / "docs" / "review" / "thread-review.html").read_text(encoding="utf-8")
 
     assert prd["title"] == "PRD: CodeSync workspace adoption launch lane"
     assert report["destination_workspace_path"] == destination.as_posix()
     assert snapshot["focus_area"] == "discovery"
     assert snapshot["gate_counts"]["pending"] >= 1
+    assert thread_review_bundle["current_stage"] == "prd_handoff"
+    assert thread_review_bundle["review_status"] == "pm_review_required"
+    assert thread_review_bundle["action_items"]
+    assert any(section["section_id"] == "prototype" for section in thread_review_bundle["sections"])
     assert "governed workflow-control product" in product_overview
     assert "## Known Gaps" in product_overview
     assert "## Conflicted Evidence" in product_overview
@@ -107,8 +119,15 @@ def test_adopt_workspace_persists_traceable_workspace(root_dir: Path, codesync_w
     assert "evidence-governed product definition flow" in discovery_review
     assert "## Evidence Status" in discovery_review
     assert "## Conflicted External Evidence" in discovery_review
+    assert "Thread Review: CodeSync workflow control adoption path" in thread_review_page
+    assert "Market and competitor context" in thread_review_page
+    assert "What the PM should do next" in thread_review_page
+    assert "PM review required" in thread_review_page
+    assert "Decision now" in thread_review_page
+    assert "Summary mode" in thread_review_page
 
     assert (destination / "docs" / "planning" / "workspace-adoption-report.md").exists()
+    assert (destination / "docs" / "review" / "thread-review.html").exists()
     assert not (destination / "inbox" / "raw-notes" / "2026-03-22-next-version-superpowers.md").exists()
     assert not (destination / "inbox" / "transcripts" / "2026-03-22-dogfood-next-version-session.txt").exists()
 
