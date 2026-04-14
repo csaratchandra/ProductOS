@@ -13,6 +13,8 @@
     "decision_to_be_made",
     "status",
     "audience",
+    "mission_router",
+    "steering_context",
     "quality_contract",
     "evidence_bundle",
     "source_artifact_ids",
@@ -35,6 +37,8 @@
       "items": { "type": "string", "minLength": 1 },
       "minItems": 1
     },
+    "mission_router": { "$ref": "#/$defs/missionRouter" },
+    "steering_context": { "$ref": "#/$defs/steeringContext" },
     "quality_contract": { "$ref": "#/$defs/qualityContract" },
     "evidence_bundle": {
       "type": "array",
@@ -61,6 +65,82 @@
     "updated_at": { "type": "string", "format": "date-time" }
   },
   "$defs": {
+    "phase": {
+      "type": "string",
+      "enum": ["discover", "align", "operate", "improve"]
+    },
+    "reviewerLane": {
+      "type": "string",
+      "enum": ["ai_reviewer", "ai_tester", "pm_builder"]
+    },
+    "memoryScope": {
+      "type": "string",
+      "enum": [
+        "decisions",
+        "evidence",
+        "prior_artifacts",
+        "repeated_issues",
+        "strategic_memory"
+      ]
+    },
+    "missionRouter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entry_phase",
+        "phase_sequence",
+        "primary_reviewer_lane",
+        "routing_rationale",
+        "stop_conditions"
+      ],
+      "properties": {
+        "entry_phase": { "$ref": "#/$defs/phase" },
+        "phase_sequence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/phase" },
+          "minItems": 1
+        },
+        "primary_reviewer_lane": { "$ref": "#/$defs/reviewerLane" },
+        "routing_rationale": { "type": "string", "minLength": 10 },
+        "stop_conditions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 8 },
+          "minItems": 1
+        }
+      }
+    },
+    "steeringContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "steering_refs",
+        "operating_norms",
+        "memory_priority_order",
+        "default_artifact_focus"
+      ],
+      "properties": {
+        "steering_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1
+        },
+        "operating_norms": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 8 },
+          "minItems": 1
+        },
+        "memory_priority_order": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/memoryScope" },
+          "minItems": 1
+        },
+        "default_artifact_focus": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        }
+      }
+    },
     "qualityContract": {
       "type": "object",
       "additionalProperties": false,

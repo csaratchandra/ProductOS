@@ -23,7 +23,7 @@ The starter workspace includes:
 ## Recommended Start Path
 
 1. Clone the repo.
-2. Run `./productos init-workspace --dest /path/to/new-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode startup`.
+2. Run `./productos start --dest /path/to/new-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode startup --title "Your mission" --customer-problem "Customer problem" --business-goal "Business goal"`.
 3. Replace the seeded starter artifacts with your product evidence as it becomes available.
 4. Keep ProductOS Core in `core/` and treat the new workspace as the place where product reality lives.
 
@@ -49,10 +49,11 @@ PMs should not reuse:
 For a new product or feature, the shortest useful path is:
 
 1. initialize a new workspace from `templates/`
-2. ingest raw notes and evidence into the new workspace
-3. replace starter discovery artifacts with real product artifacts
-4. carry one canonical item through the bounded lifecycle trace
-5. use readable docs and lifecycle snapshots for review instead of manual reconstruction
+2. define the first mission during `start`
+3. ingest raw notes and evidence into the new workspace
+4. replace starter discovery artifacts with real product artifacts
+5. carry one canonical item through the bounded lifecycle trace
+6. use readable docs and lifecycle snapshots for review instead of manual reconstruction
 
 ## Distribution Note
 

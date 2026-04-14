@@ -51,6 +51,14 @@ MISSION_WORKFLOW_REFS = {
     ],
 }
 
+MISSION_MEMORY_PRIORITY_ORDER = [
+    "decisions",
+    "evidence",
+    "prior_artifacts",
+    "repeated_issues",
+    "strategic_memory",
+]
+
 
 def _slug(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
@@ -147,6 +155,118 @@ def _mission_trace_identity(mission_brief: dict[str, Any]) -> dict[str, str]:
         "outcomes_snapshot_id": f"lifecycle_stage_snapshot_outcomes_{mission_slug}_mission_trace",
         "full_lifecycle_snapshot_id": f"lifecycle_stage_snapshot_full_lifecycle_{mission_slug}_mission_trace",
     }
+
+
+def _mission_router_for_mode(operating_mode: str) -> dict[str, Any]:
+    if operating_mode == "discover":
+        return {
+            "entry_phase": "discover",
+            "phase_sequence": ["discover"],
+            "primary_reviewer_lane": "pm_builder",
+            "routing_rationale": "Keep the first mission route discover-only until the PM accepts a reviewable decision package.",
+            "stop_conditions": [
+                "Stop if evidence freshness or provenance becomes unclear.",
+                "Stop if the discover outputs are not reviewable by the PM.",
+                "Stop before downstream execution unless the PM explicitly approves expansion.",
+            ],
+        }
+    if operating_mode == "discover_to_align":
+        return {
+            "entry_phase": "discover",
+            "phase_sequence": ["discover", "align"],
+            "primary_reviewer_lane": "pm_builder",
+            "routing_rationale": "Use discover to establish product truth, then allow one bounded alignment step for docs and deck outputs.",
+            "stop_conditions": [
+                "Stop if discover outputs are not accepted as the source package.",
+                "Stop if alignment outputs drift from the accepted discover package.",
+                "Stop before weekly operation or release movement unless the PM approves expansion.",
+            ],
+        }
+    return {
+        "entry_phase": "discover",
+        "phase_sequence": ["discover", "align", "operate", "improve"],
+        "primary_reviewer_lane": "pm_builder",
+        "routing_rationale": "Run the full PM loop from a mission-first discover start while keeping PM approval explicit at every decision-driving boundary.",
+        "stop_conditions": [
+            "Stop if any phase loses provenance, reviewability, or PM approval visibility.",
+            "Stop if downstream phases outrun the accepted mission package.",
+            "Stop if release-facing claims exceed the current evidence-backed boundary.",
+        ],
+    }
+
+
+def _default_artifact_focus_for_mode(operating_mode: str) -> list[str]:
+    if operating_mode == "discover":
+        return ["mission_brief", "problem_brief", "concept_brief", "prd"]
+    if operating_mode == "discover_to_align":
+        return ["mission_brief", "problem_brief", "concept_brief", "prd", "document_sync_state", "presentation_brief"]
+    return [
+        "mission_brief",
+        "problem_brief",
+        "concept_brief",
+        "prd",
+        "document_sync_state",
+        "presentation_brief",
+        "status_mail",
+        "feature_portfolio_review",
+    ]
+
+
+def _steering_context_for_workspace(workspace_path: Path, operating_mode: str) -> dict[str, Any]:
+    steering_doc = _relative_path(workspace_path / "docs" / "planning" / "steering-context.md")
+    return {
+        "steering_refs": [
+            steering_doc,
+            "core/docs/vendor-neutral-agent-harness-standard.md",
+            "core/docs/ralph-loop-model.md",
+        ],
+        "operating_norms": [
+            "Treat the repository as the system of record.",
+            "Keep PM approval explicit for decision-driving scope, stakeholder-facing output, and release movement.",
+            "Preserve observed versus inferred claims when evidence is incomplete.",
+            "Prefer the smallest coherent slice that can be reviewed and validated end to end.",
+        ],
+        "memory_priority_order": list(MISSION_MEMORY_PRIORITY_ORDER),
+        "default_artifact_focus": _default_artifact_focus_for_mode(operating_mode),
+    }
+
+
+def format_steering_context_markdown(mission_brief: dict[str, Any]) -> str:
+    router = mission_brief["mission_router"]
+    steering = mission_brief["steering_context"]
+    lines = [
+        "# Steering Context",
+        "",
+        f"Mission: `{mission_brief['title']}`",
+        f"Operating Mode: `{mission_brief['operating_mode']}`",
+        "",
+        "## Mission Router",
+        "",
+        f"- Entry phase: `{router['entry_phase']}`",
+        f"- Phase sequence: {', '.join(f'`{item}`' for item in router['phase_sequence'])}",
+        f"- Primary reviewer lane: `{router['primary_reviewer_lane']}`",
+        "",
+        router["routing_rationale"],
+        "",
+        "## Stop Conditions",
+        "",
+    ]
+    for item in router["stop_conditions"]:
+        lines.append(f"- {item}")
+    lines.extend(["", "## Operating Norms", ""])
+    for item in steering["operating_norms"]:
+        lines.append(f"- {item}")
+    lines.extend(["", "## Memory Priority Order", ""])
+    for item in steering["memory_priority_order"]:
+        lines.append(f"- `{item}`")
+    lines.extend(["", "## Default Artifact Focus", ""])
+    for item in steering["default_artifact_focus"]:
+        lines.append(f"- `{item}`")
+    lines.extend(["", "## Steering References", ""])
+    for item in steering["steering_refs"]:
+        lines.append(f"- `{item}`")
+    lines.append("")
+    return "\n".join(lines)
 
 
 def _snapshot_summary_for_focus(focus_area: str, mission_title: str) -> str:
@@ -411,6 +531,8 @@ def build_mission_brief(
     )
     metrics = _unique_strings(success_metrics)
     workflow_refs = list(MISSION_WORKFLOW_REFS[operating_mode])
+    mission_router = _mission_router_for_mode(operating_mode)
+    steering_context = _steering_context_for_workspace(workspace_path, operating_mode)
     return {
         "schema_version": "1.0.0",
         "mission_brief_id": mission_brief_id,
@@ -427,6 +549,8 @@ def build_mission_brief(
         "constraints": mission_constraints,
         "audience": mission_audience,
         "operating_mode": operating_mode,
+        "mission_router": mission_router,
+        "steering_context": steering_context,
         "primary_workflow_refs": workflow_refs,
         "source_refs": source_refs,
         "next_action": "Run the mission through discover first, keep evidence and approvals explicit, then expand phase coverage only when the prior outputs stay reviewable.",
@@ -584,6 +708,9 @@ def format_mission_brief_markdown(mission_brief: dict[str, Any]) -> str:
         f"- Title: `{mission_brief['title']}`",
         f"- Target user: `{mission_brief['target_user']}`",
         f"- Operating mode: `{mission_brief['operating_mode']}`",
+        f"- Entry phase: `{mission_brief['mission_router']['entry_phase']}`",
+        f"- Phase sequence: {', '.join(f'`{item}`' for item in mission_brief['mission_router']['phase_sequence'])}",
+        f"- Reviewer lane: `{mission_brief['mission_router']['primary_reviewer_lane']}`",
         "",
         mission_brief["mission_summary"],
         "",
@@ -600,8 +727,17 @@ def format_mission_brief_markdown(mission_brief: dict[str, Any]) -> str:
     lines.extend(["", "## Constraints", ""])
     for item in mission_brief["constraints"]:
         lines.append(f"- {item}")
+    lines.extend(["", "## Steering Norms", ""])
+    for item in mission_brief["steering_context"]["operating_norms"]:
+        lines.append(f"- {item}")
+    lines.extend(["", "## Memory Priority Order", ""])
+    for item in mission_brief["steering_context"]["memory_priority_order"]:
+        lines.append(f"- `{item}`")
     lines.extend(["", "## Primary Workflow Path", ""])
     for item in mission_brief["primary_workflow_refs"]:
+        lines.append(f"- `{item}`")
+    lines.extend(["", "## Steering References", ""])
+    for item in mission_brief["steering_context"]["steering_refs"]:
         lines.append(f"- `{item}`")
     lines.extend(["", "## Next Action", "", mission_brief["next_action"], ""])
     return "\n".join(lines)
@@ -791,6 +927,10 @@ def init_mission_in_workspace(
     )
     (docs_dir / "mission-brief.md").write_text(
         format_mission_brief_markdown(mission_brief) + "\n",
+        encoding="utf-8",
+    )
+    (docs_dir / "steering-context.md").write_text(
+        format_steering_context_markdown(mission_brief) + "\n",
         encoding="utf-8",
     )
     sync_canonical_discover_artifacts(

@@ -1,6 +1,6 @@
 # ProductOS
 
-ProductOS V8.0.0 is the current stable ProductOS Core line.
+ProductOS V8.1.0 is the current stable ProductOS Core line.
 
 ProductOS is distributed under the Apache License 2.0. Forks, improvements, and
 suggestions are welcome through issues and pull requests.
@@ -16,7 +16,7 @@ For PM adoption on a new product, the canonical starting surface is [templates](
 
 ## Operating Model
 
-ProductOS V8.0.0 is organized around the PM lifecycle plus governed research and improvement loops:
+ProductOS V8.1.0 is organized around the PM lifecycle plus governed research and improvement loops:
 
 1. current-state assessment
 2. discovery
@@ -47,11 +47,17 @@ If you want to use ProductOS for a new product or feature:
 
 Recommended command:
 
-`./productos init-workspace --dest /path/to/new-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode startup`
+`./productos start --dest /path/to/new-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode startup --title "Your mission" --customer-problem "Customer problem" --business-goal "Business goal"`
 
 Recommended next step:
 
-`./productos --workspace-dir /path/to/new-workspace init-mission --title "Your mission" --target-user "Your PM" --customer-problem "Customer problem" --business-goal "Business goal" --success-metric "time to reviewable PRD"`
+`./productos --workspace-dir /path/to/new-workspace run discover`
+
+For an existing product workspace, start with:
+
+`./productos import --source /path/to/existing-product-folder --dest /path/to/adopted-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode research --emit-report --emit-thread-page`
+
+The repo also accepts the entrypoint names `./ProductOS`, `./productOS`, and `./PRODUCTOS`.
 
 ## Validation And Testing
 

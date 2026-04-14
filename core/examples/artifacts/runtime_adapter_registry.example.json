@@ -3,6 +3,7 @@
   "runtime_adapter_registry_id": "runtime_adapter_registry_ws_productos_v2",
   "workspace_id": "ws_productos_v2",
   "status": "partial",
+  "default_adapter_id": "adapter_git_execution",
   "adapters": [
     {
       "adapter_id": "adapter_worker_session",
@@ -17,6 +18,22 @@
       "requires_host_support": true,
       "verification_status": "verified",
       "used_by_default": true,
+      "supported_mission_stages": [
+        "discover",
+        "align",
+        "operate",
+        "improve"
+      ],
+      "prompt_pattern_capabilities": {
+        "mission_routing": "repo_managed",
+        "task_boundary_visibility": "limited",
+        "research_freshness": "unsupported",
+        "validation_enforcement": "limited",
+        "delegation_support": "native",
+        "approval_gating": "native",
+        "memory_steering": "limited",
+        "artifact_export": "unsupported"
+      },
       "host_constraints": [
         "Requires host support for bounded worker sessions."
       ],
@@ -35,6 +52,22 @@
       "requires_host_support": true,
       "verification_status": "verified",
       "used_by_default": true,
+      "supported_mission_stages": [
+        "discover",
+        "align",
+        "operate",
+        "improve"
+      ],
+      "prompt_pattern_capabilities": {
+        "mission_routing": "repo_managed",
+        "task_boundary_visibility": "limited",
+        "research_freshness": "unsupported",
+        "validation_enforcement": "repo_managed",
+        "delegation_support": "unsupported",
+        "approval_gating": "native",
+        "memory_steering": "repo_managed",
+        "artifact_export": "repo_managed"
+      },
       "host_constraints": [
         "Requires writable workspace access."
       ],

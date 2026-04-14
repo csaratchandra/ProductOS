@@ -19,11 +19,13 @@ PM-facing control-surface state.
 Use it to show:
 
 - current operating mode
+- current mission boundary and task boundary
 - current focus
 - active specialist visibility
 - queue visibility
 - queue-driven recommendations for what the PM should review or unblock next
 - the next controlled step
+- the current reviewer lane
 - review and blocker context
 
 ### `orchestration_state`
@@ -33,7 +35,9 @@ Multi-agent coordination state.
 Use it to show:
 
 - routing plan
+- route budget and current mission boundary
 - route rationale
+- route stage and reviewer lane
 - current specialist path
 - handoffs between agents
 - retries
@@ -61,8 +65,11 @@ Host-capability registry for live runtime behavior.
 Use it to show:
 
 - which runtime adapters exist
+- which adapter is the default control path
 - whether each adapter is available, limited, planned, or unavailable
+- which mission stages each adapter supports
 - which actions are supported
+- which prompt-pattern capabilities are native versus repo-managed
 - what host constraints apply
 
 ### `intake_routing_state`

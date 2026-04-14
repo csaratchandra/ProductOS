@@ -24,6 +24,19 @@ It does not own:
 - release rules
 - hidden memory
 
+## Capability Matrix Rule
+
+Thin adapters should still be measurable.
+
+Every adapter entry should declare:
+
+- supported ProductOS mission stages
+- whether mission routing is native or repo-managed
+- whether task-boundary visibility is native or repo-managed
+- whether research freshness, validation, delegation, approval gating, memory steering, and artifact export are native, repo-managed, limited, or unsupported
+
+This keeps ProductOS portable without pretending every host supports the same operating mechanics equally well.
+
 ## Default Adapter Actions
 
 Every thin adapter should expose the same basic actions:

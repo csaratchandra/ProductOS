@@ -10,6 +10,51 @@
     "engineering",
     "leadership"
   ],
+  "mission_router": {
+    "entry_phase": "discover",
+    "phase_sequence": [
+      "discover",
+      "align",
+      "operate",
+      "improve"
+    ],
+    "primary_reviewer_lane": "pm_builder",
+    "routing_rationale": "Start every next-version mission in discover, then expand only when the prior phase stays reviewable and evidence-backed.",
+    "stop_conditions": [
+      "Stop if evidence freshness or provenance becomes unclear.",
+      "Stop if the current phase output is not PM-reviewable.",
+      "Stop before downstream release movement unless PM approval is explicit."
+    ]
+  },
+  "steering_context": {
+    "steering_refs": [
+      "internal/ProductOS-Next/docs/planning/steering-context.md",
+      "core/docs/vendor-neutral-agent-harness-standard.md",
+      "core/docs/ralph-loop-model.md"
+    ],
+    "operating_norms": [
+      "Treat the repository as the system of record.",
+      "Keep PM approval explicit for decision-driving scope and release movement.",
+      "Preserve observed versus inferred claims when evidence is incomplete.",
+      "Prefer the smallest coherent slice that can be validated end to end."
+    ],
+    "memory_priority_order": [
+      "decisions",
+      "evidence",
+      "prior_artifacts",
+      "repeated_issues",
+      "strategic_memory"
+    ],
+    "default_artifact_focus": [
+      "mission_brief",
+      "problem_brief",
+      "concept_brief",
+      "prd",
+      "document_sync_state",
+      "status_mail",
+      "feature_portfolio_review"
+    ]
+  },
   "quality_contract": {
     "audience": [
       "PM",

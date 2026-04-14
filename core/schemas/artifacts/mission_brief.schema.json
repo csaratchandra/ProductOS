@@ -18,6 +18,8 @@
     "constraints",
     "audience",
     "operating_mode",
+    "mission_router",
+    "steering_context",
     "primary_workflow_refs",
     "source_refs",
     "next_action",
@@ -52,6 +54,12 @@
       "type": "string",
       "enum": ["discover", "discover_to_align", "full_loop"]
     },
+    "mission_router": {
+      "$ref": "#/$defs/missionRouter"
+    },
+    "steering_context": {
+      "$ref": "#/$defs/steeringContext"
+    },
     "primary_workflow_refs": {
       "type": "array",
       "items": { "type": "string", "minLength": 5 },
@@ -65,5 +73,94 @@
     "next_action": { "type": "string", "minLength": 10 },
     "created_at": { "type": "string", "format": "date-time" },
     "updated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "phase": {
+      "type": "string",
+      "enum": ["discover", "align", "operate", "improve"]
+    },
+    "reviewerLane": {
+      "type": "string",
+      "enum": ["ai_reviewer", "ai_tester", "pm_builder"]
+    },
+    "memoryScope": {
+      "type": "string",
+      "enum": [
+        "decisions",
+        "evidence",
+        "prior_artifacts",
+        "repeated_issues",
+        "strategic_memory"
+      ]
+    },
+    "missionRouter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entry_phase",
+        "phase_sequence",
+        "primary_reviewer_lane",
+        "routing_rationale",
+        "stop_conditions"
+      ],
+      "properties": {
+        "entry_phase": {
+          "$ref": "#/$defs/phase"
+        },
+        "phase_sequence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/phase"
+          },
+          "minItems": 1
+        },
+        "primary_reviewer_lane": {
+          "$ref": "#/$defs/reviewerLane"
+        },
+        "routing_rationale": {
+          "type": "string",
+          "minLength": 10
+        },
+        "stop_conditions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 8 },
+          "minItems": 1
+        }
+      }
+    },
+    "steeringContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "steering_refs",
+        "operating_norms",
+        "memory_priority_order",
+        "default_artifact_focus"
+      ],
+      "properties": {
+        "steering_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1
+        },
+        "operating_norms": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 8 },
+          "minItems": 1
+        },
+        "memory_priority_order": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/memoryScope"
+          },
+          "minItems": 1
+        },
+        "default_artifact_focus": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        }
+      }
+    }
   }
 }

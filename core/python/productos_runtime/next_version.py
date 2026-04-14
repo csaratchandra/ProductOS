@@ -134,6 +134,115 @@ def _quality_contract(
     }
 
 
+def _adapter_capability_profile(
+    *,
+    mission_routing: str,
+    task_boundary_visibility: str,
+    research_freshness: str,
+    validation_enforcement: str,
+    delegation_support: str,
+    approval_gating: str,
+    memory_steering: str,
+    artifact_export: str,
+) -> dict[str, str]:
+    return {
+        "mission_routing": mission_routing,
+        "task_boundary_visibility": task_boundary_visibility,
+        "research_freshness": research_freshness,
+        "validation_enforcement": validation_enforcement,
+        "delegation_support": delegation_support,
+        "approval_gating": approval_gating,
+        "memory_steering": memory_steering,
+        "artifact_export": artifact_export,
+    }
+
+
+def _mission_control_boundary(
+    *,
+    mission_ref: str,
+    mission_title: str,
+    active_stage: str,
+    current_route_ref: str,
+    next_route_ref: str,
+    current_task_name: str,
+    current_task_summary: str,
+    current_task_status: str,
+    reviewer_lane: str,
+) -> dict[str, str]:
+    return {
+        "mission_ref": mission_ref,
+        "mission_title": mission_title,
+        "active_stage": active_stage,
+        "current_route_ref": current_route_ref,
+        "next_route_ref": next_route_ref,
+        "current_task_name": current_task_name,
+        "current_task_summary": current_task_summary,
+        "current_task_status": current_task_status,
+        "reviewer_lane": reviewer_lane,
+    }
+
+
+def _default_mission_router() -> dict[str, Any]:
+    return {
+        "entry_phase": "discover",
+        "phase_sequence": ["discover", "align", "operate", "improve"],
+        "primary_reviewer_lane": "pm_builder",
+        "routing_rationale": "Start every next-version mission in discover, then expand only when the prior phase stays reviewable and evidence-backed.",
+        "stop_conditions": [
+            "Stop if evidence freshness or provenance becomes unclear.",
+            "Stop if the current phase output is not PM-reviewable.",
+            "Stop before downstream release movement unless PM approval is explicit.",
+        ],
+    }
+
+
+def _default_steering_context(workspace_path: Path) -> dict[str, Any]:
+    return {
+        "steering_refs": [
+            _relative_path(workspace_path / "docs" / "planning" / "steering-context.md"),
+            "core/docs/vendor-neutral-agent-harness-standard.md",
+            "core/docs/ralph-loop-model.md",
+        ],
+        "operating_norms": [
+            "Treat the repository as the system of record.",
+            "Keep PM approval explicit for decision-driving scope and release movement.",
+            "Preserve observed versus inferred claims when evidence is incomplete.",
+            "Prefer the smallest coherent slice that can be validated end to end.",
+        ],
+        "memory_priority_order": [
+            "decisions",
+            "evidence",
+            "prior_artifacts",
+            "repeated_issues",
+            "strategic_memory",
+        ],
+        "default_artifact_focus": [
+            "mission_brief",
+            "problem_brief",
+            "concept_brief",
+            "prd",
+            "document_sync_state",
+            "status_mail",
+            "feature_portfolio_review",
+        ],
+    }
+
+
+def _route_budget(
+    *,
+    max_parallel_routes: int,
+    active_route_count: int,
+    awaiting_review_count: int,
+    blocked_route_count: int,
+) -> dict[str, int]:
+    return {
+        "max_parallel_routes": max_parallel_routes,
+        "active_route_count": active_route_count,
+        "awaiting_review_count": awaiting_review_count,
+        "blocked_route_count": blocked_route_count,
+    }
+
+
 def _build_eval_suite_manifest(
     *,
     workspace_id: str,
@@ -1301,11 +1410,30 @@ def build_next_version_bundle_from_workspace(
         context_pack_source_artifact_ids.insert(0, workspace_mission_brief["mission_brief_id"])
         context_pack_recommended_next_action = workspace_mission_brief.get("next_action", context_pack_recommended_next_action)
 
+    mission_router = (
+        copy.deepcopy(workspace_mission_brief.get("mission_router"))
+        if workspace_mission_brief is not None and workspace_mission_brief.get("mission_router") is not None
+        else _default_mission_router()
+    )
+    steering_context = (
+        copy.deepcopy(workspace_mission_brief.get("steering_context"))
+        if workspace_mission_brief is not None and workspace_mission_brief.get("steering_context") is not None
+        else _default_steering_context(workspace_path)
+    )
+
+    selected_adapter_id = {
+        "codex": "adapter_codex_thin",
+        "claude": "adapter_claude_style_thin",
+        "windsurf": "adapter_windsurf_thin",
+        "antigravity": "adapter_antigravity_thin",
+    }.get(adapter_name, "adapter_codex_thin")
+
     runtime_adapter_registry = {
         "schema_version": "1.0.0",
         "runtime_adapter_registry_id": f"runtime_adapter_registry_{workspace_id}_next_version",
         "workspace_id": workspace_id,
         "status": "healthy",
+        "default_adapter_id": selected_adapter_id,
         "adapters": [
             {
                 "adapter_id": "adapter_codex_thin",
@@ -1322,6 +1450,17 @@ def build_next_version_bundle_from_workspace(
                 "requires_host_support": True,
                 "verification_status": "verified",
                 "used_by_default": adapter_name == "codex",
+                "supported_mission_stages": ["discover", "align", "operate", "improve"],
+                "prompt_pattern_capabilities": _adapter_capability_profile(
+                    mission_routing="repo_managed",
+                    task_boundary_visibility="repo_managed",
+                    research_freshness="repo_managed",
+                    validation_enforcement="repo_managed",
+                    delegation_support="limited",
+                    approval_gating="native",
+                    memory_steering="repo_managed",
+                    artifact_export="repo_managed",
+                ),
                 "host_constraints": [
                     "Uses the repo contract and local validation commands."
                 ],
@@ -1342,6 +1481,17 @@ def build_next_version_bundle_from_workspace(
                 "requires_host_support": True,
                 "verification_status": "verified",
                 "used_by_default": adapter_name == "claude",
+                "supported_mission_stages": ["discover", "align", "operate", "improve"],
+                "prompt_pattern_capabilities": _adapter_capability_profile(
+                    mission_routing="repo_managed",
+                    task_boundary_visibility="repo_managed",
+                    research_freshness="repo_managed",
+                    validation_enforcement="repo_managed",
+                    delegation_support="limited",
+                    approval_gating="native",
+                    memory_steering="repo_managed",
+                    artifact_export="repo_managed",
+                ),
                 "host_constraints": [
                     "Verified against the shared repo contract through parity-report evidence; direct host-native execution should keep using the same bounded actions."
                 ],
@@ -1362,6 +1512,17 @@ def build_next_version_bundle_from_workspace(
                 "requires_host_support": True,
                 "verification_status": "verified",
                 "used_by_default": adapter_name == "windsurf",
+                "supported_mission_stages": ["discover", "align", "operate", "improve"],
+                "prompt_pattern_capabilities": _adapter_capability_profile(
+                    mission_routing="repo_managed",
+                    task_boundary_visibility="repo_managed",
+                    research_freshness="repo_managed",
+                    validation_enforcement="repo_managed",
+                    delegation_support="limited",
+                    approval_gating="native",
+                    memory_steering="repo_managed",
+                    artifact_export="repo_managed",
+                ),
                 "host_constraints": [
                     "Verified against the shared repo contract through parity-report evidence; direct host-native execution should keep using the same bounded actions."
                 ],
@@ -1382,6 +1543,17 @@ def build_next_version_bundle_from_workspace(
                 "requires_host_support": True,
                 "verification_status": "verified",
                 "used_by_default": adapter_name == "antigravity",
+                "supported_mission_stages": ["discover", "align", "operate", "improve"],
+                "prompt_pattern_capabilities": _adapter_capability_profile(
+                    mission_routing="repo_managed",
+                    task_boundary_visibility="repo_managed",
+                    research_freshness="repo_managed",
+                    validation_enforcement="repo_managed",
+                    delegation_support="limited",
+                    approval_gating="native",
+                    memory_steering="repo_managed",
+                    artifact_export="repo_managed",
+                ),
                 "host_constraints": [
                     "Verified against the shared repo contract through parity-report evidence; direct host-native execution should keep using the same bounded actions."
                 ],
@@ -1400,6 +1572,17 @@ def build_next_version_bundle_from_workspace(
                 "requires_host_support": True,
                 "verification_status": "verified",
                 "used_by_default": True,
+                "supported_mission_stages": ["discover", "align", "operate", "improve"],
+                "prompt_pattern_capabilities": _adapter_capability_profile(
+                    mission_routing="repo_managed",
+                    task_boundary_visibility="unsupported",
+                    research_freshness="unsupported",
+                    validation_enforcement="limited",
+                    delegation_support="unsupported",
+                    approval_gating="unsupported",
+                    memory_steering="limited",
+                    artifact_export="native",
+                ),
                 "host_constraints": [
                     "Requires writable workspace access."
                 ],
@@ -1418,6 +1601,17 @@ def build_next_version_bundle_from_workspace(
                 "requires_host_support": True,
                 "verification_status": "verified",
                 "used_by_default": True,
+                "supported_mission_stages": ["discover", "align", "operate", "improve"],
+                "prompt_pattern_capabilities": _adapter_capability_profile(
+                    mission_routing="unsupported",
+                    task_boundary_visibility="unsupported",
+                    research_freshness="unsupported",
+                    validation_enforcement="native",
+                    delegation_support="unsupported",
+                    approval_gating="unsupported",
+                    memory_steering="unsupported",
+                    artifact_export="unsupported",
+                ),
                 "host_constraints": [
                     "Requires local Python and pytest execution."
                 ],
@@ -2489,6 +2683,8 @@ def build_next_version_bundle_from_workspace(
         "decision_to_be_made": context_pack_decision_to_be_made,
         "status": "watch",
         "audience": context_pack_audience,
+        "mission_router": mission_router,
+        "steering_context": steering_context,
         "quality_contract": _quality_contract(
             audience=context_pack_audience,
             decision_needed="Decide whether the current runtime can score and narrate itself without stronger provenance and eval controls.",
@@ -3225,6 +3421,17 @@ def build_next_version_bundle_from_workspace(
             "repeated_issues",
             "strategic_memory",
         ],
+        "retrieval_strategy": {
+            "mission_ref": (
+                workspace_mission_brief["mission_brief_id"]
+                if workspace_mission_brief is not None
+                else f"mission_brief_{workspace_id}_implicit_next_version"
+            ),
+            "steering_refs": list(steering_context["steering_refs"]),
+            "priority_order": list(steering_context["memory_priority_order"]),
+            "retrieval_policy_summary": "Retrieve mission-defining decisions and evidence first, then pull supporting artifacts, repeated issues, and strategic memory in the steering-defined order.",
+            "default_artifact_focus": list(steering_context["default_artifact_focus"]),
+        },
         "provenance_status": "complete",
         "retrieved_records": memory_retrieved_records,
         "unresolved_questions": [
@@ -3244,16 +3451,6 @@ def build_next_version_bundle_from_workspace(
     }
 
     adapter_session_id = f"adapter_{adapter_name}_thin" if adapter_name != "claude" else "adapter_claude_style_thin"
-    if adapter_name == "codex":
-        selected_adapter_id = "adapter_codex_thin"
-    elif adapter_name == "claude":
-        selected_adapter_id = "adapter_claude_style_thin"
-    elif adapter_name == "windsurf":
-        selected_adapter_id = "adapter_windsurf_thin"
-    elif adapter_name == "antigravity":
-        selected_adapter_id = "adapter_antigravity_thin"
-    else:
-        selected_adapter_id = "adapter_codex_thin"
     discover_session_status = "completed" if discover_promoted else "awaiting_review"
     discover_event_messages = [
         ("created", "Discover session created from the live inbox and current workspace artifacts."),
@@ -3423,6 +3620,67 @@ def build_next_version_bundle_from_workspace(
         event_messages=improve_event_messages,
     )
 
+    mission_ref = (
+        workspace_mission_brief["mission_brief_id"]
+        if workspace_mission_brief is not None
+        else f"mission_brief_{workspace_id}_implicit_next_version"
+    )
+    mission_title = (
+        workspace_mission_brief["title"]
+        if workspace_mission_brief is not None
+        else "Implicit next-version ProductOS mission"
+    )
+    mission_stage = (
+        "improve"
+        if promotion_gate["status"] == "ready"
+        else "operate" if discover_promoted else "discover"
+    )
+    mission_current_route_ref = (
+        "route_score_and_improve"
+        if promotion_gate["status"] == "ready"
+        else "route_operator_autopilot" if discover_promoted else "route_discover_to_prd"
+    )
+    mission_next_route_ref = (
+        "route_v5_bundle_selection"
+        if promotion_gate["status"] == "ready"
+        else "route_score_and_improve" if discover_promoted else "route_operator_autopilot"
+    )
+    mission_current_task_name = (
+        "Choose the next bounded expansion slice"
+        if promotion_gate["status"] == "ready"
+        else "Promote the weekly PM autopilot route" if discover_promoted else "Promote the discover-to-PRD route"
+    )
+    mission_current_task_summary = (
+        "The bounded baseline gate is clear, so the improvement loop should choose the next disciplined expansion instead of treating the current baseline as unfinished."
+        if promotion_gate["status"] == "ready"
+        else "The discover and control-surface slices are promoted, so weekly PM autopilot is now the next must-win route."
+        if discover_promoted
+        else "The discover route remains the first must-win mission and should turn live inbox input into a promoted decision package."
+    )
+    mission_current_task_status = (
+        "ready_for_next_expansion"
+        if promotion_gate["status"] == "ready"
+        else "awaiting_pm_review" if discover_promoted else "awaiting_discover_promotion"
+    )
+    mission_reviewer_lane = "pm_builder" if promotion_gate["status"] == "ready" or discover_promoted else "pm_builder"
+    mission_control = _mission_control_boundary(
+        mission_ref=mission_ref,
+        mission_title=mission_title,
+        active_stage=mission_stage,
+        current_route_ref=mission_current_route_ref,
+        next_route_ref=mission_next_route_ref,
+        current_task_name=mission_current_task_name,
+        current_task_summary=mission_current_task_summary,
+        current_task_status=mission_current_task_status,
+        reviewer_lane=mission_reviewer_lane,
+    )
+    route_budget = _route_budget(
+        max_parallel_routes=3,
+        active_route_count=0 if promotion_gate["status"] == "ready" else 1,
+        awaiting_review_count=0 if promotion_gate["status"] == "ready" else 1,
+        blocked_route_count=0,
+    )
+
     orchestration_state = {
         "schema_version": "1.0.0",
         "orchestration_state_id": orchestration_state_id,
@@ -3443,6 +3701,8 @@ def build_next_version_bundle_from_workspace(
             )
         ),
         "initiating_agent": "cockpit",
+        "mission_control": mission_control,
+        "route_budget": route_budget,
         "active_route_ids": (
             []
             if next_version_baseline_promoted
@@ -3483,7 +3743,9 @@ def build_next_version_bundle_from_workspace(
                         else "This is the top priority feature in the current portfolio review and the clearest week-one value wedge."
                     )
                 ),
+                "stage": "discover",
                 "status": "completed" if discover_promoted else "awaiting_review",
+                "reviewer_lane": "pm_builder",
                 "input_artifact_ids": [item["item_id"] for item in intake_items],
                 "expected_output_artifact_ids": [
                     discover_problem_brief["problem_brief_id"],
@@ -3492,13 +3754,20 @@ def build_next_version_bundle_from_workspace(
                     discover_scorecard_id,
                 ],
                 "execution_session_state_id": discover_session_id,
+                "next_action": (
+                    "Keep the discover outputs as the current standard and hand the next bounded slice to the weekly PM autopilot route."
+                    if discover_promoted
+                    else "Run the live discover loop from the inbox inputs and promote the decision-ready package through PM review."
+                ),
             },
             {
                 "route_id": "route_docs_and_deck",
                 "agent_name": "presentation",
                 "objective": "Package current ProductOS truth into readable docs and a stakeholder-ready deck through one aligned path.",
                 "rationale": "Alignment is now part of the promoted baseline and should refresh from the discover package without extra PM reconstruction." if next_version_baseline_promoted else "Alignment is already one of the strongest current slices and should stay usable during the next-version build.",
+                "stage": "align",
                 "status": "completed" if docs_alignment_promoted and presentation_promoted else "ready",
+                "reviewer_lane": "ai_reviewer",
                 "depends_on_route_ids": ["route_discover_to_prd"],
                 "input_artifact_ids": [
                     prd["prd_id"],
@@ -3511,6 +3780,7 @@ def build_next_version_bundle_from_workspace(
                     presentation_scorecard_id,
                 ],
                 "execution_session_state_id": align_session_id,
+                "next_action": "Refresh the readable docs and deck from the promoted discover package whenever the mission package changes.",
             },
             {
                 "route_id": "route_operator_autopilot",
@@ -3521,7 +3791,9 @@ def build_next_version_bundle_from_workspace(
                     if next_version_baseline_promoted
                     else "The weekly PM autopilot is the next high-leverage slice after the discover loop."
                 ),
+                "stage": "operate",
                 "status": "completed" if weekly_pm_autopilot_promoted else ("awaiting_review" if discover_promoted else "active"),
+                "reviewer_lane": "pm_builder",
                 "input_artifact_ids": [
                     decision_queue["decision_queue_id"],
                     follow_up_queue["follow_up_queue_id"],
@@ -3535,13 +3807,20 @@ def build_next_version_bundle_from_workspace(
                     runtime_control_surface_scorecard_id,
                 ],
                 "execution_session_state_id": operate_session_id,
+                "next_action": (
+                    "Keep the supervised weekly operator bundle active as part of the promoted baseline."
+                    if weekly_pm_autopilot_promoted
+                    else "Review the weekly PM autopilot scorecard and promote the minimum supervised operator path."
+                ),
             },
             {
                 "route_id": "route_score_and_improve",
                 "agent_name": "improvement_planner",
                 "objective": "Refresh the portfolio review and improvement loop after every major bounded slice.",
                 "rationale": "Sub-5 features should always become explicit improvement work, and the loop must stay subordinate to frozen eval and decision-memory evidence before claiming promotion.",
+                "stage": "improve",
                 "status": "completed" if self_improvement_promoted else "awaiting_review",
+                "reviewer_lane": "ai_tester",
                 "depends_on_route_ids": ["route_discover_to_prd", "route_operator_autopilot"],
                 "input_artifact_ids": [
                     feature_portfolio_review["feature_portfolio_review_id"],
@@ -3560,6 +3839,11 @@ def build_next_version_bundle_from_workspace(
                     eval_run_report["eval_run_report_id"],
                 ],
                 "execution_session_state_id": improve_session_id,
+                "next_action": (
+                    "Use the cleared score-refresh loop to choose the next bounded expansion slice."
+                    if self_improvement_promoted
+                    else "Review the weakest score-bearing slice and route the next bounded fix through frozen eval and decision memory."
+                ),
             },
         ],
         "queue_impacts": [
@@ -3643,6 +3927,7 @@ def build_next_version_bundle_from_workspace(
         "mode": "status" if next_version_baseline_promoted else ("review" if discover_promoted else "plan"),
         "status": "completed" if next_version_baseline_promoted else "awaiting_review",
         "coordination_status": "healthy",
+        "mission_control": mission_control,
         "request_summary": (
             "Operate the completed next-version ProductOS baseline from one repo CLI surface."
             if next_version_baseline_promoted

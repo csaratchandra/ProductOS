@@ -20,6 +20,16 @@ def _run_cli(root_dir: Path, *args: str) -> subprocess.CompletedProcess[str]:
     )
 
 
+def _run_launcher(root_dir: Path, launcher_name: str, *args: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        [str(root_dir / launcher_name), *args],
+        cwd=root_dir,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+
 def _run_self_hosting_cli(root_dir: Path, workspace_dir: Path, *args: str) -> subprocess.CompletedProcess[str]:
     return _run_cli(root_dir, "--workspace-dir", str(workspace_dir), *args)
 
@@ -95,6 +105,50 @@ def test_productos_init_mission_command(root_dir: Path, self_hosting_workspace_d
     status_result = _run_self_hosting_cli(root_dir, workspace_copy, "status")
     assert status_result.returncode == 0, status_result.stderr or status_result.stdout
     assert "Mission: Customer recovery mission" in status_result.stdout
+
+
+def test_productos_start_command_creates_workspace_and_mission(root_dir: Path, tmp_path: Path):
+    destination = tmp_path / "acme-start-workspace"
+    result = _run_cli(
+        root_dir,
+        "start",
+        "--dest",
+        str(destination),
+        "--workspace-id",
+        "ws_acme_start",
+        "--name",
+        "Acme Start Workspace",
+        "--mode",
+        "startup",
+        "--title",
+        "Activation recovery mission",
+        "--customer-problem",
+        "Customers are not reaching activation quickly enough.",
+        "--business-goal",
+        "Increase activation while keeping the workspace reviewable.",
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "Started workspace at" in result.stdout
+    assert "Mission Brief: mission_brief_ws_acme_start_activation_recovery_mission" in result.stdout
+
+    with (destination / "workspace_manifest.yaml").open("r", encoding="utf-8") as handle:
+        manifest = yaml.safe_load(handle)
+    mission_brief = json.loads((destination / "artifacts" / "mission_brief.json").read_text(encoding="utf-8"))
+
+    assert manifest["workspace_id"] == "ws_acme_start"
+    assert manifest["name"] == "Acme Start Workspace"
+    assert manifest["mode"] == "startup"
+    assert mission_brief["title"] == "Activation recovery mission"
+    assert mission_brief["operating_mode"] == "discover"
+
+
+def test_case_variant_launchers_delegate_to_productos_cli(root_dir: Path):
+    for launcher_name in ["ProductOS", "productOS", "PRODUCTOS"]:
+        result = _run_launcher(root_dir, launcher_name, "--help")
+        assert result.returncode == 0, result.stderr or result.stdout
+        assert "start" in result.stdout
+        assert "import" in result.stdout
 
 
 def test_productos_run_discover_can_fall_back_to_mission_brief(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
@@ -238,6 +292,8 @@ def test_productos_align_and_operate_outputs_include_custom_mission_context(
         "time to reviewable PRD",
         "--success-metric",
         "time to aligned docs and deck",
+        "--operating-mode",
+        "full_loop",
     )
     assert mission_result.returncode == 0, mission_result.stderr or mission_result.stdout
 
@@ -278,6 +334,70 @@ def test_productos_align_and_operate_outputs_include_custom_mission_context(
     assert any(
         "Customer trust recovery mission" in issue["title"] for issue in issue_log["issues"]
     )
+
+
+def test_productos_run_align_rejects_discover_only_mission(
+    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+):
+    workspace_copy = tmp_path / "workspace-copy"
+    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+
+    mission_result = _run_self_hosting_cli(
+        root_dir,
+        workspace_copy,
+        "init-mission",
+        "--title",
+        "Discover only mission",
+        "--target-user",
+        "Product manager",
+        "--customer-problem",
+        "The PM needs one bounded discovery pass before any downstream packaging begins.",
+        "--business-goal",
+        "Prove the mission framing without opening later phases by default.",
+        "--success-metric",
+        "time to reviewable PRD",
+        "--operating-mode",
+        "discover",
+    )
+    assert mission_result.returncode == 0, mission_result.stderr or mission_result.stdout
+
+    result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "align")
+
+    assert result.returncode == 1
+    assert "routes through [discover]" in (result.stderr or result.stdout)
+    assert "'align' is not an allowed entry phase" in (result.stderr or result.stdout)
+
+
+def test_productos_run_operate_rejects_discover_to_align_mission(
+    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+):
+    workspace_copy = tmp_path / "workspace-copy"
+    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+
+    mission_result = _run_self_hosting_cli(
+        root_dir,
+        workspace_copy,
+        "init-mission",
+        "--title",
+        "Discover to align mission",
+        "--target-user",
+        "Product manager",
+        "--customer-problem",
+        "The PM needs discover plus one bounded alignment pass before any operating loop starts.",
+        "--business-goal",
+        "Keep mission routing explicit instead of assuming the full loop is always in scope.",
+        "--success-metric",
+        "time to aligned docs and deck",
+        "--operating-mode",
+        "discover_to_align",
+    )
+    assert mission_result.returncode == 0, mission_result.stderr or mission_result.stdout
+
+    result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "operate")
+
+    assert result.returncode == 1
+    assert "routes through [discover, align]" in (result.stderr or result.stdout)
+    assert "'operate' is not an allowed entry phase" in (result.stderr or result.stdout)
 
 
 def test_productos_status_review_and_doctor_surface_feed_governance(

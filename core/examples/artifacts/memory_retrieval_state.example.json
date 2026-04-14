@@ -10,6 +10,30 @@
     "repeated_issues",
     "strategic_memory"
   ],
+  "retrieval_strategy": {
+    "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+    "steering_refs": [
+      "internal/ProductOS-Next/docs/planning/steering-context.md",
+      "core/docs/vendor-neutral-agent-harness-standard.md",
+      "core/docs/ralph-loop-model.md"
+    ],
+    "priority_order": [
+      "decisions",
+      "evidence",
+      "prior_artifacts",
+      "repeated_issues",
+      "strategic_memory"
+    ],
+    "retrieval_policy_summary": "Retrieve mission-defining decisions and evidence first, then pull supporting artifacts, repeated issues, and strategic memory in the steering-defined order.",
+    "default_artifact_focus": [
+      "mission_brief",
+      "problem_brief",
+      "concept_brief",
+      "prd",
+      "status_mail",
+      "feature_portfolio_review"
+    ]
+  },
   "provenance_status": "complete",
   "retrieved_records": [
     {

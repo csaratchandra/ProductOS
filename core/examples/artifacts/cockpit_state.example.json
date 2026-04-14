@@ -5,6 +5,17 @@
   "mode": "plan",
   "status": "active",
   "coordination_status": "healthy",
+  "mission_control": {
+    "mission_ref": "mission_brief_ws_productos_v2_runtime",
+    "mission_title": "PM-visible runtime foundation",
+    "active_stage": "improve",
+    "current_route_ref": "route_runtime_proof",
+    "next_route_ref": "route_prioritize_v3_1_expansion",
+    "current_task_name": "Choose the first V3.1 runtime expansion",
+    "current_task_summary": "The runtime foundation is complete, so the PM should choose the next bounded expansion from one visible control surface.",
+    "current_task_status": "awaiting_pm_review",
+    "reviewer_lane": "pm_builder"
+  },
   "request_summary": "Operate the completed V3.0 runtime foundation from one PM-facing cockpit surface.",
   "current_focus": "Keep queue actions, intake routing, and memory reuse legible now that the V3.0 runtime foundation is live.",
   "recommended_next_step": {

@@ -12,6 +12,7 @@
     "mode",
     "status",
     "coordination_status",
+    "mission_control",
     "request_summary",
     "current_focus",
     "recommended_next_step",
@@ -73,6 +74,9 @@
         "watch",
         "blocked"
       ]
+    },
+    "mission_control": {
+      "$ref": "#/$defs/missionControl"
     },
     "request_summary": {
       "type": "string",
@@ -184,6 +188,72 @@
     }
   },
   "$defs": {
+    "missionControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mission_ref",
+        "mission_title",
+        "active_stage",
+        "current_route_ref",
+        "next_route_ref",
+        "current_task_name",
+        "current_task_summary",
+        "current_task_status",
+        "reviewer_lane"
+      ],
+      "properties": {
+        "mission_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mission_title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "active_stage": {
+          "type": "string",
+          "enum": [
+            "discover",
+            "align",
+            "operate",
+            "improve",
+            "cross_cutting",
+            "none"
+          ]
+        },
+        "current_route_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "next_route_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "current_task_name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "current_task_summary": {
+          "type": "string",
+          "minLength": 3
+        },
+        "current_task_status": {
+          "type": "string",
+          "minLength": 3
+        },
+        "reviewer_lane": {
+          "type": "string",
+          "enum": [
+            "ai_reviewer",
+            "ai_tester",
+            "pm_builder",
+            "multi_lane",
+            "none"
+          ]
+        }
+      }
+    },
     "nextStep": {
       "type": "object",
       "additionalProperties": false,

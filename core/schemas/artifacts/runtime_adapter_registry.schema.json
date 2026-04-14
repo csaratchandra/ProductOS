@@ -10,6 +10,7 @@
     "runtime_adapter_registry_id",
     "workspace_id",
     "status",
+    "default_adapter_id",
     "adapters",
     "evaluated_at"
   ],
@@ -34,6 +35,10 @@
         "blocked"
       ]
     },
+    "default_adapter_id": {
+      "type": "string",
+      "minLength": 1
+    },
     "adapters": {
       "type": "array",
       "items": {
@@ -57,7 +62,9 @@
         "availability_status",
         "supported_actions",
         "requires_host_support",
-        "verification_status"
+        "verification_status",
+        "supported_mission_stages",
+        "prompt_pattern_capabilities"
       ],
       "properties": {
         "adapter_id": {
@@ -109,6 +116,22 @@
             "failed"
           ]
         },
+        "supported_mission_stages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "discover",
+              "align",
+              "operate",
+              "improve"
+            ]
+          },
+          "minItems": 1
+        },
+        "prompt_pattern_capabilities": {
+          "$ref": "#/$defs/capabilityProfile"
+        },
         "used_by_default": {
           "type": "boolean",
           "default": false
@@ -123,6 +146,55 @@
         },
         "notes": {
           "type": "string"
+        }
+      }
+    },
+    "supportLevel": {
+      "type": "string",
+      "enum": [
+        "native",
+        "repo_managed",
+        "limited",
+        "unsupported"
+      ]
+    },
+    "capabilityProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mission_routing",
+        "task_boundary_visibility",
+        "research_freshness",
+        "validation_enforcement",
+        "delegation_support",
+        "approval_gating",
+        "memory_steering",
+        "artifact_export"
+      ],
+      "properties": {
+        "mission_routing": {
+          "$ref": "#/$defs/supportLevel"
+        },
+        "task_boundary_visibility": {
+          "$ref": "#/$defs/supportLevel"
+        },
+        "research_freshness": {
+          "$ref": "#/$defs/supportLevel"
+        },
+        "validation_enforcement": {
+          "$ref": "#/$defs/supportLevel"
+        },
+        "delegation_support": {
+          "$ref": "#/$defs/supportLevel"
+        },
+        "approval_gating": {
+          "$ref": "#/$defs/supportLevel"
+        },
+        "memory_steering": {
+          "$ref": "#/$defs/supportLevel"
+        },
+        "artifact_export": {
+          "$ref": "#/$defs/supportLevel"
         }
       }
     }

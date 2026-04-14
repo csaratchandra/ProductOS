@@ -22,8 +22,8 @@ ProductOS is a repo-first operating system for PM work and AI-assisted execution
 ## Core Commands
 
 - `./productos status`
-- `./productos init-workspace --dest ... --workspace-id ... --name ... --mode ...`
-- `./productos init-mission --title ... --target-user ... --customer-problem ... --business-goal ... --success-metric ...`
+- `./productos start --dest ... --workspace-id ... --name ... --mode ... --title ... --customer-problem ... --business-goal ...`
+- `./productos import --source ... --dest ... --workspace-id ... --name ... --mode ...`
 - `./productos run discover`
 - `./productos run align`
 - `./productos run operate`

@@ -2,6 +2,19 @@
 
 Purpose: Define the minimum V3 baseline for always-on intake and memory retrieval without claiming a fully autonomous background system.
 
+## Steering Layer
+
+Intake and memory should not operate without reusable steering.
+
+ProductOS should keep a named steering context that declares:
+
+- stable operating norms
+- default artifact focus for the current mission
+- memory retrieval priority order
+- reusable steering references that live in the repository
+
+This steering layer should stay inspectable and repo-backed rather than hidden in host prompts or side-channel notes.
+
 ## Internal Boundary
 
 The continuous-intake and memory baseline is an internal runtime capability for ProductOS V3 development and proof.
@@ -46,8 +59,9 @@ It requires that ProductOS can retrieve prior decisions, evidence, artifacts, re
 
 1. `intake_routing_state` captures what just entered the workspace and where it should go
 2. downstream workflows normalize or route the item into canonical artifacts
-3. `memory_retrieval_state` pulls back the most relevant prior context for the current task
-4. `cockpit_state` and `orchestration_state` use that intake and memory context to reduce PM reconstruction work
+3. steering context declares which artifacts and memory types matter most for the current mission
+4. `memory_retrieval_state` pulls back the most relevant prior context for the current task
+5. `cockpit_state` and `orchestration_state` use that intake and memory context to reduce PM reconstruction work
 
 ## Provenance Rule
 

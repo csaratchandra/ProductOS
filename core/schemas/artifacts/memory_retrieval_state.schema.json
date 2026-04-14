@@ -12,6 +12,7 @@
     "request_summary",
     "status",
     "retrieval_scope",
+    "retrieval_strategy",
     "provenance_status",
     "retrieved_records",
     "unresolved_questions",
@@ -48,16 +49,12 @@
     "retrieval_scope": {
       "type": "array",
       "items": {
-        "type": "string",
-        "enum": [
-          "decisions",
-          "evidence",
-          "prior_artifacts",
-          "repeated_issues",
-          "strategic_memory"
-        ]
+        "$ref": "#/$defs/memoryScope"
       },
       "minItems": 1
+    },
+    "retrieval_strategy": {
+      "$ref": "#/$defs/retrievalStrategy"
     },
     "provenance_status": {
       "type": "string",
@@ -100,6 +97,60 @@
     }
   },
   "$defs": {
+    "memoryScope": {
+      "type": "string",
+      "enum": [
+        "decisions",
+        "evidence",
+        "prior_artifacts",
+        "repeated_issues",
+        "strategic_memory"
+      ]
+    },
+    "retrievalStrategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mission_ref",
+        "steering_refs",
+        "priority_order",
+        "retrieval_policy_summary",
+        "default_artifact_focus"
+      ],
+      "properties": {
+        "mission_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "steering_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 5
+          },
+          "minItems": 1
+        },
+        "priority_order": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/memoryScope"
+          },
+          "minItems": 1
+        },
+        "retrieval_policy_summary": {
+          "type": "string",
+          "minLength": 10
+        },
+        "default_artifact_focus": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "minItems": 1
+        }
+      }
+    },
     "retrievedRecord": {
       "type": "object",
       "additionalProperties": false,

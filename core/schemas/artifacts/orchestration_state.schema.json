@@ -13,6 +13,8 @@
     "status",
     "coordination_summary",
     "initiating_agent",
+    "mission_control",
+    "route_budget",
     "active_route_ids",
     "blocked_route_ids",
     "awaiting_review_route_ids",
@@ -60,6 +62,12 @@
     "initiating_agent": {
       "type": "string",
       "minLength": 1
+    },
+    "mission_control": {
+      "$ref": "#/$defs/missionControl"
+    },
+    "route_budget": {
+      "$ref": "#/$defs/routeBudget"
     },
     "active_route_ids": {
       "type": "array",
@@ -146,6 +154,100 @@
     }
   },
   "$defs": {
+    "missionControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mission_ref",
+        "mission_title",
+        "active_stage",
+        "current_route_ref",
+        "next_route_ref",
+        "current_task_name",
+        "current_task_summary",
+        "current_task_status",
+        "reviewer_lane"
+      ],
+      "properties": {
+        "mission_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mission_title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "active_stage": {
+          "type": "string",
+          "enum": [
+            "discover",
+            "align",
+            "operate",
+            "improve",
+            "cross_cutting",
+            "none"
+          ]
+        },
+        "current_route_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "next_route_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "current_task_name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "current_task_summary": {
+          "type": "string",
+          "minLength": 3
+        },
+        "current_task_status": {
+          "type": "string",
+          "minLength": 3
+        },
+        "reviewer_lane": {
+          "type": "string",
+          "enum": [
+            "ai_reviewer",
+            "ai_tester",
+            "pm_builder",
+            "multi_lane",
+            "none"
+          ]
+        }
+      }
+    },
+    "routeBudget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_parallel_routes",
+        "active_route_count",
+        "awaiting_review_count",
+        "blocked_route_count"
+      ],
+      "properties": {
+        "max_parallel_routes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "active_route_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "awaiting_review_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocked_route_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
     "route": {
       "type": "object",
       "additionalProperties": false,
@@ -154,7 +256,10 @@
         "agent_name",
         "objective",
         "rationale",
-        "status"
+        "stage",
+        "status",
+        "reviewer_lane",
+        "next_action"
       ],
       "properties": {
         "route_id": {
@@ -173,6 +278,17 @@
           "type": "string",
           "minLength": 3
         },
+        "stage": {
+          "type": "string",
+          "enum": [
+            "discover",
+            "align",
+            "operate",
+            "improve",
+            "cross_cutting",
+            "none"
+          ]
+        },
         "status": {
           "type": "string",
           "enum": [
@@ -185,6 +301,16 @@
             "blocked",
             "completed",
             "skipped"
+          ]
+        },
+        "reviewer_lane": {
+          "type": "string",
+          "enum": [
+            "ai_reviewer",
+            "ai_tester",
+            "pm_builder",
+            "multi_lane",
+            "none"
           ]
         },
         "depends_on_route_ids": {
@@ -216,6 +342,10 @@
         },
         "notes": {
           "type": "string"
+        },
+        "next_action": {
+          "type": "string",
+          "minLength": 3
         }
       }
     },

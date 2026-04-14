@@ -65,6 +65,30 @@ def test_adopt_workspace_dry_run_exports_codesync_bundle(root_dir: Path, codesyn
     assert {item["claim_mode"] for item in research_brief["insights"]} >= {"observed", "inferred"}
 
 
+def test_import_command_alias_persists_traceable_workspace(root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path):
+    destination = tmp_path / "codesync-imported"
+    result = _run_cli(
+        root_dir,
+        "import",
+        "--source",
+        str(codesync_workspace_dir),
+        "--dest",
+        str(destination),
+        "--workspace-id",
+        "ws_codesync_import",
+        "--name",
+        "CodeSync Import",
+        "--mode",
+        "research",
+        "--emit-report",
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "Adoption Status: completed" in result.stdout
+    assert destination.exists()
+    assert (destination / "artifacts" / "workspace_adoption_report.json").exists()
+
+
 def test_adopt_workspace_persists_traceable_workspace(root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path):
     destination = tmp_path / "codesync-adopted"
     result = _run_cli(
