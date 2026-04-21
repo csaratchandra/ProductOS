@@ -78,6 +78,21 @@
       "additionalProperties": false,
       "required": ["known_gaps", "claims_needing_validation", "recommended_next_step"],
       "properties": {
+        "required_signal_lanes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/signalLaneId" },
+          "default": []
+        },
+        "planned_signal_lanes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/signalLaneId" },
+          "default": []
+        },
+        "missing_signal_lanes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/signalLaneId" },
+          "default": []
+        },
         "known_gaps": {
           "type": "array",
           "items": { "type": "string", "minLength": 10 },
@@ -110,6 +125,10 @@
           "enum": ["fresh", "usable_with_review"]
         }
       }
+    },
+    "signalLaneId": {
+      "type": "string",
+      "enum": ["market", "competitor", "customer"]
     }
   }
 }

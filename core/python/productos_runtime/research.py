@@ -17,6 +17,7 @@ from . import yaml_compat as yaml
 
 
 RESEARCH_RUNTIME_ARTIFACT_SCHEMAS = {
+    "research_notebook": "research_notebook.schema.json",
     "research_brief": "research_brief.schema.json",
     "external_research_review": "external_research_review.schema.json",
     "competitor_dossier": "competitor_dossier.schema.json",
@@ -32,6 +33,39 @@ RESEARCH_FEED_REGISTRY_ARTIFACT_SCHEMAS = {
 RESEARCH_DISCOVERY_ARTIFACT_SCHEMAS = {
     "external_research_source_discovery": "external_research_source_discovery.schema.json",
 }
+
+DISCOVERY_OPERATIONS_ARTIFACT_FILENAMES = {
+    "research_handoff": "handoff_discovery_to_research.json",
+    "research_notebook": "research_notebook.json",
+    "research_brief": "research_brief.json",
+    "external_research_plan": "external_research_plan.json",
+    "external_research_source_discovery": "external_research_source_discovery.json",
+    "external_research_review": "external_research_review.json",
+    "competitor_dossier": "competitor_dossier.json",
+    "customer_pulse": "customer_pulse.json",
+    "market_analysis_brief": "market_analysis_brief.json",
+}
+
+CORE_RESEARCH_SIGNAL_LANES = [
+    {
+        "signal_lane_id": "market",
+        "label": "market",
+        "source_types": {"market_validation", "security_review"},
+        "preferred_source_type": "market_validation",
+    },
+    {
+        "signal_lane_id": "competitor",
+        "label": "competitor",
+        "source_types": {"competitor_research"},
+        "preferred_source_type": "competitor_research",
+    },
+    {
+        "signal_lane_id": "customer",
+        "label": "customer",
+        "source_types": {"customer_evidence", "operator_interview"},
+        "preferred_source_type": "customer_evidence",
+    },
+]
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -60,6 +94,148 @@ def _append_manifest_artifact_path(manifest_path: Path, relative_path: str) -> N
         artifact_paths.append(relative_path)
     with manifest_path.open("w", encoding="utf-8") as handle:
         yaml.safe_dump(manifest, handle, sort_keys=False)
+
+
+def _relative_path(path: Path, root: Path) -> str:
+    try:
+        return str(path.relative_to(root))
+    except ValueError:
+        return path.as_posix()
+
+
+def _signal_lane_definition_for_source_type(source_type: str) -> dict[str, Any] | None:
+    for lane in CORE_RESEARCH_SIGNAL_LANES:
+        if source_type in lane["source_types"]:
+            return lane
+    return None
+
+
+def _signal_lane_id_for_source_type(source_type: str) -> str:
+    lane = _signal_lane_definition_for_source_type(source_type)
+    if lane is None:
+        return source_type
+    return lane["signal_lane_id"]
+
+
+def _signal_lane_label(signal_lane_id: str) -> str:
+    for lane in CORE_RESEARCH_SIGNAL_LANES:
+        if lane["signal_lane_id"] == signal_lane_id:
+            return lane["label"]
+    return signal_lane_id.replace("_", " ")
+
+
+def _core_signal_lane_ids() -> list[str]:
+    return [lane["signal_lane_id"] for lane in CORE_RESEARCH_SIGNAL_LANES]
+
+
+def _planned_signal_lane_ids(questions: list[dict[str, Any]]) -> list[str]:
+    present_signal_lanes = {
+        _signal_lane_id_for_source_type(question["recommended_source_type"])
+        for question in questions
+        if isinstance(question, dict) and isinstance(question.get("recommended_source_type"), str)
+    }
+    ordered_signal_lanes = [
+        lane_id for lane_id in _core_signal_lane_ids() if lane_id in present_signal_lanes
+    ]
+    remaining_signal_lanes = sorted(present_signal_lanes - set(ordered_signal_lanes))
+    return [*ordered_signal_lanes, *remaining_signal_lanes]
+
+
+def _synthesized_signal_lane_question(
+    research_brief: dict[str, Any],
+    *,
+    signal_lane_id: str,
+) -> dict[str, Any]:
+    brief_title = _brief_title(research_brief["title"])
+    if signal_lane_id == "market":
+        return {
+            "question_id": "baseline_market_validation",
+            "question": f"What current market evidence proves the urgency and timing behind {brief_title}?",
+            "why_it_matters": "ProductOS should not broaden strategy or release claims until the market urgency is visible outside the workspace.",
+            "recommended_source_type": "market_validation",
+            "priority": "high",
+        }
+    if signal_lane_id == "competitor":
+        return {
+            "question_id": "baseline_competitor_research",
+            "question": f"How do current alternatives position against the core problem in {brief_title}, and where is the wedge still differentiated?",
+            "why_it_matters": "PM positioning should be grounded in live competitor narratives instead of an internal-only story.",
+            "recommended_source_type": "competitor_research",
+            "priority": "high",
+        }
+    return {
+        "question_id": "baseline_customer_evidence",
+        "question": f"What direct customer or operator evidence confirms the workflow burden described in {brief_title}?",
+        "why_it_matters": "ProductOS needs first-hand customer proof before treating the current pain as broadly representative.",
+        "recommended_source_type": "customer_evidence",
+        "priority": "high",
+    }
+
+
+def _ensure_core_signal_lane_questions(research_brief: dict[str, Any], questions: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    planned_lane_ids = set(_planned_signal_lane_ids(questions))
+    expanded_questions = list(questions)
+    for signal_lane_id in _core_signal_lane_ids():
+        if signal_lane_id in planned_lane_ids:
+            continue
+        expanded_questions.append(
+            _synthesized_signal_lane_question(research_brief, signal_lane_id=signal_lane_id)
+        )
+        planned_lane_ids.add(signal_lane_id)
+    return expanded_questions
+
+
+def _signal_lane_coverage(
+    questions: list[dict[str, Any]],
+    *,
+    discovered_questions: list[dict[str, Any]] | None = None,
+    candidate_sources: list[dict[str, Any]] | None = None,
+    selected_sources: list[dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
+    discovered_questions = discovered_questions or []
+    candidate_sources = candidate_sources or []
+    selected_sources = selected_sources or []
+    coverage: list[dict[str, Any]] = []
+    for lane in CORE_RESEARCH_SIGNAL_LANES:
+        signal_lane_id = lane["signal_lane_id"]
+        planned_question_count = sum(
+            1
+            for question in questions
+            if _signal_lane_id_for_source_type(question["recommended_source_type"]) == signal_lane_id
+        )
+        discovered_question_count = sum(
+            1
+            for question in discovered_questions
+            if _signal_lane_id_for_source_type(question["source_type"]) == signal_lane_id and question.get("candidate_count", 0) > 0
+        )
+        candidate_source_count = sum(
+            1
+            for source in candidate_sources
+            if _signal_lane_id_for_source_type(source["source_type"]) == signal_lane_id
+        )
+        suggested_source_count = sum(
+            1
+            for source in candidate_sources
+            if _signal_lane_id_for_source_type(source["source_type"]) == signal_lane_id
+            and source.get("selection_status") == "suggested"
+        )
+        selected_source_count = sum(
+            1
+            for source in selected_sources
+            if _signal_lane_id_for_source_type(source["source_type"]) == signal_lane_id
+        )
+        coverage.append(
+            {
+                "signal_lane_id": signal_lane_id,
+                "label": lane["label"],
+                "planned_question_count": planned_question_count,
+                "discovered_question_count": discovered_question_count,
+                "candidate_source_count": candidate_source_count,
+                "suggested_source_count": suggested_source_count,
+                "selected_source_count": selected_source_count,
+            }
+        )
+    return coverage
 
 
 def _strip_html(text: str) -> str:
@@ -283,7 +459,258 @@ def _normalize_sources(manifest_sources: list[dict[str, Any]], generated_at: str
 
 
 def _source_ids(sources: list[dict[str, Any]]) -> list[str]:
-    return [item["source_id"] for item in sources]
+    return [item.get("source_note_card_id") or item["source_id"] for item in sources]
+
+
+def _source_note_card_source_type(source_type: str) -> str:
+    return {
+        "customer_evidence": "interview",
+        "operator_interview": "interview",
+        "competitor_research": "competitor_site",
+        "market_validation": "market_report",
+        "security_review": "consultant_report",
+    }.get(source_type, "other")
+
+
+def _source_note_card_confidence(source: dict[str, Any]) -> str:
+    freshness = source.get("freshness_status", "usable_with_review")
+    if freshness == "fresh":
+        return "high"
+    if freshness == "usable_with_review":
+        return "moderate"
+    return "low"
+
+
+def _source_note_card_tags(source: dict[str, Any], research_brief: dict[str, Any]) -> list[str]:
+    tags = [
+        source.get("source_type", "other"),
+        source.get("freshness_status", "usable_with_review"),
+    ]
+    if source.get("question_id"):
+        tags.append(source["question_id"])
+    tags.extend(ref["entity_id"] for ref in research_brief.get("target_segment_refs", [])[:1])
+    tags.extend(ref["entity_id"] for ref in research_brief.get("target_persona_refs", [])[:1])
+    return list(dict.fromkeys(tag for tag in tags if isinstance(tag, str) and tag.strip()))
+
+
+def _fallback_normalized_sources(
+    *,
+    problem_brief: dict[str, Any] | None,
+    research_brief: dict[str, Any],
+    generated_at: str,
+) -> list[dict[str, Any]]:
+    artifact_id = (
+        problem_brief.get("problem_brief_id")
+        if problem_brief is not None and isinstance(problem_brief.get("problem_brief_id"), str)
+        else research_brief["research_brief_id"]
+    )
+    artifact_title = (
+        problem_brief.get("title")
+        if problem_brief is not None and isinstance(problem_brief.get("title"), str)
+        else research_brief["title"]
+    )
+    summary = (
+        problem_brief.get("problem_summary")
+        if problem_brief is not None and isinstance(problem_brief.get("problem_summary"), str)
+        else research_brief["summary"]
+    )
+    strategic_lines = [
+        item
+        for item in research_brief.get("strategic_implications", [])
+        if isinstance(item, str) and item.strip()
+    ]
+    return [
+        {
+            "source_id": artifact_id,
+            "uri": f"artifact://{artifact_id}",
+            "source_type": "market_validation",
+            "question_id": (research_brief.get("external_research_questions") or [{}])[0].get("question_id"),
+            "title": artifact_title,
+            "summary": summary,
+            "sentences": [summary, *strategic_lines[:2]],
+            "published_at": generated_at,
+            "freshness_status": "fresh",
+        }
+    ]
+
+
+def build_discovery_to_research_handoff(
+    *,
+    workspace_id: str,
+    generated_at: str,
+    strategy_context_brief: dict[str, Any],
+    product_vision_brief: dict[str, Any],
+    market_strategy_brief: dict[str, Any],
+    problem_brief: dict[str, Any],
+    concept_brief: dict[str, Any],
+    research_brief: dict[str, Any],
+) -> dict[str, Any]:
+    pending_questions = [
+        item["question"]
+        for item in research_brief.get("external_research_questions", [])
+        if isinstance(item.get("question"), str)
+    ]
+    if not pending_questions:
+        pending_questions = list(research_brief.get("known_gaps", []))
+    key_points = [
+        problem_brief.get("problem_summary", ""),
+        problem_brief.get("why_this_problem_now", ""),
+        market_strategy_brief.get("proof_requirements", [""])[0],
+        concept_brief.get("hypothesis", ""),
+    ]
+    artifact_specs = [
+        ("strategy_context_brief", strategy_context_brief["strategy_context_brief_id"], "artifacts/strategy_context_brief.json"),
+        ("product_vision_brief", product_vision_brief["product_vision_brief_id"], "artifacts/product_vision_brief.json"),
+        ("market_strategy_brief", market_strategy_brief["market_strategy_brief_id"], "artifacts/market_strategy_brief.json"),
+        ("problem_brief", problem_brief["problem_brief_id"], "artifacts/problem_brief.json"),
+        ("concept_brief", concept_brief["concept_brief_id"], "artifacts/concept_brief.json"),
+    ]
+    return {
+        "schema_version": "1.0.0",
+        "handoff_id": f"handoff_discovery_to_research_{workspace_id}",
+        "workspace_id": workspace_id,
+        "source_workflow_id": "wf_mission_to_strategy_spine",
+        "target_workflow_id": "wf_research_command_center",
+        "handoff_type": "workflow_to_workflow",
+        "status": "ready",
+        "artifact_refs": [
+            {
+                "artifact_id": artifact_id,
+                "artifact_type": artifact_type,
+                "path": path,
+            }
+            for artifact_type, artifact_id, path in artifact_specs
+        ],
+        "summary": (
+            f"Discovery signals suggest ProductOS should run bounded research on '{problem_brief['title']}' before the next prioritization and validation move."
+        ),
+        "key_points": [item for item in key_points if isinstance(item, str) and item.strip()],
+        "pending_questions": pending_questions[:5],
+        "created_at": generated_at,
+    }
+
+
+def _build_source_note_cards(
+    *,
+    research_brief: dict[str, Any],
+    normalized_sources: list[dict[str, Any]],
+    generated_at: str,
+) -> list[dict[str, Any]]:
+    linked_entity_refs = list(
+        dict.fromkeys(
+            tuple(sorted(ref.items()))
+            for ref in [
+                *research_brief.get("target_segment_refs", []),
+                *research_brief.get("target_persona_refs", []),
+                *research_brief.get("linked_entity_refs", []),
+            ]
+            if isinstance(ref, dict) and ref.get("entity_type") and ref.get("entity_id")
+        )
+    )
+    normalized_linked_refs = [dict(items) for items in linked_entity_refs]
+    note_cards: list[dict[str, Any]] = []
+    for source in normalized_sources:
+        sentences = source.get("sentences", [])
+        claim = sentences[0] if sentences else source["summary"]
+        implication = (
+            sentences[1]
+            if len(sentences) > 1
+            else f"This source should be reused when validating {research_brief['summary']}"
+        )
+        source_metadata = {
+            "source_url": source["uri"],
+            "published_at": source.get("published_at"),
+            "retrieved_at": generated_at,
+            "source_slice_ref": source.get("question_id") or source["source_id"],
+            "dedupe_key": _slug(source["uri"]),
+            "credibility_tier": (
+                "primary"
+                if source["source_type"] in {"customer_evidence", "operator_interview"}
+                else "secondary"
+            ),
+        }
+        note_cards.append(
+            {
+                "schema_version": "1.0.0",
+                "source_note_card_id": f"source_note_card_{_slug(source['source_id'])}",
+                "workspace_id": research_brief["workspace_id"],
+                "source_type": _source_note_card_source_type(source["source_type"]),
+                "source_ref": source["source_id"],
+                "title": source["title"],
+                "claim": _clip(claim, 220),
+                "source_snippet": _clip(" ".join(sentences[:2]) or source["summary"], 220),
+                "implication": _clip(implication, 220),
+                "confidence": _source_note_card_confidence(source),
+                "freshness_status": source.get("freshness_status", "usable_with_review"),
+                "unknowns": [
+                    question["question"]
+                    for question in research_brief.get("external_research_questions", [])[:2]
+                    if isinstance(question.get("question"), str)
+                ],
+                "followup_questions": [
+                    question["question"]
+                    for question in research_brief.get("external_research_questions", [])[:3]
+                    if isinstance(question.get("question"), str)
+                ],
+                "source_metadata": {key: value for key, value in source_metadata.items() if value is not None},
+                "dedupe_key": _slug(source["uri"]),
+                "linked_entity_refs": normalized_linked_refs,
+                "tags": _source_note_card_tags(source, research_brief),
+                "created_at": generated_at,
+            }
+        )
+    return note_cards
+
+
+def _attach_source_note_card_ids(
+    normalized_sources: list[dict[str, Any]],
+    source_note_cards: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    by_source_ref = {
+        card["source_ref"]: card["source_note_card_id"]
+        for card in source_note_cards
+    }
+    annotated: list[dict[str, Any]] = []
+    for source in normalized_sources:
+        updated = dict(source)
+        updated["source_note_card_id"] = by_source_ref.get(source["source_id"], source["source_id"])
+        annotated.append(updated)
+    return annotated
+
+
+def _build_research_notebook(
+    *,
+    research_brief: dict[str, Any],
+    source_note_cards: list[dict[str, Any]],
+    normalized_sources: list[dict[str, Any]],
+    generated_at: str,
+) -> dict[str, Any]:
+    ordered_sections = ["research objective", "selected evidence", "customer pain signals", "competitive posture", "proof gaps"]
+    if any(item["source_type"] == "customer_evidence" for item in normalized_sources):
+        ordered_sections.append("voice of customer")
+    return {
+        "schema_version": "1.0.0",
+        "research_notebook_id": f"research_notebook_{research_brief['workspace_id']}",
+        "workspace_id": research_brief["workspace_id"],
+        "title": f"Research notebook: {research_brief['title'].replace('Research Brief: ', '')}",
+        "research_question": research_brief["research_question"],
+        "source_note_card_ids": [item["source_note_card_id"] for item in source_note_cards],
+        "synthesis_hypothesis": research_brief["summary"],
+        "ordered_sections": ordered_sections,
+        "open_questions": [
+            item["question"]
+            for item in research_brief.get("external_research_questions", [])[:5]
+            if isinstance(item.get("question"), str)
+        ],
+        "created_at": generated_at,
+    }
+
+
+def _source_note_card_file_map(source_note_cards: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    return {
+        f"{item['source_note_card_id']}.json": item
+        for item in source_note_cards
+    }
 
 
 def _contains_any(text: str, phrases: list[str]) -> bool:
@@ -1036,6 +1463,8 @@ def _load_workspace_research_brief(workspace_dir: Path, generated_at: str) -> di
 def _build_external_research_plan(research_brief: dict[str, Any], generated_at: str) -> dict[str, Any]:
     brief_title = _brief_title(research_brief["title"])
     questions = research_brief.get("external_research_questions") or _fallback_external_questions(research_brief)
+    questions = _ensure_core_signal_lane_questions(research_brief, questions)
+    planned_signal_lanes = _planned_signal_lane_ids(questions)
     prioritized_questions: list[dict[str, Any]] = []
     suggested_manifest_sources: list[dict[str, Any]] = []
     for question in questions:
@@ -1091,6 +1520,11 @@ def _build_external_research_plan(research_brief: dict[str, Any], generated_at: 
         "coverage_summary": {
             "known_gaps": research_brief.get("known_gaps", []),
             "claims_needing_validation": claims_needing_validation,
+            "required_signal_lanes": _core_signal_lane_ids(),
+            "planned_signal_lanes": planned_signal_lanes,
+            "missing_signal_lanes": [
+                lane_id for lane_id in _core_signal_lane_ids() if lane_id not in planned_signal_lanes
+            ],
             "recommended_next_step": (
                 "Fill the source manifest template with concrete sources, then run research-workspace to refresh governed external artifacts."
             ),
@@ -1144,6 +1578,18 @@ def _write_research_plan_files(workspace_dir: Path, external_research_plan: dict
         lines.append(f"  Why: {question['why_it_matters']}")
         lines.append(f"  Search: {question['search_queries'][0]}")
     lines.extend(["", "## Coverage Summary", ""])
+    required_signal_lanes = external_research_plan["coverage_summary"].get("required_signal_lanes", [])
+    planned_signal_lanes = external_research_plan["coverage_summary"].get("planned_signal_lanes", [])
+    if required_signal_lanes:
+        lines.append(
+            "- Required signal lanes: "
+            + ", ".join(f"`{_signal_lane_label(lane_id)}`" for lane_id in required_signal_lanes)
+        )
+    if planned_signal_lanes:
+        lines.append(
+            "- Planned signal lanes: "
+            + ", ".join(f"`{_signal_lane_label(lane_id)}`" for lane_id in planned_signal_lanes)
+        )
     for gap in external_research_plan["coverage_summary"]["known_gaps"] or ["No explicit known gaps recorded."]:
         lines.append(f"- Gap: {gap}")
     for claim in external_research_plan["coverage_summary"]["claims_needing_validation"][:3]:
@@ -1241,11 +1687,12 @@ def build_external_research_feed_registry_from_workspace(
     workspace_dir: Path | str,
     generated_at: str,
     persist: bool = True,
+    research_brief_override: dict[str, Any] | None = None,
 ) -> dict[str, dict[str, Any]]:
     workspace = Path(workspace_dir).resolve()
     artifacts_dir = workspace / "artifacts"
     plan_path = artifacts_dir / "external_research_plan.json"
-    if plan_path.exists():
+    if research_brief_override is None and plan_path.exists():
         external_research_plan = _load_json(plan_path)
     else:
         external_research_plan = build_external_research_plan_from_workspace(
@@ -1524,6 +1971,11 @@ def _coverage_review_items(
         review_items.append("No candidate sources were discovered from the bounded search queries.")
     elif discovery["search_status"] == "partial":
         review_items.append("Candidate source coverage is partial; PM review should fill the uncovered questions before broad claims are made.")
+    for lane in discovery.get("signal_lane_coverage", []):
+        if lane.get("selected_source_count", 0) == 0:
+            review_items.append(
+                f"Missing selected source coverage for required `{lane['label']}` signals."
+            )
     for candidate in discovery["candidate_sources"]:
         if candidate.get("content_quality_status") == "review":
             review_items.append(
@@ -1575,6 +2027,13 @@ def _write_research_discovery_files(
         lines.append(
             f"- `{item['source_type']}` `{item['candidate_count']}` candidates for: {item['query']}"
         )
+    signal_lane_coverage = discovery.get("signal_lane_coverage", [])
+    if signal_lane_coverage:
+        lines.extend(["", "## Signal Lane Coverage", ""])
+        for lane in signal_lane_coverage:
+            lines.append(
+                f"- `{lane['label']}` planned={lane['planned_question_count']} discovered={lane['discovered_question_count']} candidates={lane['candidate_source_count']} suggested={lane['suggested_source_count']} selected={lane.get('selected_source_count', 0)}"
+            )
     if feed_registry and feed_registry.get("feeds"):
         lines.extend(["", "## Feed Health", ""])
         for feed in feed_registry["feeds"]:
@@ -1607,6 +2066,7 @@ def _write_research_loop_doc(
     coverage_status: str,
     refresh_status: str,
     selected_manifest: dict[str, Any],
+    signal_lane_coverage: list[dict[str, Any]],
     review_items: list[str],
     feed_registry: dict[str, Any] | None = None,
 ) -> None:
@@ -1619,9 +2079,20 @@ def _write_research_loop_doc(
         f"- Refresh status: `{refresh_status}`",
         f"- Selected sources: `{len(selected_manifest.get('sources', []))}`",
         "",
-        "## Selected Manifest Sources",
+        "## Signal Lane Coverage",
         "",
     ]
+    for lane in signal_lane_coverage:
+        lines.append(
+            f"- `{lane['label']}` planned={lane['planned_question_count']} discovered={lane['discovered_question_count']} candidates={lane['candidate_source_count']} selected={lane.get('selected_source_count', 0)}"
+        )
+    lines.extend(
+        [
+            "",
+        "## Selected Manifest Sources",
+        "",
+        ]
+    )
     for item in selected_manifest.get("sources", []):
         lines.append(f"- `{item['source_type']}` {item['title']} -> {item['uri']}")
     if not selected_manifest.get("sources"):
@@ -1648,10 +2119,11 @@ def build_external_research_plan_from_workspace(
     workspace_dir: Path | str,
     generated_at: str,
     persist: bool = True,
+    research_brief_override: dict[str, Any] | None = None,
 ) -> dict[str, dict[str, Any]]:
     workspace = Path(workspace_dir).resolve()
     artifacts_dir = workspace / "artifacts"
-    research_brief = _load_workspace_research_brief(workspace, generated_at)
+    research_brief = research_brief_override or _load_workspace_research_brief(workspace, generated_at)
     external_research_plan = _build_external_research_plan(research_brief, generated_at)
     bundle = {"external_research_plan": external_research_plan}
 
@@ -1674,6 +2146,7 @@ def discover_external_research_sources_from_workspace(
     search_fixture_dir: Path | str | None = None,
     search_provider_chain: str | None = None,
     feed_registry_path: Path | str | None = None,
+    research_brief_override: dict[str, Any] | None = None,
 ) -> dict[str, dict[str, Any]]:
     workspace = Path(workspace_dir).resolve()
     artifacts_dir = workspace / "artifacts"
@@ -1692,11 +2165,11 @@ def discover_external_research_sources_from_workspace(
             workspace_dir=workspace,
             generated_at=generated_at,
             persist=persist,
+            research_brief_override=research_brief_override,
         )["external_research_plan"]
 
     discovered_questions: list[dict[str, Any]] = []
     candidate_sources: list[dict[str, Any]] = []
-    seen_uris: set[str] = set()
     feed_health_updates: dict[str, dict[str, Any]] = {}
     for question in external_research_plan["prioritized_questions"]:
         aggregated_results: list[dict[str, str]] = []
@@ -1771,9 +2244,6 @@ def discover_external_research_sources_from_workspace(
         )
         unique_index = 0
         for score, selection_reason, result in scored_results:
-            if result["uri"] in seen_uris:
-                continue
-            seen_uris.add(result["uri"])
             domain = _domain_from_uri(result["uri"])
             candidate_sources.append(
                 {
@@ -1805,6 +2275,11 @@ def discover_external_research_sources_from_workspace(
     else:
         search_status = "no_results"
 
+    signal_lane_coverage = _signal_lane_coverage(
+        external_research_plan["prioritized_questions"],
+        discovered_questions=discovered_questions,
+        candidate_sources=candidate_sources,
+    )
     discovery = {
         "schema_version": "1.0.0",
         "external_research_source_discovery_id": f"external_research_source_discovery_{external_research_plan['workspace_id']}",
@@ -1813,6 +2288,7 @@ def discover_external_research_sources_from_workspace(
         "search_provider": ",".join((["feed_registry"] if feeds else []) + providers),
         "search_status": search_status,
         "discovered_questions": discovered_questions,
+        "signal_lane_coverage": signal_lane_coverage,
         "candidate_sources": candidate_sources,
         "created_at": generated_at,
     }
@@ -1848,6 +2324,9 @@ def run_external_research_loop_from_workspace(
     search_fixture_dir: Path | str | None = None,
     search_provider_chain: str | None = None,
     feed_registry_path: Path | str | None = None,
+    research_brief_override: dict[str, Any] | None = None,
+    research_handoff: dict[str, Any] | None = None,
+    problem_brief: dict[str, Any] | None = None,
 ) -> tuple[dict[str, dict[str, Any]], dict[str, Any]]:
     workspace = Path(workspace_dir).resolve()
     plan_bundle = build_external_research_plan_from_workspace(
@@ -1855,6 +2334,7 @@ def run_external_research_loop_from_workspace(
         workspace_dir=workspace,
         generated_at=generated_at,
         persist=persist,
+        research_brief_override=research_brief_override,
     )
     discovery_bundle = discover_external_research_sources_from_workspace(
         root_dir,
@@ -1865,6 +2345,7 @@ def run_external_research_loop_from_workspace(
         search_fixture_dir=search_fixture_dir,
         search_provider_chain=search_provider_chain,
         feed_registry_path=feed_registry_path,
+        research_brief_override=research_brief_override,
     )
 
     external_research_plan = plan_bundle["external_research_plan"]
@@ -1876,6 +2357,12 @@ def run_external_research_loop_from_workspace(
     )
     discovery_bundle["external_research_source_discovery"] = filtered_discovery
     discovery = filtered_discovery
+    discovery["signal_lane_coverage"] = _signal_lane_coverage(
+        external_research_plan["prioritized_questions"],
+        discovered_questions=discovery.get("discovered_questions", []),
+        candidate_sources=discovery.get("candidate_sources", []),
+        selected_sources=selected_manifest.get("sources", []),
+    )
     review_items = _coverage_review_items(external_research_plan, discovery, selected_manifest)
     registry_path = workspace / "artifacts" / "external_research_feed_registry.json"
     registry_payload = _load_json(registry_path) if registry_path.exists() else None
@@ -1908,8 +2395,38 @@ def run_external_research_loop_from_workspace(
             manifest_path=selected_manifest_path,
             generated_at=generated_at,
             persist=persist,
+            research_brief_override=research_brief_override,
+            research_handoff=research_handoff,
+            problem_brief=problem_brief,
         )
         refresh_status = "completed"
+    else:
+        fallback_research_brief = research_brief_override or _load_workspace_research_brief(workspace, generated_at)
+        fallback_sources = _fallback_normalized_sources(
+            problem_brief=problem_brief,
+            research_brief=fallback_research_brief,
+            generated_at=generated_at,
+        )
+        runtime_bundle = _build_research_runtime_bundle(
+            research_brief=fallback_research_brief,
+            normalized_sources=fallback_sources,
+            generated_at=generated_at,
+            research_handoff=research_handoff,
+        )
+        if persist:
+            sync_canonical_discovery_operations_artifacts(
+                workspace,
+                bundle={**runtime_bundle, "selected_research_manifest": selected_manifest},
+            )
+            _write_research_summary_doc(
+                workspace,
+                research_brief=runtime_bundle["research_brief"],
+                external_research_review=runtime_bundle["external_research_review"],
+                competitor_dossier=runtime_bundle["competitor_dossier"],
+                customer_pulse=runtime_bundle["customer_pulse"],
+                market_analysis_brief=runtime_bundle["market_analysis_brief"],
+                normalized_sources=fallback_sources,
+            )
 
     if persist:
         manifest_path = workspace / "workspace_manifest.yaml"
@@ -1921,6 +2438,7 @@ def run_external_research_loop_from_workspace(
             coverage_status=coverage_status,
             refresh_status=refresh_status,
             selected_manifest=selected_manifest,
+            signal_lane_coverage=discovery.get("signal_lane_coverage", []),
             review_items=review_items,
             feed_registry=registry_payload,
         )
@@ -1929,12 +2447,21 @@ def run_external_research_loop_from_workspace(
     merged_bundle.update(plan_bundle)
     merged_bundle.update(discovery_bundle)
     merged_bundle.update(runtime_bundle)
+    merged_bundle["selected_research_manifest"] = selected_manifest
     summary = {
         "coverage_status": coverage_status,
         "refresh_status": refresh_status,
         "planned_question_count": planned_question_count,
         "candidate_source_count": len(discovery["candidate_sources"]),
         "selected_source_count": selected_source_count,
+        "required_signal_lane_count": len(_core_signal_lane_ids()),
+        "planned_signal_lane_count": len(external_research_plan["coverage_summary"].get("planned_signal_lanes", [])),
+        "discovered_signal_lane_count": sum(
+            1 for lane in discovery.get("signal_lane_coverage", []) if lane.get("candidate_source_count", 0) > 0
+        ),
+        "selected_signal_lane_count": sum(
+            1 for lane in discovery.get("signal_lane_coverage", []) if lane.get("selected_source_count", 0) > 0
+        ),
         "review_items": review_items,
         "selected_manifest_path": str(selected_manifest_path) if selected_manifest_path is not None else None,
     }
@@ -2140,6 +2667,9 @@ def _update_research_brief(
     competitor_dossier: dict[str, Any],
     customer_pulse: dict[str, Any],
     market_analysis_brief: dict[str, Any],
+    *,
+    research_notebook: dict[str, Any],
+    source_note_cards: list[dict[str, Any]],
 ) -> dict[str, Any]:
     updated = copy.deepcopy(research_brief)
     provenance = list(updated.get("synthesis_provenance", []))
@@ -2155,6 +2685,8 @@ def _update_research_brief(
             ]
         )
     )
+    updated["research_notebook_ids"] = [research_notebook["research_notebook_id"]]
+    updated["source_note_card_ids"] = [item["source_note_card_id"] for item in source_note_cards]
     contradiction_items = list(updated.get("contradictions", []))
     for item in external_research_review.get("contradiction_items", []):
         contradiction_items.append(
@@ -2166,6 +2698,9 @@ def _update_research_brief(
         )
     updated["contradictions"] = contradiction_items
     updated["linked_entity_refs"] = updated.get("linked_entity_refs", [])
+    insight_source_ids = updated["source_note_card_ids"][:2]
+    for insight in updated.get("insights", []):
+        insight["supporting_source_note_card_ids"] = insight.get("supporting_source_note_card_ids") or insight_source_ids
     return updated
 
 
@@ -2219,6 +2754,207 @@ def _write_research_summary_doc(
     (docs_dir / "external-research-refresh.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def _write_discovery_operations_doc(
+    workspace_dir: Path,
+    *,
+    research_handoff: dict[str, Any],
+    research_notebook: dict[str, Any],
+    research_brief: dict[str, Any],
+    external_research_plan: dict[str, Any],
+    external_research_source_discovery: dict[str, Any],
+    external_research_review: dict[str, Any],
+    customer_pulse: dict[str, Any],
+    source_note_cards: list[dict[str, Any]],
+) -> None:
+    docs_dir = workspace_dir / "docs" / "discovery"
+    docs_dir.mkdir(parents=True, exist_ok=True)
+    lines = [
+        "# Discovery Operations",
+        "",
+        f"- Handoff: `{research_handoff['handoff_id']}`",
+        f"- Research notebook: `{research_notebook['research_notebook_id']}`",
+        f"- Research brief: `{research_brief['research_brief_id']}`",
+        f"- Search status: `{external_research_source_discovery['search_status']}`",
+        f"- Review status: `{external_research_review['review_status']}`",
+        "",
+        "## Research Objective",
+        "",
+        external_research_plan["research_objective"],
+        "",
+        "## Planned Questions",
+        "",
+    ]
+    for question in external_research_plan.get("prioritized_questions", [])[:5]:
+        lines.append(f"- `{question['priority']}` {question['question']}")
+    lines.extend(["", "## Selected Reusable Evidence", ""])
+    for card in source_note_cards[:5]:
+        lines.append(f"- `{card['source_note_card_id']}` {card['title']}: {card['claim']}")
+    lines.extend(["", "## Empathy Synthesis", ""])
+    for item in customer_pulse.get("top_pain_points", [])[:3]:
+        lines.append(f"- {item['description']}")
+    if customer_pulse.get("voice_of_customer_quotes"):
+        lines.extend(["", "## Voice Of Customer", ""])
+        for item in customer_pulse["voice_of_customer_quotes"][:3]:
+            lines.append(f"- {item['quote']} ({item['source']})")
+    lines.extend(["", "## Insight Reuse Spine", ""])
+    lines.append(
+        f"The current reusable chain is `{research_handoff['handoff_id']} -> {research_notebook['research_notebook_id']} -> {research_brief['research_brief_id']}`."
+    )
+    lines.extend(["", "## Next Action", ""])
+    lines.append(
+        "Prepare the opportunity and validation spine using this research packet once PM review confirms the current evidence coverage is sufficient."
+        if external_research_review["review_status"] == "clear"
+        else "Resolve the remaining review items before turning this packet into an opportunity and validation recommendation."
+    )
+    (docs_dir / "research-operations.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _build_research_runtime_bundle(
+    *,
+    research_brief: dict[str, Any],
+    normalized_sources: list[dict[str, Any]],
+    generated_at: str,
+    research_handoff: dict[str, Any] | None = None,
+) -> dict[str, dict[str, Any]]:
+    source_note_cards = _build_source_note_cards(
+        research_brief=research_brief,
+        normalized_sources=normalized_sources,
+        generated_at=generated_at,
+    )
+    annotated_sources = _attach_source_note_card_ids(normalized_sources, source_note_cards)
+    research_notebook = _build_research_notebook(
+        research_brief=research_brief,
+        source_note_cards=source_note_cards,
+        normalized_sources=annotated_sources,
+        generated_at=generated_at,
+    )
+    external_research_review = _build_external_research_review(
+        research_brief["workspace_id"], annotated_sources, generated_at
+    )
+    competitor_dossier = _build_competitor_dossier(
+        research_brief["workspace_id"], research_brief, annotated_sources, generated_at
+    )
+    customer_pulse = _build_customer_pulse(
+        research_brief["workspace_id"], research_brief, annotated_sources, generated_at
+    )
+    market_analysis_brief = _build_market_analysis_brief(
+        research_brief["workspace_id"], research_brief, annotated_sources, generated_at
+    )
+    lineage_refs = [research_notebook["research_notebook_id"], research_brief["research_brief_id"]]
+    competitor_dossier["source_artifact_ids"] = list(
+        dict.fromkeys([*lineage_refs, *competitor_dossier.get("source_artifact_ids", [])])
+    )
+    customer_pulse["source_artifact_ids"] = list(
+        dict.fromkeys([*lineage_refs, *customer_pulse.get("source_artifact_ids", [])])
+    )
+    market_analysis_brief["source_artifact_ids"] = list(
+        dict.fromkeys([*lineage_refs, *market_analysis_brief.get("source_artifact_ids", [])])
+    )
+    updated_research_brief = _update_research_brief(
+        research_brief,
+        annotated_sources,
+        external_research_review,
+        competitor_dossier,
+        customer_pulse,
+        market_analysis_brief,
+        research_notebook=research_notebook,
+        source_note_cards=source_note_cards,
+    )
+    bundle: dict[str, dict[str, Any]] = {
+        "research_notebook": research_notebook,
+        "research_brief": updated_research_brief,
+        "external_research_review": external_research_review,
+        "competitor_dossier": competitor_dossier,
+        "customer_pulse": customer_pulse,
+        "market_analysis_brief": market_analysis_brief,
+        "source_note_cards": _source_note_card_file_map(source_note_cards),
+    }
+    if research_handoff is not None:
+        bundle["research_handoff"] = research_handoff
+    return bundle
+
+
+def sync_canonical_discovery_operations_artifacts(
+    workspace_dir: Path | str,
+    *,
+    bundle: dict[str, dict[str, Any]],
+) -> list[str]:
+    workspace = Path(workspace_dir).resolve()
+    artifacts_dir = workspace / "artifacts"
+    artifacts_dir.mkdir(parents=True, exist_ok=True)
+    manifest_path = workspace / "workspace_manifest.yaml"
+    synced_files: list[str] = []
+    for artifact_name, filename in DISCOVERY_OPERATIONS_ARTIFACT_FILENAMES.items():
+        payload = bundle.get(artifact_name)
+        if payload is None:
+            continue
+        _write_json(artifacts_dir / filename, payload)
+        _append_manifest_artifact_path(manifest_path, f"artifacts/{filename}")
+        synced_files.append(filename)
+    for filename, payload in bundle.get("source_note_cards", {}).items():
+        _write_json(artifacts_dir / filename, payload)
+        _append_manifest_artifact_path(manifest_path, f"artifacts/{filename}")
+        synced_files.append(filename)
+    selected_manifest = bundle.get("selected_research_manifest")
+    if selected_manifest is not None:
+        selected_manifest_path = workspace / "outputs" / "research" / "external-research-manifest.selected.json"
+        _write_selected_manifest(selected_manifest_path, selected_manifest)
+        synced_files.append(_relative_path(selected_manifest_path, workspace))
+    if all(
+        bundle.get(key) is not None
+        for key in (
+            "research_handoff",
+            "research_notebook",
+            "research_brief",
+            "external_research_plan",
+            "external_research_source_discovery",
+            "external_research_review",
+            "customer_pulse",
+        )
+    ):
+        _write_discovery_operations_doc(
+            workspace,
+            research_handoff=bundle["research_handoff"],
+            research_notebook=bundle["research_notebook"],
+            research_brief=bundle["research_brief"],
+            external_research_plan=bundle["external_research_plan"],
+            external_research_source_discovery=bundle["external_research_source_discovery"],
+            external_research_review=bundle["external_research_review"],
+            customer_pulse=bundle["customer_pulse"],
+            source_note_cards=list(bundle.get("source_note_cards", {}).values()),
+        )
+    return synced_files
+
+
+def load_canonical_discovery_operations_bundle(workspace_dir: Path | str) -> dict[str, dict[str, Any]] | None:
+    workspace = Path(workspace_dir).resolve()
+    artifacts_dir = workspace / "artifacts"
+    bundle: dict[str, dict[str, Any]] = {}
+    for artifact_name, filename in DISCOVERY_OPERATIONS_ARTIFACT_FILENAMES.items():
+        payload = _load_json(artifacts_dir / filename) if (artifacts_dir / filename).exists() else None
+        if payload is None:
+            return None
+        bundle[artifact_name] = payload
+    bundle["selected_research_manifest"] = (
+        _load_json(workspace / "outputs" / "research" / "external-research-manifest.selected.json")
+        if (workspace / "outputs" / "research" / "external-research-manifest.selected.json").exists()
+        else None
+    )
+    bundle["source_note_cards"] = {
+        path.name: _load_json(path)
+        for path in sorted(artifacts_dir.glob("source_note_card_*.json"))
+        if not path.name.endswith(".example.json")
+    }
+    selected_manifest = bundle.get("selected_research_manifest") or {}
+    selected_sources = selected_manifest.get("sources", []) if isinstance(selected_manifest, dict) else []
+    discovery = bundle["external_research_source_discovery"]
+    if discovery.get("search_status") == "no_results" or not selected_sources:
+        return None
+    if bundle["external_research_review"].get("review_status") != "clear":
+        return None
+    return bundle
+
+
 def research_workspace_from_manifest(
     root_dir: Path | str,
     *,
@@ -2226,54 +2962,36 @@ def research_workspace_from_manifest(
     manifest_path: Path | str,
     generated_at: str,
     persist: bool = True,
+    research_brief_override: dict[str, Any] | None = None,
+    research_handoff: dict[str, Any] | None = None,
+    problem_brief: dict[str, Any] | None = None,
 ) -> dict[str, dict[str, Any]]:
     workspace = Path(workspace_dir).resolve()
     manifest = Path(manifest_path).resolve()
-    artifacts_dir = workspace / "artifacts"
-    research_brief = _load_workspace_research_brief(workspace, generated_at)
+    research_brief = research_brief_override or _load_workspace_research_brief(workspace, generated_at)
     normalized_sources = _normalize_sources(_load_source_manifest(manifest), generated_at)
-    external_research_review = _build_external_research_review(
-        research_brief["workspace_id"], normalized_sources, generated_at
+    if not normalized_sources:
+        normalized_sources = _fallback_normalized_sources(
+            problem_brief=problem_brief,
+            research_brief=research_brief,
+            generated_at=generated_at,
+        )
+    bundle = _build_research_runtime_bundle(
+        research_brief=research_brief,
+        normalized_sources=normalized_sources,
+        generated_at=generated_at,
+        research_handoff=research_handoff,
     )
-
-    competitor_dossier = _build_competitor_dossier(
-        research_brief["workspace_id"], research_brief, normalized_sources, generated_at
-    )
-    customer_pulse = _build_customer_pulse(
-        research_brief["workspace_id"], research_brief, normalized_sources, generated_at
-    )
-    market_analysis_brief = _build_market_analysis_brief(
-        research_brief["workspace_id"], research_brief, normalized_sources, generated_at
-    )
-    updated_research_brief = _update_research_brief(
-        research_brief,
-        normalized_sources,
-        external_research_review,
-        competitor_dossier,
-        customer_pulse,
-        market_analysis_brief,
-    )
-
-    bundle = {
-        "research_brief": updated_research_brief,
-        "external_research_review": external_research_review,
-        "competitor_dossier": competitor_dossier,
-        "customer_pulse": customer_pulse,
-        "market_analysis_brief": market_analysis_brief,
-    }
 
     if persist:
-        manifest_path = workspace / "workspace_manifest.yaml"
-        for artifact_name, payload in bundle.items():
-            _write_json(artifacts_dir / f"{artifact_name}.json", payload)
-            _append_manifest_artifact_path(manifest_path, f"artifacts/{artifact_name}.json")
+        sync_canonical_discovery_operations_artifacts(workspace, bundle=bundle)
         _write_research_summary_doc(
             workspace,
-            research_brief=updated_research_brief,
-            external_research_review=external_research_review,
-            competitor_dossier=competitor_dossier,
-            customer_pulse=customer_pulse,
-            market_analysis_brief=market_analysis_brief,
+            research_brief=bundle["research_brief"],
+            external_research_review=bundle["external_research_review"],
+            competitor_dossier=bundle["competitor_dossier"],
+            customer_pulse=bundle["customer_pulse"],
+            market_analysis_brief=bundle["market_analysis_brief"],
             normalized_sources=normalized_sources,
         )
 

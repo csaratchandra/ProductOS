@@ -185,21 +185,28 @@ Audience:
 
 Minimum sections:
 
+- enterprise goal linkage
 - vision
+- product goal
 - target audience
 - problem space
+- value proposition
 - solution direction
 - business goals
 - strategic fit
+- north star and guardrails
 - next bets
 
 Primary source artifacts:
 
-- `concept_brief`
-- `research_brief`
+- `strategy_context_brief`
+- `product_vision_brief`
 - `market_strategy_brief`
+- `research_brief`
 - `decision_log`
 - `strategy_option_set`
+
+This document should be maintained as one synced Product Strategy / Vision surface derived from `strategy_context_brief`, `product_vision_brief`, and `market_strategy_brief` rather than as an isolated narrative doc.
 
 ### 6. Roadmap
 

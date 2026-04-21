@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://productos.dev/schemas/artifacts/persona_operating_profile.schema.json",
   "title": "ProductOS Persona Operating Profile",
-  "description": "Contract-first operating profile for the PM and AI persona stack used by V4 workflows.",
+  "description": "Contract-first, skill-composed operating profile for the PM and AI persona stack used by ProductOS workflows.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -106,6 +106,7 @@
         "benchmark_measures",
         "failure_modes",
         "review_path",
+        "skill_refs",
         "source_refs"
       ],
       "properties": {
@@ -156,6 +157,9 @@
           "$ref": "#/$defs/stringList"
         },
         "review_path": {
+          "$ref": "#/$defs/stringList"
+        },
+        "skill_refs": {
           "$ref": "#/$defs/stringList"
         },
         "source_refs": {

@@ -58,11 +58,18 @@
     "A seeded example may feel too opinionated if the rationale is not explicit"
   ],
   "linked_artifact_ids": [
+    "strategy_context_brief_starter_trace_demo",
+    "product_vision_brief_starter_trace_demo",
     "segment_map_starter_trace_demo",
     "market_analysis_brief_starter_trace_demo",
     "competitor_dossier_starter_trace_demo"
   ],
   "evidence_refs": [
+    {
+      "source_type": "other",
+      "source_id": "product_vision_brief_starter_trace_demo",
+      "justification": "The product vision clarifies the target segment, value proposition, and north-star direction for the starter."
+    },
     {
       "source_type": "research",
       "source_id": "research_notebook_starter_trace_demo",

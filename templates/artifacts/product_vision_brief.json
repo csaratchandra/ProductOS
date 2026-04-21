@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "product_vision_brief_id": "product_vision_brief_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Product vision brief: starter strategy demo",
+  "strategy_context_ref": "strategy_context_brief_starter_trace_demo",
+  "durable_vision": "The ProductOS starter should show a reviewable, traceable product strategy and discovery chain before a new team replaces the demo data with its own reality.",
+  "near_term_product_goal": "Help a new team understand why ProductOS exists and how one coherent product bet flows into discovery and delivery artifacts.",
+  "problem_space_summary": "Blank templates do not show how ProductOS should think, decide, and preserve context across a product workflow.",
+  "solution_direction_summary": "Seed the starter with a compact but explicit strategy spine that connects mission, vision, market posture, and problem framing.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_scaling_product_orgs"
+    }
+  ],
+  "priority_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    }
+  ],
+  "customer_value_statement": "New teams can inspect one coherent strategy and discovery chain instead of guessing what ProductOS expects them to produce.",
+  "business_value_statement": "A strategy-aware starter should improve adoption confidence and reduce the setup friction that makes ProductOS feel too abstract.",
+  "differentiation_statement": "The starter demonstrates ProductOS as a disciplined operating model, not a generic template pack.",
+  "north_star_metric": "time_to_understand_seeded_product_bet_hours",
+  "north_star_definition": "Time required for a new team to explain the seeded mission, product vision, and downstream problem framing accurately.",
+  "input_guardrail_metrics": [
+    {
+      "metric_name": "strategy_chain_traceability",
+      "metric_type": "input",
+      "definition": "The seeded starter keeps strategy refs visible from mission through problem framing.",
+      "target": "100%"
+    }
+  ],
+  "next_bets": [
+    "Keep the strategy spine readable before expanding seeded workflow breadth."
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "strategy_context",
+      "source_id": "strategy_context_brief_starter_trace_demo",
+      "justification": "The starter strategy context explains the adoption bet and constraints."
+    }
+  ],
+  "created_at": "2026-04-21T08:35:00Z"
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "strategy_context_brief_id": "strategy_context_brief_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Strategy context brief: starter trace demo",
+  "mission_ref": "mission_brief_starter_trace_demo",
+  "context_summary": "The starter workspace should make ProductOS strategy visible before a new team edits deeper discovery or delivery artifacts.",
+  "enterprise_goal_links": [
+    {
+      "goal_name": "Accelerate starter adoption",
+      "goal_type": "growth",
+      "linkage_summary": "A clearer strategy layer should help new teams understand why the seeded workspace exists.",
+      "success_signal": "More teams retain the seeded strategy and discovery flow long enough to adapt it."
+    }
+  ],
+  "portfolio_bets": [
+    {
+      "bet_name": "Seeded strategy-first onboarding",
+      "fit": "core",
+      "rationale": "The starter should show one coherent strategic bet instead of looking like a blank template dump."
+    }
+  ],
+  "business_model_outcomes": [
+    {
+      "outcome_name": "Improve adoption confidence",
+      "outcome_type": "adoption",
+      "linkage_summary": "A strategy-aware starter should reduce confusion and increase trust in the ProductOS operating model."
+    }
+  ],
+  "strategic_constraints": [
+    {
+      "constraint": "Keep the starter adaptable for real teams.",
+      "constraint_type": "distribution",
+      "consequence": "The seeded strategy should demonstrate the model without locking teams into one market or workflow forever."
+    }
+  ],
+  "linked_artifact_ids": [
+    "mission_brief_starter_trace_demo",
+    "market_strategy_brief_starter_trace_demo"
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "mission",
+      "source_id": "mission_brief_starter_trace_demo",
+      "justification": "The starter mission explains why a strategy-aware demo bundle is needed."
+    }
+  ],
+  "recommendation": "proceed_to_product_vision",
+  "created_at": "2026-04-21T08:30:00Z"
+}

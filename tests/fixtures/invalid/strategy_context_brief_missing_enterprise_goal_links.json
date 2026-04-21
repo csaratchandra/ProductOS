@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "strategy_context_brief_id": "strategy_context_brief_invalid",
+  "workspace_id": "ws_productos_v2",
+  "title": "Invalid strategy context brief",
+  "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+  "context_summary": "This payload omits enterprise goal links and should fail validation.",
+  "portfolio_bets": [
+    {
+      "bet_name": "PM judgment amplifier",
+      "fit": "core",
+      "rationale": "Still included."
+    }
+  ],
+  "business_model_outcomes": [
+    {
+      "outcome_name": "Improve buyer confidence",
+      "outcome_type": "adoption",
+      "linkage_summary": "Still included."
+    }
+  ],
+  "strategic_constraints": [
+    {
+      "constraint": "Keep claims bounded.",
+      "constraint_type": "governance",
+      "consequence": "Do not broaden the stable line."
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "mission",
+      "source_id": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+      "justification": "Still included."
+    }
+  ],
+  "recommendation": "proceed_to_product_vision",
+  "created_at": "2026-04-21T09:00:00Z"
+}

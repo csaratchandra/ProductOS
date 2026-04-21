@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/product_vision_brief.schema.json",
+  "title": "ProductOS Product Vision Brief",
+  "description": "Durable product vision and nearer-term product goal linked to customer value, business value, differentiation, and a north-star metric before downstream concept and PRD work scales.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "product_vision_brief_id",
+    "workspace_id",
+    "title",
+    "strategy_context_ref",
+    "durable_vision",
+    "near_term_product_goal",
+    "target_segment_refs",
+    "priority_persona_refs",
+    "customer_value_statement",
+    "business_value_statement",
+    "differentiation_statement",
+    "north_star_metric",
+    "north_star_definition",
+    "input_guardrail_metrics",
+    "evidence_refs",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "product_vision_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "strategy_context_ref": { "type": "string", "minLength": 1 },
+    "durable_vision": { "type": "string", "minLength": 20 },
+    "near_term_product_goal": { "type": "string", "minLength": 10 },
+    "problem_space_summary": { "type": "string", "minLength": 10 },
+    "solution_direction_summary": { "type": "string", "minLength": 10 },
+    "target_segment_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "priority_persona_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "customer_value_statement": { "type": "string", "minLength": 10 },
+    "business_value_statement": { "type": "string", "minLength": 10 },
+    "differentiation_statement": { "type": "string", "minLength": 10 },
+    "north_star_metric": { "type": "string", "minLength": 3 },
+    "north_star_definition": { "type": "string", "minLength": 10 },
+    "input_guardrail_metrics": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/metric" },
+      "minItems": 1
+    },
+    "next_bets": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceRef" },
+      "minItems": 1
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id"],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": ["segment", "persona", "problem", "outcome", "opportunity", "feature", "metric", "decision"]
+        },
+        "entity_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric_name", "metric_type", "definition"],
+      "properties": {
+        "metric_name": { "type": "string", "minLength": 2 },
+        "metric_type": {
+          "type": "string",
+          "enum": ["input", "guardrail"]
+        },
+        "definition": { "type": "string", "minLength": 5 },
+        "target": { "type": "string", "minLength": 1 }
+      }
+    },
+    "evidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_type", "source_id", "justification"],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": ["strategy_context", "research", "market_strategy", "decision_log", "other"]
+        },
+        "source_id": { "type": "string", "minLength": 1 },
+        "justification": { "type": "string", "minLength": 5 }
+      }
+    }
+  }
+}

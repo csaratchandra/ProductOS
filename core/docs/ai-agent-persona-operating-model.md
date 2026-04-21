@@ -53,13 +53,15 @@ The newer [autonomous-pm-swarm-model.md](/Users/sarat/Documents/code/ProductOS/c
 
 The missing layer is not "more agents."
 
-The missing layer is a disciplined operating structure that answers:
+The missing layer is a disciplined operating structure with shared reusable skills that answers:
 
 - what superpowers the AI Agent should gain
 - what loops the AI Agent is allowed to run
 - what artifacts represent progress at each stage
 - which reviewers and validators must approve each transition
 - how ProductOS decides the loop is actually improving outcomes instead of just generating more work
+
+Without a shared skill layer, ProductOS keeps describing capability through persona contracts while leaving too much task quality implicit.
 
 ## AI Agent Persona
 
@@ -81,6 +83,14 @@ The stable operating model should decompose this umbrella into specialist person
 - tester
 - librarian
 - presenter
+
+Those personas should not each carry their own private capability logic.
+
+The durable design is:
+
+- a smaller runtime-facing set of lanes such as orchestrator, research, strategy, product shaping, operator, communication, and validation
+- a compatibility contract catalog for the broader persona/agent surface
+- a shared `core/skills/` layer where reusable capabilities such as retrieval, contradiction detection, evidence extraction, and publish-safe summarization are defined once and reused many times
 
 Each specialist should have distinct authority, memory scope, handoff rules, and benchmark criteria.
 
@@ -132,6 +142,7 @@ Missing fields for this persona:
 - failure costs
 - trust model
 - expected collaboration pattern with PM and reviewers
+- shared skill composition
 
 ### 3. Stage-gate model for the full loop
 
@@ -218,6 +229,8 @@ Missing workflow behavior:
 This should become a repeatable evidence loop, not an ad hoc design exercise.
 
 ### 9. Cross-loop coordination
+
+Cross-loop coordination should also answer which shared skills are mandatory before an agent is allowed to advance work into the next loop.
 
 The user journey described here is not one loop.
 

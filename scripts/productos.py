@@ -46,6 +46,7 @@ from core.python.productos_runtime import (
     discover_external_research_sources_from_workspace,
     research_workspace_from_manifest,
     run_external_research_loop_from_workspace,
+    sync_canonical_discovery_operations_artifacts,
     summarize_v5_lifecycle_bundle,
     summarize_v6_lifecycle_bundle,
     summarize_v7_lifecycle_bundle,
@@ -72,7 +73,19 @@ PHASE_ARTIFACTS = {
         "intake_routing_state",
         "memory_retrieval_state",
         "context_pack",
+        "discover_strategy_context_brief",
+        "discover_product_vision_brief",
+        "discover_market_strategy_brief",
         "discover_problem_brief",
+        "discover_research_handoff",
+        "discover_research_notebook",
+        "discover_research_brief",
+        "discover_external_research_plan",
+        "discover_external_research_source_discovery",
+        "discover_external_research_review",
+        "discover_competitor_dossier",
+        "discover_customer_pulse",
+        "discover_market_analysis_brief",
         "discover_concept_brief",
         "discover_prd",
         "discover_execution_session_state",
@@ -192,6 +205,17 @@ def _write_artifacts(output_dir: Path, bundle: dict[str, dict], names: list[str]
     for name in names:
         with (output_dir / f"{name}.json").open("w", encoding="utf-8") as handle:
             json.dump(bundle[name], handle, indent=2)
+            handle.write("\n")
+
+
+def _write_source_note_cards(output_dir: Path, bundle: dict[str, dict]) -> None:
+    source_note_cards = bundle.get("source_note_cards") or bundle.get("discover_source_note_cards") or {}
+    if not isinstance(source_note_cards, dict):
+        return
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for filename, payload in source_note_cards.items():
+        with (output_dir / filename).open("w", encoding="utf-8") as handle:
+            json.dump(payload, handle, indent=2)
             handle.write("\n")
 
 
@@ -436,6 +460,69 @@ def _feed_governance_status(bundle: dict[str, dict]) -> str:
     return f"healthy ({len(feeds)} feeds)"
 
 
+def _print_research_summary(bundle: dict[str, dict]) -> None:
+    research_plan = bundle.get("external_research_plan") or bundle.get("discover_external_research_plan")
+    source_discovery = bundle.get("external_research_source_discovery") or bundle.get("discover_external_research_source_discovery")
+    selected_manifest = bundle.get("external_research_selected_manifest") or bundle.get("discover_selected_research_manifest")
+    if research_plan is not None:
+        required_signal_lane_count = 3
+        planned_signal_lanes = research_plan.get("coverage_summary", {}).get("planned_signal_lanes")
+        if not planned_signal_lanes:
+            planned_signal_lanes = list(
+                dict.fromkeys(
+                    _signal_lane_id_for_source_type(item["recommended_source_type"])
+                    for item in research_plan.get("prioritized_questions", [])
+                    if isinstance(item, dict) and isinstance(item.get("recommended_source_type"), str)
+                )
+            )
+        discovered_signal_lane_count = 0
+        selected_signal_lane_count = 0
+        if source_discovery is not None:
+            signal_lane_coverage = source_discovery.get("signal_lane_coverage") or []
+            if signal_lane_coverage:
+                discovered_signal_lane_count = sum(
+                    1 for item in signal_lane_coverage if item.get("candidate_source_count", 0) > 0
+                )
+            else:
+                discovered_signal_lane_count = len(
+                    {
+                        _signal_lane_id_for_source_type(item["source_type"])
+                        for item in source_discovery.get("candidate_sources", [])
+                        if isinstance(item, dict) and isinstance(item.get("source_type"), str)
+                    }
+                )
+        if selected_manifest is not None:
+            selected_signal_lane_count = len(
+                {
+                    _signal_lane_id_for_source_type(item["source_type"])
+                    for item in selected_manifest.get("sources", [])
+                    if isinstance(item, dict) and isinstance(item.get("source_type"), str)
+                }
+            )
+        if selected_manifest is not None:
+            print(f"Research Coverage: selected {selected_signal_lane_count}/{required_signal_lane_count} signal lanes")
+        elif source_discovery is not None:
+            print(f"Research Coverage: discovered {discovered_signal_lane_count}/{required_signal_lane_count} signal lanes")
+        else:
+            print(f"Research Coverage: planned {len(planned_signal_lanes)}/{required_signal_lane_count} signal lanes")
+    if research_plan is not None:
+        print(f"Research Questions: {len(research_plan.get('prioritized_questions', []))}")
+    if source_discovery is not None:
+        print(f"Research Candidates: {len(source_discovery.get('candidate_sources', []))}")
+    if selected_manifest is not None:
+        print(f"Selected Research Sources: {len(selected_manifest.get('sources', []))}")
+
+
+def _signal_lane_id_for_source_type(source_type: str) -> str:
+    if source_type in {"market_validation", "security_review"}:
+        return "market"
+    if source_type == "competitor_research":
+        return "competitor"
+    if source_type in {"customer_evidence", "operator_interview"}:
+        return "customer"
+    return source_type
+
+
 def _print_promotion_blockers(gate: dict[str, object]) -> None:
     blockers = list(gate.get("blockers", []))
     if not blockers:
@@ -488,6 +575,7 @@ def cmd_status(args: argparse.Namespace) -> int:
     print(f"Eval Status: {eval_report['status']} ({eval_report['regression_count']} regressions)")
     print(f"Governed Research: {_governed_research_status(bundle)}")
     print(f"Feed Governance: {_feed_governance_status(bundle)}")
+    _print_research_summary(bundle)
     print(f"Swarm Plan: {swarm_plan['status']} ({swarm_plan['operating_mode']})")
     print(f"Swarm Readiness: {swarm_scorecard['overall_score']}/5 ({swarm_scorecard['adoption_recommendation']})")
     print(f"Stable Promotion: {gate['status']}")
@@ -522,11 +610,15 @@ def cmd_run(args: argparse.Namespace) -> int:
     names = PHASE_ARTIFACTS[args.phase]
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, names)
+        if args.phase in {"discover", "all"}:
+            _write_source_note_cards(args.output_dir, bundle)
         if args.phase in {"improve", "all"}:
             _write_release_review_markdown(args.output_dir, bundle)
     if args.persist:
         output_dir = _phase_output_dir(workspace_dir, args.phase)
         _write_artifacts(output_dir, bundle, names)
+        if args.phase in {"discover", "all"}:
+            _write_source_note_cards(output_dir, bundle)
         if args.phase in {"discover", "all"}:
             mission_brief = load_mission_brief_from_workspace(workspace_dir)
             if mission_brief is not None:
@@ -534,10 +626,29 @@ def cmd_run(args: argparse.Namespace) -> int:
                     workspace_dir,
                     mission_brief=mission_brief,
                     generated_at=args.generated_at,
+                    strategy_context_brief=bundle.get("discover_strategy_context_brief"),
+                    product_vision_brief=bundle.get("discover_product_vision_brief"),
+                    market_strategy_brief=bundle.get("discover_market_strategy_brief"),
                     problem_brief=bundle.get("discover_problem_brief"),
                     concept_brief=bundle.get("discover_concept_brief"),
                     prd=bundle.get("discover_prd"),
                 )
+            sync_canonical_discovery_operations_artifacts(
+                workspace_dir,
+                bundle={
+                    "research_handoff": bundle.get("discover_research_handoff"),
+                    "research_notebook": bundle.get("discover_research_notebook"),
+                    "research_brief": bundle.get("discover_research_brief"),
+                    "external_research_plan": bundle.get("discover_external_research_plan"),
+                    "external_research_source_discovery": bundle.get("discover_external_research_source_discovery"),
+                    "external_research_review": bundle.get("discover_external_research_review"),
+                    "competitor_dossier": bundle.get("discover_competitor_dossier"),
+                    "customer_pulse": bundle.get("discover_customer_pulse"),
+                    "market_analysis_brief": bundle.get("discover_market_analysis_brief"),
+                    "source_note_cards": bundle.get("discover_source_note_cards"),
+                    "selected_research_manifest": bundle.get("discover_selected_research_manifest"),
+                },
+            )
         if args.phase in {"improve", "all"}:
             _write_release_review_markdown(output_dir, bundle)
             _write_workspace_release_review_markdown(workspace_dir, bundle)
@@ -569,6 +680,7 @@ def cmd_review(args: argparse.Namespace) -> int:
     _print_mission_control(cockpit)
     print(f"Governed Research: {_governed_research_status(bundle)}")
     print(f"Feed Governance: {_feed_governance_status(bundle)}")
+    _print_research_summary(bundle)
     print(f"Swarm Plan: {swarm_plan['status']} ({swarm_plan['release_boundary']})")
     print(f"Swarm Readiness: {swarm_scorecard['overall_score']}/5 -> {swarm_scorecard['next_action']}")
     print("Pending Review Points:")
@@ -639,6 +751,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     _print_mission_summary(workspace_dir)
     print(f"Governed Research: {_governed_research_status(bundle)}")
     print(f"Feed Governance: {_feed_governance_status(bundle)}")
+    _print_research_summary(bundle)
     print(f"Swarm Plan: {swarm_plan['status']} ({swarm_plan['operating_mode']})")
     print(f"Swarm Readiness: {swarm_scorecard['overall_score']}/5 ({swarm_scorecard['adoption_recommendation']})")
     print(f"Stable Promotion: {gate['status']}")
@@ -979,8 +1092,9 @@ def cmd_research_workspace(args: argparse.Namespace) -> int:
         return 1
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, RESEARCH_RUNTIME_ARTIFACTS)
+        _write_source_note_cards(args.output_dir, bundle)
     print(f"Research Sources: {args.input_manifest}")
-    print(f"Artifacts Refreshed: {len(bundle)}")
+    print(f"Artifacts Refreshed: {len(RESEARCH_RUNTIME_ARTIFACTS)}")
     print(f"Competitor Dossier: {bundle['competitor_dossier']['competitor_dossier_id']}")
     print(f"Customer Pulse: {bundle['customer_pulse']['customer_pulse_id']}")
     print(f"Market Analysis: {bundle['market_analysis_brief']['market_analysis_brief_id']}")
@@ -1004,6 +1118,11 @@ def cmd_plan_research(args: argparse.Namespace) -> int:
     plan = bundle["external_research_plan"]
     print(f"Research Plan: {plan['external_research_plan_id']}")
     print(f"Planned Questions: {len(plan['prioritized_questions'])}")
+    print(
+        "Signal Lanes Planned: "
+        f"{len(plan.get('coverage_summary', {}).get('planned_signal_lanes', []))}/"
+        f"{len(plan.get('coverage_summary', {}).get('required_signal_lanes', ['market', 'competitor', 'customer']))}"
+    )
     print(f"Suggested Sources: {len(plan['suggested_manifest_sources'])}")
     print(f"Next Step: {plan['coverage_summary']['recommended_next_step']}")
     return 0
@@ -1051,6 +1170,10 @@ def cmd_discover_research_sources(args: argparse.Namespace) -> int:
     print(f"Source Discovery: {discovery['external_research_source_discovery_id']}")
     print(f"Search Provider: {discovery['search_provider']}")
     print(f"Search Status: {discovery['search_status']}")
+    print(
+        "Signal Lanes Discovered: "
+        f"{sum(1 for item in discovery.get('signal_lane_coverage', []) if item.get('candidate_source_count', 0) > 0)}/3"
+    )
     print(f"Candidate Sources: {len(discovery['candidate_sources'])}")
     return 0
 
@@ -1081,11 +1204,16 @@ def cmd_run_research_loop(args: argparse.Namespace) -> int:
         output_names.extend(RESEARCH_RUNTIME_ARTIFACTS)
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, output_names)
+        _write_source_note_cards(args.output_dir, bundle)
     print(f"Research Loop Coverage: {summary['coverage_status']}")
     print(f"Research Refresh: {summary['refresh_status']}")
     print(f"Planned Questions: {summary['planned_question_count']}")
     print(f"Candidate Sources: {summary['candidate_source_count']}")
     print(f"Selected Sources: {summary['selected_source_count']}")
+    print(
+        "Signal Lanes Selected: "
+        f"{summary['selected_signal_lane_count']}/{summary['required_signal_lane_count']}"
+    )
     print(f"Review Required: {len(summary['review_items'])}")
     for item in summary["review_items"]:
         print(f"- {item}")

@@ -40,9 +40,10 @@ def test_productos_status_command(root_dir: Path, self_hosting_workspace_dir: Pa
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Mode: status" in result.stdout
     assert "Mission: PM superpower recovery mission" in result.stdout
-    assert "Top Priority Feature: v5_bundle_selection" in result.stdout
+    assert "Top Priority Feature: market_intelligence" in result.stdout
     assert "Truthfulness Status: healthy" in result.stdout
     assert "Eval Status: passed (0 regressions)" in result.stdout
+    assert "Research Coverage:" in result.stdout
     assert "Stable Promotion: ready" in result.stdout
 
 
@@ -54,13 +55,16 @@ def test_productos_doctor_command(root_dir: Path, self_hosting_workspace_dir: Pa
     assert "Mission: PM superpower recovery mission" in result.stdout
     assert "Stable Promotion: ready" in result.stdout
     assert "Intake Items: 2" in result.stdout
-    assert "Top Priority Feature: v5_bundle_selection" in result.stdout
+    assert "Top Priority Feature: market_intelligence" in result.stdout
 
 
 def test_productos_init_mission_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
     workspace_copy = tmp_path / "workspace-copy"
     shutil.copytree(self_hosting_workspace_dir, workspace_copy)
     for relative_path in [
+        "artifacts/strategy_context_brief.json",
+        "artifacts/product_vision_brief.json",
+        "artifacts/market_strategy_brief.json",
         "artifacts/problem_brief.json",
         "artifacts/concept_brief.json",
         "artifacts/prd.json",
@@ -92,14 +96,31 @@ def test_productos_init_mission_command(root_dir: Path, self_hosting_workspace_d
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Mission Brief: mission_brief_ws_productos_v2_customer_recovery_mission" in result.stdout
     mission_brief = json.loads((workspace_copy / "artifacts" / "mission_brief.json").read_text(encoding="utf-8"))
+    canonical_strategy = json.loads((workspace_copy / "artifacts" / "strategy_context_brief.json").read_text(encoding="utf-8"))
+    canonical_vision = json.loads((workspace_copy / "artifacts" / "product_vision_brief.json").read_text(encoding="utf-8"))
+    canonical_market = json.loads((workspace_copy / "artifacts" / "market_strategy_brief.json").read_text(encoding="utf-8"))
     canonical_problem = json.loads((workspace_copy / "artifacts" / "problem_brief.json").read_text(encoding="utf-8"))
     canonical_concept = json.loads((workspace_copy / "artifacts" / "concept_brief.json").read_text(encoding="utf-8"))
     canonical_prd = json.loads((workspace_copy / "artifacts" / "prd.json").read_text(encoding="utf-8"))
+    with (workspace_copy / "workspace_manifest.yaml").open("r", encoding="utf-8") as handle:
+        manifest = yaml.safe_load(handle)
     assert mission_brief["title"] == "Customer recovery mission"
     assert mission_brief["operating_mode"] == "full_loop"
+    assert canonical_strategy["mission_ref"] == mission_brief["mission_brief_id"]
+    assert canonical_vision["strategy_context_ref"] == canonical_strategy["strategy_context_brief_id"]
+    assert canonical_market["linked_artifact_ids"][0] == mission_brief["mission_brief_id"]
     assert canonical_problem["title"] == "Problem Brief: Customer recovery mission"
+    assert canonical_problem["upstream_artifact_ids"][:4] == [
+        mission_brief["mission_brief_id"],
+        canonical_strategy["strategy_context_brief_id"],
+        canonical_vision["product_vision_brief_id"],
+        canonical_market["market_strategy_brief_id"],
+    ]
     assert canonical_concept["title"] == "Customer recovery mission"
     assert canonical_prd["title"] == "PRD: Customer recovery mission"
+    assert "artifacts/strategy_context_brief.json" in manifest["artifact_paths"]
+    assert "artifacts/product_vision_brief.json" in manifest["artifact_paths"]
+    assert "artifacts/market_strategy_brief.json" in manifest["artifact_paths"]
     assert (workspace_copy / "docs" / "planning" / "mission-brief.md").exists()
 
     status_result = _run_self_hosting_cli(root_dir, workspace_copy, "status")
@@ -141,6 +162,9 @@ def test_productos_start_command_creates_workspace_and_mission(root_dir: Path, t
     assert manifest["mode"] == "startup"
     assert mission_brief["title"] == "Activation recovery mission"
     assert mission_brief["operating_mode"] == "discover"
+    assert "artifacts/strategy_context_brief.json" in manifest["artifact_paths"]
+    assert "artifacts/product_vision_brief.json" in manifest["artifact_paths"]
+    assert "artifacts/market_strategy_brief.json" in manifest["artifact_paths"]
 
 
 def test_case_variant_launchers_delegate_to_productos_cli(root_dir: Path):
@@ -157,9 +181,15 @@ def test_productos_run_discover_can_fall_back_to_mission_brief(root_dir: Path, s
     shutil.copytree(self_hosting_workspace_dir, workspace_copy)
 
     for relative_path in [
+        "artifacts/strategy_context_brief.json",
+        "artifacts/product_vision_brief.json",
+        "artifacts/market_strategy_brief.json",
         "artifacts/problem_brief.json",
         "artifacts/concept_brief.json",
         "artifacts/prd.json",
+        "outputs/discover/discover_strategy_context_brief.json",
+        "outputs/discover/discover_product_vision_brief.json",
+        "outputs/discover/discover_market_strategy_brief.json",
         "outputs/discover/discover_problem_brief.json",
         "outputs/discover/discover_concept_brief.json",
         "outputs/discover/discover_prd.json",
@@ -180,11 +210,39 @@ def test_productos_run_discover_can_fall_back_to_mission_brief(root_dir: Path, s
     )
 
     assert result.returncode == 0, result.stderr or result.stdout
+    generated_strategy = json.loads((output_dir / "discover_strategy_context_brief.json").read_text(encoding="utf-8"))
+    generated_vision = json.loads((output_dir / "discover_product_vision_brief.json").read_text(encoding="utf-8"))
+    generated_market = json.loads((output_dir / "discover_market_strategy_brief.json").read_text(encoding="utf-8"))
     generated_problem = json.loads((output_dir / "discover_problem_brief.json").read_text(encoding="utf-8"))
+    generated_handoff = json.loads((output_dir / "discover_research_handoff.json").read_text(encoding="utf-8"))
+    generated_notebook = json.loads((output_dir / "discover_research_notebook.json").read_text(encoding="utf-8"))
+    generated_research_brief = json.loads((output_dir / "discover_research_brief.json").read_text(encoding="utf-8"))
+    generated_customer_pulse = json.loads((output_dir / "discover_customer_pulse.json").read_text(encoding="utf-8"))
     generated_concept = json.loads((output_dir / "discover_concept_brief.json").read_text(encoding="utf-8"))
     generated_prd = json.loads((output_dir / "discover_prd.json").read_text(encoding="utf-8"))
+    assert generated_strategy["mission_ref"] == "mission_brief_ws_productos_v2_pm_superpower_recovery_mission"
+    assert generated_vision["strategy_context_ref"] == generated_strategy["strategy_context_brief_id"]
+    assert generated_market["linked_artifact_ids"][0] == "mission_brief_ws_productos_v2_pm_superpower_recovery_mission"
     assert generated_problem["title"] == "Problem Brief: PM superpower recovery mission"
     assert "single repo-native way to declare the mission" in generated_problem["problem_summary"]
+    assert generated_problem["upstream_artifact_ids"][:4] == [
+        "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+        generated_strategy["strategy_context_brief_id"],
+        generated_vision["product_vision_brief_id"],
+        generated_market["market_strategy_brief_id"],
+    ]
+    assert generated_handoff["artifact_refs"][-1]["artifact_id"] == generated_concept["concept_brief_id"]
+    assert generated_notebook["source_note_card_ids"]
+    assert generated_research_brief["research_notebook_ids"] == [generated_notebook["research_notebook_id"]]
+    assert generated_customer_pulse["source_artifact_ids"][:2] == [
+        generated_notebook["research_notebook_id"],
+        generated_research_brief["research_brief_id"],
+    ]
+    assert generated_concept["strategy_artifact_ids"] == [
+        generated_strategy["strategy_context_brief_id"],
+        generated_vision["product_vision_brief_id"],
+        generated_market["market_strategy_brief_id"],
+    ]
     assert generated_concept["title"] == "PM superpower recovery mission"
     assert generated_prd["title"] == "PRD: PM superpower recovery mission"
 
@@ -196,9 +254,15 @@ def test_productos_run_discover_persist_syncs_canonical_discover_artifacts_from_
     shutil.copytree(self_hosting_workspace_dir, workspace_copy)
 
     for relative_path in [
+        "artifacts/strategy_context_brief.json",
+        "artifacts/product_vision_brief.json",
+        "artifacts/market_strategy_brief.json",
         "artifacts/problem_brief.json",
         "artifacts/concept_brief.json",
         "artifacts/prd.json",
+        "outputs/discover/discover_strategy_context_brief.json",
+        "outputs/discover/discover_product_vision_brief.json",
+        "outputs/discover/discover_market_strategy_brief.json",
         "outputs/discover/discover_problem_brief.json",
         "outputs/discover/discover_concept_brief.json",
         "outputs/discover/discover_prd.json",
@@ -218,11 +282,31 @@ def test_productos_run_discover_persist_syncs_canonical_discover_artifacts_from_
     )
 
     assert result.returncode == 0, result.stderr or result.stdout
+    canonical_strategy = json.loads((workspace_copy / "artifacts" / "strategy_context_brief.json").read_text(encoding="utf-8"))
+    canonical_vision = json.loads((workspace_copy / "artifacts" / "product_vision_brief.json").read_text(encoding="utf-8"))
+    canonical_market = json.loads((workspace_copy / "artifacts" / "market_strategy_brief.json").read_text(encoding="utf-8"))
     canonical_problem = json.loads((workspace_copy / "artifacts" / "problem_brief.json").read_text(encoding="utf-8"))
+    canonical_handoff = json.loads((workspace_copy / "artifacts" / "handoff_discovery_to_research.json").read_text(encoding="utf-8"))
+    canonical_notebook = json.loads((workspace_copy / "artifacts" / "research_notebook.json").read_text(encoding="utf-8"))
+    canonical_research_brief = json.loads((workspace_copy / "artifacts" / "research_brief.json").read_text(encoding="utf-8"))
+    canonical_customer_pulse = json.loads((workspace_copy / "artifacts" / "customer_pulse.json").read_text(encoding="utf-8"))
     canonical_concept = json.loads((workspace_copy / "artifacts" / "concept_brief.json").read_text(encoding="utf-8"))
     canonical_prd = json.loads((workspace_copy / "artifacts" / "prd.json").read_text(encoding="utf-8"))
+    persisted_strategy = json.loads(
+        (workspace_copy / "outputs" / "discover" / "discover_strategy_context_brief.json").read_text(encoding="utf-8")
+    )
     persisted_problem = json.loads((workspace_copy / "outputs" / "discover" / "discover_problem_brief.json").read_text(encoding="utf-8"))
+    assert canonical_strategy["strategy_context_brief_id"] == persisted_strategy["strategy_context_brief_id"]
+    assert canonical_vision["strategy_context_ref"] == canonical_strategy["strategy_context_brief_id"]
+    assert canonical_market["linked_artifact_ids"][0] == canonical_strategy["linked_artifact_ids"][0]
     assert canonical_problem["problem_brief_id"] == persisted_problem["problem_brief_id"]
+    assert canonical_handoff["artifact_refs"][-1]["artifact_id"] == canonical_concept["concept_brief_id"]
+    assert canonical_research_brief["research_notebook_ids"] == [canonical_notebook["research_notebook_id"]]
+    assert canonical_customer_pulse["source_artifact_ids"][:2] == [
+        canonical_notebook["research_notebook_id"],
+        canonical_research_brief["research_brief_id"],
+    ]
+    assert any(path.name.startswith("source_note_card_") for path in (workspace_copy / "artifacts").glob("source_note_card_*.json"))
     assert canonical_problem["title"] == "Problem Brief: PM superpower recovery mission"
     assert canonical_concept["title"] == "PM superpower recovery mission"
     assert canonical_prd["title"] == "PRD: PM superpower recovery mission"
@@ -329,6 +413,7 @@ def test_productos_align_and_operate_outputs_include_custom_mission_context(
     )
     assert "Customer trust recovery mission" in document_sync_state["next_action"]
     assert "mission_brief_ws_productos_v2_customer_trust_recovery_mission" in document_sync_state["source_artifact_refs"]
+    assert any(doc["doc_key"] == "product_strategy_vision" for doc in document_sync_state["documents"])
     assert "Customer trust recovery mission" in status_mail["summary"]
     assert "mission_brief_ws_productos_v2_customer_trust_recovery_mission" in status_mail["generated_from_artifact_ids"]
     assert any(
@@ -474,7 +559,6 @@ def test_productos_status_review_and_doctor_surface_feed_governance(
     assert "Feed Governance: degraded (1 unconfigured, 1 stale, 1 due)" in status_result.stdout
     assert "Promotion Blockers:" in status_result.stdout
     assert "- Feed Governance:" in status_result.stdout
-    assert "- Governed Research:" in status_result.stdout
     assert "Feed Governance Alerts:" in status_result.stdout
     assert "feed_competitor_research: unconfigured" in status_result.stdout
     assert "feed_customer_evidence: cadence stale" in status_result.stdout
@@ -483,14 +567,12 @@ def test_productos_status_review_and_doctor_surface_feed_governance(
     assert "Feed Governance: degraded (1 unconfigured, 1 stale, 1 due)" in review_result.stdout
     assert "Promotion Blockers:" in review_result.stdout
     assert "- Feed Governance:" in review_result.stdout
-    assert "- Governed Research:" in review_result.stdout
     assert "Feed Governance Alerts:" in review_result.stdout
 
     assert doctor_result.returncode == 0, doctor_result.stderr or doctor_result.stdout
     assert "Feed Governance: degraded (1 unconfigured, 1 stale, 1 due)" in doctor_result.stdout
     assert "Promotion Blockers:" in doctor_result.stdout
     assert "- Feed Governance:" in doctor_result.stdout
-    assert "- Governed Research:" in doctor_result.stdout
     assert "Feed Governance Alerts:" in doctor_result.stdout
 
 
@@ -760,11 +842,24 @@ def test_productos_run_discover_command_exports_phase_artifacts(root_dir: Path, 
     assert "Session Status: completed" in result.stdout
     assert "Context Pack: context_pack_ws_productos_v2_bounded_baseline" in result.stdout
     assert (tmp_path / "context_pack.json").exists()
+    assert (tmp_path / "discover_strategy_context_brief.json").exists()
+    assert (tmp_path / "discover_product_vision_brief.json").exists()
+    assert (tmp_path / "discover_market_strategy_brief.json").exists()
     assert (tmp_path / "discover_problem_brief.json").exists()
+    assert (tmp_path / "discover_research_handoff.json").exists()
+    assert (tmp_path / "discover_research_notebook.json").exists()
+    assert (tmp_path / "discover_research_brief.json").exists()
+    assert (tmp_path / "discover_external_research_plan.json").exists()
+    assert (tmp_path / "discover_external_research_source_discovery.json").exists()
+    assert (tmp_path / "discover_external_research_review.json").exists()
+    assert (tmp_path / "discover_competitor_dossier.json").exists()
+    assert (tmp_path / "discover_customer_pulse.json").exists()
+    assert (tmp_path / "discover_market_analysis_brief.json").exists()
     assert (tmp_path / "discover_concept_brief.json").exists()
     assert (tmp_path / "discover_prd.json").exists()
     assert (tmp_path / "discover_execution_session_state.json").exists()
     assert (tmp_path / "discover_feature_scorecard.json").exists()
+    assert any(path.name.startswith("source_note_card_") for path in tmp_path.glob("source_note_card_*.json"))
 
 
 def test_productos_run_discover_persist_uses_persisted_outputs_for_scoring(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
@@ -777,6 +872,12 @@ def test_productos_run_discover_persist_uses_persisted_outputs_for_scoring(root_
     persisted_dir = workspace_copy / "outputs" / "discover"
     assert (persisted_dir / "discover_problem_brief.json").exists()
     assert (persisted_dir / "discover_concept_brief.json").exists()
+    assert (persisted_dir / "discover_strategy_context_brief.json").exists()
+    assert (persisted_dir / "discover_product_vision_brief.json").exists()
+    assert (persisted_dir / "discover_market_strategy_brief.json").exists()
+    assert (persisted_dir / "discover_research_handoff.json").exists()
+    assert (persisted_dir / "discover_research_notebook.json").exists()
+    assert (persisted_dir / "discover_research_brief.json").exists()
     assert (persisted_dir / "discover_prd.json").exists()
 
     export_dir = tmp_path / "persisted-discover-export"
@@ -806,6 +907,25 @@ def test_productos_run_align_command_exports_phase_artifacts(root_dir: Path, sel
     assert (tmp_path / "presentation_publish_check.json").exists()
     assert (tmp_path / "docs_alignment_feature_scorecard.json").exists()
     assert (tmp_path / "presentation_feature_scorecard.json").exists()
+    document_sync_state = json.loads((tmp_path / "align_document_sync_state.json").read_text(encoding="utf-8"))
+    discovery_doc = next(doc for doc in document_sync_state["documents"] if doc["doc_key"] == "discovery_operations")
+    strategy_doc = next(doc for doc in document_sync_state["documents"] if doc["doc_key"] == "product_strategy_vision")
+    assert discovery_doc["readable_path"] == "internal/ProductOS-Next/docs/discovery/research-operations.md"
+    assert discovery_doc["source_artifact_refs"] == [
+        "handoff_discovery_to_research_ws_productos_v2",
+        "research_notebook_ws_productos_v2",
+        "research_brief_ws_productos_v2_discover_seed",
+        "customer_pulse_ws_productos_v2",
+        "external_research_review_ws_productos_v2",
+        "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    ]
+    assert strategy_doc["readable_path"] == "internal/ProductOS-Next/docs/strategy/product-strategy-vision.md"
+    assert strategy_doc["source_artifact_refs"] == [
+        "strategy_context_brief_pm_superpower_recovery",
+        "product_vision_brief_pm_superpower_recovery",
+        "market_strategy_brief_pm_superpower_recovery",
+        "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    ]
 
 
 def test_productos_run_align_persist_uses_persisted_outputs_for_presentation_scoring(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
@@ -878,12 +998,16 @@ def test_productos_plan_research_builds_plan_from_fallback_problem_brief(
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Research Plan:" in result.stdout
     assert "Planned Questions:" in result.stdout
+    assert "Signal Lanes Planned: 3/3" in result.stdout
     assert (tmp_path / "external_research_plan.json").exists()
     assert (workspace_copy / "artifacts" / "external_research_plan.json").exists()
     assert (workspace_copy / "outputs" / "research" / "external-research-manifest.template.json").exists()
 
     plan = json.loads((workspace_copy / "artifacts" / "external_research_plan.json").read_text(encoding="utf-8"))
-    assert len(plan["prioritized_questions"]) >= 1
+    assert len(plan["prioritized_questions"]) >= 3
+    assert plan["coverage_summary"]["required_signal_lanes"] == ["market", "competitor", "customer"]
+    assert plan["coverage_summary"]["planned_signal_lanes"] == ["market", "competitor", "customer"]
+    assert plan["coverage_summary"]["missing_signal_lanes"] == []
     assert plan["coverage_summary"]["recommended_next_step"].startswith("Fill the source manifest template")
 
 
@@ -1292,12 +1416,12 @@ def test_productos_export_command_writes_bundle(root_dir: Path, self_hosting_wor
     result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "export", "--output-dir", str(output_dir))
 
     assert result.returncode == 0, result.stderr or result.stdout
-    assert "Exported 40 artifacts" in result.stdout
+    assert "Exported 64 artifacts" in result.stdout
 
     portfolio_path = output_dir / "feature_portfolio_review.json"
     assert portfolio_path.exists()
     payload = json.loads(portfolio_path.read_text(encoding="utf-8"))
-    assert payload["top_priority_feature_id"] == "v5_bundle_selection"
+    assert payload["top_priority_feature_id"] == "market_intelligence"
 
 
 def test_productos_trace_item_command(root_dir: Path, self_hosting_workspace_dir: Path):

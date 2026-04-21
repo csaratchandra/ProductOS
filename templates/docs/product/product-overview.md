@@ -4,6 +4,8 @@ This starter workspace demonstrates how a normal product team can structure disc
 
 Start by defining the PM-first mission in `artifacts/mission_brief.json` or with `./productos init-mission` so the later artifacts share one explicit intent.
 
+For strategy-heavy work, keep `docs/product/product-strategy-vision.md` in sync with `strategy_context_brief`, `product_vision_brief`, and `market_strategy_brief` before expanding into concepts or PRDs.
+
 The seeded example centers on one discovery item so you can inspect:
 
 - which segments and personas were identified

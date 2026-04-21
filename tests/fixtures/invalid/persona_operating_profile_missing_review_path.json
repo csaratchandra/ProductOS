@@ -43,6 +43,9 @@
       "failure_modes": [
         "Conflicting downstream workstreams"
       ],
+      "skill_refs": [
+        "core/skills/retrieval_selection/SKILL.md"
+      ],
       "source_refs": [
         "core/agents/orchestrator/CONTRACT.md"
       ]
@@ -82,6 +85,9 @@
       "review_path": [
         "Uses AI Reviewer and AI Tester for Tier 2 outputs."
       ],
+      "skill_refs": [
+        "core/skills/strategy_refresh/SKILL.md"
+      ],
       "source_refs": [
         "core/docs/v4-execution-plan.md"
       ]
@@ -120,6 +126,9 @@
       ],
       "review_path": [
         "Runs mandatory manual validation on release-driving packages."
+      ],
+      "skill_refs": [
+        "core/skills/publish_safe_summarization/SKILL.md"
       ],
       "source_refs": [
         "core/workflows/launch/release-readiness-workflow.md"

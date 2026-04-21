@@ -376,23 +376,32 @@ def test_research_workspace_refreshes_external_research_artifacts(root_dir: Path
     )
 
     assert research_result.returncode == 0, research_result.stderr or research_result.stdout
-    assert "Artifacts Refreshed: 5" in research_result.stdout
+    assert "Artifacts Refreshed: 6" in research_result.stdout
     assert (output_dir / "competitor_dossier.json").exists()
     assert (output_dir / "customer_pulse.json").exists()
     assert (output_dir / "market_analysis_brief.json").exists()
     assert (output_dir / "external_research_review.json").exists()
+    assert (output_dir / "research_notebook.json").exists()
 
     refreshed_research_brief = json.loads((destination / "artifacts" / "research_brief.json").read_text(encoding="utf-8"))
     external_research_review = json.loads((destination / "artifacts" / "external_research_review.json").read_text(encoding="utf-8"))
     competitor_dossier = json.loads((destination / "artifacts" / "competitor_dossier.json").read_text(encoding="utf-8"))
     customer_pulse = json.loads((destination / "artifacts" / "customer_pulse.json").read_text(encoding="utf-8"))
     market_analysis = json.loads((destination / "artifacts" / "market_analysis_brief.json").read_text(encoding="utf-8"))
+    research_notebook = json.loads((destination / "artifacts" / "research_notebook.json").read_text(encoding="utf-8"))
 
     assert any("Refined with 3 external sources" in item for item in refreshed_research_brief["synthesis_provenance"])
     assert external_research_review["recommendation"] in {"continue_with_refresh", "pm_review_required"}
-    assert competitor_dossier["source_artifact_ids"] == ["src_competitor"]
+    assert refreshed_research_brief["research_notebook_ids"] == [research_notebook["research_notebook_id"]]
+    assert competitor_dossier["source_artifact_ids"][:2] == [
+        research_notebook["research_notebook_id"],
+        refreshed_research_brief["research_brief_id"],
+    ]
     assert customer_pulse["top_pain_points"][0]["description"].startswith("Operators still spend hours every week")
-    assert market_analysis["source_artifact_ids"] == ["src_competitor", "src_market"]
+    assert market_analysis["source_artifact_ids"][:2] == [
+        research_notebook["research_notebook_id"],
+        refreshed_research_brief["research_brief_id"],
+    ]
     assert (destination / "docs" / "discovery" / "external-research-refresh.md").exists()
 
 
@@ -428,6 +437,7 @@ def test_plan_research_generates_bounded_research_plan_and_manifest_template(
 
     assert plan_result.returncode == 0, plan_result.stderr or plan_result.stdout
     assert "Planned Questions:" in plan_result.stdout
+    assert "Signal Lanes Planned: 3/3" in plan_result.stdout
     assert (output_dir / "external_research_plan.json").exists()
     assert (destination / "artifacts" / "external_research_plan.json").exists()
     assert (destination / "outputs" / "research" / "external-research-manifest.template.json").exists()
@@ -439,6 +449,9 @@ def test_plan_research_generates_bounded_research_plan_and_manifest_template(
     )
 
     assert len(research_plan["prioritized_questions"]) >= 2
+    assert research_plan["coverage_summary"]["required_signal_lanes"] == ["market", "competitor", "customer"]
+    assert research_plan["coverage_summary"]["planned_signal_lanes"] == ["market", "competitor", "customer"]
+    assert research_plan["coverage_summary"]["missing_signal_lanes"] == []
     assert all(question["search_queries"] for question in research_plan["prioritized_questions"])
     assert all(question["source_requirements"] for question in research_plan["prioritized_questions"])
     assert research_plan["coverage_summary"]["claims_needing_validation"]
@@ -532,6 +545,7 @@ def test_discover_research_sources_generates_autodiscovered_manifest(
 
     assert discover_result.returncode == 0, discover_result.stderr or discover_result.stdout
     assert "Search Status: completed" in discover_result.stdout
+    assert "Signal Lanes Discovered: 3/3" in discover_result.stdout
     assert (output_dir / "external_research_source_discovery.json").exists()
     assert (destination / "artifacts" / "external_research_source_discovery.json").exists()
     assert (destination / "outputs" / "research" / "external-research-manifest.autodiscovered.json").exists()
@@ -546,6 +560,7 @@ def test_discover_research_sources_generates_autodiscovered_manifest(
 
     assert discovery["search_provider"] == "duckduckgo_html"
     assert len(discovery["candidate_sources"]) >= 3
+    assert {item["signal_lane_id"] for item in discovery["signal_lane_coverage"]} == {"market", "competitor", "customer"}
     assert all("quality_score" in item for item in discovery["candidate_sources"])
     assert all("provider" in item for item in discovery["candidate_sources"])
     assert autodiscovered_manifest["sources"]
@@ -1280,6 +1295,7 @@ def test_run_research_loop_chains_plan_discovery_and_refresh(
     assert "Research Loop Coverage: completed" in result.stdout
     assert "Research Refresh: completed" in result.stdout
     assert f"Selected Sources: {len(plan['prioritized_questions'])}" in result.stdout
+    assert "Signal Lanes Selected: 3/3" in result.stdout
     assert (output_dir / "external_research_plan.json").exists()
     assert (output_dir / "external_research_source_discovery.json").exists()
     assert (output_dir / "competitor_dossier.json").exists()
@@ -1291,7 +1307,10 @@ def test_run_research_loop_chains_plan_discovery_and_refresh(
     market_analysis = json.loads((destination / "artifacts" / "market_analysis_brief.json").read_text(encoding="utf-8"))
     discovery = json.loads((destination / "artifacts" / "external_research_source_discovery.json").read_text(encoding="utf-8"))
 
-    assert len(competitor_dossier["source_artifact_ids"]) == 1
+    assert competitor_dossier["source_artifact_ids"][:2] == [
+        "research_notebook_ws_codesync",
+        "research_brief_codesync",
+    ]
     assert competitor_dossier["competitors"][0]["name"] == "RivalFlow Loop Overview"
     assert "Operators still spend hours" in customer_pulse["top_pain_points"][0]["description"]
     assert any(
@@ -1302,6 +1321,7 @@ def test_run_research_loop_chains_plan_discovery_and_refresh(
             "auditability",
         ]
     )
+    assert sum(1 for item in discovery["signal_lane_coverage"] if item["selected_source_count"] > 0) == 3
     assert any(item.get("content_quality_status") == "accepted" for item in discovery["candidate_sources"])
 
 

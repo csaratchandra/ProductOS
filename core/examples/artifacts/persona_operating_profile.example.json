@@ -63,6 +63,10 @@
         "AI Tester for orchestration-state schema and regression checks.",
         "PM Builder or PM Operator when route changes scope or commitment."
       ],
+      "skill_refs": [
+        "core/skills/retrieval_selection/SKILL.md",
+        "core/skills/decision_packet_synthesis/SKILL.md"
+      ],
       "source_refs": [
         "core/agents/orchestrator/CONTRACT.md",
         "core/docs/v4-execution-plan.md"
@@ -116,6 +120,11 @@
         "AI Reviewer for signal framing quality on major routed items.",
         "AI Tester for change-event and routing-state checks.",
         "PM Operator when a signal changes release or communication significance."
+      ],
+      "skill_refs": [
+        "core/skills/source_discovery/SKILL.md",
+        "core/skills/source_ranking/SKILL.md",
+        "core/skills/freshness_scoring/SKILL.md"
       ],
       "source_refs": [
         "core/agents/radar/CONTRACT.md",
@@ -172,6 +181,12 @@
         "AI Tester for research artifact completeness and traceability.",
         "PM Builder when research is used to justify a decision-driving change."
       ],
+      "skill_refs": [
+        "core/skills/source_discovery/SKILL.md",
+        "core/skills/source_normalization/SKILL.md",
+        "core/skills/evidence_extraction/SKILL.md",
+        "core/skills/contradiction_detection/SKILL.md"
+      ],
       "source_refs": [
         "core/agents/research/CONTRACT.md",
         "core/workflows/research/research-command-center-workflow.md"
@@ -226,6 +241,11 @@
         "AI Reviewer for framing, alternatives, and traceability.",
         "AI Tester for schema and cross-artifact checks.",
         "PM Builder for final product-shaping approval."
+      ],
+      "skill_refs": [
+        "core/skills/strategy_refresh/SKILL.md",
+        "core/skills/decision_packet_synthesis/SKILL.md",
+        "core/skills/evidence_extraction/SKILL.md"
       ],
       "source_refs": [
         "core/agents/prd/CONTRACT.md",
@@ -282,6 +302,11 @@
         "Referee resolves lane disagreement.",
         "PM gate decides unresolved value tradeoffs."
       ],
+      "skill_refs": [
+        "core/skills/contradiction_detection/SKILL.md",
+        "core/skills/evidence_extraction/SKILL.md",
+        "core/skills/retrieval_selection/SKILL.md"
+      ],
       "source_refs": [
         "core/agents/critic/CONTRACT.md",
         "core/docs/v4-execution-plan.md"
@@ -336,6 +361,11 @@
         "AI Reviewer checks logic where test findings imply strategic impact.",
         "Referee resolves disagreement with reviewer or manual validation.",
         "PM gate required for adoption beyond lane pass."
+      ],
+      "skill_refs": [
+        "core/skills/freshness_scoring/SKILL.md",
+        "core/skills/contradiction_detection/SKILL.md",
+        "core/skills/retrieval_selection/SKILL.md"
       ],
       "source_refs": [
         "core/agents/validation/CONTRACT.md",
@@ -392,6 +422,10 @@
         "AI Reviewer checks high-impact canonical-source recommendations.",
         "PM Operator resolves disputed current-state references."
       ],
+      "skill_refs": [
+        "core/skills/retrieval_selection/SKILL.md",
+        "core/skills/source_normalization/SKILL.md"
+      ],
       "source_refs": [
         "core/agents/librarian/CONTRACT.md",
         "core/docs/continuous-intake-and-memory-model.md"
@@ -447,6 +481,10 @@
         "AI Tester checks traceability and presentation regression fixtures.",
         "PM Leader approves strategy and executive-facing packages."
       ],
+      "skill_refs": [
+        "core/skills/decision_packet_synthesis/SKILL.md",
+        "core/skills/publish_safe_summarization/SKILL.md"
+      ],
       "source_refs": [
         "components/presentation/contracts/presentation/CONTRACT.md",
         "core/agents/status-communications/CONTRACT.md"
@@ -498,6 +536,10 @@
       "review_path": [
         "Uses AI Reviewer and AI Tester for Tier 2 decision artifacts.",
         "Routes unresolved conflicts to referee or PM Leader when commitment broadens."
+      ],
+      "skill_refs": [
+        "core/skills/strategy_refresh/SKILL.md",
+        "core/skills/decision_packet_synthesis/SKILL.md"
       ],
       "source_refs": [
         "core/docs/v4-execution-plan.md",
@@ -552,6 +594,11 @@
         "Uses AI Reviewer and AI Tester on Tier 2 and Tier 3 operating outputs.",
         "Runs mandatory manual validation on release-driving packages."
       ],
+      "skill_refs": [
+        "core/skills/freshness_scoring/SKILL.md",
+        "core/skills/decision_packet_synthesis/SKILL.md",
+        "core/skills/publish_safe_summarization/SKILL.md"
+      ],
       "source_refs": [
         "core/workflows/launch/release-readiness-workflow.md",
         "core/docs/v4-artifact-workflow-matrix.md"
@@ -603,6 +650,11 @@
       "review_path": [
         "Uses AI Reviewer and AI Tester for stakeholder-facing drafts.",
         "Requires targeted or mandatory manual validation for Tier 2 and Tier 3 communication outputs."
+      ],
+      "skill_refs": [
+        "core/skills/strategy_refresh/SKILL.md",
+        "core/skills/decision_packet_synthesis/SKILL.md",
+        "core/skills/publish_safe_summarization/SKILL.md"
       ],
       "source_refs": [
         "core/docs/v4-execution-plan.md",

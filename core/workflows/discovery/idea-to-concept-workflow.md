@@ -25,6 +25,7 @@ Purpose: Convert a raw `idea_record` into a focused `concept_brief` so discovery
 - preserve target segment and target persona from the idea unless new evidence justifies a change
 - sharpen the core hypothesis instead of restating the raw idea summary
 - capture why now, why us, and the initial advantage hypothesis instead of leaving strategic value implicit
+- preserve `strategy_context_brief`, `product_vision_brief`, and `market_strategy_brief` references in `concept_brief.strategy_artifact_ids` when they exist upstream
 - if ambiguity is still high, record explicit open questions in the concept brief
 - classify major unknowns and attach an `uncertainty_map` when the next learning step is not obvious
 - route to research when the unknown is evidence or market understanding

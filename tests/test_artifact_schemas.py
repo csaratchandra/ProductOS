@@ -25,6 +25,7 @@ INVALID_FIXTURES = [
     ("decision_log.schema.json", "decision_log_missing_sources.json", "decisions.0"),
     ("pm_superpower_benchmark.schema.json", "pm_superpower_benchmark_missing_success_thresholds.json", "golden_loop_scores.0"),
     ("persona_operating_profile.schema.json", "persona_operating_profile_missing_review_path.json", "profiles.0"),
+    ("persona_operating_profile.schema.json", "persona_operating_profile_missing_skill_refs.json", "profiles.0"),
     ("validation_lane_report.schema.json", "validation_lane_report_missing_checks_run.json", "ai_tester_lane"),
     (
         "research_feature_recommendation_brief.schema.json",
@@ -35,6 +36,26 @@ INVALID_FIXTURES = [
         "ralph_loop_state.schema.json",
         "ralph_loop_state_invalid_stage_key.json",
         "stages.0.stage_key",
+    ),
+    (
+        "strategy_context_brief.schema.json",
+        "strategy_context_brief_missing_enterprise_goal_links.json",
+        "<root>",
+    ),
+    (
+        "product_vision_brief.schema.json",
+        "product_vision_brief_missing_north_star_metric.json",
+        "<root>",
+    ),
+    (
+        "product_vision_brief.schema.json",
+        "product_vision_brief_missing_differentiation_statement.json",
+        "<root>",
+    ),
+    (
+        "strategy_context_brief.schema.json",
+        "strategy_context_brief_missing_evidence_refs.json",
+        "<root>",
     ),
 ]
 

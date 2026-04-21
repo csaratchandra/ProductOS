@@ -21,6 +21,9 @@
     { "entity_type": "feature", "entity_id": "feature_biweekly_status_mail_automation" }
   ],
   "upstream_artifact_ids": [
+    "strategy_context_brief_pm_superpower_recovery",
+    "product_vision_brief_pm_superpower_recovery",
+    "market_strategy_brief_pm_ops_challenger",
     "problem_brief_pm_operating_rhythm",
     "prototype_record_status_mail_draft"
   ],

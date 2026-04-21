@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/strategy_context_brief.schema.json",
+  "title": "ProductOS Strategy Context Brief",
+  "description": "Mission-linked strategic context that ties a product direction to enterprise goals, portfolio bets, business model outcomes, and explicit constraints before market posture or PRD work advances.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "strategy_context_brief_id",
+    "workspace_id",
+    "title",
+    "mission_ref",
+    "context_summary",
+    "enterprise_goal_links",
+    "portfolio_bets",
+    "business_model_outcomes",
+    "strategic_constraints",
+    "evidence_refs",
+    "recommendation",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "strategy_context_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "mission_ref": { "type": "string", "minLength": 1 },
+    "context_summary": { "type": "string", "minLength": 20 },
+    "enterprise_goal_links": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/enterpriseGoalLink" },
+      "minItems": 1
+    },
+    "portfolio_bets": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/portfolioBet" },
+      "minItems": 1
+    },
+    "business_model_outcomes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/businessModelOutcome" },
+      "minItems": 1
+    },
+    "strategic_constraints": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/strategicConstraint" },
+      "minItems": 1
+    },
+    "linked_artifact_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceRef" },
+      "minItems": 1
+    },
+    "recommendation": {
+      "type": "string",
+      "enum": ["proceed_to_product_vision", "gather_more_evidence", "reframe_mission", "park"]
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "enterpriseGoalLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["goal_name", "goal_type", "linkage_summary"],
+      "properties": {
+        "goal_name": { "type": "string", "minLength": 3 },
+        "goal_type": {
+          "type": "string",
+          "enum": ["growth", "retention", "efficiency", "risk_reduction", "strategic_position"]
+        },
+        "linkage_summary": { "type": "string", "minLength": 10 },
+        "success_signal": { "type": "string", "minLength": 5 }
+      }
+    },
+    "portfolioBet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bet_name", "fit", "rationale"],
+      "properties": {
+        "bet_name": { "type": "string", "minLength": 3 },
+        "fit": {
+          "type": "string",
+          "enum": ["core", "adjacent", "exploratory", "misaligned"]
+        },
+        "rationale": { "type": "string", "minLength": 10 }
+      }
+    },
+    "businessModelOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcome_name", "outcome_type", "linkage_summary"],
+      "properties": {
+        "outcome_name": { "type": "string", "minLength": 3 },
+        "outcome_type": {
+          "type": "string",
+          "enum": ["revenue", "retention", "cost_to_serve", "margin", "adoption", "strategic_position"]
+        },
+        "linkage_summary": { "type": "string", "minLength": 10 }
+      }
+    },
+    "strategicConstraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["constraint", "constraint_type", "consequence"],
+      "properties": {
+        "constraint": { "type": "string", "minLength": 5 },
+        "constraint_type": {
+          "type": "string",
+          "enum": ["resource", "timing", "governance", "distribution", "technical", "evidence", "other"]
+        },
+        "consequence": { "type": "string", "minLength": 10 }
+      }
+    },
+    "evidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_type", "source_id", "justification"],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": ["mission", "research", "decision_log", "meeting_record", "change_event", "other"]
+        },
+        "source_id": { "type": "string", "minLength": 1 },
+        "justification": { "type": "string", "minLength": 5 }
+      }
+    }
+  }
+}

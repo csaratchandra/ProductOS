@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import json
 import re
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -13,10 +14,15 @@ from components.presentation.python.productos_presentation import (
     build_publish_check,
     build_render_spec,
 )
-from .mission import build_discover_artifacts_from_mission
+from .mission import build_strategy_discover_bundle_from_mission
 from .baseline import (
     build_foundation_bundle_from_workspace,
     build_market_intelligence_bundle_from_workspace,
+)
+from .research import (
+    build_discovery_to_research_handoff,
+    load_canonical_discovery_operations_bundle,
+    run_external_research_loop_from_workspace,
 )
 from .release import evaluate_promotion_gate, external_research_gate_blockers
 
@@ -38,9 +44,21 @@ NEXT_VERSION_ARTIFACT_SCHEMAS: dict[str, str] = {
     "market_refresh_report": "runtime_scenario_report.schema.json",
     "market_distribution_report": "runtime_scenario_report.schema.json",
     "next_version_release_gate_decision": "release_gate_decision.schema.json",
+    "discover_strategy_context_brief": "strategy_context_brief.schema.json",
+    "discover_product_vision_brief": "product_vision_brief.schema.json",
+    "discover_market_strategy_brief": "market_strategy_brief.schema.json",
     "discover_problem_brief": "problem_brief.schema.json",
     "discover_concept_brief": "concept_brief.schema.json",
     "discover_prd": "prd.schema.json",
+    "discover_research_handoff": "handoff_contract.schema.json",
+    "discover_research_notebook": "research_notebook.schema.json",
+    "discover_research_brief": "research_brief.schema.json",
+    "discover_external_research_plan": "external_research_plan.schema.json",
+    "discover_external_research_source_discovery": "external_research_source_discovery.schema.json",
+    "discover_external_research_review": "external_research_review.schema.json",
+    "discover_competitor_dossier": "competitor_dossier.schema.json",
+    "discover_customer_pulse": "customer_pulse.schema.json",
+    "discover_market_analysis_brief": "market_analysis_brief.schema.json",
     "discover_execution_session_state": "execution_session_state.schema.json",
     "align_execution_session_state": "execution_session_state.schema.json",
     "align_document_sync_state": "document_sync_state.schema.json",
@@ -218,6 +236,9 @@ def _default_steering_context(workspace_path: Path) -> dict[str, Any]:
         ],
         "default_artifact_focus": [
             "mission_brief",
+            "strategy_context_brief",
+            "product_vision_brief",
+            "market_strategy_brief",
             "problem_brief",
             "concept_brief",
             "prd",
@@ -444,7 +465,7 @@ def _build_eval_run_report(
     recommended_next_action = (
         "Keep the bundle in watch mode, fix self_improvement_loop first, and keep the truthful blocked-state control surface in place while rerunning the frozen eval suite."
         if status != "passed"
-        else "Use the cleared bounded baseline to build the selected V5 lifecycle-traceability bundle and prepare the next stable extension."
+        else "Use the cleared bounded baseline to expand the governed research superpower and prepare the next strategy refresh."
     )
     return {
         "schema_version": "1.0.0",
@@ -637,7 +658,11 @@ def _collect_inbox_items(workspace_path: Path, generated_at: str) -> list[dict[s
             if not path.is_file() or path.name == "README.md":
                 continue
             item_id = f"inbox_{folder_name.replace('-', '_')}_{_slug(path.stem)}"
-            excerpt = path.read_text(encoding="utf-8").strip().splitlines()[0][:120]
+            try:
+                excerpt_lines = path.read_text(encoding="utf-8").strip().splitlines()
+                excerpt = excerpt_lines[0][:120] if excerpt_lines else "No readable excerpt available."
+            except UnicodeDecodeError:
+                excerpt = f"Binary or non-UTF-8 file captured: {path.name}"
             intake_items.append(
                 {
                     "item_id": item_id,
@@ -654,18 +679,18 @@ def _collect_inbox_items(workspace_path: Path, generated_at: str) -> list[dict[s
     return intake_items
 
 
-def _build_live_discover_artifacts(
+def _build_live_discover_bundle(
     workspace_path: Path,
     *,
     workspace_id: str,
     generated_at: str,
     mission_brief: dict[str, Any] | None = None,
-) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+) -> dict[str, dict[str, Any]]:
     raw_note_path = workspace_path / "inbox" / "raw-notes" / "2026-03-22-next-version-superpowers.md"
     transcript_path = workspace_path / "inbox" / "transcripts" / "2026-03-22-dogfood-next-version-session.txt"
 
     if (not raw_note_path.exists() or not transcript_path.exists()) and mission_brief is not None:
-        return _build_mission_discover_artifacts(
+        return _build_mission_discover_bundle(
             workspace_id=workspace_id,
             generated_at=generated_at,
             mission_brief=mission_brief,
@@ -675,8 +700,201 @@ def _build_live_discover_artifacts(
             "Discover fallback inputs are missing. Provide the self-hosting discover inputs or a mission_brief artifact."
         )
 
-    raw_note_headline = raw_note_path.read_text(encoding="utf-8").strip().splitlines()[0]
-    transcript_excerpt = transcript_path.read_text(encoding="utf-8").strip().splitlines()[1]
+    raw_note_lines = raw_note_path.read_text(encoding="utf-8").strip().splitlines()
+    transcript_lines = transcript_path.read_text(encoding="utf-8").strip().splitlines()
+    raw_note_headline = raw_note_lines[0] if raw_note_lines else "Next Version Superpowers"
+    transcript_excerpt = transcript_lines[1] if len(transcript_lines) > 1 else transcript_lines[0]
+    segment_refs = [{"entity_type": "segment", "entity_id": "segment_b2b_product_teams"}]
+    persona_refs = [{"entity_type": "persona", "entity_id": "persona_product_manager"}]
+    linked_entity_refs = [
+        {"entity_type": "problem", "entity_id": "problem_productos_next_version_proof_gap"},
+        {"entity_type": "outcome", "entity_id": "outcome_productos_same_day_prd_package"},
+        {"entity_type": "opportunity", "entity_id": "opportunity_productos_discover_superpower"},
+        {"entity_type": "feature", "entity_id": "feature_productos_repo_first_discover_cli"},
+    ]
+    strategy_context_id = "strategy_context_brief_productos_next_version_discover"
+    product_vision_id = "product_vision_brief_productos_next_version_discover"
+    market_strategy_id = "market_strategy_brief_productos_next_version_discover"
+
+    strategy_context = {
+        "schema_version": "1.0.0",
+        "strategy_context_brief_id": strategy_context_id,
+        "workspace_id": workspace_id,
+        "title": "Strategy context brief: ProductOS next-version discover proof",
+        "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+        "context_summary": (
+            "ProductOS needs a reusable strategy spine before expanding discover depth so the next-version loop improves PM judgment rather than just drafting speed."
+        ),
+        "enterprise_goal_links": [
+            {
+                "goal_name": "First impatient customer credibility",
+                "goal_type": "growth",
+                "linkage_summary": "The next version should prove a strategy-ready discover wedge that a buyer can understand quickly.",
+                "success_signal": "time_to_strategy_ready_discovery_packet_hours",
+            }
+        ],
+        "portfolio_bets": [
+            {
+                "bet_name": "PM judgment amplifier",
+                "fit": "core",
+                "rationale": "The repo already has governed downstream structure, so the main gap is clearer strategic framing before problem and PRD work.",
+            }
+        ],
+        "business_model_outcomes": [
+            {
+                "outcome_name": "Improve buyer confidence",
+                "outcome_type": "adoption",
+                "linkage_summary": "A sharper strategy packet should make ProductOS easier to explain, trust, and evaluate.",
+            }
+        ],
+        "strategic_constraints": [
+            {
+                "constraint": "Keep the stable line and external claim boundary unchanged.",
+                "constraint_type": "governance",
+                "consequence": "The strategy slice must stay internal-first and should improve clarity without broadening claims.",
+            },
+            {
+                "constraint": "Favor repo-native, reviewable standards over prompt-only behavior.",
+                "constraint_type": "technical",
+                "consequence": "Strategy logic needs explicit artifacts and traceable downstream references.",
+            },
+        ],
+        "linked_artifact_ids": ["idea_record_pm_status_automation"],
+        "open_questions": [
+            "Which strategy signals should be visible by default in the first PM-facing packet?"
+        ],
+        "evidence_refs": [
+            {
+                "source_type": "other",
+                "source_id": _relative_path(raw_note_path),
+                "justification": f"The raw notes lock the must-win discover wedge and repo-first constraint: {raw_note_headline}",
+            },
+            {
+                "source_type": "other",
+                "source_id": _relative_path(transcript_path),
+                "justification": f"The transcript makes the release bar explicit: {transcript_excerpt}",
+            },
+        ],
+        "recommendation": "proceed_to_product_vision",
+        "created_at": generated_at,
+    }
+
+    product_vision = {
+        "schema_version": "1.0.0",
+        "product_vision_brief_id": product_vision_id,
+        "workspace_id": workspace_id,
+        "title": "Product vision brief: PM judgment amplifier",
+        "strategy_context_ref": strategy_context_id,
+        "durable_vision": (
+            "ProductOS becomes the repo-native operating system that helps a PM see what matters, explain the bet, and move from evidence to action without rebuilding context by hand."
+        ),
+        "near_term_product_goal": "Make the next-version discovery flow strategy-ready before it becomes deeper or more autonomous.",
+        "problem_space_summary": (
+            "ProductOS can already structure PM work, but it is weaker at turning evidence into coherent strategy, product vision, and the right next bet."
+        ),
+        "solution_direction_summary": (
+            "Add a strategy spine ahead of market posture, concept, and PRD work so discover outputs carry explicit vision, value, and north-star logic."
+        ),
+        "target_segment_refs": segment_refs,
+        "priority_persona_refs": persona_refs,
+        "customer_value_statement": "PMs spend less time reconstructing strategic intent and more time deciding what to believe, prioritize, and test next.",
+        "business_value_statement": "A sharper strategy spine makes ProductOS easier to buy, trust, and extend without widening the claim surface prematurely.",
+        "differentiation_statement": "ProductOS links mission, evidence, market posture, and downstream product decisions in repo-native contracts instead of relying on loose docs or hidden prompt behavior.",
+        "north_star_metric": "time_to_strategy_ready_discovery_packet_hours",
+        "north_star_definition": "Elapsed time from mission intake to a reviewable strategy and problem-framing packet that a PM can use to choose the next bet.",
+        "input_guardrail_metrics": [
+            {
+                "metric_name": "mission_to_strategy_trace_completeness",
+                "metric_type": "input",
+                "definition": "Percent of discovery packets with explicit mission, strategy, and market references.",
+                "target": "100%",
+            },
+            {
+                "metric_name": "unsupported_strategy_claim_incidents",
+                "metric_type": "guardrail",
+                "definition": "Count of strategy recommendations that cannot be traced to mission, research, or market evidence.",
+                "target": "0",
+            },
+        ],
+        "next_bets": [
+            "Add reusable strategy context before expanding discovery depth.",
+            "Preserve the new strategy refs through problem and PRD outputs.",
+        ],
+        "open_questions": [
+            "How much of the weekly operating loop can reuse this discover control surface without adding review noise?"
+        ],
+        "evidence_refs": [
+            {
+                "source_type": "strategy_context",
+                "source_id": strategy_context_id,
+                "justification": "The strategy context defines the portfolio fit, business outcomes, and constraints for the near-term goal.",
+            },
+            {
+                "source_type": "market_strategy",
+                "source_id": market_strategy_id,
+                "justification": "The market posture keeps the vision tied to a challenger wedge instead of generic drafting automation.",
+            },
+        ],
+        "created_at": generated_at,
+    }
+
+    market_strategy = {
+        "schema_version": "1.0.0",
+        "market_strategy_brief_id": market_strategy_id,
+        "workspace_id": workspace_id,
+        "title": "Market strategy brief: PM strategy and discovery challenger posture",
+        "strategy_question": "How should ProductOS win in AI-assisted PM operating systems while improving strategy judgment before expanding broader automation?",
+        "category_definition": "AI-assisted PM operating systems that help teams move from evidence and decisions to strategy-ready execution with less reconstruction.",
+        "category_maturity": "growing",
+        "strategic_posture": "challenger",
+        "market_role_goal": "Beat broad work platforms on traceability, decision quality, and PM-specific strategy framing rather than on generic workspace breadth.",
+        "target_market_scope": "B2B product teams that already feel recurring planning, discovery, and delivery reconstruction costs and want a PM-specific operating layer.",
+        "beachhead_segment_refs": segment_refs,
+        "priority_persona_refs": persona_refs,
+        "buyer_archetype_refs": persona_refs,
+        "operator_archetype_refs": persona_refs,
+        "competitive_reference_set": [
+            "Broad PM platforms",
+            "Execution suites",
+            "Internal PM templates and docs",
+            "Status quo manual reconstruction",
+        ],
+        "offering_definition": "A strategy and workflow layer that turns fragmented PM state into traceable, reviewable operating outputs and decision packets.",
+        "offering_type": "decision_layer",
+        "positioning_statement": "For PM teams that already have tools but still rebuild context by hand, ProductOS is the PM operating layer that makes strategy, evidence, and downstream artifacts traceable enough to trust.",
+        "value_wedge": "PM-specific traceability and strategy-ready workflow memory.",
+        "right_to_win": "ProductOS already combines structured artifacts, validation, and workflow state in a way broad work suites do not center.",
+        "proof_requirements": [
+            "PMs can move from mission to strategy-ready problem framing without reopening raw source notes.",
+            "The system preserves explicit evidence links when strategy is carried into downstream problem framing.",
+            "The strategy spine sharpens judgment without broadening autonomous PM claims.",
+        ],
+        "pricing_packaging_hypothesis": "Team-based SaaS pricing with a premium tier for governance, validation, and cross-workspace strategy support.",
+        "gtm_motion": "Land with PM leaders or product ops teams that already feel recurring coordination and strategy reconstruction drag.",
+        "expansion_path": "Start with strategy-ready discovery and PM operating rhythm, then expand into richer validation, memory, and delivery planning.",
+        "key_risks": [
+            "Buyers may still overweight visible output automation over strategic coherence.",
+            "Broad work suites may copy the visible strategy packet without the same traceability depth.",
+        ],
+        "linked_artifact_ids": [strategy_context_id, product_vision_id, "idea_record_pm_status_automation"],
+        "evidence_refs": [
+            {
+                "source_type": "other",
+                "source_id": _relative_path(raw_note_path),
+                "justification": "The raw notes define the repo-first discover wedge and the strategy problem to solve first.",
+            },
+            {
+                "source_type": "transcript",
+                "source_id": _relative_path(transcript_path),
+                "justification": f"The transcript states the same-day decision-ready package bar: {transcript_excerpt}",
+            },
+        ],
+        "open_questions": [
+            "Which part of the wedge should be most visible in the first PM-facing strategy packet?"
+        ],
+        "recommendation": "commit_posture",
+        "created_at": generated_at,
+    }
 
     problem_brief = {
         "schema_version": "1.0.0",
@@ -700,18 +918,9 @@ def _build_live_discover_artifacts(
             "B2B product teams feel the cost of reconstructing context across messy notes, transcripts, and recurring "
             "PM workflows often enough to value a tighter discover control surface."
         ),
-        "target_segment_refs": [
-            {"entity_type": "segment", "entity_id": "segment_b2b_product_teams"}
-        ],
-        "target_persona_refs": [
-            {"entity_type": "persona", "entity_id": "persona_product_manager"}
-        ],
-        "linked_entity_refs": [
-            {"entity_type": "problem", "entity_id": "problem_productos_next_version_proof_gap"},
-            {"entity_type": "outcome", "entity_id": "outcome_productos_same_day_prd_package"},
-            {"entity_type": "opportunity", "entity_id": "opportunity_productos_discover_superpower"},
-            {"entity_type": "feature", "entity_id": "feature_productos_repo_first_discover_cli"},
-        ],
+        "target_segment_refs": segment_refs,
+        "target_persona_refs": persona_refs,
+        "linked_entity_refs": linked_entity_refs,
         "evidence_refs": [
             {
                 "source_type": "other",
@@ -728,8 +937,10 @@ def _build_live_discover_artifacts(
             },
         ],
         "upstream_artifact_ids": [
+            strategy_context_id,
+            product_vision_id,
+            market_strategy_id,
             "idea_record_pm_status_automation",
-            "market_strategy_brief_pm_ops_challenger",
         ],
         "recommended_next_step": "prd",
         "created_at": generated_at,
@@ -764,19 +975,10 @@ def _build_live_discover_artifacts(
         ),
         "status": "validated",
         "idea_record_ids": ["idea_record_pm_status_automation"],
-        "strategy_artifact_ids": ["market_strategy_brief_pm_ops_challenger"],
-        "target_segment_refs": [
-            {"entity_type": "segment", "entity_id": "segment_b2b_product_teams"}
-        ],
-        "target_persona_refs": [
-            {"entity_type": "persona", "entity_id": "persona_product_manager"}
-        ],
-        "linked_entity_refs": [
-            {"entity_type": "problem", "entity_id": "problem_productos_next_version_proof_gap"},
-            {"entity_type": "outcome", "entity_id": "outcome_productos_same_day_prd_package"},
-            {"entity_type": "opportunity", "entity_id": "opportunity_productos_discover_superpower"},
-            {"entity_type": "feature", "entity_id": "feature_productos_repo_first_discover_cli"},
-        ],
+        "strategy_artifact_ids": [strategy_context_id, product_vision_id, market_strategy_id],
+        "target_segment_refs": segment_refs,
+        "target_persona_refs": persona_refs,
+        "linked_entity_refs": linked_entity_refs,
         "must_be_true_assumptions": [
             "One PM can review the generated bundle with no more than one material rewrite",
             "Repo-native validation and structured artifacts are enough to make the discover output trustworthy"
@@ -800,50 +1002,91 @@ def _build_live_discover_artifacts(
             "Enable one PM to move from messy notes and transcripts to a same-day, reviewable PRD package with at most one material rewrite."
         ),
         "scope_summary": (
-            "Ingest live notes and transcripts, generate the next-version problem brief, concept brief, and PRD through the `productos` CLI, "
+            "Ingest live notes and transcripts, generate the next-version strategy context brief, product vision brief, market strategy brief, problem brief, concept brief, and PRD through the `productos` CLI, "
             "then score the slice and route the next priority into the improvement loop."
         ),
         "target_segment_refs": problem_brief["target_segment_refs"],
         "target_persona_refs": problem_brief["target_persona_refs"],
         "linked_entity_refs": concept_brief["linked_entity_refs"],
         "upstream_artifact_ids": [
+            strategy_context_id,
+            product_vision_id,
+            market_strategy_id,
             problem_brief["problem_brief_id"],
             concept_brief["concept_brief_id"],
         ],
         "generated_at": generated_at,
     }
 
-    return problem_brief, concept_brief, prd
+    return {
+        "strategy_context_brief": strategy_context,
+        "product_vision_brief": product_vision,
+        "market_strategy_brief": market_strategy,
+        "problem_brief": problem_brief,
+        "concept_brief": concept_brief,
+        "prd": prd,
+    }
 
 
-def _build_mission_discover_artifacts(
+def _build_mission_discover_bundle(
     *,
     workspace_id: str,
     generated_at: str,
     mission_brief: dict[str, Any],
-) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
-    return build_discover_artifacts_from_mission(
+) -> dict[str, dict[str, Any]]:
+    return build_strategy_discover_bundle_from_mission(
         workspace_id=workspace_id,
         generated_at=generated_at,
         mission_brief=mission_brief,
     )
 
 
-def _load_or_build_workspace_discover_artifacts(
+def _workspace_has_canonical_strategy_discover_bundle(workspace_path: Path) -> bool:
+    artifacts_dir = workspace_path / "artifacts"
+    strategy_context_brief = _load_persisted_json(artifacts_dir / "strategy_context_brief.json")
+    product_vision_brief = _load_persisted_json(artifacts_dir / "product_vision_brief.json")
+    market_strategy_brief = _load_persisted_json(artifacts_dir / "market_strategy_brief.json")
+    problem_brief = _load_persisted_json(artifacts_dir / "problem_brief.json")
+    concept_brief = _load_persisted_json(artifacts_dir / "concept_brief.json")
+    prd = _load_persisted_json(artifacts_dir / "prd.json")
+    if not (strategy_context_brief and product_vision_brief and market_strategy_brief and problem_brief and concept_brief and prd):
+        return False
+    strategy_ids = {
+        strategy_context_brief["strategy_context_brief_id"],
+        product_vision_brief["product_vision_brief_id"],
+        market_strategy_brief["market_strategy_brief_id"],
+    }
+    problem_upstream = set(problem_brief.get("upstream_artifact_ids", []))
+    concept_strategy = set(concept_brief.get("strategy_artifact_ids", []))
+    prd_upstream = set(prd.get("upstream_artifact_ids", []))
+    return strategy_ids.issubset(problem_upstream) and strategy_ids.issubset(concept_strategy) and strategy_ids.issubset(prd_upstream)
+
+
+def _load_or_build_workspace_discover_bundle(
     workspace_path: Path,
     *,
     workspace_id: str,
     generated_at: str,
     mission_brief: dict[str, Any] | None,
-) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+) -> dict[str, dict[str, Any]]:
     artifacts_dir = workspace_path / "artifacts"
+    strategy_context_brief = _load_persisted_json(artifacts_dir / "strategy_context_brief.json")
+    product_vision_brief = _load_persisted_json(artifacts_dir / "product_vision_brief.json")
+    market_strategy_brief = _load_persisted_json(artifacts_dir / "market_strategy_brief.json")
     problem_brief = _load_persisted_json(artifacts_dir / "problem_brief.json")
     concept_brief = _load_persisted_json(artifacts_dir / "concept_brief.json")
     prd = _load_persisted_json(artifacts_dir / "prd.json")
-    if problem_brief and concept_brief and prd:
-        return problem_brief, concept_brief, prd
+    if _workspace_has_canonical_strategy_discover_bundle(workspace_path):
+        return {
+            "strategy_context_brief": strategy_context_brief,
+            "product_vision_brief": product_vision_brief,
+            "market_strategy_brief": market_strategy_brief,
+            "problem_brief": problem_brief,
+            "concept_brief": concept_brief,
+            "prd": prd,
+        }
     if mission_brief is not None:
-        return _build_mission_discover_artifacts(
+        return _build_mission_discover_bundle(
             workspace_id=workspace_id,
             generated_at=generated_at,
             mission_brief=mission_brief,
@@ -851,6 +1094,9 @@ def _load_or_build_workspace_discover_artifacts(
     missing = [
         filename
         for filename, payload in {
+            "strategy_context_brief.json": strategy_context_brief,
+            "product_vision_brief.json": product_vision_brief,
+            "market_strategy_brief.json": market_strategy_brief,
             "problem_brief.json": problem_brief,
             "concept_brief.json": concept_brief,
             "prd.json": prd,
@@ -862,14 +1108,242 @@ def _load_or_build_workspace_discover_artifacts(
     )
 
 
-def _load_persisted_discover_artifacts(workspace_path: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]] | None:
+def _load_persisted_discover_artifacts(workspace_path: Path) -> dict[str, dict[str, Any]] | None:
     output_dir = workspace_path / "outputs" / "discover"
+    strategy_context_brief = _load_persisted_json(output_dir / "discover_strategy_context_brief.json")
+    product_vision_brief = _load_persisted_json(output_dir / "discover_product_vision_brief.json")
+    market_strategy_brief = _load_persisted_json(output_dir / "discover_market_strategy_brief.json")
     problem_brief = _load_persisted_json(output_dir / "discover_problem_brief.json")
     concept_brief = _load_persisted_json(output_dir / "discover_concept_brief.json")
     prd = _load_persisted_json(output_dir / "discover_prd.json")
-    if not (problem_brief and concept_brief and prd):
+    research_handoff = _load_persisted_json(output_dir / "discover_research_handoff.json")
+    research_notebook = _load_persisted_json(output_dir / "discover_research_notebook.json")
+    research_brief = _load_persisted_json(output_dir / "discover_research_brief.json")
+    external_research_plan = _load_persisted_json(output_dir / "discover_external_research_plan.json")
+    external_research_source_discovery = _load_persisted_json(output_dir / "discover_external_research_source_discovery.json")
+    external_research_review = _load_persisted_json(output_dir / "discover_external_research_review.json")
+    competitor_dossier = _load_persisted_json(output_dir / "discover_competitor_dossier.json")
+    customer_pulse = _load_persisted_json(output_dir / "discover_customer_pulse.json")
+    market_analysis_brief = _load_persisted_json(output_dir / "discover_market_analysis_brief.json")
+    if not (
+        strategy_context_brief
+        and product_vision_brief
+        and market_strategy_brief
+        and problem_brief
+        and concept_brief
+        and prd
+        and research_handoff
+        and research_notebook
+        and research_brief
+        and external_research_plan
+        and external_research_source_discovery
+        and external_research_review
+        and competitor_dossier
+        and customer_pulse
+        and market_analysis_brief
+    ):
         return None
-    return problem_brief, concept_brief, prd
+    selected_research_manifest = _load_persisted_json(
+        workspace_path / "outputs" / "research" / "external-research-manifest.selected.json"
+    )
+    if external_research_source_discovery.get("search_status") == "no_results":
+        return None
+    if not isinstance(selected_research_manifest, dict) or not selected_research_manifest.get("sources"):
+        return None
+    if external_research_review.get("review_status") != "clear":
+        return None
+    return {
+        "strategy_context_brief": strategy_context_brief,
+        "product_vision_brief": product_vision_brief,
+        "market_strategy_brief": market_strategy_brief,
+        "problem_brief": problem_brief,
+        "concept_brief": concept_brief,
+        "prd": prd,
+        "research_handoff": research_handoff,
+        "research_notebook": research_notebook,
+        "research_brief": research_brief,
+        "external_research_plan": external_research_plan,
+        "external_research_source_discovery": external_research_source_discovery,
+        "external_research_review": external_research_review,
+        "competitor_dossier": competitor_dossier,
+        "customer_pulse": customer_pulse,
+        "market_analysis_brief": market_analysis_brief,
+        "selected_research_manifest": selected_research_manifest,
+        "source_note_cards": {
+            path.name: _load_json(path)
+            for path in sorted(output_dir.glob("source_note_card_*.json"))
+        },
+    }
+
+
+def _default_research_search_fixture_dir(workspace_path: Path, research_brief: dict[str, Any]) -> Path | None:
+    source_dir = workspace_path / "fixtures" / "research-sources"
+    if not source_dir.exists():
+        return None
+    source_map = {
+        "market_validation": source_dir / "market-proof.html",
+        "competitor_research": source_dir / "competitor-brief.html",
+        "customer_evidence": source_dir / "customer-signal.txt",
+        "operator_interview": source_dir / "customer-signal.txt",
+        "security_review": source_dir / "security-review.html",
+    }
+    if not any(path.exists() for path in source_map.values()):
+        return None
+    fixture_dir = Path(tempfile.mkdtemp(prefix="productos-discovery-search-"))
+    for question in research_brief.get("external_research_questions", []):
+        source_path = source_map.get(question.get("recommended_source_type"))
+        if source_path is None or not source_path.exists():
+            continue
+        query = question["question"].rstrip("?")
+        title = source_path.stem.replace("-", " ").title()
+        snippet = question["why_it_matters"]
+        (fixture_dir / f"{_slug(query)}.html").write_text(
+            (
+                "<html><body>"
+                f'<a class="result__a" href="{source_path.as_uri()}">{title}</a>'
+                f'<div class="result__snippet">{snippet}</div>'
+                "</body></html>"
+            ),
+            encoding="utf-8",
+        )
+    return fixture_dir
+
+
+def _build_or_load_discovery_operations_bundle(
+    workspace_path: Path,
+    *,
+    generated_at: str,
+    strategy_context_brief: dict[str, Any],
+    product_vision_brief: dict[str, Any],
+    market_strategy_brief: dict[str, Any],
+    problem_brief: dict[str, Any],
+    concept_brief: dict[str, Any],
+) -> dict[str, dict[str, Any]]:
+    canonical_bundle = load_canonical_discovery_operations_bundle(workspace_path)
+    if canonical_bundle is not None:
+        handoff_ref_ids = {
+            item["artifact_id"]
+            for item in canonical_bundle["research_handoff"].get("artifact_refs", [])
+            if isinstance(item, dict) and isinstance(item.get("artifact_id"), str)
+        }
+        expected_ids = {
+            strategy_context_brief["strategy_context_brief_id"],
+            product_vision_brief["product_vision_brief_id"],
+            market_strategy_brief["market_strategy_brief_id"],
+            problem_brief["problem_brief_id"],
+            concept_brief["concept_brief_id"],
+        }
+        if expected_ids.issubset(handoff_ref_ids):
+            return canonical_bundle
+
+    seed_research_brief = {
+        "schema_version": "1.0.0",
+        "research_brief_id": f"research_brief_{problem_brief['workspace_id']}_discover_seed",
+        "workspace_id": problem_brief["workspace_id"],
+        "title": f"Research Brief: {problem_brief['title'].replace('Problem Brief: ', '')}",
+        "research_question": (
+            f"What evidence should ProductOS gather next to validate '{problem_brief['title']}' and route the next decision?"
+        ),
+        "summary": problem_brief.get("problem_summary", problem_brief["title"]),
+        "strategic_implications": list(
+            dict.fromkeys(
+                [
+                    item
+                    for item in [
+                        problem_brief.get("why_this_problem_now"),
+                        market_strategy_brief.get("differentiated_angle"),
+                        market_strategy_brief.get("proof_requirements", [""])[0],
+                    ]
+                    if isinstance(item, str) and item.strip()
+                ]
+            )
+        )
+        or ["ProductOS still needs explicit research evidence before broadening the next claim set."],
+        "source_note_card_ids": [problem_brief["problem_brief_id"]],
+        "research_notebook_ids": [],
+        "target_segment_refs": problem_brief.get("target_segment_refs", [])
+        or [{"entity_type": "segment", "entity_id": "segment_priority_buyers"}],
+        "target_persona_refs": problem_brief.get("target_persona_refs", [])
+        or [{"entity_type": "persona", "entity_id": "persona_product_manager"}],
+        "linked_entity_refs": problem_brief.get("linked_entity_refs", []),
+        "insights": [
+            {
+                "insight_id": "discover_problem_focus",
+                "statement": problem_brief.get("problem_summary", problem_brief["title"]),
+                "evidence_strength": "moderate",
+                "claim_mode": "inferred",
+                "next_validation_step": "Collect fresh reusable sources that either reinforce or challenge this framing.",
+                "supporting_source_note_card_ids": [problem_brief["problem_brief_id"]],
+            }
+        ],
+        "contradictions": [],
+        "known_gaps": list(problem_brief.get("open_questions", []))[:3]
+        or [
+            "External buyer evidence is still needed to validate the current strategy-to-problem chain.",
+            "Reusable source note cards do not yet exist for this discover packet.",
+        ],
+        "external_research_questions": [
+            {
+                "question_id": "discover_market_validation",
+                "question": "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+                "why_it_matters": "The opportunity and validation spine should start from current buyer urgency rather than internal narration alone.",
+                "recommended_source_type": "market_validation",
+                "priority": "high",
+            },
+            {
+                "question_id": "discover_competitor_research",
+                "question": "How do current alternatives frame this workflow problem and where are their proof boundaries weaker?",
+                "why_it_matters": "ProductOS should preserve a differentiated posture instead of collapsing into a generic workflow summary.",
+                "recommended_source_type": "competitor_research",
+                "priority": "high",
+            },
+            {
+                "question_id": "discover_customer_evidence",
+                "question": "What direct PM or operator evidence quantifies the manual reconstruction burden in this workflow?",
+                "why_it_matters": "Empathy synthesis should be grounded in reusable evidence before prioritization expands.",
+                "recommended_source_type": "customer_evidence",
+                "priority": "medium",
+            },
+        ],
+        "synthesis_provenance": [
+            f"Derived from {problem_brief['problem_brief_id']} to seed the integrated discovery-operations loop."
+        ],
+        "recommendation": "gather_more_research",
+        "created_at": generated_at,
+    }
+    research_handoff = build_discovery_to_research_handoff(
+        workspace_id=problem_brief["workspace_id"],
+        generated_at=generated_at,
+        strategy_context_brief=strategy_context_brief,
+        product_vision_brief=product_vision_brief,
+        market_strategy_brief=market_strategy_brief,
+        problem_brief=problem_brief,
+        concept_brief=concept_brief,
+        research_brief=seed_research_brief,
+    )
+    research_bundle, _ = run_external_research_loop_from_workspace(
+        ROOT,
+        workspace_dir=workspace_path,
+        generated_at=generated_at,
+        persist=False,
+        search_fixture_dir=_default_research_search_fixture_dir(workspace_path, seed_research_brief),
+        research_brief_override=seed_research_brief,
+        research_handoff=research_handoff,
+        problem_brief=problem_brief,
+    )
+    return {
+        "research_handoff": research_bundle["research_handoff"],
+        "research_notebook": research_bundle["research_notebook"],
+        "research_brief": research_bundle["research_brief"],
+        "external_research_plan": research_bundle["external_research_plan"],
+        "external_research_source_discovery": research_bundle["external_research_source_discovery"],
+        "external_research_review": research_bundle["external_research_review"],
+        "competitor_dossier": research_bundle["competitor_dossier"],
+        "customer_pulse": research_bundle["customer_pulse"],
+        "market_analysis_brief": research_bundle["market_analysis_brief"],
+        "selected_research_manifest": research_bundle.get("selected_research_manifest"),
+        "source_note_cards": research_bundle.get("source_note_cards", {}),
+    }
 
 
 def _load_persisted_operate_artifacts(workspace_path: Path) -> tuple[dict[str, Any], dict[str, Any]] | None:
@@ -1095,7 +1569,7 @@ def _augment_document_sync_state_with_mission(
     mission_goal = mission_brief["business_goal"]
     enriched["source_artifact_refs"] = list(dict.fromkeys([*enriched["source_artifact_refs"], mission_id]))
     enriched["drift_summary"] = (
-        f"{enriched['drift_summary']} The sync bundle must also preserve the mission '{mission_title}' across product and messaging docs."
+        f"{enriched['drift_summary']} The sync bundle must also preserve the mission '{mission_title}' and its strategy packet across product and messaging docs."
     )
     enriched["review_requirements"] = list(
         dict.fromkeys(
@@ -1113,7 +1587,13 @@ def _augment_document_sync_state_with_mission(
         updated_document = copy.deepcopy(document)
         if mission_id not in updated_document["source_artifact_refs"]:
             updated_document["source_artifact_refs"].append(mission_id)
-        if updated_document["doc_key"] in {"product_overview", "getting_started", "positioning", "messaging_house"}:
+        if updated_document["doc_key"] in {
+            "product_overview",
+            "getting_started",
+            "positioning",
+            "messaging_house",
+            "product_strategy_vision",
+        }:
             updated_document["last_sync_status"] = (
                 f"{updated_document['last_sync_status']} The current sync also preserves the mission '{mission_title}' "
                 f"and its business goal: {mission_goal}"
@@ -1225,12 +1705,18 @@ def build_next_version_bundle_from_workspace(
         if workspace_mission_brief is not None
         else seeded_problem_brief.get("workspace_id") if seeded_problem_brief is not None else ""
     )
-    problem_brief, concept_brief, prd = _load_or_build_workspace_discover_artifacts(
+    discover_seed_bundle = _load_or_build_workspace_discover_bundle(
         workspace_path,
         workspace_id=workspace_id,
         generated_at=generated_at,
         mission_brief=workspace_mission_brief,
     )
+    strategy_context_brief = discover_seed_bundle["strategy_context_brief"]
+    product_vision_brief = discover_seed_bundle["product_vision_brief"]
+    market_strategy_brief = discover_seed_bundle["market_strategy_brief"]
+    problem_brief = discover_seed_bundle["problem_brief"]
+    concept_brief = discover_seed_bundle["concept_brief"]
+    prd = discover_seed_bundle["prd"]
     decision_queue = _load_json(artifacts_dir / "decision_queue.example.json")
     decision_log = _load_json(artifacts_dir / "decision_log.example.json")
     follow_up_queue = _load_json(artifacts_dir / "follow_up_queue.example.json")
@@ -1252,16 +1738,15 @@ def build_next_version_bundle_from_workspace(
     )
     workspace_research_brief = _load_persisted_json(artifacts_dir / "research_brief.json")
     workspace_external_research_plan = _load_persisted_json(artifacts_dir / "external_research_plan.json")
-    workspace_external_research_source_discovery = _load_persisted_json(
-        artifacts_dir / "external_research_source_discovery.json"
-    )
-    workspace_external_research_feed_registry = _load_persisted_json(
-        artifacts_dir / "external_research_feed_registry.json"
-    )
-    workspace_selected_research_manifest = _load_persisted_json(
-        workspace_path / "outputs" / "research" / "external-research-manifest.selected.json"
-    )
+    workspace_external_research_source_discovery = _load_persisted_json(artifacts_dir / "external_research_source_discovery.json")
+    workspace_external_research_feed_registry = _load_persisted_json(artifacts_dir / "external_research_feed_registry.json")
+    workspace_selected_research_manifest = _load_persisted_json(workspace_path / "outputs" / "research" / "external-research-manifest.selected.json")
     workspace_external_research_review = _load_persisted_json(artifacts_dir / "external_research_review.json")
+    workspace_research_notebook = _load_persisted_json(artifacts_dir / "research_notebook.json")
+    workspace_research_handoff = _load_persisted_json(artifacts_dir / "handoff_discovery_to_research.json")
+    workspace_competitor_dossier = _load_persisted_json(artifacts_dir / "competitor_dossier.json")
+    workspace_customer_pulse = _load_persisted_json(artifacts_dir / "customer_pulse.json")
+    workspace_market_analysis_brief = _load_persisted_json(artifacts_dir / "market_analysis_brief.json")
     workspace_problem_brief = _load_persisted_json(artifacts_dir / "problem_brief.json") or problem_brief
     strategic_memory = _load_json(ROOT / "core" / "examples" / "artifacts" / "strategic_memory_record.example.json")
     workspace_id = problem_brief["workspace_id"]
@@ -1272,14 +1757,72 @@ def build_next_version_bundle_from_workspace(
     persisted_improve_artifacts = _load_persisted_improve_artifacts(workspace_path)
     persisted_presentation_artifacts = _load_persisted_presentation_artifacts(workspace_path)
     if persisted_discover_artifacts is None:
-        discover_problem_brief, discover_concept_brief, discover_prd = _build_live_discover_artifacts(
-            workspace_path,
-            workspace_id=workspace_id,
-            generated_at=generated_at,
-            mission_brief=workspace_mission_brief,
+        discover_bundle = (
+            discover_seed_bundle
+            if _workspace_has_canonical_strategy_discover_bundle(workspace_path)
+            else _build_live_discover_bundle(
+                workspace_path,
+                workspace_id=workspace_id,
+                generated_at=generated_at,
+                mission_brief=workspace_mission_brief,
+            )
         )
     else:
-        discover_problem_brief, discover_concept_brief, discover_prd = persisted_discover_artifacts
+        discover_bundle = persisted_discover_artifacts
+    discover_strategy_context_brief = discover_bundle["strategy_context_brief"]
+    discover_product_vision_brief = discover_bundle["product_vision_brief"]
+    discover_market_strategy_brief = discover_bundle["market_strategy_brief"]
+    discover_problem_brief = discover_bundle["problem_brief"]
+    discover_concept_brief = discover_bundle["concept_brief"]
+    discover_prd = discover_bundle["prd"]
+    discover_research_bundle = (
+        {
+            "research_handoff": discover_bundle["research_handoff"],
+            "research_notebook": discover_bundle["research_notebook"],
+            "research_brief": discover_bundle["research_brief"],
+            "external_research_plan": discover_bundle["external_research_plan"],
+            "external_research_source_discovery": discover_bundle["external_research_source_discovery"],
+            "external_research_review": discover_bundle["external_research_review"],
+            "competitor_dossier": discover_bundle["competitor_dossier"],
+            "customer_pulse": discover_bundle["customer_pulse"],
+            "market_analysis_brief": discover_bundle["market_analysis_brief"],
+            "selected_research_manifest": discover_bundle.get("selected_research_manifest"),
+            "source_note_cards": discover_bundle.get("source_note_cards", {}),
+        }
+        if "research_handoff" in discover_bundle
+        else _build_or_load_discovery_operations_bundle(
+            workspace_path,
+            generated_at=generated_at,
+            strategy_context_brief=discover_strategy_context_brief,
+            product_vision_brief=discover_product_vision_brief,
+            market_strategy_brief=discover_market_strategy_brief,
+            problem_brief=discover_problem_brief,
+            concept_brief=discover_concept_brief,
+        )
+    )
+    discover_research_handoff = discover_research_bundle["research_handoff"]
+    discover_research_notebook = discover_research_bundle["research_notebook"]
+    discover_research_brief = discover_research_bundle["research_brief"]
+    discover_external_research_plan = discover_research_bundle["external_research_plan"]
+    discover_external_research_source_discovery = discover_research_bundle["external_research_source_discovery"]
+    discover_external_research_review = discover_research_bundle["external_research_review"]
+    discover_competitor_dossier = discover_research_bundle["competitor_dossier"]
+    discover_customer_pulse = discover_research_bundle["customer_pulse"]
+    discover_market_analysis_brief = discover_research_bundle["market_analysis_brief"]
+    discover_selected_research_manifest = discover_research_bundle.get("selected_research_manifest")
+    discover_source_note_cards = discover_research_bundle.get("source_note_cards", {})
+    workspace_research_brief = workspace_research_brief or discover_research_brief
+    workspace_external_research_plan = workspace_external_research_plan or discover_external_research_plan
+    workspace_external_research_source_discovery = (
+        workspace_external_research_source_discovery or discover_external_research_source_discovery
+    )
+    workspace_selected_research_manifest = workspace_selected_research_manifest or discover_selected_research_manifest
+    workspace_external_research_review = workspace_external_research_review or discover_external_research_review
+    workspace_research_notebook = workspace_research_notebook or discover_research_notebook
+    workspace_research_handoff = workspace_research_handoff or discover_research_handoff
+    workspace_competitor_dossier = workspace_competitor_dossier or discover_competitor_dossier
+    workspace_customer_pulse = workspace_customer_pulse or discover_customer_pulse
+    workspace_market_analysis_brief = workspace_market_analysis_brief or discover_market_analysis_brief
     if persisted_operate_artifacts is not None:
         status_mail, issue_log = persisted_operate_artifacts
     if persisted_improve_artifacts is not None:
@@ -1369,6 +1912,70 @@ def build_next_version_bundle_from_workspace(
             "claim_mode": "direct_evidence",
         },
         {
+            "source_id": discover_strategy_context_brief["strategy_context_brief_id"],
+            "source_type": "strategy_context_brief",
+            "summary": "The strategy context makes enterprise linkage, portfolio fit, and constraints explicit before downstream discovery artifacts advance.",
+            "confidence": 0.92,
+            "freshness_status": "fresh",
+            "claim_mode": "direct_evidence",
+        },
+        {
+            "source_id": discover_product_vision_brief["product_vision_brief_id"],
+            "source_type": "product_vision_brief",
+            "summary": "The product vision defines customer value, business value, differentiation, and north-star logic for the discover slice.",
+            "confidence": 0.92,
+            "freshness_status": "fresh",
+            "claim_mode": "direct_evidence",
+        },
+        {
+            "source_id": discover_market_strategy_brief["market_strategy_brief_id"],
+            "source_type": "market_strategy_brief",
+            "summary": "The market strategy locks the challenger posture and proof requirements before problem framing and PRD generation continue.",
+            "confidence": 0.91,
+            "freshness_status": "fresh",
+            "claim_mode": "direct_evidence",
+        },
+        {
+            "source_id": discover_research_handoff["handoff_id"],
+            "source_type": "handoff_contract",
+            "summary": "The discovery-to-research handoff keeps the research objective, pending questions, and upstream strategy context explicit.",
+            "confidence": 0.92,
+            "freshness_status": "fresh",
+            "claim_mode": "direct_evidence",
+        },
+        {
+            "source_id": discover_research_notebook["research_notebook_id"],
+            "source_type": "research_notebook",
+            "summary": "The research notebook turns selected sources into one reusable evidence spine before synthesis and prioritization expand.",
+            "confidence": 0.91,
+            "freshness_status": "fresh",
+            "claim_mode": "direct_evidence",
+        },
+        {
+            "source_id": discover_research_brief["research_brief_id"],
+            "source_type": "research_brief",
+            "summary": "The research brief keeps proof gaps, contradictions, and next validation questions visible to the PM.",
+            "confidence": 0.91,
+            "freshness_status": "fresh",
+            "claim_mode": "direct_evidence",
+        },
+        {
+            "source_id": discover_customer_pulse["customer_pulse_id"],
+            "source_type": "customer_pulse",
+            "summary": "Customer pulse provides the empathy synthesis layer for the current discovery packet.",
+            "confidence": 0.9,
+            "freshness_status": "fresh",
+            "claim_mode": "direct_evidence",
+        },
+        {
+            "source_id": discover_external_research_review["external_research_review_id"],
+            "source_type": "external_research_review",
+            "summary": "The external research review shows whether the selected sources are clear enough to reuse downstream without hiding review items.",
+            "confidence": 0.9,
+            "freshness_status": "fresh",
+            "claim_mode": "direct_evidence",
+        },
+        {
             "source_id": discover_prd["prd_id"],
             "source_type": "prd",
             "summary": "The live discover route can still produce a decision-ready PRD package from the inbox.",
@@ -1384,9 +1991,17 @@ def build_next_version_bundle_from_workspace(
         decision_log["decision_log_id"],
         strategic_memory["strategic_memory_record_id"],
         eval_run_report["eval_run_report_id"],
+        discover_strategy_context_brief["strategy_context_brief_id"],
+        discover_product_vision_brief["product_vision_brief_id"],
+        discover_market_strategy_brief["market_strategy_brief_id"],
+        discover_research_handoff["handoff_id"],
+        discover_research_notebook["research_notebook_id"],
+        discover_research_brief["research_brief_id"],
+        discover_customer_pulse["customer_pulse_id"],
+        discover_external_research_review["external_research_review_id"],
         discover_prd["prd_id"],
     ]
-    context_pack_recommended_next_action = "Use the bounded baseline to make truthfulness, frozen evals, and decision memory visible in every promotion decision."
+    context_pack_recommended_next_action = "Prepare the opportunity and validation spine using the current research packet once PM review confirms the evidence coverage is sufficient."
     if workspace_mission_brief is not None:
         context_pack_request_summary = (
             f"Assemble the evidence, memory, and execution context needed to run the mission '{workspace_mission_brief['title']}'."
@@ -1639,19 +2254,38 @@ def build_next_version_bundle_from_workspace(
                 "scenario_type": "dogfood_run",
                 "result": "passed",
                 "summary": (
-                    "The repo ingests the live note and transcript inputs, produces a fresh problem brief, concept brief, and PRD package, "
+                    "The repo ingests the live note and transcript inputs, produces a fresh strategy packet, hands discovery into reusable research operations, "
                     "and keeps the route visible through the canonical CLI control surface."
                 ),
                 "evidence_refs": [
                     f"intake_routing_state_{workspace_id}_next_version",
+                    discover_strategy_context_brief["strategy_context_brief_id"],
+                    discover_product_vision_brief["product_vision_brief_id"],
+                    discover_market_strategy_brief["market_strategy_brief_id"],
                     discover_problem_brief["problem_brief_id"],
+                    discover_research_handoff["handoff_id"],
+                    discover_research_notebook["research_notebook_id"],
+                    discover_research_brief["research_brief_id"],
+                    discover_customer_pulse["customer_pulse_id"],
                     discover_prd["prd_id"],
                 ],
             }
         ],
         evidence_refs=[
             f"intake_routing_state_{workspace_id}_next_version",
+            discover_strategy_context_brief["strategy_context_brief_id"],
+            discover_product_vision_brief["product_vision_brief_id"],
+            discover_market_strategy_brief["market_strategy_brief_id"],
             discover_problem_brief["problem_brief_id"],
+            discover_research_handoff["handoff_id"],
+            discover_research_notebook["research_notebook_id"],
+            discover_research_brief["research_brief_id"],
+            discover_external_research_plan["external_research_plan_id"],
+            discover_external_research_source_discovery["external_research_source_discovery_id"],
+            discover_external_research_review["external_research_review_id"],
+            discover_competitor_dossier["competitor_dossier_id"],
+            discover_customer_pulse["customer_pulse_id"],
+            discover_market_analysis_brief["market_analysis_brief_id"],
             discover_concept_brief["concept_brief_id"],
             discover_prd["prd_id"],
             eval_run_report["eval_run_report_id"],
@@ -1673,18 +2307,20 @@ def build_next_version_bundle_from_workspace(
             {
                 "dimension_key": "pm_leverage",
                 "score": 5,
-                "rationale": "The PM can now move from messy inputs to a reviewable decision package through one bounded repo-native path.",
+                "rationale": "The PM can now move from messy inputs to a reviewable decision and research packet through one bounded repo-native path.",
                 "evidence_refs": [
                     f"intake_routing_state_{workspace_id}_next_version",
+                    discover_research_notebook["research_notebook_id"],
                     discover_prd["prd_id"],
                 ],
             },
             {
                 "dimension_key": "output_quality",
                 "score": 5,
-                "rationale": "The live-input problem brief, concept brief, and PRD package are explicit, reviewable, and traceable back to the inbox evidence.",
+                "rationale": "The live-input problem brief, reusable research packet, concept brief, and PRD package are explicit, reviewable, and traceable back to the inbox evidence.",
                 "evidence_refs": [
                     discover_problem_brief["problem_brief_id"],
+                    discover_research_brief["research_brief_id"],
                     discover_prd["prd_id"],
                 ],
             },
@@ -2659,7 +3295,7 @@ def build_next_version_bundle_from_workspace(
         next_action=(
             "Keep the persisted improve-review snapshot and release-gate decision as the scoring standard for future baseline refreshes."
             if persisted_improve_gate_ready
-            else "Keep the eval suite, decision memory, validation, and release-gate evidence as first-class inputs while extending the selected V5 lifecycle-traceability bundle from the cleared bounded baseline."
+            else "Keep the eval suite, decision memory, validation, and release-gate evidence as first-class inputs while expanding the governed research superpower from the cleared bounded baseline."
         ),
         generated_at=generated_at,
     )
@@ -3208,48 +3844,51 @@ def build_next_version_bundle_from_workspace(
         "generated_at": generated_at,
     }
     if promotion_gate["status"] == "ready" and not active_improvement_feature_ids:
-        next_priority_feature_id = "v5_bundle_selection"
-        next_priority_scorecard_id = feature_portfolio_review["feature_portfolio_review_id"]
+        next_priority_feature_id = "market_intelligence"
+        next_priority_scorecard_id = market_intelligence_scorecard_id
         feature_portfolio_review["top_priority_feature_id"] = next_priority_feature_id
         feature_portfolio_review["highlighted_risks"] = [
-            "No bounded-baseline blockers remain; keep the next extension disciplined by choosing one bounded V5 slice before expanding scope."
+            "Broader web and feed coverage can weaken trust unless freshness, ranking, and contradiction review stay explicit.",
+            "The next research slice should stay PM-reviewable before new market or strategy claims propagate beyond the repo.",
         ]
-        feature_portfolio_review["next_action"] = "The bounded baseline gate is cleared. Build the selected V5 lifecycle-traceability bundle and begin the next stable extension sequence."
+        feature_portfolio_review["next_action"] = "The bounded baseline gate is cleared. Expand the governed research superpower across market, competitor, and customer signals before broader distribution work resumes."
         context_pack.update(
             {
-                "request_summary": "Review the cleared bounded baseline and execute the selected V5 lifecycle-traceability bundle.",
-                "decision_to_be_made": "How should ProductOS execute the selected V5 lifecycle-traceability bundle from the cleared bounded baseline?",
+                "request_summary": "Review the cleared bounded baseline and execute the governed research superpower expansion.",
+                "decision_to_be_made": "How should ProductOS broaden web and feed research coverage while keeping PM review, freshness, and contradiction handling explicit?",
                 "status": "ready",
                 "quality_contract": _quality_contract(
                     audience=["PM", "engineering", "leadership"],
-                    decision_needed="Execute the selected V5 lifecycle-traceability bundle while preserving the cleared evidence, eval, and decision-memory contracts.",
+                    decision_needed="Expand the governed research superpower while preserving the cleared evidence, eval, and decision-memory contracts.",
                     evidence=[
                         "The frozen eval suite passes with zero regressions.",
                         "Portfolio truthfulness is healthy across the bounded baseline.",
-                        "The control surface and self-improvement loop now consume explicit eval, validation, decision-memory, and release-gate evidence strongly enough to clear the foundation gate.",
+                        "The current discover loop already produces a strategy-to-research packet with bounded source discovery, contradiction review, and downstream strategy handoff.",
                     ],
                     alternatives=[
-                        "Build the selected lifecycle-traceability bundle now and begin the bounded extension.",
-                        "Hold on V5 execution and keep the cleared bounded baseline stable without broadening scope.",
+                        "Broaden governed research now across market, competitor, and customer signals.",
+                        "Hold on research expansion and keep the current bounded research loop stable while the baseline stays unchanged.",
                     ],
-                    recommendation="Build the selected lifecycle-traceability bundle now and start the bounded extension while keeping V5 stable until parity and promotion pass.",
+                    recommendation="Broaden governed research now while keeping PM review, source ranking, freshness, and contradiction handling explicit.",
                     metrics=[
-                        "regression_count",
-                        "mixed_provenance_feature_count",
-                        "stable_promotion_status",
+                        "planned_question_count",
+                        "selected_source_count",
+                        "contradiction_item_count",
+                        "feed_health_status",
                     ],
                     risks=[
-                        "Choosing a broader V5 headline without preserving the current evidence and eval contracts would weaken trust.",
-                        "Extending scope before V5 parity and stable-promotion checks complete would create avoidable migration risk.",
+                        "Open-ended source breadth without visible ranking and freshness rules would dilute trust.",
+                        "Letting researched signals propagate without PM review would overstate confidence and blur claim boundaries.",
                     ],
                     owner="ProductOS PM",
-                    next_action="Build the selected lifecycle-traceability bundle and start the bounded extension sequence.",
+                    next_action="Stand up the governed feed registry, expand discovery coverage, and rerun the research loop before broadening downstream strategy claims.",
                 ),
                 "contradictions": [],
                 "open_questions": [
-                    "Which parity checks and migration checks should gate the lifecycle-traceability cutover after the bundle is built?"
+                    "Which source classes should be required in the first broad-but-governed research pass for market, competitor, and customer evidence?",
+                    "What review threshold should govern when broadened research can update the canonical strategy packet automatically versus requiring explicit PM approval?",
                 ],
-                "recommended_next_action": "Build the selected lifecycle-traceability bundle and start the bounded extension while keeping V5 stable until parity and promotion pass.",
+                "recommended_next_action": "Expand the governed research superpower, then refresh the canonical strategy packet from the stronger research surface.",
                 "updated_at": generated_at,
             }
         )
@@ -3516,15 +4155,27 @@ def build_next_version_bundle_from_workspace(
     discover_execution_session_state = _session_state(
         session_id=discover_session_id,
         workspace_id=workspace_id,
-        session_name="Next-version discover to PRD session",
+        session_name="Next-version discovery operations session",
         status=discover_session_status,
-        objective="Route live inbox inputs into a fresh next-version decision package and prove the same-day low-rewrite discover bar.",
+        objective="Route live inbox inputs into a fresh strategy-to-research-to-decision package and prove the same-day low-rewrite discover bar.",
         owner_agent="workflow",
         capability_adapter_id=selected_adapter_id,
         parent_orchestration_state_id=orchestration_state_id,
         input_refs=[item["item_id"] for item in intake_items],
         output_refs=[
+            discover_strategy_context_brief["strategy_context_brief_id"],
+            discover_product_vision_brief["product_vision_brief_id"],
+            discover_market_strategy_brief["market_strategy_brief_id"],
             discover_problem_brief["problem_brief_id"],
+            discover_research_handoff["handoff_id"],
+            discover_research_notebook["research_notebook_id"],
+            discover_research_brief["research_brief_id"],
+            discover_external_research_plan["external_research_plan_id"],
+            discover_external_research_source_discovery["external_research_source_discovery_id"],
+            discover_external_research_review["external_research_review_id"],
+            discover_competitor_dossier["competitor_dossier_id"],
+            discover_customer_pulse["customer_pulse_id"],
+            discover_market_analysis_brief["market_analysis_brief_id"],
             discover_concept_brief["concept_brief_id"],
             discover_prd["prd_id"],
             discover_scorecard_id,
@@ -3595,7 +4246,7 @@ def build_next_version_bundle_from_workspace(
         objective=(
             "Route every sub-5 feature score into explicit next-version improvement work using frozen eval and decision-memory evidence as release gates."
             if promotion_gate["status"] == "blocked"
-            else "Use the cleared bounded baseline to package the evidence bundle and hand off the selected V5 lifecycle-traceability build."
+            else "Use the cleared bounded baseline to package the governed research superpower expansion and hand off the next research build."
         ),
         owner_agent="improvement_planner",
         capability_adapter_id=selected_adapter_id,
@@ -3641,24 +4292,24 @@ def build_next_version_bundle_from_workspace(
         else "route_operator_autopilot" if discover_promoted else "route_discover_to_prd"
     )
     mission_next_route_ref = (
-        "route_v5_bundle_selection"
+        "route_research_superpower"
         if promotion_gate["status"] == "ready"
         else "route_score_and_improve" if discover_promoted else "route_operator_autopilot"
     )
     mission_current_task_name = (
-        "Choose the next bounded expansion slice"
+        "Expand the governed research superpower"
         if promotion_gate["status"] == "ready"
         else "Promote the weekly PM autopilot route" if discover_promoted else "Promote the discover-to-PRD route"
     )
     mission_current_task_summary = (
-        "The bounded baseline gate is clear, so the improvement loop should choose the next disciplined expansion instead of treating the current baseline as unfinished."
+        "The bounded baseline gate is clear, so the next disciplined slice should broaden governed research across market, competitor, and customer signals instead of shifting to a lifecycle-only extension."
         if promotion_gate["status"] == "ready"
         else "The discover and control-surface slices are promoted, so weekly PM autopilot is now the next must-win route."
         if discover_promoted
         else "The discover route remains the first must-win mission and should turn live inbox input into a promoted decision package."
     )
     mission_current_task_status = (
-        "ready_for_next_expansion"
+        "ready_for_research_expansion"
         if promotion_gate["status"] == "ready"
         else "awaiting_pm_review" if discover_promoted else "awaiting_discover_promotion"
     )
@@ -3733,7 +4384,7 @@ def build_next_version_bundle_from_workspace(
             {
                 "route_id": "route_discover_to_prd",
                 "agent_name": "workflow",
-                "objective": "Turn live inbox notes and transcripts into a decision-ready path that can become the discover standard for the next version.",
+                "objective": "Turn live inbox notes and transcripts into a decision-ready discovery-operations path that can become the discover standard for the next version.",
                 "rationale": (
                     "This route now anchors the promoted next-version baseline."
                     if next_version_baseline_promoted
@@ -3748,7 +4399,19 @@ def build_next_version_bundle_from_workspace(
                 "reviewer_lane": "pm_builder",
                 "input_artifact_ids": [item["item_id"] for item in intake_items],
                 "expected_output_artifact_ids": [
+                    discover_strategy_context_brief["strategy_context_brief_id"],
+                    discover_product_vision_brief["product_vision_brief_id"],
+                    discover_market_strategy_brief["market_strategy_brief_id"],
                     discover_problem_brief["problem_brief_id"],
+                    discover_research_handoff["handoff_id"],
+                    discover_research_notebook["research_notebook_id"],
+                    discover_research_brief["research_brief_id"],
+                    discover_external_research_plan["external_research_plan_id"],
+                    discover_external_research_source_discovery["external_research_source_discovery_id"],
+                    discover_external_research_review["external_research_review_id"],
+                    discover_competitor_dossier["competitor_dossier_id"],
+                    discover_customer_pulse["customer_pulse_id"],
+                    discover_market_analysis_brief["market_analysis_brief_id"],
                     discover_concept_brief["concept_brief_id"],
                     discover_prd["prd_id"],
                     discover_scorecard_id,
@@ -3757,7 +4420,7 @@ def build_next_version_bundle_from_workspace(
                 "next_action": (
                     "Keep the discover outputs as the current standard and hand the next bounded slice to the weekly PM autopilot route."
                     if discover_promoted
-                    else "Run the live discover loop from the inbox inputs and promote the decision-ready package through PM review."
+                    else "Run the live discovery-operations loop from the inbox inputs and promote the decision-ready packet through PM review."
                 ),
             },
             {
@@ -3845,6 +4508,40 @@ def build_next_version_bundle_from_workspace(
                     else "Review the weakest score-bearing slice and route the next bounded fix through frozen eval and decision memory."
                 ),
             },
+            {
+                "route_id": "route_research_superpower",
+                "agent_name": "research",
+                "objective": "Expand ProductOS into a broad-but-governed research superpower that captures market, competitor, and customer signals before strategy and release claims broaden.",
+                "rationale": "Research is already a real PM superpower, so the next bounded expansion should deepen source coverage, signal synthesis, and reviewable evidence instead of defaulting to another lifecycle packaging slice.",
+                "stage": "discover",
+                "status": "ready" if promotion_gate["status"] == "ready" else "planned",
+                "reviewer_lane": "pm_builder",
+                "depends_on_route_ids": ["route_score_and_improve"],
+                "input_artifact_ids": [
+                    feature_portfolio_review["feature_portfolio_review_id"],
+                    discover_research_brief["research_brief_id"],
+                    discover_external_research_plan["external_research_plan_id"],
+                    discover_external_research_source_discovery["external_research_source_discovery_id"],
+                    discover_external_research_review["external_research_review_id"],
+                    market_intelligence_scorecard_id,
+                ],
+                "expected_output_artifact_ids": [
+                    f"external_research_feed_registry_{workspace_id}",
+                    discover_research_brief["research_brief_id"],
+                    discover_external_research_source_discovery["external_research_source_discovery_id"],
+                    discover_external_research_review["external_research_review_id"],
+                    discover_competitor_dossier["competitor_dossier_id"],
+                    discover_customer_pulse["customer_pulse_id"],
+                    discover_market_analysis_brief["market_analysis_brief_id"],
+                    market_intelligence_scorecard_id,
+                ],
+                "execution_session_state_id": improve_session_id,
+                "next_action": (
+                    "Stand up broader feed coverage, rerun governed discovery, and keep freshness, contradiction review, and PM approval explicit before downstream strategy claims broaden."
+                    if promotion_gate["status"] == "ready"
+                    else "Keep this route parked until the bounded baseline clears its current improvement and release gates."
+                ),
+            },
         ],
         "queue_impacts": [
             {
@@ -3881,6 +4578,20 @@ def build_next_version_bundle_from_workspace(
             },
         ],
         "handoff_log": [
+            {
+                "timestamp": generated_at,
+                "from_agent": "workflow",
+                "to_agent": "research",
+                "handoff_type": "artifact_transfer",
+                "status": "accepted",
+                "artifact_ids": [
+                    discover_problem_brief["problem_brief_id"],
+                    discover_research_handoff["handoff_id"],
+                    discover_research_notebook["research_notebook_id"],
+                    discover_research_brief["research_brief_id"],
+                ],
+                "message": "The discover route transferred the current strategy and problem framing into one reusable research packet before downstream prioritization expands.",
+            },
             {
                 "timestamp": generated_at,
                 "from_agent": "cockpit",
@@ -4005,7 +4716,7 @@ def build_next_version_bundle_from_workspace(
                 "current_task": (
                     "Keep the score-refresh loop subordinate to frozen evals and decision memory until the blocked promotion gate clears."
                     if promotion_gate["status"] == "blocked"
-                    else "Support the selected V5 lifecycle-traceability build now that the bounded baseline gate is clear."
+                    else "Support the governed research superpower build now that the bounded baseline gate is clear."
                 ),
             },
         ],
@@ -4133,7 +4844,19 @@ def build_next_version_bundle_from_workspace(
             adapter_parity_report["runtime_scenario_report_id"],
             market_refresh_report["runtime_scenario_report_id"],
             market_distribution_report["runtime_scenario_report_id"],
+            discover_strategy_context_brief["strategy_context_brief_id"],
+            discover_product_vision_brief["product_vision_brief_id"],
+            discover_market_strategy_brief["market_strategy_brief_id"],
             discover_problem_brief["problem_brief_id"],
+            discover_research_handoff["handoff_id"],
+            discover_research_notebook["research_notebook_id"],
+            discover_research_brief["research_brief_id"],
+            discover_external_research_plan["external_research_plan_id"],
+            discover_external_research_source_discovery["external_research_source_discovery_id"],
+            discover_external_research_review["external_research_review_id"],
+            discover_competitor_dossier["competitor_dossier_id"],
+            discover_customer_pulse["customer_pulse_id"],
+            discover_market_analysis_brief["market_analysis_brief_id"],
             discover_concept_brief["concept_brief_id"],
             discover_prd["prd_id"],
             live_doc_sync_state["document_sync_state_id"],
@@ -4180,15 +4903,17 @@ def build_next_version_bundle_from_workspace(
         for route in orchestration_state["route_plan"]:
             if route["route_id"] == "route_score_and_improve":
                 route["status"] = "completed"
+            if route["route_id"] == "route_research_superpower":
+                route["status"] = "ready"
         for agent in cockpit_state["active_agents"]:
             if agent["agent_name"] == "improvement_planner":
                 agent["status"] = "completed"
-                agent["current_task"] = "Use the cleared bounded baseline to support the selected V5 lifecycle-traceability build and bounded-extension planning."
+                agent["current_task"] = "Use the cleared bounded baseline to support the governed research superpower build and research-expansion planning."
         orchestration_state.update(
             {
-                "goal": "Use the cleared bounded baseline to build the selected V5 lifecycle-traceability bundle and start the bounded extension.",
+                "goal": "Use the cleared bounded baseline to expand the governed research superpower and keep the next strategy packet evidence-backed.",
                 "status": "completed",
-                "coordination_summary": "The bounded baseline now clears the frozen eval suite and portfolio truthfulness gate. The hardening cycle is complete, and the next step is building the selected V5 lifecycle-traceability bundle.",
+                "coordination_summary": "The bounded baseline now clears the frozen eval suite and portfolio truthfulness gate. The hardening cycle is complete, and the next step is broadening governed research across market, competitor, and customer signals.",
                 "active_route_ids": [],
                 "awaiting_review_route_ids": [],
                 "queue_impacts": [
@@ -4197,7 +4922,7 @@ def build_next_version_bundle_from_workspace(
                         "artifact_id": feature_portfolio_review["feature_portfolio_review_id"],
                         "item_id": next_priority_feature_id,
                         "recommended_action": "review_now",
-                        "reason": "The bounded baseline gate is clear, so the next review should move into the selected V5 lifecycle-traceability build instead of another hardening slice.",
+                        "reason": "The bounded baseline gate is clear, so the next review should expand governed research coverage and signal synthesis instead of shifting to another lifecycle-only packaging slice.",
                         "status": "recommended",
                     }
                 ],
@@ -4208,19 +4933,19 @@ def build_next_version_bundle_from_workspace(
                 "mode": "status",
                 "status": "completed",
                 "coordination_status": "healthy",
-                "request_summary": "Operate the cleared bounded baseline from the repo CLI and move into the selected V5 lifecycle-traceability build.",
-                "current_focus": "Build the selected V5 lifecycle-traceability bundle and prepare the bounded extension plan while keeping the cleared V5 stable slice intact.",
+                "request_summary": "Operate the cleared bounded baseline from the repo CLI and move into the governed research superpower build.",
+                "current_focus": "Expand the governed research superpower across market, competitor, and customer signals while keeping PM review, freshness, and contradiction handling explicit.",
                 "recommended_next_step": {
-                    "action_summary": "Review the cleared bounded-baseline portfolio and begin the selected V5 lifecycle-traceability build.",
+                    "action_summary": "Review the cleared bounded-baseline portfolio and begin the governed research superpower build.",
                     "target_type": "pm_review",
                     "target_ref": next_priority_scorecard_id,
-                    "rationale": "The bounded baseline is complete, so the next bounded decision is executing the selected V5 lifecycle-traceability bundle rather than more hardening.",
+                    "rationale": "The bounded baseline is complete, so the next bounded decision is expanding governed research breadth and signal synthesis rather than returning to lifecycle-only packaging.",
                 },
                 "awaiting_review_route_ids": [],
                 "pending_review_points": [
                     "Truthfulness status is `healthy` across the bounded-baseline portfolio.",
                     "The frozen eval suite now passes with no regressions.",
-                    "The next decision is executing the selected V5 lifecycle-traceability bundle and beginning the bounded extension.",
+                    "The next decision is expanding the governed research superpower and refreshing the strategy packet from stronger market, competitor, and customer evidence.",
                 ],
                 "blocking_reasons": [],
                 "source_artifact_ids": [
@@ -4301,9 +5026,21 @@ def build_next_version_bundle_from_workspace(
         "presentation_render_spec": presentation_render_spec,
         "presentation_publish_check": presentation_publish_check,
         "presentation_ppt_export_plan": presentation_ppt_export_plan,
+        "discover_strategy_context_brief": discover_strategy_context_brief,
+        "discover_product_vision_brief": discover_product_vision_brief,
+        "discover_market_strategy_brief": discover_market_strategy_brief,
         "discover_problem_brief": discover_problem_brief,
         "discover_concept_brief": discover_concept_brief,
         "discover_prd": discover_prd,
+        "discover_research_handoff": discover_research_handoff,
+        "discover_research_notebook": discover_research_notebook,
+        "discover_research_brief": discover_research_brief,
+        "discover_external_research_plan": discover_external_research_plan,
+        "discover_external_research_source_discovery": discover_external_research_source_discovery,
+        "discover_external_research_review": discover_external_research_review,
+        "discover_competitor_dossier": discover_competitor_dossier,
+        "discover_customer_pulse": discover_customer_pulse,
+        "discover_market_analysis_brief": discover_market_analysis_brief,
         "discover_execution_session_state": discover_execution_session_state,
         "align_execution_session_state": align_execution_session_state,
         "align_document_sync_state": live_doc_sync_state,
@@ -4322,6 +5059,8 @@ def build_next_version_bundle_from_workspace(
         "self_improvement_feature_scorecard": self_improvement_scorecard,
         "autonomous_pm_swarm_feature_scorecard": autonomous_pm_swarm_scorecard,
         "feature_portfolio_review": feature_portfolio_review,
+        "discover_source_note_cards": discover_source_note_cards,
+        "discover_selected_research_manifest": discover_selected_research_manifest,
     }
     include_governed_research_context = any(
         item is not None
@@ -4336,6 +5075,10 @@ def build_next_version_bundle_from_workspace(
     if include_governed_research_context:
         if workspace_research_brief is not None:
             bundle["research_brief"] = workspace_research_brief
+        if workspace_research_handoff is not None:
+            bundle["research_handoff"] = workspace_research_handoff
+        if workspace_research_notebook is not None:
+            bundle["research_notebook"] = workspace_research_notebook
         if workspace_external_research_plan is not None:
             bundle["external_research_plan"] = workspace_external_research_plan
         if workspace_external_research_source_discovery is not None:
@@ -4346,4 +5089,10 @@ def build_next_version_bundle_from_workspace(
             bundle["external_research_selected_manifest"] = workspace_selected_research_manifest
         if workspace_external_research_review is not None:
             bundle["external_research_review"] = workspace_external_research_review
+        if workspace_competitor_dossier is not None:
+            bundle["competitor_dossier"] = workspace_competitor_dossier
+        if workspace_customer_pulse is not None:
+            bundle["customer_pulse"] = workspace_customer_pulse
+        if workspace_market_analysis_brief is not None:
+            bundle["market_analysis_brief"] = workspace_market_analysis_brief
     return bundle

@@ -15,6 +15,8 @@
     "idea_record_starter_trace_demo"
   ],
   "strategy_artifact_ids": [
+    "strategy_context_brief_starter_trace_demo",
+    "product_vision_brief_starter_trace_demo",
     "market_strategy_brief_starter_trace_demo"
   ],
   "target_segment_refs": [

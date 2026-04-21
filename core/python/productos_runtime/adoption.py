@@ -140,12 +140,25 @@ def _relative_path(path: Path, base: Path) -> str:
     return path.resolve().relative_to(base.resolve()).as_posix()
 
 
+def _nested_workspace_roots(source_dir: Path) -> list[Path]:
+    roots: list[Path] = []
+    for manifest_path in sorted(source_dir.rglob("workspace_manifest.yaml")):
+        workspace_root = manifest_path.parent
+        if workspace_root == source_dir:
+            continue
+        roots.append(workspace_root)
+    return roots
+
+
 def _visible_files(source_dir: Path) -> list[Path]:
     files: list[Path] = []
+    nested_workspace_roots = _nested_workspace_roots(source_dir)
     for path in sorted(source_dir.rglob("*")):
         if not path.is_file():
             continue
         if any(part.startswith(".") for part in path.relative_to(source_dir).parts):
+            continue
+        if any(root in path.parents for root in nested_workspace_roots):
             continue
         files.append(path)
     return files

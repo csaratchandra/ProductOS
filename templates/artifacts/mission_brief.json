@@ -24,6 +24,8 @@
   "operating_mode": "discover_to_align",
   "primary_workflow_refs": [
     "../../core/workflows/workspace-ingestion/inbox-to-normalized-evidence-workflow.md",
+    "../../core/workflows/decision-intelligence/mission-to-strategy-spine-workflow.md",
+    "../../core/workflows/decision-intelligence/market-strategy-definition-workflow.md",
     "../../core/workflows/discovery/idea-to-concept-workflow.md",
     "../../core/workflows/research/research-command-center-workflow.md",
     "../../core/workflows/delivery/problem-brief-to-prd-workflow.md",

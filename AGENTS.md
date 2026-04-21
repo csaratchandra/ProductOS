@@ -6,6 +6,7 @@ ProductOS is a repo-first operating system for PM work and AI-assisted execution
 
 - `README.md`: repo entrypoint and stable-line posture
 - `core/docs/`: operating models, guardrails, and release-scope boundaries
+- `core/skills/`: reusable agent skills and capability building blocks
 - `core/schemas/`: artifact and entity contracts
 - `core/examples/`: valid example payloads for schema-backed work
 - `scripts/productos.py`: canonical CLI surface

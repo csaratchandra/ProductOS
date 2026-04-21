@@ -1,6 +1,6 @@
 # ProductOS
 
-ProductOS V8.1.0 is the current stable ProductOS Core line.
+ProductOS V8.2.0 is the current stable ProductOS Core line.
 
 ProductOS is distributed under the Apache License 2.0. Forks, improvements, and
 suggestions are welcome through issues and pull requests.
@@ -16,7 +16,9 @@ For PM adoption on a new product, the canonical starting surface is [templates](
 
 ## Operating Model
 
-ProductOS V8.1.0 is organized around the PM lifecycle plus governed research and improvement loops:
+ProductOS V8.2.0 is organized around the PM lifecycle plus governed research and improvement loops:
+
+The current stable line strengthens the mission-to-strategy discovery spine, reusable research skills, and strategy-linked discovery artifacts while keeping PM review and release boundaries explicit.
 
 1. current-state assessment
 2. discovery

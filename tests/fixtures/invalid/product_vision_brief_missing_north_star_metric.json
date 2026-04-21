@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "product_vision_brief_id": "product_vision_brief_invalid",
+  "workspace_id": "ws_productos_v2",
+  "title": "Invalid product vision brief",
+  "strategy_context_ref": "strategy_context_brief_pm_superpower_recovery",
+  "durable_vision": "ProductOS should become the repo-native PM operating system for sharper judgment and reusable context.",
+  "near_term_product_goal": "Make discovery strategy-ready.",
+  "problem_space_summary": "The problem space still needs a strategy spine.",
+  "solution_direction_summary": "Add strategy contracts before deeper discovery expansion.",
+  "target_segment_refs": [
+    { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
+  ],
+  "priority_persona_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" }
+  ],
+  "customer_value_statement": "PMs can frame the next bet faster.",
+  "business_value_statement": "ProductOS becomes easier to trust and buy.",
+  "differentiation_statement": "Mission, strategy, and downstream artifacts stay linked in-repo.",
+  "north_star_definition": "Still present, but the metric name is missing.",
+  "input_guardrail_metrics": [
+    {
+      "metric_name": "mission_to_strategy_trace_completeness",
+      "metric_type": "input",
+      "definition": "Still included.",
+      "target": "100%"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "strategy_context",
+      "source_id": "strategy_context_brief_pm_superpower_recovery",
+      "justification": "Still included."
+    }
+  ],
+  "created_at": "2026-04-21T09:05:00Z"
+}

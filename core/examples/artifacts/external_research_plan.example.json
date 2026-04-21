@@ -23,6 +23,17 @@
     }
   ],
   "coverage_summary": {
+    "required_signal_lanes": [
+      "market",
+      "competitor",
+      "customer"
+    ],
+    "planned_signal_lanes": [
+      "market",
+      "competitor",
+      "customer"
+    ],
+    "missing_signal_lanes": [],
     "known_gaps": [
       "Need external validation that governance-first messaging matches buyer expectations."
     ],

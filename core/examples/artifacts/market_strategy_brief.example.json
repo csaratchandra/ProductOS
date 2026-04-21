@@ -51,11 +51,23 @@
     }
   ],
   "linked_artifact_ids": [
+    "strategy_context_brief_pm_superpower_recovery",
+    "product_vision_brief_pm_superpower_recovery",
     "segment_map_pm_ops_workflow_maturity",
     "competitor_dossier_pm_ops_space",
     "market_analysis_brief_pm_ops"
   ],
   "evidence_refs": [
+    {
+      "source_type": "other",
+      "source_id": "strategy_context_brief_pm_superpower_recovery",
+      "justification": "The strategy context clarifies the enterprise linkage and portfolio bet behind the challenger posture."
+    },
+    {
+      "source_type": "other",
+      "source_id": "product_vision_brief_pm_superpower_recovery",
+      "justification": "The product vision defines the near-term goal, differentiation, and north-star logic that the market posture must support."
+    },
     {
       "source_type": "research",
       "source_id": "market_analysis_brief_pm_ops",
