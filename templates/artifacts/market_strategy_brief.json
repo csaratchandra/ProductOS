@@ -9,6 +9,11 @@
   "strategic_posture": "niche",
   "market_role_goal": "Win with teams that want a disciplined, evidence-heavy product operating model rather than a generic template bundle.",
   "target_market_scope": "Product teams evaluating ProductOS as a structured operating system instead of a loose documentation starter.",
+  "strategy_context_ref": "strategy_context_brief_starter_trace_demo",
+  "product_vision_ref": "product_vision_brief_starter_trace_demo",
+  "market_analysis_ref": "market_analysis_brief_starter_trace_demo",
+  "competitor_dossier_ref": "competitor_dossier_starter_trace_demo",
+  "strategy_option_set_ref": "strategy_option_set_starter_trace_demo",
   "beachhead_segment_refs": [
     {
       "entity_type": "segment",
@@ -48,8 +53,20 @@
   "positioning_statement": "For teams that want a concrete product operating model, the ProductOS starter is a readable, traceable starter workspace that shows what good looks like before they adapt it.",
   "value_wedge": "A seeded and inspectable lifecycle trace rather than a blank template set.",
   "right_to_win": "ProductOS can demonstrate its artifact system and validation model directly inside the starter workspace.",
+  "critical_assumptions": [
+    "A seeded trace is more useful than a blank starter for first-time evaluation",
+    "Teams will accept a narrow, opinionated starter if the tradeoffs are visible"
+  ],
   "proof_requirements": [
     "A new team can explain the lifecycle trace without reconstructing the story from scattered notes"
+  ],
+  "proof_plan": [
+    {
+      "claim": "The seeded starter improves understanding",
+      "proof_requirement": "New teams can explain the lifecycle trace after reading the workspace",
+      "validation_signal": "First-time users summarize the lifecycle story without reopening raw notes",
+      "owner": "PM"
+    }
   ],
   "pricing_packaging_hypothesis": "Included in the base ProductOS starter as the adoption accelerant for deeper workspace use.",
   "gtm_motion": "Use the starter as the self-serve entry point for evaluation and team onboarding.",
@@ -57,9 +74,19 @@
   "key_risks": [
     "A seeded example may feel too opinionated if the rationale is not explicit"
   ],
+  "rejected_paths": [
+    {
+      "path_name": "Ship an empty starter",
+      "rejection_reason": "A blank scaffold hides the lifecycle trace and forces teams to reconstruct the ProductOS model themselves."
+    }
+  ],
+  "decision_readiness": "decision_ready",
+  "claim_confidence": "moderate",
+  "review_status": "commit_ready",
   "linked_artifact_ids": [
     "strategy_context_brief_starter_trace_demo",
     "product_vision_brief_starter_trace_demo",
+    "strategy_option_set_starter_trace_demo",
     "segment_map_starter_trace_demo",
     "market_analysis_brief_starter_trace_demo",
     "competitor_dossier_starter_trace_demo"

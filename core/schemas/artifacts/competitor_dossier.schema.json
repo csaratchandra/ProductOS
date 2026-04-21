@@ -17,6 +17,10 @@
     "source_artifact_ids",
     "status_quo_alternatives",
     "internal_build_risk",
+    "competitive_landscape_status",
+    "evidence_coverage_status",
+    "dossier_quality",
+    "named_competitor_count",
     "where_we_win",
     "where_we_lose",
     "credible_wedge_for_posture",
@@ -93,6 +97,22 @@
     "internal_build_risk": {
       "type": "string",
       "enum": ["high", "medium", "low"]
+    },
+    "competitive_landscape_status": {
+      "type": "string",
+      "enum": ["abstract_alternatives_only", "named_competitor_set"]
+    },
+    "evidence_coverage_status": {
+      "type": "string",
+      "enum": ["internal_only", "partial_external", "triangulated_external"]
+    },
+    "dossier_quality": {
+      "type": "string",
+      "enum": ["draft", "reviewable", "decision_ready"]
+    },
+    "named_competitor_count": {
+      "type": "integer",
+      "minimum": 0
     },
     "where_we_win": {
       "type": "array",
@@ -182,7 +202,10 @@
         "where_they_win",
         "where_they_lose",
         "displacement_barriers",
-        "implications"
+        "implications",
+        "evidence_refs",
+        "confidence",
+        "last_checked_at"
       ],
       "properties": {
         "name": {

@@ -9,6 +9,11 @@
   "strategic_posture": "challenger",
   "market_role_goal": "Beat broad work platforms on traceability, decision quality, and PM-specific operating discipline rather than on generic workspace breadth.",
   "target_market_scope": "B2B product teams with recurring planning, status, and delivery coordination pain that already feel the cost of fragmented PM workflows.",
+  "strategy_context_ref": "strategy_context_brief_pm_superpower_recovery",
+  "product_vision_ref": "product_vision_brief_pm_superpower_recovery",
+  "market_analysis_ref": "market_analysis_brief_pm_ops",
+  "competitor_dossier_ref": "competitor_dossier_pm_ops_space",
+  "strategy_option_set_ref": "strategy_option_set_pm_advantage",
   "beachhead_segment_refs": [
     { "entity_type": "segment", "entity_id": "segment_ai_forward_product_teams" }
   ],
@@ -32,10 +37,28 @@
   "positioning_statement": "For PM teams that already have tools but still rebuild context by hand, ProductOS is the PM operating layer that makes evidence, decisions, and downstream artifacts traceable enough to trust.",
   "value_wedge": "PM-specific traceability and decision-ready workflow memory.",
   "right_to_win": "ProductOS already combines structured artifacts, validation, and workflow state in a way broad work suites do not center.",
+  "critical_assumptions": [
+    "PM teams will value trusted traceability enough to adopt a layer that does not replace their execution stack first",
+    "The strategy wedge can be demonstrated before broader platform breadth becomes a buying requirement"
+  ],
   "proof_requirements": [
     "PMs can understand lifecycle state faster than with existing tools",
     "Outputs remain trustworthy when upstream state is partially stale",
     "The system can coexist with downstream trackers instead of replacing them"
+  ],
+  "proof_plan": [
+    {
+      "claim": "Traceability is a differentiated wedge",
+      "proof_requirement": "PMs can review lifecycle state and downstream rationale faster than with current tools",
+      "validation_signal": "Decision-ready packet review time drops in controlled evaluation",
+      "owner": "PM"
+    },
+    {
+      "claim": "The offering can coexist with incumbent tools",
+      "proof_requirement": "Downstream tracker linkage works without forcing rip-and-replace",
+      "validation_signal": "Pilot users keep existing tools while reusing ProductOS outputs",
+      "owner": "PM + Engineering"
+    }
   ],
   "pricing_packaging_hypothesis": "Team-based SaaS pricing with a premium tier for governance, validation, and cross-workspace strategy support.",
   "gtm_motion": "Land with PM leaders or product ops teams that already feel recurring coordination drag, then expand into adjacent decision and delivery workflows.",
@@ -50,9 +73,13 @@
       "rejection_reason": "The repo's current advantage is in decision quality and traceability, not generic platform breadth."
     }
   ],
+  "decision_readiness": "decision_ready",
+  "claim_confidence": "high",
+  "review_status": "commit_ready",
   "linked_artifact_ids": [
     "strategy_context_brief_pm_superpower_recovery",
     "product_vision_brief_pm_superpower_recovery",
+    "strategy_option_set_pm_advantage",
     "segment_map_pm_ops_workflow_maturity",
     "competitor_dossier_pm_ops_space",
     "market_analysis_brief_pm_ops"

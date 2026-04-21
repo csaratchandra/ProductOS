@@ -16,6 +16,11 @@
     "strategic_posture",
     "market_role_goal",
     "target_market_scope",
+    "strategy_context_ref",
+    "product_vision_ref",
+    "market_analysis_ref",
+    "competitor_dossier_ref",
+    "strategy_option_set_ref",
     "beachhead_segment_refs",
     "priority_persona_refs",
     "competitive_reference_set",
@@ -24,11 +29,17 @@
     "positioning_statement",
     "value_wedge",
     "right_to_win",
+    "critical_assumptions",
     "proof_requirements",
+    "proof_plan",
     "pricing_packaging_hypothesis",
     "gtm_motion",
     "expansion_path",
     "key_risks",
+    "rejected_paths",
+    "decision_readiness",
+    "claim_confidence",
+    "review_status",
     "evidence_refs",
     "recommendation",
     "created_at"
@@ -50,6 +61,11 @@
     },
     "market_role_goal": { "type": "string", "minLength": 10 },
     "target_market_scope": { "type": "string", "minLength": 10 },
+    "strategy_context_ref": { "type": "string", "minLength": 1 },
+    "product_vision_ref": { "type": "string", "minLength": 1 },
+    "market_analysis_ref": { "type": "string", "minLength": 1 },
+    "competitor_dossier_ref": { "type": "string", "minLength": 1 },
+    "strategy_option_set_ref": { "type": "string", "minLength": 1 },
     "beachhead_segment_refs": {
       "type": "array",
       "items": { "$ref": "#/$defs/entityRef" },
@@ -89,9 +105,19 @@
     "positioning_statement": { "type": "string", "minLength": 10 },
     "value_wedge": { "type": "string", "minLength": 10 },
     "right_to_win": { "type": "string", "minLength": 10 },
+    "critical_assumptions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
     "proof_requirements": {
       "type": "array",
       "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
+    "proof_plan": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/proofPlanItem" },
       "minItems": 1
     },
     "pricing_packaging_hypothesis": { "type": "string", "minLength": 10 },
@@ -105,7 +131,19 @@
     "rejected_paths": {
       "type": "array",
       "items": { "$ref": "#/$defs/rejectedPath" },
-      "default": []
+      "minItems": 1
+    },
+    "decision_readiness": {
+      "type": "string",
+      "enum": ["draft", "reviewable", "decision_ready"]
+    },
+    "claim_confidence": {
+      "type": "string",
+      "enum": ["low", "moderate", "high"]
+    },
+    "review_status": {
+      "type": "string",
+      "enum": ["needs_more_evidence", "pm_review_required", "commit_ready"]
     },
     "linked_artifact_ids": {
       "type": "array",
@@ -162,6 +200,32 @@
         "path_name": { "type": "string", "minLength": 3 },
         "rejection_reason": { "type": "string", "minLength": 10 }
       }
+    },
+    "proofPlanItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim", "proof_requirement", "validation_signal", "owner"],
+      "properties": {
+        "claim": { "type": "string", "minLength": 5 },
+        "proof_requirement": { "type": "string", "minLength": 5 },
+        "validation_signal": { "type": "string", "minLength": 5 },
+        "owner": { "type": "string", "minLength": 2 }
+      }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "recommendation": { "const": "commit_posture" }
+        }
+      },
+      "then": {
+        "properties": {
+          "decision_readiness": { "const": "decision_ready" },
+          "review_status": { "const": "commit_ready" }
+        }
+      }
+    }
+  ]
 }

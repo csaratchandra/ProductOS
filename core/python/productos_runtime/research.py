@@ -540,6 +540,7 @@ def build_discovery_to_research_handoff(
     generated_at: str,
     strategy_context_brief: dict[str, Any],
     product_vision_brief: dict[str, Any],
+    strategy_option_set: dict[str, Any] | None,
     market_strategy_brief: dict[str, Any],
     problem_brief: dict[str, Any],
     concept_brief: dict[str, Any],
@@ -556,11 +557,30 @@ def build_discovery_to_research_handoff(
         problem_brief.get("problem_summary", ""),
         problem_brief.get("why_this_problem_now", ""),
         market_strategy_brief.get("proof_requirements", [""])[0],
+        (
+            next(
+                (
+                    option["option_thesis"]
+                    for option in strategy_option_set.get("options", [])
+                    if option.get("option_id") == strategy_option_set.get("recommended_option_id")
+                ),
+                "",
+            )
+            if strategy_option_set is not None
+            else ""
+        ),
         concept_brief.get("hypothesis", ""),
     ]
     artifact_specs = [
         ("strategy_context_brief", strategy_context_brief["strategy_context_brief_id"], "artifacts/strategy_context_brief.json"),
         ("product_vision_brief", product_vision_brief["product_vision_brief_id"], "artifacts/product_vision_brief.json"),
+        (
+            "strategy_option_set",
+            strategy_option_set["strategy_option_set_id"],
+            "artifacts/strategy_option_set.json",
+        )
+        if strategy_option_set is not None
+        else None,
         ("market_strategy_brief", market_strategy_brief["market_strategy_brief_id"], "artifacts/market_strategy_brief.json"),
         ("problem_brief", problem_brief["problem_brief_id"], "artifacts/problem_brief.json"),
         ("concept_brief", concept_brief["concept_brief_id"], "artifacts/concept_brief.json"),
@@ -579,7 +599,9 @@ def build_discovery_to_research_handoff(
                 "artifact_type": artifact_type,
                 "path": path,
             }
-            for artifact_type, artifact_id, path in artifact_specs
+            for item in artifact_specs
+            if item is not None
+            for artifact_type, artifact_id, path in [item]
         ],
         "summary": (
             f"Discovery signals suggest ProductOS should run bounded research on '{problem_brief['title']}' before the next prioritization and validation move."
@@ -2474,29 +2496,63 @@ def _build_competitor_dossier(
     normalized_sources: list[dict[str, Any]],
     generated_at: str,
 ) -> dict[str, Any]:
-    competitor_sources = [item for item in normalized_sources if item["source_type"] == "competitor_research"] or normalized_sources[:2]
+    competitor_sources = [item for item in normalized_sources if item["source_type"] == "competitor_research"]
+    coverage_status = _competitor_evidence_coverage_status(competitor_sources or normalized_sources)
     competitors = []
     for source in competitor_sources[:5]:
-        name = re.split(r"[:|\-]", source["title"])[0].strip()
+        name = _extract_competitor_name(source)
         competitors.append(
             {
                 "name": name or source["title"],
                 "competitor_type": "vendor",
                 "target_customer": research_brief["summary"],
                 "positioning_summary": source["summary"],
-                "go_to_market_motion": "External research source indicates active market positioning, but PM review should normalize the exact motion.",
-                "pricing_signal": "Needs explicit pricing normalization from source review.",
-                "positioning_gap": "The competitor narrative is visible, but ProductOS can differentiate through governed workflow control and explicit evidence posture.",
+                "go_to_market_motion": "Use the current market narrative as the baseline motion, then normalize buyer and lane specifics in PM review.",
+                "pricing_signal": "Commercial posture visible in source review; pricing still needs explicit PM normalization.",
+                "positioning_gap": "The competitor narrative is visible, but ProductOS can differentiate through narrower workflow control, proof discipline, and clearer launch-lane posture.",
+                "icp_overlap": "high",
+                "substitution_risk": "high",
+                "ecosystem_role": "Named incumbent or adjacent alternative in the current workflow corridor.",
                 "strengths": [source["sentences"][0] if source["sentences"] else source["summary"]],
                 "weaknesses": research_brief.get("known_gaps", [])[:1] or ["Comparison still needs deeper PM validation."],
-                "where_they_win": ["When buyers prefer a familiar vendor narrative over an evidence-governed workflow posture."],
-                "where_they_lose": ["When explicit proof gaps, control boundaries, and launch-lane clarity matter to the PM buyer."],
+                "where_they_win": ["When buyers prefer a familiar vendor narrative, existing distribution, or broader default category fit."],
+                "where_they_lose": ["When the buyer needs a narrow, measurable wedge with explicit control boundaries and visible proof logic."],
                 "displacement_barriers": ["Existing vendor familiarity and proof expectations."],
-                "implications": [f"Use {source['title']} as a bounded comparison input, not as the source of truth for ProductOS positioning."],
+                "implications": [f"Use {source['title']} as bounded comparison evidence, not as the source of truth for ProductOS positioning."],
+                "evidence_refs": [source["source_note_card_id"]],
+                "confidence": _normalized_source_confidence(source),
+                "last_checked_at": generated_at,
             }
         )
 
     comparison_questions = [item["question"] for item in research_brief.get("external_research_questions", [])]
+    named_competitor_count = len(competitors)
+    competitive_landscape_status = "named_competitor_set" if named_competitor_count else "abstract_alternatives_only"
+    dossier_quality = _competitor_dossier_quality(named_competitor_count, coverage_status)
+    if not competitors:
+        competitors = [
+            {
+                "name": "Status quo incumbent workflow stack",
+                "competitor_type": "vendor",
+                "target_customer": research_brief["summary"],
+                "positioning_summary": "The buyer can stay with incumbent tools, spreadsheets, services, and local workarounds while delaying a new workflow-control layer.",
+                "go_to_market_motion": "Default no-change posture.",
+                "pricing_signal": "Hidden inside labor cost, workflow delay, and revenue leakage.",
+                "positioning_gap": "Familiar and low-disruption, but weak on explicit queue control, measurable proof, and cross-role operating visibility.",
+                "icp_overlap": "high",
+                "substitution_risk": "high",
+                "ecosystem_role": "Current operating baseline rather than a named competitor set.",
+                "strengths": ["Low perceived switching cost"],
+                "weaknesses": ["Comparison still under-researched and not yet mapped to named competitors."],
+                "where_they_win": ["When ProductOS has not yet established proof or a clear launch-lane wedge."],
+                "where_they_lose": ["When buyers want measurable workflow control and explicit downstream proof."],
+                "displacement_barriers": ["Operational habit and proof expectations."],
+                "implications": ["Gather named competitor evidence before treating this dossier as decision-ready."],
+                "evidence_refs": _source_ids(normalized_sources[:1]) or [research_brief["research_brief_id"]],
+                "confidence": "low",
+                "last_checked_at": generated_at,
+            }
+        ]
     return {
         "schema_version": "1.0.0",
         "competitor_dossier_id": f"competitor_dossier_{workspace_id}",
@@ -2514,6 +2570,10 @@ def _build_competitor_dossier(
             "Incumbent RCM or workflow vendors with partial control layers",
         ],
         "internal_build_risk": "medium",
+        "competitive_landscape_status": competitive_landscape_status,
+        "evidence_coverage_status": coverage_status,
+        "dossier_quality": dossier_quality,
+        "named_competitor_count": named_competitor_count,
         "where_we_win": [
             "Explicit claim discipline and proof-gap visibility",
             "Governed workflow control positioned through a narrow launch lane first",
@@ -2522,23 +2582,7 @@ def _build_competitor_dossier(
         "credible_wedge_for_posture": research_brief["summary"],
         "required_proof_to_displace": comparison_questions[:3] or ["Quantified external proof must exist before broad displacement claims are made."],
         "recommended_positioning_angle": "Lead with governed workflow control, bounded launch-lane proof, and visible evidence posture.",
-        "competitors": competitors or [
-            {
-                "name": "Unspecified incumbent alternative",
-                "competitor_type": "vendor",
-                "target_customer": research_brief["summary"],
-                "positioning_summary": "External sources need to be expanded before the competitor view is treated as complete.",
-                "go_to_market_motion": "Not yet normalized.",
-                "pricing_signal": "Unknown",
-                "positioning_gap": "More direct competitor evidence is required.",
-                "strengths": ["Market familiarity"],
-                "weaknesses": ["Comparison still under-researched"],
-                "where_they_win": ["When ProductOS has not yet established proof."],
-                "where_they_lose": ["When buyers want evidence-governed workflow control."],
-                "displacement_barriers": ["Proof and trust gap."],
-                "implications": ["Gather more competitor research before sharpening external claims."],
-            }
-        ],
+        "competitors": competitors,
         "last_refreshed_at": generated_at,
         "created_at": generated_at,
     }
@@ -2702,6 +2746,43 @@ def _update_research_brief(
     for insight in updated.get("insights", []):
         insight["supporting_source_note_card_ids"] = insight.get("supporting_source_note_card_ids") or insight_source_ids
     return updated
+
+
+def _normalized_source_confidence(source: dict[str, Any]) -> str:
+    freshness = source.get("freshness_status", "usable_with_review")
+    if freshness == "fresh":
+        return "high"
+    if freshness == "usable_with_review":
+        return "moderate"
+    return "low"
+
+
+def _extract_competitor_name(source: dict[str, Any]) -> str:
+    title = source.get("title", "").strip()
+    if not title:
+        return ""
+    return re.split(r"[:|\-]", title)[0].strip()
+
+
+def _competitor_evidence_coverage_status(sources: list[dict[str, Any]]) -> str:
+    external_sources = [
+        item
+        for item in sources
+        if not str(item.get("uri", "")).startswith("artifact://")
+    ]
+    if not external_sources:
+        return "internal_only"
+    if len(external_sources) > 1:
+        return "triangulated_external"
+    return "partial_external"
+
+
+def _competitor_dossier_quality(named_competitor_count: int, coverage_status: str) -> str:
+    if named_competitor_count >= 2 and coverage_status == "triangulated_external":
+        return "decision_ready"
+    if named_competitor_count >= 1:
+        return "reviewable"
+    return "draft"
 
 
 def _write_research_summary_doc(

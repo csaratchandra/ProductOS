@@ -24,6 +24,7 @@ Purpose: Convert a bounded `mission_brief` and supporting discovery evidence int
 - state customer value, business value, differentiation, and the north-star metric explicitly
 - preserve references to the mission, market, segment, persona, and research artifacts used to form the recommendation
 - route to `market-strategy-definition-workflow` only after the strategy context and product vision are explicit enough to constrain posture and positioning
+- route to `strategy-option-generation-workflow` before committed market posture when more than one credible wedge or posture remains
 - recommend more evidence when the team cannot justify `why this market`, `why this bet`, `why now`, or `what metric matters most`
 - do not let strategy, vision, or value-proposition questions collapse into a generic research summary
 
@@ -36,5 +37,6 @@ Do not produce a committed strategy spine if:
 - customer value, business value, or differentiation remains materially ambiguous
 - the north-star metric is missing or disconnected from the stated product goal
 - evidence cannot explain the recommendation
+- the likely posture depends on unresolved option tradeoffs that have not been made explicit
 
 In these cases, route back to research or mission refinement instead of forcing a weak strategy packet.

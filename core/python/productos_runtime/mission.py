@@ -27,6 +27,7 @@ MISSION_WORKFLOW_REFS = {
     "discover": [
         "../../core/workflows/workspace-ingestion/inbox-to-normalized-evidence-workflow.md",
         "../../core/workflows/decision-intelligence/mission-to-strategy-spine-workflow.md",
+        "../../core/workflows/decision-intelligence/strategy-option-generation-workflow.md",
         "../../core/workflows/decision-intelligence/market-strategy-definition-workflow.md",
         "../../core/workflows/discovery/idea-to-concept-workflow.md",
         "../../core/workflows/research/research-command-center-workflow.md",
@@ -35,6 +36,7 @@ MISSION_WORKFLOW_REFS = {
     "discover_to_align": [
         "../../core/workflows/workspace-ingestion/inbox-to-normalized-evidence-workflow.md",
         "../../core/workflows/decision-intelligence/mission-to-strategy-spine-workflow.md",
+        "../../core/workflows/decision-intelligence/strategy-option-generation-workflow.md",
         "../../core/workflows/decision-intelligence/market-strategy-definition-workflow.md",
         "../../core/workflows/discovery/idea-to-concept-workflow.md",
         "../../core/workflows/research/research-command-center-workflow.md",
@@ -45,6 +47,7 @@ MISSION_WORKFLOW_REFS = {
     "full_loop": [
         "../../core/workflows/workspace-ingestion/inbox-to-normalized-evidence-workflow.md",
         "../../core/workflows/decision-intelligence/mission-to-strategy-spine-workflow.md",
+        "../../core/workflows/decision-intelligence/strategy-option-generation-workflow.md",
         "../../core/workflows/decision-intelligence/market-strategy-definition-workflow.md",
         "../../core/workflows/discovery/idea-to-concept-workflow.md",
         "../../core/workflows/research/research-command-center-workflow.md",
@@ -106,6 +109,7 @@ def _can_replace_discover_artifact(path: Path) -> bool:
     artifact_id_keys = [
         "strategy_context_brief_id",
         "product_vision_brief_id",
+        "strategy_option_set_id",
         "market_strategy_brief_id",
         "problem_brief_id",
         "concept_brief_id",
@@ -214,6 +218,7 @@ def _default_artifact_focus_for_mode(operating_mode: str) -> list[str]:
             "mission_brief",
             "strategy_context_brief",
             "product_vision_brief",
+            "strategy_option_set",
             "market_strategy_brief",
             "problem_brief",
             "concept_brief",
@@ -224,6 +229,7 @@ def _default_artifact_focus_for_mode(operating_mode: str) -> list[str]:
             "mission_brief",
             "strategy_context_brief",
             "product_vision_brief",
+            "strategy_option_set",
             "market_strategy_brief",
             "problem_brief",
             "concept_brief",
@@ -235,6 +241,7 @@ def _default_artifact_focus_for_mode(operating_mode: str) -> list[str]:
         "mission_brief",
         "strategy_context_brief",
         "product_vision_brief",
+        "strategy_option_set",
         "market_strategy_brief",
         "problem_brief",
         "concept_brief",
@@ -639,6 +646,7 @@ def build_strategy_discover_bundle_from_mission(
     ]
     strategy_context_id = f"strategy_context_brief_{mission_slug}_mission_strategy"
     product_vision_id = f"product_vision_brief_{mission_slug}_mission_strategy"
+    strategy_option_set_id = f"strategy_option_set_{mission_slug}_mission_strategy"
     market_strategy_id = f"market_strategy_brief_{mission_slug}_mission_strategy"
     segment_refs = [{"entity_type": "segment", "entity_id": "segment_b2b_product_teams"}]
     persona_refs = [{"entity_type": "persona", "entity_id": "persona_product_manager"}]
@@ -780,6 +788,52 @@ def build_strategy_discover_bundle_from_mission(
         "created_at": generated_at,
     }
 
+    strategy_option_set = {
+        "schema_version": "1.0.0",
+        "strategy_option_set_id": strategy_option_set_id,
+        "workspace_id": workspace_id,
+        "decision_statement": (
+            f"Which ProductOS strategy path should the mission '{mission_title}' use to create the fastest reviewable PM value?"
+        ),
+        "options": [
+            {
+                "option_id": "option_traceability_first",
+                "title": "Lead with mission-linked traceability",
+                "option_thesis": "Win by turning one mission into a reviewable strategy and execution packet with less PM reconstruction.",
+                "upside_case": "ProductOS becomes easier to trust because mission, strategy, and downstream work stay linked.",
+                "failure_mode": "The packet is coherent but buyers still want more visible automation before they care.",
+                "dependency_burden": "low",
+                "reversibility": "easy",
+                "portfolio_interaction": "Strengthens the repo-native evidence and validation posture already present in the product.",
+                "org_capability_requirement": "Strong schema discipline and reliable downstream artifact linkage.",
+            },
+            {
+                "option_id": "option_autonomy_first",
+                "title": "Lead with broader autonomous drafting",
+                "option_thesis": "Win by making ProductOS feel much more autonomous across early PM phases right away.",
+                "upside_case": "The product appears faster and more impressive in short demos.",
+                "failure_mode": "Claim quality and PM trust weaken because autonomy expands before strategy and evidence are explicit.",
+                "dependency_burden": "high",
+                "reversibility": "moderate",
+                "portfolio_interaction": "Pulls focus toward visible drafting breadth instead of decision quality and traceability.",
+                "org_capability_requirement": "Higher tolerance for evidence ambiguity and broader prompt-driven behavior.",
+            },
+            {
+                "option_id": "option_services_first",
+                "title": "Lead with services-heavy mission setup",
+                "option_thesis": "Win by using hands-on setup and review support to make the mission packet work before more productization happens.",
+                "upside_case": "Early customers get stronger guided outcomes despite product gaps.",
+                "failure_mode": "The workflow depends too much on human setup and does not prove a scalable product wedge.",
+                "dependency_burden": "moderate",
+                "reversibility": "easy",
+                "portfolio_interaction": "May help early adoption but weakens the signal that ProductOS itself creates the value.",
+                "org_capability_requirement": "High PM and implementation support capacity.",
+            },
+        ],
+        "recommended_option_id": "option_traceability_first",
+        "created_at": generated_at,
+    }
+
     market_strategy = {
         "schema_version": "1.0.0",
         "market_strategy_brief_id": market_strategy_id,
@@ -799,6 +853,11 @@ def build_strategy_discover_bundle_from_mission(
         "target_market_scope": (
             "B2B product teams that already feel recurring planning and execution reconstruction costs and want a PM-specific operating layer."
         ),
+        "strategy_context_ref": strategy_context_id,
+        "product_vision_ref": product_vision_id,
+        "market_analysis_ref": f"market_analysis_brief_{workspace_id}",
+        "competitor_dossier_ref": f"competitor_dossier_{workspace_id}",
+        "strategy_option_set_ref": strategy_option_set_id,
         "beachhead_segment_refs": segment_refs,
         "priority_persona_refs": persona_refs,
         "buyer_archetype_refs": persona_refs,
@@ -820,10 +879,28 @@ def build_strategy_discover_bundle_from_mission(
         "right_to_win": (
             "ProductOS already combines structured artifacts, workflow state, and validation in a repo-native surface that broad suites do not center."
         ),
+        "critical_assumptions": [
+            "PMs will value a mission-linked strategy packet enough to review it before broader automation is added.",
+            "The repo-native artifact chain is a real buyer-facing wedge instead of an internal implementation detail.",
+        ],
         "proof_requirements": [
             "PMs can move from mission to strategy-ready problem framing without reopening raw source notes.",
             "The system preserves mission, strategy, and market refs when strategy is carried into downstream problem framing.",
             "The strategy spine sharpens judgment without broadening autonomous PM claims.",
+        ],
+        "proof_plan": [
+            {
+                "claim": "Mission-linked traceability is a differentiated wedge.",
+                "proof_requirement": "PMs can explain the strategy packet and its downstream reuse without reconstructing the story from notes.",
+                "validation_signal": "PM review confirms the packet is reviewable before concept and PRD work expand.",
+                "owner": "PM",
+            },
+            {
+                "claim": "The market posture can coexist with current PM tooling.",
+                "proof_requirement": "ProductOS outputs can be carried into downstream artifacts without forcing replacement of incumbent tools.",
+                "validation_signal": "Problem and PRD artifacts preserve the strategy refs without introducing disconnected workflow state.",
+                "owner": "PM + Engineering",
+            },
         ],
         "pricing_packaging_hypothesis": (
             "Team-based SaaS pricing with a premium governance tier for strategy traceability, validation, and cross-workspace support."
@@ -838,7 +915,16 @@ def build_strategy_discover_bundle_from_mission(
             "Buyers may still overweight visible output automation over strategy coherence.",
             "Broad suites may copy the visible packet without the same traceability depth.",
         ],
-        "linked_artifact_ids": [mission_id, strategy_context_id, product_vision_id],
+        "rejected_paths": [
+            {
+                "path_name": "Lead with broader autonomous drafting",
+                "rejection_reason": "Broader drafting autonomy would increase visible output but weaken the evidence-backed mission and strategy posture ProductOS can defend today.",
+            }
+        ],
+        "decision_readiness": "decision_ready",
+        "claim_confidence": "high",
+        "review_status": "commit_ready",
+        "linked_artifact_ids": [mission_id, strategy_context_id, product_vision_id, strategy_option_set_id],
         "evidence_refs": [
             {
                 "source_type": "other",
@@ -879,7 +965,7 @@ def build_strategy_discover_bundle_from_mission(
         "target_persona_refs": persona_refs,
         "linked_entity_refs": linked_entity_refs,
         "evidence_refs": evidence_refs,
-        "upstream_artifact_ids": [mission_id, strategy_context_id, product_vision_id, market_strategy_id],
+        "upstream_artifact_ids": [mission_id, strategy_context_id, product_vision_id, strategy_option_set_id, market_strategy_id],
         "recommended_next_step": "prd",
         "created_at": generated_at,
     }
@@ -913,7 +999,7 @@ def build_strategy_discover_bundle_from_mission(
         ),
         "status": "candidate",
         "idea_record_ids": [mission_id],
-        "strategy_artifact_ids": [strategy_context_id, product_vision_id, market_strategy_id],
+        "strategy_artifact_ids": [strategy_context_id, product_vision_id, strategy_option_set_id, market_strategy_id],
         "target_segment_refs": problem_brief["target_segment_refs"],
         "target_persona_refs": problem_brief["target_persona_refs"],
         "linked_entity_refs": problem_brief["linked_entity_refs"],
@@ -948,6 +1034,7 @@ def build_strategy_discover_bundle_from_mission(
             mission_id,
             strategy_context_id,
             product_vision_id,
+            strategy_option_set_id,
             market_strategy_id,
             problem_brief["problem_brief_id"],
             concept_brief["concept_brief_id"],
@@ -958,6 +1045,7 @@ def build_strategy_discover_bundle_from_mission(
     return {
         "strategy_context_brief": strategy_context,
         "product_vision_brief": product_vision,
+        "strategy_option_set": strategy_option_set,
         "market_strategy_brief": market_strategy,
         "problem_brief": problem_brief,
         "concept_brief": concept_brief,
@@ -1141,6 +1229,7 @@ def sync_canonical_discover_artifacts(
     generated_at: str,
     strategy_context_brief: dict[str, Any] | None = None,
     product_vision_brief: dict[str, Any] | None = None,
+    strategy_option_set: dict[str, Any] | None = None,
     market_strategy_brief: dict[str, Any] | None = None,
     problem_brief: dict[str, Any] | None = None,
     concept_brief: dict[str, Any] | None = None,
@@ -1153,6 +1242,7 @@ def sync_canonical_discover_artifacts(
     discover_bundle = {
         "strategy_context_brief": strategy_context_brief,
         "product_vision_brief": product_vision_brief,
+        "strategy_option_set": strategy_option_set,
         "market_strategy_brief": market_strategy_brief,
         "problem_brief": problem_brief,
         "concept_brief": concept_brief,
@@ -1169,6 +1259,7 @@ def sync_canonical_discover_artifacts(
     for filename, payload in {
         "strategy_context_brief.json": discover_bundle["strategy_context_brief"],
         "product_vision_brief.json": discover_bundle["product_vision_brief"],
+        "strategy_option_set.json": discover_bundle["strategy_option_set"],
         "market_strategy_brief.json": discover_bundle["market_strategy_brief"],
         "problem_brief.json": discover_bundle["problem_brief"],
         "concept_brief.json": discover_bundle["concept_brief"],

@@ -57,6 +57,11 @@ INVALID_FIXTURES = [
         "strategy_context_brief_missing_evidence_refs.json",
         "<root>",
     ),
+    (
+        "market_strategy_brief.schema.json",
+        "market_strategy_brief_missing_rejected_paths.json",
+        "<root>",
+    ),
 ]
 
 

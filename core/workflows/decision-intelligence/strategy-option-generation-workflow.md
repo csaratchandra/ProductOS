@@ -22,4 +22,5 @@ Purpose: Turn a strategic question into a `strategy_option_set` with materially 
 - make tradeoffs explicit across upside, failure mode, dependency burden, reversibility, portfolio interaction, and org capability requirement
 - ensure the options differ materially in posture, offering shape, beachhead choice, or positioning, not just in narrative framing
 - reject cosmetic variants that only rename the same bet
+- preserve the recommended option and rejected paths so later market strategy work cannot skip the option lineage
 - call out when missing evidence prevents a credible recommendation

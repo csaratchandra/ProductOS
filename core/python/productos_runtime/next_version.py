@@ -46,6 +46,7 @@ NEXT_VERSION_ARTIFACT_SCHEMAS: dict[str, str] = {
     "next_version_release_gate_decision": "release_gate_decision.schema.json",
     "discover_strategy_context_brief": "strategy_context_brief.schema.json",
     "discover_product_vision_brief": "product_vision_brief.schema.json",
+    "discover_strategy_option_set": "strategy_option_set.schema.json",
     "discover_market_strategy_brief": "market_strategy_brief.schema.json",
     "discover_problem_brief": "problem_brief.schema.json",
     "discover_concept_brief": "concept_brief.schema.json",
@@ -238,6 +239,7 @@ def _default_steering_context(workspace_path: Path) -> dict[str, Any]:
             "mission_brief",
             "strategy_context_brief",
             "product_vision_brief",
+            "strategy_option_set",
             "market_strategy_brief",
             "problem_brief",
             "concept_brief",
@@ -714,6 +716,7 @@ def _build_live_discover_bundle(
     ]
     strategy_context_id = "strategy_context_brief_productos_next_version_discover"
     product_vision_id = "product_vision_brief_productos_next_version_discover"
+    strategy_option_set_id = "strategy_option_set_productos_next_version_discover"
     market_strategy_id = "market_strategy_brief_productos_next_version_discover"
 
     strategy_context = {
@@ -838,6 +841,50 @@ def _build_live_discover_bundle(
         "created_at": generated_at,
     }
 
+    strategy_option_set = {
+        "schema_version": "1.0.0",
+        "strategy_option_set_id": strategy_option_set_id,
+        "workspace_id": workspace_id,
+        "decision_statement": "How should ProductOS create differentiated discover value before broadening into deeper autonomy?",
+        "options": [
+            {
+                "option_id": "option_strategy_spine_first",
+                "title": "Lead with strategy spine depth",
+                "option_thesis": "Win by making discovery packets strategy-ready before expanding autonomy or drafting breadth.",
+                "upside_case": "The next version becomes easier to trust because the wedge is explicit, reviewable, and traceable.",
+                "failure_mode": "The product looks less flashy than broader drafting-oriented competitors in short demos.",
+                "dependency_burden": "moderate",
+                "reversibility": "easy",
+                "portfolio_interaction": "Strengthens mission, market, and downstream product framing across the full PM loop.",
+                "org_capability_requirement": "Strong strategy synthesis and artifact-linkage discipline.",
+            },
+            {
+                "option_id": "option_autonomy_surface_first",
+                "title": "Lead with more visible automation",
+                "option_thesis": "Win by making the next version feel much more autonomous in the discover loop immediately.",
+                "upside_case": "The product appears faster and more impressive in initial demos.",
+                "failure_mode": "The strategy and evidence bar stay weak, reducing trust in the outputs and the claim surface.",
+                "dependency_burden": "high",
+                "reversibility": "moderate",
+                "portfolio_interaction": "Pulls investment toward output breadth instead of strategy quality.",
+                "org_capability_requirement": "Higher tolerance for mixed-provenance claims and weaker review gates.",
+            },
+            {
+                "option_id": "option_validation_services_first",
+                "title": "Lead with validation-heavy services support",
+                "option_thesis": "Win by combining ProductOS with strong PM review support before productizing more of the strategy work.",
+                "upside_case": "Early users get higher-confidence packets while the product surface matures.",
+                "failure_mode": "The next version proves service quality more than product leverage.",
+                "dependency_burden": "moderate",
+                "reversibility": "easy",
+                "portfolio_interaction": "Can improve early trust but weakens the self-serve discover thesis.",
+                "org_capability_requirement": "High PM review bandwidth and services discipline.",
+            },
+        ],
+        "recommended_option_id": "option_strategy_spine_first",
+        "created_at": generated_at,
+    }
+
     market_strategy = {
         "schema_version": "1.0.0",
         "market_strategy_brief_id": market_strategy_id,
@@ -849,6 +896,11 @@ def _build_live_discover_bundle(
         "strategic_posture": "challenger",
         "market_role_goal": "Beat broad work platforms on traceability, decision quality, and PM-specific strategy framing rather than on generic workspace breadth.",
         "target_market_scope": "B2B product teams that already feel recurring planning, discovery, and delivery reconstruction costs and want a PM-specific operating layer.",
+        "strategy_context_ref": strategy_context_id,
+        "product_vision_ref": product_vision_id,
+        "market_analysis_ref": f"market_analysis_brief_{workspace_id}",
+        "competitor_dossier_ref": f"competitor_dossier_{workspace_id}",
+        "strategy_option_set_ref": strategy_option_set_id,
         "beachhead_segment_refs": segment_refs,
         "priority_persona_refs": persona_refs,
         "buyer_archetype_refs": persona_refs,
@@ -864,10 +916,28 @@ def _build_live_discover_bundle(
         "positioning_statement": "For PM teams that already have tools but still rebuild context by hand, ProductOS is the PM operating layer that makes strategy, evidence, and downstream artifacts traceable enough to trust.",
         "value_wedge": "PM-specific traceability and strategy-ready workflow memory.",
         "right_to_win": "ProductOS already combines structured artifacts, validation, and workflow state in a way broad work suites do not center.",
+        "critical_assumptions": [
+            "A strategy-ready discover packet is a more defensible wedge than broader autonomous drafting right now.",
+            "PM teams will reward traceable judgment quality even when the visible automation surface remains bounded.",
+        ],
         "proof_requirements": [
             "PMs can move from mission to strategy-ready problem framing without reopening raw source notes.",
             "The system preserves explicit evidence links when strategy is carried into downstream problem framing.",
             "The strategy spine sharpens judgment without broadening autonomous PM claims.",
+        ],
+        "proof_plan": [
+            {
+                "claim": "Strategy-ready discovery is the right wedge.",
+                "proof_requirement": "The next-version packet helps a PM choose the next bet without reopening raw notes and transcripts.",
+                "validation_signal": "Self-hosting review confirms the packet is same-day and decision-ready.",
+                "owner": "PM",
+            },
+            {
+                "claim": "The wedge is stronger than broader automation-first positioning.",
+                "proof_requirement": "The strategy packet is easier to explain, trust, and evaluate than a generic automation story.",
+                "validation_signal": "Buyer-facing review favors the strategy packet framing over broader autonomy language.",
+                "owner": "PM + GTM",
+            },
         ],
         "pricing_packaging_hypothesis": "Team-based SaaS pricing with a premium tier for governance, validation, and cross-workspace strategy support.",
         "gtm_motion": "Land with PM leaders or product ops teams that already feel recurring coordination and strategy reconstruction drag.",
@@ -876,7 +946,16 @@ def _build_live_discover_bundle(
             "Buyers may still overweight visible output automation over strategic coherence.",
             "Broad work suites may copy the visible strategy packet without the same traceability depth.",
         ],
-        "linked_artifact_ids": [strategy_context_id, product_vision_id, "idea_record_pm_status_automation"],
+        "rejected_paths": [
+            {
+                "path_name": "Lead with broader discover autonomy",
+                "rejection_reason": "Broader drafting autonomy would increase visible output volume but weaken the repo-first strategy and proof bar the next version is trying to establish.",
+            }
+        ],
+        "decision_readiness": "decision_ready",
+        "claim_confidence": "high",
+        "review_status": "commit_ready",
+        "linked_artifact_ids": [strategy_context_id, product_vision_id, strategy_option_set_id, "idea_record_pm_status_automation"],
         "evidence_refs": [
             {
                 "source_type": "other",
@@ -939,6 +1018,7 @@ def _build_live_discover_bundle(
         "upstream_artifact_ids": [
             strategy_context_id,
             product_vision_id,
+            strategy_option_set_id,
             market_strategy_id,
             "idea_record_pm_status_automation",
         ],
@@ -975,7 +1055,7 @@ def _build_live_discover_bundle(
         ),
         "status": "validated",
         "idea_record_ids": ["idea_record_pm_status_automation"],
-        "strategy_artifact_ids": [strategy_context_id, product_vision_id, market_strategy_id],
+        "strategy_artifact_ids": [strategy_context_id, product_vision_id, strategy_option_set_id, market_strategy_id],
         "target_segment_refs": segment_refs,
         "target_persona_refs": persona_refs,
         "linked_entity_refs": linked_entity_refs,
@@ -1011,6 +1091,7 @@ def _build_live_discover_bundle(
         "upstream_artifact_ids": [
             strategy_context_id,
             product_vision_id,
+            strategy_option_set_id,
             market_strategy_id,
             problem_brief["problem_brief_id"],
             concept_brief["concept_brief_id"],
@@ -1021,6 +1102,7 @@ def _build_live_discover_bundle(
     return {
         "strategy_context_brief": strategy_context,
         "product_vision_brief": product_vision,
+        "strategy_option_set": strategy_option_set,
         "market_strategy_brief": market_strategy,
         "problem_brief": problem_brief,
         "concept_brief": concept_brief,
@@ -1046,14 +1128,24 @@ def _workspace_has_canonical_strategy_discover_bundle(workspace_path: Path) -> b
     strategy_context_brief = _load_persisted_json(artifacts_dir / "strategy_context_brief.json")
     product_vision_brief = _load_persisted_json(artifacts_dir / "product_vision_brief.json")
     market_strategy_brief = _load_persisted_json(artifacts_dir / "market_strategy_brief.json")
+    strategy_option_set = _load_persisted_json(artifacts_dir / "strategy_option_set.json")
     problem_brief = _load_persisted_json(artifacts_dir / "problem_brief.json")
     concept_brief = _load_persisted_json(artifacts_dir / "concept_brief.json")
     prd = _load_persisted_json(artifacts_dir / "prd.json")
-    if not (strategy_context_brief and product_vision_brief and market_strategy_brief and problem_brief and concept_brief and prd):
+    if not (
+        strategy_context_brief
+        and product_vision_brief
+        and strategy_option_set
+        and market_strategy_brief
+        and problem_brief
+        and concept_brief
+        and prd
+    ):
         return False
     strategy_ids = {
         strategy_context_brief["strategy_context_brief_id"],
         product_vision_brief["product_vision_brief_id"],
+        strategy_option_set["strategy_option_set_id"],
         market_strategy_brief["market_strategy_brief_id"],
     }
     problem_upstream = set(problem_brief.get("upstream_artifact_ids", []))
@@ -1073,6 +1165,7 @@ def _load_or_build_workspace_discover_bundle(
     strategy_context_brief = _load_persisted_json(artifacts_dir / "strategy_context_brief.json")
     product_vision_brief = _load_persisted_json(artifacts_dir / "product_vision_brief.json")
     market_strategy_brief = _load_persisted_json(artifacts_dir / "market_strategy_brief.json")
+    strategy_option_set = _load_persisted_json(artifacts_dir / "strategy_option_set.json")
     problem_brief = _load_persisted_json(artifacts_dir / "problem_brief.json")
     concept_brief = _load_persisted_json(artifacts_dir / "concept_brief.json")
     prd = _load_persisted_json(artifacts_dir / "prd.json")
@@ -1080,6 +1173,7 @@ def _load_or_build_workspace_discover_bundle(
         return {
             "strategy_context_brief": strategy_context_brief,
             "product_vision_brief": product_vision_brief,
+            "strategy_option_set": strategy_option_set,
             "market_strategy_brief": market_strategy_brief,
             "problem_brief": problem_brief,
             "concept_brief": concept_brief,
@@ -1097,6 +1191,7 @@ def _load_or_build_workspace_discover_bundle(
             "strategy_context_brief.json": strategy_context_brief,
             "product_vision_brief.json": product_vision_brief,
             "market_strategy_brief.json": market_strategy_brief,
+            "strategy_option_set.json": strategy_option_set,
             "problem_brief.json": problem_brief,
             "concept_brief.json": concept_brief,
             "prd.json": prd,
@@ -1112,6 +1207,7 @@ def _load_persisted_discover_artifacts(workspace_path: Path) -> dict[str, dict[s
     output_dir = workspace_path / "outputs" / "discover"
     strategy_context_brief = _load_persisted_json(output_dir / "discover_strategy_context_brief.json")
     product_vision_brief = _load_persisted_json(output_dir / "discover_product_vision_brief.json")
+    strategy_option_set = _load_persisted_json(output_dir / "discover_strategy_option_set.json")
     market_strategy_brief = _load_persisted_json(output_dir / "discover_market_strategy_brief.json")
     problem_brief = _load_persisted_json(output_dir / "discover_problem_brief.json")
     concept_brief = _load_persisted_json(output_dir / "discover_concept_brief.json")
@@ -1128,6 +1224,7 @@ def _load_persisted_discover_artifacts(workspace_path: Path) -> dict[str, dict[s
     if not (
         strategy_context_brief
         and product_vision_brief
+        and strategy_option_set
         and market_strategy_brief
         and problem_brief
         and concept_brief
@@ -1155,6 +1252,7 @@ def _load_persisted_discover_artifacts(workspace_path: Path) -> dict[str, dict[s
     return {
         "strategy_context_brief": strategy_context_brief,
         "product_vision_brief": product_vision_brief,
+        "strategy_option_set": strategy_option_set,
         "market_strategy_brief": market_strategy_brief,
         "problem_brief": problem_brief,
         "concept_brief": concept_brief,
@@ -1215,6 +1313,7 @@ def _build_or_load_discovery_operations_bundle(
     generated_at: str,
     strategy_context_brief: dict[str, Any],
     product_vision_brief: dict[str, Any],
+    strategy_option_set: dict[str, Any],
     market_strategy_brief: dict[str, Any],
     problem_brief: dict[str, Any],
     concept_brief: dict[str, Any],
@@ -1229,6 +1328,7 @@ def _build_or_load_discovery_operations_bundle(
         expected_ids = {
             strategy_context_brief["strategy_context_brief_id"],
             product_vision_brief["product_vision_brief_id"],
+            strategy_option_set["strategy_option_set_id"],
             market_strategy_brief["market_strategy_brief_id"],
             problem_brief["problem_brief_id"],
             concept_brief["concept_brief_id"],
@@ -1316,6 +1416,7 @@ def _build_or_load_discovery_operations_bundle(
         generated_at=generated_at,
         strategy_context_brief=strategy_context_brief,
         product_vision_brief=product_vision_brief,
+        strategy_option_set=strategy_option_set,
         market_strategy_brief=market_strategy_brief,
         problem_brief=problem_brief,
         concept_brief=concept_brief,
@@ -1713,6 +1814,7 @@ def build_next_version_bundle_from_workspace(
     )
     strategy_context_brief = discover_seed_bundle["strategy_context_brief"]
     product_vision_brief = discover_seed_bundle["product_vision_brief"]
+    strategy_option_set = discover_seed_bundle["strategy_option_set"]
     market_strategy_brief = discover_seed_bundle["market_strategy_brief"]
     problem_brief = discover_seed_bundle["problem_brief"]
     concept_brief = discover_seed_bundle["concept_brief"]
@@ -1771,6 +1873,7 @@ def build_next_version_bundle_from_workspace(
         discover_bundle = persisted_discover_artifacts
     discover_strategy_context_brief = discover_bundle["strategy_context_brief"]
     discover_product_vision_brief = discover_bundle["product_vision_brief"]
+    discover_strategy_option_set = discover_bundle["strategy_option_set"]
     discover_market_strategy_brief = discover_bundle["market_strategy_brief"]
     discover_problem_brief = discover_bundle["problem_brief"]
     discover_concept_brief = discover_bundle["concept_brief"]
@@ -1793,11 +1896,12 @@ def build_next_version_bundle_from_workspace(
         else _build_or_load_discovery_operations_bundle(
             workspace_path,
             generated_at=generated_at,
-            strategy_context_brief=discover_strategy_context_brief,
-            product_vision_brief=discover_product_vision_brief,
-            market_strategy_brief=discover_market_strategy_brief,
-            problem_brief=discover_problem_brief,
-            concept_brief=discover_concept_brief,
+                strategy_context_brief=discover_strategy_context_brief,
+                product_vision_brief=discover_product_vision_brief,
+                strategy_option_set=discover_strategy_option_set,
+                market_strategy_brief=discover_market_strategy_brief,
+                problem_brief=discover_problem_brief,
+                concept_brief=discover_concept_brief,
         )
     )
     discover_research_handoff = discover_research_bundle["research_handoff"]
@@ -5028,6 +5132,7 @@ def build_next_version_bundle_from_workspace(
         "presentation_ppt_export_plan": presentation_ppt_export_plan,
         "discover_strategy_context_brief": discover_strategy_context_brief,
         "discover_product_vision_brief": discover_product_vision_brief,
+        "discover_strategy_option_set": discover_strategy_option_set,
         "discover_market_strategy_brief": discover_market_strategy_brief,
         "discover_problem_brief": discover_problem_brief,
         "discover_concept_brief": discover_concept_brief,

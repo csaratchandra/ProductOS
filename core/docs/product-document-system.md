@@ -195,6 +195,9 @@ Minimum sections:
 - business goals
 - strategic fit
 - north star and guardrails
+- strategic options and rejected path
+- proof plan and assumptions
+- decision readiness and review status
 - next bets
 
 Primary source artifacts:

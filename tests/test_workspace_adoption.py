@@ -397,6 +397,8 @@ def test_research_workspace_refreshes_external_research_artifacts(root_dir: Path
         research_notebook["research_notebook_id"],
         refreshed_research_brief["research_brief_id"],
     ]
+    assert competitor_dossier["dossier_quality"] in {"reviewable", "decision_ready"}
+    assert competitor_dossier["competitors"][0]["evidence_refs"]
     assert customer_pulse["top_pain_points"][0]["description"].startswith("Operators still spend hours every week")
     assert market_analysis["source_artifact_ids"][:2] == [
         research_notebook["research_notebook_id"],
@@ -1312,6 +1314,8 @@ def test_run_research_loop_chains_plan_discovery_and_refresh(
         "research_brief_codesync",
     ]
     assert competitor_dossier["competitors"][0]["name"] == "RivalFlow Loop Overview"
+    assert competitor_dossier["competitive_landscape_status"] == "named_competitor_set"
+    assert competitor_dossier["dossier_quality"] in {"reviewable", "decision_ready"}
     assert "Operators still spend hours" in customer_pulse["top_pain_points"][0]["description"]
     assert any(
         phrase in market_analysis["category_summary"]

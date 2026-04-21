@@ -45,6 +45,16 @@ Each skill document should use this section order:
 - `strategy_refresh`
 - `decision_packet_synthesis`
 - `publish_safe_summarization`
+- `competitive_entity_resolution`
+- `competitive_capability_decomposition`
+- `market_definition_precision`
+- `strategy_option_architecture`
+- `wedge_design`
+- `right_to_win_assessment`
+- `proof_path_design`
+- `buyer_motion_and_packaging`
+- `claim_audit_and_confidence_scoring`
+- `artifact_quality_grading`
 
 ## Rules
 
