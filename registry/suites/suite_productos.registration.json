@@ -3,7 +3,7 @@
   "registration_id": "suite_reg_productos",
   "suite_id": "suite_productos",
   "suite_name": "ProductOS Portfolio Suite",
-  "current_core_version": "8.2.0",
+  "current_core_version": "8.3.0",
   "workspace_ids": [
     "ws_productos_v2"
   ],
@@ -121,6 +121,12 @@
       "adopted_at": "2026-04-21T19:50:52Z",
       "approved_by": "ProductOS PM",
       "change_note": "Promoted the suite to ProductOS V8.2.0 after the mission-to-strategy spine and governed research expansion passed the public release operator."
+    },
+    {
+      "core_version": "8.3.0",
+      "adopted_at": "2026-04-21T20:26:37Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Promoted the suite to ProductOS V8.3.0 after the strategy-quality upgrade and decision-ready strategy artifacts passed the public release operator."
     }
   ],
   "registered_at": "2026-03-19T18:30:00Z"

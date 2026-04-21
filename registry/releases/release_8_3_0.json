@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "release_id": "release_8_3_0",
+  "core_version": "8.3.0",
+  "released_at": "2026-04-21T20:26:37Z",
+  "release_type": "minor",
+  "change_classification": "feature_enhancement",
+  "customer_visible": true,
+  "classification_rationale": "This release promotes ProductOS to V8.3.0 after the strategy-quality upgrade and decision-ready strategy artifacts passed Ralph-loop inspection, validation, fix, and revalidation.",
+  "summary": "ProductOS V8.3.0 is the stable release for strategy-quality upgrade and decision-ready strategy artifacts.",
+  "breaking_changes": [],
+  "upgrade_actions": [
+    "Adopt the promoted Strategy-quality upgrade and decision-ready strategy artifacts in the current ProductOS operating flow.",
+    "Use the automatic Ralph-gated release promotion command for future successful slices.",
+    "Keep private self-hosting work outside PM product workspaces and promote only reusable repo surfaces."
+  ]
+}
