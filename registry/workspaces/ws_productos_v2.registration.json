@@ -3,7 +3,7 @@
   "registration_id": "ws_reg_productos_v2",
   "workspace_id": "ws_productos_v2",
   "workspace_name": "ProductOS Self-Hosting Workspace",
-  "current_core_version": "8.3.0",
+  "current_core_version": "8.4.0",
   "upgrade_history": [
     {
       "core_version": "0.1.0",
@@ -130,6 +130,12 @@
       "adopted_at": "2026-04-21T20:26:37Z",
       "approved_by": "ProductOS PM",
       "change_note": "Adopted ProductOS V8.3.0 after promoting the strategy-quality upgrade and decision-ready strategy artifacts through the public release operator."
+    },
+    {
+      "core_version": "8.4.0",
+      "adopted_at": "2026-04-25T13:23:07Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Adopted ProductOS V8.4.0 after promoting the visual operating system and workflow corridor through the public release operator."
     }
   ],
   "registered_at": "2026-03-21T00:00:00Z"

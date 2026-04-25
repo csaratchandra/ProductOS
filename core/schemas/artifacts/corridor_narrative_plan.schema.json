@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/corridor_narrative_plan.schema.json",
+  "title": "ProductOS Corridor Narrative Plan",
+  "description": "Narrative plan for workflow corridor composition and reading path.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "corridor_narrative_plan_id",
+    "workflow_corridor_spec_id",
+    "corridor_proof_pack_id",
+    "workspace_id",
+    "primary_message",
+    "section_order",
+    "narrative_moves",
+    "desktop_reading_path",
+    "mobile_reading_path",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "corridor_narrative_plan_id": { "type": "string", "minLength": 1 },
+    "workflow_corridor_spec_id": { "type": "string", "minLength": 1 },
+    "corridor_proof_pack_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "primary_message": { "type": "string", "minLength": 10 },
+    "section_order": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 2 },
+      "minItems": 4
+    },
+    "narrative_moves": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section_id",
+          "section_label",
+          "primary_message",
+          "claim_mode",
+          "proof_refs"
+        ],
+        "properties": {
+          "section_id": { "type": "string", "minLength": 1 },
+          "section_label": { "type": "string", "minLength": 2 },
+          "primary_message": { "type": "string", "minLength": 8 },
+          "claim_mode": {
+            "type": "string",
+            "enum": ["observed", "inferred", "hypothesis"]
+          },
+          "proof_refs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "default": []
+          }
+        }
+      },
+      "minItems": 4
+    },
+    "desktop_reading_path": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 2 },
+      "minItems": 4
+    },
+    "mobile_reading_path": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 2 },
+      "minItems": 4
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

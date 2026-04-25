@@ -1,0 +1,16 @@
+{
+  "name": "productos-workflow-corridor",
+  "version": "1.0.0",
+  "type": "repo-component",
+  "entrypoints": {
+    "python_runtime": "components/workflow_corridor/python/productos_workflow_corridor/runtime.py",
+    "export_script": "scripts/export_workflow_corridor.py"
+  },
+  "artifacts": [
+    "workflow_corridor_spec",
+    "corridor_proof_pack",
+    "corridor_narrative_plan",
+    "corridor_render_model",
+    "corridor_publish_check"
+  ]
+}

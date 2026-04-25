@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/corridor_render_model.schema.json",
+  "title": "ProductOS Corridor Render Model",
+  "description": "HTML render model for a configurable workflow corridor page.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "corridor_render_model_id",
+    "workflow_corridor_spec_id",
+    "corridor_proof_pack_id",
+    "corridor_narrative_plan_id",
+    "workspace_id",
+    "visual_form",
+    "audience_mode",
+    "publication_mode",
+    "customer_safe",
+    "theme",
+    "reading_path",
+    "sections",
+    "proof_rail",
+    "governance_signals",
+    "terminal_outcomes",
+    "layout_guardrails",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "corridor_render_model_id": { "type": "string", "minLength": 1 },
+    "workflow_corridor_spec_id": { "type": "string", "minLength": 1 },
+    "corridor_proof_pack_id": { "type": "string", "minLength": 1 },
+    "corridor_narrative_plan_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "visual_form": { "type": "string", "const": "configurable_workflow_corridor" },
+    "audience_mode": { "type": "string", "minLength": 2 },
+    "publication_mode": { "type": "string", "minLength": 2 },
+    "customer_safe": { "type": "boolean" },
+    "theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preset", "display_font", "body_font", "accent", "background"],
+      "properties": {
+        "preset": { "type": "string", "minLength": 2 },
+        "display_font": { "type": "string", "minLength": 2 },
+        "body_font": { "type": "string", "minLength": 2 },
+        "accent": { "type": "string", "minLength": 4 },
+        "background": { "type": "string", "minLength": 4 }
+      }
+    },
+    "reading_path": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["desktop", "mobile"],
+      "properties": {
+        "desktop": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 },
+          "minItems": 4
+        },
+        "mobile": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 },
+          "minItems": 4
+        }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["section_id", "heading", "primary_message", "layout"],
+        "properties": {
+          "section_id": { "type": "string", "minLength": 1 },
+          "heading": { "type": "string", "minLength": 2 },
+          "primary_message": { "type": "string", "minLength": 8 },
+          "layout": { "type": "string", "minLength": 2 },
+          "cards": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "default": []
+          }
+        }
+      },
+      "minItems": 4
+    },
+    "proof_rail": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["proof_id", "label", "claim_mode", "summary"],
+        "properties": {
+          "proof_id": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 2 },
+          "claim_mode": {
+            "type": "string",
+            "enum": ["observed", "inferred", "hypothesis"]
+          },
+          "summary": { "type": "string", "minLength": 8 }
+        }
+      },
+      "minItems": 1
+    },
+    "governance_signals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["signal_id", "label", "status", "summary"],
+        "properties": {
+          "signal_id": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 2 },
+          "status": {
+            "type": "string",
+            "enum": ["approved", "watch", "blocked", "inferred"]
+          },
+          "summary": { "type": "string", "minLength": 8 }
+        }
+      },
+      "minItems": 1
+    },
+    "terminal_outcomes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["outcome_id", "label", "status", "summary"],
+        "properties": {
+          "outcome_id": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 2 },
+          "status": {
+            "type": "string",
+            "enum": ["approved", "watch", "blocked", "inferred"]
+          },
+          "summary": { "type": "string", "minLength": 8 },
+          "claim_mode": {
+            "type": "string",
+            "enum": ["observed", "inferred", "hypothesis"]
+          },
+          "kpi_labels": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 2 },
+            "default": []
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "layout_guardrails": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "one_primary_message_per_screen",
+        "proof_vs_inference_visible",
+        "customer_safe_filter_applied",
+        "slide_like_repetition",
+        "generic_dashboard_pattern"
+      ],
+      "properties": {
+        "one_primary_message_per_screen": { "type": "boolean" },
+        "proof_vs_inference_visible": { "type": "boolean" },
+        "customer_safe_filter_applied": { "type": "boolean" },
+        "slide_like_repetition": { "type": "boolean" },
+        "generic_dashboard_pattern": { "type": "boolean" }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

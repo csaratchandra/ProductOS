@@ -69,6 +69,13 @@ ProductOS visuals should be:
 - trace views should preserve source-to-decision lineage
 - risk views should separate severity from certainty
 
+## Surface Ownership
+
+- shared visual rules live in `core/docs/`
+- deck-specific rendering grammar lives in `components/presentation/`
+- workflow corridor grammar lives in `components/workflow_corridor/`
+- public workflow pages should feel HTML-native, not like slides stacked in a browser
+
 ## Map Selection Rules
 
 - use roadmap views for sequencing, milestones, and dependency tradeoffs over time

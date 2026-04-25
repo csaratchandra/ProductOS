@@ -53,6 +53,12 @@ from .lifecycle import (
 )
 from .mission import init_mission_in_workspace, load_mission_brief_from_workspace, sync_canonical_discover_artifacts
 from .next_version import build_next_version_bundle_from_workspace
+from .visual_os import (
+    build_visual_direction_plan,
+    build_visual_quality_review_for_corridor,
+    build_visual_quality_review_for_deck,
+    build_visual_quality_review_for_map,
+)
 from .v5 import build_v5_lifecycle_bundle_from_workspace, summarize_v5_lifecycle_bundle
 from .v6 import build_v6_lifecycle_bundle_from_workspace, summarize_v6_lifecycle_bundle
 from .v7 import build_v7_lifecycle_bundle_from_workspace, summarize_v7_lifecycle_bundle
@@ -72,6 +78,10 @@ __all__ = [
     "ADOPTION_ARTIFACT_SCHEMAS",
     "THREAD_REVIEW_RELEASE_ARTIFACT_SCHEMAS",
     "build_next_version_bundle_from_workspace",
+    "build_visual_direction_plan",
+    "build_visual_quality_review_for_corridor",
+    "build_visual_quality_review_for_deck",
+    "build_visual_quality_review_for_map",
     "build_v5_lifecycle_bundle_from_workspace",
     "build_v5_cutover_plan_from_workspace",
     "format_v5_cutover_plan_markdown",

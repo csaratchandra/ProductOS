@@ -26,6 +26,11 @@ from components.presentation.python.productos_presentation import (
     build_slide_spec,
     write_html_presentation,
 )
+from components.workflow_corridor.python.productos_workflow_corridor import (
+    build_workflow_corridor_bundle,
+    write_corridor_html,
+)
+from .visual import build_thread_review_corridor_source_bundle
 
 
 ADOPTION_ARTIFACT_SCHEMAS = {
@@ -1934,6 +1939,15 @@ def build_thread_review_presentation_package(
     }
 
 
+def build_thread_review_corridor_package(thread_review_bundle: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    source_bundle = build_thread_review_corridor_source_bundle(thread_review_bundle)
+    return build_workflow_corridor_bundle(
+        source_bundle,
+        audience_mode="operator_review",
+        publication_mode="internal_review",
+    )
+
+
 def write_thread_review_package(
     thread_review_bundle: dict[str, Any],
     output_dir: str | Path,
@@ -1946,8 +1960,11 @@ def write_thread_review_package(
     thread_review_markdown = write_thread_review_markdown(thread_review_bundle, output_root / "thread-review.md")
     presentation_dir = output_root / "presentation"
     presentation_dir.mkdir(parents=True, exist_ok=True)
+    corridor_dir = output_root / "corridor"
+    corridor_dir.mkdir(parents=True, exist_ok=True)
 
     package = build_thread_review_presentation_package(thread_review_bundle, aspect_ratio=aspect_ratio)
+    corridor_package = build_thread_review_corridor_package(thread_review_bundle)
     output_paths = {
         "thread_review_html": thread_review_html,
         "thread_review_markdown": thread_review_markdown,
@@ -1959,10 +1976,19 @@ def write_thread_review_package(
         "presentation_publish_check": presentation_dir / "presentation_publish_check.json",
         "presentation_ppt_export_plan": presentation_dir / "presentation_ppt_export_plan.json",
         "presentation_html": presentation_dir / "thread-review-deck.html",
+        "workflow_corridor_spec": corridor_dir / "workflow_corridor_spec.json",
+        "corridor_proof_pack": corridor_dir / "corridor_proof_pack.json",
+        "corridor_narrative_plan": corridor_dir / "corridor_narrative_plan.json",
+        "corridor_render_model": corridor_dir / "corridor_render_model.json",
+        "corridor_publish_check": corridor_dir / "corridor_publish_check.json",
+        "corridor_html": corridor_dir / "thread-review-corridor.html",
     }
     for key, payload in package.items():
         _write_json(output_paths[key], payload)
     write_html_presentation(package["presentation_render_spec"], output_paths["presentation_html"])
+    for key, payload in corridor_package.items():
+        _write_json(output_paths[key], payload)
+    write_corridor_html(corridor_package["corridor_render_model"], output_paths["corridor_html"])
     return output_paths
 
 

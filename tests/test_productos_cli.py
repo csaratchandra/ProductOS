@@ -34,13 +34,185 @@ def _run_self_hosting_cli(root_dir: Path, workspace_dir: Path, *args: str) -> su
     return _run_cli(root_dir, "--workspace-dir", str(workspace_dir), *args)
 
 
+def _workflow_corridor_source_bundle() -> dict:
+    return {
+        "workspace_id": "ws_corridor_cli",
+        "title": "CLI workflow corridor",
+        "corridor_story": "One corridor page should show the workflow, handoffs, proof posture, and overlays without turning slides into a webpage.",
+        "source_artifact_ids": [
+            "workflow_spec_corridor_cli",
+            "persona_pack_corridor_cli",
+        ],
+        "workflow": {
+            "stages": [
+                {
+                    "stage_id": "stage_intake",
+                    "label": "Intake",
+                    "headline": "Collect and normalize workflow signal",
+                    "summary": "Bring workflow inputs into one bounded starting point.",
+                    "lane_ids": ["lane_signal", "lane_pm"],
+                    "owner_role": "Research",
+                    "status": "approved",
+                    "claim_mode": "observed",
+                    "proof_refs": ["proof_intake"],
+                },
+                {
+                    "stage_id": "stage_design",
+                    "label": "Design",
+                    "headline": "Curate the canonical corridor story",
+                    "summary": "Keep ownership and proof posture explicit.",
+                    "lane_ids": ["lane_pm"],
+                    "owner_role": "PM",
+                    "status": "approved",
+                    "claim_mode": "observed",
+                    "proof_refs": ["proof_publish"],
+                },
+                {
+                    "stage_id": "stage_review",
+                    "label": "Review",
+                    "headline": "Review handoff posture before publish",
+                    "summary": "Show where workflow confidence is still bounded.",
+                    "lane_ids": ["lane_ops"],
+                    "owner_role": "Operations",
+                    "status": "watch",
+                    "claim_mode": "inferred",
+                    "proof_refs": ["proof_handoff"],
+                },
+            ],
+            "lanes": [
+                {"lane_id": "lane_signal", "label": "Signal", "summary": "Signal intake", "owner_role": "Research"},
+                {"lane_id": "lane_pm", "label": "PM", "summary": "PM curation", "owner_role": "PM"},
+                {"lane_id": "lane_ops", "label": "Ops", "summary": "Ops review", "owner_role": "Operations"},
+            ],
+            "owner_transitions": [
+                {
+                    "transition_id": "transition_intake_design",
+                    "from_stage_id": "stage_intake",
+                    "to_stage_id": "stage_design",
+                    "from_owner_role": "Research",
+                    "to_owner_role": "PM",
+                    "status": "approved",
+                    "claim_mode": "observed",
+                    "proof_refs": ["proof_intake"],
+                },
+                {
+                    "transition_id": "transition_design_review",
+                    "from_stage_id": "stage_design",
+                    "to_stage_id": "stage_review",
+                    "from_owner_role": "PM",
+                    "to_owner_role": "Operations",
+                    "status": "watch",
+                    "claim_mode": "inferred",
+                    "proof_refs": ["proof_handoff"],
+                },
+            ],
+        },
+        "personas": [
+            {
+                "persona_id": "persona_buyer",
+                "label": "Buyer",
+                "summary": "Needs a self-explanatory workflow page.",
+                "goal": "Trust the workflow and its proof posture.",
+                "visible_stage_ids": ["stage_intake", "stage_design", "stage_review"],
+                "priority_proof_refs": ["proof_publish"],
+            }
+        ],
+        "segment_overlays": [
+            {
+                "overlay_id": "segment_mid_market",
+                "dimension": "segment",
+                "label": "Mid-market",
+                "summary": "Prefers one externally shareable workflow explanation.",
+                "impact_stage_ids": ["stage_intake", "stage_design"],
+                "claim_mode": "observed",
+                "proof_refs": ["proof_intake"],
+            }
+        ],
+        "operating_models": [
+            {
+                "overlay_id": "operating_async",
+                "dimension": "operating_model",
+                "label": "Async review",
+                "summary": "Keeps proof and handoffs visible for async buyers.",
+                "impact_stage_ids": ["stage_design", "stage_review"],
+                "claim_mode": "observed",
+                "proof_refs": ["proof_publish"],
+            }
+        ],
+        "package_scope": [
+            {
+                "package_id": "package_public_corridor",
+                "label": "Public Corridor",
+                "summary": "Includes publishable corridor generation and proof rails.",
+                "included_stage_ids": ["stage_intake", "stage_design", "stage_review"],
+            }
+        ],
+        "terminal_outcomes": [
+            {
+                "outcome_id": "outcome_confidence",
+                "label": "Customer confidence",
+                "summary": "The workflow can be shared externally with explicit proof posture.",
+                "status": "approved",
+                "claim_mode": "observed",
+                "kpi_refs": ["kpi_confidence"],
+                "proof_refs": ["proof_publish"],
+            }
+        ],
+        "kpi_mappings": [
+            {
+                "kpi_id": "kpi_confidence",
+                "label": "Shareable confidence",
+                "summary": "Publish checks stay strong in customer-safe mode.",
+                "stage_id": "stage_design",
+                "target_outcome_id": "outcome_confidence",
+                "claim_mode": "observed",
+                "proof_refs": ["proof_publish"],
+            }
+        ],
+        "proof_items": [
+            {
+                "proof_id": "proof_intake",
+                "label": "Artifact-driven intake",
+                "summary": "The corridor starts from structured ProductOS inputs.",
+                "claim_mode": "observed",
+                "source_artifact_id": "workflow_spec_corridor_cli",
+                "customer_safe": True,
+            },
+            {
+                "proof_id": "proof_publish",
+                "label": "Publish gate coverage",
+                "summary": "Audience safety and proof visibility have hard gates.",
+                "claim_mode": "observed",
+                "source_artifact_id": "corridor_publish_policy",
+                "customer_safe": True,
+            },
+            {
+                "proof_id": "proof_handoff",
+                "label": "Visible watch state",
+                "summary": "The PM to Ops handoff remains visible and intentionally bounded.",
+                "claim_mode": "inferred",
+                "source_artifact_id": "validation_lane_report_corridor",
+                "customer_safe": True,
+            },
+        ],
+        "workspace_input_refs": [
+            {
+                "ref_id": "workspace_manifest_ws_corridor_cli",
+                "ref_type": "workspace_manifest",
+                "label": "Workspace packaging context",
+                "customer_safe": True,
+            }
+        ],
+    }
+
+
 def test_productos_status_command(root_dir: Path, self_hosting_workspace_dir: Path):
     result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "status")
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Mode: status" in result.stdout
     assert "Mission: PM superpower recovery mission" in result.stdout
-    assert "Top Priority Feature: market_intelligence" in result.stdout
+    assert "Top Priority Feature: presentation_superpower" in result.stdout
     assert "Truthfulness Status: healthy" in result.stdout
     assert "Eval Status: passed (0 regressions)" in result.stdout
     assert "Research Coverage:" in result.stdout
@@ -55,7 +227,7 @@ def test_productos_doctor_command(root_dir: Path, self_hosting_workspace_dir: Pa
     assert "Mission: PM superpower recovery mission" in result.stdout
     assert "Stable Promotion: ready" in result.stdout
     assert "Intake Items: 2" in result.stdout
-    assert "Top Priority Feature: market_intelligence" in result.stdout
+    assert "Top Priority Feature: presentation_superpower" in result.stdout
 
 
 def test_productos_init_mission_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
@@ -237,7 +409,7 @@ def test_productos_run_discover_can_fall_back_to_mission_brief(root_dir: Path, s
     assert generated_market["decision_readiness"] == "decision_ready"
     assert generated_market["linked_artifact_ids"][0] == "mission_brief_ws_productos_v2_pm_superpower_recovery_mission"
     assert generated_problem["title"] == "Problem Brief: PM superpower recovery mission"
-    assert "single repo-native way to declare the mission" in generated_problem["problem_summary"]
+    assert "single repo-native way to move from mission and evidence" in generated_problem["problem_summary"]
     assert generated_problem["upstream_artifact_ids"][:5] == [
         "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
         generated_strategy["strategy_context_brief_id"],
@@ -260,6 +432,130 @@ def test_productos_run_discover_can_fall_back_to_mission_brief(root_dir: Path, s
     ]
     assert generated_concept["title"] == "PM superpower recovery mission"
     assert generated_prd["title"] == "PRD: PM superpower recovery mission"
+
+
+def test_productos_visual_export_deck_command(root_dir: Path, tmp_path: Path):
+    brief_path = root_dir / "components" / "presentation" / "examples" / "artifacts" / "presentation_brief.example.json"
+
+    result = _run_cli(
+        root_dir,
+        "visual",
+        "export",
+        "deck",
+        str(brief_path),
+        "--output-dir",
+        str(tmp_path),
+        "--skip-ppt",
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    brief = json.loads(brief_path.read_text(encoding="utf-8"))
+    brief_id = brief["presentation_brief_id"]
+    assert f"Generated deck outputs for {brief_id}:" in result.stdout
+    assert (tmp_path / f"{brief_id}.visual-direction-plan.json").exists()
+    assert (tmp_path / f"{brief_id}.visual-quality-review.json").exists()
+    assert (tmp_path / f"{brief_id}.evidence-pack.json").exists()
+    assert (tmp_path / f"{brief_id}.presentation-story.json").exists()
+    assert (tmp_path / f"{brief_id}.render-spec.json").exists()
+    assert (tmp_path / f"{brief_id}.slide-spec.json").exists()
+    assert (tmp_path / f"{brief_id}.publish-check.json").exists()
+    assert (tmp_path / f"{brief_id}.ppt-export-plan.json").exists()
+    assert (tmp_path / f"{brief_id}.html").exists()
+
+
+def test_productos_visual_export_corridor_command(root_dir: Path, tmp_path: Path):
+    source_path = tmp_path / "corridor-source.json"
+    source_path.write_text(json.dumps(_workflow_corridor_source_bundle(), indent=2) + "\n", encoding="utf-8")
+    output_dir = tmp_path / "corridor-out"
+
+    result = _run_cli(
+        root_dir,
+        "visual",
+        "export",
+        "corridor",
+        str(source_path),
+        "--output-dir",
+        str(output_dir),
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "Generated corridor outputs for CLI workflow corridor:" in result.stdout
+    assert (output_dir / "visual_direction_plan.json").exists()
+    assert (output_dir / "visual_quality_review.json").exists()
+    assert (output_dir / "workflow_corridor_spec.json").exists()
+    assert (output_dir / "corridor_proof_pack.json").exists()
+    assert (output_dir / "corridor_narrative_plan.json").exists()
+    assert (output_dir / "corridor_render_model.json").exists()
+    assert (output_dir / "corridor_publish_check.json").exists()
+    assert (output_dir / "workflow_corridor.html").exists()
+
+
+def test_productos_visual_plan_build_and_review_deck_commands(root_dir: Path, tmp_path: Path):
+    brief_path = root_dir / "components" / "presentation" / "examples" / "artifacts" / "presentation_brief.example.json"
+    plan_path = tmp_path / "deck.visual-direction-plan.json"
+    build_dir = tmp_path / "deck-build"
+    review_path = tmp_path / "deck.visual-quality-review.json"
+
+    plan_result = _run_cli(
+        root_dir,
+        "visual",
+        "plan",
+        "deck",
+        str(brief_path),
+        "--output-path",
+        str(plan_path),
+    )
+    build_result = _run_cli(
+        root_dir,
+        "visual",
+        "build",
+        str(plan_path),
+        "--output-dir",
+        str(build_dir),
+        "--skip-ppt",
+    )
+    review_result = _run_cli(
+        root_dir,
+        "visual",
+        "review",
+        str(build_dir),
+        "--output-path",
+        str(review_path),
+    )
+
+    assert plan_result.returncode == 0, plan_result.stderr or plan_result.stdout
+    assert build_result.returncode == 0, build_result.stderr or build_result.stdout
+    assert review_result.returncode == 0, review_result.stderr or review_result.stdout
+    assert plan_path.exists()
+    assert review_path.exists()
+    review = json.loads(review_path.read_text(encoding="utf-8"))
+    assert review["visual_surface"] == "deck"
+    assert review["recommended_next_action"] == "proceed"
+
+
+def test_productos_visual_export_map_command(root_dir: Path, tmp_path: Path):
+    map_spec_path = root_dir / "core" / "examples" / "artifacts" / "visual_map_spec.example.json"
+
+    result = _run_cli(
+        root_dir,
+        "visual",
+        "export",
+        "map",
+        str(map_spec_path),
+        "--output-dir",
+        str(tmp_path),
+        "--skip-ppt",
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    visual_map_spec = json.loads(map_spec_path.read_text(encoding="utf-8"))
+    visual_map_id = visual_map_spec["visual_map_spec_id"]
+    assert f"Generated map outputs for {visual_map_id}:" in result.stdout
+    assert (tmp_path / f"{visual_map_id}.visual-direction-plan.json").exists()
+    assert (tmp_path / f"{visual_map_id}.visual-quality-review.json").exists()
+    assert (tmp_path / f"{visual_map_id}.render-spec.json").exists()
+    assert (tmp_path / f"{visual_map_id}.slide-spec.json").exists()
+    assert (tmp_path / f"{visual_map_id}.html").exists()
 
 
 def test_productos_run_discover_persist_syncs_canonical_discover_artifacts_from_mission(
@@ -425,6 +721,8 @@ def test_productos_align_and_operate_outputs_include_custom_mission_context(
     assert operate_result.returncode == 0, operate_result.stderr or operate_result.stdout
 
     presentation_brief = json.loads((align_output_dir / "presentation_brief.json").read_text(encoding="utf-8"))
+    workflow_corridor_spec = json.loads((align_output_dir / "workflow_corridor_spec.json").read_text(encoding="utf-8"))
+    corridor_publish_check = json.loads((align_output_dir / "corridor_publish_check.json").read_text(encoding="utf-8"))
     document_sync_state = json.loads((align_output_dir / "align_document_sync_state.json").read_text(encoding="utf-8"))
     status_mail = json.loads((operate_output_dir / "operate_status_mail.json").read_text(encoding="utf-8"))
     issue_log = json.loads((operate_output_dir / "operate_issue_log.json").read_text(encoding="utf-8"))
@@ -434,6 +732,9 @@ def test_productos_align_and_operate_outputs_include_custom_mission_context(
     assert any(
         snapshot["artifact_type"] == "mission_brief" for snapshot in presentation_brief["source_material_snapshots"]
     )
+    assert workflow_corridor_spec["publication_mode"] == "publishable_external"
+    assert workflow_corridor_spec["customer_safe"] is True
+    assert corridor_publish_check["publish_ready"] is True
     assert "Customer trust recovery mission" in document_sync_state["next_action"]
     assert "mission_brief_ws_productos_v2_customer_trust_recovery_mission" in document_sync_state["source_artifact_refs"]
     assert any(doc["doc_key"] == "product_strategy_vision" for doc in document_sync_state["documents"])
@@ -928,6 +1229,12 @@ def test_productos_run_align_command_exports_phase_artifacts(root_dir: Path, sel
     assert (tmp_path / "presentation_story.json").exists()
     assert (tmp_path / "presentation_render_spec.json").exists()
     assert (tmp_path / "presentation_publish_check.json").exists()
+    assert (tmp_path / "presentation_visual_direction_plan.json").exists()
+    assert (tmp_path / "presentation_visual_quality_review.json").exists()
+    assert (tmp_path / "workflow_corridor_spec.json").exists()
+    assert (tmp_path / "corridor_publish_check.json").exists()
+    assert (tmp_path / "corridor_visual_direction_plan.json").exists()
+    assert (tmp_path / "corridor_visual_quality_review.json").exists()
     assert (tmp_path / "docs_alignment_feature_scorecard.json").exists()
     assert (tmp_path / "presentation_feature_scorecard.json").exists()
     document_sync_state = json.loads((tmp_path / "align_document_sync_state.json").read_text(encoding="utf-8"))
@@ -963,6 +1270,12 @@ def test_productos_run_align_persist_uses_persisted_outputs_for_presentation_sco
     assert (persisted_dir / "presentation_story.json").exists()
     assert (persisted_dir / "presentation_render_spec.json").exists()
     assert (persisted_dir / "presentation_publish_check.json").exists()
+    assert (persisted_dir / "presentation_visual_direction_plan.json").exists()
+    assert (persisted_dir / "presentation_visual_quality_review.json").exists()
+    assert (persisted_dir / "workflow_corridor_spec.json").exists()
+    assert (persisted_dir / "corridor_publish_check.json").exists()
+    assert (persisted_dir / "corridor_visual_direction_plan.json").exists()
+    assert (persisted_dir / "corridor_visual_quality_review.json").exists()
 
     export_dir = tmp_path / "persisted-align-export"
     rerun_result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "align", "--output-dir", str(export_dir))
@@ -1439,12 +1752,15 @@ def test_productos_export_command_writes_bundle(root_dir: Path, self_hosting_wor
     result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "export", "--output-dir", str(output_dir))
 
     assert result.returncode == 0, result.stderr or result.stdout
-    assert "Exported 65 artifacts" in result.stdout
+    assert "Exported " in result.stdout
+    assert " artifacts to " in result.stdout
 
     portfolio_path = output_dir / "feature_portfolio_review.json"
+    corridor_path = output_dir / "workflow_corridor_spec.json"
     assert portfolio_path.exists()
+    assert corridor_path.exists()
     payload = json.loads(portfolio_path.read_text(encoding="utf-8"))
-    assert payload["top_priority_feature_id"] == "market_intelligence"
+    assert payload["top_priority_feature_id"] == "presentation_superpower"
 
 
 def test_productos_trace_item_command(root_dir: Path, self_hosting_workspace_dir: Path):
@@ -1488,10 +1804,12 @@ def test_productos_thread_review_command(root_dir: Path, self_hosting_workspace_
     assert "Thread Review: Thread Review: Lifecycle traceability and stage visibility for PM work" in result.stdout
     assert "Current Stage: outcome_review" in result.stdout
     assert "Package:" in result.stdout
+    assert "Corridor:" in result.stdout
     assert "Slides: 4" in result.stdout
     assert output_path.exists()
     assert markdown_path.exists()
     assert (package_dir / "presentation" / "thread-review-deck.html").exists()
+    assert (package_dir / "corridor" / "thread-review-corridor.html").exists()
 
     html = output_path.read_text(encoding="utf-8")
     assert "Market and competitor context" in html

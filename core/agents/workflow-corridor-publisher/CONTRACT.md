@@ -1,0 +1,1 @@
+../../../components/workflow_corridor/contracts/workflow-corridor-publisher/CONTRACT.md

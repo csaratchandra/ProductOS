@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "corridor_narrative_plan_id": "corridor_narrative_plan_productos_customer_corridor",
+  "workflow_corridor_spec_id": "workflow_corridor_spec_productos_customer_corridor",
+  "corridor_proof_pack_id": "corridor_proof_pack_productos_customer_corridor",
+  "workspace_id": "ws_productos_v2",
+  "primary_message": "The corridor explains one workflow, its trustworthy proof boundary, and the most important overlay decisions on a single customer-safe page.",
+  "section_order": [
+    "hero",
+    "corridor",
+    "personas",
+    "overlays",
+    "proof",
+    "outcomes"
+  ],
+  "narrative_moves": [
+    {
+      "section_id": "hero",
+      "section_label": "Decision story",
+      "primary_message": "Lead with the corridor promise and the highlighted baseline.",
+      "claim_mode": "observed",
+      "proof_refs": [
+        "proof_publish_checks"
+      ]
+    },
+    {
+      "section_id": "corridor",
+      "section_label": "Workflow corridor",
+      "primary_message": "Show canonical stages and ownership transitions before any overlay detail.",
+      "claim_mode": "observed",
+      "proof_refs": [
+        "proof_sources_normalized"
+      ]
+    },
+    {
+      "section_id": "personas",
+      "section_label": "Persona visibility",
+      "primary_message": "Make it obvious what buyers and operators each need to see.",
+      "claim_mode": "observed",
+      "proof_refs": [
+        "proof_sources_normalized"
+      ]
+    },
+    {
+      "section_id": "overlays",
+      "section_label": "Scenario deltas",
+      "primary_message": "Explain how package, segment, and operating-model overlays change the baseline corridor.",
+      "claim_mode": "observed",
+      "proof_refs": [
+        "proof_publish_checks"
+      ]
+    },
+    {
+      "section_id": "proof",
+      "section_label": "Proof rail",
+      "primary_message": "Keep proof, inference, and bounded claims visibly different.",
+      "claim_mode": "inferred",
+      "proof_refs": [
+        "proof_transition_observability"
+      ]
+    },
+    {
+      "section_id": "outcomes",
+      "section_label": "Terminal outcomes",
+      "primary_message": "Close with the externally credible outcome and the KPI it supports.",
+      "claim_mode": "observed",
+      "proof_refs": [
+        "proof_publish_checks"
+      ]
+    }
+  ],
+  "desktop_reading_path": [
+    "hero",
+    "corridor",
+    "personas",
+    "overlays",
+    "proof",
+    "outcomes"
+  ],
+  "mobile_reading_path": [
+    "hero",
+    "corridor",
+    "proof",
+    "personas",
+    "overlays",
+    "outcomes"
+  ],
+  "created_at": "2026-04-22T09:00:00Z"
+}

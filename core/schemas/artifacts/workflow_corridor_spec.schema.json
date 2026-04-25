@@ -1,0 +1,556 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/workflow_corridor_spec.schema.json",
+  "title": "ProductOS Workflow Corridor Spec",
+  "description": "Typed HTML-first corridor contract for customer-safe configurable workflow experiences.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "workflow_corridor_spec_id",
+    "workspace_id",
+    "visual_form",
+    "title",
+    "corridor_story",
+    "audience_mode",
+    "publication_mode",
+    "scenario_baseline",
+    "overlay_dimensions",
+    "source_artifact_ids",
+    "workspace_input_refs",
+    "canonical_stages",
+    "lanes",
+    "operating_models",
+    "persona_views",
+    "segment_overlays",
+    "package_scope",
+    "ownership_rules",
+    "owner_transitions",
+    "terminal_outcomes",
+    "kpi_mappings",
+    "proof_items",
+    "message_claims",
+    "visibility_policy",
+    "customer_safe",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "workflow_corridor_spec_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "visual_form": { "type": "string", "const": "configurable_workflow_corridor" },
+    "title": { "type": "string", "minLength": 5 },
+    "corridor_story": { "type": "string", "minLength": 20 },
+    "audience_mode": {
+      "type": "string",
+      "enum": [
+        "customer_safe_public",
+        "buyer_exec",
+        "operator_review",
+        "product_browse"
+      ]
+    },
+    "publication_mode": {
+      "type": "string",
+      "enum": [
+        "publishable_external",
+        "product_browse",
+        "internal_review"
+      ]
+    },
+    "scenario_baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baseline_id", "label", "summary"],
+      "properties": {
+        "baseline_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 2 },
+        "summary": { "type": "string", "minLength": 10 }
+      }
+    },
+    "overlay_dimensions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 2 },
+      "minItems": 1
+    },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "workspace_input_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/workspaceInputRef" },
+      "minItems": 1
+    },
+    "canonical_stages": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/stage" },
+      "minItems": 3
+    },
+    "lanes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/lane" },
+      "minItems": 1
+    },
+    "operating_models": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/overlayCard" },
+      "default": []
+    },
+    "persona_views": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/personaView" },
+      "minItems": 1
+    },
+    "segment_overlays": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/overlayCard" },
+      "default": []
+    },
+    "package_scope": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/packageScope" },
+      "minItems": 1
+    },
+    "ownership_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ambiguity_fails_publish",
+        "must_show_blocked_handoffs",
+        "must_show_owner_labels",
+        "hidden_by_default_rules"
+      ],
+      "properties": {
+        "ambiguity_fails_publish": { "type": "boolean" },
+        "must_show_blocked_handoffs": { "type": "boolean" },
+        "must_show_owner_labels": { "type": "boolean" },
+        "hidden_by_default_rules": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/hiddenRule" },
+          "minItems": 1
+        }
+      }
+    },
+    "owner_transitions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ownerTransition" },
+      "minItems": 1
+    },
+    "terminal_outcomes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/terminalOutcome" },
+      "minItems": 1
+    },
+    "kpi_mappings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/kpiMapping" },
+      "minItems": 1
+    },
+    "proof_items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/proofItem" },
+      "minItems": 1
+    },
+    "message_claims": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/messageClaim" },
+      "minItems": 1
+    },
+    "visibility_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default_visibility",
+        "permitted_audiences",
+        "allowed_claim_modes",
+        "customer_safe_filtering",
+        "redaction_notes"
+      ],
+      "properties": {
+        "default_visibility": {
+          "type": "string",
+          "enum": ["customer_safe", "internal"]
+        },
+        "permitted_audiences": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 },
+          "minItems": 1
+        },
+        "allowed_claim_modes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/claimMode" },
+          "minItems": 3,
+          "uniqueItems": true
+        },
+        "customer_safe_filtering": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["hide_internal_labels", "hide_private_proof_items", "hide_workspace_sensitive_refs"],
+          "properties": {
+            "hide_internal_labels": { "type": "boolean" },
+            "hide_private_proof_items": { "type": "boolean" },
+            "hide_workspace_sensitive_refs": { "type": "boolean" }
+          }
+        },
+        "redaction_notes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "default": []
+        }
+      }
+    },
+    "customer_safe": { "type": "boolean" },
+    "curated_overrides": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manual_copy_overrides",
+        "scenario_order",
+        "highlighted_baseline",
+        "highlighted_terminal_outcome_ids",
+        "audience_simplifications"
+      ],
+      "properties": {
+        "manual_copy_overrides": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/copyOverride" },
+          "default": []
+        },
+        "scenario_order": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "highlighted_baseline": { "type": "string", "minLength": 1 },
+        "highlighted_terminal_outcome_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "audience_simplifications": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "default": []
+        }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "claimMode": {
+      "type": "string",
+      "enum": ["observed", "inferred", "hypothesis"]
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["customer_safe", "internal"]
+    },
+    "workspaceInputRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref_id", "ref_type", "label"],
+      "properties": {
+        "ref_id": { "type": "string", "minLength": 1 },
+        "ref_type": { "type": "string", "minLength": 2 },
+        "label": { "type": "string", "minLength": 3 },
+        "customer_safe": { "type": "boolean", "default": true }
+      }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_id",
+        "label",
+        "headline",
+        "summary",
+        "lane_ids",
+        "owner_role",
+        "status",
+        "claim_mode",
+        "proof_refs",
+        "visibility"
+      ],
+      "properties": {
+        "stage_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 2 },
+        "headline": { "type": "string", "minLength": 5 },
+        "summary": { "type": "string", "minLength": 10 },
+        "lane_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "owner_role": { "type": "string", "minLength": 2 },
+        "status": {
+          "type": "string",
+          "enum": ["approved", "watch", "blocked", "inferred"]
+        },
+        "claim_mode": { "$ref": "#/$defs/claimMode" },
+        "proof_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "terminal_outcome_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "visibility": { "$ref": "#/$defs/visibility" }
+      }
+    },
+    "lane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lane_id", "label", "summary", "owner_role", "visibility"],
+      "properties": {
+        "lane_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 2 },
+        "summary": { "type": "string", "minLength": 5 },
+        "owner_role": { "type": "string", "minLength": 2 },
+        "visibility": { "$ref": "#/$defs/visibility" }
+      }
+    },
+    "overlayCard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "overlay_id",
+        "dimension",
+        "label",
+        "summary",
+        "impact_stage_ids",
+        "claim_mode",
+        "proof_refs",
+        "visibility"
+      ],
+      "properties": {
+        "overlay_id": { "type": "string", "minLength": 1 },
+        "dimension": { "type": "string", "minLength": 2 },
+        "label": { "type": "string", "minLength": 2 },
+        "summary": { "type": "string", "minLength": 8 },
+        "impact_stage_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "claim_mode": { "$ref": "#/$defs/claimMode" },
+        "proof_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "visibility": { "$ref": "#/$defs/visibility" }
+      }
+    },
+    "personaView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "persona_id",
+        "label",
+        "summary",
+        "goal",
+        "visible_stage_ids",
+        "priority_proof_refs",
+        "visibility"
+      ],
+      "properties": {
+        "persona_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 2 },
+        "summary": { "type": "string", "minLength": 8 },
+        "goal": { "type": "string", "minLength": 8 },
+        "visible_stage_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "priority_proof_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "visibility": { "$ref": "#/$defs/visibility" }
+      }
+    },
+    "packageScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package_id", "label", "summary", "included_stage_ids", "visibility"],
+      "properties": {
+        "package_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 2 },
+        "summary": { "type": "string", "minLength": 8 },
+        "included_stage_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "visibility": { "$ref": "#/$defs/visibility" }
+      }
+    },
+    "hiddenRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "label", "applies_to", "reason"],
+      "properties": {
+        "rule_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 3 },
+        "applies_to": { "type": "string", "minLength": 3 },
+        "reason": { "type": "string", "minLength": 8 }
+      }
+    },
+    "ownerTransition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transition_id",
+        "from_stage_id",
+        "to_stage_id",
+        "from_owner_role",
+        "to_owner_role",
+        "status",
+        "claim_mode",
+        "proof_refs",
+        "visibility"
+      ],
+      "properties": {
+        "transition_id": { "type": "string", "minLength": 1 },
+        "from_stage_id": { "type": "string", "minLength": 1 },
+        "to_stage_id": { "type": "string", "minLength": 1 },
+        "from_owner_role": { "type": "string", "minLength": 2 },
+        "to_owner_role": { "type": "string", "minLength": 2 },
+        "status": {
+          "type": "string",
+          "enum": ["approved", "watch", "blocked", "inferred"]
+        },
+        "claim_mode": { "$ref": "#/$defs/claimMode" },
+        "proof_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "visibility": { "$ref": "#/$defs/visibility" }
+      }
+    },
+    "terminalOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome_id",
+        "label",
+        "summary",
+        "status",
+        "claim_mode",
+        "kpi_refs",
+        "proof_refs",
+        "visibility"
+      ],
+      "properties": {
+        "outcome_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 2 },
+        "summary": { "type": "string", "minLength": 8 },
+        "status": {
+          "type": "string",
+          "enum": ["approved", "watch", "blocked", "inferred"]
+        },
+        "claim_mode": { "$ref": "#/$defs/claimMode" },
+        "kpi_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "proof_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "visibility": { "$ref": "#/$defs/visibility" }
+      }
+    },
+    "kpiMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kpi_id",
+        "label",
+        "summary",
+        "stage_id",
+        "target_outcome_id",
+        "claim_mode",
+        "proof_refs"
+      ],
+      "properties": {
+        "kpi_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 2 },
+        "summary": { "type": "string", "minLength": 8 },
+        "stage_id": { "type": "string", "minLength": 1 },
+        "target_outcome_id": { "type": "string", "minLength": 1 },
+        "claim_mode": { "$ref": "#/$defs/claimMode" },
+        "proof_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        }
+      }
+    },
+    "proofItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proof_id",
+        "label",
+        "summary",
+        "claim_mode",
+        "source_artifact_id",
+        "customer_safe",
+        "visibility"
+      ],
+      "properties": {
+        "proof_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 2 },
+        "summary": { "type": "string", "minLength": 8 },
+        "claim_mode": { "$ref": "#/$defs/claimMode" },
+        "source_artifact_id": { "type": "string", "minLength": 1 },
+        "metric_name": { "type": "string", "minLength": 2 },
+        "observed_value": { "type": "string", "minLength": 1 },
+        "customer_safe": { "type": "boolean" },
+        "visibility": { "$ref": "#/$defs/visibility" }
+      }
+    },
+    "messageClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "message_id",
+        "surface",
+        "message",
+        "claim_mode",
+        "proof_refs"
+      ],
+      "properties": {
+        "message_id": { "type": "string", "minLength": 1 },
+        "surface": { "type": "string", "minLength": 3 },
+        "message": { "type": "string", "minLength": 8 },
+        "claim_mode": { "$ref": "#/$defs/claimMode" },
+        "proof_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        }
+      }
+    },
+    "copyOverride": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_id", "replacement"],
+      "properties": {
+        "target_id": { "type": "string", "minLength": 1 },
+        "replacement": { "type": "string", "minLength": 5 }
+      }
+    }
+  }
+}

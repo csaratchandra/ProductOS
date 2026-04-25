@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/visual_direction_plan.schema.json",
+  "title": "ProductOS Visual Direction Plan",
+  "description": "Shared visual planning artifact that captures how ProductOS should shape a deck, corridor, or map before rendering.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "visual_direction_plan_id",
+    "workspace_id",
+    "visual_surface",
+    "source_artifact_type",
+    "source_artifact_id",
+    "input_ref",
+    "audience",
+    "primary_message",
+    "design_tier",
+    "theme_preset",
+    "composition_strategy",
+    "density_mode",
+    "output_targets",
+    "fidelity_mode",
+    "customer_safe",
+    "quality_gates",
+    "aspect_ratio",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "visual_direction_plan_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "visual_surface": {
+      "type": "string",
+      "enum": ["deck", "corridor", "map"]
+    },
+    "source_artifact_type": {
+      "type": "string",
+      "enum": [
+        "presentation_brief",
+        "workflow_corridor_source_bundle",
+        "workflow_corridor_spec",
+        "visual_map_spec"
+      ]
+    },
+    "source_artifact_id": { "type": "string", "minLength": 1 },
+    "input_ref": { "type": "string", "minLength": 3 },
+    "audience": { "type": "string", "minLength": 3 },
+    "primary_message": { "type": "string", "minLength": 8 },
+    "design_tier": {
+      "type": "string",
+      "enum": ["standard", "premium", "world_class"]
+    },
+    "theme_preset": { "type": "string", "minLength": 3 },
+    "composition_strategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary_pattern", "reading_path", "motion_level", "composition_family"],
+      "properties": {
+        "primary_pattern": { "type": "string", "minLength": 3 },
+        "reading_path": { "type": "string", "minLength": 3 },
+        "motion_level": {
+          "type": "string",
+          "enum": ["minimal", "restrained", "expressive"]
+        },
+        "composition_family": { "type": "string", "minLength": 3 }
+      }
+    },
+    "density_mode": {
+      "type": "string",
+      "enum": ["airy", "balanced", "dense", "light"]
+    },
+    "output_targets": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["html", "pptx"]
+      },
+      "minItems": 1
+    },
+    "fidelity_mode": {
+      "type": "string",
+      "enum": ["dual_target", "html_first", "html_rich", "ppt_safe"]
+    },
+    "customer_safe": { "type": "boolean" },
+    "quality_gates": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "minItems": 1
+    },
+    "aspect_ratio": {
+      "type": "string",
+      "enum": ["16:9", "4:3"]
+    },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

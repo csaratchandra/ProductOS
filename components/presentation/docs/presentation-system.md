@@ -1,6 +1,9 @@
 # ProductOS Presentation System
 
-Purpose: Define how ProductOS turns structured product artifacts into modern HTML slides and exportable PowerPoint presentations.
+Purpose: Define how ProductOS turns structured product artifacts into HTML decks and exportable PowerPoint presentations.
+
+This is the deck transport lane only.
+Public workflow corridor pages are owned by `components/workflow_corridor/`.
 
 ## 1. Source Of Truth
 
@@ -17,9 +20,13 @@ This keeps content and visual rendering separate.
 
 ## 2. Rendering Pipeline
 
-Recommended pipeline:
+Recommended deck pipeline:
 
 `portfolio_update / leadership_review / status_mail / other artifacts -> presentation_brief -> evidence_pack -> presentation_story -> render_spec -> slide_spec / ppt_export_plan -> html renderer / native ppt exporter`
+
+For configurable workflow corridor pages use the separate corridor pipeline:
+
+`source artifacts + workspace inputs -> workflow_corridor_spec -> corridor_proof_pack -> corridor_narrative_plan -> corridor_render_model -> corridor_publish_check -> HTML page`
 
 ## 3. Theme Presets
 
@@ -71,6 +78,20 @@ Current implementation status:
 
 ## 5A. Current commands
 
+Canonical ProductOS CLI:
+
+```bash
+./productos visual export deck components/presentation/examples/artifacts/presentation_brief.example.json
+```
+
+Canonical ProductOS CLI with optional Node PPT parity:
+
+```bash
+./productos visual export deck components/presentation/examples/artifacts/presentation_brief.example.json --node-ppt-output /tmp/productos-deck.node.pptx
+```
+
+Compatibility adapter:
+
 HTML, payload, and native PPTX export:
 
 ```bash
@@ -96,4 +117,4 @@ External design systems and template references can be used as inspiration, but 
 
 Do not let presentation tooling become the source of product truth.
 
-Presentations are renderings of source artifacts, not a separate planning system.
+Presentations are deck renderings of source artifacts, not a separate planning system or a public workflow publication lane.

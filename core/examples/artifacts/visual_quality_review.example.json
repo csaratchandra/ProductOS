@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "visual_quality_review_id": "visual_quality_review_presentation_brief_pm_ops_q2",
+  "workspace_id": "ws_productos_core",
+  "visual_surface": "deck",
+  "source_artifact_id": "presentation_brief_pm_ops_q2",
+  "visual_direction_plan_ref": "visual_direction_plan_presentation_brief_pm_ops_q2",
+  "output_ref": "render_spec_presentation_brief_pm_ops_q2",
+  "review_status": "pass",
+  "publish_ready": true,
+  "narrative_clarity_score": 4.0,
+  "visual_hierarchy_score": 5.0,
+  "evidence_visibility_score": 4.8,
+  "audience_fit_score": 4.8,
+  "fidelity_score": 5.0,
+  "strengths": [
+    "Opening narrative is evaluated against an explicit publish bar.",
+    "Source-linked evidence is preserved in the generated deck.",
+    "HTML fidelity status is aligned.",
+    "PPT fidelity status is aligned."
+  ],
+  "warnings": [],
+  "blockers": [],
+  "recommended_next_action": "proceed",
+  "generated_at": "2026-04-22T06:00:00Z"
+}

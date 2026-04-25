@@ -70,10 +70,16 @@ def test_thread_review_package_writes_markdown_and_presentation_outputs(
     assert output_paths["presentation_brief"].exists()
     assert output_paths["presentation_story"].exists()
     assert output_paths["presentation_html"].exists()
+    assert output_paths["workflow_corridor_spec"].exists()
+    assert output_paths["corridor_publish_check"].exists()
+    assert output_paths["corridor_html"].exists()
     assert "## Review Actions" in output_paths["thread_review_markdown"].read_text(encoding="utf-8")
     presentation_brief = json.loads(output_paths["presentation_brief"].read_text(encoding="utf-8"))
+    workflow_corridor_spec = json.loads(output_paths["workflow_corridor_spec"].read_text(encoding="utf-8"))
     assert presentation_brief["presentation_brief_id"].endswith("_thread_review")
     assert presentation_brief["slide_outlines"][0]["title"] == "Decision Now"
+    assert workflow_corridor_spec["publication_mode"] == "internal_review"
+    assert workflow_corridor_spec["customer_safe"] is False
 
 
 def test_thread_review_index_site_generates_item_pages(

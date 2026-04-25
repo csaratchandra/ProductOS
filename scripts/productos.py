@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -14,6 +15,23 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from components.presentation.python.productos_presentation import (
+    build_evidence_pack,
+    build_presentation_story,
+    build_publish_check,
+    build_ppt_export_plan,
+    build_render_spec,
+    build_slide_spec,
+    build_visual_map_render_spec,
+    build_visual_map_slide_spec,
+    write_html_presentation,
+    write_ppt_presentation,
+)
+from components.workflow_corridor.python.productos_workflow_corridor import (
+    build_workflow_corridor_bundle,
+    write_corridor_html,
+    write_corridor_payload,
+)
 from core.python.productos_runtime import (
     ADOPTION_ARTIFACT_SCHEMAS,
     RESEARCH_DISCOVERY_ARTIFACT_SCHEMAS,
@@ -64,6 +82,13 @@ from core.python.productos_runtime.v5 import V5_ARTIFACT_SCHEMAS
 from core.python.productos_runtime.v6 import V6_ARTIFACT_SCHEMAS
 from core.python.productos_runtime.v7 import V7_ARTIFACT_SCHEMAS
 from core.python.productos_runtime.release import evaluate_promotion_gate, run_public_release
+from core.python.productos_runtime.visual_os import (
+    build_visual_direction_plan,
+    build_visual_quality_review_for_corridor,
+    build_visual_quality_review_for_deck,
+    build_visual_quality_review_for_map,
+    infer_visual_review_target,
+)
 
 SCHEMA_DIR = ROOT / "core" / "schemas" / "artifacts"
 PHASE_ARTIFACTS = {
@@ -105,6 +130,15 @@ PHASE_ARTIFACTS = {
         "presentation_render_spec",
         "presentation_publish_check",
         "presentation_ppt_export_plan",
+        "presentation_visual_direction_plan",
+        "presentation_visual_quality_review",
+        "workflow_corridor_spec",
+        "corridor_proof_pack",
+        "corridor_narrative_plan",
+        "corridor_render_model",
+        "corridor_publish_check",
+        "corridor_visual_direction_plan",
+        "corridor_visual_quality_review",
         "docs_alignment_feature_scorecard",
         "presentation_feature_scorecard",
     ],
@@ -218,6 +252,13 @@ def _write_source_note_cards(output_dir: Path, bundle: dict[str, dict]) -> None:
         with (output_dir / filename).open("w", encoding="utf-8") as handle:
             json.dump(payload, handle, indent=2)
             handle.write("\n")
+
+
+def _write_json_payload(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2)
+        handle.write("\n")
 
 
 def _write_release_review_markdown(output_dir: Path, bundle: dict[str, dict]) -> None:
@@ -714,6 +755,454 @@ def cmd_export(args: argparse.Namespace) -> int:
     return 0
 
 
+def _default_visual_plan_path(visual_surface: str, source_artifact_id: str) -> Path:
+    return (ROOT / "tmp" / "visual-plans" / visual_surface / f"{source_artifact_id}.visual-direction-plan.json").resolve()
+
+
+def _default_visual_output_dir(visual_surface: str, source_artifact_id: str) -> Path:
+    if visual_surface == "deck":
+        return (ROOT / "tmp" / "presentations" / source_artifact_id).resolve()
+    if visual_surface == "corridor":
+        return (ROOT / "tmp" / "workflow-corridor" / str(source_artifact_id).replace(" ", "-").lower()).resolve()
+    if visual_surface == "map":
+        return (ROOT / "tmp" / "visual-maps" / source_artifact_id).resolve()
+    raise ValueError(f"Unsupported visual surface: {visual_surface}")
+
+
+def _build_deck_outputs(
+    presentation_brief: dict,
+    direction_plan: dict,
+    output_dir: Path,
+    *,
+    aspect_ratio: str,
+) -> tuple[dict[str, dict], dict[str, Path]]:
+    brief_id = presentation_brief["presentation_brief_id"]
+    evidence_pack = build_evidence_pack(presentation_brief)
+    presentation_story = build_presentation_story(presentation_brief, evidence_pack)
+    render_spec = build_render_spec(
+        presentation_brief,
+        presentation_story,
+        aspect_ratio=aspect_ratio,
+    )
+    slide_spec = build_slide_spec(
+        presentation_brief,
+        aspect_ratio=aspect_ratio,
+    )
+    publish_check = build_publish_check(presentation_brief, render_spec)
+    export_plan = build_ppt_export_plan(render_spec)
+    quality_review = build_visual_quality_review_for_deck(direction_plan, render_spec, publish_check)
+
+    output_paths = {
+        "visual_direction_plan": output_dir / f"{brief_id}.visual-direction-plan.json",
+        "visual_quality_review": output_dir / f"{brief_id}.visual-quality-review.json",
+        "evidence_pack": output_dir / f"{brief_id}.evidence-pack.json",
+        "presentation_story": output_dir / f"{brief_id}.presentation-story.json",
+        "render_spec": output_dir / f"{brief_id}.render-spec.json",
+        "slide_spec": output_dir / f"{brief_id}.slide-spec.json",
+        "publish_check": output_dir / f"{brief_id}.publish-check.json",
+        "ppt_export_plan": output_dir / f"{brief_id}.ppt-export-plan.json",
+        "html": output_dir / f"{brief_id}.html",
+    }
+
+    _write_json_payload(output_paths["visual_direction_plan"], direction_plan)
+    _write_json_payload(output_paths["visual_quality_review"], quality_review)
+    _write_json_payload(output_paths["evidence_pack"], evidence_pack)
+    _write_json_payload(output_paths["presentation_story"], presentation_story)
+    _write_json_payload(output_paths["render_spec"], render_spec)
+    _write_json_payload(output_paths["slide_spec"], slide_spec)
+    _write_json_payload(output_paths["publish_check"], publish_check)
+    _write_json_payload(output_paths["ppt_export_plan"], export_plan)
+    write_html_presentation(render_spec, output_paths["html"])
+
+    return {
+        "evidence_pack": evidence_pack,
+        "presentation_story": presentation_story,
+        "render_spec": render_spec,
+        "slide_spec": slide_spec,
+        "publish_check": publish_check,
+        "ppt_export_plan": export_plan,
+        "visual_quality_review": quality_review,
+    }, output_paths
+
+
+def _build_corridor_outputs(
+    source_bundle: dict,
+    direction_plan: dict,
+    output_dir: Path,
+    *,
+    audience_mode: str,
+    publication_mode: str,
+) -> tuple[dict[str, dict], dict[str, Path]]:
+    bundle = build_workflow_corridor_bundle(
+        source_bundle,
+        audience_mode=audience_mode,
+        publication_mode=publication_mode,
+    )
+    quality_review = build_visual_quality_review_for_corridor(direction_plan, bundle)
+    output_paths = {
+        "visual_direction_plan": output_dir / "visual_direction_plan.json",
+        "visual_quality_review": output_dir / "visual_quality_review.json",
+        **{name: output_dir / f"{name}.json" for name in bundle},
+        "html": output_dir / "workflow_corridor.html",
+    }
+
+    _write_json_payload(output_paths["visual_direction_plan"], direction_plan)
+    _write_json_payload(output_paths["visual_quality_review"], quality_review)
+    for name, payload in bundle.items():
+        write_corridor_payload(payload, output_paths[name])
+    write_corridor_html(bundle["corridor_render_model"], output_paths["html"])
+
+    bundle["visual_quality_review"] = quality_review
+    return bundle, output_paths
+
+
+def _build_map_outputs(
+    visual_map_spec: dict,
+    direction_plan: dict,
+    output_dir: Path,
+    *,
+    aspect_ratio: str,
+    theme_name: str,
+) -> tuple[dict[str, dict], dict[str, Path]]:
+    visual_map_id = visual_map_spec["visual_map_spec_id"]
+    render_spec = build_visual_map_render_spec(
+        visual_map_spec,
+        theme_name=theme_name,
+        aspect_ratio=aspect_ratio,
+    )
+    slide_spec = build_visual_map_slide_spec(
+        visual_map_spec,
+        theme_name=theme_name,
+        aspect_ratio=aspect_ratio,
+    )
+    quality_review = build_visual_quality_review_for_map(direction_plan, render_spec)
+    output_paths = {
+        "visual_direction_plan": output_dir / f"{visual_map_id}.visual-direction-plan.json",
+        "visual_quality_review": output_dir / f"{visual_map_id}.visual-quality-review.json",
+        "render_spec": output_dir / f"{visual_map_id}.render-spec.json",
+        "slide_spec": output_dir / f"{visual_map_id}.slide-spec.json",
+        "html": output_dir / f"{visual_map_id}.html",
+    }
+
+    _write_json_payload(output_paths["visual_direction_plan"], direction_plan)
+    _write_json_payload(output_paths["visual_quality_review"], quality_review)
+    _write_json_payload(output_paths["render_spec"], render_spec)
+    _write_json_payload(output_paths["slide_spec"], slide_spec)
+    write_html_presentation(render_spec, output_paths["html"])
+
+    return {
+        "render_spec": render_spec,
+        "slide_spec": slide_spec,
+        "visual_quality_review": quality_review,
+    }, output_paths
+
+
+def _maybe_write_native_ppt(render_spec: dict, ppt_path: Path) -> str | None:
+    try:
+        write_ppt_presentation(render_spec, ppt_path)
+    except RuntimeError as error:
+        return f"skipped ({error})"
+    return None
+
+
+def _maybe_write_node_ppt(render_spec_path: Path, node_output: Path, node_binary: str) -> tuple[int, str]:
+    command = [
+        node_binary,
+        str(ROOT / "scripts" / "presentation_export_pptx.mjs"),
+        str(render_spec_path),
+        str(node_output),
+    ]
+    try:
+        result = subprocess.run(
+            command,
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except FileNotFoundError:
+        return 1, f"missing node binary: {node_binary}"
+    if result.returncode != 0:
+        return result.returncode or 1, result.stderr.strip() or result.stdout.strip() or "node PPT export failed"
+    return 0, ""
+
+
+def _load_visual_direction_plan(path: Path) -> dict:
+    return _load_json(path.resolve())
+
+
+def _find_single_path(output_dir: Path, pattern: str) -> Path:
+    matches = sorted(output_dir.glob(pattern))
+    if not matches:
+        raise SystemExit(f"Expected to find {pattern} in {output_dir}")
+    return matches[0]
+
+
+def cmd_visual_plan_deck(args: argparse.Namespace) -> int:
+    brief_path = args.presentation_brief.resolve()
+    presentation_brief = _load_json(brief_path)
+    direction_plan = build_visual_direction_plan(
+        "deck",
+        presentation_brief,
+        input_ref=str(brief_path),
+        aspect_ratio=args.aspect_ratio,
+    )
+    output_path = (args.output_path or _default_visual_plan_path("deck", presentation_brief["presentation_brief_id"])).resolve()
+    _write_json_payload(output_path, direction_plan)
+    print(f"Visual direction plan: {output_path}")
+    return 0
+
+
+def cmd_visual_plan_corridor(args: argparse.Namespace) -> int:
+    source_path = args.source_bundle.resolve()
+    source_bundle = _load_json(source_path)
+    source_artifact_id = (
+        source_bundle.get("workflow_corridor_spec_id")
+        or source_bundle.get("corridor_id")
+        or source_bundle.get("title")
+        or source_bundle["workspace_id"]
+    )
+    direction_plan = build_visual_direction_plan(
+        "corridor",
+        source_bundle,
+        input_ref=str(source_path),
+        audience_mode=args.audience_mode,
+        publication_mode=args.publication_mode,
+    )
+    output_path = (args.output_path or _default_visual_plan_path("corridor", source_artifact_id)).resolve()
+    _write_json_payload(output_path, direction_plan)
+    print(f"Visual direction plan: {output_path}")
+    return 0
+
+
+def cmd_visual_plan_map(args: argparse.Namespace) -> int:
+    spec_path = args.visual_map_spec.resolve()
+    visual_map_spec = _load_json(spec_path)
+    direction_plan = build_visual_direction_plan(
+        "map",
+        visual_map_spec,
+        input_ref=str(spec_path),
+        aspect_ratio=args.aspect_ratio,
+        theme_name=args.theme_preset,
+    )
+    output_path = (args.output_path or _default_visual_plan_path("map", visual_map_spec["visual_map_spec_id"])).resolve()
+    _write_json_payload(output_path, direction_plan)
+    print(f"Visual direction plan: {output_path}")
+    return 0
+
+
+def cmd_visual_build(args: argparse.Namespace) -> int:
+    direction_plan = _load_visual_direction_plan(args.visual_direction_plan)
+    input_payload = _load_json(Path(direction_plan["input_ref"]))
+    output_dir = (args.output_dir or _default_visual_output_dir(direction_plan["visual_surface"], direction_plan["source_artifact_id"])).resolve()
+
+    if direction_plan["visual_surface"] == "deck":
+        _, output_paths = _build_deck_outputs(
+            input_payload,
+            direction_plan,
+            output_dir,
+            aspect_ratio=direction_plan["aspect_ratio"],
+        )
+        print(f"Built deck outputs for {direction_plan['source_artifact_id']}:")
+        for label, path in output_paths.items():
+            print(f"  - {label}: {path}")
+        if not args.skip_ppt and "pptx" in direction_plan["output_targets"]:
+            ppt_path = output_dir / f"{direction_plan['source_artifact_id']}.pptx"
+            detail = _maybe_write_native_ppt(_load_json(output_paths["render_spec"]), ppt_path)
+            if detail is None:
+                print(f"  - pptx: {ppt_path}")
+            else:
+                print(f"  - pptx: {detail}")
+        return 0
+
+    if direction_plan["visual_surface"] == "corridor":
+        plan_notes = direction_plan.get("notes", [])
+        publication_mode = plan_notes[1] if len(plan_notes) > 1 else "publishable_external"
+        _, output_paths = _build_corridor_outputs(
+            input_payload,
+            direction_plan,
+            output_dir,
+            audience_mode=direction_plan["audience"],
+            publication_mode=publication_mode,
+        )
+        print(f"Built corridor outputs for {direction_plan['source_artifact_id']}:")
+        print(f"  - output_dir: {output_dir}")
+        for label, path in output_paths.items():
+            if label == "html":
+                continue
+            print(f"  - {label}: {path}")
+        print(f"  - html: {output_paths['html']}")
+        return 0
+
+    if direction_plan["visual_surface"] == "map":
+        payloads, output_paths = _build_map_outputs(
+            input_payload,
+            direction_plan,
+            output_dir,
+            aspect_ratio=direction_plan["aspect_ratio"],
+            theme_name=direction_plan["theme_preset"],
+        )
+        print(f"Built map outputs for {direction_plan['source_artifact_id']}:")
+        for label, path in output_paths.items():
+            print(f"  - {label}: {path}")
+        if not args.skip_ppt and "pptx" in direction_plan["output_targets"]:
+            ppt_path = output_dir / f"{direction_plan['source_artifact_id']}.pptx"
+            detail = _maybe_write_native_ppt(payloads["render_spec"], ppt_path)
+            if detail is None:
+                print(f"  - pptx: {ppt_path}")
+            else:
+                print(f"  - pptx: {detail}")
+        return 0
+
+    raise AssertionError(f"Unsupported visual surface: {direction_plan['visual_surface']}")
+
+
+def cmd_visual_review(args: argparse.Namespace) -> int:
+    output_dir = infer_visual_review_target(args.target.resolve())
+
+    corridor_plan_path = output_dir / "visual_direction_plan.json"
+    corridor_publish_check_path = output_dir / "corridor_publish_check.json"
+    if corridor_plan_path.exists() and corridor_publish_check_path.exists():
+        direction_plan = _load_json(corridor_plan_path)
+        corridor_bundle = {
+            "corridor_render_model": _load_json(output_dir / "corridor_render_model.json"),
+            "corridor_publish_check": _load_json(corridor_publish_check_path),
+        }
+        quality_review = build_visual_quality_review_for_corridor(direction_plan, corridor_bundle)
+        output_path = (args.output_path or output_dir / "visual_quality_review.json").resolve()
+        _write_json_payload(output_path, quality_review)
+        print(f"Visual quality review: {output_path}")
+        return 0
+
+    direction_plan_path = _find_single_path(output_dir, "*.visual-direction-plan.json")
+    direction_plan = _load_json(direction_plan_path)
+    if direction_plan["visual_surface"] == "deck":
+        render_spec = _load_json(_find_single_path(output_dir, "*.render-spec.json"))
+        publish_check = _load_json(_find_single_path(output_dir, "*.publish-check.json"))
+        quality_review = build_visual_quality_review_for_deck(direction_plan, render_spec, publish_check)
+    elif direction_plan["visual_surface"] == "map":
+        render_spec = _load_json(_find_single_path(output_dir, "*.render-spec.json"))
+        quality_review = build_visual_quality_review_for_map(direction_plan, render_spec)
+    else:
+        raise SystemExit(f"Unsupported review surface in {direction_plan_path}")
+
+    output_path = (
+        args.output_path
+        or output_dir / f"{direction_plan['source_artifact_id']}.visual-quality-review.json"
+    ).resolve()
+    _write_json_payload(output_path, quality_review)
+    print(f"Visual quality review: {output_path}")
+    return 0
+
+
+def cmd_visual_export_deck(args: argparse.Namespace) -> int:
+    brief_path = args.presentation_brief.resolve()
+    presentation_brief = _load_json(brief_path)
+    brief_id = presentation_brief["presentation_brief_id"]
+    direction_plan = build_visual_direction_plan(
+        "deck",
+        presentation_brief,
+        input_ref=str(brief_path),
+        aspect_ratio=args.aspect_ratio,
+    )
+    output_dir = (args.output_dir or _default_visual_output_dir("deck", brief_id)).resolve()
+    _, output_paths = _build_deck_outputs(
+        presentation_brief,
+        direction_plan,
+        output_dir,
+        aspect_ratio=args.aspect_ratio,
+    )
+
+    print(f"Generated deck outputs for {brief_id}:")
+    for label, path in output_paths.items():
+        print(f"  - {label}: {path}")
+
+    if not args.skip_ppt:
+        ppt_path = output_dir / f"{brief_id}.pptx"
+        detail = _maybe_write_native_ppt(_load_json(output_paths["render_spec"]), ppt_path)
+        if detail is None:
+            print(f"  - pptx: {ppt_path}")
+        else:
+            print(f"  - pptx: {detail}")
+
+    if args.node_ppt_output:
+        node_output = args.node_ppt_output.resolve()
+        status, detail = _maybe_write_node_ppt(output_paths["render_spec"], node_output, args.node_binary)
+        if status != 0:
+            print(f"  - node_pptx: failed ({detail})")
+            return status
+        print(f"  - node_pptx: {node_output}")
+
+    return 0
+
+
+def cmd_visual_export_corridor(args: argparse.Namespace) -> int:
+    source_path = args.source_bundle.resolve()
+    source_bundle = _load_json(source_path)
+    slug = source_bundle.get("corridor_id") or source_bundle.get("title", "workflow-corridor")
+    direction_plan = build_visual_direction_plan(
+        "corridor",
+        source_bundle,
+        input_ref=str(source_path),
+        audience_mode=args.audience_mode,
+        publication_mode=args.publication_mode,
+    )
+    output_dir = (args.output_dir or _default_visual_output_dir("corridor", slug)).resolve()
+    bundle, output_paths = _build_corridor_outputs(
+        source_bundle,
+        direction_plan,
+        output_dir,
+        audience_mode=args.audience_mode,
+        publication_mode=args.publication_mode,
+    )
+
+    print(f"Generated corridor outputs for {slug}:")
+    print(f"  - output_dir: {output_dir}")
+    for name in bundle:
+        if name == "visual_quality_review":
+            continue
+        print(f"  - {name}: {output_dir / f'{name}.json'}")
+    print(f"  - visual_direction_plan: {output_paths['visual_direction_plan']}")
+    print(f"  - visual_quality_review: {output_paths['visual_quality_review']}")
+    print(f"  - html: {output_paths['html']}")
+    return 0
+
+
+def cmd_visual_export_map(args: argparse.Namespace) -> int:
+    spec_path = args.visual_map_spec.resolve()
+    visual_map_spec = _load_json(spec_path)
+    visual_map_id = visual_map_spec["visual_map_spec_id"]
+    direction_plan = build_visual_direction_plan(
+        "map",
+        visual_map_spec,
+        input_ref=str(spec_path),
+        aspect_ratio=args.aspect_ratio,
+        theme_name=args.theme_preset,
+    )
+    output_dir = (args.output_dir or _default_visual_output_dir("map", visual_map_id)).resolve()
+    payloads, output_paths = _build_map_outputs(
+        visual_map_spec,
+        direction_plan,
+        output_dir,
+        aspect_ratio=args.aspect_ratio,
+        theme_name=args.theme_preset,
+    )
+
+    print(f"Generated map outputs for {visual_map_id}:")
+    for label, path in output_paths.items():
+        print(f"  - {label}: {path}")
+
+    if not args.skip_ppt and "pptx" in direction_plan["output_targets"]:
+        ppt_path = output_dir / f"{visual_map_id}.pptx"
+        detail = _maybe_write_native_ppt(payloads["render_spec"], ppt_path)
+        if detail is None:
+            print(f"  - pptx: {ppt_path}")
+        else:
+            print(f"  - pptx: {detail}")
+
+    return 0
+
+
 def cmd_doctor(args: argparse.Namespace) -> int:
     bundle = _build_bundle(args)
     workspace_dir = _workspace_dir(args)
@@ -981,6 +1470,7 @@ def cmd_thread_review(args: argparse.Namespace) -> int:
         package_paths = write_thread_review_package(bundle, args.package_dir, aspect_ratio=args.aspect_ratio)
         print(f"Package: {args.package_dir}")
         print(f"Deck: {package_paths['presentation_html']}")
+        print(f"Corridor: {package_paths['corridor_html']}")
         print(f"Slides: {len(package['presentation_story']['slides'])}")
     print(f"Thread Review: {bundle['title']}")
     print(f"Item: {bundle['item_ref']['entity_id']}")
@@ -1247,6 +1737,74 @@ def parse_args() -> argparse.Namespace:
     export_parser = subparsers.add_parser("export")
     export_parser.add_argument("--output-dir", type=Path, required=True)
 
+    visual_parser = subparsers.add_parser("visual")
+    visual_subparsers = visual_parser.add_subparsers(dest="visual_command", required=True)
+    visual_plan_parser = visual_subparsers.add_parser("plan")
+    visual_plan_subparsers = visual_plan_parser.add_subparsers(dest="visual_surface", required=True)
+    visual_build_parser = visual_subparsers.add_parser("build")
+    visual_build_parser.add_argument("visual_direction_plan", type=Path)
+    visual_build_parser.add_argument("--output-dir", type=Path)
+    visual_build_parser.add_argument("--skip-ppt", action="store_true")
+    visual_review_parser = visual_subparsers.add_parser("review")
+    visual_review_parser.add_argument("target", type=Path)
+    visual_review_parser.add_argument("--output-path", type=Path)
+    visual_export_parser = visual_subparsers.add_parser("export")
+    visual_export_subparsers = visual_export_parser.add_subparsers(dest="visual_surface", required=True)
+
+    visual_plan_deck_parser = visual_plan_subparsers.add_parser("deck")
+    visual_plan_deck_parser.add_argument("presentation_brief", type=Path)
+    visual_plan_deck_parser.add_argument("--output-path", type=Path)
+    visual_plan_deck_parser.add_argument("--aspect-ratio", choices=["16:9", "4:3"], default="16:9")
+
+    visual_plan_corridor_parser = visual_plan_subparsers.add_parser("corridor")
+    visual_plan_corridor_parser.add_argument("source_bundle", type=Path)
+    visual_plan_corridor_parser.add_argument("--output-path", type=Path)
+    visual_plan_corridor_parser.add_argument(
+        "--audience-mode",
+        default="customer_safe_public",
+        choices=["customer_safe_public", "buyer_exec", "operator_review", "product_browse"],
+    )
+    visual_plan_corridor_parser.add_argument(
+        "--publication-mode",
+        default="publishable_external",
+        choices=["publishable_external", "product_browse", "internal_review"],
+    )
+
+    visual_plan_map_parser = visual_plan_subparsers.add_parser("map")
+    visual_plan_map_parser.add_argument("visual_map_spec", type=Path)
+    visual_plan_map_parser.add_argument("--output-path", type=Path)
+    visual_plan_map_parser.add_argument("--aspect-ratio", choices=["16:9", "4:3"], default="16:9")
+    visual_plan_map_parser.add_argument("--theme-preset", default="atlas")
+
+    visual_deck_parser = visual_export_subparsers.add_parser("deck")
+    visual_deck_parser.add_argument("presentation_brief", type=Path)
+    visual_deck_parser.add_argument("--output-dir", type=Path)
+    visual_deck_parser.add_argument("--aspect-ratio", choices=["16:9", "4:3"], default="16:9")
+    visual_deck_parser.add_argument("--skip-ppt", action="store_true")
+    visual_deck_parser.add_argument("--node-ppt-output", type=Path)
+    visual_deck_parser.add_argument("--node-binary", default="node")
+
+    visual_corridor_parser = visual_export_subparsers.add_parser("corridor")
+    visual_corridor_parser.add_argument("source_bundle", type=Path)
+    visual_corridor_parser.add_argument("--output-dir", type=Path)
+    visual_corridor_parser.add_argument(
+        "--audience-mode",
+        default="customer_safe_public",
+        choices=["customer_safe_public", "buyer_exec", "operator_review", "product_browse"],
+    )
+    visual_corridor_parser.add_argument(
+        "--publication-mode",
+        default="publishable_external",
+        choices=["publishable_external", "product_browse", "internal_review"],
+    )
+
+    visual_map_parser = visual_export_subparsers.add_parser("map")
+    visual_map_parser.add_argument("visual_map_spec", type=Path)
+    visual_map_parser.add_argument("--output-dir", type=Path)
+    visual_map_parser.add_argument("--aspect-ratio", choices=["16:9", "4:3"], default="16:9")
+    visual_map_parser.add_argument("--theme-preset", default="atlas")
+    visual_map_parser.add_argument("--skip-ppt", action="store_true")
+
     trace_parser = subparsers.add_parser("trace")
     trace_group = trace_parser.add_mutually_exclusive_group(required=True)
     trace_group.add_argument("--item-id")
@@ -1392,6 +1950,24 @@ def main() -> int:
         return cmd_review(args)
     if args.command == "export":
         return cmd_export(args)
+    if args.command == "visual":
+        if args.visual_command == "plan" and args.visual_surface == "deck":
+            return cmd_visual_plan_deck(args)
+        if args.visual_command == "plan" and args.visual_surface == "corridor":
+            return cmd_visual_plan_corridor(args)
+        if args.visual_command == "plan" and args.visual_surface == "map":
+            return cmd_visual_plan_map(args)
+        if args.visual_command == "build":
+            return cmd_visual_build(args)
+        if args.visual_command == "review":
+            return cmd_visual_review(args)
+        if args.visual_command == "export" and args.visual_surface == "deck":
+            return cmd_visual_export_deck(args)
+        if args.visual_command == "export" and args.visual_surface == "corridor":
+            return cmd_visual_export_corridor(args)
+        if args.visual_command == "export" and args.visual_surface == "map":
+            return cmd_visual_export_map(args)
+        raise AssertionError(f"Unsupported visual command: {args.visual_command}/{args.visual_surface}")
     if args.command == "trace":
         return cmd_trace(args)
     if args.command == "start":

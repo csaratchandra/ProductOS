@@ -8,6 +8,24 @@ from pathlib import Path
 import re
 from typing import Any
 
+from core.python.visual_foundations import (
+    CANVAS_MAP_COMPOSITIONS as _CANVAS_MAP_COMPOSITIONS,
+    MAP_COMPOSITIONS as _MAP_COMPOSITIONS,
+    MATRIX_MAP_COMPOSITIONS as _MATRIX_MAP_COMPOSITIONS,
+    composition_type_for_intent,
+    density_mode_for_preference,
+    fallback_layout_for_composition,
+    html_target_profile_for_format,
+    layout_variant_for_composition,
+    map_layout_variant_for_composition,
+    narrative_pattern_for_archetype,
+    presentation_format_for_map_rendering_mode,
+    presentation_mode_for_map_rendering_mode,
+    presentation_theme,
+    ppt_target_profile_for_format,
+    density_preference_for_map_rendering_mode,
+)
+
 try:
     from pptx import Presentation
     from pptx.dml.color import RGBColor
@@ -91,34 +109,6 @@ _ITEM_COUNT_BUDGET = {
 }
 
 _NUMBER_PATTERN = re.compile(r"(-?\d+(?:\.\d+)?)")
-_MAP_COMPOSITIONS = {
-    "roadmap_view",
-    "user_journey_map",
-    "process_flow",
-    "workflow_map",
-    "capability_map",
-    "product_map",
-    "feature_map",
-    "mind_map",
-    "swot_matrix",
-    "impact_effort_matrix",
-}
-_MATRIX_MAP_COMPOSITIONS = {"swot_matrix", "impact_effort_matrix"}
-_CANVAS_MAP_COMPOSITIONS = _MAP_COMPOSITIONS - _MATRIX_MAP_COMPOSITIONS
-_HTML_RICH_COMPOSITIONS = {
-    "comparison_table",
-    "metric_strip",
-    "roadmap_view",
-    "user_journey_map",
-    "process_flow",
-    "workflow_map",
-    "capability_map",
-    "product_map",
-    "feature_map",
-    "mind_map",
-    "swot_matrix",
-    "impact_effort_matrix",
-}
 
 
 def now_iso() -> str:
@@ -126,27 +116,7 @@ def now_iso() -> str:
 
 
 def theme_preset(preset: str) -> dict[str, str]:
-    themes = {
-        "signal": {
-            "preset": "signal",
-            "font_family": "'Sora', 'Avenir Next', sans-serif",
-            "background": "linear-gradient(160deg, #081826 0%, #113b5c 55%, #ff6f3c 100%)",
-            "accent": "#ff6f3c",
-        },
-        "atlas": {
-            "preset": "atlas",
-            "font_family": "'Space Grotesk', 'Avenir Next', sans-serif",
-            "background": "linear-gradient(135deg, #f7f2e8 0%, #d7e6f5 100%)",
-            "accent": "#1e5aa8",
-        },
-        "editorial": {
-            "preset": "editorial",
-            "font_family": "'Fraunces', 'Georgia', serif",
-            "background": "linear-gradient(135deg, #faf7f2 0%, #efe3d1 100%)",
-            "accent": "#7a2418",
-        },
-    }
-    return themes[preset]
+    return presentation_theme(preset)
 
 
 def _evidence_kind_for_intent(intent: str) -> str:
@@ -163,12 +133,7 @@ def _evidence_kind_for_intent(intent: str) -> str:
 
 
 def _narrative_pattern_for_brief(presentation_brief: dict[str, Any]) -> str:
-    archetype = presentation_brief["presentation_archetype"]
-    if archetype in {"decision_recommendation", "executive_status_update"}:
-        return "answer_first"
-    if archetype in {"portfolio_review", "roadmap_dependency_review"}:
-        return "option_comparison"
-    return "scq"
+    return narrative_pattern_for_archetype(presentation_brief["presentation_archetype"])
 
 
 def _confidence_for_intent(intent: str) -> str:
@@ -198,21 +163,11 @@ def _story_role_for_intent(intent: str) -> str:
 
 
 def _composition_for_intent(intent: str) -> str:
-    return {
-        "cover": "hero_statement",
-        "summary": "summary_cards",
-        "status": "metric_strip",
-        "timeline": "timeline_with_dependencies",
-        "risks": "risk_matrix",
-        "decision": "decision_frame",
-        "portfolio": "comparison_table",
-        "closing": "appendix_evidence",
-    }.get(intent, "summary_cards")
+    return composition_type_for_intent(intent)
 
 
 def _density_mode(presentation_brief: dict[str, Any]) -> str:
-    mapping = {"light": "airy", "balanced": "balanced", "dense": "dense"}
-    return mapping[presentation_brief["density_preference"]]
+    return density_mode_for_preference(presentation_brief["density_preference"])
 
 
 def _visibility_rules(
@@ -251,29 +206,18 @@ def _visual_tokens(
 
 
 def _map_layout_variant(composition_type: str) -> str:
-    return "matrix_map" if composition_type in _MATRIX_MAP_COMPOSITIONS else "map_canvas"
+    return map_layout_variant_for_composition(composition_type)
 
 
 def _layout_variant(composition_type: str, presentation_mode: str) -> str:
-    if composition_type == "hero_statement":
-        return "hero_with_recommendation_strip"
-    if composition_type == "risk_matrix":
-        return "matrix_with_mitigation_panel"
-    if composition_type == "timeline_with_dependencies":
-        return "horizontal_timeline" if presentation_mode == "live" else "annotated_timeline"
-    if composition_type == "decision_frame":
-        return "recommendation_with_options"
-    if composition_type in {"comparison_table", "evidence_grid"}:
-        return "two_column_cards"
-    if composition_type in _MAP_COMPOSITIONS:
-        return _map_layout_variant(composition_type)
-    return "standard_story_panel"
+    return layout_variant_for_composition(composition_type, presentation_mode)
 
 
 def _html_target_profile(presentation_brief: dict[str, Any], composition_type: str) -> str:
-    if presentation_brief.get("presentation_format", "both") == "html" and composition_type in _HTML_RICH_COMPOSITIONS:
-        return "html_rich"
-    return "dual_target"
+    return html_target_profile_for_format(
+        presentation_brief.get("presentation_format", "both"),
+        composition_type,
+    )
 
 
 def _ppt_target_profile(
@@ -281,9 +225,11 @@ def _ppt_target_profile(
     composition_type: str,
     html_target_profile: str,
 ) -> str:
-    if presentation_brief.get("presentation_format", "both") == "html" and html_target_profile == "html_rich":
-        return "ppt_safe"
-    return "dual_target"
+    return ppt_target_profile_for_format(
+        presentation_brief.get("presentation_format", "both"),
+        composition_type,
+        html_target_profile,
+    )
 
 
 def _slide_html_target_profile(slide: dict[str, Any]) -> str:
@@ -3932,16 +3878,11 @@ def write_ppt_presentation(render_spec: dict[str, Any], output_path: str | Path)
 
 
 def _presentation_mode_for_rendering_mode(rendering_mode: str) -> str:
-    return {
-        "slide": "async",
-        "memo": "memo",
-        "dashboard": "async",
-        "workshop_board": "meeting_brief",
-    }[rendering_mode]
+    return presentation_mode_for_map_rendering_mode(rendering_mode)
 
 
 def _map_fallback_layout(map_type: str) -> str:
-    return _map_layout_variant(map_type)
+    return fallback_layout_for_composition(map_type)
 
 
 def _slide_spec_layout_for_composition(composition_type: str) -> str:
@@ -4026,9 +3967,11 @@ def build_visual_map_render_spec(
     aspect_ratio: str = "16:9",
 ) -> dict[str, Any]:
     presentation_mode = _presentation_mode_for_rendering_mode(visual_map_spec["rendering_mode"])
+    presentation_format = presentation_format_for_map_rendering_mode(visual_map_spec["rendering_mode"])
     synthetic_brief = {
         "presentation_mode": presentation_mode,
-        "density_preference": "dense" if visual_map_spec["rendering_mode"] == "dashboard" else "balanced",
+        "density_preference": density_preference_for_map_rendering_mode(visual_map_spec["rendering_mode"]),
+        "presentation_format": presentation_format,
         "theme_preset": theme_name,
         "customer_safe": False,
         "redaction_policy": "internal_only",

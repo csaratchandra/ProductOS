@@ -1,0 +1,367 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_corridor_spec_id": "workflow_corridor_spec_productos_customer_corridor",
+  "workspace_id": "ws_productos_v2",
+  "visual_form": "configurable_workflow_corridor",
+  "title": "Configurable workflow corridor for customer-safe PM execution",
+  "corridor_story": "ProductOS can show one externally shareable workflow corridor that keeps stage ownership, segment/package variation, and proof posture visible without relying on presenter narration.",
+  "audience_mode": "customer_safe_public",
+  "publication_mode": "publishable_external",
+  "scenario_baseline": {
+    "baseline_id": "baseline_growth_team",
+    "label": "Growth Team Baseline",
+    "summary": "A product team starts with a reusable mission spine and activates overlays for package scope, buyer segment, and operating model."
+  },
+  "overlay_dimensions": [
+    "segment",
+    "operating_model",
+    "package"
+  ],
+  "source_artifact_ids": [
+    "workflow_spec_pm_execution_spine",
+    "persona_pack_growth_team",
+    "segment_map_mid_market"
+  ],
+  "workspace_input_refs": [
+    {
+      "ref_id": "workspace_manifest_ws_productos_v2",
+      "ref_type": "workspace_manifest",
+      "label": "Workspace mission and packaging context",
+      "customer_safe": true
+    }
+  ],
+  "canonical_stages": [
+    {
+      "stage_id": "stage_discover",
+      "label": "Discover",
+      "headline": "Normalize signal intake into one mission spine",
+      "summary": "Evidence from notes, support exports, and research flows into one governed discovery posture.",
+      "lane_ids": [
+        "lane_signal",
+        "lane_pm"
+      ],
+      "owner_role": "PM",
+      "status": "approved",
+      "claim_mode": "observed",
+      "proof_refs": [
+        "proof_sources_normalized"
+      ],
+      "terminal_outcome_ids": [],
+      "visibility": "customer_safe"
+    },
+    {
+      "stage_id": "stage_align",
+      "label": "Align",
+      "headline": "Turn proof into one customer-safe corridor story",
+      "summary": "Narrative, overlays, and package scope stay bounded to what the repo can prove.",
+      "lane_ids": [
+        "lane_pm",
+        "lane_exec"
+      ],
+      "owner_role": "PM",
+      "status": "approved",
+      "claim_mode": "observed",
+      "proof_refs": [
+        "proof_publish_checks"
+      ],
+      "terminal_outcome_ids": [],
+      "visibility": "customer_safe"
+    },
+    {
+      "stage_id": "stage_operate",
+      "label": "Operate",
+      "headline": "Route ownership transitions with watch and blocked states visible",
+      "summary": "The corridor keeps handoffs explicit so operators can see who moves work next and what is still bounded.",
+      "lane_ids": [
+        "lane_ops",
+        "lane_exec"
+      ],
+      "owner_role": "Operations",
+      "status": "watch",
+      "claim_mode": "inferred",
+      "proof_refs": [
+        "proof_transition_observability"
+      ],
+      "terminal_outcome_ids": [
+        "outcome_external_confidence"
+      ],
+      "visibility": "customer_safe"
+    }
+  ],
+  "lanes": [
+    {
+      "lane_id": "lane_signal",
+      "label": "Signal intake",
+      "summary": "Raw product and market input enters the system.",
+      "owner_role": "Research",
+      "visibility": "customer_safe"
+    },
+    {
+      "lane_id": "lane_pm",
+      "label": "PM synthesis",
+      "summary": "PM curates the baseline and approves corridor copy.",
+      "owner_role": "PM",
+      "visibility": "customer_safe"
+    },
+    {
+      "lane_id": "lane_ops",
+      "label": "Execution control",
+      "summary": "Operators monitor blockers, releases, and ownership transitions.",
+      "owner_role": "Operations",
+      "visibility": "customer_safe"
+    },
+    {
+      "lane_id": "lane_exec",
+      "label": "Decision trust",
+      "summary": "Executives and buyers review one safe decision story.",
+      "owner_role": "Leadership",
+      "visibility": "customer_safe"
+    }
+  ],
+  "operating_models": [
+    {
+      "overlay_id": "operating_model_async",
+      "dimension": "operating_model",
+      "label": "Async operating model",
+      "summary": "Keeps the evidence rail and handoff notes visible for self-serve review.",
+      "impact_stage_ids": [
+        "stage_align",
+        "stage_operate"
+      ],
+      "claim_mode": "observed",
+      "proof_refs": [
+        "proof_publish_checks"
+      ],
+      "visibility": "customer_safe"
+    }
+  ],
+  "persona_views": [
+    {
+      "persona_id": "persona_buyer",
+      "label": "Buyer",
+      "summary": "Wants confidence that ProductOS handles workflow complexity without hiding proof posture.",
+      "goal": "Understand where the workflow creates confidence and what remains bounded.",
+      "visible_stage_ids": [
+        "stage_discover",
+        "stage_align",
+        "stage_operate"
+      ],
+      "priority_proof_refs": [
+        "proof_publish_checks",
+        "proof_sources_normalized"
+      ],
+      "visibility": "customer_safe"
+    },
+    {
+      "persona_id": "persona_operator",
+      "label": "Operator",
+      "summary": "Needs owner transitions and blocked states to stay explicit.",
+      "goal": "See where to intervene when the corridor shifts from approved to watch or blocked.",
+      "visible_stage_ids": [
+        "stage_align",
+        "stage_operate"
+      ],
+      "priority_proof_refs": [
+        "proof_transition_observability"
+      ],
+      "visibility": "customer_safe"
+    }
+  ],
+  "segment_overlays": [
+    {
+      "overlay_id": "segment_mid_market",
+      "dimension": "segment",
+      "label": "Mid-market product team",
+      "summary": "Highlights the baseline corridor for teams that need explicit trust and packaging clarity before purchase.",
+      "impact_stage_ids": [
+        "stage_discover",
+        "stage_align"
+      ],
+      "claim_mode": "observed",
+      "proof_refs": [
+        "proof_sources_normalized"
+      ],
+      "visibility": "customer_safe"
+    }
+  ],
+  "package_scope": [
+    {
+      "package_id": "package_corridor_pro",
+      "label": "Corridor Pro",
+      "summary": "Includes publishable corridor generation, proof rail, and persona overlays.",
+      "included_stage_ids": [
+        "stage_discover",
+        "stage_align",
+        "stage_operate"
+      ],
+      "visibility": "customer_safe"
+    }
+  ],
+  "ownership_rules": {
+    "ambiguity_fails_publish": true,
+    "must_show_blocked_handoffs": true,
+    "must_show_owner_labels": true,
+    "hidden_by_default_rules": [
+      {
+        "rule_id": "hide_internal_feedback",
+        "label": "Hide internal-only workspace detail",
+        "applies_to": "workspace_input_refs",
+        "reason": "Public pages cannot expose private product or customer notes."
+      }
+    ]
+  },
+  "owner_transitions": [
+    {
+      "transition_id": "transition_discover_align",
+      "from_stage_id": "stage_discover",
+      "to_stage_id": "stage_align",
+      "from_owner_role": "Research",
+      "to_owner_role": "PM",
+      "status": "approved",
+      "claim_mode": "observed",
+      "proof_refs": [
+        "proof_sources_normalized"
+      ],
+      "visibility": "customer_safe"
+    },
+    {
+      "transition_id": "transition_align_operate",
+      "from_stage_id": "stage_align",
+      "to_stage_id": "stage_operate",
+      "from_owner_role": "PM",
+      "to_owner_role": "Operations",
+      "status": "watch",
+      "claim_mode": "inferred",
+      "proof_refs": [
+        "proof_transition_observability"
+      ],
+      "visibility": "customer_safe"
+    }
+  ],
+  "terminal_outcomes": [
+    {
+      "outcome_id": "outcome_external_confidence",
+      "label": "Externally shareable confidence",
+      "summary": "Customers can understand the workflow, proof posture, and tradeoffs without a narrated demo.",
+      "status": "approved",
+      "claim_mode": "observed",
+      "kpi_refs": [
+        "kpi_publish_confidence"
+      ],
+      "proof_refs": [
+        "proof_publish_checks"
+      ],
+      "visibility": "customer_safe"
+    }
+  ],
+  "kpi_mappings": [
+    {
+      "kpi_id": "kpi_publish_confidence",
+      "label": "Publish confidence",
+      "summary": "Corridor publish checks remain excellent across buyer and operator overlays.",
+      "stage_id": "stage_align",
+      "target_outcome_id": "outcome_external_confidence",
+      "claim_mode": "observed",
+      "proof_refs": [
+        "proof_publish_checks"
+      ]
+    }
+  ],
+  "proof_items": [
+    {
+      "proof_id": "proof_sources_normalized",
+      "label": "Structured intake evidence",
+      "summary": "The workflow is artifact-driven from reusable ProductOS inputs rather than manual page-only editing.",
+      "claim_mode": "observed",
+      "source_artifact_id": "workflow_spec_pm_execution_spine",
+      "metric_name": "source artifacts",
+      "observed_value": "3 canonical source artifacts",
+      "customer_safe": true,
+      "visibility": "customer_safe"
+    },
+    {
+      "proof_id": "proof_publish_checks",
+      "label": "Corridor publish gate coverage",
+      "summary": "Narrative, proof visibility, customer safety, and reading path are all scored before public release.",
+      "claim_mode": "observed",
+      "source_artifact_id": "workflow_corridor_publish_policy",
+      "metric_name": "publish checks",
+      "observed_value": "7 hard checks",
+      "customer_safe": true,
+      "visibility": "customer_safe"
+    },
+    {
+      "proof_id": "proof_transition_observability",
+      "label": "Ownership transition observability",
+      "summary": "The corridor can show watch states for handoffs, but some customer outcome proof is still bounded.",
+      "claim_mode": "inferred",
+      "source_artifact_id": "validation_lane_report_corridor",
+      "metric_name": "handoff visibility",
+      "observed_value": "watch state exposed",
+      "customer_safe": true,
+      "visibility": "customer_safe"
+    }
+  ],
+  "message_claims": [
+    {
+      "message_id": "claim_hero",
+      "surface": "hero",
+      "message": "One corridor page can communicate the workflow, trust posture, and packaging story without narration.",
+      "claim_mode": "observed",
+      "proof_refs": [
+        "proof_publish_checks",
+        "proof_sources_normalized"
+      ]
+    },
+    {
+      "message_id": "claim_operate_watch",
+      "surface": "governance",
+      "message": "Ownership transitions remain credible because watch states stay explicit instead of being hidden.",
+      "claim_mode": "inferred",
+      "proof_refs": [
+        "proof_transition_observability"
+      ]
+    }
+  ],
+  "visibility_policy": {
+    "default_visibility": "customer_safe",
+    "permitted_audiences": [
+      "customer_safe_public",
+      "buyer_exec"
+    ],
+    "allowed_claim_modes": [
+      "observed",
+      "inferred",
+      "hypothesis"
+    ],
+    "customer_safe_filtering": {
+      "hide_internal_labels": true,
+      "hide_private_proof_items": true,
+      "hide_workspace_sensitive_refs": true
+    },
+    "redaction_notes": [
+      "Internal workspace references remain hidden behind customer-safe labels."
+    ]
+  },
+  "curated_overrides": {
+    "manual_copy_overrides": [
+      {
+        "target_id": "stage_align",
+        "replacement": "Turn proof into one externally credible corridor story."
+      }
+    ],
+    "scenario_order": [
+      "segment_mid_market",
+      "operating_model_async"
+    ],
+    "highlighted_baseline": "baseline_growth_team",
+    "highlighted_terminal_outcome_ids": [
+      "outcome_external_confidence"
+    ],
+    "audience_simplifications": [
+      "Collapse low-signal internal package notes into one package card for buyers."
+    ]
+  },
+  "customer_safe": true,
+  "created_at": "2026-04-22T09:00:00Z"
+}

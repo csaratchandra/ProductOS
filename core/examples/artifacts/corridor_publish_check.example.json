@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "corridor_publish_check_id": "corridor_publish_check_productos_customer_corridor",
+  "workflow_corridor_spec_id": "workflow_corridor_spec_productos_customer_corridor",
+  "corridor_render_model_id": "corridor_render_model_productos_customer_corridor",
+  "workspace_id": "ws_productos_v2",
+  "publish_ready": true,
+  "review_grade": "excellent",
+  "world_class_claim_allowed": true,
+  "publication_allowed": true,
+  "narrative_clarity_score": 5.0,
+  "proof_visibility_score": 5.0,
+  "workflow_credibility_score": 4.5,
+  "visual_hierarchy_score": 4.6,
+  "audience_safety_score": 5.0,
+  "composition_fit_score": 4.8,
+  "desktop_reading_path_score": 4.8,
+  "mobile_reading_path_score": 4.7,
+  "blocking_issues": [],
+  "warnings": [
+    "One ownership transition remains explicitly inferred and should stay bounded in public copy."
+  ],
+  "created_at": "2026-04-22T09:00:00Z"
+}

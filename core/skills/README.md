@@ -55,6 +55,13 @@ Each skill document should use this section order:
 - `buyer_motion_and_packaging`
 - `claim_audit_and_confidence_scoring`
 - `artifact_quality_grading`
+- `visual_message_hierarchy`
+- `visual_pattern_selection`
+- `visual_composition_planning`
+- `visual_publish_safety`
+- `dual_target_fidelity`
+- `visual_regression_review`
+- `workflow_corridor_design`
 
 ## Rules
 

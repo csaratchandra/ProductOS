@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "corridor_proof_pack_id": "corridor_proof_pack_productos_customer_corridor",
+  "workflow_corridor_spec_id": "workflow_corridor_spec_productos_customer_corridor",
+  "workspace_id": "ws_productos_v2",
+  "proof_summary": "Two core claims are supported for public use, while one ownership-transition message remains explicitly bounded as inferred.",
+  "claim_mode_counts": {
+    "observed": 2,
+    "inferred": 1,
+    "hypothesis": 0
+  },
+  "claim_register": [
+    {
+      "message_id": "claim_hero",
+      "claim_mode": "observed",
+      "support_status": "supported",
+      "proof_refs": [
+        "proof_publish_checks",
+        "proof_sources_normalized"
+      ],
+      "customer_safe": true
+    },
+    {
+      "message_id": "claim_operate_watch",
+      "claim_mode": "inferred",
+      "support_status": "bounded",
+      "proof_refs": [
+        "proof_transition_observability"
+      ],
+      "customer_safe": true
+    }
+  ],
+  "proof_items": [
+    {
+      "proof_id": "proof_sources_normalized",
+      "label": "Structured intake evidence",
+      "summary": "Reusable ProductOS artifacts are the source of truth for the corridor.",
+      "claim_mode": "observed",
+      "source_artifact_id": "workflow_spec_pm_execution_spine",
+      "customer_safe": true
+    },
+    {
+      "proof_id": "proof_publish_checks",
+      "label": "Corridor publish gate coverage",
+      "summary": "The corridor blocks public output when proof or audience safety is weak.",
+      "claim_mode": "observed",
+      "source_artifact_id": "workflow_corridor_publish_policy",
+      "customer_safe": true
+    },
+    {
+      "proof_id": "proof_transition_observability",
+      "label": "Ownership transition observability",
+      "summary": "Watch states are visible, but some downstream customer proof is still inferred.",
+      "claim_mode": "inferred",
+      "source_artifact_id": "validation_lane_report_corridor",
+      "customer_safe": true
+    }
+  ],
+  "proof_gaps": [],
+  "visibility_exceptions": [],
+  "customer_safe": true,
+  "created_at": "2026-04-22T09:00:00Z"
+}

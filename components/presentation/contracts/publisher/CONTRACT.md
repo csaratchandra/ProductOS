@@ -2,26 +2,25 @@
 
 ## Purpose
 
-Adapt approved narrative render specs into publishable output variants and enforce publish-readiness checks.
+Adapt approved deck render specs into publishable deck outputs and enforce publish-readiness checks.
 
 ## Core responsibilities
 
-- generate format-specific outputs such as HTML deck, PPT payload, memo, and summary forms
+- generate format-specific outputs such as HTML deck and PPT payload
 - enforce `publish_check` before distribution
 - apply format fallbacks when a composition cannot be reproduced faithfully
-- keep variant rules explicit across live, async, and memo-style delivery
+- keep variant rules explicit across live and async deck delivery
 
 ## Inputs
 
 - `render_spec`
 - `presentation_brief`
-- target format and audience safety context
+- target deck format and audience context
 
 ## Outputs
 
 - rendered HTML presentation
 - PPT payload or export artifact
-- memo-style or summary variants
 - `publish_check`
 
 ## Required schemas
@@ -33,7 +32,7 @@ Adapt approved narrative render specs into publishable output variants and enfor
 ## Escalation rules
 
 - escalate when target-format fidelity would materially change meaning
-- escalate when audience-safe and internal-only content are mixed
+- escalate when a customer-safe workflow page is being treated as a deck publish task
 - escalate when publish checks reveal missing evidence, hidden risk, or unsupported certainty
 
 ## Validation expectations
@@ -41,3 +40,4 @@ Adapt approved narrative render specs into publishable output variants and enfor
 - every published output must remain traceable to source evidence
 - format adaptations must preserve decision, risk, and confidence treatment
 - publish-ready status must be explicit, not implied
+- customer-safe workflow publication belongs to corridor-specific publish checks

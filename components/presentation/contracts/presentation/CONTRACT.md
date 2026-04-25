@@ -2,14 +2,15 @@
 
 ## Purpose
 
-Turn structured source artifacts into presentation-ready renderings without making the presentation itself the source of product truth.
+Turn structured source artifacts into deck-ready renderings without making the deck itself the source of product truth.
 
 ## Core responsibilities
 
 - create `presentation_brief` artifacts
 - generate `evidence_pack`, `presentation_story`, and normalized `render_spec` outputs
 - choose appropriate theme presets for audience and objective
-- preserve traceability from source artifacts into rendered slides
+- preserve traceability from source artifacts into rendered deck slides
+- stay scoped to deck and PPT transport rather than customer-safe workflow publication
 
 ## Inputs
 
@@ -25,7 +26,7 @@ Turn structured source artifacts into presentation-ready renderings without maki
 - `evidence_pack`
 - `presentation_story`
 - `render_spec`
-- responsive HTML presentation
+- responsive HTML deck
 - PPT export plan or payload
 - `publish_check`
 
@@ -51,3 +52,4 @@ Turn structured source artifacts into presentation-ready renderings without maki
 - source-of-truth must remain outside the rendered deck
 - every presentation should be traceable to input artifacts
 - tone may change by audience, but the underlying facts may not
+- customer-safe workflow pages should route to the workflow corridor lane instead of this contract

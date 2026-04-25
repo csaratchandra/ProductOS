@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0.0",
+  "corridor_render_model_id": "corridor_render_model_productos_customer_corridor",
+  "workflow_corridor_spec_id": "workflow_corridor_spec_productos_customer_corridor",
+  "corridor_proof_pack_id": "corridor_proof_pack_productos_customer_corridor",
+  "corridor_narrative_plan_id": "corridor_narrative_plan_productos_customer_corridor",
+  "workspace_id": "ws_productos_v2",
+  "visual_form": "configurable_workflow_corridor",
+  "audience_mode": "customer_safe_public",
+  "publication_mode": "publishable_external",
+  "customer_safe": true,
+  "theme": {
+    "preset": "corridor_public",
+    "display_font": "'Space Grotesk', 'Avenir Next', sans-serif",
+    "body_font": "'Manrope', 'Avenir Next', sans-serif",
+    "accent": "#f76432",
+    "background": "linear-gradient(180deg, #f6efe7 0%, #fffaf4 100%)"
+  },
+  "reading_path": {
+    "desktop": [
+      "hero",
+      "corridor",
+      "personas",
+      "overlays",
+      "proof",
+      "outcomes"
+    ],
+    "mobile": [
+      "hero",
+      "corridor",
+      "proof",
+      "personas",
+      "overlays",
+      "outcomes"
+    ]
+  },
+  "sections": [
+    {
+      "section_id": "hero",
+      "heading": "Configurable workflow corridor",
+      "primary_message": "One page explains the workflow, trust posture, and package story without presenter narration.",
+      "layout": "hero"
+    },
+    {
+      "section_id": "corridor",
+      "heading": "Canonical corridor",
+      "primary_message": "Stages and ownership transitions come first.",
+      "layout": "corridor_band",
+      "cards": [
+        {
+          "card_id": "stage_discover",
+          "label": "Discover"
+        }
+      ]
+    },
+    {
+      "section_id": "personas",
+      "heading": "Persona visibility matrix",
+      "primary_message": "Buyers and operators see the same corridor through different proof priorities.",
+      "layout": "matrix"
+    },
+    {
+      "section_id": "overlays",
+      "heading": "Scenario overlays",
+      "primary_message": "Segment, package, and operating-model overlays change the baseline without hiding the workflow.",
+      "layout": "delta_panels"
+    },
+    {
+      "section_id": "proof",
+      "heading": "Proof rail",
+      "primary_message": "Observed, inferred, and hypothesis-level claims are visually distinct.",
+      "layout": "proof_rail"
+    },
+    {
+      "section_id": "outcomes",
+      "heading": "Terminal outcomes",
+      "primary_message": "The page ends with the customer-facing outcome and KPI it supports.",
+      "layout": "outcome_cards"
+    }
+  ],
+  "proof_rail": [
+    {
+      "proof_id": "proof_sources_normalized",
+      "label": "Structured intake evidence",
+      "claim_mode": "observed",
+      "summary": "Reusable ProductOS artifacts are the source of truth for the corridor."
+    },
+    {
+      "proof_id": "proof_transition_observability",
+      "label": "Ownership transition observability",
+      "claim_mode": "inferred",
+      "summary": "Watch states stay visible while customer outcome proof remains bounded."
+    }
+  ],
+  "governance_signals": [
+    {
+      "signal_id": "signal_transition_align_operate",
+      "label": "PM to Operations handoff",
+      "status": "watch",
+      "summary": "The handoff is visible and intentionally bounded."
+    }
+  ],
+  "terminal_outcomes": [
+    {
+      "outcome_id": "outcome_external_confidence",
+      "label": "Externally shareable confidence",
+      "status": "approved",
+      "summary": "Customers can understand the workflow and trust posture without narration."
+    }
+  ],
+  "layout_guardrails": {
+    "one_primary_message_per_screen": true,
+    "proof_vs_inference_visible": true,
+    "customer_safe_filter_applied": true,
+    "slide_like_repetition": false,
+    "generic_dashboard_pattern": false
+  },
+  "created_at": "2026-04-22T09:00:00Z"
+}

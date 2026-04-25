@@ -17,9 +17,11 @@ from components.presentation.python.productos_presentation.runtime import (
     build_publish_check,
     build_ppt_export_plan,
     build_render_spec,
+    build_visual_map_render_spec,
     render_render_spec_html,
     write_ppt_presentation,
 )
+from core.python.productos_runtime import build_visual_direction_plan, build_visual_quality_review_for_map
 
 EXAMPLE_DIR = ROOT / "components" / "presentation" / "examples" / "artifacts"
 SCHEMA_DIR = ROOT / "components" / "presentation" / "schemas" / "artifacts"
@@ -183,6 +185,45 @@ def test_component_render_spec_supports_auto_generated_contradiction_slide():
     assert contradiction_slide["composition_payload"]["primary_claim"] == (
         "The current recommendation should stay bounded because some external evidence is still contested."
     )
+
+
+def test_visual_direction_plan_matches_deck_render_foundations():
+    presentation_brief = load_json(EXAMPLE_DIR / "presentation_brief.example.json")
+    evidence_pack = build_evidence_pack(presentation_brief)
+    presentation_story = build_presentation_story(presentation_brief, evidence_pack)
+    render_spec = build_render_spec(presentation_brief, presentation_story)
+
+    direction_plan = build_visual_direction_plan(
+        "deck",
+        presentation_brief,
+        input_ref=str(EXAMPLE_DIR / "presentation_brief.example.json"),
+    )
+
+    assert direction_plan["theme_preset"] == render_spec["theme"]["preset"]
+    assert direction_plan["composition_strategy"]["primary_pattern"] == presentation_story["narrative_pattern"]
+    assert direction_plan["density_mode"] == render_spec["slides"][0]["density_mode"]
+    assert direction_plan["fidelity_mode"] == "dual_target"
+    assert all(slide["ppt_render_hints"]["target_profile"] == "dual_target" for slide in render_spec["slides"])
+
+
+def test_visual_direction_plan_matches_html_first_map_render_foundations():
+    visual_map_spec = load_json(ROOT / "core" / "examples" / "artifacts" / "visual_map_spec.example.json")
+    direction_plan = build_visual_direction_plan(
+        "map",
+        visual_map_spec,
+        input_ref=str(ROOT / "core" / "examples" / "artifacts" / "visual_map_spec.example.json"),
+    )
+    render_spec = build_visual_map_render_spec(visual_map_spec)
+    quality_review = build_visual_quality_review_for_map(direction_plan, render_spec)
+    slide = render_spec["slides"][0]
+
+    assert direction_plan["theme_preset"] == render_spec["theme"]["preset"]
+    assert direction_plan["fidelity_mode"] == "html_first"
+    assert direction_plan["output_targets"] == ["html"]
+    assert slide["html_render_hints"]["target_profile"] == "html_rich"
+    assert slide["ppt_render_hints"]["target_profile"] == "ppt_safe"
+    assert quality_review["publish_ready"] is True
+    assert quality_review["fidelity_score"] == 5.0
 
 
 def test_component_manifest_matches_public_surface():

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/corridor_publish_check.schema.json",
+  "title": "ProductOS Corridor Publish Check",
+  "description": "Publish gates for the public workflow corridor lane.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "corridor_publish_check_id",
+    "workflow_corridor_spec_id",
+    "corridor_render_model_id",
+    "workspace_id",
+    "publish_ready",
+    "review_grade",
+    "world_class_claim_allowed",
+    "publication_allowed",
+    "narrative_clarity_score",
+    "proof_visibility_score",
+    "workflow_credibility_score",
+    "visual_hierarchy_score",
+    "audience_safety_score",
+    "composition_fit_score",
+    "desktop_reading_path_score",
+    "mobile_reading_path_score",
+    "blocking_issues",
+    "warnings",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "corridor_publish_check_id": { "type": "string", "minLength": 1 },
+    "workflow_corridor_spec_id": { "type": "string", "minLength": 1 },
+    "corridor_render_model_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "publish_ready": { "type": "boolean" },
+    "review_grade": {
+      "type": "string",
+      "enum": ["blocked", "revise", "good", "excellent"]
+    },
+    "world_class_claim_allowed": { "type": "boolean" },
+    "publication_allowed": { "type": "boolean" },
+    "narrative_clarity_score": { "type": "number", "minimum": 0, "maximum": 5 },
+    "proof_visibility_score": { "type": "number", "minimum": 0, "maximum": 5 },
+    "workflow_credibility_score": { "type": "number", "minimum": 0, "maximum": 5 },
+    "visual_hierarchy_score": { "type": "number", "minimum": 0, "maximum": 5 },
+    "audience_safety_score": { "type": "number", "minimum": 0, "maximum": 5 },
+    "composition_fit_score": { "type": "number", "minimum": 0, "maximum": 5 },
+    "desktop_reading_path_score": { "type": "number", "minimum": 0, "maximum": 5 },
+    "mobile_reading_path_score": { "type": "number", "minimum": 0, "maximum": 5 },
+    "blocking_issues": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

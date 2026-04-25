@@ -2,13 +2,13 @@
 
 ## Purpose
 
-Convert structured product information into intentional visual outputs that improve clarity, not just decoration.
+Convert structured product information into intentional deck visuals that improve clarity, not just decoration.
 
 ## Core responsibilities
 
-- design visual renderings for roadmap, workflow, dependency, and portfolio views
+- design deck visual renderings for roadmap, dependency, and portfolio views
 - preserve information hierarchy and traceability in visual outputs
-- adapt the same source artifact for different audiences and presentation contexts
+- adapt the same source artifact for internal and executive deck contexts
 - identify when visual ambiguity would distort the underlying message
 
 ## Inputs
@@ -17,13 +17,13 @@ Convert structured product information into intentional visual outputs that impr
 - `presentation_story`
 - `render_spec`
 - portfolio and workflow artifacts
-- visual rendering request and audience context
+- deck rendering request and audience context
 
 ## Outputs
 
 - visual design recommendation
-- structured visual spec
-- audience-specific rendering guidance
+- structured deck visual spec
+- deck-specific rendering guidance
 - escalation for ambiguous or misleading source framing
 
 ## Required schemas
@@ -38,10 +38,11 @@ Convert structured product information into intentional visual outputs that impr
 
 - escalate when the requested visual would misrepresent uncertainty, status, or scope
 - escalate when source artifacts do not support the requested conclusion
-- escalate when customer-safe and internal-only renderings are being mixed
+- escalate when a public workflow page is being forced through the deck lane
 
 ## Validation expectations
 
 - visual outputs must preserve the intended meaning of the source artifact
 - hierarchy, labeling, and audience fit should be explicit
 - clarity should take priority over novelty
+- public workflow publication should defer to the corridor lane

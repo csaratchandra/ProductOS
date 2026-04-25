@@ -1,6 +1,6 @@
 # Presentation Brief To Slides Workflow
 
-Purpose: Convert a `presentation_brief` into a grounded narrative pipeline that drives responsive HTML, PPT export, and publish checks.
+Purpose: Convert a `presentation_brief` into a grounded deck pipeline that drives responsive HTML decks, PPT export, and deck publish checks.
 
 ## Inputs
 
@@ -13,7 +13,7 @@ Purpose: Convert a `presentation_brief` into a grounded narrative pipeline that 
 - `evidence_pack`
 - `presentation_story`
 - `render_spec`
-- responsive HTML presentation
+- responsive HTML deck
 - PPT export plan
 - `publish_check`
 
@@ -26,3 +26,4 @@ Purpose: Convert a `presentation_brief` into a grounded narrative pipeline that 
 - PPT output should be generated from normalized render structure, not arbitrary DOM scraping
 - if a layout is too web-specific for native PPT fidelity, fall back to a simpler composition layout
 - every publishable output must carry visible evidence and risk treatment when relevant
+- public workflow pages should route through the workflow corridor lane instead of this workflow

@@ -8,7 +8,7 @@ Improve clarity, compression, and audience fit for narrative artifacts without c
 
 - sharpen headlines and narrative language
 - reduce noise while preserving decision, risk, and evidence integrity
-- adapt density across live, async, memo, and summary forms
+- adapt density across live and async deck delivery
 - flag over-compression risk before publish
 
 ## Inputs
@@ -39,3 +39,4 @@ Improve clarity, compression, and audience fit for narrative artifacts without c
 - edits must not introduce new facts
 - edits must preserve evidence linkage and uncertainty cues
 - readability improvements should not weaken operating usefulness
+- customer-safe workflow publication copy should route through the corridor lane

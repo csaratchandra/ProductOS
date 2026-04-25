@@ -254,7 +254,12 @@ def test_adopted_workspace_supports_ingest_discover_and_validate(root_dir: Path,
         for snapshot in presentation_brief["source_material_snapshots"]
     )
     presentation_story = json.loads((align_output / "presentation_story.json").read_text(encoding="utf-8"))
+    corridor_spec = json.loads((align_output / "workflow_corridor_spec.json").read_text(encoding="utf-8"))
+    corridor_publish_check = json.loads((align_output / "corridor_publish_check.json").read_text(encoding="utf-8"))
     assert any(slide["slide_id"] == "slide_conflicted_evidence" for slide in presentation_story["slides"])
+    assert corridor_spec["publication_mode"] == "publishable_external"
+    assert corridor_spec["customer_safe"] is True
+    assert corridor_publish_check["corridor_publish_check_id"].startswith("corridor_publish_check_")
 
     validate_result = _run_cli(
         root_dir,

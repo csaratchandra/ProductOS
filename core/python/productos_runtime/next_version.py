@@ -14,6 +14,7 @@ from components.presentation.python.productos_presentation import (
     build_publish_check,
     build_render_spec,
 )
+from components.workflow_corridor.python.productos_workflow_corridor import build_workflow_corridor_bundle
 from .mission import build_strategy_discover_bundle_from_mission
 from .baseline import (
     build_foundation_bundle_from_workspace,
@@ -23,6 +24,12 @@ from .research import (
     build_discovery_to_research_handoff,
     load_canonical_discovery_operations_bundle,
     run_external_research_loop_from_workspace,
+)
+from .visual import build_align_corridor_source_bundle
+from .visual_os import (
+    build_visual_direction_plan,
+    build_visual_quality_review_for_corridor,
+    build_visual_quality_review_for_deck,
 )
 from .release import evaluate_promotion_gate, external_research_gate_blockers
 
@@ -44,6 +51,15 @@ NEXT_VERSION_ARTIFACT_SCHEMAS: dict[str, str] = {
     "market_refresh_report": "runtime_scenario_report.schema.json",
     "market_distribution_report": "runtime_scenario_report.schema.json",
     "next_version_release_gate_decision": "release_gate_decision.schema.json",
+    "presentation_visual_direction_plan": "visual_direction_plan.schema.json",
+    "presentation_visual_quality_review": "visual_quality_review.schema.json",
+    "workflow_corridor_spec": "workflow_corridor_spec.schema.json",
+    "corridor_proof_pack": "corridor_proof_pack.schema.json",
+    "corridor_narrative_plan": "corridor_narrative_plan.schema.json",
+    "corridor_render_model": "corridor_render_model.schema.json",
+    "corridor_publish_check": "corridor_publish_check.schema.json",
+    "corridor_visual_direction_plan": "visual_direction_plan.schema.json",
+    "corridor_visual_quality_review": "visual_quality_review.schema.json",
     "discover_strategy_context_brief": "strategy_context_brief.schema.json",
     "discover_product_vision_brief": "product_vision_brief.schema.json",
     "discover_strategy_option_set": "strategy_option_set.schema.json",
@@ -467,7 +483,7 @@ def _build_eval_run_report(
     recommended_next_action = (
         "Keep the bundle in watch mode, fix self_improvement_loop first, and keep the truthful blocked-state control surface in place while rerunning the frozen eval suite."
         if status != "passed"
-        else "Use the cleared bounded baseline to expand the governed research superpower and prepare the next strategy refresh."
+        else "Use the cleared bounded baseline to promote the visual operating system and prepare the deferred research refresh."
     )
     return {
         "schema_version": "1.0.0",
@@ -1969,6 +1985,47 @@ def build_next_version_bundle_from_workspace(
         presentation_render_spec = build_render_spec(presentation_brief, presentation_story)
         presentation_publish_check = build_publish_check(presentation_brief, presentation_render_spec, target_format="html")
         presentation_ppt_export_plan = build_ppt_export_plan(presentation_render_spec)
+    presentation_visual_direction_plan = build_visual_direction_plan(
+        "deck",
+        presentation_brief,
+        input_ref="generated://align/presentation_brief.json",
+    )
+    presentation_visual_quality_review = build_visual_quality_review_for_deck(
+        presentation_visual_direction_plan,
+        presentation_render_spec,
+        presentation_publish_check,
+    )
+    align_corridor_source_bundle = build_align_corridor_source_bundle(
+        workspace_id=workspace_id,
+        presentation_brief=presentation_brief,
+        presentation_publish_check=presentation_publish_check,
+        document_sync_state=live_doc_sync_state,
+        mission_brief=workspace_mission_brief,
+        research_brief=workspace_research_brief,
+        problem_brief=workspace_problem_brief,
+        generated_at=generated_at,
+    )
+    corridor_visual_direction_plan = build_visual_direction_plan(
+        "corridor",
+        align_corridor_source_bundle,
+        input_ref="generated://align/corridor_source_bundle.json",
+        audience_mode="customer_safe_public",
+        publication_mode="publishable_external",
+    )
+    corridor_bundle = build_workflow_corridor_bundle(
+        align_corridor_source_bundle,
+        audience_mode="customer_safe_public",
+        publication_mode="publishable_external",
+    )
+    workflow_corridor_spec = corridor_bundle["workflow_corridor_spec"]
+    corridor_proof_pack = corridor_bundle["corridor_proof_pack"]
+    corridor_narrative_plan = corridor_bundle["corridor_narrative_plan"]
+    corridor_render_model = corridor_bundle["corridor_render_model"]
+    corridor_publish_check = corridor_bundle["corridor_publish_check"]
+    corridor_visual_quality_review = build_visual_quality_review_for_corridor(
+        corridor_visual_direction_plan,
+        corridor_bundle,
+    )
     live_doc_sync_state = _augment_document_sync_state_with_mission(
         live_doc_sync_state,
         mission_brief=workspace_mission_brief,
@@ -2635,6 +2692,8 @@ def build_next_version_bundle_from_workspace(
             presentation_story["presentation_story_id"],
             presentation_render_spec["render_spec_id"],
             presentation_publish_check["publish_check_id"],
+            presentation_visual_direction_plan["visual_direction_plan_id"],
+            presentation_visual_quality_review["visual_quality_review_id"],
             foundation_bundle["presentation_pattern_review"]["presentation_pattern_review_id"],
             completion_validation_report["validation_lane_report_id"],
             completion_manual_record["manual_validation_record_id"],
@@ -2678,6 +2737,7 @@ def build_next_version_bundle_from_workspace(
                 "rationale": "Publish checks, export planning, and the bounded completion gate now all agree the deck path is stable for the promoted baseline.",
                 "evidence_refs": [
                     presentation_publish_check["publish_check_id"],
+                    presentation_visual_quality_review["visual_quality_review_id"],
                     completion_validation_report["validation_lane_report_id"],
                 ],
             },
@@ -3399,7 +3459,7 @@ def build_next_version_bundle_from_workspace(
         next_action=(
             "Keep the persisted improve-review snapshot and release-gate decision as the scoring standard for future baseline refreshes."
             if persisted_improve_gate_ready
-            else "Keep the eval suite, decision memory, validation, and release-gate evidence as first-class inputs while expanding the governed research superpower from the cleared bounded baseline."
+            else "Keep the eval suite, decision memory, validation, and release-gate evidence as first-class inputs while promoting the visual operating system from the cleared bounded baseline."
         ),
         generated_at=generated_at,
     )
@@ -3892,7 +3952,7 @@ def build_next_version_bundle_from_workspace(
         "next_action": (
             "Resolve the governed external research blockers, rerun the research refresh, and only then resume bounded-baseline promotion."
             if research_gate_blockers
-            else "Treat self_improvement_loop as the first remaining hardening target, while keeping the improved truthful control surface in place and reducing its remaining provenance debt."
+            else "Promote the visual operating system as the next bounded release while keeping the truthful control surface and evaluation contract in place."
         ),
         "generated_at": generated_at,
     }
@@ -3912,13 +3972,13 @@ def build_next_version_bundle_from_workspace(
         "schema_version": "1.0.0",
         "release_gate_decision_id": f"release_gate_decision_{workspace_id}_next_version",
         "workspace_id": workspace_id,
-        "target_release": "v7_1_0",
+        "target_release": "v8_4_0",
         "decision": "go" if promotion_gate["status"] == "ready" else "no_go",
         "pm_benchmark_ref": foundation_bundle["pm_superpower_benchmark"]["pm_superpower_benchmark_id"],
         "runtime_scenario_report_ref": adapter_parity_report["runtime_scenario_report_id"],
         "release_readiness_ref": completion_validation_report["validation_lane_report_id"],
         "rationale": (
-            "The bounded next-version baseline now clears the eval and truthfulness gate, so the release hardening slice is ready to act as the supervised external-release core."
+            "The bounded next-version baseline now clears the eval and truthfulness gate, so the visual operating system slice is ready to act as the supervised external-release core."
             if promotion_gate["status"] == "ready"
             else (
                 "The bounded next-version baseline still has governed external research blockers, so the external-release claim should stay blocked until the research loop clears its evidence posture."
@@ -3927,7 +3987,7 @@ def build_next_version_bundle_from_workspace(
             )
         ),
         "next_action": (
-            "Keep the current baseline stable and use this gate artifact as the persisted scoring reference for future improve runs."
+            "Promote the visual operating system as V8.4.0 and use this gate artifact as the persisted scoring reference for future improve runs."
             if promotion_gate["status"] == "ready"
             else (
                 "Resolve the governed external research blockers, persist refreshed research loop artifacts, and rerun the release gate."
@@ -3942,57 +4002,57 @@ def build_next_version_bundle_from_workspace(
         ),
         "blocker_categories": promotion_gate["blocker_categories"],
         "deferred_items": [
-            "External autonomous PM and swarm claims remain out of scope for V7.1, even while the internal governed swarm plan continues to harden.",
-            "External publishing and generalized market-intelligence expansion stay deferred until after the PM superpower core is proven.",
+            "External autonomous PM and swarm claims remain out of scope for V8.4.0, even while the internal governed swarm plan continues to harden.",
+            "Broader governed research expansion and external publication adapters stay deferred until after the bounded visual operating system release is proven.",
         ],
         "generated_at": generated_at,
     }
     if promotion_gate["status"] == "ready" and not active_improvement_feature_ids:
-        next_priority_feature_id = "market_intelligence"
-        next_priority_scorecard_id = market_intelligence_scorecard_id
+        next_priority_feature_id = "presentation_superpower"
+        next_priority_scorecard_id = presentation_scorecard_id
         feature_portfolio_review["top_priority_feature_id"] = next_priority_feature_id
         feature_portfolio_review["highlighted_risks"] = [
-            "Broader web and feed coverage can weaken trust unless freshness, ranking, and contradiction review stay explicit.",
-            "The next research slice should stay PM-reviewable before new market or strategy claims propagate beyond the repo.",
+            "Visual lane expansion can weaken trust unless proof posture, customer-safe boundaries, and publish checks stay explicit.",
+            "The next visual slice should stay PM-reviewable before deck or corridor outputs start to read like broader publication automation.",
         ]
-        feature_portfolio_review["next_action"] = "The bounded baseline gate is cleared. Expand the governed research superpower across market, competitor, and customer signals before broader distribution work resumes."
+        feature_portfolio_review["next_action"] = "The bounded baseline gate is cleared. Promote the visual operating system across deck, map, and workflow corridor outputs before broader research or distribution work resumes."
         context_pack.update(
             {
-                "request_summary": "Review the cleared bounded baseline and execute the governed research superpower expansion.",
-                "decision_to_be_made": "How should ProductOS broaden web and feed research coverage while keeping PM review, freshness, and contradiction handling explicit?",
+                "request_summary": "Review the cleared bounded baseline and execute the visual operating system release candidate.",
+                "decision_to_be_made": "How should ProductOS ship deck, map, and workflow corridor outputs from one governed CLI surface while keeping PM review and publish safety explicit?",
                 "status": "ready",
                 "quality_contract": _quality_contract(
                     audience=["PM", "engineering", "leadership"],
-                    decision_needed="Expand the governed research superpower while preserving the cleared evidence, eval, and decision-memory contracts.",
+                    decision_needed="Promote the visual operating system while preserving the cleared evidence, eval, and decision-memory contracts.",
                     evidence=[
                         "The frozen eval suite passes with zero regressions.",
                         "Portfolio truthfulness is healthy across the bounded baseline.",
-                        "The current discover loop already produces a strategy-to-research packet with bounded source discovery, contradiction review, and downstream strategy handoff.",
+                        "The current align path now emits governed deck, map, and workflow corridor artifacts from the same aligned source bundle.",
                     ],
                     alternatives=[
-                        "Broaden governed research now across market, competitor, and customer signals.",
-                        "Hold on research expansion and keep the current bounded research loop stable while the baseline stays unchanged.",
+                        "Promote the visual operating system now across deck, map, and workflow corridor lanes.",
+                        "Hold on the visual release and keep the current bounded baseline stable while the public surface stays unchanged.",
                     ],
-                    recommendation="Broaden governed research now while keeping PM review, source ranking, freshness, and contradiction handling explicit.",
+                    recommendation="Promote the visual operating system now while keeping PM review, proof posture, and customer-safe publication checks explicit.",
                     metrics=[
-                        "planned_question_count",
-                        "selected_source_count",
-                        "contradiction_item_count",
-                        "feed_health_status",
+                        "visual_review_pass_rate",
+                        "publish_ready_output_count",
+                        "corridor_customer_safe_rate",
+                        "artifact_to_visual_render_success_rate",
                     ],
                     risks=[
-                        "Open-ended source breadth without visible ranking and freshness rules would dilute trust.",
-                        "Letting researched signals propagate without PM review would overstate confidence and blur claim boundaries.",
+                        "Letting corridor outputs read like broad publication automation would overstate the current release boundary.",
+                        "Weak proof-pack and publish-check discipline would make visually strong outputs less trustworthy.",
                     ],
                     owner="ProductOS PM",
-                    next_action="Stand up the governed feed registry, expand discovery coverage, and rerun the research loop before broadening downstream strategy claims.",
+                    next_action="Promote the visual lane, keep corridor publish safety explicit, and defer broader research and distribution work until the bounded release is proven.",
                 ),
                 "contradictions": [],
                 "open_questions": [
-                    "Which source classes should be required in the first broad-but-governed research pass for market, competitor, and customer evidence?",
-                    "What review threshold should govern when broadened research can update the canonical strategy packet automatically versus requiring explicit PM approval?",
+                    "Which visual review checks are required before a corridor can be called customer-safe in the public release?",
+                    "Where should the release boundary sit between bounded workflow publication and broader external distribution automation?",
                 ],
-                "recommended_next_action": "Expand the governed research superpower, then refresh the canonical strategy packet from the stronger research surface.",
+                "recommended_next_action": "Promote the visual operating system, then return to governed research and feed-governance hardening from the stronger public surface.",
                 "updated_at": generated_at,
             }
         )
@@ -4293,9 +4353,9 @@ def build_next_version_bundle_from_workspace(
     align_execution_session_state = _session_state(
         session_id=align_session_id,
         workspace_id=workspace_id,
-        session_name="Next-version docs and deck alignment session",
+        session_name="Next-version docs, deck, and corridor alignment session",
         status=align_session_status,
-        objective="Package current ProductOS truth into docs and deck artifacts through one aligned path.",
+        objective="Package current ProductOS truth into docs, deck, and corridor artifacts through one aligned path.",
         owner_agent="workflow",
         capability_adapter_id=selected_adapter_id,
         parent_orchestration_state_id=orchestration_state_id,
@@ -4308,6 +4368,12 @@ def build_next_version_bundle_from_workspace(
             live_doc_sync_state["document_sync_state_id"],
             docs_alignment_scorecard_id,
             presentation_scorecard_id,
+            presentation_visual_direction_plan["visual_direction_plan_id"],
+            presentation_visual_quality_review["visual_quality_review_id"],
+            workflow_corridor_spec["workflow_corridor_spec_id"],
+            corridor_publish_check["corridor_publish_check_id"],
+            corridor_visual_direction_plan["visual_direction_plan_id"],
+            corridor_visual_quality_review["visual_quality_review_id"],
         ],
         review_required=not (docs_alignment_promoted and presentation_promoted),
         verification_status="passed" if docs_alignment_promoted and presentation_promoted else "not_started",
@@ -4350,7 +4416,7 @@ def build_next_version_bundle_from_workspace(
         objective=(
             "Route every sub-5 feature score into explicit next-version improvement work using frozen eval and decision-memory evidence as release gates."
             if promotion_gate["status"] == "blocked"
-            else "Use the cleared bounded baseline to package the governed research superpower expansion and hand off the next research build."
+            else "Use the cleared bounded baseline to package the visual operating system release candidate and hand off deferred research follow-on work."
         ),
         owner_agent="improvement_planner",
         capability_adapter_id=selected_adapter_id,
@@ -4396,24 +4462,24 @@ def build_next_version_bundle_from_workspace(
         else "route_operator_autopilot" if discover_promoted else "route_discover_to_prd"
     )
     mission_next_route_ref = (
-        "route_research_superpower"
+        "route_visual_operating_system"
         if promotion_gate["status"] == "ready"
         else "route_score_and_improve" if discover_promoted else "route_operator_autopilot"
     )
     mission_current_task_name = (
-        "Expand the governed research superpower"
+        "Promote the visual operating system"
         if promotion_gate["status"] == "ready"
         else "Promote the weekly PM autopilot route" if discover_promoted else "Promote the discover-to-PRD route"
     )
     mission_current_task_summary = (
-        "The bounded baseline gate is clear, so the next disciplined slice should broaden governed research across market, competitor, and customer signals instead of shifting to a lifecycle-only extension."
+        "The bounded baseline gate is clear, so the next disciplined slice should promote deck, map, and workflow corridor outputs from one governed CLI surface instead of broadening research or distribution claims."
         if promotion_gate["status"] == "ready"
         else "The discover and control-surface slices are promoted, so weekly PM autopilot is now the next must-win route."
         if discover_promoted
         else "The discover route remains the first must-win mission and should turn live inbox input into a promoted decision package."
     )
     mission_current_task_status = (
-        "ready_for_research_expansion"
+        "ready_for_visual_release"
         if promotion_gate["status"] == "ready"
         else "awaiting_pm_review" if discover_promoted else "awaiting_discover_promotion"
     )
@@ -4613,35 +4679,35 @@ def build_next_version_bundle_from_workspace(
                 ),
             },
             {
-                "route_id": "route_research_superpower",
-                "agent_name": "research",
-                "objective": "Expand ProductOS into a broad-but-governed research superpower that captures market, competitor, and customer signals before strategy and release claims broaden.",
-                "rationale": "Research is already a real PM superpower, so the next bounded expansion should deepen source coverage, signal synthesis, and reviewable evidence instead of defaulting to another lifecycle packaging slice.",
+                "route_id": "route_visual_operating_system",
+                "agent_name": "visual_orchestrator",
+                "objective": "Expand ProductOS into a governed visual operating system that renders aligned PM artifacts as decks, maps, and workflow corridors before broader publication claims broaden.",
+                "rationale": "The bounded baseline is already evidence-backed, so the next disciplined slice should package that truth into reviewable visual outputs instead of broadening research or distribution scope.",
                 "stage": "discover",
                 "status": "ready" if promotion_gate["status"] == "ready" else "planned",
                 "reviewer_lane": "pm_builder",
                 "depends_on_route_ids": ["route_score_and_improve"],
                 "input_artifact_ids": [
                     feature_portfolio_review["feature_portfolio_review_id"],
-                    discover_research_brief["research_brief_id"],
-                    discover_external_research_plan["external_research_plan_id"],
-                    discover_external_research_source_discovery["external_research_source_discovery_id"],
-                    discover_external_research_review["external_research_review_id"],
-                    market_intelligence_scorecard_id,
+                    live_doc_sync_state["document_sync_state_id"],
+                    presentation_brief["presentation_brief_id"],
+                    presentation_story["presentation_story_id"],
+                    presentation_render_spec["render_spec_id"],
+                    presentation_publish_check["publish_check_id"],
+                    presentation_scorecard_id,
                 ],
                 "expected_output_artifact_ids": [
-                    f"external_research_feed_registry_{workspace_id}",
-                    discover_research_brief["research_brief_id"],
-                    discover_external_research_source_discovery["external_research_source_discovery_id"],
-                    discover_external_research_review["external_research_review_id"],
-                    discover_competitor_dossier["competitor_dossier_id"],
-                    discover_customer_pulse["customer_pulse_id"],
-                    discover_market_analysis_brief["market_analysis_brief_id"],
-                    market_intelligence_scorecard_id,
+                    presentation_visual_direction_plan["visual_direction_plan_id"],
+                    presentation_visual_quality_review["visual_quality_review_id"],
+                    workflow_corridor_spec["workflow_corridor_spec_id"],
+                    corridor_publish_check["corridor_publish_check_id"],
+                    corridor_visual_direction_plan["visual_direction_plan_id"],
+                    corridor_visual_quality_review["visual_quality_review_id"],
+                    presentation_scorecard_id,
                 ],
                 "execution_session_state_id": improve_session_id,
                 "next_action": (
-                    "Stand up broader feed coverage, rerun governed discovery, and keep freshness, contradiction review, and PM approval explicit before downstream strategy claims broaden."
+                    "Promote the visual lane, keep deck and corridor publish checks explicit, and defer broader research and distribution work until the bounded release is proven."
                     if promotion_gate["status"] == "ready"
                     else "Keep this route parked until the bounded baseline clears its current improvement and release gates."
                 ),
@@ -4820,7 +4886,7 @@ def build_next_version_bundle_from_workspace(
                 "current_task": (
                     "Keep the score-refresh loop subordinate to frozen evals and decision memory until the blocked promotion gate clears."
                     if promotion_gate["status"] == "blocked"
-                    else "Support the governed research superpower build now that the bounded baseline gate is clear."
+                    else "Support the visual operating system release now that the bounded baseline gate is clear."
                 ),
             },
         ],
@@ -5007,17 +5073,17 @@ def build_next_version_bundle_from_workspace(
         for route in orchestration_state["route_plan"]:
             if route["route_id"] == "route_score_and_improve":
                 route["status"] = "completed"
-            if route["route_id"] == "route_research_superpower":
+            if route["route_id"] == "route_visual_operating_system":
                 route["status"] = "ready"
         for agent in cockpit_state["active_agents"]:
             if agent["agent_name"] == "improvement_planner":
                 agent["status"] = "completed"
-                agent["current_task"] = "Use the cleared bounded baseline to support the governed research superpower build and research-expansion planning."
+                agent["current_task"] = "Use the cleared bounded baseline to support the visual operating system release and the deferred research follow-on plan."
         orchestration_state.update(
             {
-                "goal": "Use the cleared bounded baseline to expand the governed research superpower and keep the next strategy packet evidence-backed.",
+                "goal": "Use the cleared bounded baseline to promote the visual operating system and keep the next public surface evidence-backed.",
                 "status": "completed",
-                "coordination_summary": "The bounded baseline now clears the frozen eval suite and portfolio truthfulness gate. The hardening cycle is complete, and the next step is broadening governed research across market, competitor, and customer signals.",
+                "coordination_summary": "The bounded baseline now clears the frozen eval suite and portfolio truthfulness gate. The hardening cycle is complete, and the next step is promoting the visual operating system across deck, map, and workflow corridor outputs.",
                 "active_route_ids": [],
                 "awaiting_review_route_ids": [],
                 "queue_impacts": [
@@ -5026,7 +5092,7 @@ def build_next_version_bundle_from_workspace(
                         "artifact_id": feature_portfolio_review["feature_portfolio_review_id"],
                         "item_id": next_priority_feature_id,
                         "recommended_action": "review_now",
-                        "reason": "The bounded baseline gate is clear, so the next review should expand governed research coverage and signal synthesis instead of shifting to another lifecycle-only packaging slice.",
+                        "reason": "The bounded baseline gate is clear, so the next review should promote the visual operating system instead of broadening governed research or publication scope.",
                         "status": "recommended",
                     }
                 ],
@@ -5037,19 +5103,19 @@ def build_next_version_bundle_from_workspace(
                 "mode": "status",
                 "status": "completed",
                 "coordination_status": "healthy",
-                "request_summary": "Operate the cleared bounded baseline from the repo CLI and move into the governed research superpower build.",
-                "current_focus": "Expand the governed research superpower across market, competitor, and customer signals while keeping PM review, freshness, and contradiction handling explicit.",
+                "request_summary": "Operate the cleared bounded baseline from the repo CLI and move into the visual operating system release.",
+                "current_focus": "Promote the visual operating system across deck, map, and workflow corridor outputs while keeping PM review, proof posture, and publish safety explicit.",
                 "recommended_next_step": {
-                    "action_summary": "Review the cleared bounded-baseline portfolio and begin the governed research superpower build.",
+                    "action_summary": "Review the cleared bounded-baseline portfolio and begin the visual operating system release.",
                     "target_type": "pm_review",
                     "target_ref": next_priority_scorecard_id,
-                    "rationale": "The bounded baseline is complete, so the next bounded decision is expanding governed research breadth and signal synthesis rather than returning to lifecycle-only packaging.",
+                    "rationale": "The bounded baseline is complete, so the next bounded decision is promoting the visual operating system rather than broadening governed research or publication scope.",
                 },
                 "awaiting_review_route_ids": [],
                 "pending_review_points": [
                     "Truthfulness status is `healthy` across the bounded-baseline portfolio.",
                     "The frozen eval suite now passes with no regressions.",
-                    "The next decision is expanding the governed research superpower and refreshing the strategy packet from stronger market, competitor, and customer evidence.",
+                    "The next decision is promoting the visual operating system and then returning to governed research from the stronger public surface.",
                 ],
                 "blocking_reasons": [],
                 "source_artifact_ids": [
@@ -5130,6 +5196,15 @@ def build_next_version_bundle_from_workspace(
         "presentation_render_spec": presentation_render_spec,
         "presentation_publish_check": presentation_publish_check,
         "presentation_ppt_export_plan": presentation_ppt_export_plan,
+        "presentation_visual_direction_plan": presentation_visual_direction_plan,
+        "presentation_visual_quality_review": presentation_visual_quality_review,
+        "workflow_corridor_spec": workflow_corridor_spec,
+        "corridor_proof_pack": corridor_proof_pack,
+        "corridor_narrative_plan": corridor_narrative_plan,
+        "corridor_render_model": corridor_render_model,
+        "corridor_publish_check": corridor_publish_check,
+        "corridor_visual_direction_plan": corridor_visual_direction_plan,
+        "corridor_visual_quality_review": corridor_visual_quality_review,
         "discover_strategy_context_brief": discover_strategy_context_brief,
         "discover_product_vision_brief": discover_product_vision_brief,
         "discover_strategy_option_set": discover_strategy_option_set,

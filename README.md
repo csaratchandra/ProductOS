@@ -1,6 +1,6 @@
 # ProductOS
 
-ProductOS V8.3.0 is the current stable ProductOS Core line.
+ProductOS V8.4.0 is the current stable ProductOS Core line.
 
 ProductOS is distributed under the Apache License 2.0. Forks, improvements, and
 suggestions are welcome through issues and pull requests.
@@ -8,6 +8,8 @@ suggestions are welcome through issues and pull requests.
 This repository contains:
 
 - `core/`: reusable ProductOS capabilities such as schemas, workflows, agent contracts, and rubrics
+- `components/workflow_corridor/`: HTML-first workflow corridor lane for customer-safe public workflow pages
+- `components/presentation/`: deck lane for internal/executive HTML presentations and PPT export
 - `templates/`: the starter surface for creating a new product workspace
 - `registry/`: release, workspace, suite, and improvement records
 - `workspaces/`: reserved for real product workspaces and intentionally empty in the shared repo
@@ -16,7 +18,7 @@ For PM adoption on a new product, the canonical starting surface is [templates](
 
 ## Operating Model
 
-ProductOS V8.3.0 is organized around the PM lifecycle plus governed research and improvement loops:
+ProductOS V8.4.0 is organized around the PM lifecycle plus governed research and improvement loops:
 
 The current stable line strengthens the mission-to-strategy discovery spine, reusable research skills, and strategy-linked discovery artifacts while keeping PM review and release boundaries explicit.
 
@@ -55,6 +57,18 @@ Recommended next step:
 
 `./productos --workspace-dir /path/to/new-workspace run discover`
 
+Canonical visual export commands:
+
+- `./productos visual export deck components/presentation/examples/artifacts/presentation_brief.example.json`
+- `./productos visual export corridor core/examples/artifacts/workflow_corridor_spec.example.json`
+- `./productos visual export map core/examples/artifacts/visual_map_spec.example.json`
+
+Visual studio workflow:
+
+- `./productos visual plan deck components/presentation/examples/artifacts/presentation_brief.example.json`
+- `./productos visual build /tmp/path/to.visual-direction-plan.json`
+- `./productos visual review /tmp/path/to/output-dir`
+
 For an existing product workspace, start with:
 
 `./productos import --source /path/to/existing-product-folder --dest /path/to/adopted-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode research --emit-report --emit-thread-page`
@@ -67,6 +81,9 @@ Validation and tests are intentionally local and simple:
 
 - `./validate-artifacts`
 - `pytest`
+- `./productos visual export deck components/presentation/examples/artifacts/presentation_brief.example.json`
+- `./productos visual export corridor core/examples/artifacts/workflow_corridor_spec.example.json`
+- `./productos visual export map core/examples/artifacts/visual_map_spec.example.json`
 - `./productos v6 --output-dir /tmp/productos-v6-lifecycle`
 - `./productos v7 --output-dir /tmp/productos-v7-lifecycle`
 

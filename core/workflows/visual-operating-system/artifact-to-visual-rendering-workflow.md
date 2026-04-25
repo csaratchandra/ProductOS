@@ -13,6 +13,11 @@ Purpose: Convert structured ProductOS artifacts into high-clarity visuals that s
 - visual rendering brief
 - audience-specific visual spec
 - `visual_map_spec`
+- `workflow_corridor_spec`
+- `corridor_proof_pack`
+- `corridor_narrative_plan`
+- `corridor_render_model`
+- `corridor_publish_check`
 - optional `render_spec`, `slide_spec`, and `ppt_export_plan`
 - optional slide, memo, dashboard, or workshop-board rendering
 
@@ -24,5 +29,6 @@ Purpose: Convert structured ProductOS artifacts into high-clarity visuals that s
 - reuse shared visual primitives first: `map_canvas` for staged or networked maps and `matrix_map` for two-axis prioritization or strategy views
 - make workflow state, blocked points, and handoffs visible when operational clarity matters
 - adapt the same visual source across slide, memo, dashboard, and customer-safe forms where needed
+- route customer-facing configurable workflow pages through the dedicated corridor lane, not the slide renderer
 - keep native-shape export intent explicit in `ppt_export_plan` so PPT output does not collapse all maps into generic bullet slides
 - escalate when the requested visual would overstate certainty or hide risk

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "visual_direction_plan_id": "visual_direction_plan_presentation_brief_pm_ops_q2",
+  "workspace_id": "ws_productos_core",
+  "visual_surface": "deck",
+  "source_artifact_type": "presentation_brief",
+  "source_artifact_id": "presentation_brief_pm_ops_q2",
+  "input_ref": "components/presentation/examples/artifacts/presentation_brief.example.json",
+  "audience": "Leadership",
+  "primary_message": "Lead with the decision, back it with operating evidence, and show the publish-safe path for the current presentation system.",
+  "design_tier": "world_class",
+  "theme_preset": "atlas",
+  "composition_strategy": {
+    "primary_pattern": "answer_first",
+    "reading_path": "headline_to_evidence_to_risk",
+    "motion_level": "restrained",
+    "composition_family": "executive_deck"
+  },
+  "density_mode": "balanced",
+  "output_targets": ["html", "pptx"],
+  "fidelity_mode": "dual_target",
+  "customer_safe": false,
+  "quality_gates": [
+    "message_hierarchy",
+    "publish_safety",
+    "dual_target_fidelity",
+    "evidence_visibility"
+  ],
+  "aspect_ratio": "16:9",
+  "notes": [
+    "Explain current product operating progress, top risks, and the next decisions needed using a modern concise deck.",
+    "Leadership should approve the current presentation-system investment and understand why this is a trust-and-execution upgrade rather than cosmetic work."
+  ],
+  "generated_at": "2026-04-22T06:00:00Z"
+}

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Turn a grounded presentation brief and evidence package into a coherent narrative plan without becoming the source of truth.
+Turn a grounded presentation brief and evidence package into a coherent deck narrative plan without becoming the source of truth.
 
 ## Core responsibilities
 
@@ -10,6 +10,7 @@ Turn a grounded presentation brief and evidence package into a coherent narrativ
 - sequence the story around audience question, decision required, and supporting evidence
 - keep one primary message per slide or narrative section
 - separate recommendation framing from raw evidence ownership
+- stay scoped to deck narrative rather than customer-safe workflow publication
 
 ## Inputs
 
@@ -40,3 +41,4 @@ Turn a grounded presentation brief and evidence package into a coherent narrativ
 - story logic must remain traceable to source evidence
 - recommendation framing must be distinguishable from findings
 - every slide or section should answer a clear narrative purpose
+- workflow explanation pages should route to the corridor lane instead of the deck storyteller
