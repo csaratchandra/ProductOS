@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "outcome_review_id": "outcome_review_starter_trace_demo",
   "workspace_id": "ws_product_starter",
   "reviewed_change_ref": "release_note_starter_trace_demo",
@@ -26,12 +26,45 @@
       "status": "met"
     }
   ],
+  "claim_verification_summary": "The starter trace now demonstrates launch and post-release linkage, but it remains explicitly seeded onboarding content rather than product truth.",
   "adoption_notes": [
     "The starter demo now shows the whole lifecycle from intake through post-release learning.",
     "Teams should replace the seeded launch and outcome text with product-specific evidence when adopting the template."
   ],
   "unresolved_pain_points": [
     "External publication adapters remain outside the starter demo scope."
+  ],
+  "support_signals": [
+    {
+      "signal_name": "Onboarding clarity",
+      "summary": "The starter example is easier to review because launch and outcome artifacts are attached to the same lifecycle item.",
+      "direction": "improving",
+      "evidence_refs": [
+        "item_lifecycle_state_starter_trace_demo"
+      ]
+    }
+  ],
+  "adoption_signals": [
+    {
+      "signal_name": "Starter full-lifecycle visibility",
+      "summary": "A new workspace owner can now inspect one explicit launch and outcome path without reconstructing the lifecycle manually.",
+      "direction": "improving",
+      "evidence_refs": [
+        "release_note_starter_trace_demo",
+        "item_lifecycle_state_starter_trace_demo"
+      ]
+    }
+  ],
+  "reopen_recommendations": [
+    {
+      "artifact_id": "opportunity_portfolio_view_starter_trace_demo",
+      "artifact_type": "opportunity_portfolio_view",
+      "recommended_action": "review",
+      "rationale": "Teams should review whether the next starter improvement still belongs in lifecycle readability before broadening the surface.",
+      "evidence_refs": [
+        "item_lifecycle_state_starter_trace_demo"
+      ]
+    }
   ],
   "rejected_path_updates": [
     "rejected_path_record_starter_trace_demo_manual_reconstruction"

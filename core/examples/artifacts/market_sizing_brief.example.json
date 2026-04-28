@@ -1,8 +1,12 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "market_sizing_brief_id": "market_sizing_brief_pm_os",
   "workspace_id": "ws_productos_v2",
   "market_name": "AI-assisted PM operating systems",
+  "framework_registry_ref": "framework_registry_pm_strategy",
+  "selected_framework_ids": [
+    "market_jobs_barriers"
+  ],
   "sizing_method": "blended",
   "tam": {
     "amount": 1800000000,
@@ -43,5 +47,9 @@
     "SAM shrinks materially if adoption is limited to enterprise PM teams with formal governance needs."
   ],
   "confidence": "moderate",
+  "prioritization_implications": [
+    "The reachable wedge is large enough to justify a focused discover-first slice without claiming category leadership.",
+    "The sizing math reinforces prioritizing narrow high-trust segments before broader horizontal expansion."
+  ],
   "created_at": "2026-03-20T14:25:00Z"
 }

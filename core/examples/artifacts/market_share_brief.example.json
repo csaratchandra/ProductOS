@@ -1,9 +1,14 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "market_share_brief_id": "market_share_brief_pm_ops_2026_q1",
   "workspace_id": "ws_productos_v2",
   "title": "Market Share Brief: PM operating systems",
   "market_name": "AI-assisted PM operating systems",
+  "framework_registry_ref": "framework_registry_pm_strategy",
+  "selected_framework_ids": [
+    "competitive_displacement_map",
+    "market_jobs_barriers"
+  ],
   "share_type": "segment_share",
   "timeframe": {
     "start_date": "2026-01-01",
@@ -30,6 +35,10 @@
   ],
   "sensitivity_notes": [
     "Share assumptions move materially if bundled platform products dominate evaluation flows."
+  ],
+  "prioritization_implications": [
+    "The reachable share is still small enough that a narrow beachhead and stronger displacement proof should outrank breadth work.",
+    "Bundled-platform share pressure increases the importance of a crisp differentiating wedge."
   ],
   "created_at": "2026-03-20T12:15:00Z"
 }

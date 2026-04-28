@@ -1,11 +1,17 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "prd_id": "prd_pm_operating_rhythm",
   "workspace_id": "ws_productos_v2",
   "title": "PRD: PM Operating Rhythm Automation",
   "problem_summary": "PMs lose high-value time to recurring reporting and follow-through work.",
   "outcome_summary": "Reduce the time needed to produce high-quality status and coordination outputs.",
   "scope_summary": "Automate bi-weekly status mail, issue log maintenance, meeting records, and next-step extraction.",
+  "strategic_context_summary": "The PRD should preserve the challenger posture: a trusted PM operating layer that improves workflow continuity without claiming broad PM-platform replacement.",
+  "value_hypothesis": "If ProductOS keeps the PM workflow spine traceable, teams should get better draft quality and faster handoff with less reconstruction work.",
+  "target_outcomes": [
+    "Reduce recurring PM reporting time.",
+    "Increase trust in automated PM coordination outputs."
+  ],
   "target_segment_refs": [
     { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
   ],
@@ -26,6 +32,32 @@
     "market_strategy_brief_pm_ops_challenger",
     "problem_brief_pm_operating_rhythm",
     "prototype_record_status_mail_draft"
+  ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_b2b_pm",
+  "artifact_trace_map_id": "artifact_trace_map_prd_pm_operating_rhythm",
+  "ralph_status": "review_needed",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 83,
+    "confidence": "moderate",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "The PRD is the critical handoff surface for turning the validated PM problem into bounded execution work.",
+    "reviewer_handoff": "Design and engineering should review scope boundaries before story and acceptance automation proceeds."
+  },
+  "scope_boundaries": [
+    "Stay inside recurring PM coordination outputs and adjacent workflow state maintenance.",
+    "Preserve explicit PM review gates before any broader launch or support claims."
+  ],
+  "out_of_scope": [
+    "Replacing all incumbent planning and execution systems.",
+    "General-purpose PM automation beyond the evidence-backed operating-rhythm wedge."
+  ],
+  "open_questions": [
+    "Which source coverage threshold should block draft generation entirely versus trigger a PM review request?"
+  ],
+  "handoff_risks": [
+    "Story generation may drift if the PRD stops carrying the persona and prioritization spine.",
+    "Teams may over-claim automation breadth if the scope boundary is not preserved in delivery handoff."
   ],
   "generated_at": "2026-03-19T18:50:00Z"
 }

@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.1.0",
+  "document_sync_state_id": "document_sync_state_invalid_missing_mod_log",
+  "workspace_id": "ws_productos_v2",
+  "sync_scope": "v4_0_readable_doc_bundle",
+  "validation_tier": "tier_2",
+  "status": "review_pending",
+  "source_artifact_refs": [
+    "prd_pm_operating_rhythm"
+  ],
+  "documents": [
+    {
+      "doc_key": "prd",
+      "title": "Product Requirements Document",
+      "readable_path": "docs/planning/prd.md",
+      "source_artifact_refs": [
+        "prd_pm_operating_rhythm"
+      ],
+      "audience": [
+        "PM",
+        "engineering"
+      ],
+      "status": "review_pending",
+      "version_number": 1,
+      "last_sync_status": "The governed doc is intentionally missing its modification log."
+    }
+  ],
+  "drift_summary": "The document bundle is intentionally invalid because governed docs must keep a modification log.",
+  "review_requirements": [
+    "Require docs-first modification metadata."
+  ],
+  "next_action": "Add the missing governed-doc modification log.",
+  "generated_at": "2026-04-27T10:00:00Z"
+}

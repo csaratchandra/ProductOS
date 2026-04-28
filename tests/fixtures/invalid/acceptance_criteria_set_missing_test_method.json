@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.1.0",
+  "acceptance_criteria_set_id": "acceptance_invalid_missing_test_method",
+  "workspace_id": "ws_productos_v2",
+  "title": "Acceptance Criteria: invalid missing test method",
+  "source_prd_id": "prd_pm_operating_rhythm",
+  "story_pack_id": "story_pack_status_mail",
+  "story_id": "story_generate_status_draft",
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_b2b_pm",
+  "artifact_trace_map_id": "artifact_trace_map_acceptance_invalid_missing_test_method",
+  "ralph_status": "decision_ready",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 79,
+    "confidence": "moderate",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "Acceptance should fail when its verification method is not explicit.",
+    "reviewer_handoff": "QA should require an explicit test method for every criterion."
+  },
+  "criteria": [
+    {
+      "criterion_id": "ac_invalid_missing_method",
+      "statement": "The generated status draft includes what happened, open issues, decisions, and next steps.",
+      "testable": true,
+      "priority": "must"
+    }
+  ]
+}

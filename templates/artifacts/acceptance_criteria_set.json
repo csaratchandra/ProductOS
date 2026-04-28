@@ -1,23 +1,43 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "acceptance_criteria_set_id": "acceptance_criteria_set_starter_trace_demo",
   "workspace_id": "ws_product_starter",
+  "title": "Acceptance Criteria: starter lifecycle trace demo",
+  "source_prd_id": "prd_starter_trace_demo",
+  "story_pack_id": "story_pack_starter_trace_demo",
   "story_id": "story_starter_trace_delivery_demo",
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_starter_trace_demo",
+  "artifact_trace_map_id": "artifact_trace_map_acceptance_criteria_set_starter_trace_demo",
+  "ralph_status": "decision_ready",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 75,
+    "confidence": "moderate",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "The acceptance set is the final starter guardrail that proves the trace can reach release readiness without hidden scope.",
+    "reviewer_handoff": "QA should confirm the seeded criteria remain bounded and objectively testable."
+  },
   "criteria": [
     {
       "criterion_id": "ac_starter_trace_1",
       "statement": "The starter trace shows one story-planning output linked back to the seeded PRD and canonical item.",
-      "testable": true
+      "testable": true,
+      "test_method": "inspection",
+      "priority": "must"
     },
     {
       "criterion_id": "ac_starter_trace_2",
       "statement": "The starter trace exposes acceptance-ready criteria that remain within the seeded story scope.",
-      "testable": true
+      "testable": true,
+      "test_method": "inspection",
+      "priority": "must"
     },
     {
       "criterion_id": "ac_starter_trace_3",
       "statement": "The starter trace reaches release readiness while keeping launch preparation and outcome review explicitly not started.",
-      "testable": true
+      "testable": true,
+      "test_method": "scenario",
+      "priority": "must"
     }
   ]
 }

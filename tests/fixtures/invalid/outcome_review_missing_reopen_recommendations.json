@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.1.0",
+  "outcome_review_id": "outcome_review_invalid",
+  "workspace_id": "ws_invalid",
+  "reviewed_change_ref": "release_note_invalid",
+  "review_scope": "Review whether the release delivered the intended outcome.",
+  "status": "iterate",
+  "pm_benchmark_ref": "pm_benchmark_invalid",
+  "ai_agent_benchmark_ref": "ai_agent_benchmark_invalid",
+  "evidence_refs": ["release_note_invalid"],
+  "target_outcomes": [
+    {
+      "outcome_name": "Readable proof",
+      "expected_signal": "A readable artifact should exist.",
+      "observed_signal": "A readable artifact exists but signals are mixed.",
+      "status": "partial"
+    }
+  ],
+  "claim_verification_summary": "Signals are mixed and the slice likely needs another pass.",
+  "adoption_notes": ["Internal teams are using the output."],
+  "unresolved_pain_points": ["Support questions still arrive on the same workflow."],
+  "support_signals": [
+    {
+      "signal_name": "Support load",
+      "summary": "Support tickets still cluster around the workflow.",
+      "direction": "stable",
+      "evidence_refs": ["release_note_invalid"]
+    }
+  ],
+  "adoption_signals": [
+    {
+      "signal_name": "Adoption",
+      "summary": "Teams are reusing the workflow output internally.",
+      "direction": "improving",
+      "evidence_refs": ["release_note_invalid"]
+    }
+  ],
+  "rejected_path_updates": ["rejected_path_invalid"],
+  "next_action": "Refresh the workflow and review again after another evidence window.",
+  "reviewed_at": "2026-04-27T08:00:00Z"
+}

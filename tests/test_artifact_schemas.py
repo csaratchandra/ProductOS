@@ -62,6 +62,36 @@ INVALID_FIXTURES = [
         "market_strategy_brief_missing_rejected_paths.json",
         "<root>",
     ),
+    (
+        "problem_brief.schema.json",
+        "problem_brief_missing_artifact_trace_map_id.json",
+        "<root>",
+    ),
+    (
+        "story_pack.schema.json",
+        "story_pack_missing_testability_notes.json",
+        "stories.0",
+    ),
+    (
+        "acceptance_criteria_set.schema.json",
+        "acceptance_criteria_set_missing_test_method.json",
+        "criteria.0",
+    ),
+    (
+        "document_sync_state.schema.json",
+        "document_sync_state_missing_modification_log.json",
+        "documents.0",
+    ),
+    (
+        "release_note.schema.json",
+        "release_note_missing_claims.json",
+        "<root>",
+    ),
+    (
+        "outcome_review.schema.json",
+        "outcome_review_missing_reopen_recommendations.json",
+        "<root>",
+    ),
 ]
 
 

@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/prioritization_decision_record.schema.json",
+  "title": "ProductOS Prioritization Decision Record",
+  "description": "Captures how ProductOS ranked options, what framework was used, and whether PM override changed the ordering.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "prioritization_decision_record_id",
+    "workspace_id",
+    "title",
+    "decision_scope",
+    "framework_registry_ref",
+    "applied_framework_ids",
+    "ranked_options",
+    "selected_option_id",
+    "decision_rationale",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "prioritization_decision_record_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "decision_scope": { "type": "string", "minLength": 10 },
+    "framework_registry_ref": { "type": "string", "minLength": 1 },
+    "applied_framework_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "ranked_options": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/rankedOption" },
+      "minItems": 2
+    },
+    "selected_option_id": { "type": "string", "minLength": 1 },
+    "decision_rationale": { "type": "string", "minLength": 10 },
+    "pm_override": { "$ref": "#/$defs/pmOverride" },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "rankedOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "option_id",
+        "option_type",
+        "title",
+        "priority_lane",
+        "priority_score",
+        "agentic_leverage",
+        "compliance_burden",
+        "ambiguity_burden",
+        "evidence_strength",
+        "rationale",
+        "source_artifact_ids"
+      ],
+      "properties": {
+        "option_id": { "type": "string", "minLength": 1 },
+        "option_type": {
+          "type": "string",
+          "enum": ["segment", "persona", "problem", "concept", "opportunity", "feature"]
+        },
+        "title": { "type": "string", "minLength": 3 },
+        "priority_lane": {
+          "type": "string",
+          "enum": ["must_now", "next", "later", "park"]
+        },
+        "priority_score": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "agentic_leverage": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "compliance_burden": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "ambiguity_burden": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "evidence_strength": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "rationale": { "type": "string", "minLength": 10 },
+        "source_artifact_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        }
+      }
+    },
+    "pmOverride": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applied", "rationale"],
+      "properties": {
+        "applied": { "type": "boolean" },
+        "rationale": { "type": "string", "minLength": 5 },
+        "superseded_option_id": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

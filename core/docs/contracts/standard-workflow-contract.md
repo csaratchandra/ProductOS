@@ -29,6 +29,7 @@ Every workflow should:
 - surface missing context as targeted questions
 - move to `review_needed` when PM approval is required
 - move to `blocked` when it cannot continue safely
+- move to `decision_ready` only when upstream traceability, prioritization, and handoff fields are complete enough for the next workflow
 - record completion explicitly
 
 ## Standard statuses
@@ -38,6 +39,7 @@ Every workflow should:
 - `in_progress`
 - `review_needed`
 - `blocked`
+- `decision_ready`
 - `completed`
 - `cancelled`
 
@@ -57,4 +59,3 @@ Every workflow should:
 - question raised
 - blocked
 - completed
-

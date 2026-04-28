@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.1.0",
+  "market_share_brief_id": "market_share_brief_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Market Share Brief: starter trace demo",
+  "market_name": "Traceable PM operating starters",
+  "framework_registry_ref": "framework_registry_starter",
+  "selected_framework_ids": [
+    "competitive_displacement_map",
+    "market_jobs_barriers"
+  ],
+  "share_type": "reachable_share",
+  "timeframe": {
+    "start_date": "2026-04-01",
+    "end_date": "2026-06-30"
+  },
+  "denominator": "Reachable product teams actively evaluating a starter workflow or operating-model reset",
+  "estimates": [
+    {
+      "subject_name": "Jira Product Discovery + Jira",
+      "subject_type": "company",
+      "share_percent": 22.0,
+      "confidence": "moderate",
+      "basis": "Incumbent share remains high among teams that want connected discovery and delivery inside an existing suite.",
+      "source_refs": [
+        "starter_trace_jpd_evidence"
+      ]
+    },
+    {
+      "subject_name": "ProductOS starter trace wedge",
+      "subject_type": "product",
+      "share_percent": 4.0,
+      "confidence": "low",
+      "basis": "Initial reachable share for teams explicitly prioritizing lifecycle traceability and PM operating-model clarity.",
+      "source_refs": [
+        "competitor_dossier_starter_trace_demo",
+        "market_sizing_brief_starter_trace_demo"
+      ]
+    }
+  ],
+  "sensitivity_notes": [
+    "Reachable share drops if bundled incumbents absorb starter evaluations before traceability pain becomes explicit."
+  ],
+  "prioritization_implications": [
+    "The starter should prioritize a crisp differentiating wedge rather than broad template coverage.",
+    "Low reachable share reinforces the need to preserve reviewable proof and explicit displacement rationale."
+  ],
+  "created_at": "2026-04-27T08:10:00Z"
+}

@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "concept_brief_id": "concept_brief_starter_trace_demo",
   "workspace_id": "ws_product_starter",
   "title": "Concept brief: seeded lifecycle trace starter",
@@ -35,6 +35,17 @@
       "entity_id": "persona_product_ops_lead"
     }
   ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_starter_trace_demo",
+  "artifact_trace_map_id": "artifact_trace_map_concept_brief_starter_trace_demo",
+  "ralph_status": "review_needed",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 84,
+    "confidence": "moderate",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "The starter concept controls whether the seeded workspace remains a bounded operating-model example instead of drifting into generic scaffolding.",
+    "reviewer_handoff": "PM should review the wedge and confirm the starter stays opinionated enough to teach the ProductOS model clearly."
+  },
   "linked_entity_refs": [
     {
       "entity_type": "feature",
@@ -45,5 +56,10 @@
     "A seeded example is easier to learn from than an empty starter",
     "The starter remains adaptable even with a strong opinionated example"
   ],
+  "risk_summary": [
+    "The starter will feel generic if the lifecycle trace is not explicit enough to teach the ProductOS handoff model.",
+    "Adoption will slow if the concept overpromises later-stage automation instead of a bounded example."
+  ],
+  "handoff_readiness_summary": "The concept is reviewable and keeps the starter focused on one opinionated lifecycle example before downstream delivery expansion.",
   "created_at": "2026-03-23T11:14:00Z"
 }

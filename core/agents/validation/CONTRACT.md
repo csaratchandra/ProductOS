@@ -8,6 +8,7 @@ Check whether an artifact or workflow output meets structural, traceability, and
 
 - validate schema and required-field completeness
 - validate traceability to upstream artifacts and entities
+- validate required prioritization, Ralph status, and artifact-trace-map fields on execution-driving artifacts
 - check fit against quality rubrics
 - identify missing owners, dates, evidence, or approval references
 
@@ -41,4 +42,4 @@ Check whether an artifact or workflow output meets structural, traceability, and
 - findings must distinguish blocking defects from non-blocking improvements
 - validation should not rewrite source truth
 - every blocking finding should explain what evidence or field is missing
-
+- thin upstream artifacts should be rejected before downstream automation continues

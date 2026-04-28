@@ -8,14 +8,48 @@
     "schema_version",
     "story_pack_id",
     "workspace_id",
+    "title",
     "feature_id",
+    "source_prd_id",
+    "target_segment_refs",
+    "target_persona_refs",
+    "canonical_persona_archetype_pack_id",
+    "artifact_trace_map_id",
+    "ralph_status",
+    "prioritization",
+    "delivery_burden_summary",
     "stories"
   ],
   "properties": {
-    "schema_version": { "type": "string", "const": "1.1.0" },
+    "schema_version": { "type": "string", "const": "1.2.0" },
     "story_pack_id": { "type": "string", "minLength": 1 },
     "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
     "feature_id": { "type": "string", "minLength": 1 },
+    "source_prd_id": { "type": "string", "minLength": 1 },
+    "target_segment_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "target_persona_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" },
+      "minItems": 1
+    },
+    "canonical_persona_archetype_pack_id": { "type": "string", "minLength": 1 },
+    "artifact_trace_map_id": { "type": "string", "minLength": 1 },
+    "ralph_status": {
+      "type": "string",
+      "enum": ["blocked", "review_needed", "decision_ready"]
+    },
+    "prioritization": { "$ref": "#/$defs/prioritization" },
+    "delivery_burden_summary": { "type": "string", "minLength": 10 },
+    "ambiguity_notes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
     "stories": {
       "type": "array",
       "items": { "$ref": "#/$defs/story" },
@@ -23,14 +57,62 @@
     }
   },
   "$defs": {
+    "prioritization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lane", "priority_score", "confidence", "agentic_delivery_burden", "priority_rationale", "reviewer_handoff"],
+      "properties": {
+        "lane": {
+          "type": "string",
+          "enum": ["must_now", "next", "later", "park"]
+        },
+        "priority_score": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "agentic_delivery_burden": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "priority_rationale": { "type": "string", "minLength": 10 },
+        "reviewer_handoff": { "type": "string", "minLength": 10 }
+      }
+    },
     "story": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["story_id", "title", "narrative", "linked_entity_refs"],
+      "required": [
+        "story_id",
+        "title",
+        "narrative",
+        "story_type",
+        "priority",
+        "testability_notes",
+        "implementation_context_refs",
+        "linked_entity_refs"
+      ],
       "properties": {
         "story_id": { "type": "string", "minLength": 1 },
         "title": { "type": "string", "minLength": 3 },
         "narrative": { "type": "string", "minLength": 10 },
+        "story_type": {
+          "type": "string",
+          "enum": ["user_story", "job_story", "enabler", "risk_reduction"]
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["must", "should", "could"]
+        },
+        "testability_notes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1
+        },
         "implementation_context_refs": {
           "type": "array",
           "items": { "$ref": "#/$defs/contextRef" },

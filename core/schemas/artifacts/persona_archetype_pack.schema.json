@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://productos.dev/schemas/artifacts/persona_archetype_pack.schema.json",
   "title": "ProductOS Persona Archetype Pack",
-  "description": "Persona pack with explicit archetype roles, influence patterns, and workflow traits.",
+  "description": "Persona pack with explicit archetype roles, influence patterns, workflow traits, and canonical downstream truth for execution-driving artifacts.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -12,11 +12,13 @@
     "title",
     "segment_refs",
     "archetype_mode",
+    "canonical_truth",
+    "prioritization_basis",
     "archetypes",
     "created_at"
   ],
   "properties": {
-    "schema_version": { "type": "string", "const": "1.0.0" },
+    "schema_version": { "type": "string", "const": "1.1.0" },
     "persona_archetype_pack_id": { "type": "string", "minLength": 1 },
     "workspace_id": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 3 },
@@ -29,6 +31,8 @@
       "type": "string",
       "enum": ["buyer", "user", "champion", "blocker", "operator", "executive", "influencer"]
     },
+    "canonical_truth": { "type": "boolean", "const": true },
+    "prioritization_basis": { "$ref": "#/$defs/prioritizationBasis" },
     "archetypes": {
       "type": "array",
       "items": { "$ref": "#/$defs/archetype" },
@@ -42,6 +46,19 @@
     "created_at": { "type": "string", "format": "date-time" }
   },
   "$defs": {
+    "prioritizationBasis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lane", "selection_rationale", "decision_owner"],
+      "properties": {
+        "lane": {
+          "type": "string",
+          "enum": ["must_now", "next", "later", "park"]
+        },
+        "selection_rationale": { "type": "string", "minLength": 10 },
+        "decision_owner": { "type": "string", "minLength": 2 }
+      }
+    },
     "entityRef": {
       "type": "object",
       "additionalProperties": false,
@@ -67,6 +84,9 @@
         "blockers",
         "buying_influence",
         "workflow_traits",
+        "priority_score",
+        "priority_rationale",
+        "handoff_preferences",
         "evidence_refs"
       ],
       "properties": {
@@ -104,6 +124,21 @@
           "type": "array",
           "items": { "type": "string", "minLength": 3 },
           "minItems": 1
+        },
+        "priority_score": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "priority_rationale": { "type": "string", "minLength": 10 },
+        "handoff_preferences": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "evidence_confidence": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
         },
         "evidence_refs": {
           "type": "array",

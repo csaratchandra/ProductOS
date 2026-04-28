@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.1.0",
+  "problem_brief_id": "problem_brief_invalid_missing_trace_map",
+  "workspace_id": "ws_productos_v2",
+  "title": "Problem Brief: Invalid missing trace map",
+  "problem_summary": "A thin problem brief should not pass validation when it cannot point downstream automation at an explicit artifact trace map.",
+  "strategic_fit_summary": "The artifact should block downstream work if traceability is missing.",
+  "posture_alignment": "challenger",
+  "why_this_problem_now": "Downstream automation becomes unsafe when traceability is implied instead of explicit.",
+  "why_this_problem_for_this_segment": "The target segment needs a governed handoff boundary before delivery automation continues.",
+  "problem_severity": {
+    "customer_pain": "high",
+    "workflow_frequency": "high",
+    "evidence_strength": "moderate",
+    "severity_rationale": "The gap affects a frequent execution workflow."
+  },
+  "target_segment_refs": [
+    { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
+  ],
+  "target_persona_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" }
+  ],
+  "linked_entity_refs": [
+    { "entity_type": "problem", "entity_id": "problem_pm_reporting_bottleneck" }
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "research",
+      "source_id": "research_brief_pm_operating_rhythm",
+      "justification": "The research packet shows the current workflow burden."
+    }
+  ],
+  "upstream_artifact_ids": [
+    "research_brief_pm_operating_rhythm"
+  ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_b2b_pm",
+  "ralph_status": "decision_ready",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 90,
+    "confidence": "high",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "This artifact should be blocked from downstream use until traceability is explicit.",
+    "reviewer_handoff": "PM should require an explicit trace map before PRD generation."
+  },
+  "handoff_readiness_summary": "The brief is intentionally missing the trace map field.",
+  "recommended_next_step": "prd",
+  "created_at": "2026-04-27T10:00:00Z"
+}

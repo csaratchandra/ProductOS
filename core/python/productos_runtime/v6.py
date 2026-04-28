@@ -371,12 +371,14 @@ def build_v6_lifecycle_bundle_from_workspace(
     }
 
     release_readiness_status = "ready" if overall_status == "passed" else ("watch" if overall_status == "watch" else "blocked")
+    release_gate_decision_id = "release_gate_decision_ws_productos_v2_v6_lifecycle_traceability"
     release_readiness = {
-        "schema_version": "1.1.0",
+        "schema_version": "1.2.0",
         "release_readiness_id": "release_readiness_ws_productos_v2_v6_lifecycle_traceability",
         "workspace_id": workspace_item["workspace_id"],
         "feature_id": "feature_v6_lifecycle_traceability_release_readiness",
         "status": release_readiness_status,
+        "decision_summary": "The V6 slice is ready when self-hosting and starter traces both reach release_readiness and the post-release boundary remains explicit.",
         "launch_roles": [
             {
                 "role_name": "Release owner",
@@ -400,6 +402,19 @@ def build_v6_lifecycle_bundle_from_workspace(
                 "owner_function": "Runtime governance",
             },
         ],
+        "claim_readiness": [
+            {
+                "claim": "The V6 bundle proves lifecycle traceability through release_readiness in both adoption surfaces.",
+                "status": "verified" if self_hosting_ready and starter_ready else "blocked",
+                "evidence_refs": [runtime_scenario_report["runtime_scenario_report_id"], manual_validation_record["manual_validation_record_id"]],
+            },
+            {
+                "claim": "Launch preparation and outcome review remain explicit but out of scope for the promoted V6 claim.",
+                "status": "bounded",
+                "evidence_refs": [release_gate_decision_id],
+            },
+        ],
+        "blocking_evidence_refs": [runtime_scenario_report["runtime_scenario_report_id"]],
         "checks": [
             {
                 "name": "Self-hosting lifecycle trace reaches release_readiness",
@@ -427,7 +442,7 @@ def build_v6_lifecycle_bundle_from_workspace(
 
     release_gate_decision = {
         "schema_version": "1.0.0",
-        "release_gate_decision_id": "release_gate_decision_ws_productos_v2_v6_lifecycle_traceability",
+        "release_gate_decision_id": release_gate_decision_id,
         "workspace_id": workspace_item["workspace_id"],
         "target_release": V6_TARGET_RELEASE,
         "decision": "go" if overall_status == "passed" else ("conditional_go" if overall_status == "watch" else "no_go"),

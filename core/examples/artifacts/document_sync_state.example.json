@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "document_sync_state_id": "document_sync_state_ws_productos_v2_v4_readable_docs",
   "workspace_id": "ws_productos_v2",
   "sync_scope": "v4_0_readable_doc_bundle",
@@ -30,6 +30,15 @@
         "engineering"
       ],
       "status": "review_pending",
+      "version_number": 1,
+      "modification_log": [
+        {
+          "version_number": 1,
+          "updated_at": "2026-03-21T23:55:00Z",
+          "updated_by": "ProductOS PM",
+          "summary": "Synced the governed discovery summary metadata to the current discovery packet."
+        }
+      ],
       "last_sync_status": "Readable draft exists and remains traceable to the current discovery and feedback evidence."
     },
     {
@@ -46,6 +55,15 @@
         "leadership"
       ],
       "status": "synced",
+      "version_number": 1,
+      "modification_log": [
+        {
+          "version_number": 1,
+          "updated_at": "2026-03-21T23:55:00Z",
+          "updated_by": "ProductOS PM",
+          "summary": "Recorded the governed problem-brief doc as synced to the current structured artifact."
+        }
+      ],
       "last_sync_status": "Problem framing and recommendation match the current structured artifact."
     },
     {
@@ -62,6 +80,15 @@
         "leadership"
       ],
       "status": "synced",
+      "version_number": 1,
+      "modification_log": [
+        {
+          "version_number": 1,
+          "updated_at": "2026-03-21T23:55:00Z",
+          "updated_by": "ProductOS PM",
+          "summary": "Recorded the governed concept-brief doc as synced to the current structured artifact."
+        }
+      ],
       "last_sync_status": "Concept narrative remains aligned with the validated concept artifact."
     },
     {
@@ -78,6 +105,15 @@
         "leadership"
       ],
       "status": "synced",
+      "version_number": 1,
+      "modification_log": [
+        {
+          "version_number": 1,
+          "updated_at": "2026-03-21T23:55:00Z",
+          "updated_by": "ProductOS PM",
+          "summary": "Recorded the governed prototype-review doc as synced to the current structured artifact."
+        }
+      ],
       "last_sync_status": "Prototype learnings and decision state reflect the current structured prototype record."
     },
     {
@@ -95,6 +131,15 @@
         "go-to-market"
       ],
       "status": "review_pending",
+      "version_number": 1,
+      "modification_log": [
+        {
+          "version_number": 1,
+          "updated_at": "2026-03-21T23:55:00Z",
+          "updated_by": "ProductOS PM",
+          "summary": "Recorded the governed roadmap doc as review pending while publishing metadata is confirmed."
+        }
+      ],
       "last_sync_status": "Roadmap document is current enough for targeted PM review but still needs confirmation on publishing metadata."
     },
     {
@@ -111,6 +156,15 @@
         "data or AI implementation"
       ],
       "status": "review_pending",
+      "version_number": 1,
+      "modification_log": [
+        {
+          "version_number": 1,
+          "updated_at": "2026-03-21T23:55:00Z",
+          "updated_by": "ProductOS PM",
+          "summary": "Recorded the governed PRD doc as review pending while manual validation is completed."
+        }
+      ],
       "last_sync_status": "PRD narrative is grounded in the current artifact and is waiting on targeted manual validation for adoptability."
     }
   ],

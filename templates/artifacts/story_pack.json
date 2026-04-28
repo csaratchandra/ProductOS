@@ -1,13 +1,49 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "story_pack_id": "story_pack_starter_trace_demo",
   "workspace_id": "ws_product_starter",
+  "title": "Story Pack: starter lifecycle trace demo",
   "feature_id": "feature_starter_trace_demo",
+  "source_prd_id": "prd_starter_trace_demo",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_scaling_product_orgs"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    }
+  ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_starter_trace_demo",
+  "artifact_trace_map_id": "artifact_trace_map_story_pack_starter_trace_demo",
+  "ralph_status": "review_needed",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 77,
+    "confidence": "moderate",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "The starter story pack is the first delivery artifact that proves the seeded PRD can turn into bounded implementation-ready work.",
+    "reviewer_handoff": "QA and engineering should confirm the starter stories stay within the seeded release-readiness boundary."
+  },
+  "delivery_burden_summary": "The starter slice is intentionally narrow, but it still needs visible context refs and testability notes so adopters can understand the handoff shape.",
+  "ambiguity_notes": [
+    "The seeded trace should remain canonical and not branch into multiple parallel examples.",
+    "Later launch and outcome work should stay visible as deferred, not implied as complete."
+  ],
   "stories": [
     {
       "story_id": "story_starter_trace_delivery_demo",
       "title": "Carry the starter trace through delivery and release readiness",
       "narrative": "As a new ProductOS adopter, I want the starter workspace to show one canonical item through release readiness so I can understand the intended lifecycle shape before replacing the demo data.",
+      "story_type": "user_story",
+      "priority": "must",
+      "testability_notes": [
+        "The seeded story should point clearly back to the PRD and lifecycle snapshots.",
+        "The starter should preserve explicit deferred later stages rather than hiding them."
+      ],
       "implementation_context_refs": [
         {
           "context_type": "markdown",

@@ -10,12 +10,15 @@
     "workspace_id",
     "feature_id",
     "status",
+    "decision_summary",
     "launch_roles",
+    "claim_readiness",
+    "blocking_evidence_refs",
     "checks",
     "generated_at"
   ],
   "properties": {
-    "schema_version": { "type": "string", "const": "1.1.0" },
+    "schema_version": { "type": "string", "const": "1.2.0" },
     "release_readiness_id": { "type": "string", "minLength": 1 },
     "workspace_id": { "type": "string", "minLength": 1 },
     "feature_id": { "type": "string", "minLength": 1 },
@@ -23,9 +26,20 @@
       "type": "string",
       "enum": ["ready", "watch", "blocked"]
     },
+    "decision_summary": { "type": "string", "minLength": 10 },
     "launch_roles": {
       "type": "array",
       "items": { "$ref": "#/$defs/launchRole" },
+      "minItems": 1
+    },
+    "claim_readiness": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/claimReadiness" },
+      "minItems": 1
+    },
+    "blocking_evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
       "minItems": 1
     },
     "checks": {
@@ -76,6 +90,23 @@
           }
         }
       ]
+    },
+    "claimReadiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim", "status", "evidence_refs"],
+      "properties": {
+        "claim": { "type": "string", "minLength": 10 },
+        "status": {
+          "type": "string",
+          "enum": ["verified", "bounded", "blocked"]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        }
+      }
     }
   }
 }

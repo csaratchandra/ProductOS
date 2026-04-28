@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "concept_brief_id": "concept_brief_pm_operating_rhythm",
   "workspace_id": "ws_productos_v2",
   "title": "PM operating rhythm automation",
@@ -25,6 +25,17 @@
   "target_persona_refs": [
     { "entity_type": "persona", "entity_id": "persona_product_manager" }
   ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_b2b_pm",
+  "artifact_trace_map_id": "artifact_trace_map_concept_brief_pm_operating_rhythm",
+  "ralph_status": "review_needed",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 86,
+    "confidence": "moderate",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "The concept should be prioritized immediately because it translates a validated PM problem into a bounded wedge with clear handoff value.",
+    "reviewer_handoff": "PM should review the wedge and confirm the concept stays inside the current challenger claim boundary."
+  },
   "linked_entity_refs": [
     { "entity_type": "problem", "entity_id": "problem_pm_reporting_bottleneck" },
     { "entity_type": "outcome", "entity_id": "outcome_reduce_pm_reporting_time" }
@@ -36,6 +47,11 @@
   "open_questions": [
     "What minimum source coverage is required before the PM trusts an automated draft?"
   ],
+  "risk_summary": [
+    "The concept weakens if ProductOS tries to promise broad PM autonomy before proving the operating-rhythm wedge.",
+    "Story quality will degrade if the concept loses the explicit persona and evidence spine."
+  ],
+  "handoff_readiness_summary": "The concept is reviewable and ready for PM judgment, but it still expects one explicit confirmation on wedge sharpness before broader downstream automation.",
   "uncertainty_map_refs": [
     "uncertainty_map_pm_strategy"
   ],

@@ -9,6 +9,7 @@ Convert approved PRD scope into implementation-ready stories and acceptance crit
 - generate and revise `story_pack`
 - generate and refine `acceptance_criteria_set`
 - preserve linkage to PRD scope and target persona context
+- carry forward the PRD prioritization and canonical persona-archetype truth
 - identify ambiguous or non-testable requirements before delivery handoff
 
 ## Inputs
@@ -41,3 +42,4 @@ Convert approved PRD scope into implementation-ready stories and acceptance crit
 - stories must remain within PRD scope
 - acceptance criteria should be observable and testable
 - traceability back to the originating PRD must be preserved
+- each criterion should keep an explicit test method

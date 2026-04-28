@@ -1,9 +1,14 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "market_analysis_brief_id": "market_analysis_brief_pm_ops",
   "workspace_id": "ws_productos_v2",
   "title": "Market Analysis Brief: PM operating systems",
   "market_name": "AI-assisted PM operating systems",
+  "framework_registry_ref": "framework_registry_pm_strategy",
+  "selected_framework_ids": [
+    "market_jobs_barriers",
+    "signal_weighted_priority"
+  ],
   "category_structure": [
     "Broad PM platforms bundle planning, prioritization, and some AI assistance.",
     "Execution suites pull PM use cases downstream through integration and AI helpers."
@@ -30,6 +35,14 @@
     "A challenger posture is more credible than a broad leader claim at this stage.",
     "Winning the PM traceability wedge can create expansion room into adjacent workflows."
   ],
+  "agentic_delivery_implications": [
+    "Agentic leverage matters when it removes PM reconstruction work without obscuring evidence provenance.",
+    "Broad autonomy claims should stay behind the narrower discover and traceability wedge."
+  ],
+  "prioritization_implications": [
+    "Favor wedges that lower switching fear and prove measurable workflow continuity quickly.",
+    "Keep category-breadth expansion behind reviewable proof of same-day PM value."
+  ],
   "ecosystem_dependencies": [
     "Tracker integration quality shapes day-to-day product value.",
     "Workflow lock-in around Atlassian and adjacent systems remains strong."
@@ -43,6 +56,9 @@
   "key_uncertainties": [
     "How quickly PM buyers will shift budget from point tools to operating-system products."
   ],
-  "source_artifact_ids": ["research_brief_pm_operating_rhythm", "competitor_dossier_pm_ops_space"],
+  "source_artifact_ids": [
+    "research_brief_pm_operating_rhythm",
+    "competitor_dossier_pm_ops_space"
+  ],
   "created_at": "2026-03-20T12:35:00Z"
 }

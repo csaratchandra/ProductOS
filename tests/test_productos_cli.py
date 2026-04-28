@@ -400,7 +400,9 @@ def test_productos_run_discover_can_fall_back_to_mission_brief(root_dir: Path, s
     generated_handoff = json.loads((output_dir / "discover_research_handoff.json").read_text(encoding="utf-8"))
     generated_notebook = json.loads((output_dir / "discover_research_notebook.json").read_text(encoding="utf-8"))
     generated_research_brief = json.loads((output_dir / "discover_research_brief.json").read_text(encoding="utf-8"))
+    generated_framework_registry = json.loads((output_dir / "discover_framework_registry.json").read_text(encoding="utf-8"))
     generated_customer_pulse = json.loads((output_dir / "discover_customer_pulse.json").read_text(encoding="utf-8"))
+    generated_opportunity_portfolio = json.loads((output_dir / "discover_opportunity_portfolio_view.json").read_text(encoding="utf-8"))
     generated_concept = json.loads((output_dir / "discover_concept_brief.json").read_text(encoding="utf-8"))
     generated_prd = json.loads((output_dir / "discover_prd.json").read_text(encoding="utf-8"))
     assert generated_strategy["mission_ref"] == "mission_brief_ws_productos_v2_pm_superpower_recovery_mission"
@@ -420,10 +422,13 @@ def test_productos_run_discover_can_fall_back_to_mission_brief(root_dir: Path, s
     assert generated_handoff["artifact_refs"][-1]["artifact_id"] == generated_concept["concept_brief_id"]
     assert generated_notebook["source_note_card_ids"]
     assert generated_research_brief["research_notebook_ids"] == [generated_notebook["research_notebook_id"]]
+    assert generated_framework_registry["frameworks"][0]["applicability_rules"]
     assert generated_customer_pulse["source_artifact_ids"][:2] == [
         generated_notebook["research_notebook_id"],
         generated_research_brief["research_brief_id"],
     ]
+    assert generated_customer_pulse["support_signal_clusters"]
+    assert generated_opportunity_portfolio["recommended_now_ids"]
     assert generated_concept["strategy_artifact_ids"] == [
         generated_strategy["strategy_context_brief_id"],
         generated_vision["product_vision_brief_id"],
@@ -738,6 +743,8 @@ def test_productos_align_and_operate_outputs_include_custom_mission_context(
     assert "Customer trust recovery mission" in document_sync_state["next_action"]
     assert "mission_brief_ws_productos_v2_customer_trust_recovery_mission" in document_sync_state["source_artifact_refs"]
     assert any(doc["doc_key"] == "product_strategy_vision" for doc in document_sync_state["documents"])
+    assert all(doc["version_number"] == 1 for doc in document_sync_state["documents"])
+    assert all(doc["modification_log"] for doc in document_sync_state["documents"])
     assert "Customer trust recovery mission" in status_mail["summary"]
     assert "mission_brief_ws_productos_v2_customer_trust_recovery_mission" in status_mail["generated_from_artifact_ids"]
     assert any(
@@ -1176,9 +1183,16 @@ def test_productos_run_discover_command_exports_phase_artifacts(root_dir: Path, 
     assert (tmp_path / "discover_external_research_plan.json").exists()
     assert (tmp_path / "discover_external_research_source_discovery.json").exists()
     assert (tmp_path / "discover_external_research_review.json").exists()
+    assert (tmp_path / "discover_framework_registry.json").exists()
     assert (tmp_path / "discover_competitor_dossier.json").exists()
     assert (tmp_path / "discover_customer_pulse.json").exists()
     assert (tmp_path / "discover_market_analysis_brief.json").exists()
+    assert (tmp_path / "discover_landscape_matrix.json").exists()
+    assert (tmp_path / "discover_market_sizing_brief.json").exists()
+    assert (tmp_path / "discover_market_share_brief.json").exists()
+    assert (tmp_path / "discover_opportunity_portfolio_view.json").exists()
+    assert (tmp_path / "discover_prioritization_decision_record.json").exists()
+    assert (tmp_path / "discover_feature_prioritization_brief.json").exists()
     assert (tmp_path / "discover_concept_brief.json").exists()
     assert (tmp_path / "discover_prd.json").exists()
     assert (tmp_path / "discover_execution_session_state.json").exists()
@@ -1249,6 +1263,8 @@ def test_productos_run_align_command_exports_phase_artifacts(root_dir: Path, sel
         "external_research_review_ws_productos_v2",
         "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
     ]
+    assert discovery_doc["version_number"] == 1
+    assert discovery_doc["modification_log"][0]["version_number"] == 1
     assert strategy_doc["readable_path"] == "internal/ProductOS-Next/docs/strategy/product-strategy-vision.md"
     assert strategy_doc["source_artifact_refs"] == [
         "strategy_context_brief_pm_superpower_recovery",
@@ -1256,6 +1272,8 @@ def test_productos_run_align_command_exports_phase_artifacts(root_dir: Path, sel
         "market_strategy_brief_pm_superpower_recovery",
         "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
     ]
+    assert strategy_doc["version_number"] == 1
+    assert strategy_doc["modification_log"][0]["updated_by"] == "ProductOS PM"
 
 
 def test_productos_run_align_persist_uses_persisted_outputs_for_presentation_scoring(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
@@ -1956,6 +1974,7 @@ def test_productos_init_mission_updates_delivery_and_launch_artifacts_in_initial
     release_readiness = json.loads((destination / "artifacts" / "release_readiness.json").read_text(encoding="utf-8"))
     release_note = json.loads((destination / "artifacts" / "release_note.json").read_text(encoding="utf-8"))
     outcome_review = json.loads((destination / "artifacts" / "outcome_review.json").read_text(encoding="utf-8"))
+    mission_brief_markdown = (destination / "docs" / "planning" / "mission-brief.md").read_text(encoding="utf-8")
     item_lifecycle_state = json.loads((destination / "artifacts" / "item_lifecycle_state.json").read_text(encoding="utf-8"))
     discovery_snapshot = json.loads((destination / "artifacts" / "lifecycle_stage_snapshot.json").read_text(encoding="utf-8"))
     delivery_snapshot = json.loads(
@@ -1972,6 +1991,8 @@ def test_productos_init_mission_updates_delivery_and_launch_artifacts_in_initial
     )
 
     assert "Activation recovery mission" in story_pack["stories"][0]["title"]
+    assert story_pack["source_prd_id"] == "prd_activation_recovery_mission_mission_discover"
+    assert story_pack["canonical_persona_archetype_pack_id"] == "persona_archetype_pack_activation_recovery_mission_mission_strategy"
     assert any(
         ref["path"] == "docs/planning/mission-brief.md" for ref in story_pack["stories"][0]["implementation_context_refs"]
     )
@@ -1981,13 +2002,21 @@ def test_productos_init_mission_updates_delivery_and_launch_artifacts_in_initial
         for ref in story_pack["stories"][0]["linked_entity_refs"]
     )
     assert any("Activation recovery mission" in criterion["statement"] for criterion in acceptance["criteria"])
+    assert all(criterion["test_method"] in {"inspection", "scenario"} for criterion in acceptance["criteria"])
+    assert "Version: `v1`" in mission_brief_markdown
+    assert "## Modification Log" in mission_brief_markdown
     assert release_readiness["feature_id"] == "feature_activation_recovery_mission_discover_loop"
+    assert release_readiness["decision_summary"]
+    assert release_readiness["claim_readiness"]
     assert all("Activation recovery mission" in role["responsibility"] for role in release_readiness["launch_roles"])
     assert "Activation recovery mission" in release_note["summary"]
     assert release_note["feature_ids"] == ["feature_activation_recovery_mission_discover_loop"]
+    assert release_note["claims"][0]["evidence_refs"]
     assert "mission_brief_ws_acme_activation_recovery_mission" in outcome_review["evidence_refs"]
     assert "item_lifecycle_state_activation_recovery_mission_mission_trace" in outcome_review["evidence_refs"]
     assert "Activation recovery mission" in outcome_review["review_scope"]
+    assert outcome_review["support_signals"]
+    assert outcome_review["reopen_recommendations"]
     assert item_lifecycle_state["item_lifecycle_state_id"] == "item_lifecycle_state_activation_recovery_mission_mission_trace"
     assert item_lifecycle_state["item_ref"]["entity_id"] == "opportunity_activation_recovery_mission"
     assert item_lifecycle_state["title"] == "Mission lifecycle trace for Activation recovery mission"

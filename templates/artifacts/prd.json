@@ -1,11 +1,17 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "prd_id": "prd_starter_trace_demo",
   "workspace_id": "ws_product_starter",
   "title": "PRD: Starter lifecycle trace demo",
   "problem_summary": "New teams need a concrete example of what good ProductOS lifecycle traceability looks like.",
   "outcome_summary": "The starter workspace demonstrates one lifecycle item through release readiness with clear artifacts, gate outcomes, and explicit deferred later stages.",
   "scope_summary": "Seed the starter with discovery artifacts, a bounded story pack, acceptance criteria, release readiness, and lifecycle snapshots that demonstrate the full V6 trace shape.",
+  "strategic_context_summary": "The starter PRD should prove the ProductOS operating model with one explicit item trace rather than broaden into a generic workspace tutorial.",
+  "value_hypothesis": "A fully linked starter item reduces adoption friction because teams can inspect a coherent discovery-to-release spine immediately.",
+  "target_outcomes": [
+    "Help new teams understand the ProductOS lifecycle trace model faster.",
+    "Reduce ambiguity in the handoff from discovery to release readiness."
+  ],
   "target_segment_refs": [
     {
       "entity_type": "segment",
@@ -36,6 +42,32 @@
     "problem_brief_starter_trace_demo",
     "concept_brief_starter_trace_demo",
     "prototype_record_starter_trace_demo"
+  ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_starter_trace_demo",
+  "artifact_trace_map_id": "artifact_trace_map_prd_starter_trace_demo",
+  "ralph_status": "review_needed",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 81,
+    "confidence": "moderate",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "The starter PRD is the delivery handoff that proves ProductOS can keep one coherent bounded slice across the lifecycle.",
+    "reviewer_handoff": "Design and engineering should review the seeded scope boundaries before using the starter trace as the default onboarding example."
+  },
+  "scope_boundaries": [
+    "Stay focused on one explicit lifecycle trace through release readiness.",
+    "Keep later launch and outcome surfaces visible but intentionally deferred."
+  ],
+  "out_of_scope": [
+    "A broad tutorial for every ProductOS workflow or artifact.",
+    "Claims that the starter covers production launch or outcome loops in depth."
+  ],
+  "open_questions": [
+    "Which additional seeded artifacts would materially improve onboarding without making the starter feel bloated?"
+  ],
+  "handoff_risks": [
+    "The starter becomes noisy if it carries too many parallel examples instead of one canonical trace.",
+    "Teams may misunderstand the release boundary if later lifecycle stages are not kept explicitly deferred."
   ],
   "generated_at": "2026-03-27T08:30:00Z"
 }

@@ -7,6 +7,7 @@ from typing import Any
 
 import yaml
 
+from .governed_docs import render_governed_markdown
 from .lifecycle import DISCOVERY_STAGE_ORDER, LIFECYCLE_STAGE_ORDER
 
 
@@ -100,6 +101,25 @@ def _write_json(path: Path, payload: dict[str, Any]) -> None:
 
 def _append_once(text: str, extra: str) -> str:
     return text if extra in text else f"{text} {extra}".strip()
+
+
+def _priority_profile(
+    *,
+    lane: str,
+    priority_score: int,
+    confidence: str,
+    agentic_delivery_burden: str,
+    rationale: str,
+    reviewer_handoff: str,
+) -> dict[str, Any]:
+    return {
+        "lane": lane,
+        "priority_score": priority_score,
+        "confidence": confidence,
+        "agentic_delivery_burden": agentic_delivery_burden,
+        "priority_rationale": rationale,
+        "reviewer_handoff": reviewer_handoff,
+    }
 
 
 def _can_replace_discover_artifact(path: Path) -> bool:
@@ -379,7 +399,10 @@ def _rebase_safe_lifecycle_trace(
     mission_title = mission_brief["title"]
     mission_id = mission_brief["mission_brief_id"]
     mission_problem = mission_brief["customer_problem"]
+    mission_slug = _slug(mission_title)
     trace_identity = _mission_trace_identity(mission_brief)
+    mission_prd_id = f"prd_{mission_slug}_mission_discover"
+    mission_persona_archetype_pack_id = f"persona_archetype_pack_{mission_slug}_mission_strategy"
     mission_entity_refs = [
         {"entity_type": "problem", "entity_id": trace_identity["problem_id"]},
         {"entity_type": "outcome", "entity_id": trace_identity["outcome_id"]},
@@ -393,6 +416,8 @@ def _rebase_safe_lifecycle_trace(
         story_pack = _load_json(story_pack_path)
         story_pack_id = story_pack.get("story_pack_id")
         story_pack["feature_id"] = trace_identity["feature_id"]
+        story_pack["source_prd_id"] = mission_prd_id
+        story_pack["canonical_persona_archetype_pack_id"] = mission_persona_archetype_pack_id
         for story in story_pack.get("stories", []):
             story["linked_entity_refs"] = _merge_entity_refs(
                 list(story.get("linked_entity_refs", [])),
@@ -402,7 +427,13 @@ def _rebase_safe_lifecycle_trace(
         _write_json(story_pack_path, story_pack)
 
     acceptance_path = artifacts_dir / "acceptance_criteria_set.json"
-    acceptance_id = _load_json(acceptance_path).get("acceptance_criteria_set_id") if acceptance_path.exists() else None
+    acceptance_id = None
+    if acceptance_path.exists():
+        acceptance = _load_json(acceptance_path)
+        acceptance_id = acceptance.get("acceptance_criteria_set_id")
+        acceptance["source_prd_id"] = mission_prd_id
+        acceptance["canonical_persona_archetype_pack_id"] = mission_persona_archetype_pack_id
+        _write_json(acceptance_path, acceptance)
 
     release_readiness_path = artifacts_dir / "release_readiness.json"
     release_readiness_id = None
@@ -648,6 +679,7 @@ def build_strategy_discover_bundle_from_mission(
     product_vision_id = f"product_vision_brief_{mission_slug}_mission_strategy"
     strategy_option_set_id = f"strategy_option_set_{mission_slug}_mission_strategy"
     market_strategy_id = f"market_strategy_brief_{mission_slug}_mission_strategy"
+    persona_archetype_pack_id = f"persona_archetype_pack_{mission_slug}_mission_strategy"
     segment_refs = [{"entity_type": "segment", "entity_id": "segment_b2b_product_teams"}]
     persona_refs = [{"entity_type": "persona", "entity_id": "persona_product_manager"}]
     linked_entity_refs = [
@@ -945,7 +977,7 @@ def build_strategy_discover_bundle_from_mission(
     }
 
     problem_brief = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "problem_brief_id": f"problem_brief_{mission_slug}_mission_discover",
         "workspace_id": workspace_id,
         "title": f"Problem Brief: {mission_title}",
@@ -961,17 +993,37 @@ def build_strategy_discover_bundle_from_mission(
         "why_this_problem_for_this_segment": (
             f"{mission_target_user} benefits when ProductOS reduces reconstruction work and keeps execution grounded in one explicit mission."
         ),
+        "problem_severity": {
+            "customer_pain": "high",
+            "workflow_frequency": "high",
+            "evidence_strength": "moderate",
+            "severity_rationale": (
+                "The mission captures an immediate customer problem and business goal, so the bounded discover packet should treat this as a high-severity execution problem."
+            ),
+        },
         "target_segment_refs": segment_refs,
         "target_persona_refs": persona_refs,
         "linked_entity_refs": linked_entity_refs,
         "evidence_refs": evidence_refs,
         "upstream_artifact_ids": [mission_id, strategy_context_id, product_vision_id, strategy_option_set_id, market_strategy_id],
+        "canonical_persona_archetype_pack_id": persona_archetype_pack_id,
+        "artifact_trace_map_id": f"artifact_trace_map_problem_brief_{mission_slug}_mission_discover",
+        "ralph_status": "decision_ready",
+        "prioritization": _priority_profile(
+            lane="must_now",
+            priority_score=92,
+            confidence="high",
+            agentic_delivery_burden="medium",
+            rationale="This problem is the accepted mission anchor, and solving it is the fastest path to proving ProductOS value without widening the claim boundary.",
+            reviewer_handoff="PM should confirm the problem framing is strong enough to unlock PRD and story work without reopening mission intake.",
+        ),
+        "handoff_readiness_summary": "The problem is grounded in explicit mission intent, segment refs, persona refs, and evidence-backed posture fit.",
         "recommended_next_step": "prd",
         "created_at": generated_at,
     }
 
     concept_brief = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "concept_brief_id": f"concept_brief_{mission_slug}_mission_discover",
         "workspace_id": workspace_id,
         "title": mission_title,
@@ -1003,6 +1055,17 @@ def build_strategy_discover_bundle_from_mission(
         "target_segment_refs": problem_brief["target_segment_refs"],
         "target_persona_refs": problem_brief["target_persona_refs"],
         "linked_entity_refs": problem_brief["linked_entity_refs"],
+        "canonical_persona_archetype_pack_id": persona_archetype_pack_id,
+        "artifact_trace_map_id": f"artifact_trace_map_concept_brief_{mission_slug}_mission_discover",
+        "ralph_status": "review_needed",
+        "prioritization": _priority_profile(
+            lane="must_now",
+            priority_score=88,
+            confidence="moderate",
+            agentic_delivery_burden="medium",
+            rationale="The concept is the smallest coherent wedge that connects the mission problem to a bounded governed discover product surface.",
+            reviewer_handoff="PM should review wedge sharpness and confirm that the concept preserves the accepted mission boundary before broadening execution.",
+        ),
         "must_be_true_assumptions": [
             "The mission brief captures enough explicit truth to start a bounded discover loop.",
             "ProductOS can preserve PM review gates while generating first-pass discovery artifacts."
@@ -1011,11 +1074,16 @@ def build_strategy_discover_bundle_from_mission(
             f"Which downstream phase should follow the current {mission_operating_mode} mission mode once discover outputs are accepted?"
         ],
         "uncertainty_map_refs": [mission_brief["mission_brief_id"]],
+        "risk_summary": [
+            "The concept becomes weak if the mission brief is too thin to support downstream prioritization and handoff.",
+            "The wedge loses clarity if ProductOS overreaches beyond governed discover outputs in the first release slice.",
+        ],
+        "handoff_readiness_summary": "The concept is reviewable but still expects PM confirmation on wedge shape and downstream routing.",
         "created_at": generated_at,
     }
 
     prd = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "prd_id": f"prd_{mission_slug}_mission_discover",
         "workspace_id": workspace_id,
         "title": f"PRD: {mission_title}",
@@ -1027,6 +1095,16 @@ def build_strategy_discover_bundle_from_mission(
             f"Use mission-first discover generation to turn the mission '{mission_title}' into a strategy context brief, product vision brief, "
             f"market strategy brief, problem brief, concept brief, and PRD package that downstream ProductOS phases can reuse without reconstructing intent."
         ),
+        "strategic_context_summary": (
+            "The PRD should preserve the mission-first challenger posture: a governed discover spine that improves PM outcomes without claiming broader autonomous PM coverage."
+        ),
+        "value_hypothesis": (
+            f"If ProductOS keeps mission, strategy, segment, and persona truth linked, {mission_target_user} should need materially less reconstruction work across discover and downstream handoff."
+        ),
+        "target_outcomes": [
+            f"Improve {primary_metric} through a smaller amount of PM reconstruction work.",
+            "Increase the reviewability of the first discovery-to-delivery packet.",
+        ],
         "target_segment_refs": problem_brief["target_segment_refs"],
         "target_persona_refs": problem_brief["target_persona_refs"],
         "linked_entity_refs": concept_brief["linked_entity_refs"],
@@ -1038,6 +1116,32 @@ def build_strategy_discover_bundle_from_mission(
             market_strategy_id,
             problem_brief["problem_brief_id"],
             concept_brief["concept_brief_id"],
+        ],
+        "canonical_persona_archetype_pack_id": persona_archetype_pack_id,
+        "artifact_trace_map_id": f"artifact_trace_map_prd_{mission_slug}_mission_discover",
+        "ralph_status": "review_needed",
+        "prioritization": _priority_profile(
+            lane="must_now",
+            priority_score=84,
+            confidence="moderate",
+            agentic_delivery_burden="medium",
+            rationale="The PRD packages the accepted mission into a bounded execution spine and should be prioritized immediately after the problem and concept are judged reviewable.",
+            reviewer_handoff="Design and engineering should review scope boundaries before any story or acceptance automation expands the slice.",
+        ),
+        "scope_boundaries": [
+            "Stay within the mission-first discover packet and its direct downstream reuse.",
+            "Do not broaden the slice into later lifecycle automation until PM review explicitly approves the move.",
+        ],
+        "out_of_scope": [
+            "Broad autonomous PM claims beyond the evidence-backed discover and handoff packet.",
+            "Replacing incumbent PM or execution systems as part of this bounded slice.",
+        ],
+        "open_questions": [
+            f"What is the minimum handoff package needed after discover for the current {mission_operating_mode} mission mode?",
+        ],
+        "handoff_risks": [
+            "Downstream teams may infer broader autonomy than the release boundary supports if scope boundaries are not explicit.",
+            "Story generation will become noisy if the mission-linked prioritization and persona truth are dropped.",
         ],
         "generated_at": generated_at,
     }
@@ -1055,8 +1159,6 @@ def build_strategy_discover_bundle_from_mission(
 
 def format_mission_brief_markdown(mission_brief: dict[str, Any]) -> str:
     lines = [
-        "# Mission Brief",
-        "",
         f"Status: active",
         f"Audience: {', '.join(mission_brief['audience'])}",
         "Owner: ProductOS PM",
@@ -1099,7 +1201,16 @@ def format_mission_brief_markdown(mission_brief: dict[str, Any]) -> str:
     for item in mission_brief["steering_context"]["steering_refs"]:
         lines.append(f"- `{item}`")
     lines.extend(["", "## Next Action", "", mission_brief["next_action"], ""])
-    return "\n".join(lines)
+    return render_governed_markdown(
+        title="Mission Brief",
+        body_lines=lines,
+        version_number=1,
+        status="review_needed",
+        updated_at=mission_brief["updated_at"],
+        updated_by="ProductOS PM",
+        change_summary="Created or refreshed the canonical mission brief for the bounded execution slice.",
+        source_artifact_ids=[mission_brief["mission_brief_id"]],
+    )
 
 
 def _refresh_delivery_and_launch_artifacts(
@@ -1113,10 +1224,15 @@ def _refresh_delivery_and_launch_artifacts(
     mission_goal = mission_brief["business_goal"]
     mission_id = mission_brief["mission_brief_id"]
     mission_doc_path = "docs/planning/mission-brief.md"
+    mission_slug = _slug(mission_title)
+    mission_prd_id = f"prd_{mission_slug}_mission_discover"
+    mission_persona_archetype_pack_id = f"persona_archetype_pack_{mission_slug}_mission_strategy"
 
     story_pack_path = artifacts_dir / "story_pack.json"
     if story_pack_path.exists():
         story_pack = _load_json(story_pack_path)
+        story_pack["source_prd_id"] = mission_prd_id
+        story_pack["canonical_persona_archetype_pack_id"] = mission_persona_archetype_pack_id
         for story in story_pack.get("stories", []):
             story["title"] = _append_once(story["title"], f"for {mission_title}")
             story["narrative"] = _append_once(
@@ -1139,6 +1255,8 @@ def _refresh_delivery_and_launch_artifacts(
     acceptance_path = artifacts_dir / "acceptance_criteria_set.json"
     if acceptance_path.exists():
         acceptance = _load_json(acceptance_path)
+        acceptance["source_prd_id"] = mission_prd_id
+        acceptance["canonical_persona_archetype_pack_id"] = mission_persona_archetype_pack_id
         for criterion in acceptance.get("criteria", []):
             criterion["statement"] = _append_once(
                 criterion["statement"],

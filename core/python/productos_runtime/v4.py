@@ -15,6 +15,7 @@ from components.presentation.python.productos_presentation import (
     build_render_spec,
     build_slide_spec,
 )
+from .governed_docs import default_modification_log
 from .mission import build_discover_artifacts_from_mission
 
 
@@ -1043,6 +1044,17 @@ def build_v4_foundation_bundle_from_workspace(
                 "source_artifact_refs": spec["source_artifact_refs"],
                 "audience": spec["audience"],
                 "status": spec["status"] if doc_exists else "drifted",
+                "version_number": 1,
+                "modification_log": default_modification_log(
+                    version_number=1,
+                    updated_at=generated_at,
+                    updated_by="ProductOS PM",
+                    summary=(
+                        f"Synced governed readable doc metadata for {spec['title']}."
+                        if doc_exists
+                        else f"Recorded that the governed readable doc for {spec['title']} is currently missing."
+                    ),
+                ),
                 "last_sync_status": (
                     spec["last_sync_status"]
                     if doc_exists
@@ -1052,7 +1064,7 @@ def build_v4_foundation_bundle_from_workspace(
         )
 
     document_sync_state = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "document_sync_state_id": f"document_sync_state_{workspace_id}_v4_readable_docs",
         "workspace_id": workspace_id,
         "sync_scope": "v4_0_readable_doc_bundle",
@@ -1317,7 +1329,7 @@ def build_v4_foundation_bundle_from_workspace(
     }
 
     outcome_review = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "outcome_review_id": f"outcome_review_{workspace_id}_v4_readable_docs",
         "workspace_id": workspace_id,
         "reviewed_change_ref": document_sync_state["document_sync_state_id"],
@@ -1345,12 +1357,38 @@ def build_v4_foundation_bundle_from_workspace(
                 "status": "partial",
             },
         ],
+        "claim_verification_summary": "The readable-doc slice improved internal review readiness, but external publishing and sync claims still need tighter proof and clearer release boundaries.",
         "adoption_notes": [
             "The readable-doc bundle is good enough for internal PM and leadership review.",
             "The document-system slice should continue until publishing metadata and sync rules are fully stable.",
         ],
         "unresolved_pain_points": [
             "External SharePoint and Confluence sync rules are not yet encoded in the generated control artifacts."
+        ],
+        "support_signals": [
+            {
+                "signal_name": "Publishing adapter questions",
+                "summary": "Support-style feedback still clusters around missing external publishing and sync details.",
+                "direction": "stable",
+                "evidence_refs": [productos_feedback_log["feedback_log_id"]],
+            }
+        ],
+        "adoption_signals": [
+            {
+                "signal_name": "Readable docs adopted for internal review",
+                "summary": "PM and leadership review can now happen from governed readable docs instead of raw JSON alone.",
+                "direction": "improving",
+                "evidence_refs": [manual_validation_record["manual_validation_record_id"]],
+            }
+        ],
+        "reopen_recommendations": [
+            {
+                "artifact_id": f"prd_{workspace_id}_v4_readable_docs",
+                "artifact_type": "prd",
+                "recommended_action": "refresh",
+                "rationale": "Publishing and sync details should feed back into the readable-doc PRD and release-boundary scope.",
+                "evidence_refs": [productos_feedback_log["feedback_log_id"], release_gate_decision["release_gate_decision_id"]],
+            }
         ],
         "rejected_path_updates": [
             rejected_path_record["rejected_path_record_id"]

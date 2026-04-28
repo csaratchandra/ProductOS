@@ -46,7 +46,9 @@
       "type": "string",
       "enum": [
         "draft",
+        "blocked",
         "review_needed",
+        "decision_ready",
         "approved",
         "superseded",
         "archived"

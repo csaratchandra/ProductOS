@@ -15,14 +15,22 @@
     "posture_alignment",
     "why_this_problem_now",
     "why_this_problem_for_this_segment",
+    "problem_severity",
     "target_segment_refs",
     "target_persona_refs",
     "linked_entity_refs",
+    "evidence_refs",
+    "upstream_artifact_ids",
+    "canonical_persona_archetype_pack_id",
+    "artifact_trace_map_id",
+    "ralph_status",
+    "prioritization",
+    "handoff_readiness_summary",
     "recommended_next_step",
     "created_at"
   ],
   "properties": {
-    "schema_version": { "type": "string", "const": "1.0.0" },
+    "schema_version": { "type": "string", "const": "1.1.0" },
     "problem_brief_id": { "type": "string", "minLength": 1 },
     "workspace_id": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 3 },
@@ -34,6 +42,7 @@
     },
     "why_this_problem_now": { "type": "string", "minLength": 10 },
     "why_this_problem_for_this_segment": { "type": "string", "minLength": 10 },
+    "problem_severity": { "$ref": "#/$defs/problemSeverity" },
     "target_segment_refs": {
       "type": "array",
       "items": { "$ref": "#/$defs/entityRef" },
@@ -52,13 +61,21 @@
     "evidence_refs": {
       "type": "array",
       "items": { "$ref": "#/$defs/evidenceRef" },
-      "default": []
+      "minItems": 1
     },
     "upstream_artifact_ids": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 },
-      "default": []
+      "minItems": 1
     },
+    "canonical_persona_archetype_pack_id": { "type": "string", "minLength": 1 },
+    "artifact_trace_map_id": { "type": "string", "minLength": 1 },
+    "ralph_status": {
+      "type": "string",
+      "enum": ["blocked", "review_needed", "decision_ready"]
+    },
+    "prioritization": { "$ref": "#/$defs/prioritization" },
+    "handoff_readiness_summary": { "type": "string", "minLength": 10 },
     "recommended_next_step": {
       "type": "string",
       "enum": ["research", "prototype", "prd", "park"]
@@ -66,6 +83,52 @@
     "created_at": { "type": "string", "format": "date-time" }
   },
   "$defs": {
+    "prioritization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lane", "priority_score", "confidence", "agentic_delivery_burden", "priority_rationale", "reviewer_handoff"],
+      "properties": {
+        "lane": {
+          "type": "string",
+          "enum": ["must_now", "next", "later", "park"]
+        },
+        "priority_score": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "agentic_delivery_burden": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "priority_rationale": { "type": "string", "minLength": 10 },
+        "reviewer_handoff": { "type": "string", "minLength": 10 }
+      }
+    },
+    "problemSeverity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["customer_pain", "workflow_frequency", "evidence_strength", "severity_rationale"],
+      "properties": {
+        "customer_pain": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "workflow_frequency": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "evidence_strength": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "severity_rationale": { "type": "string", "minLength": 10 }
+      }
+    },
     "entityRef": {
       "type": "object",
       "additionalProperties": false,

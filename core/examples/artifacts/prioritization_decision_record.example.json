@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "prioritization_decision_record_id": "prioritization_decision_record_q2_discover",
+  "workspace_id": "ws_productos_v2",
+  "title": "Prioritization Decision Record: next discovery slice",
+  "decision_scope": "Choose the next bounded ProductOS slice across current problem, opportunity, and feature options.",
+  "framework_registry_ref": "framework_registry_pm_strategy",
+  "applied_framework_ids": [
+    "signal_weighted_priority",
+    "competitive_displacement_map"
+  ],
+  "ranked_options": [
+    {
+      "option_id": "opportunity_productos_discover_superpower",
+      "option_type": "opportunity",
+      "title": "Same-day discover packet wedge",
+      "priority_lane": "must_now",
+      "priority_score": 93,
+      "agentic_leverage": "high",
+      "compliance_burden": "medium",
+      "ambiguity_burden": "medium",
+      "evidence_strength": "high",
+      "rationale": "This option sharpens the most credible current wedge while keeping proof posture bounded and reviewable.",
+      "source_artifact_ids": [
+        "problem_brief_productos_next_version_discover",
+        "competitor_dossier_pm_ops_space"
+      ]
+    },
+    {
+      "option_id": "feature_market_intelligence_distribution",
+      "option_type": "feature",
+      "title": "Market intelligence distribution layer",
+      "priority_lane": "next",
+      "priority_score": 81,
+      "agentic_leverage": "medium",
+      "compliance_burden": "medium",
+      "ambiguity_burden": "low",
+      "evidence_strength": "moderate",
+      "rationale": "This should follow after the discover wedge because it improves distribution and prioritization depth rather than first-order wedge proof.",
+      "source_artifact_ids": [
+        "market_analysis_brief_pm_ops",
+        "feature_portfolio_review_ws_productos_v2_next_version_baseline"
+      ]
+    }
+  ],
+  "selected_option_id": "opportunity_productos_discover_superpower",
+  "decision_rationale": "The current release boundary is still set by same-day discover quality, so that option should stay above broader market distribution work.",
+  "pm_override": {
+    "applied": true,
+    "rationale": "The raw score for market distribution was close, but PM override preserved the nearer-term proof wedge.",
+    "superseded_option_id": "feature_market_intelligence_distribution"
+  },
+  "created_at": "2026-04-27T08:05:00Z"
+}

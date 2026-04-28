@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1.0",
+  "opportunity_portfolio_view_id": "opportunity_portfolio_view_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Opportunity Portfolio View: starter trace demo",
+  "summary": "The starter workspace keeps one immediate traceability opportunity ahead of broader surface-area expansion.",
+  "framework_registry_ref": "framework_registry_starter",
+  "selected_framework_ids": [
+    "signal_weighted_priority"
+  ],
+  "ranking_method_summary": "Prioritize by reviewable customer value, strategic fit, and delivery burden.",
+  "recommended_now_ids": [
+    "opp_trace_readability"
+  ],
+  "opportunities": [
+    {
+      "opportunity_id": "opp_trace_readability",
+      "title": "Canonical lifecycle readability",
+      "value_at_stake": "high",
+      "strategic_fit": "high",
+      "confidence": "high",
+      "time_sensitivity": "high",
+      "reversibility": "easy",
+      "learning_potential": "moderate",
+      "evidence_freshness": "current",
+      "priority_score": 88,
+      "priority_lane": "must_now",
+      "agentic_delivery_leverage": "medium",
+      "delivery_burden": "low",
+      "rationale": "This is the clearest onboarding and release-boundary proof path for the starter workspace.",
+      "source_artifact_ids": [
+        "item_lifecycle_state_starter_trace_demo"
+      ]
+    },
+    {
+      "opportunity_id": "opp_broader_distribution",
+      "title": "Broader external distribution posture",
+      "value_at_stake": "moderate",
+      "strategic_fit": "moderate",
+      "confidence": "low",
+      "time_sensitivity": "low",
+      "reversibility": "moderate",
+      "learning_potential": "high",
+      "evidence_freshness": "stale",
+      "priority_score": 54,
+      "priority_lane": "later",
+      "agentic_delivery_leverage": "low",
+      "delivery_burden": "high",
+      "rationale": "This should wait until the bounded starter lifecycle proof is already stable.",
+      "source_artifact_ids": [
+        "release_note_starter_trace_demo"
+      ]
+    }
+  ],
+  "generated_at": "2026-04-27T08:10:00Z"
+}

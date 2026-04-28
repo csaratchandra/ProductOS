@@ -11,6 +11,8 @@
     "workspace_id",
     "title",
     "market_name",
+    "framework_registry_ref",
+    "selected_framework_ids",
     "category_structure",
     "category_summary",
     "trend_summary",
@@ -19,14 +21,23 @@
     "adoption_barriers",
     "switching_costs",
     "market_role_implications",
+    "agentic_delivery_implications",
+    "prioritization_implications",
+    "source_artifact_ids",
     "created_at"
   ],
   "properties": {
-    "schema_version": { "type": "string", "const": "1.0.0" },
+    "schema_version": { "type": "string", "const": "1.1.0" },
     "market_analysis_brief_id": { "type": "string", "minLength": 1 },
     "workspace_id": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 3 },
     "market_name": { "type": "string", "minLength": 3 },
+    "framework_registry_ref": { "type": "string", "minLength": 1 },
+    "selected_framework_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
     "research_scope": { "type": "string", "minLength": 5 },
     "category_structure": {
       "type": "array",
@@ -56,6 +67,16 @@
       "minItems": 1
     },
     "market_role_implications": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
+    "agentic_delivery_implications": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
+    "prioritization_implications": {
       "type": "array",
       "items": { "type": "string", "minLength": 5 },
       "minItems": 1
@@ -98,7 +119,7 @@
     "source_artifact_ids": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 },
-      "default": []
+      "minItems": 1
     },
     "last_refreshed_at": { "type": "string", "format": "date-time" },
     "created_at": { "type": "string", "format": "date-time" }

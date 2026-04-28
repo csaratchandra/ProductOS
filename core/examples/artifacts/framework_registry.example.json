@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0.0",
+  "framework_registry_id": "framework_registry_pm_strategy",
+  "workspace_id": "ws_productos_v2",
+  "title": "Framework Registry: PM strategy and prioritization",
+  "frameworks": [
+    {
+      "framework_id": "market_jobs_barriers",
+      "domain": "market",
+      "name": "Market jobs and barriers",
+      "summary": "Use when the PM needs a compact view of buyer jobs, switching friction, and adoption blockers.",
+      "applicability_rules": [
+        "Use when the wedge is still being defined and switching friction matters more than precise revenue math.",
+        "Prefer before broad category claims or platform-level positioning."
+      ],
+      "evidence_expectations": [
+        "Need at least one market signal and one operator or customer signal.",
+        "Keep one explicit switching-cost or proof barrier in view."
+      ],
+      "output_artifact_types": [
+        "market_analysis_brief",
+        "market_strategy_brief"
+      ],
+      "default_when": [
+        "The category is moving quickly and buyers need trust and proof."
+      ],
+      "avoid_when": [
+        "The primary question is precise TAM sizing."
+      ],
+      "status": "curated_default"
+    },
+    {
+      "framework_id": "customer_pain_adoption_split",
+      "domain": "customer",
+      "name": "Customer pain and adoption split",
+      "summary": "Use when the PM must separate support burden from healthy adoption momentum.",
+      "applicability_rules": [
+        "Use when support and adoption evidence should influence priority directly.",
+        "Prefer when feedback quality is mixed and needs clustering."
+      ],
+      "evidence_expectations": [
+        "Need at least one pain cluster and one adoption cluster.",
+        "Keep evidence refs visible for each cluster."
+      ],
+      "output_artifact_types": [
+        "customer_pulse",
+        "outcome_review"
+      ],
+      "default_when": [
+        "The PM needs to decide whether to harden, expand, or reopen upstream artifacts."
+      ],
+      "avoid_when": [
+        "No customer or operator evidence exists yet."
+      ],
+      "status": "curated_default"
+    },
+    {
+      "framework_id": "competitive_displacement_map",
+      "domain": "competition",
+      "name": "Competitive displacement map",
+      "summary": "Use when ProductOS needs a direct view of displacement barriers and taxonomy across real alternatives.",
+      "applicability_rules": [
+        "Use when named competitors, status quo, and in-house alternatives all matter.",
+        "Prefer when the PM must justify a challenger wedge."
+      ],
+      "evidence_expectations": [
+        "Need named competitors or an explicit status-quo fallback.",
+        "Each competitor should carry at least one evidence ref."
+      ],
+      "output_artifact_types": [
+        "competitor_dossier",
+        "landscape_matrix"
+      ],
+      "default_when": [
+        "The PM must explain how ProductOS is different without claiming broad platform parity."
+      ],
+      "avoid_when": [
+        "Only internal assumptions exist and no bounded comparison can be made."
+      ],
+      "status": "curated_default"
+    },
+    {
+      "framework_id": "signal_weighted_priority",
+      "domain": "prioritization",
+      "name": "Signal-weighted priority",
+      "summary": "Use when ProductOS must rank work by customer value, strategic fit, leverage, and burden.",
+      "applicability_rules": [
+        "Use when one problem, opportunity, or feature must be chosen explicitly.",
+        "Prefer when PM override should be preserved rather than hidden."
+      ],
+      "evidence_expectations": [
+        "Keep source artifact ids on every ranked option.",
+        "Make agentic leverage and compliance burden visible."
+      ],
+      "output_artifact_types": [
+        "opportunity_portfolio_view",
+        "prioritization_decision_record",
+        "feature_prioritization_brief"
+      ],
+      "default_when": [
+        "The next bounded slice must be justified to PM and delivery reviewers."
+      ],
+      "avoid_when": [
+        "There is only one option and no prioritization decision is actually being made."
+      ],
+      "status": "curated_default"
+    }
+  ],
+  "selection_policies": [
+    {
+      "policy_id": "policy_market_default",
+      "domain": "market",
+      "selection_logic": "Start with market jobs and barriers when trust, switching friction, and buyer proof are more important than precise market math.",
+      "fallback_framework_id": "market_jobs_barriers"
+    },
+    {
+      "policy_id": "policy_customer_default",
+      "domain": "customer",
+      "selection_logic": "Use customer pain and adoption split when support and adoption signals both shape the next priority decision.",
+      "fallback_framework_id": "customer_pain_adoption_split"
+    },
+    {
+      "policy_id": "policy_competition_default",
+      "domain": "competition",
+      "selection_logic": "Use competitive displacement map when the PM must explain named alternatives, status quo, and in-house risk together.",
+      "fallback_framework_id": "competitive_displacement_map"
+    },
+    {
+      "policy_id": "policy_priority_default",
+      "domain": "prioritization",
+      "selection_logic": "Use signal-weighted priority whenever ProductOS needs an explicit ranked next move with PM-visible tradeoffs.",
+      "fallback_framework_id": "signal_weighted_priority"
+    }
+  ],
+  "generated_at": "2026-04-27T08:00:00Z"
+}

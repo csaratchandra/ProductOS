@@ -337,12 +337,14 @@ def build_v7_lifecycle_bundle_from_workspace(
     }
 
     release_readiness_status = "ready" if overall_status == "passed" else ("watch" if overall_status == "watch" else "blocked")
+    release_gate_decision_id = "release_gate_decision_ws_productos_v2_v7_lifecycle_traceability"
     release_readiness = {
-        "schema_version": "1.1.0",
+        "schema_version": "1.2.0",
         "release_readiness_id": "release_readiness_ws_productos_v2_v7_lifecycle_traceability",
         "workspace_id": workspace_item["workspace_id"],
         "feature_id": "feature_v7_lifecycle_traceability_outcome_review",
         "status": release_readiness_status,
+        "decision_summary": "The V7 slice is ready when launch preparation and outcome review are completed in both adoption surfaces and the claim remains tightly bounded to that lifecycle proof.",
         "launch_roles": [
             {
                 "role_name": "Release owner",
@@ -366,6 +368,19 @@ def build_v7_lifecycle_bundle_from_workspace(
                 "owner_function": "Runtime governance",
             },
         ],
+        "claim_readiness": [
+            {
+                "claim": "The V7 bundle proves lifecycle traceability through launch preparation and outcome review in both adoption surfaces.",
+                "status": "verified" if self_hosting_ready and starter_ready else "blocked",
+                "evidence_refs": [runtime_scenario_report["runtime_scenario_report_id"], manual_validation_record["manual_validation_record_id"]],
+            },
+            {
+                "claim": "The V7 release communication remains bounded to lifecycle traceability rather than broader publication-platform scope.",
+                "status": "bounded",
+                "evidence_refs": [release_gate_decision_id],
+            },
+        ],
+        "blocking_evidence_refs": [runtime_scenario_report["runtime_scenario_report_id"]],
         "checks": [
             {
                 "name": "Self-hosting lifecycle trace reaches outcome_review",
@@ -393,7 +408,7 @@ def build_v7_lifecycle_bundle_from_workspace(
 
     release_gate_decision = {
         "schema_version": "1.0.0",
-        "release_gate_decision_id": "release_gate_decision_ws_productos_v2_v7_lifecycle_traceability",
+        "release_gate_decision_id": release_gate_decision_id,
         "workspace_id": workspace_item["workspace_id"],
         "target_release": V7_TARGET_RELEASE,
         "decision": "go" if overall_status == "passed" else ("conditional_go" if overall_status == "watch" else "no_go"),

@@ -30,6 +30,7 @@ from components.workflow_corridor.python.productos_workflow_corridor import (
     build_workflow_corridor_bundle,
     write_corridor_html,
 )
+from .governed_docs import render_governed_markdown
 from .visual import build_thread_review_corridor_source_bundle
 
 
@@ -113,6 +114,25 @@ _RUNTIME_SUPPORT_ARTIFACTS = [
     "manual_validation_record_next_version_completion.example.json",
     "release_gate_decision_next_version_completion.example.json",
 ]
+
+
+def _priority_profile(
+    *,
+    lane: str,
+    priority_score: int,
+    confidence: str,
+    agentic_delivery_burden: str,
+    priority_rationale: str,
+    reviewer_handoff: str,
+) -> dict[str, Any]:
+    return {
+        "lane": lane,
+        "priority_score": priority_score,
+        "confidence": confidence,
+        "agentic_delivery_burden": agentic_delivery_burden,
+        "priority_rationale": priority_rationale,
+        "reviewer_handoff": reviewer_handoff,
+    }
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -2504,6 +2524,7 @@ def build_thread_review_release_bundle_from_workspace(
     gate_decision = "no_go" if failed_scenarios else ("conditional_go" if watch_scenarios else "go")
 
     item_slug = _slug(thread_bundle["item_ref"]["entity_id"])
+    release_gate_decision_id = f"release_gate_decision_{item_slug}_thread_review_release"
     runtime_scenario_report = {
         "schema_version": "1.0.0",
         "runtime_scenario_report_id": f"runtime_scenario_report_{item_slug}_thread_review_release",
@@ -2644,11 +2665,12 @@ def build_thread_review_release_bundle_from_workspace(
     }
 
     release_readiness = {
-        "schema_version": "1.1.0",
+        "schema_version": "1.2.0",
         "release_readiness_id": f"release_readiness_{item_slug}_thread_review_release",
         "workspace_id": thread_bundle["workspace_id"],
         "feature_id": f"feature_{item_slug}_thread_review_release",
         "status": release_status,
+        "decision_summary": "The bounded V8 thread-review release is ready only when package, publish, index, and claim-boundary checks stay coherent together.",
         "launch_roles": [
             {
                 "role_name": "Release owner",
@@ -2672,6 +2694,19 @@ def build_thread_review_release_bundle_from_workspace(
                 "owner_function": "Release governance",
             },
         ],
+        "claim_readiness": [
+            {
+                "claim": "Thread-review packages are generated from one canonical thread bundle across HTML, Markdown, and deck surfaces.",
+                "status": "verified" if package_ready else "blocked",
+                "evidence_refs": [thread_bundle["thread_review_bundle_id"], publish_check["publish_check_id"]],
+            },
+            {
+                "claim": "The current V8 release remains bounded to internal dogfood and controlled demos until customer-safe publication is explicit.",
+                "status": "bounded",
+                "evidence_refs": [release_gate_decision_id, validation_lane_report["validation_lane_report_id"]],
+            },
+        ],
+        "blocking_evidence_refs": [runtime_scenario_report["runtime_scenario_report_id"]],
         "checks": [
             {
                 "name": "Thread-review package generation",
@@ -2699,7 +2734,7 @@ def build_thread_review_release_bundle_from_workspace(
 
     release_gate_decision = {
         "schema_version": "1.0.0",
-        "release_gate_decision_id": f"release_gate_decision_{item_slug}_thread_review_release",
+        "release_gate_decision_id": release_gate_decision_id,
         "workspace_id": thread_bundle["workspace_id"],
         "target_release": target_release,
         "decision": gate_decision,
@@ -3783,6 +3818,7 @@ def build_workspace_adoption_bundle_from_source(
     problem_brief = _load_template_artifact(root, "problem_brief.json")
     problem_brief.update(
         {
+            "schema_version": "1.1.0",
             "problem_brief_id": f"problem_brief_{product_slug}",
             "workspace_id": workspace_id,
             "title": f"Problem brief: {name} workspace adoption",
@@ -3790,6 +3826,12 @@ def build_workspace_adoption_bundle_from_source(
             "strategic_fit_summary": "ProductOS can unlock the value of the existing research by converting it into artifact-backed product definition and a bounded launch-lane plan.",
             "why_this_problem_now": context["proof_gap"],
             "why_this_problem_for_this_segment": f"The immediate segment is {context['best_beachhead']}",
+            "problem_severity": {
+                "customer_pain": "high",
+                "workflow_frequency": "high",
+                "evidence_strength": "moderate",
+                "severity_rationale": "The source workspace already exposes repeated workflow and proof gaps, so converting that research into governed product state is time-sensitive.",
+            },
             "target_segment_refs": [{"entity_type": "segment", "entity_id": segment_ids[0]}],
             "target_persona_refs": [
                 {"entity_type": "persona", "entity_id": persona_ids[0]},
@@ -3813,6 +3855,18 @@ def build_workspace_adoption_bundle_from_source(
                 f"segment_map_{product_slug}",
                 f"persona_pack_{product_slug}",
             ],
+            "canonical_persona_archetype_pack_id": f"persona_archetype_pack_{product_slug}",
+            "artifact_trace_map_id": f"artifact_trace_map_problem_brief_{product_slug}",
+            "ralph_status": "decision_ready",
+            "prioritization": _priority_profile(
+                lane="must_now",
+                priority_score=90,
+                confidence="high",
+                agentic_delivery_burden="medium",
+                priority_rationale="This is the first governed conversion point from the notes-first workspace into ProductOS execution state, so it must be prioritized ahead of broader delivery work.",
+                reviewer_handoff="PM should confirm the problem framing is strong enough to justify a bounded adoption PRD without reopening raw source notes.",
+            ),
+            "handoff_readiness_summary": "The adopted problem brief now ties the best beachhead, buyer context, evidence, and review queue into one execution-driving artifact.",
             "created_at": generated_at,
         }
     )
@@ -3820,6 +3874,7 @@ def build_workspace_adoption_bundle_from_source(
     concept_brief = _load_template_artifact(root, "concept_brief.json")
     concept_brief.update(
         {
+            "schema_version": "1.1.0",
             "concept_brief_id": f"concept_brief_{product_slug}",
             "workspace_id": workspace_id,
             "title": f"Concept brief: {name} workflow control adoption",
@@ -3830,6 +3885,7 @@ def build_workspace_adoption_bundle_from_source(
             "why_now": "The research pack is already mature enough to justify an adopted PRD path, but not mature enough to rely on notes alone.",
             "why_us": "ProductOS can preserve provenance, confidence, and lifecycle traceability while turning the notes-first workspace into governed state.",
             "advantage_hypothesis": "A workspace adoption path converts strong research into repeatable product state faster than manual reconstruction.",
+            "status": "validated",
             "idea_record_ids": [idea_record["idea_record_id"]],
             "strategy_artifact_ids": [research_brief["research_brief_id"]],
             "target_segment_refs": [{"entity_type": "segment", "entity_id": segment_ids[0]}],
@@ -3837,11 +3893,27 @@ def build_workspace_adoption_bundle_from_source(
                 {"entity_type": "persona", "entity_id": persona_ids[0]},
                 {"entity_type": "persona", "entity_id": persona_ids[1]},
             ],
+            "canonical_persona_archetype_pack_id": f"persona_archetype_pack_{product_slug}",
+            "artifact_trace_map_id": f"artifact_trace_map_concept_brief_{product_slug}",
+            "ralph_status": "review_needed",
+            "prioritization": _priority_profile(
+                lane="must_now",
+                priority_score=86,
+                confidence="moderate",
+                agentic_delivery_burden="medium",
+                priority_rationale="The concept determines whether adoption stays narrowly focused on the launch lane or drifts into unsupported platform breadth.",
+                reviewer_handoff="PM should review the wedge and proof posture before using this concept to justify PRD scope or outbound claims.",
+            ),
             "linked_entity_refs": [{"entity_type": "feature", "entity_id": feature_id}],
             "must_be_true_assumptions": [
                 "The launch lane can prove value without replacing the EHR or clearinghouse stack.",
                 "Review queues can keep commercial and compliance uncertainty visible instead of hidden in slide language.",
             ],
+            "risk_summary": [
+                "The adopted concept fails if it implies a broad platform promise before the launch lane proves value.",
+                "The adoption path becomes noisy if provenance and review queue signals are dropped from the narrative.",
+            ],
+            "handoff_readiness_summary": "The concept is reviewable and points at one explicit workflow-control wedge, but PM review should confirm claim boundaries before PRD expansion.",
             "created_at": generated_at,
         }
     )
@@ -3849,6 +3921,7 @@ def build_workspace_adoption_bundle_from_source(
     segment_map = _load_template_artifact(root, "segment_map.json")
     segment_map.update(
         {
+            "schema_version": "1.1.0",
             "segment_map_id": f"segment_map_{product_slug}",
             "workspace_id": workspace_id,
             "title": f"Segment map: {name} workspace adoption",
@@ -3856,6 +3929,12 @@ def build_workspace_adoption_bundle_from_source(
             "market_scope_summary": "Organizations needing workflow control across patient access, billing execution, denial prevention, and coordination without full-stack replacement.",
             "segmentation_lens": "workflow_maturity",
             "segmentation_logic": "Segments are separated by workflow fragmentation, payer complexity, multi-entity coordination, and ability to buy a narrow launch lane.",
+            "prioritization_basis": {
+                "lane": "must_now",
+                "scoring_method": "weighted beachhead readiness and proof-path scoring",
+                "selection_rationale": "Prioritize the narrowest segment that can prove workflow control value without requiring broad platform replacement.",
+                "decision_owner": "ProductOS PM",
+            },
             "segments": [
                 {
                     "segment_id": segment_ids[0],
@@ -3879,6 +3958,9 @@ def build_workspace_adoption_bundle_from_source(
                     "confidence": "high",
                     "attractiveness": "high",
                     "urgency": "high",
+                    "priority_score": 94,
+                    "priority_rationale": "This segment can buy a narrow launch lane quickly and produces the clearest first proof path.",
+                    "agentic_delivery_fit": "strong",
                     "evidence_refs": ["codesync_segment_signal_1"],
                 },
                 {
@@ -3903,6 +3985,9 @@ def build_workspace_adoption_bundle_from_source(
                     "confidence": "moderate",
                     "attractiveness": "high",
                     "urgency": "medium",
+                    "priority_score": 79,
+                    "priority_rationale": "This segment is attractive but should wait until the first launch lane proves the workflow-control wedge.",
+                    "agentic_delivery_fit": "viable",
                     "evidence_refs": ["codesync_segment_signal_2"],
                 },
                 {
@@ -3927,10 +4012,14 @@ def build_workspace_adoption_bundle_from_source(
                     "confidence": "moderate",
                     "attractiveness": "medium",
                     "urgency": "medium",
+                    "priority_score": 63,
+                    "priority_rationale": "The segment is viable later, but specialty nuance would overload the first bounded adoption slice.",
+                    "agentic_delivery_fit": "weak",
                     "evidence_refs": ["codesync_segment_signal_3"],
                 },
             ],
             "recommended_beachhead_segment_id": segment_ids[0],
+            "recommended_beachhead_rationale": "The first segment provides the cleanest proof path for a workflow-control wedge while keeping launch and delivery complexity bounded.",
             "created_at": generated_at,
         }
     )
@@ -3970,12 +4059,19 @@ def build_workspace_adoption_bundle_from_source(
     prd = _load_template_artifact(root, "prd.json")
     prd.update(
         {
+            "schema_version": "1.1.0",
             "prd_id": f"prd_{product_slug}",
             "workspace_id": workspace_id,
             "title": f"PRD: {name} workspace adoption launch lane",
             "problem_summary": "CodeSync has a strong notes-first research pack, but it lacks first-class ProductOS product definition artifacts and a bounded launch-lane PRD.",
             "outcome_summary": "The adopted workspace should make CodeSync reviewable as a governed workflow-control product with one explicit launch lane and a visible review queue for unresolved proof gaps.",
             "scope_summary": "Adopt the existing research pack into ProductOS, keep the first launch lane focused on eligibility and prior authorization control, and preserve explicit review gates for claims, security, and commercial packaging.",
+            "strategic_context_summary": "The adopted PRD should keep CodeSync positioned as a governed workflow-control layer above incumbent systems rather than as a full-stack replacement promise.",
+            "value_hypothesis": "A bounded launch lane with explicit review gates should reduce PM reconstruction work while producing a safer and more reviewable adoption packet.",
+            "target_outcomes": [
+                "Produce one launch-lane PRD that a PM can review without reopening the original notes corpus.",
+                "Keep commercial, compliance, and proof gaps visible instead of flattening them into a broader platform claim.",
+            ],
             "target_segment_refs": [{"entity_type": "segment", "entity_id": segment_ids[0]}],
             "target_persona_refs": [{"entity_type": "persona", "entity_id": persona_ids[0]}],
             "linked_entity_refs": [{"entity_type": "feature", "entity_id": feature_id}],
@@ -3986,6 +4082,32 @@ def build_workspace_adoption_bundle_from_source(
                 concept_brief["concept_brief_id"],
                 segment_map["segment_map_id"],
                 persona_pack["persona_pack_id"],
+            ],
+            "canonical_persona_archetype_pack_id": f"persona_archetype_pack_{product_slug}",
+            "artifact_trace_map_id": f"artifact_trace_map_prd_{product_slug}",
+            "ralph_status": "review_needed",
+            "prioritization": _priority_profile(
+                lane="must_now",
+                priority_score=82,
+                confidence="moderate",
+                agentic_delivery_burden="medium",
+                priority_rationale="The PRD is the execution handoff that turns the adopted discovery packet into a bounded launch-lane delivery plan.",
+                reviewer_handoff="Engineering, design, and PM should review scope boundaries before any story or launch automation extends the adopted slice.",
+            ),
+            "scope_boundaries": [
+                "Stay focused on the eligibility and prior-authorization launch lane.",
+                "Preserve visible review gates for claims, security, and commercial packaging.",
+            ],
+            "out_of_scope": [
+                "Replacing the EHR, clearinghouse, or broad operational stack in the first adoption slice.",
+                "Generalizing the adopted packet into a broader external launch story before proof gaps are closed.",
+            ],
+            "open_questions": [
+                "What minimum observed customer proof is required before the launch-lane PRD can support stronger external claims?",
+            ],
+            "handoff_risks": [
+                "The handoff will overstate readiness if unresolved proof and compliance questions are hidden.",
+                "Story planning will become noisy if the launch lane expands before the review queue is resolved.",
             ],
             "generated_at": generated_at,
         }
@@ -4270,11 +4392,13 @@ def _write_adoption_docs(
     bundle: dict[str, dict[str, Any]],
     name: str,
     *,
+    generated_at: str,
     include_report: bool,
     thread_page_path: Path | None = None,
 ) -> None:
     research_brief = bundle["research_brief"]
     problem_brief = bundle["problem_brief"]
+    concept_brief = bundle["concept_brief"]
     prd = bundle["prd"]
     report = bundle["workspace_adoption_report"]
     review_queue = bundle["adoption_review_queue"]
@@ -4292,8 +4416,6 @@ def _write_adoption_docs(
     hypothesis_insights = [item["statement"] for item in insights if item.get("claim_mode") == "hypothesis"]
 
     product_lines = [
-        "# Product Overview",
-        "",
         f"{name} is currently being shaped as a governed workflow-control product rather than a broad platform claim.",
         "",
         "## Current Wedge",
@@ -4333,11 +4455,26 @@ def _write_adoption_docs(
         )
     if not research_brief.get("external_research_questions"):
         product_lines.append("- No bounded external research questions recorded.")
-    (product_dir / "product-overview.md").write_text("\n".join(product_lines) + "\n", encoding="utf-8")
+    (product_dir / "product-overview.md").write_text(
+        render_governed_markdown(
+            title="Product Overview",
+            body_lines=product_lines,
+            version_number=1,
+            status="review_needed",
+            updated_at=generated_at,
+            updated_by="Workspace Adoption Agent",
+            change_summary="Created the governed product overview from the adopted research and discovery packet.",
+            source_artifact_ids=[
+                research_brief["research_brief_id"],
+                problem_brief["problem_brief_id"],
+                concept_brief["concept_brief_id"],
+                prd["prd_id"],
+            ],
+        ),
+        encoding="utf-8",
+    )
 
     discovery_lines = [
-        "# Discovery Review",
-        "",
         f"This workspace now treats {name} discovery as an evidence-governed product definition flow rather than a starter demo.",
         "",
         "## Core Artifacts",
@@ -4370,12 +4507,27 @@ def _write_adoption_docs(
         discovery_lines.append(f"- {question['question']}")
     if not research_brief.get("external_research_questions"):
         discovery_lines.append("- No external research questions recorded.")
-    (discovery_dir / "discovery-review.md").write_text("\n".join(discovery_lines) + "\n", encoding="utf-8")
+    (discovery_dir / "discovery-review.md").write_text(
+        render_governed_markdown(
+            title="Discovery Review",
+            body_lines=discovery_lines,
+            version_number=1,
+            status="review_needed",
+            updated_at=generated_at,
+            updated_by="Workspace Adoption Agent",
+            change_summary="Created the governed discovery review surface for the adopted workspace.",
+            source_artifact_ids=[
+                research_brief["research_brief_id"],
+                problem_brief["problem_brief_id"],
+                concept_brief["concept_brief_id"],
+                prd["prd_id"],
+            ],
+        ),
+        encoding="utf-8",
+    )
 
     if include_report:
         lines = [
-            f"# Workspace Adoption Report: {name}",
-            "",
             f"- Source workspace: `{report['source_workspace_path']}`",
             f"- Source mode: `{report['source_workspace_mode']}`",
             f"- Generated artifacts: `{len(report['generated_artifact_ids'])}`",
@@ -4408,7 +4560,19 @@ def _write_adoption_docs(
         lines.extend(["", "## External Research Next", ""])
         for question in research_brief.get("external_research_questions", []):
             lines.append(f"- {question['question']}")
-        (planning_dir / "workspace-adoption-report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+        (planning_dir / "workspace-adoption-report.md").write_text(
+            render_governed_markdown(
+                title=f"Workspace Adoption Report: {name}",
+                body_lines=lines,
+                version_number=1,
+                status="review_needed",
+                updated_at=generated_at,
+                updated_by="Workspace Adoption Agent",
+                change_summary="Created the governed workspace adoption report for PM review and handoff.",
+                source_artifact_ids=[report["workspace_adoption_report_id"]],
+            ),
+            encoding="utf-8",
+        )
 
 
 def adopt_workspace_from_source(
@@ -4462,6 +4626,13 @@ def adopt_workspace_from_source(
             bundle["thread_review_bundle"],
             destination / "docs" / "review" / "thread-review.html",
         )
-    _write_adoption_docs(destination, bundle, name, include_report=emit_report, thread_page_path=thread_page_path)
+    _write_adoption_docs(
+        destination,
+        bundle,
+        name,
+        generated_at=generated_at,
+        include_report=emit_report,
+        thread_page_path=thread_page_path,
+    )
 
     return destination, bundle

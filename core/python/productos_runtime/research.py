@@ -14,15 +14,23 @@ from typing import Any
 from urllib.parse import parse_qs, quote_plus, unquote, urlparse
 
 from . import yaml_compat as yaml
+from .governed_docs import render_governed_markdown
 
 
 RESEARCH_RUNTIME_ARTIFACT_SCHEMAS = {
+    "framework_registry": "framework_registry.schema.json",
     "research_notebook": "research_notebook.schema.json",
     "research_brief": "research_brief.schema.json",
     "external_research_review": "external_research_review.schema.json",
     "competitor_dossier": "competitor_dossier.schema.json",
     "customer_pulse": "customer_pulse.schema.json",
     "market_analysis_brief": "market_analysis_brief.schema.json",
+    "landscape_matrix": "landscape_matrix.schema.json",
+    "market_sizing_brief": "market_sizing_brief.schema.json",
+    "market_share_brief": "market_share_brief.schema.json",
+    "opportunity_portfolio_view": "opportunity_portfolio_view.schema.json",
+    "prioritization_decision_record": "prioritization_decision_record.schema.json",
+    "feature_prioritization_brief": "feature_prioritization_brief.schema.json",
 }
 RESEARCH_PLANNING_ARTIFACT_SCHEMAS = {
     "external_research_plan": "external_research_plan.schema.json",
@@ -35,6 +43,7 @@ RESEARCH_DISCOVERY_ARTIFACT_SCHEMAS = {
 }
 
 DISCOVERY_OPERATIONS_ARTIFACT_FILENAMES = {
+    "framework_registry": "framework_registry.json",
     "research_handoff": "handoff_discovery_to_research.json",
     "research_notebook": "research_notebook.json",
     "research_brief": "research_brief.json",
@@ -44,6 +53,12 @@ DISCOVERY_OPERATIONS_ARTIFACT_FILENAMES = {
     "competitor_dossier": "competitor_dossier.json",
     "customer_pulse": "customer_pulse.json",
     "market_analysis_brief": "market_analysis_brief.json",
+    "landscape_matrix": "landscape_matrix.json",
+    "market_sizing_brief": "market_sizing_brief.json",
+    "market_share_brief": "market_share_brief.json",
+    "opportunity_portfolio_view": "opportunity_portfolio_view.json",
+    "prioritization_decision_record": "prioritization_decision_record.json",
+    "feature_prioritization_brief": "feature_prioritization_brief.json",
 }
 
 CORE_RESEARCH_SIGNAL_LANES = [
@@ -115,6 +130,48 @@ def _signal_lane_id_for_source_type(source_type: str) -> str:
     if lane is None:
         return source_type
     return lane["signal_lane_id"]
+
+
+def _framework_registry_id(workspace_id: str) -> str:
+    return f"framework_registry_{workspace_id}"
+
+
+def _priority_lane(score: int) -> str:
+    if score >= 88:
+        return "must_now"
+    if score >= 74:
+        return "next"
+    if score >= 60:
+        return "later"
+    return "park"
+
+
+def _bounded_priority_score(
+    *,
+    strategic_fit: int,
+    evidence_strength: int,
+    agentic_leverage: int,
+    burden_penalty: int,
+    urgency: int,
+) -> int:
+    score = strategic_fit + evidence_strength + agentic_leverage + urgency - burden_penalty
+    return max(1, min(100, score))
+
+
+def _agentic_level(score: int) -> str:
+    if score >= 8:
+        return "high"
+    if score >= 5:
+        return "medium"
+    return "low"
+
+
+def _confidence_label(score: int) -> str:
+    if score >= 8:
+        return "high"
+    if score >= 5:
+        return "moderate"
+    return "low"
 
 
 def _signal_lane_label(signal_lane_id: str) -> str:
@@ -1586,8 +1643,6 @@ def _write_research_plan_files(workspace_dir: Path, external_research_plan: dict
     docs_dir = workspace_dir / "docs" / "discovery"
     docs_dir.mkdir(parents=True, exist_ok=True)
     lines = [
-        "# External Research Plan",
-        "",
         external_research_plan["research_objective"],
         "",
         "## Prioritized Questions",
@@ -1622,10 +1677,21 @@ def _write_research_plan_files(workspace_dir: Path, external_research_plan: dict
             "## Next Step",
             "",
             external_research_plan["coverage_summary"]["recommended_next_step"],
-            "",
         ]
     )
-    (docs_dir / "external-research-plan.md").write_text("\n".join(lines), encoding="utf-8")
+    (docs_dir / "external-research-plan.md").write_text(
+        render_governed_markdown(
+            title="External Research Plan",
+            body_lines=lines,
+            version_number=1,
+            status="review_needed",
+            updated_at=external_research_plan["created_at"],
+            updated_by="Research Agent",
+            change_summary="Created the bounded external research plan from the current research brief and discovery packet.",
+            source_artifact_ids=[external_research_plan["external_research_plan_id"]],
+        ),
+        encoding="utf-8",
+    )
 
 
 def _recommended_feed_title(source_type: str) -> str:
@@ -1677,8 +1743,6 @@ def _write_research_feed_registry_files(workspace_dir: Path, feed_registry: dict
     docs_dir = workspace_dir / "docs" / "discovery"
     docs_dir.mkdir(parents=True, exist_ok=True)
     lines = [
-        "# External Research Feed Registry",
-        "",
         "Curated feeds that can seed governed external source discovery before generic search is used.",
         "",
         "## Registered Feed Slots",
@@ -1700,7 +1764,19 @@ def _write_research_feed_registry_files(workspace_dir: Path, feed_registry: dict
             lines.append(f"  Cadence: {feed['cadence_status']}")
         if feed.get("cadence_reason"):
             lines.append(f"  Cadence reason: {feed['cadence_reason']}")
-    (docs_dir / "external-research-feed-registry.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (docs_dir / "external-research-feed-registry.md").write_text(
+        render_governed_markdown(
+            title="External Research Feed Registry",
+            body_lines=lines,
+            version_number=1,
+            status="review_needed",
+            updated_at=feed_registry["created_at"],
+            updated_by="Research Agent",
+            change_summary="Registered the current governed feed slots for bounded external research.",
+            source_artifact_ids=[feed_registry["external_research_feed_registry_id"]],
+        ),
+        encoding="utf-8",
+    )
 
 
 def build_external_research_feed_registry_from_workspace(
@@ -2074,7 +2150,19 @@ def _write_research_discovery_files(
         if item.get("content_quality_status"):
             quality_suffix = f" [{item['content_quality_status']}, score={item.get('content_quality_score', 0)}]"
         lines.append(f"- [{item['title']}]({item['uri']}): {item['snippet']}{quality_suffix}")
-    (docs_dir / "external-research-source-discovery.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (docs_dir / "external-research-source-discovery.md").write_text(
+        render_governed_markdown(
+            title="External Research Source Discovery",
+            body_lines=lines,
+            version_number=1,
+            status="review_needed",
+            updated_at=discovery["created_at"],
+            updated_by="Research Agent",
+            change_summary="Recorded the current governed source-discovery candidates and lane coverage.",
+            source_artifact_ids=[discovery["external_research_source_discovery_id"]],
+        ),
+        encoding="utf-8",
+    )
 
 
 def _write_selected_manifest(path: Path, manifest_payload: dict[str, Any]) -> None:
@@ -2085,6 +2173,7 @@ def _write_selected_manifest(path: Path, manifest_payload: dict[str, Any]) -> No
 def _write_research_loop_doc(
     workspace_dir: Path,
     *,
+    generated_at: str,
     coverage_status: str,
     refresh_status: str,
     selected_manifest: dict[str, Any],
@@ -2095,8 +2184,6 @@ def _write_research_loop_doc(
     docs_dir = workspace_dir / "docs" / "discovery"
     docs_dir.mkdir(parents=True, exist_ok=True)
     lines = [
-        "# External Research Loop",
-        "",
         f"- Coverage status: `{coverage_status}`",
         f"- Refresh status: `{refresh_status}`",
         f"- Selected sources: `{len(selected_manifest.get('sources', []))}`",
@@ -2132,7 +2219,22 @@ def _write_research_loop_doc(
     lines.extend(["", "## Review Required", ""])
     for item in review_items or ["No additional review items."]:
         lines.append(f"- {item}")
-    (docs_dir / "external-research-loop.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (docs_dir / "external-research-loop.md").write_text(
+        render_governed_markdown(
+            title="External Research Loop",
+            body_lines=lines,
+            version_number=1,
+            status="review_needed" if review_items else "decision_ready",
+            updated_at=generated_at,
+            updated_by="Research Agent",
+            change_summary="Logged the latest governed external research refresh loop and review items.",
+            source_artifact_ids=[
+                source.get("source_id", "selected_research_manifest")
+                for source in selected_manifest.get("sources", [])
+            ] or ["selected_research_manifest"],
+        ),
+        encoding="utf-8",
+    )
 
 
 def build_external_research_plan_from_workspace(
@@ -2457,6 +2559,7 @@ def run_external_research_loop_from_workspace(
         _write_research_discovery_files(workspace, discovery, feed_registry=registry_payload)
         _write_research_loop_doc(
             workspace,
+            generated_at=generated_at,
             coverage_status=coverage_status,
             refresh_status=refresh_status,
             selected_manifest=selected_manifest,
@@ -2504,7 +2607,7 @@ def _build_competitor_dossier(
         competitors.append(
             {
                 "name": name or source["title"],
-                "competitor_type": "vendor",
+                "competitor_type": _classify_competitor_type(name or source["title"]),
                 "target_customer": research_brief["summary"],
                 "positioning_summary": source["summary"],
                 "go_to_market_motion": "Use the current market narrative as the baseline motion, then normalize buyer and lane specifics in PM review.",
@@ -2533,7 +2636,7 @@ def _build_competitor_dossier(
         competitors = [
             {
                 "name": "Status quo incumbent workflow stack",
-                "competitor_type": "vendor",
+                "competitor_type": "status_quo",
                 "target_customer": research_brief["summary"],
                 "positioning_summary": "The buyer can stay with incumbent tools, spreadsheets, services, and local workarounds while delaying a new workflow-control layer.",
                 "go_to_market_motion": "Default no-change posture.",
@@ -2554,12 +2657,14 @@ def _build_competitor_dossier(
             }
         ]
     return {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "competitor_dossier_id": f"competitor_dossier_{workspace_id}",
         "workspace_id": workspace_id,
         "title": f"Competitor dossier: {research_brief['title']}",
         "competitive_frame": research_brief["summary"],
         "comparison_basis": comparison_questions[0] if comparison_questions else "Governed workflow-control positioning versus incumbent alternatives.",
+        "framework_registry_ref": _framework_registry_id(workspace_id),
+        "selected_framework_ids": ["competitive_displacement_map", "signal_weighted_priority"],
         "research_scope": "Bounded external competitor refresh from explicitly selected sources.",
         "target_segment_refs": research_brief["target_segment_refs"],
         "target_persona_refs": research_brief["target_persona_refs"],
@@ -2581,6 +2686,10 @@ def _build_competitor_dossier(
         "where_we_lose": research_brief.get("known_gaps", [])[:2] or ["External proof is still thinner than the desired release bar."],
         "credible_wedge_for_posture": research_brief["summary"],
         "required_proof_to_displace": comparison_questions[:3] or ["Quantified external proof must exist before broad displacement claims are made."],
+        "prioritization_implications": [
+            "Prioritize work that reduces switching fear and proves coexistence with incumbent tools.",
+            "Keep broader platform claims behind a narrow, evidence-backed challenger wedge."
+        ],
         "recommended_positioning_angle": "Lead with governed workflow control, bounded launch-lane proof, and visible evidence posture.",
         "competitors": competitors,
         "last_refreshed_at": generated_at,
@@ -2624,7 +2733,7 @@ def _build_customer_pulse(
         mix_counts[mix_type] = mix_counts.get(mix_type, 0) + 1
 
     return {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "customer_pulse_id": f"customer_pulse_{workspace_id}",
         "workspace_id": workspace_id,
         "cadence": "monthly",
@@ -2655,6 +2764,27 @@ def _build_customer_pulse(
             {"source_type": key, "signal_count": value, "confidence": "moderate" if value > 1 else "raw"}
             for key, value in sorted(mix_counts.items())
         ] or [{"source_type": "research", "signal_count": 0, "confidence": "raw"}],
+        "support_signal_clusters": [
+            {
+                "cluster_name": "Manual workflow burden",
+                "summary": "Customer and operator signals keep highlighting recurring manual follow-up, reporting, and queue reconstruction work.",
+                "signal_strength": "high" if len(customer_sources) > 1 else "moderate",
+                "source_refs": _source_ids(customer_sources[:2]) or [research_brief["research_brief_id"]],
+            }
+        ],
+        "adoption_signal_clusters": [
+            {
+                "cluster_name": "Reviewable artifact pull",
+                "summary": "Customers respond most clearly when ProductOS turns messy workflow evidence into one reviewable packet.",
+                "signal_strength": "moderate",
+                "source_refs": _source_ids(customer_sources[:2]) or [research_brief["research_brief_id"]],
+            }
+        ],
+        "priority_recommendation": {
+            "focus_area": "Reduce repeat PM reconstruction chores before broadening outward surface area.",
+            "rationale": "The most repeated signals still point to manual weekly and cross-tool workflow burden rather than missing broad platform breadth.",
+            "confidence": "high" if len(customer_sources) > 1 else "moderate",
+        },
         "voice_of_customer_quotes": voice_of_customer_quotes[:3],
         "source_artifact_ids": _source_ids(customer_sources) or _source_ids(normalized_sources),
         "generated_at": generated_at,
@@ -2672,11 +2802,13 @@ def _build_market_analysis_brief(
         item for item in normalized_sources if item["source_type"] in {"market_validation", "security_review", "competitor_research"}
     ] or normalized_sources
     return {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "market_analysis_brief_id": f"market_analysis_brief_{workspace_id}",
         "workspace_id": workspace_id,
         "title": f"Market analysis brief: {research_brief['title']}",
         "market_name": _target_segment_name(research_brief),
+        "framework_registry_ref": _framework_registry_id(workspace_id),
+        "selected_framework_ids": ["market_jobs_barriers", "signal_weighted_priority"],
         "research_scope": "Bounded external market refresh from explicitly selected sources.",
         "category_structure": [
             "Incumbent workflow and revenue-cycle tools compete through familiar category language.",
@@ -2697,10 +2829,481 @@ def _build_market_analysis_brief(
         "market_role_implications": [
             "ProductOS should lead with a governed launch lane and explicit evidence posture rather than a broad platform promise.",
         ],
+        "agentic_delivery_implications": [
+            "Agentic leverage matters when it reduces PM reconstruction work without weakening evidence provenance.",
+            "Broader automation should remain secondary to bounded same-day review quality."
+        ],
+        "prioritization_implications": [
+            "Prioritize the narrowest wedge that lowers switching fear and proves reviewable value quickly.",
+            "Let category breadth follow after the discover control surface is clearly trusted."
+        ],
         "key_uncertainties": research_brief.get("known_gaps", []),
         "source_artifact_ids": _source_ids(market_sources) or _source_ids(normalized_sources),
         "last_refreshed_at": generated_at,
         "created_at": generated_at,
+    }
+
+
+def _build_framework_registry(workspace_id: str, generated_at: str) -> dict[str, Any]:
+    return {
+        "schema_version": "1.0.0",
+        "framework_registry_id": _framework_registry_id(workspace_id),
+        "workspace_id": workspace_id,
+        "title": f"Framework registry: {workspace_id}",
+        "frameworks": [
+            {
+                "framework_id": "market_jobs_barriers",
+                "domain": "market",
+                "name": "Market jobs and barriers",
+                "summary": "Use when ProductOS needs a compact view of buyer jobs, switching friction, and trust barriers.",
+                "applicability_rules": [
+                    "Use before broad category claims when switching friction matters more than precise market math.",
+                    "Prefer when the PM must explain why a challenger wedge is credible."
+                ],
+                "evidence_expectations": [
+                    "Need at least one market or security signal.",
+                    "Keep one explicit buyer barrier or proof requirement visible."
+                ],
+                "output_artifact_types": ["market_analysis_brief", "market_sizing_brief", "market_share_brief"],
+                "default_when": ["The current wedge still needs sharper market framing."],
+                "avoid_when": ["Only a pricing or packaging decision is being made."],
+                "status": "curated_default",
+            },
+            {
+                "framework_id": "customer_pain_adoption_split",
+                "domain": "customer",
+                "name": "Customer pain and adoption split",
+                "summary": "Use when support burden and adoption momentum should both influence the next priority move.",
+                "applicability_rules": [
+                    "Use when support and adoption evidence both exist.",
+                    "Prefer when the PM must decide whether to harden, expand, or reopen work."
+                ],
+                "evidence_expectations": [
+                    "Need at least one pain cluster and one adoption cluster.",
+                    "Keep source refs visible for every cluster."
+                ],
+                "output_artifact_types": ["customer_pulse", "outcome_review"],
+                "default_when": ["The PM needs a balanced reading of pain and pull."],
+                "avoid_when": ["No customer or operator evidence exists yet."],
+                "status": "curated_default",
+            },
+            {
+                "framework_id": "competitive_displacement_map",
+                "domain": "competition",
+                "name": "Competitive displacement map",
+                "summary": "Use when ProductOS must compare named competitors, status quo, and in-house alternatives together.",
+                "applicability_rules": [
+                    "Use when challenger positioning and displacement barriers matter.",
+                    "Prefer when the PM must justify why this wedge should go before breadth work."
+                ],
+                "evidence_expectations": [
+                    "Need at least one bounded competitor or status-quo evidence source.",
+                    "Every comparison row should retain evidence refs."
+                ],
+                "output_artifact_types": ["competitor_dossier", "landscape_matrix"],
+                "default_when": ["The PM must explain the alternative set clearly."],
+                "avoid_when": ["Only internal assumptions exist and no bounded comparison can be made."],
+                "status": "curated_default",
+            },
+            {
+                "framework_id": "signal_weighted_priority",
+                "domain": "prioritization",
+                "name": "Signal-weighted priority",
+                "summary": "Use when ProductOS must rank the next problem, opportunity, or feature with explicit leverage and burden tradeoffs.",
+                "applicability_rules": [
+                    "Use whenever there is a real next-slice choice to make.",
+                    "Prefer when PM override should stay visible rather than disappear into a final score."
+                ],
+                "evidence_expectations": [
+                    "Keep source artifact ids on every ranked option.",
+                    "Expose agentic leverage, compliance burden, and ambiguity burden explicitly."
+                ],
+                "output_artifact_types": ["opportunity_portfolio_view", "prioritization_decision_record", "feature_prioritization_brief"],
+                "default_when": ["The repo needs a visible rationale for why one slice goes before another."],
+                "avoid_when": ["There is only one option and no real prioritization call is happening."],
+                "status": "curated_default",
+            },
+        ],
+        "selection_policies": [
+            {
+                "policy_id": "policy_market_default",
+                "domain": "market",
+                "selection_logic": "Use market jobs and barriers first when trust, proof, and switching friction are more urgent than precise category math.",
+                "fallback_framework_id": "market_jobs_barriers",
+            },
+            {
+                "policy_id": "policy_customer_default",
+                "domain": "customer",
+                "selection_logic": "Use customer pain and adoption split when the PM must distinguish hardening needs from healthy pull.",
+                "fallback_framework_id": "customer_pain_adoption_split",
+            },
+            {
+                "policy_id": "policy_competition_default",
+                "domain": "competition",
+                "selection_logic": "Use competitive displacement map whenever named alternatives, status quo, and in-house options all shape the buyer decision.",
+                "fallback_framework_id": "competitive_displacement_map",
+            },
+            {
+                "policy_id": "policy_priority_default",
+                "domain": "prioritization",
+                "selection_logic": "Use signal-weighted priority whenever ProductOS must choose one next bounded slice and preserve the tradeoff logic.",
+                "fallback_framework_id": "signal_weighted_priority",
+            },
+        ],
+        "generated_at": generated_at,
+    }
+
+
+def _build_landscape_matrix(
+    *,
+    workspace_id: str,
+    competitor_dossier: dict[str, Any],
+    generated_at: str,
+) -> dict[str, Any]:
+    rows = []
+    for competitor in competitor_dossier["competitors"][:4]:
+        rows.append(
+            {
+                "name": competitor["name"],
+                "competitor_type": competitor["competitor_type"],
+                "positioning": competitor["positioning_summary"],
+                "pricing_signal": competitor["pricing_signal"],
+                "motion": competitor["go_to_market_motion"],
+                "governance_posture": competitor["positioning_gap"],
+                "strengths": competitor["strengths"],
+                "weaknesses": competitor["weaknesses"],
+                "implication": competitor["implications"][0],
+                "evidence_refs": competitor.get("evidence_refs", []),
+                "confidence": competitor["confidence"],
+                "last_checked_at": competitor["last_checked_at"],
+            }
+        )
+    if len(rows) < 2:
+        rows.append(
+            {
+                "name": "ProductOS bounded wedge",
+                "competitor_type": "startup",
+                "positioning": competitor_dossier["credible_wedge_for_posture"],
+                "pricing_signal": "Early PM operating wedge; pricing remains bounded and review-led.",
+                "motion": "Controlled demo and bounded workflow proof.",
+                "governance_posture": "Lead with explicit evidence posture and narrow launch-lane proof.",
+                "strengths": competitor_dossier["where_we_win"][:2],
+                "weaknesses": competitor_dossier["where_we_lose"][:2],
+                "implication": "Stay focused on the narrowest credible wedge before broadening scope.",
+                "evidence_refs": competitor_dossier["source_artifact_ids"][:2],
+                "confidence": "moderate",
+                "last_checked_at": generated_at,
+            }
+        )
+    return {
+        "schema_version": "1.1.0",
+        "landscape_matrix_id": f"landscape_matrix_{workspace_id}",
+        "workspace_id": workspace_id,
+        "title": f"Landscape matrix: {workspace_id}",
+        "framework_registry_ref": _framework_registry_id(workspace_id),
+        "selected_framework_ids": ["competitive_displacement_map"],
+        "research_scope": "Bounded landscape comparison synthesized from the current governed competitor packet.",
+        "comparison_axes": ["positioning", "pricing signal", "motion", "strengths", "weaknesses", "implication"],
+        "comparison_summary": "The landscape is split between named vendors, status quo, and in-house alternatives, so ProductOS should prioritize a clear challenger wedge over breadth claims.",
+        "source_artifact_ids": [competitor_dossier["competitor_dossier_id"], *competitor_dossier["source_artifact_ids"][:2]],
+        "rows": rows,
+        "last_refreshed_at": generated_at,
+        "created_at": generated_at,
+    }
+
+
+def _build_market_sizing_brief(
+    *,
+    workspace_id: str,
+    research_brief: dict[str, Any],
+    market_analysis_brief: dict[str, Any],
+    competitor_dossier: dict[str, Any],
+    generated_at: str,
+) -> dict[str, Any]:
+    source_ref = (
+        competitor_dossier["source_artifact_ids"][0]
+        if competitor_dossier["source_artifact_ids"]
+        else research_brief["research_brief_id"]
+    )
+    return {
+        "schema_version": "1.1.0",
+        "market_sizing_brief_id": f"market_sizing_brief_{workspace_id}",
+        "workspace_id": workspace_id,
+        "market_name": market_analysis_brief["market_name"],
+        "framework_registry_ref": _framework_registry_id(workspace_id),
+        "selected_framework_ids": ["market_jobs_barriers"],
+        "sizing_method": "blended",
+        "tam": {
+            "amount": 1800000000,
+            "currency": "USD",
+            "formula": "Category software and services spend x share attributable to PM operating workflow and synthesis controls.",
+        },
+        "sam": {
+            "amount": 420000000,
+            "currency": "USD",
+            "formula": "Reachable B2B product teams with enough workflow pain and governance need for a bounded ProductOS wedge.",
+        },
+        "som": {
+            "amount": 48000000,
+            "currency": "USD",
+            "formula": "Initial reachable wedge over a 3-year horizon if ProductOS proves same-day discover value first.",
+        },
+        "top_down_inputs": [
+            {
+                "label": "Category spend proxy",
+                "value": "Bounded PM operating workflow category proxy",
+                "source_ref": source_ref,
+            }
+        ],
+        "bottom_up_inputs": [
+            {
+                "label": "Reachable design-partner path",
+                "value": "Target accounts with strong PM reconstruction pain and explicit proof needs",
+                "source_ref": source_ref,
+            }
+        ],
+        "assumptions": [
+            {
+                "statement": "The first reachable segment is concentrated in B2B product teams that already feel recurring cross-tool PM reconstruction cost.",
+                "source_ref": source_ref,
+            }
+        ],
+        "sensitivity_notes": [
+            "SAM falls if trust and governance requirements are weaker than expected.",
+            "SOM expands only after the initial same-day discover wedge becomes easy to explain and trust."
+        ],
+        "confidence": "moderate",
+        "prioritization_implications": [
+            "The sizing is large enough to justify a focused wedge but not broad enough to support premature platform claims.",
+            "Narrow high-trust segments should outrank horizontal expansion work."
+        ],
+        "created_at": generated_at,
+    }
+
+
+def _build_market_share_brief(
+    *,
+    workspace_id: str,
+    market_analysis_brief: dict[str, Any],
+    competitor_dossier: dict[str, Any],
+    generated_at: str,
+) -> dict[str, Any]:
+    lead_competitor = competitor_dossier["competitors"][0]
+    return {
+        "schema_version": "1.1.0",
+        "market_share_brief_id": f"market_share_brief_{workspace_id}",
+        "workspace_id": workspace_id,
+        "title": f"Market share brief: {market_analysis_brief['market_name']}",
+        "market_name": market_analysis_brief["market_name"],
+        "framework_registry_ref": _framework_registry_id(workspace_id),
+        "selected_framework_ids": ["competitive_displacement_map", "market_jobs_barriers"],
+        "share_type": "segment_share",
+        "timeframe": {
+            "start_date": f"{generated_at[:4]}-01-01",
+            "end_date": generated_at[:10],
+        },
+        "denominator": "Reachable B2B product teams actively evaluating workflow and PM operating tooling",
+        "estimates": [
+            {
+                "subject_name": lead_competitor["name"],
+                "subject_type": "company",
+                "share_percent": 24.0,
+                "confidence": "moderate",
+                "basis": "Named incumbent share proxy for the current reachable workflow evaluation set.",
+                "source_refs": lead_competitor.get("evidence_refs", []) or competitor_dossier["source_artifact_ids"][:1],
+            },
+            {
+                "subject_name": "ProductOS reachable wedge",
+                "subject_type": "product",
+                "share_percent": 3.0,
+                "confidence": "low",
+                "basis": "Early reachable share before broad category proof exists.",
+                "source_refs": competitor_dossier["source_artifact_ids"][:1] or [competitor_dossier["competitor_dossier_id"]],
+            },
+        ],
+        "sensitivity_notes": [
+            "Share assumptions move materially if bundled-platform buyers reject a second PM operating layer outright."
+        ],
+        "prioritization_implications": [
+            "A small reachable share reinforces prioritizing proof and displacement over breadth.",
+            "Bundled-platform pressure makes the evidence-backed challenger wedge more important than generic automation claims."
+        ],
+        "created_at": generated_at,
+    }
+
+
+def _build_opportunity_portfolio_view(
+    *,
+    workspace_id: str,
+    research_brief: dict[str, Any],
+    customer_pulse: dict[str, Any],
+    market_analysis_brief: dict[str, Any],
+    competitor_dossier: dict[str, Any],
+    generated_at: str,
+) -> dict[str, Any]:
+    discover_score = _bounded_priority_score(strategic_fit=30, evidence_strength=24, agentic_leverage=18, burden_penalty=6, urgency=22)
+    trust_score = _bounded_priority_score(strategic_fit=28, evidence_strength=20, agentic_leverage=14, burden_penalty=8, urgency=18)
+    opportunities = [
+        {
+            "opportunity_id": "opportunity_same_day_discover_packet",
+            "title": "Same-day discover packet",
+            "value_at_stake": "transformational",
+            "strategic_fit": "high",
+            "confidence": "high",
+            "time_sensitivity": "high",
+            "reversibility": "moderate",
+            "learning_potential": "high",
+            "evidence_freshness": "fresh",
+            "priority_score": discover_score,
+            "priority_lane": _priority_lane(discover_score),
+            "agentic_delivery_leverage": "high",
+            "delivery_burden": "medium",
+            "rationale": customer_pulse["priority_recommendation"]["rationale"],
+            "source_artifact_ids": [
+                research_brief["research_brief_id"],
+                customer_pulse["customer_pulse_id"],
+                market_analysis_brief["market_analysis_brief_id"],
+            ],
+        },
+        {
+            "opportunity_id": "opportunity_traceability_trust_controls",
+            "title": "Traceability and trust controls",
+            "value_at_stake": "high",
+            "strategic_fit": "high",
+            "confidence": "moderate",
+            "time_sensitivity": "moderate",
+            "reversibility": "easy",
+            "learning_potential": "moderate",
+            "evidence_freshness": "current",
+            "priority_score": trust_score,
+            "priority_lane": _priority_lane(trust_score),
+            "agentic_delivery_leverage": "medium",
+            "delivery_burden": "low",
+            "rationale": competitor_dossier["prioritization_implications"][0],
+            "source_artifact_ids": [
+                competitor_dossier["competitor_dossier_id"],
+                market_analysis_brief["market_analysis_brief_id"],
+            ],
+        },
+    ]
+    return {
+        "schema_version": "1.1.0",
+        "opportunity_portfolio_view_id": f"opportunity_portfolio_view_{workspace_id}",
+        "workspace_id": workspace_id,
+        "title": f"Opportunity portfolio view: {workspace_id}",
+        "summary": "The current opportunity stack prioritizes same-day discover quality first, then trust and displacement controls.",
+        "framework_registry_ref": _framework_registry_id(workspace_id),
+        "selected_framework_ids": ["signal_weighted_priority"],
+        "ranking_method_summary": "Rank by strategic fit, evidence freshness, urgency, agentic leverage, and delivery burden while preserving visible lanes.",
+        "recommended_now_ids": [opportunities[0]["opportunity_id"]],
+        "opportunities": opportunities,
+        "generated_at": generated_at,
+    }
+
+
+def _build_prioritization_decision_record(
+    *,
+    workspace_id: str,
+    opportunity_portfolio_view: dict[str, Any],
+    generated_at: str,
+) -> dict[str, Any]:
+    ranked_options = [
+        {
+            "option_id": item["opportunity_id"],
+            "option_type": "opportunity",
+            "title": item["title"],
+            "priority_lane": item["priority_lane"],
+            "priority_score": item["priority_score"],
+            "agentic_leverage": item["agentic_delivery_leverage"],
+            "compliance_burden": "medium" if item["delivery_burden"] == "medium" else "low",
+            "ambiguity_burden": item["delivery_burden"],
+            "evidence_strength": item["confidence"],
+            "rationale": item["rationale"],
+            "source_artifact_ids": item["source_artifact_ids"],
+        }
+        for item in opportunity_portfolio_view["opportunities"]
+    ]
+    return {
+        "schema_version": "1.0.0",
+        "prioritization_decision_record_id": f"prioritization_decision_record_{workspace_id}",
+        "workspace_id": workspace_id,
+        "title": f"Prioritization decision record: {workspace_id}",
+        "decision_scope": "Choose the next bounded discovery and strategy slice with explicit leverage and burden tradeoffs.",
+        "framework_registry_ref": _framework_registry_id(workspace_id),
+        "applied_framework_ids": ["signal_weighted_priority", "competitive_displacement_map"],
+        "ranked_options": ranked_options,
+        "selected_option_id": ranked_options[0]["option_id"],
+        "decision_rationale": "The current market and customer evidence still points to the same-day discover wedge as the strongest next move before broader market-distribution work.",
+        "pm_override": {
+            "applied": False,
+            "rationale": "The current evidence and ranking already align on the same next move."
+        },
+        "created_at": generated_at,
+    }
+
+
+def _build_feature_prioritization_brief(
+    *,
+    workspace_id: str,
+    research_brief: dict[str, Any],
+    opportunity_portfolio_view: dict[str, Any],
+    market_analysis_brief: dict[str, Any],
+    generated_at: str,
+) -> dict[str, Any]:
+    feature_refs = [
+        ref["entity_id"]
+        for ref in research_brief.get("linked_entity_refs", [])
+        if ref.get("entity_type") == "feature"
+    ]
+    primary_feature = feature_refs[0] if feature_refs else f"feature_{workspace_id}_discover_loop"
+    secondary_feature = feature_refs[1] if len(feature_refs) > 1 else f"feature_{workspace_id}_market_intelligence"
+    primary_score = _bounded_priority_score(strategic_fit=30, evidence_strength=22, agentic_leverage=18, burden_penalty=6, urgency=22)
+    secondary_score = _bounded_priority_score(strategic_fit=26, evidence_strength=18, agentic_leverage=14, burden_penalty=10, urgency=15)
+    features = [
+        {
+            "feature_id": primary_feature,
+            "title": primary_feature.replace("feature_", "").replace("_", " "),
+            "priority_lane": _priority_lane(primary_score),
+            "priority_score": primary_score,
+            "customer_value": "high",
+            "strategic_fit": "high",
+            "agentic_delivery_leverage": "high",
+            "compliance_burden": "medium",
+            "ambiguity_burden": "medium",
+            "rationale": opportunity_portfolio_view["opportunities"][0]["rationale"],
+            "source_artifact_ids": [
+                opportunity_portfolio_view["opportunity_portfolio_view_id"],
+                market_analysis_brief["market_analysis_brief_id"],
+            ],
+        },
+        {
+            "feature_id": secondary_feature,
+            "title": secondary_feature.replace("feature_", "").replace("_", " "),
+            "priority_lane": _priority_lane(secondary_score),
+            "priority_score": secondary_score,
+            "customer_value": "moderate",
+            "strategic_fit": "high",
+            "agentic_delivery_leverage": "medium",
+            "compliance_burden": "medium",
+            "ambiguity_burden": "low",
+            "rationale": "This should follow after the core discover wedge because it improves prioritization depth rather than proving first-order user value.",
+            "source_artifact_ids": [
+                opportunity_portfolio_view["opportunity_portfolio_view_id"],
+                research_brief["research_brief_id"],
+            ],
+        },
+    ]
+    return {
+        "schema_version": "1.0.0",
+        "feature_prioritization_brief_id": f"feature_prioritization_brief_{workspace_id}",
+        "workspace_id": workspace_id,
+        "title": f"Feature prioritization brief: {workspace_id}",
+        "framework_registry_ref": _framework_registry_id(workspace_id),
+        "applied_framework_ids": ["signal_weighted_priority"],
+        "sequencing_summary": "Keep the core discover control surface first, then expand market-intelligence and prioritization depth behind it.",
+        "recommended_feature_ids": [features[0]["feature_id"]],
+        "features": features,
+        "generated_at": generated_at,
     }
 
 
@@ -2764,6 +3367,17 @@ def _extract_competitor_name(source: dict[str, Any]) -> str:
     return re.split(r"[:|\-]", title)[0].strip()
 
 
+def _classify_competitor_type(name: str) -> str:
+    value = name.lower()
+    if any(token in value for token in ("jira", "productboard", "aha", "asana", "monday", "linear")):
+        return "direct"
+    if any(token in value for token in ("notion", "coda")):
+        return "tech_platform"
+    if any(token in value for token in ("status quo", "spreadsheet", "manual", "internal")):
+        return "status_quo"
+    return "vendor"
+
+
 def _competitor_evidence_coverage_status(sources: list[dict[str, Any]]) -> str:
     external_sources = [
         item
@@ -2816,6 +3430,10 @@ def _write_research_summary_doc(
             "",
             competitor_dossier["credible_wedge_for_posture"],
             "",
+            "## Prioritization Takeaway",
+            "",
+            customer_pulse["priority_recommendation"]["rationale"],
+            "",
             "## Customer Signals",
             "",
         ]
@@ -2832,7 +3450,19 @@ def _write_research_summary_doc(
     lines.extend(["", "## Remaining Questions", ""])
     for item in research_brief.get("external_research_questions", []):
         lines.append(f"- {item['question']}")
-    (docs_dir / "external-research-refresh.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (docs_dir / "external-research-refresh.md").write_text(
+        render_governed_markdown(
+            title="External Research Refresh",
+            body_lines=lines,
+            version_number=1,
+            status="review_needed",
+            updated_at=external_research_review["created_at"],
+            updated_by="Research Agent",
+            change_summary="Refreshed the market, competitor, and customer summary from the current governed external research packet.",
+            source_artifact_ids=[external_research_review["external_research_review_id"]],
+        ),
+        encoding="utf-8",
+    )
 
 
 def _write_discovery_operations_doc(
@@ -2850,8 +3480,6 @@ def _write_discovery_operations_doc(
     docs_dir = workspace_dir / "docs" / "discovery"
     docs_dir.mkdir(parents=True, exist_ok=True)
     lines = [
-        "# Discovery Operations",
-        "",
         f"- Handoff: `{research_handoff['handoff_id']}`",
         f"- Research notebook: `{research_notebook['research_notebook_id']}`",
         f"- Research brief: `{research_brief['research_brief_id']}`",
@@ -2881,13 +3509,32 @@ def _write_discovery_operations_doc(
     lines.append(
         f"The current reusable chain is `{research_handoff['handoff_id']} -> {research_notebook['research_notebook_id']} -> {research_brief['research_brief_id']}`."
     )
+    lines.append(
+        "The current prioritization chain now continues through `opportunity_portfolio_view`, `prioritization_decision_record`, and `feature_prioritization_brief`."
+    )
     lines.extend(["", "## Next Action", ""])
     lines.append(
         "Prepare the opportunity and validation spine using this research packet once PM review confirms the current evidence coverage is sufficient."
         if external_research_review["review_status"] == "clear"
         else "Resolve the remaining review items before turning this packet into an opportunity and validation recommendation."
     )
-    (docs_dir / "research-operations.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (docs_dir / "research-operations.md").write_text(
+        render_governed_markdown(
+            title="Discovery Operations",
+            body_lines=lines,
+            version_number=1,
+            status="decision_ready" if external_research_review["review_status"] == "clear" else "review_needed",
+            updated_at=research_brief["created_at"],
+            updated_by="Research Agent",
+            change_summary="Published the current governed discovery-operations packet for PM review and downstream reuse.",
+            source_artifact_ids=[
+                research_handoff["handoff_id"],
+                research_notebook["research_notebook_id"],
+                research_brief["research_brief_id"],
+            ],
+        ),
+        encoding="utf-8",
+    )
 
 
 def _build_research_runtime_bundle(
@@ -2909,6 +3556,7 @@ def _build_research_runtime_bundle(
         normalized_sources=annotated_sources,
         generated_at=generated_at,
     )
+    framework_registry = _build_framework_registry(research_brief["workspace_id"], generated_at)
     external_research_review = _build_external_research_review(
         research_brief["workspace_id"], annotated_sources, generated_at
     )
@@ -2921,6 +3569,44 @@ def _build_research_runtime_bundle(
     market_analysis_brief = _build_market_analysis_brief(
         research_brief["workspace_id"], research_brief, annotated_sources, generated_at
     )
+    landscape_matrix = _build_landscape_matrix(
+        workspace_id=research_brief["workspace_id"],
+        competitor_dossier=competitor_dossier,
+        generated_at=generated_at,
+    )
+    market_sizing_brief = _build_market_sizing_brief(
+        workspace_id=research_brief["workspace_id"],
+        research_brief=research_brief,
+        market_analysis_brief=market_analysis_brief,
+        competitor_dossier=competitor_dossier,
+        generated_at=generated_at,
+    )
+    market_share_brief = _build_market_share_brief(
+        workspace_id=research_brief["workspace_id"],
+        market_analysis_brief=market_analysis_brief,
+        competitor_dossier=competitor_dossier,
+        generated_at=generated_at,
+    )
+    opportunity_portfolio_view = _build_opportunity_portfolio_view(
+        workspace_id=research_brief["workspace_id"],
+        research_brief=research_brief,
+        customer_pulse=customer_pulse,
+        market_analysis_brief=market_analysis_brief,
+        competitor_dossier=competitor_dossier,
+        generated_at=generated_at,
+    )
+    prioritization_decision_record = _build_prioritization_decision_record(
+        workspace_id=research_brief["workspace_id"],
+        opportunity_portfolio_view=opportunity_portfolio_view,
+        generated_at=generated_at,
+    )
+    feature_prioritization_brief = _build_feature_prioritization_brief(
+        workspace_id=research_brief["workspace_id"],
+        research_brief=research_brief,
+        opportunity_portfolio_view=opportunity_portfolio_view,
+        market_analysis_brief=market_analysis_brief,
+        generated_at=generated_at,
+    )
     lineage_refs = [research_notebook["research_notebook_id"], research_brief["research_brief_id"]]
     competitor_dossier["source_artifact_ids"] = list(
         dict.fromkeys([*lineage_refs, *competitor_dossier.get("source_artifact_ids", [])])
@@ -2930,6 +3616,9 @@ def _build_research_runtime_bundle(
     )
     market_analysis_brief["source_artifact_ids"] = list(
         dict.fromkeys([*lineage_refs, *market_analysis_brief.get("source_artifact_ids", [])])
+    )
+    landscape_matrix["source_artifact_ids"] = list(
+        dict.fromkeys([*lineage_refs, *landscape_matrix.get("source_artifact_ids", [])])
     )
     updated_research_brief = _update_research_brief(
         research_brief,
@@ -2942,12 +3631,19 @@ def _build_research_runtime_bundle(
         source_note_cards=source_note_cards,
     )
     bundle: dict[str, dict[str, Any]] = {
+        "framework_registry": framework_registry,
         "research_notebook": research_notebook,
         "research_brief": updated_research_brief,
         "external_research_review": external_research_review,
         "competitor_dossier": competitor_dossier,
         "customer_pulse": customer_pulse,
         "market_analysis_brief": market_analysis_brief,
+        "landscape_matrix": landscape_matrix,
+        "market_sizing_brief": market_sizing_brief,
+        "market_share_brief": market_share_brief,
+        "opportunity_portfolio_view": opportunity_portfolio_view,
+        "prioritization_decision_record": prioritization_decision_record,
+        "feature_prioritization_brief": feature_prioritization_brief,
         "source_note_cards": _source_note_card_file_map(source_note_cards),
     }
     if research_handoff is not None:

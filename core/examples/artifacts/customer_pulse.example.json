@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "customer_pulse_id": "customer_pulse_ws_productos_v2_2026_03",
   "workspace_id": "ws_productos_v2",
   "cadence": "monthly",
@@ -72,6 +72,31 @@
       "confidence": "moderate"
     }
   ],
+  "support_signal_clusters": [
+    {
+      "cluster_name": "Status reporting burden",
+      "summary": "Support and interview evidence keeps pointing to repeated manual reporting and follow-up reconstruction work.",
+      "signal_strength": "high",
+      "source_refs": [
+        "research_brief_customer_feedback_2026_q1"
+      ]
+    }
+  ],
+  "adoption_signal_clusters": [
+    {
+      "cluster_name": "Prototype-led workflow pull",
+      "summary": "Several accounts are responding positively when ProductOS demonstrates a reviewable prototype-first operating flow.",
+      "signal_strength": "moderate",
+      "source_refs": [
+        "research_brief_customer_feedback_2026_q1"
+      ]
+    }
+  ],
+  "priority_recommendation": {
+    "focus_area": "Reduce recurring PM reconstruction chores before broadening portfolio-level surfaces.",
+    "rationale": "The most consistent pain signals are still around manual weekly coordination and follow-up churn.",
+    "confidence": "high"
+  },
   "voice_of_customer_quotes": [
     {
       "quote": "I wish I could just approve a draft status update instead of writing one from scratch every week.",
@@ -84,6 +109,8 @@
       "sentiment": "positive"
     }
   ],
-  "source_artifact_ids": ["research_brief_customer_feedback_2026_q1"],
+  "source_artifact_ids": [
+    "research_brief_customer_feedback_2026_q1"
+  ],
   "generated_at": "2026-03-20T12:00:00Z"
 }

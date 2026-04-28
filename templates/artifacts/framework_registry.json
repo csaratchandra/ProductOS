@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "framework_registry_id": "framework_registry_starter",
+  "workspace_id": "ws_product_starter",
+  "title": "Framework Registry: starter workspace",
+  "frameworks": [
+    {
+      "framework_id": "market_jobs_barriers",
+      "domain": "market",
+      "name": "Market jobs and barriers",
+      "summary": "Use to explain buyer urgency, switching friction, and trust barriers.",
+      "applicability_rules": [
+        "Use before making broad category claims."
+      ],
+      "evidence_expectations": [
+        "Keep one buyer barrier and one proof requirement visible."
+      ],
+      "output_artifact_types": [
+        "market_analysis_brief"
+      ],
+      "default_when": [
+        "The wedge is still being defined."
+      ],
+      "avoid_when": [
+        "Only precise sizing is needed."
+      ],
+      "status": "curated_default"
+    },
+    {
+      "framework_id": "signal_weighted_priority",
+      "domain": "prioritization",
+      "name": "Signal-weighted priority",
+      "summary": "Use to rank opportunities and features with visible tradeoffs.",
+      "applicability_rules": [
+        "Use when one next slice must be chosen explicitly."
+      ],
+      "evidence_expectations": [
+        "Keep source artifact ids and burden visible."
+      ],
+      "output_artifact_types": [
+        "opportunity_portfolio_view",
+        "feature_prioritization_brief"
+      ],
+      "default_when": [
+        "The workspace needs a ranked next move."
+      ],
+      "avoid_when": [
+        "No real prioritization choice exists."
+      ],
+      "status": "curated_default"
+    },
+    {
+      "framework_id": "competitive_displacement_map",
+      "domain": "competition",
+      "name": "Competitive displacement map",
+      "summary": "Use to compare ProductOS against named competitors, status quo, and in-house alternatives.",
+      "applicability_rules": [
+        "Use when challenger positioning and displacement barriers matter."
+      ],
+      "evidence_expectations": [
+        "Every competitor row should carry at least one evidence ref."
+      ],
+      "output_artifact_types": [
+        "competitor_dossier",
+        "landscape_matrix"
+      ],
+      "default_when": [
+        "The PM must justify a wedge."
+      ],
+      "avoid_when": [
+        "No bounded comparison can be made yet."
+      ],
+      "status": "curated_default"
+    }
+  ],
+  "selection_policies": [
+    {
+      "policy_id": "policy_market_default",
+      "domain": "market",
+      "selection_logic": "Use market jobs and barriers first when trust and switching friction shape the decision.",
+      "fallback_framework_id": "market_jobs_barriers"
+    }
+  ],
+  "generated_at": "2026-04-27T08:00:00Z"
+}

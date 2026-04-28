@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "persona_archetype_pack_id": "persona_archetype_pack_b2b_pm",
   "workspace_id": "ws_productos_v2",
   "title": "Persona Archetype Pack: B2B PM workflows",
@@ -10,6 +10,12 @@
     }
   ],
   "archetype_mode": "operator",
+  "canonical_truth": true,
+  "prioritization_basis": {
+    "lane": "must_now",
+    "selection_rationale": "The operating persona is the canonical upstream truth because ProductOS must prove PM workflow value before broadening to other buyer roles.",
+    "decision_owner": "ProductOS PM"
+  },
   "archetypes": [
     {
       "persona_ref": {
@@ -24,6 +30,10 @@
       "blockers": ["Stale source state", "Missing evidence traceability"],
       "buying_influence": "high",
       "workflow_traits": ["Reviews drafts carefully", "Prefers visible source links"],
+      "priority_score": 94,
+      "priority_rationale": "This archetype is the fastest path to proving ProductOS value because it experiences the recurring PM reconstruction burden directly.",
+      "handoff_preferences": ["Provide explicit source refs", "Surface ambiguity before delivery handoff"],
+      "evidence_confidence": "high",
       "evidence_refs": ["research_brief_pm_operating_rhythm"]
     }
   ],

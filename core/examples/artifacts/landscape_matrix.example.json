@@ -1,8 +1,12 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "landscape_matrix_id": "landscape_matrix_pm_tools",
   "workspace_id": "ws_productos_v2",
   "title": "PM operating tools landscape",
+  "framework_registry_ref": "framework_registry_pm_strategy",
+  "selected_framework_ids": [
+    "competitive_displacement_map"
+  ],
   "comparison_axes": [
     "positioning",
     "pricing signal",
@@ -11,9 +15,11 @@
     "weaknesses",
     "implication"
   ],
+  "comparison_summary": "The landscape is split between broad platforms, adjacent execution suites, and in-house status quo workflows; ProductOS should stay focused on the traceable PM operating wedge.",
   "rows": [
     {
       "name": "Jira Product Discovery + Jira",
+      "competitor_type": "direct",
       "positioning": "Connected discovery plus delivery workflow",
       "pricing_signal": "Bundled with broader Atlassian footprint",
       "motion": "Bottom-up and existing account expansion",
@@ -23,12 +29,23 @@
     },
     {
       "name": "Productboard",
+      "competitor_type": "vendor",
       "positioning": "Customer feedback and prioritization system",
       "pricing_signal": "Mid to high enterprise SaaS pricing",
       "motion": "PM team expansion and leadership visibility",
       "strengths": ["Feedback consolidation", "Roadmap communication"],
       "weaknesses": ["Less emphasis on PM operating choreography", "Limited prototype-first strategy layer"],
       "implication": "ProductOS can win on integrated PM operating system depth."
+    },
+    {
+      "name": "Internal docs and trackers",
+      "competitor_type": "in_house",
+      "positioning": "No-change PM workflow baseline across existing tools",
+      "pricing_signal": "Hidden in labor cost rather than explicit software budget",
+      "motion": "Default internal continuation path",
+      "strengths": ["Low procurement friction", "Familiar operating model"],
+      "weaknesses": ["Weak traceability continuity", "High PM reconstruction burden"],
+      "implication": "Quantify hidden workflow drag and review-loop cost when comparing against status quo."
     }
   ],
   "created_at": "2026-03-20T14:20:00Z"

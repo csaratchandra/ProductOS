@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "outcome_review_id": "outcome_review_ws_productos_v2_v4_readable_docs",
   "workspace_id": "ws_productos_v2",
   "reviewed_change_ref": "document_sync_state_ws_productos_v2_v4_readable_docs",
@@ -27,12 +27,45 @@
       "status": "partial"
     }
   ],
+  "claim_verification_summary": "The readable-doc slice improved internal review readiness, but external publishing and sync claims still need tighter proof.",
   "adoption_notes": [
     "The readable-doc bundle is good enough for internal PM and leadership review.",
     "The document-system slice should continue until publishing metadata and sync rules are fully stable."
   ],
   "unresolved_pain_points": [
     "External SharePoint and Confluence sync rules are not yet encoded in the generated control artifacts."
+  ],
+  "support_signals": [
+    {
+      "signal_name": "Publishing adapter questions",
+      "summary": "Support-style feedback still clusters around missing external publishing and sync details.",
+      "direction": "stable",
+      "evidence_refs": [
+        "productos_feedback_log_2026_03_21"
+      ]
+    }
+  ],
+  "adoption_signals": [
+    {
+      "signal_name": "Readable docs adopted for internal review",
+      "summary": "PM and leadership review can now happen from governed readable docs instead of raw JSON alone.",
+      "direction": "improving",
+      "evidence_refs": [
+        "manual_validation_record_ws_productos_v2_doc_bundle_v4_0"
+      ]
+    }
+  ],
+  "reopen_recommendations": [
+    {
+      "artifact_id": "prd_ws_productos_v2_v4_readable_docs",
+      "artifact_type": "prd",
+      "recommended_action": "refresh",
+      "rationale": "Publishing and sync details should feed back into the readable-doc PRD and release-boundary scope.",
+      "evidence_refs": [
+        "productos_feedback_log_2026_03_21",
+        "release_gate_decision_ws_productos_v2_runtime"
+      ]
+    }
   ],
   "rejected_path_updates": [
     "rejected_path_record_ws_productos_v2_json_only_docs"

@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "release_note_id": "release_note_status_mail_internal",
   "workspace_id": "ws_productos_v2",
   "title": "Internal Release Note: PM Operating Rhythm Automation",
@@ -11,6 +11,21 @@
   "change_classification": "feature_enhancement",
   "version_impact": "minor",
   "customer_visible": false,
+  "claims": [
+    {
+      "claim": "This release adds governed PM operating automation around status, meetings, and runtime visibility.",
+      "evidence_refs": [
+        "release_readiness_ws_productos_v2_runtime",
+        "runtime_scenario_report_ws_productos_v2_v3_0"
+      ],
+      "evidence_status": "verified",
+      "audience_scope": "internal_only"
+    }
+  ],
   "classification_rationale": "The release adds meaningful PM operating capability without changing the core ProductOS operating model destructively.",
+  "known_limitations": [
+    "Broader post-launch customer communication remains out of scope for this internal release note."
+  ],
+  "followup_support_path": "Use the runtime support queue and provenance warnings doc for rollout questions.",
   "generated_at": "2026-03-19T18:58:00Z"
 }

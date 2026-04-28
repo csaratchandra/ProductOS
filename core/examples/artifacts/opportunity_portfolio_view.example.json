@@ -1,8 +1,18 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "opportunity_portfolio_view_id": "opportunity_portfolio_view_q2",
   "workspace_id": "ws_productos_v2",
+  "title": "Opportunity Portfolio View: Q2 ProductOS priorities",
   "summary": "The discovery portfolio currently has one high-upside strategy bet, one trust-strengthening opportunity, and one lower-priority communication enhancement.",
+  "framework_registry_ref": "framework_registry_pm_strategy",
+  "selected_framework_ids": [
+    "signal_weighted_priority"
+  ],
+  "ranking_method_summary": "Rank by strategic fit, evidence freshness, agentic leverage, and delivery burden while preserving PM-visible lane assignments.",
+  "recommended_now_ids": [
+    "opp_pm_foresight",
+    "opp_trust_trace"
+  ],
   "opportunities": [
     {
       "opportunity_id": "opp_pm_foresight",
@@ -13,7 +23,16 @@
       "time_sensitivity": "high",
       "reversibility": "moderate",
       "learning_potential": "high",
-      "evidence_freshness": "fresh"
+      "evidence_freshness": "fresh",
+      "priority_score": 91,
+      "priority_lane": "must_now",
+      "agentic_delivery_leverage": "high",
+      "delivery_burden": "medium",
+      "rationale": "This is the clearest value wedge for improving PM judgment and downstream prioritization quality.",
+      "source_artifact_ids": [
+        "problem_brief_productos_next_version_discover",
+        "market_analysis_brief_pm_ops"
+      ]
     },
     {
       "opportunity_id": "opp_trust_trace",
@@ -24,7 +43,16 @@
       "time_sensitivity": "moderate",
       "reversibility": "easy",
       "learning_potential": "moderate",
-      "evidence_freshness": "current"
+      "evidence_freshness": "current",
+      "priority_score": 86,
+      "priority_lane": "next",
+      "agentic_delivery_leverage": "medium",
+      "delivery_burden": "low",
+      "rationale": "It improves trust and release safety, but it builds on the more urgent same-day discover wedge.",
+      "source_artifact_ids": [
+        "competitor_dossier_pm_ops_space",
+        "customer_pulse_ws_productos_v2_2026_03"
+      ]
     }
   ],
   "generated_at": "2026-03-20T12:10:00Z"

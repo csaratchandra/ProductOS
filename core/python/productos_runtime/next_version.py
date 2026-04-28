@@ -73,9 +73,16 @@ NEXT_VERSION_ARTIFACT_SCHEMAS: dict[str, str] = {
     "discover_external_research_plan": "external_research_plan.schema.json",
     "discover_external_research_source_discovery": "external_research_source_discovery.schema.json",
     "discover_external_research_review": "external_research_review.schema.json",
+    "discover_framework_registry": "framework_registry.schema.json",
     "discover_competitor_dossier": "competitor_dossier.schema.json",
     "discover_customer_pulse": "customer_pulse.schema.json",
     "discover_market_analysis_brief": "market_analysis_brief.schema.json",
+    "discover_landscape_matrix": "landscape_matrix.schema.json",
+    "discover_market_sizing_brief": "market_sizing_brief.schema.json",
+    "discover_market_share_brief": "market_share_brief.schema.json",
+    "discover_opportunity_portfolio_view": "opportunity_portfolio_view.schema.json",
+    "discover_prioritization_decision_record": "prioritization_decision_record.schema.json",
+    "discover_feature_prioritization_brief": "feature_prioritization_brief.schema.json",
     "discover_execution_session_state": "execution_session_state.schema.json",
     "align_execution_session_state": "execution_session_state.schema.json",
     "align_document_sync_state": "document_sync_state.schema.json",
@@ -214,6 +221,25 @@ def _mission_control_boundary(
         "current_task_summary": current_task_summary,
         "current_task_status": current_task_status,
         "reviewer_lane": reviewer_lane,
+    }
+
+
+def _priority_profile(
+    *,
+    lane: str,
+    priority_score: int,
+    confidence: str,
+    agentic_delivery_burden: str,
+    rationale: str,
+    reviewer_handoff: str,
+) -> dict[str, Any]:
+    return {
+        "lane": lane,
+        "priority_score": priority_score,
+        "confidence": confidence,
+        "agentic_delivery_burden": agentic_delivery_burden,
+        "priority_rationale": rationale,
+        "reviewer_handoff": reviewer_handoff,
     }
 
 
@@ -991,8 +1017,10 @@ def _build_live_discover_bundle(
         "created_at": generated_at,
     }
 
+    persona_archetype_pack_id = "persona_archetype_pack_productos_next_version_discover"
+
     problem_brief = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "problem_brief_id": "problem_brief_productos_next_version_discover",
         "workspace_id": workspace_id,
         "title": "Problem Brief: ProductOS next-version discover proof",
@@ -1013,6 +1041,15 @@ def _build_live_discover_bundle(
             "B2B product teams feel the cost of reconstructing context across messy notes, transcripts, and recurring "
             "PM workflows often enough to value a tighter discover control surface."
         ),
+        "problem_severity": {
+            "customer_pain": "high",
+            "workflow_frequency": "high",
+            "evidence_strength": "high",
+            "severity_rationale": (
+                "The current next-version goal is explicitly to prove same-day discover quality, "
+                "so the pain and proof threshold are both immediate."
+            ),
+        },
         "target_segment_refs": segment_refs,
         "target_persona_refs": persona_refs,
         "linked_entity_refs": linked_entity_refs,
@@ -1038,12 +1075,33 @@ def _build_live_discover_bundle(
             market_strategy_id,
             "idea_record_pm_status_automation",
         ],
+        "canonical_persona_archetype_pack_id": persona_archetype_pack_id,
+        "artifact_trace_map_id": "artifact_trace_map_problem_brief_productos_next_version_discover",
+        "ralph_status": "decision_ready",
+        "prioritization": _priority_profile(
+            lane="must_now",
+            priority_score=94,
+            confidence="high",
+            agentic_delivery_burden="medium",
+            rationale=(
+                "This is the proof-point problem for the current next-version slice and should block "
+                "broader release claims until it is explicitly solved."
+            ),
+            reviewer_handoff=(
+                "PM should confirm the discover packet is strong enough to justify PRD and "
+                "downstream scoring without reopening the raw inbox."
+            ),
+        ),
+        "handoff_readiness_summary": (
+            "The problem brief now carries explicit evidence, prioritization, and downstream "
+            "traceability for the next-version discover proof slice."
+        ),
         "recommended_next_step": "prd",
         "created_at": generated_at,
     }
 
     concept_brief = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "concept_brief_id": "concept_brief_productos_next_version_discover",
         "workspace_id": workspace_id,
         "title": "ProductOS next-version discover superpower",
@@ -1074,6 +1132,23 @@ def _build_live_discover_bundle(
         "strategy_artifact_ids": [strategy_context_id, product_vision_id, strategy_option_set_id, market_strategy_id],
         "target_segment_refs": segment_refs,
         "target_persona_refs": persona_refs,
+        "canonical_persona_archetype_pack_id": persona_archetype_pack_id,
+        "artifact_trace_map_id": "artifact_trace_map_concept_brief_productos_next_version_discover",
+        "ralph_status": "review_needed",
+        "prioritization": _priority_profile(
+            lane="must_now",
+            priority_score=89,
+            confidence="moderate",
+            agentic_delivery_burden="medium",
+            rationale=(
+                "The concept packages the exact next-version wedge and must be reviewed before the "
+                "repo claims broader discover or PM autonomy coverage."
+            ),
+            reviewer_handoff=(
+                "PM should confirm the same-day discover wedge stays inside the bounded claim "
+                "boundary before downstream packaging expands."
+            ),
+        ),
         "linked_entity_refs": linked_entity_refs,
         "must_be_true_assumptions": [
             "One PM can review the generated bundle with no more than one material rewrite",
@@ -1082,6 +1157,14 @@ def _build_live_discover_bundle(
         "open_questions": [
             "How much of the weekly operating loop can reuse this discover control surface without adding review noise?"
         ],
+        "risk_summary": [
+            "The concept fails if ProductOS widens the claim boundary beyond the discover packet before the same-day proof is stable.",
+            "The downstream packet becomes noisy if the concept stops carrying the explicit repo-first governance posture.",
+        ],
+        "handoff_readiness_summary": (
+            "The concept is reviewable and captures the bounded same-day discover wedge before "
+            "further downstream packaging work."
+        ),
         "uncertainty_map_refs": [
             "uncertainty_map_pm_strategy"
         ],
@@ -1089,7 +1172,7 @@ def _build_live_discover_bundle(
     }
 
     prd = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "prd_id": "prd_productos_next_version_discover",
         "workspace_id": workspace_id,
         "title": "PRD: ProductOS next-version discover superpower",
@@ -1101,6 +1184,18 @@ def _build_live_discover_bundle(
             "Ingest live notes and transcripts, generate the next-version strategy context brief, product vision brief, market strategy brief, problem brief, concept brief, and PRD through the `productos` CLI, "
             "then score the slice and route the next priority into the improvement loop."
         ),
+        "strategic_context_summary": (
+            "The PRD should preserve the repo-first discover posture: prove same-day bounded "
+            "artifact quality before ProductOS claims a broader autonomous PM surface."
+        ),
+        "value_hypothesis": (
+            "If ProductOS keeps the messy-input discover loop governed and traceable, one PM "
+            "should be able to review the resulting package with far less reconstruction work."
+        ),
+        "target_outcomes": [
+            "Produce a same-day reviewable PRD package from messy notes and transcripts.",
+            "Keep the next-version discover claim bounded to repo-first artifact quality and PM trust.",
+        ],
         "target_segment_refs": problem_brief["target_segment_refs"],
         "target_persona_refs": problem_brief["target_persona_refs"],
         "linked_entity_refs": concept_brief["linked_entity_refs"],
@@ -1111,6 +1206,38 @@ def _build_live_discover_bundle(
             market_strategy_id,
             problem_brief["problem_brief_id"],
             concept_brief["concept_brief_id"],
+        ],
+        "canonical_persona_archetype_pack_id": persona_archetype_pack_id,
+        "artifact_trace_map_id": "artifact_trace_map_prd_productos_next_version_discover",
+        "ralph_status": "review_needed",
+        "prioritization": _priority_profile(
+            lane="must_now",
+            priority_score=87,
+            confidence="moderate",
+            agentic_delivery_burden="medium",
+            rationale=(
+                "The PRD is the execution handoff that proves the next-version discover slice can "
+                "become a repeatable repo-first control surface."
+            ),
+            reviewer_handoff=(
+                "Design and engineering should review scope boundaries before ProductOS treats the "
+                "discover packet as the default self-hosting workflow."
+            ),
+        ),
+        "scope_boundaries": [
+            "Stay focused on same-day messy-input-to-PRD conversion through the repo-native CLI.",
+            "Do not broaden the slice into later lifecycle automation or unsupported autonomy claims.",
+        ],
+        "out_of_scope": [
+            "Broad PM workflow automation beyond the discover packet.",
+            "Replacing incumbent PM systems as part of the next-version discover slice.",
+        ],
+        "open_questions": [
+            "What minimum evidence and source freshness threshold should block package generation entirely?"
+        ],
+        "handoff_risks": [
+            "The slice will over-claim if downstream teams treat the PRD as proof of broader autonomous PM capability.",
+            "Story and scoring quality will drift if the repo-first traceability boundary is dropped from handoff.",
         ],
         "generated_at": generated_at,
     }
@@ -1234,9 +1361,16 @@ def _load_persisted_discover_artifacts(workspace_path: Path) -> dict[str, dict[s
     external_research_plan = _load_persisted_json(output_dir / "discover_external_research_plan.json")
     external_research_source_discovery = _load_persisted_json(output_dir / "discover_external_research_source_discovery.json")
     external_research_review = _load_persisted_json(output_dir / "discover_external_research_review.json")
+    framework_registry = _load_persisted_json(output_dir / "discover_framework_registry.json")
     competitor_dossier = _load_persisted_json(output_dir / "discover_competitor_dossier.json")
     customer_pulse = _load_persisted_json(output_dir / "discover_customer_pulse.json")
     market_analysis_brief = _load_persisted_json(output_dir / "discover_market_analysis_brief.json")
+    landscape_matrix = _load_persisted_json(output_dir / "discover_landscape_matrix.json")
+    market_sizing_brief = _load_persisted_json(output_dir / "discover_market_sizing_brief.json")
+    market_share_brief = _load_persisted_json(output_dir / "discover_market_share_brief.json")
+    opportunity_portfolio_view = _load_persisted_json(output_dir / "discover_opportunity_portfolio_view.json")
+    prioritization_decision_record = _load_persisted_json(output_dir / "discover_prioritization_decision_record.json")
+    feature_prioritization_brief = _load_persisted_json(output_dir / "discover_feature_prioritization_brief.json")
     if not (
         strategy_context_brief
         and product_vision_brief
@@ -1251,9 +1385,16 @@ def _load_persisted_discover_artifacts(workspace_path: Path) -> dict[str, dict[s
         and external_research_plan
         and external_research_source_discovery
         and external_research_review
+        and framework_registry
         and competitor_dossier
         and customer_pulse
         and market_analysis_brief
+        and landscape_matrix
+        and market_sizing_brief
+        and market_share_brief
+        and opportunity_portfolio_view
+        and prioritization_decision_record
+        and feature_prioritization_brief
     ):
         return None
     selected_research_manifest = _load_persisted_json(
@@ -1279,9 +1420,16 @@ def _load_persisted_discover_artifacts(workspace_path: Path) -> dict[str, dict[s
         "external_research_plan": external_research_plan,
         "external_research_source_discovery": external_research_source_discovery,
         "external_research_review": external_research_review,
+        "framework_registry": framework_registry,
         "competitor_dossier": competitor_dossier,
         "customer_pulse": customer_pulse,
         "market_analysis_brief": market_analysis_brief,
+        "landscape_matrix": landscape_matrix,
+        "market_sizing_brief": market_sizing_brief,
+        "market_share_brief": market_share_brief,
+        "opportunity_portfolio_view": opportunity_portfolio_view,
+        "prioritization_decision_record": prioritization_decision_record,
+        "feature_prioritization_brief": feature_prioritization_brief,
         "selected_research_manifest": selected_research_manifest,
         "source_note_cards": {
             path.name: _load_json(path)
@@ -1455,9 +1603,16 @@ def _build_or_load_discovery_operations_bundle(
         "external_research_plan": research_bundle["external_research_plan"],
         "external_research_source_discovery": research_bundle["external_research_source_discovery"],
         "external_research_review": research_bundle["external_research_review"],
+        "framework_registry": research_bundle["framework_registry"],
         "competitor_dossier": research_bundle["competitor_dossier"],
         "customer_pulse": research_bundle["customer_pulse"],
         "market_analysis_brief": research_bundle["market_analysis_brief"],
+        "landscape_matrix": research_bundle["landscape_matrix"],
+        "market_sizing_brief": research_bundle["market_sizing_brief"],
+        "market_share_brief": research_bundle["market_share_brief"],
+        "opportunity_portfolio_view": research_bundle["opportunity_portfolio_view"],
+        "prioritization_decision_record": research_bundle["prioritization_decision_record"],
+        "feature_prioritization_brief": research_bundle["feature_prioritization_brief"],
         "selected_research_manifest": research_bundle.get("selected_research_manifest"),
         "source_note_cards": research_bundle.get("source_note_cards", {}),
     }
@@ -1860,11 +2015,18 @@ def build_next_version_bundle_from_workspace(
     workspace_external_research_feed_registry = _load_persisted_json(artifacts_dir / "external_research_feed_registry.json")
     workspace_selected_research_manifest = _load_persisted_json(workspace_path / "outputs" / "research" / "external-research-manifest.selected.json")
     workspace_external_research_review = _load_persisted_json(artifacts_dir / "external_research_review.json")
+    workspace_framework_registry = _load_persisted_json(artifacts_dir / "framework_registry.json")
     workspace_research_notebook = _load_persisted_json(artifacts_dir / "research_notebook.json")
     workspace_research_handoff = _load_persisted_json(artifacts_dir / "handoff_discovery_to_research.json")
     workspace_competitor_dossier = _load_persisted_json(artifacts_dir / "competitor_dossier.json")
     workspace_customer_pulse = _load_persisted_json(artifacts_dir / "customer_pulse.json")
     workspace_market_analysis_brief = _load_persisted_json(artifacts_dir / "market_analysis_brief.json")
+    workspace_landscape_matrix = _load_persisted_json(artifacts_dir / "landscape_matrix.json")
+    workspace_market_sizing_brief = _load_persisted_json(artifacts_dir / "market_sizing_brief.json")
+    workspace_market_share_brief = _load_persisted_json(artifacts_dir / "market_share_brief.json")
+    workspace_opportunity_portfolio_view = _load_persisted_json(artifacts_dir / "opportunity_portfolio_view.json")
+    workspace_prioritization_decision_record = _load_persisted_json(artifacts_dir / "prioritization_decision_record.json")
+    workspace_feature_prioritization_brief = _load_persisted_json(artifacts_dir / "feature_prioritization_brief.json")
     workspace_problem_brief = _load_persisted_json(artifacts_dir / "problem_brief.json") or problem_brief
     strategic_memory = _load_json(ROOT / "core" / "examples" / "artifacts" / "strategic_memory_record.example.json")
     workspace_id = problem_brief["workspace_id"]
@@ -1902,9 +2064,16 @@ def build_next_version_bundle_from_workspace(
             "external_research_plan": discover_bundle["external_research_plan"],
             "external_research_source_discovery": discover_bundle["external_research_source_discovery"],
             "external_research_review": discover_bundle["external_research_review"],
+            "framework_registry": discover_bundle["framework_registry"],
             "competitor_dossier": discover_bundle["competitor_dossier"],
             "customer_pulse": discover_bundle["customer_pulse"],
             "market_analysis_brief": discover_bundle["market_analysis_brief"],
+            "landscape_matrix": discover_bundle["landscape_matrix"],
+            "market_sizing_brief": discover_bundle["market_sizing_brief"],
+            "market_share_brief": discover_bundle["market_share_brief"],
+            "opportunity_portfolio_view": discover_bundle["opportunity_portfolio_view"],
+            "prioritization_decision_record": discover_bundle["prioritization_decision_record"],
+            "feature_prioritization_brief": discover_bundle["feature_prioritization_brief"],
             "selected_research_manifest": discover_bundle.get("selected_research_manifest"),
             "source_note_cards": discover_bundle.get("source_note_cards", {}),
         }
@@ -1926,9 +2095,16 @@ def build_next_version_bundle_from_workspace(
     discover_external_research_plan = discover_research_bundle["external_research_plan"]
     discover_external_research_source_discovery = discover_research_bundle["external_research_source_discovery"]
     discover_external_research_review = discover_research_bundle["external_research_review"]
+    discover_framework_registry = discover_research_bundle["framework_registry"]
     discover_competitor_dossier = discover_research_bundle["competitor_dossier"]
     discover_customer_pulse = discover_research_bundle["customer_pulse"]
     discover_market_analysis_brief = discover_research_bundle["market_analysis_brief"]
+    discover_landscape_matrix = discover_research_bundle["landscape_matrix"]
+    discover_market_sizing_brief = discover_research_bundle["market_sizing_brief"]
+    discover_market_share_brief = discover_research_bundle["market_share_brief"]
+    discover_opportunity_portfolio_view = discover_research_bundle["opportunity_portfolio_view"]
+    discover_prioritization_decision_record = discover_research_bundle["prioritization_decision_record"]
+    discover_feature_prioritization_brief = discover_research_bundle["feature_prioritization_brief"]
     discover_selected_research_manifest = discover_research_bundle.get("selected_research_manifest")
     discover_source_note_cards = discover_research_bundle.get("source_note_cards", {})
     workspace_research_brief = workspace_research_brief or discover_research_brief
@@ -1938,11 +2114,18 @@ def build_next_version_bundle_from_workspace(
     )
     workspace_selected_research_manifest = workspace_selected_research_manifest or discover_selected_research_manifest
     workspace_external_research_review = workspace_external_research_review or discover_external_research_review
+    workspace_framework_registry = workspace_framework_registry or discover_framework_registry
     workspace_research_notebook = workspace_research_notebook or discover_research_notebook
     workspace_research_handoff = workspace_research_handoff or discover_research_handoff
     workspace_competitor_dossier = workspace_competitor_dossier or discover_competitor_dossier
     workspace_customer_pulse = workspace_customer_pulse or discover_customer_pulse
     workspace_market_analysis_brief = workspace_market_analysis_brief or discover_market_analysis_brief
+    workspace_landscape_matrix = workspace_landscape_matrix or discover_landscape_matrix
+    workspace_market_sizing_brief = workspace_market_sizing_brief or discover_market_sizing_brief
+    workspace_market_share_brief = workspace_market_share_brief or discover_market_share_brief
+    workspace_opportunity_portfolio_view = workspace_opportunity_portfolio_view or discover_opportunity_portfolio_view
+    workspace_prioritization_decision_record = workspace_prioritization_decision_record or discover_prioritization_decision_record
+    workspace_feature_prioritization_brief = workspace_feature_prioritization_brief or discover_feature_prioritization_brief
     if persisted_operate_artifacts is not None:
         status_mail, issue_log = persisted_operate_artifacts
     if persisted_improve_artifacts is not None:
@@ -5218,9 +5401,16 @@ def build_next_version_bundle_from_workspace(
         "discover_external_research_plan": discover_external_research_plan,
         "discover_external_research_source_discovery": discover_external_research_source_discovery,
         "discover_external_research_review": discover_external_research_review,
+        "discover_framework_registry": discover_framework_registry,
         "discover_competitor_dossier": discover_competitor_dossier,
         "discover_customer_pulse": discover_customer_pulse,
         "discover_market_analysis_brief": discover_market_analysis_brief,
+        "discover_landscape_matrix": discover_landscape_matrix,
+        "discover_market_sizing_brief": discover_market_sizing_brief,
+        "discover_market_share_brief": discover_market_share_brief,
+        "discover_opportunity_portfolio_view": discover_opportunity_portfolio_view,
+        "discover_prioritization_decision_record": discover_prioritization_decision_record,
+        "discover_feature_prioritization_brief": discover_feature_prioritization_brief,
         "discover_execution_session_state": discover_execution_session_state,
         "align_execution_session_state": align_execution_session_state,
         "align_document_sync_state": live_doc_sync_state,
@@ -5269,10 +5459,24 @@ def build_next_version_bundle_from_workspace(
             bundle["external_research_selected_manifest"] = workspace_selected_research_manifest
         if workspace_external_research_review is not None:
             bundle["external_research_review"] = workspace_external_research_review
+        if workspace_framework_registry is not None:
+            bundle["framework_registry"] = workspace_framework_registry
         if workspace_competitor_dossier is not None:
             bundle["competitor_dossier"] = workspace_competitor_dossier
         if workspace_customer_pulse is not None:
             bundle["customer_pulse"] = workspace_customer_pulse
         if workspace_market_analysis_brief is not None:
             bundle["market_analysis_brief"] = workspace_market_analysis_brief
+        if workspace_landscape_matrix is not None:
+            bundle["landscape_matrix"] = workspace_landscape_matrix
+        if workspace_market_sizing_brief is not None:
+            bundle["market_sizing_brief"] = workspace_market_sizing_brief
+        if workspace_market_share_brief is not None:
+            bundle["market_share_brief"] = workspace_market_share_brief
+        if workspace_opportunity_portfolio_view is not None:
+            bundle["opportunity_portfolio_view"] = workspace_opportunity_portfolio_view
+        if workspace_prioritization_decision_record is not None:
+            bundle["prioritization_decision_record"] = workspace_prioritization_decision_record
+        if workspace_feature_prioritization_brief is not None:
+            bundle["feature_prioritization_brief"] = workspace_feature_prioritization_brief
     return bundle

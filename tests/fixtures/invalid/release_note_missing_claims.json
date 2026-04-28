@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.1.0",
+  "release_note_id": "release_note_invalid",
+  "workspace_id": "ws_invalid",
+  "title": "Invalid release note",
+  "summary": "This release note is missing claim traceability.",
+  "feature_ids": ["feature_invalid"],
+  "audience": "internal",
+  "change_classification": "feature_enhancement",
+  "version_impact": "minor",
+  "customer_visible": false,
+  "generated_at": "2026-04-27T08:00:00Z"
+}

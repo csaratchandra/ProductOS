@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/framework_registry.schema.json",
+  "title": "ProductOS Framework Registry",
+  "description": "Curated registry of market, customer, competition, and prioritization frameworks with applicability rules.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "framework_registry_id",
+    "workspace_id",
+    "title",
+    "frameworks",
+    "selection_policies",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "framework_registry_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "frameworks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/framework" },
+      "minItems": 3
+    },
+    "selection_policies": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/selectionPolicy" },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "framework": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "framework_id",
+        "domain",
+        "name",
+        "summary",
+        "applicability_rules",
+        "evidence_expectations",
+        "output_artifact_types",
+        "status"
+      ],
+      "properties": {
+        "framework_id": { "type": "string", "minLength": 1 },
+        "domain": {
+          "type": "string",
+          "enum": ["market", "customer", "competition", "prioritization"]
+        },
+        "name": { "type": "string", "minLength": 3 },
+        "summary": { "type": "string", "minLength": 10 },
+        "applicability_rules": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1
+        },
+        "evidence_expectations": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1
+        },
+        "output_artifact_types": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "default_when": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "default": []
+        },
+        "avoid_when": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "default": []
+        },
+        "status": {
+          "type": "string",
+          "enum": ["curated_default", "conditional", "experimental"]
+        }
+      }
+    },
+    "selectionPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_id", "domain", "selection_logic", "fallback_framework_id"],
+      "properties": {
+        "policy_id": { "type": "string", "minLength": 1 },
+        "domain": {
+          "type": "string",
+          "enum": ["market", "customer", "competition", "prioritization"]
+        },
+        "selection_logic": { "type": "string", "minLength": 10 },
+        "fallback_framework_id": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

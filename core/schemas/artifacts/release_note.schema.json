@@ -15,10 +15,11 @@
     "change_classification",
     "version_impact",
     "customer_visible",
+    "claims",
     "generated_at"
   ],
   "properties": {
-    "schema_version": { "type": "string", "const": "1.0.0" },
+    "schema_version": { "type": "string", "const": "1.1.0" },
     "release_note_id": { "type": "string", "minLength": 1 },
     "workspace_id": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 3 },
@@ -49,10 +50,47 @@
     "customer_visible": {
       "type": "boolean"
     },
+    "claims": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/claim" },
+      "minItems": 1
+    },
     "classification_rationale": {
       "type": "string",
       "minLength": 5
     },
+    "known_limitations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "followup_support_path": {
+      "type": "string",
+      "minLength": 5
+    },
     "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim", "evidence_refs", "evidence_status", "audience_scope"],
+      "properties": {
+        "claim": { "type": "string", "minLength": 10 },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "evidence_status": {
+          "type": "string",
+          "enum": ["verified", "bounded", "pending"]
+        },
+        "audience_scope": {
+          "type": "string",
+          "enum": ["internal_only", "controlled_demo", "customer_safe"]
+        }
+      }
+    }
   }
 }

@@ -1,13 +1,43 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "story_pack_id": "story_pack_status_mail",
   "workspace_id": "ws_productos_v2",
+  "title": "Story Pack: PM operating rhythm automation",
   "feature_id": "feature_biweekly_status_mail_automation",
+  "source_prd_id": "prd_pm_operating_rhythm",
+  "target_segment_refs": [
+    { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
+  ],
+  "target_persona_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" }
+  ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_b2b_pm",
+  "artifact_trace_map_id": "artifact_trace_map_story_pack_status_mail",
+  "ralph_status": "review_needed",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 80,
+    "confidence": "moderate",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "The story pack is the first delivery handoff and must stay tightly aligned with the PRD scope and PM review boundary.",
+    "reviewer_handoff": "Engineering and QA should confirm the stories are specific enough to implement without inferring extra scope."
+  },
+  "delivery_burden_summary": "The slice is bounded to one PM-facing draft path, but it still carries dependency on high-quality workspace state and ambiguity checks.",
+  "ambiguity_notes": [
+    "The status draft should request PM context only when required evidence is missing.",
+    "Source freshness thresholds must remain explicit before a draft is considered acceptable."
+  ],
   "stories": [
     {
       "story_id": "story_generate_status_draft",
       "title": "Generate status draft from workspace state",
       "narrative": "As a PM, I want ProductOS to draft a status update from current artifacts so I do not manually reconstruct work every cycle.",
+      "story_type": "user_story",
+      "priority": "must",
+      "testability_notes": [
+        "The draft must cover required status sections from current workspace artifacts.",
+        "The draft must show when source quality is too weak to proceed safely."
+      ],
       "implementation_context_refs": [
         {
           "context_type": "markdown",

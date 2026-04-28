@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "segment_map_id": "segment_map_pm_ops_workflow_maturity",
   "workspace_id": "ws_productos_v2",
   "title": "Segment Map: PM operating workflows",
@@ -7,6 +7,12 @@
   "market_scope_summary": "PM operating systems for teams that already have execution tools but still reconstruct planning, status, and decision context manually.",
   "segmentation_lens": "workflow_maturity",
   "segmentation_logic": "Segments are separated by how much workflow fragmentation, governance burden, and AI adoption change the urgency of a PM operating layer.",
+  "prioritization_basis": {
+    "lane": "must_now",
+    "scoring_method": "weighted proof-path and workflow-friction scoring",
+    "selection_rationale": "Prioritize segments where ProductOS can prove PM leverage with traceable workflow outputs before broader platform breadth is required.",
+    "decision_owner": "ProductOS PM"
+  },
   "segments": [
     {
       "segment_id": "segment_ai_forward_product_teams",
@@ -47,6 +53,9 @@
       "confidence": "moderate",
       "attractiveness": "high",
       "urgency": "high",
+      "priority_score": 93,
+      "priority_rationale": "This segment feels the pain frequently, can review a bounded packet quickly, and does not require ProductOS to replace incumbent tooling first.",
+      "agentic_delivery_fit": "strong",
       "evidence_refs": ["source_note_card_consultant_ai_pm"]
     },
     {
@@ -91,10 +100,14 @@
       "confidence": "moderate",
       "attractiveness": "high",
       "urgency": "medium",
+      "priority_score": 78,
+      "priority_rationale": "The segment is attractive, but integration and governance burden make it a second move after ProductOS proves the bounded PM workflow wedge.",
+      "agentic_delivery_fit": "viable",
       "evidence_refs": ["source_note_card_app_review_jpd"]
     }
   ],
   "recommended_beachhead_segment_id": "segment_ai_forward_product_teams",
+  "recommended_beachhead_rationale": "AI-forward product teams offer the fastest evidence-backed proof path for recurring PM workflow automation and traceable handoff quality.",
   "source_artifact_ids": [
     "market_analysis_brief_pm_ops",
     "competitor_dossier_pm_ops_space"

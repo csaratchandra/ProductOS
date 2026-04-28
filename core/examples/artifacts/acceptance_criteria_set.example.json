@@ -1,18 +1,36 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "acceptance_criteria_set_id": "acceptance_status_draft_story",
   "workspace_id": "ws_productos_v2",
+  "title": "Acceptance Criteria: Status draft generation",
+  "source_prd_id": "prd_pm_operating_rhythm",
+  "story_pack_id": "story_pack_status_mail",
   "story_id": "story_generate_status_draft",
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_b2b_pm",
+  "artifact_trace_map_id": "artifact_trace_map_acceptance_status_draft_story",
+  "ralph_status": "decision_ready",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 79,
+    "confidence": "moderate",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "Acceptance criteria are the final bounded guardrail before implementation and must preserve testability and traceability.",
+    "reviewer_handoff": "QA should confirm each criterion is objectively verifiable and does not hide scope assumptions."
+  },
   "criteria": [
     {
       "criterion_id": "ac_status_1",
       "statement": "The generated status draft includes what happened, open issues, decisions, and next steps.",
-      "testable": true
+      "testable": true,
+      "test_method": "inspection",
+      "priority": "must"
     },
     {
       "criterion_id": "ac_status_2",
       "statement": "The draft requests targeted PM context only when source data is insufficient.",
-      "testable": true
+      "testable": true,
+      "test_method": "scenario",
+      "priority": "must"
     }
   ]
 }

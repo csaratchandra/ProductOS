@@ -1,5 +1,14 @@
 # Launch And Outcome Review
 
+Version: `v1`
+Status: `review_needed`
+Updated: `2026-04-27T08:20:00Z`
+Updated By: `ProductOS`
+
+## Modification Log
+
+- `v1` Added a governed starter template for launch and outcome review so post-release learning stays attached to the canonical item trace.
+
 The starter workspace includes one example item that now completes the full lifecycle trace path through `outcome_review`.
 
 Review these launch and post-release artifacts together:

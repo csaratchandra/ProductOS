@@ -525,11 +525,12 @@ def build_runtime_bundle_from_workspace(
     }
 
     release_readiness = {
-        "schema_version": "1.1.0",
+        "schema_version": "1.2.0",
         "release_readiness_id": release_readiness_id,
         "workspace_id": workspace_id,
         "feature_id": "feature_v3_runtime_foundation",
         "status": "ready",
+        "decision_summary": "The runtime foundation is ready because the benchmark and scenario claims are evidence-backed and the release boundary remains explicit.",
         "launch_roles": [
             {
                 "role_name": "Launch owner",
@@ -553,6 +554,19 @@ def build_runtime_bundle_from_workspace(
                 "owner_function": "Support operations",
             },
         ],
+        "claim_readiness": [
+            {
+                "claim": "The runtime foundation materially reduces PM reconstruction work.",
+                "status": "verified",
+                "evidence_refs": [pm_benchmark_id, runtime_scenario_report_id],
+            },
+            {
+                "claim": "The release stays bounded to internal PM operating value rather than broader autonomous PM claims.",
+                "status": "bounded",
+                "evidence_refs": [release_gate_decision_id],
+            },
+        ],
+        "blocking_evidence_refs": [runtime_scenario_report_id],
         "checks": [
             {
                 "name": "Runtime benchmark movement",

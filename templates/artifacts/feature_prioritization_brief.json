@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "feature_prioritization_brief_id": "feature_prioritization_brief_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Feature Prioritization Brief: starter trace demo",
+  "framework_registry_ref": "framework_registry_starter",
+  "applied_framework_ids": [
+    "signal_weighted_priority"
+  ],
+  "sequencing_summary": "Keep starter lifecycle readability first and defer broader external surface work.",
+  "recommended_feature_ids": [
+    "feature_starter_trace_demo"
+  ],
+  "features": [
+    {
+      "feature_id": "feature_starter_trace_demo",
+      "title": "Starter lifecycle trace demo",
+      "priority_lane": "must_now",
+      "priority_score": 86,
+      "customer_value": "high",
+      "strategic_fit": "high",
+      "agentic_delivery_leverage": "medium",
+      "compliance_burden": "low",
+      "ambiguity_burden": "low",
+      "rationale": "The starter template should keep proving one full lifecycle path before broadening outward.",
+      "source_artifact_ids": [
+        "item_lifecycle_state_starter_trace_demo"
+      ]
+    },
+    {
+      "feature_id": "feature_external_distribution",
+      "title": "External distribution surface",
+      "priority_lane": "later",
+      "priority_score": 49,
+      "customer_value": "moderate",
+      "strategic_fit": "moderate",
+      "agentic_delivery_leverage": "low",
+      "compliance_burden": "medium",
+      "ambiguity_burden": "medium",
+      "rationale": "This should wait until the starter proof path is stable and clearly bounded.",
+      "source_artifact_ids": [
+        "release_note_starter_trace_demo"
+      ]
+    }
+  ],
+  "generated_at": "2026-04-27T08:15:00Z"
+}

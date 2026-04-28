@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "feature_prioritization_brief_id": "feature_prioritization_brief_q2",
+  "workspace_id": "ws_productos_v2",
+  "title": "Feature Prioritization Brief: bounded next-version sequence",
+  "framework_registry_ref": "framework_registry_pm_strategy",
+  "applied_framework_ids": [
+    "signal_weighted_priority"
+  ],
+  "sequencing_summary": "Keep the discover control surface first, then expand market-intelligence distribution, then widen broader automation only after proof hardens.",
+  "recommended_feature_ids": [
+    "feature_productos_repo_first_discover_cli",
+    "feature_market_intelligence_distribution"
+  ],
+  "features": [
+    {
+      "feature_id": "feature_productos_repo_first_discover_cli",
+      "title": "Repo-first discover CLI",
+      "priority_lane": "must_now",
+      "priority_score": 94,
+      "customer_value": "high",
+      "strategic_fit": "high",
+      "agentic_delivery_leverage": "high",
+      "compliance_burden": "medium",
+      "ambiguity_burden": "medium",
+      "rationale": "This is the clearest same-day proof wedge and best handoff surface for the current ProductOS release boundary.",
+      "source_artifact_ids": [
+        "prd_productos_next_version_discover",
+        "problem_brief_productos_next_version_discover"
+      ]
+    },
+    {
+      "feature_id": "feature_market_intelligence_distribution",
+      "title": "Market intelligence distribution",
+      "priority_lane": "next",
+      "priority_score": 82,
+      "customer_value": "moderate",
+      "strategic_fit": "high",
+      "agentic_delivery_leverage": "medium",
+      "compliance_burden": "medium",
+      "ambiguity_burden": "low",
+      "rationale": "It makes prioritization depth stronger, but it should build on top of an already-proved discover wedge.",
+      "source_artifact_ids": [
+        "market_analysis_brief_pm_ops",
+        "opportunity_portfolio_view_q2"
+      ]
+    }
+  ],
+  "generated_at": "2026-04-27T08:10:00Z"
+}

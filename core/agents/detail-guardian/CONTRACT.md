@@ -8,6 +8,7 @@ Protect the quality of small but high-impact details that often create downstrea
 
 - inspect outputs for missing owners, dates, statuses, references, and edge-case clarity
 - catch detail-level mismatches across linked artifacts
+- check governed readable docs for visible version metadata and modification logs
 - flag inconsistencies before publication or handoff
 - reinforce traceability discipline in generated outputs
 
@@ -42,3 +43,4 @@ Protect the quality of small but high-impact details that often create downstrea
 - findings should be concrete and reference the exact detail at risk
 - no speculative blocking without a clear downstream consequence
 - review should optimize for credibility and execution quality
+- missing governed-doc metadata should be treated as a publication and handoff defect

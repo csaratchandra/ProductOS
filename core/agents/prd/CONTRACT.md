@@ -8,6 +8,7 @@ Produce and revise structured PRDs from validated upstream inputs without droppi
 
 - create or update `prd`
 - translate validated problem framing into product requirements and scope
+- preserve prioritization, artifact traceability, and canonical persona-archetype truth
 - preserve segment, persona, and upstream artifact traceability
 - identify unresolved questions that block delivery-ready framing
 
@@ -17,6 +18,7 @@ Produce and revise structured PRDs from validated upstream inputs without droppi
 - optional `research_brief`
 - optional `prototype_record`
 - linked entities and upstream artifacts
+- canonical `persona_archetype_pack`
 
 ## Outputs
 
@@ -29,6 +31,7 @@ Produce and revise structured PRDs from validated upstream inputs without droppi
 
 - `prd.schema.json`
 - `problem_brief.schema.json`
+- `concept_brief.schema.json`
 - `research_brief.schema.json`
 - `prototype_record.schema.json`
 
@@ -43,3 +46,4 @@ Produce and revise structured PRDs from validated upstream inputs without droppi
 - PRD scope must be traceable to upstream evidence
 - unresolved questions must be explicit
 - no hidden expansion of customer-facing scope
+- scope boundaries, out-of-scope items, and handoff risks should all stay explicit

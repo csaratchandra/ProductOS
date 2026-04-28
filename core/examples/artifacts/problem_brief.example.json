@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "problem_brief_id": "problem_brief_pm_operating_rhythm",
   "workspace_id": "ws_productos_v2",
   "title": "Problem Brief: PM operating rhythm automation",
@@ -8,6 +8,12 @@
   "posture_alignment": "challenger",
   "why_this_problem_now": "AI is accelerating drafting, which makes the remaining reconstruction and trust gap more visible and expensive.",
   "why_this_problem_for_this_segment": "B2B product teams feel recurring coordination drag often enough to adopt a PM-specific operating layer before considering broader workflow replacement.",
+  "problem_severity": {
+    "customer_pain": "high",
+    "workflow_frequency": "high",
+    "evidence_strength": "moderate",
+    "severity_rationale": "The pain recurs across weekly operating cycles and directly slows decision, status, and handoff work."
+  },
   "target_segment_refs": [
     { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
   ],
@@ -41,6 +47,18 @@
     "research_brief_pm_operating_rhythm",
     "prototype_record_status_mail_draft"
   ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_b2b_pm",
+  "artifact_trace_map_id": "artifact_trace_map_problem_brief_pm_operating_rhythm",
+  "ralph_status": "decision_ready",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 91,
+    "confidence": "high",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "This is the clearest near-term problem that can prove ProductOS value through better PM output quality and safer downstream automation.",
+    "reviewer_handoff": "PM should confirm the framing is complete enough to support PRD and story generation without reopening raw research."
+  },
+  "handoff_readiness_summary": "The problem brief is grounded in evidence, persona truth, and explicit upstream artifacts, so downstream execution can treat it as decision-ready.",
   "recommended_next_step": "prd",
   "created_at": "2026-03-20T11:00:00Z"
 }

@@ -8,14 +8,31 @@
     "schema_version",
     "acceptance_criteria_set_id",
     "workspace_id",
+    "title",
+    "source_prd_id",
+    "story_pack_id",
     "story_id",
+    "canonical_persona_archetype_pack_id",
+    "artifact_trace_map_id",
+    "ralph_status",
+    "prioritization",
     "criteria"
   ],
   "properties": {
-    "schema_version": { "type": "string", "const": "1.0.0" },
+    "schema_version": { "type": "string", "const": "1.1.0" },
     "acceptance_criteria_set_id": { "type": "string", "minLength": 1 },
     "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "source_prd_id": { "type": "string", "minLength": 1 },
+    "story_pack_id": { "type": "string", "minLength": 1 },
     "story_id": { "type": "string", "minLength": 1 },
+    "canonical_persona_archetype_pack_id": { "type": "string", "minLength": 1 },
+    "artifact_trace_map_id": { "type": "string", "minLength": 1 },
+    "ralph_status": {
+      "type": "string",
+      "enum": ["blocked", "review_needed", "decision_ready"]
+    },
+    "prioritization": { "$ref": "#/$defs/prioritization" },
     "criteria": {
       "type": "array",
       "items": { "$ref": "#/$defs/criterion" },
@@ -23,14 +40,48 @@
     }
   },
   "$defs": {
+    "prioritization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lane", "priority_score", "confidence", "agentic_delivery_burden", "priority_rationale", "reviewer_handoff"],
+      "properties": {
+        "lane": {
+          "type": "string",
+          "enum": ["must_now", "next", "later", "park"]
+        },
+        "priority_score": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "agentic_delivery_burden": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "priority_rationale": { "type": "string", "minLength": 10 },
+        "reviewer_handoff": { "type": "string", "minLength": 10 }
+      }
+    },
     "criterion": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["criterion_id", "statement", "testable"],
+      "required": ["criterion_id", "statement", "testable", "test_method", "priority"],
       "properties": {
         "criterion_id": { "type": "string", "minLength": 1 },
         "statement": { "type": "string", "minLength": 10 },
-        "testable": { "type": "boolean" }
+        "testable": { "type": "boolean" },
+        "test_method": {
+          "type": "string",
+          "enum": ["assertion", "scenario", "inspection", "metric_check"]
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["must", "should", "could"]
+        }
       }
     }
   }

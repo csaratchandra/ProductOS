@@ -1,9 +1,10 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "release_readiness_id": "release_readiness_starter_trace_demo",
   "workspace_id": "ws_product_starter",
   "feature_id": "feature_starter_trace_demo",
   "status": "ready",
+  "decision_summary": "The starter demo is ready because the lifecycle evidence is complete enough for onboarding review and the release claim stays bounded.",
   "launch_roles": [
     {
       "role_name": "Starter demo owner",
@@ -19,6 +20,26 @@
       "owner_name": "ProductOS PM",
       "owner_function": "Product management"
     }
+  ],
+  "claim_readiness": [
+    {
+      "claim": "The starter workspace demonstrates one bounded lifecycle path through release readiness.",
+      "status": "verified",
+      "evidence_refs": [
+        "item_lifecycle_state_starter_trace_demo",
+        "story_pack_starter_trace_demo"
+      ]
+    },
+    {
+      "claim": "Launch and outcome stages remain intentionally bounded until the full-lifecycle starter trace is reviewed.",
+      "status": "bounded",
+      "evidence_refs": [
+        "lifecycle_stage_snapshot_delivery_starter_trace_demo"
+      ]
+    }
+  ],
+  "blocking_evidence_refs": [
+    "item_lifecycle_state_starter_trace_demo"
   ],
   "checks": [
     {

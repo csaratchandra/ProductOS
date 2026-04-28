@@ -137,10 +137,14 @@ def test_adopt_workspace_persists_traceable_workspace(root_dir: Path, codesync_w
     assert thread_review_bundle["action_items"]
     assert any(section["section_id"] == "prototype" for section in thread_review_bundle["sections"])
     assert "governed workflow-control product" in product_overview
+    assert "Version: `v1`" in product_overview
+    assert "## Modification Log" in product_overview
     assert "## Known Gaps" in product_overview
     assert "## Conflicted Evidence" in product_overview
     assert "## Next External Research" in product_overview
     assert "evidence-governed product definition flow" in discovery_review
+    assert "Version: `v1`" in discovery_review
+    assert "## Modification Log" in discovery_review
     assert "## Evidence Status" in discovery_review
     assert "## Conflicted External Evidence" in discovery_review
     assert "Thread Review: CodeSync workflow control adoption path" in thread_review_page
@@ -381,10 +385,17 @@ def test_research_workspace_refreshes_external_research_artifacts(root_dir: Path
     )
 
     assert research_result.returncode == 0, research_result.stderr or research_result.stdout
-    assert "Artifacts Refreshed: 6" in research_result.stdout
+    assert "Artifacts Refreshed: 13" in research_result.stdout
+    assert (output_dir / "framework_registry.json").exists()
     assert (output_dir / "competitor_dossier.json").exists()
     assert (output_dir / "customer_pulse.json").exists()
     assert (output_dir / "market_analysis_brief.json").exists()
+    assert (output_dir / "landscape_matrix.json").exists()
+    assert (output_dir / "market_sizing_brief.json").exists()
+    assert (output_dir / "market_share_brief.json").exists()
+    assert (output_dir / "opportunity_portfolio_view.json").exists()
+    assert (output_dir / "prioritization_decision_record.json").exists()
+    assert (output_dir / "feature_prioritization_brief.json").exists()
     assert (output_dir / "external_research_review.json").exists()
     assert (output_dir / "research_notebook.json").exists()
 
@@ -405,6 +416,8 @@ def test_research_workspace_refreshes_external_research_artifacts(root_dir: Path
     assert competitor_dossier["dossier_quality"] in {"reviewable", "decision_ready"}
     assert competitor_dossier["competitors"][0]["evidence_refs"]
     assert customer_pulse["top_pain_points"][0]["description"].startswith("Operators still spend hours every week")
+    assert customer_pulse["support_signal_clusters"]
+    assert customer_pulse["priority_recommendation"]["focus_area"]
     assert market_analysis["source_artifact_ids"][:2] == [
         research_notebook["research_notebook_id"],
         refreshed_research_brief["research_brief_id"],

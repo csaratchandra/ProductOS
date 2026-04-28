@@ -8,9 +8,11 @@ Gather, synthesize, and structure evidence so ProductOS can move from vague idea
 
 - create and update `research_brief`
 - gather and synthesize evidence relevant to target segments and personas
+- build or refine segment and persona inputs until they are strong enough for downstream prioritization
 - identify whether additional research or prototype work is needed
 - surface contradictions, low-confidence areas, and weak evidence
 - translate findings into explicit strategic implications instead of only descriptive summaries
+- quantify problem severity when evidence is strong enough to support prioritization
 
 ## Inputs
 
@@ -42,5 +44,6 @@ Gather, synthesize, and structure evidence so ProductOS can move from vague idea
 
 - findings must distinguish evidence from interpretation
 - segment and persona relevance should be explicit
+- persona truth should be reusable through `persona_archetype_pack`
 - recommendations should match the actual evidence strength
 - contradictions and strategic implications should remain individually visible

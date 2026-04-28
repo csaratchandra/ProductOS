@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "prioritization_decision_record_id": "prioritization_decision_record_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "title": "Prioritization Decision Record: starter next slice",
+  "decision_scope": "Choose the next bounded starter-workspace improvement slice.",
+  "framework_registry_ref": "framework_registry_starter",
+  "applied_framework_ids": [
+    "signal_weighted_priority"
+  ],
+  "ranked_options": [
+    {
+      "option_id": "opp_trace_readability",
+      "option_type": "opportunity",
+      "title": "Canonical lifecycle readability",
+      "priority_lane": "must_now",
+      "priority_score": 88,
+      "agentic_leverage": "medium",
+      "compliance_burden": "low",
+      "ambiguity_burden": "low",
+      "evidence_strength": "high",
+      "rationale": "The starter workspace should prove one readable and complete lifecycle path before broader adaptation.",
+      "source_artifact_ids": [
+        "item_lifecycle_state_starter_trace_demo"
+      ]
+    },
+    {
+      "option_id": "feature_broader_distribution",
+      "option_type": "feature",
+      "title": "Broader distribution surface",
+      "priority_lane": "later",
+      "priority_score": 53,
+      "agentic_leverage": "low",
+      "compliance_burden": "medium",
+      "ambiguity_burden": "medium",
+      "evidence_strength": "low",
+      "rationale": "The starter workspace does not yet need a broader distribution story.",
+      "source_artifact_ids": [
+        "release_note_starter_trace_demo"
+      ]
+    }
+  ],
+  "selected_option_id": "opp_trace_readability",
+  "decision_rationale": "The onboarding value is still determined by one readable and evidence-backed lifecycle path.",
+  "pm_override": {
+    "applied": false,
+    "rationale": "No override was needed because the evidence and score agreed."
+  },
+  "created_at": "2026-04-27T08:12:00Z"
+}

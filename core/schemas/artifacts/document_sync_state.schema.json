@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://productos.dev/schemas/artifacts/document_sync_state.schema.json",
   "title": "ProductOS Document Sync State",
-  "description": "Tracks artifact-to-readable-doc generation, sync state, and drift handling for V4 readable documents.",
+  "description": "Tracks artifact-to-readable-doc generation, sync state, drift handling, and docs-first governance metadata for readable documents.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -22,7 +22,7 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "1.0.0"
+      "const": "1.1.0"
     },
     "document_sync_state_id": {
       "type": "string",
@@ -97,6 +97,29 @@
       },
       "minItems": 1
     },
+    "modificationEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version_number", "updated_at", "updated_by", "summary"],
+      "properties": {
+        "version_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 5
+        }
+      }
+    },
     "documentEntry": {
       "type": "object",
       "additionalProperties": false,
@@ -107,6 +130,8 @@
         "source_artifact_refs",
         "audience",
         "status",
+        "version_number",
+        "modification_log",
         "last_sync_status"
       ],
       "properties": {
@@ -136,6 +161,15 @@
             "drifted",
             "review_pending"
           ]
+        },
+        "version_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "modification_log": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/modificationEntry" },
+          "minItems": 1
         },
         "last_sync_status": {
           "type": "string",

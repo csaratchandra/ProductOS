@@ -81,10 +81,17 @@ def test_starter_workspace_seeds_traceable_lifecycle_bundle(root_dir: Path):
         starter / "docs" / "discovery" / "discovery-review.md",
         starter / "docs" / "delivery" / "release-readiness-review.md",
         starter / "artifacts" / "research_notebook.json",
+        starter / "artifacts" / "framework_registry.json",
         starter / "artifacts" / "segment_map.json",
         starter / "artifacts" / "persona_pack.json",
         starter / "artifacts" / "competitor_dossier.json",
         starter / "artifacts" / "market_analysis_brief.json",
+        starter / "artifacts" / "landscape_matrix.json",
+        starter / "artifacts" / "market_sizing_brief.json",
+        starter / "artifacts" / "market_share_brief.json",
+        starter / "artifacts" / "opportunity_portfolio_view.json",
+        starter / "artifacts" / "prioritization_decision_record.json",
+        starter / "artifacts" / "feature_prioritization_brief.json",
         starter / "artifacts" / "market_strategy_brief.json",
         starter / "artifacts" / "idea_record.json",
         starter / "artifacts" / "problem_brief.json",
@@ -116,6 +123,8 @@ def test_starter_workspace_seeds_traceable_lifecycle_bundle(root_dir: Path):
     assert "artifacts/lifecycle_stage_snapshot.json" in manifest["artifact_paths"]
     assert "artifacts/ux_design_review.json" in manifest["artifact_paths"]
     assert "artifacts/story_pack.json" in manifest["artifact_paths"]
+    assert "artifacts/framework_registry.json" in manifest["artifact_paths"]
+    assert "artifacts/opportunity_portfolio_view.json" in manifest["artifact_paths"]
     assert "artifacts/release_readiness.json" in manifest["artifact_paths"]
     assert "artifacts/release_note.json" in manifest["artifact_paths"]
     assert "artifacts/outcome_review.json" in manifest["artifact_paths"]

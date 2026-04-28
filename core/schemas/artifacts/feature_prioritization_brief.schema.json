@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/feature_prioritization_brief.schema.json",
+  "title": "ProductOS Feature Prioritization Brief",
+  "description": "Ranks features with explicit score inputs, leverage assumptions, and recommended sequencing.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "feature_prioritization_brief_id",
+    "workspace_id",
+    "title",
+    "framework_registry_ref",
+    "applied_framework_ids",
+    "sequencing_summary",
+    "recommended_feature_ids",
+    "features",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "feature_prioritization_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "framework_registry_ref": { "type": "string", "minLength": 1 },
+    "applied_framework_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "sequencing_summary": { "type": "string", "minLength": 10 },
+    "recommended_feature_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "features": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/feature" },
+      "minItems": 2
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "feature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "feature_id",
+        "title",
+        "priority_lane",
+        "priority_score",
+        "customer_value",
+        "strategic_fit",
+        "agentic_delivery_leverage",
+        "compliance_burden",
+        "ambiguity_burden",
+        "rationale",
+        "source_artifact_ids"
+      ],
+      "properties": {
+        "feature_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "priority_lane": {
+          "type": "string",
+          "enum": ["must_now", "next", "later", "park"]
+        },
+        "priority_score": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "customer_value": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "strategic_fit": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        },
+        "agentic_delivery_leverage": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "compliance_burden": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "ambiguity_burden": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "rationale": { "type": "string", "minLength": 10 },
+        "source_artifact_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

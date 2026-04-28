@@ -8,6 +8,7 @@ Assess whether a planned increment or release is test-ready and publish-safe fro
 
 - inspect story, acceptance, and test coverage readiness
 - identify missing scenarios, unclear exits, and release risks
+- check that story and acceptance artifacts preserve explicit test methods and trace-map-backed handoff quality
 - recommend whether the work is ready for validation, QA execution, or release readiness review
 - surface quality gaps before customer-facing publication
 
@@ -43,3 +44,4 @@ Assess whether a planned increment or release is test-ready and publish-safe fro
 - readiness calls must identify specific blocking gaps
 - testability should be based on actual criteria coverage, not optimism
 - recommendations should distinguish ready, risky, and blocked states
+- missing traceability or vague test methods should block readiness

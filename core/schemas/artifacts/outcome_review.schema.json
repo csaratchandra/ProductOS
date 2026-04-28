@@ -16,8 +16,12 @@
     "ai_agent_benchmark_ref",
     "evidence_refs",
     "target_outcomes",
+    "claim_verification_summary",
     "adoption_notes",
     "unresolved_pain_points",
+    "support_signals",
+    "adoption_signals",
+    "reopen_recommendations",
     "rejected_path_updates",
     "next_action",
     "reviewed_at"
@@ -25,7 +29,7 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "1.0.0"
+      "const": "1.1.0"
     },
     "outcome_review_id": {
       "type": "string",
@@ -75,11 +79,36 @@
       },
       "minItems": 1
     },
+    "claim_verification_summary": {
+      "type": "string",
+      "minLength": 10
+    },
     "adoption_notes": {
       "$ref": "#/$defs/stringList"
     },
     "unresolved_pain_points": {
       "$ref": "#/$defs/stringList"
+    },
+    "support_signals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/signal"
+      },
+      "minItems": 1
+    },
+    "adoption_signals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/signal"
+      },
+      "minItems": 1
+    },
+    "reopen_recommendations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reopenRecommendation"
+      },
+      "minItems": 1
     },
     "rejected_path_updates": {
       "type": "array",
@@ -136,6 +165,71 @@
             "partial",
             "missed"
           ]
+        }
+      }
+    },
+    "signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["signal_name", "summary", "direction", "evidence_refs"],
+      "properties": {
+        "signal_name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 10
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["improving", "stable", "declining"]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "reopenRecommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "artifact_type", "recommended_action", "rationale", "evidence_refs"],
+      "properties": {
+        "artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_type": {
+          "type": "string",
+          "enum": [
+            "problem_brief",
+            "concept_brief",
+            "prd",
+            "opportunity_portfolio_view",
+            "prioritization_decision_record",
+            "feature_prioritization_brief"
+          ]
+        },
+        "recommended_action": {
+          "type": "string",
+          "enum": ["review", "refresh", "reopen"]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 10
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
         }
       }
     }

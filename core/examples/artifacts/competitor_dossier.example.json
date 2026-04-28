@@ -1,10 +1,15 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "competitor_dossier_id": "competitor_dossier_pm_ops_space",
   "workspace_id": "ws_productos_v2",
   "title": "Competitor Dossier: PM operating systems and tooling",
   "competitive_frame": "PM operating systems that compete to reduce coordination overhead and become the trusted layer around recurring product work.",
   "comparison_basis": "Compared on workflow coherence, traceability, integration fit, and whether they can displace manual PM reconstruction work.",
+  "framework_registry_ref": "framework_registry_pm_strategy",
+  "selected_framework_ids": [
+    "competitive_displacement_map",
+    "signal_weighted_priority"
+  ],
   "target_segment_refs": [
     {
       "entity_type": "segment",
@@ -54,6 +59,10 @@
     "Coexistence with existing trackers and docs",
     "Trustworthy traceability for stakeholder-facing communication"
   ],
+  "prioritization_implications": [
+    "Lead with the traceability wedge rather than broad tool-platform parity.",
+    "Prioritize features that reduce switching fear and prove coexistence with incumbent systems."
+  ],
   "recommended_positioning_angle": "Do not claim platform breadth. Claim trusted PM operating workflow continuity.",
   "competitors": [
     {
@@ -95,6 +104,45 @@
         "source_note_card_app_review_jpd"
       ],
       "confidence": "high",
+      "last_checked_at": "2026-03-20T12:30:00Z"
+    },
+    {
+      "name": "Internal PM documents and trackers",
+      "competitor_type": "in_house",
+      "target_customer": "Teams with mature but fragmented internal PM rituals",
+      "positioning_summary": "The team keeps patching spreadsheets, docs, and trackers instead of adopting a governed PM operating layer.",
+      "go_to_market_motion": "No-change and incremental internal tooling posture",
+      "pricing_signal": "Hidden inside labor time and workflow drag",
+      "positioning_gap": "Low procurement burden, but weak continuity, reuse, and traceability discipline.",
+      "icp_overlap": "high",
+      "substitution_risk": "high",
+      "ecosystem_role": "In-house operating baseline across existing tools",
+      "strengths": [
+        "Feels familiar",
+        "Avoids new vendor approval"
+      ],
+      "weaknesses": [
+        "Hard to keep evidence and downstream artifacts coherent",
+        "Relies on PM reconstruction work"
+      ],
+      "where_they_win": [
+        "When ProductOS has not yet proved a narrow same-day workflow win"
+      ],
+      "where_they_lose": [
+        "When the PM wants explicit artifact continuity and lower rewrite burden"
+      ],
+      "displacement_barriers": [
+        "Habit",
+        "Perceived low switching urgency"
+      ],
+      "implications": [
+        "ProductOS should quantify hidden labor and review friction, not only compare against software competitors."
+      ],
+      "evidence_refs": [
+        "source_note_card_app_review_jpd",
+        "research_brief_pm_operating_rhythm"
+      ],
+      "confidence": "moderate",
       "last_checked_at": "2026-03-20T12:30:00Z"
     }
   ],

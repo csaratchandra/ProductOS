@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.1.0",
+  "market_sizing_brief_id": "market_sizing_brief_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "market_name": "Traceable PM operating starters",
+  "framework_registry_ref": "framework_registry_starter",
+  "selected_framework_ids": [
+    "market_jobs_barriers"
+  ],
+  "sizing_method": "blended",
+  "tam": {
+    "amount": 220000000,
+    "currency": "USD",
+    "formula": "Estimated annual spend across PM starter tools, onboarding systems, and lightweight operating-model packages for product teams."
+  },
+  "sam": {
+    "amount": 54000000,
+    "currency": "USD",
+    "formula": "Reachable spend among English-speaking B2B product teams that are actively rebuilding their PM operating model."
+  },
+  "som": {
+    "amount": 6000000,
+    "currency": "USD",
+    "formula": "Near-term reachable spend from high-intent teams that value explicit lifecycle traceability over generic flexibility."
+  },
+  "top_down_inputs": [
+    {
+      "label": "Starter-tooling category estimate",
+      "value": "PM starter and workflow tooling budget subset",
+      "source_ref": "market_analysis_brief_starter_trace_demo"
+    }
+  ],
+  "bottom_up_inputs": [
+    {
+      "label": "Design-partner starter path",
+      "value": "60 teams x starter subscription and services envelope",
+      "source_ref": "opportunity_portfolio_view_starter_trace_demo"
+    }
+  ],
+  "assumptions": [
+    {
+      "statement": "The reachable starter wedge is concentrated in teams that want operating-model clarity before they optimize for breadth or ecosystem depth.",
+      "source_ref": "competitor_dossier_starter_trace_demo"
+    }
+  ],
+  "sensitivity_notes": [
+    "The reachable segment shrinks quickly if teams prefer broad incumbent suites despite weaker trace readability."
+  ],
+  "confidence": "moderate",
+  "prioritization_implications": [
+    "The starter wedge is large enough to justify explicit prioritization artifacts without claiming broad category leadership.",
+    "The sizing math supports staying narrow and high-trust before expanding starter surface area."
+  ],
+  "created_at": "2026-04-27T08:08:00Z"
+}

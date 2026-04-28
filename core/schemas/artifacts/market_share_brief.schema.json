@@ -11,18 +11,27 @@
     "workspace_id",
     "title",
     "market_name",
+    "framework_registry_ref",
+    "selected_framework_ids",
     "share_type",
     "timeframe",
     "denominator",
     "estimates",
+    "prioritization_implications",
     "created_at"
   ],
   "properties": {
-    "schema_version": { "type": "string", "const": "1.0.0" },
+    "schema_version": { "type": "string", "const": "1.1.0" },
     "market_share_brief_id": { "type": "string", "minLength": 1 },
     "workspace_id": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 3 },
     "market_name": { "type": "string", "minLength": 3 },
+    "framework_registry_ref": { "type": "string", "minLength": 1 },
+    "selected_framework_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
     "share_type": {
       "type": "string",
       "enum": ["current_share", "reachable_share", "segment_share", "share_shift_signal"]
@@ -46,6 +55,11 @@
       "type": "array",
       "items": { "type": "string", "minLength": 5 },
       "default": []
+    },
+    "prioritization_implications": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
     },
     "created_at": { "type": "string", "format": "date-time" }
   },

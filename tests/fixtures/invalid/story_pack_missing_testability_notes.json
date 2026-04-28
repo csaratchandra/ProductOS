@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.2.0",
+  "story_pack_id": "story_pack_invalid_missing_testability",
+  "workspace_id": "ws_productos_v2",
+  "title": "Story Pack: invalid missing testability notes",
+  "feature_id": "feature_biweekly_status_mail_automation",
+  "source_prd_id": "prd_pm_operating_rhythm",
+  "target_segment_refs": [
+    { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
+  ],
+  "target_persona_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" }
+  ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_b2b_pm",
+  "artifact_trace_map_id": "artifact_trace_map_story_pack_invalid_missing_testability",
+  "ralph_status": "review_needed",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 80,
+    "confidence": "moderate",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "Stories should not advance when they are not testable.",
+    "reviewer_handoff": "QA should reject story packs that skip explicit testability notes."
+  },
+  "delivery_burden_summary": "This invalid payload omits one required story-level handoff detail.",
+  "stories": [
+    {
+      "story_id": "story_invalid_missing_testability",
+      "title": "Generate status draft from workspace state",
+      "narrative": "As a PM, I want ProductOS to draft a status update from current artifacts so I do not manually reconstruct work every cycle.",
+      "story_type": "user_story",
+      "priority": "must",
+      "implementation_context_refs": [
+        {
+          "context_type": "markdown",
+          "title": "Status Draft Engineering Handoff",
+          "path": "handoffs/story_generate_status_draft.md"
+        }
+      ],
+      "linked_entity_refs": [
+        { "entity_type": "feature", "entity_id": "feature_biweekly_status_mail_automation" }
+      ]
+    }
+  ]
+}
