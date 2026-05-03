@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0.0",
-  "workspace_adoption_report_id": "workspace_adoption_report_codesync_workspace_adoption",
-  "workspace_id": "ws_codesync",
-  "source_workspace_path": "workspaces/CodeSync",
-  "destination_workspace_path": "workspaces/CodeSync-ProductOS",
+  "workspace_adoption_report_id": "workspace_adoption_report_adoption_workspace_workspace_adoption",
+  "workspace_id": "ws_adoption_workspace",
+  "source_workspace_path": "workspaces/sample-adoption-source",
+  "destination_workspace_path": "workspaces/sample-adoption-productos",
   "source_workspace_mode": "notes_first",
   "source_file_count": 24,
   "classified_file_counts": {
@@ -12,20 +12,20 @@
     "visual_asset": 2
   },
   "generated_artifact_ids": [
-    "research_notebook_codesync_workspace_adoption",
-    "research_brief_codesync_workspace_adoption",
-    "idea_record_codesync_workspace_adoption",
-    "problem_brief_codesync_workspace_adoption",
-    "concept_brief_codesync_workspace_adoption",
-    "segment_map_codesync_workspace_adoption",
-    "persona_pack_codesync_workspace_adoption",
-    "prd_codesync_workspace_adoption",
-    "item_lifecycle_state_codesync_workspace_adoption",
-    "workspace_adoption_report_codesync_workspace_adoption",
-    "adoption_review_queue_codesync_workspace_adoption"
+    "research_notebook_adoption_workspace_workspace_adoption",
+    "research_brief_adoption_workspace_workspace_adoption",
+    "idea_record_adoption_workspace_workspace_adoption",
+    "problem_brief_adoption_workspace_workspace_adoption",
+    "concept_brief_adoption_workspace_workspace_adoption",
+    "segment_map_adoption_workspace_workspace_adoption",
+    "persona_pack_adoption_workspace_workspace_adoption",
+    "prd_adoption_workspace_workspace_adoption",
+    "item_lifecycle_state_adoption_workspace_workspace_adoption",
+    "workspace_adoption_report_adoption_workspace_workspace_adoption",
+    "adoption_review_queue_adoption_workspace_workspace_adoption"
   ],
   "review_item_count": 4,
-  "adoption_summary": "ProductOS converted the CodeSync notes and research pack into a bounded discovery artifact set and lifecycle trace.",
+  "adoption_summary": "ProductOS converted the Adoption Workspace notes and research pack into a bounded discovery artifact set and lifecycle trace.",
   "confidence_summary": "The adopted artifacts are strong enough for internal product shaping, but proof gaps and customer-facing claims still require explicit review.",
   "unresolved_questions": [
     "Which customer-facing claims can move from inferred to observed after review?",

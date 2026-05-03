@@ -5,6 +5,8 @@ from pathlib import Path
 
 import yaml
 
+from core.python.productos_runtime import build_workspace_adoption_bundle_from_source
+
 
 def _run_cli(root_dir: Path, *args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
@@ -16,20 +18,60 @@ def _run_cli(root_dir: Path, *args: str) -> subprocess.CompletedProcess[str]:
     )
 
 
-def test_adopt_workspace_dry_run_exports_codesync_bundle(root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path):
+def test_workspace_adoption_builds_note_cards_from_code_first_repo(root_dir: Path, tmp_path: Path):
+    source_dir = tmp_path / "adoption_workspace-code-first"
+    repo_dir = source_dir / "workflow-control-repo-main"
+    repo_dir.mkdir(parents=True)
+    (repo_dir / "README.md").write_text(
+        "# Workflow Control Repo\n\nAdoption Workspace centralizes workflow-control operations across apps, packages, and services.\n",
+        encoding="utf-8",
+    )
+    (repo_dir / "AGENTS.md").write_text(
+        "# Repository Guidelines\n\nKeep observed claims separate from inferred positioning.\n",
+        encoding="utf-8",
+    )
+    (repo_dir / "package.json").write_text(
+        json.dumps({"name": "workflow-control-repo", "private": True, "engines": {"node": "22.x"}}, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (repo_dir / "NODEJS_UPGRADE_PLAN.md").write_text(
+        "# Upgrade Plan\n\nPin Node.js to a safe version and verify deployment runtime settings.\n",
+        encoding="utf-8",
+    )
+
+    bundle = build_workspace_adoption_bundle_from_source(
+        root_dir,
+        source_dir=source_dir,
+        workspace_id="ws_adoption_workspace_code_first",
+        name="Adoption Workspace Code First",
+        generated_at="2026-04-29T00:00:00Z",
+    )
+
+    assert bundle["source_note_card_executive_brief"]["source_ref"] == "workflow-control-repo-main/README.md"
+    assert bundle["source_note_card_self_analysis"]["source_ref"] == "workflow-control-repo-main/AGENTS.md"
+    assert bundle["source_note_card_segment_map"]["source_ref"] == "workflow-control-repo-main/README.md"
+    assert bundle["source_note_card_persona_pack"]["source_ref"] == "workflow-control-repo-main/AGENTS.md"
+    assert bundle["source_note_card_pilot_proposal"]["source_ref"] == "workflow-control-repo-main/NODEJS_UPGRADE_PLAN.md"
+    assert bundle["research_brief"]["source_note_card_ids"] == [
+        bundle["source_note_card_executive_brief"]["source_note_card_id"],
+        bundle["source_note_card_self_analysis"]["source_note_card_id"],
+    ]
+
+
+def test_adopt_workspace_dry_run_exports_adoption_workspace_bundle(root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path):
     output_dir = tmp_path / "adoption-bundle"
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
         "--dry-run",
@@ -52,7 +94,7 @@ def test_adopt_workspace_dry_run_exports_codesync_bundle(root_dir: Path, codesyn
 
     assert report["source_workspace_mode"] == "notes_first"
     assert report["source_file_count"] > 0
-    assert "prd_codesync" in " ".join(report["generated_artifact_ids"])
+    assert "prd_adoption_workspace" in " ".join(report["generated_artifact_ids"])
     assert len(review_queue["review_items"]) >= 4
     assert lifecycle_state["current_stage"] == "prd_handoff"
     assert lifecycle_state["overall_status"] == "active_discovery"
@@ -65,19 +107,19 @@ def test_adopt_workspace_dry_run_exports_codesync_bundle(root_dir: Path, codesyn
     assert {item["claim_mode"] for item in research_brief["insights"]} >= {"observed", "inferred"}
 
 
-def test_import_command_alias_persists_traceable_workspace(root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path):
-    destination = tmp_path / "codesync-imported"
+def test_import_command_alias_persists_traceable_workspace(root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path):
+    destination = tmp_path / "adoption_workspace-imported"
     result = _run_cli(
         root_dir,
         "import",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync_import",
+        "ws_adoption_workspace_import",
         "--name",
-        "CodeSync Import",
+        "Adoption Workspace Import",
         "--mode",
         "research",
         "--emit-report",
@@ -89,19 +131,19 @@ def test_import_command_alias_persists_traceable_workspace(root_dir: Path, codes
     assert (destination / "artifacts" / "workspace_adoption_report.json").exists()
 
 
-def test_adopt_workspace_persists_traceable_workspace(root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path):
-    destination = tmp_path / "codesync-adopted"
+def test_adopt_workspace_persists_traceable_workspace(root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path):
+    destination = tmp_path / "adoption_workspace-adopted"
     result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
         "--emit-report",
@@ -128,7 +170,7 @@ def test_adopt_workspace_persists_traceable_workspace(root_dir: Path, codesync_w
     discovery_review = (destination / "docs" / "discovery" / "discovery-review.md").read_text(encoding="utf-8")
     thread_review_page = (destination / "docs" / "review" / "thread-review.html").read_text(encoding="utf-8")
 
-    assert prd["title"] == "PRD: CodeSync workspace adoption launch lane"
+    assert prd["title"] == "PRD: Adoption Workspace workspace adoption launch lane"
     assert report["destination_workspace_path"] == destination.as_posix()
     assert snapshot["focus_area"] == "discovery"
     assert snapshot["gate_counts"]["pending"] >= 1
@@ -147,7 +189,7 @@ def test_adopt_workspace_persists_traceable_workspace(root_dir: Path, codesync_w
     assert "## Modification Log" in discovery_review
     assert "## Evidence Status" in discovery_review
     assert "## Conflicted External Evidence" in discovery_review
-    assert "Thread Review: CodeSync workflow control adoption path" in thread_review_page
+    assert "Thread Review: Adoption Workspace workflow control adoption path" in thread_review_page
     assert "Market and competitor context" in thread_review_page
     assert "What the PM should do next" in thread_review_page
     assert "PM review required" in thread_review_page
@@ -160,19 +202,19 @@ def test_adopt_workspace_persists_traceable_workspace(root_dir: Path, codesync_w
     assert not (destination / "inbox" / "transcripts" / "2026-03-22-dogfood-next-version-session.txt").exists()
 
 
-def test_adopted_workspace_supports_trace_command(root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path):
-    destination = tmp_path / "codesync-adopted"
+def test_adopted_workspace_supports_trace_command(root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path):
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -192,19 +234,19 @@ def test_adopted_workspace_supports_trace_command(root_dir: Path, codesync_works
     assert "- prd_handoff: items=1, gate_passed=0, gate_pending=1" in trace_result.stdout
 
 
-def test_adopted_workspace_supports_ingest_discover_and_validate(root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path):
-    destination = tmp_path / "codesync-adopted"
+def test_adopted_workspace_supports_ingest_discover_and_validate(root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path):
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
         "--include-runtime-support-assets",
@@ -233,7 +275,7 @@ def test_adopted_workspace_supports_ingest_discover_and_validate(root_dir: Path,
     )
     assert discover_result.returncode == 0, discover_result.stderr or discover_result.stdout
     assert "Phase: discover" in discover_result.stdout
-    assert "Context Pack: context_pack_ws_codesync_bounded_baseline" in discover_result.stdout
+    assert "Context Pack: context_pack_ws_adoption_workspace_bounded_baseline" in discover_result.stdout
     assert (discover_output / "discover_problem_brief.json").exists()
     assert (discover_output / "discover_concept_brief.json").exists()
     assert (discover_output / "discover_prd.json").exists()
@@ -254,7 +296,7 @@ def test_adopted_workspace_supports_ingest_discover_and_validate(root_dir: Path,
     assert presentation_brief["external_research_questions"]
     assert presentation_brief["contradiction_summaries"]
     assert any(
-        snapshot["artifact_id"] == "research_brief_codesync"
+        snapshot["artifact_id"] == "research_brief_adoption_workspace"
         for snapshot in presentation_brief["source_material_snapshots"]
     )
     presentation_story = json.loads((align_output / "presentation_story.json").read_text(encoding="utf-8"))
@@ -276,19 +318,19 @@ def test_adopted_workspace_supports_ingest_discover_and_validate(root_dir: Path,
     assert "source note cards indexed." in validate_result.stdout
 
 
-def test_adopt_workspace_runtime_support_assets_are_opt_in(root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path):
-    destination = tmp_path / "codesync-adopted-with-runtime"
+def test_adopt_workspace_runtime_support_assets_are_opt_in(root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path):
+    destination = tmp_path / "adoption_workspace-adopted-with-runtime"
     result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
         "--include-runtime-support-assets",
@@ -301,19 +343,19 @@ def test_adopt_workspace_runtime_support_assets_are_opt_in(root_dir: Path, codes
     assert (destination / "inbox" / "transcripts" / "2026-03-22-dogfood-next-version-session.txt").exists()
 
 
-def test_research_workspace_refreshes_external_research_artifacts(root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path):
-    destination = tmp_path / "codesync-adopted"
+def test_research_workspace_refreshes_external_research_artifacts(root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path):
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -322,20 +364,20 @@ def test_research_workspace_refreshes_external_research_artifacts(root_dir: Path
     competitor_source = tmp_path / "competitor.html"
     competitor_source.write_text(
         "<html><head><title>RivalFlow Competitor Overview</title></head><body>"
-        "<p>RivalFlow positions itself as an all-in-one ambulatory revenue workflow suite.</p>"
+        "<p>RivalFlow positions itself as an all-in-one operations workflow suite.</p>"
         "<p>Its story emphasizes automation breadth, but proof boundaries and workflow control detail remain thin.</p>"
         "</body></html>",
         encoding="utf-8",
     )
     customer_source = tmp_path / "customer.txt"
     customer_source.write_text(
-        "Operators still spend hours every week reconciling eligibility and prior auth handoffs. "
+        "Operators still spend hours every week reconciling intake and exception handoffs. "
         "They want clearer queue control and fewer manual follow-up loops.",
         encoding="utf-8",
     )
     market_source = tmp_path / "market.html"
     market_source.write_text(
-        "<html><head><title>Ambulatory Workflow Market Note</title></head><body>"
+        "<html><head><title>Workflow Control Market Note</title></head><body>"
         "<p>Buyers increasingly expect workflow control, auditability, and measurable rollout proof.</p>"
         "<p>Vendor familiarity still creates real switching friction.</p>"
         "</body></html>",
@@ -426,20 +468,20 @@ def test_research_workspace_refreshes_external_research_artifacts(root_dir: Path
 
 
 def test_plan_research_generates_bounded_research_plan_and_manifest_template(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -480,20 +522,20 @@ def test_plan_research_generates_bounded_research_plan_and_manifest_template(
 
 
 def test_init_feed_registry_scaffolds_workspace_feed_registry(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -516,20 +558,20 @@ def test_init_feed_registry_scaffolds_workspace_feed_registry(
 
 
 def test_discover_research_sources_generates_autodiscovered_manifest(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -588,7 +630,7 @@ def test_discover_research_sources_generates_autodiscovered_manifest(
 
 
 def test_discover_research_sources_uses_later_queries_when_first_query_has_no_results(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
     def _slug(value: str) -> str:
         normalized = "".join(char.lower() if char.isalnum() else "_" for char in value)
@@ -596,18 +638,18 @@ def test_discover_research_sources_uses_later_queries_when_first_query_has_no_re
             normalized = normalized.replace("__", "_")
         return normalized.strip("_")
 
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -657,7 +699,7 @@ def test_discover_research_sources_uses_later_queries_when_first_query_has_no_re
 
 
 def test_discover_research_sources_falls_back_to_second_provider(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
     def _slug(value: str) -> str:
         normalized = "".join(char.lower() if char.isalnum() else "_" for char in value)
@@ -665,18 +707,18 @@ def test_discover_research_sources_falls_back_to_second_provider(
             normalized = normalized.replace("__", "_")
         return normalized.strip("_")
 
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -728,7 +770,7 @@ def test_discover_research_sources_falls_back_to_second_provider(
 
 
 def test_discover_research_sources_parses_generic_result_blocks(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
     def _slug(value: str) -> str:
         normalized = "".join(char.lower() if char.isalnum() else "_" for char in value)
@@ -736,18 +778,18 @@ def test_discover_research_sources_parses_generic_result_blocks(
             normalized = normalized.replace("__", "_")
         return normalized.strip("_")
 
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -793,7 +835,7 @@ def test_discover_research_sources_parses_generic_result_blocks(
 
 
 def test_discover_research_sources_parses_json_result_payload(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
     def _slug(value: str) -> str:
         normalized = "".join(char.lower() if char.isalnum() else "_" for char in value)
@@ -801,18 +843,18 @@ def test_discover_research_sources_parses_json_result_payload(
             normalized = normalized.replace("__", "_")
         return normalized.strip("_")
 
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -860,7 +902,7 @@ def test_discover_research_sources_parses_json_result_payload(
 
 
 def test_discover_research_sources_parses_rss_feed_payload(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
     def _slug(value: str) -> str:
         normalized = "".join(char.lower() if char.isalnum() else "_" for char in value)
@@ -868,18 +910,18 @@ def test_discover_research_sources_parses_rss_feed_payload(
             normalized = normalized.replace("__", "_")
         return normalized.strip("_")
 
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -926,20 +968,20 @@ def test_discover_research_sources_parses_rss_feed_payload(
 
 
 def test_discover_research_sources_uses_feed_registry_sources(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -999,20 +1041,20 @@ def test_discover_research_sources_uses_feed_registry_sources(
 
 
 def test_discover_research_sources_uses_default_workspace_feed_registry(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -1060,20 +1102,20 @@ def test_discover_research_sources_uses_default_workspace_feed_registry(
 
 
 def test_discover_research_sources_updates_feed_registry_health(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -1153,20 +1195,20 @@ def test_discover_research_sources_updates_feed_registry_health(
 
 
 def test_run_research_loop_surfaces_feed_health_review_items(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -1222,7 +1264,7 @@ def test_run_research_loop_surfaces_feed_health_review_items(
 
 
 def test_run_research_loop_chains_plan_discovery_and_refresh(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
     def _slug(value: str) -> str:
         normalized = "".join(char.lower() if char.isalnum() else "_" for char in value)
@@ -1230,18 +1272,18 @@ def test_run_research_loop_chains_plan_discovery_and_refresh(
             normalized = normalized.replace("__", "_")
         return normalized.strip("_")
 
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -1328,8 +1370,8 @@ def test_run_research_loop_chains_plan_discovery_and_refresh(
     discovery = json.loads((destination / "artifacts" / "external_research_source_discovery.json").read_text(encoding="utf-8"))
 
     assert competitor_dossier["source_artifact_ids"][:2] == [
-        "research_notebook_ws_codesync",
-        "research_brief_codesync",
+        "research_notebook_ws_adoption_workspace",
+        "research_brief_adoption_workspace",
     ]
     assert competitor_dossier["competitors"][0]["name"] == "RivalFlow Loop Overview"
     assert competitor_dossier["competitive_landscape_status"] == "named_competitor_set"
@@ -1348,7 +1390,7 @@ def test_run_research_loop_chains_plan_discovery_and_refresh(
 
 
 def test_run_research_loop_filters_thin_sources_out_of_selected_manifest(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
     def _slug(value: str) -> str:
         normalized = "".join(char.lower() if char.isalnum() else "_" for char in value)
@@ -1356,18 +1398,18 @@ def test_run_research_loop_filters_thin_sources_out_of_selected_manifest(
             normalized = normalized.replace("__", "_")
         return normalized.strip("_")
 
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -1422,7 +1464,7 @@ def test_run_research_loop_filters_thin_sources_out_of_selected_manifest(
 
 
 def test_discover_research_sources_prefers_domain_relevant_candidate(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
     def _slug(value: str) -> str:
         normalized = "".join(char.lower() if char.isalnum() else "_" for char in value)
@@ -1430,18 +1472,18 @@ def test_discover_research_sources_prefers_domain_relevant_candidate(
             normalized = normalized.replace("__", "_")
         return normalized.strip("_")
 
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -1502,7 +1544,7 @@ def test_discover_research_sources_prefers_domain_relevant_candidate(
 
 
 def test_run_research_loop_uses_fetched_evidence_excerpt_for_selected_rationale(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
     def _slug(value: str) -> str:
         normalized = "".join(char.lower() if char.isalnum() else "_" for char in value)
@@ -1510,18 +1552,18 @@ def test_run_research_loop_uses_fetched_evidence_excerpt_for_selected_rationale(
             normalized = normalized.replace("__", "_")
         return normalized.strip("_")
 
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -1580,20 +1622,20 @@ def test_run_research_loop_uses_fetched_evidence_excerpt_for_selected_rationale(
 
 
 def test_research_workspace_detects_html_metadata_for_summary_and_freshness(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -1621,7 +1663,7 @@ def test_research_workspace_detects_html_metadata_for_summary_and_freshness(
                         "source_id": "src_metadata_market",
                         "uri": html_source.as_uri(),
                         "source_type": "market_validation",
-                        "question_id": "research_q_codesync_outcomes_proof",
+                        "question_id": "research_q_adoption_workspace_outcomes_proof",
                     }
                 ]
             },
@@ -1650,20 +1692,20 @@ def test_research_workspace_detects_html_metadata_for_summary_and_freshness(
 
 
 def test_research_workspace_detects_external_contradictions(
-    root_dir: Path, codesync_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path
 ):
-    destination = tmp_path / "codesync-adopted"
+    destination = tmp_path / "adoption_workspace-adopted"
     adopt_result = _run_cli(
         root_dir,
         "adopt-workspace",
         "--source",
-        str(codesync_workspace_dir),
+        str(adoption_workspace_dir),
         "--dest",
         str(destination),
         "--workspace-id",
-        "ws_codesync",
+        "ws_adoption_workspace",
         "--name",
-        "CodeSync",
+        "Adoption Workspace",
         "--mode",
         "research",
     )
@@ -1692,13 +1734,13 @@ def test_research_workspace_detects_external_contradictions(
                         "source_id": "src_proof",
                         "uri": proof_source.as_uri(),
                         "source_type": "market_validation",
-                        "question_id": "research_q_codesync_outcomes_proof"
+                        "question_id": "research_q_adoption_workspace_outcomes_proof"
                     },
                     {
                         "source_id": "src_weak",
                         "uri": weak_source.as_uri(),
                         "source_type": "competitor_research",
-                        "question_id": "research_q_codesync_competitive_wedge"
+                        "question_id": "research_q_adoption_workspace_competitive_wedge"
                     }
                 ]
             },

@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
-  "thread_review_bundle_id": "thread_review_bundle_codesync_workspace_adoption",
-  "workspace_id": "ws_codesync",
+  "thread_review_bundle_id": "thread_review_bundle_adoption_workspace_workspace_adoption",
+  "workspace_id": "ws_adoption_workspace",
   "item_ref": {
     "entity_type": "opportunity",
-    "entity_id": "opp_codesync_workflow_control"
+    "entity_id": "opp_adoption_workspace_workflow_control"
   },
-  "title": "Thread Review: CodeSync workflow control adoption path",
+  "title": "Thread Review: Adoption Workspace workflow control adoption path",
   "current_stage": "prd_handoff",
   "overall_status": "active_discovery",
   "review_status": "pm_review_required",
@@ -18,8 +18,8 @@
       "status": "completed",
       "gate_status": "passed",
       "artifact_ids": [
-        "research_notebook_codesync",
-        "research_brief_codesync"
+        "research_notebook_adoption_workspace",
+        "research_brief_adoption_workspace"
       ],
       "summary": "The research pack was condensed into a first-pass research notebook and research brief."
     },
@@ -29,7 +29,7 @@
       "status": "in_progress",
       "gate_status": "pending",
       "artifact_ids": [
-        "prd_codesync"
+        "prd_adoption_workspace"
       ],
       "summary": "A first-pass PRD was generated from the adopted notes and research pack, but it still requires PM review before handoff is treated as strong."
     }
@@ -51,15 +51,15 @@
           "status": "completed",
           "gate_status": "passed",
           "artifact_ids": [
-            "research_notebook_codesync",
-            "research_brief_codesync"
+            "research_notebook_adoption_workspace",
+            "research_brief_adoption_workspace"
           ],
           "summary": "The research pack was condensed into a first-pass research notebook and research brief."
         }
       ],
       "artifact_ids": [
-        "research_notebook_codesync",
-        "research_brief_codesync"
+        "research_notebook_adoption_workspace",
+        "research_brief_adoption_workspace"
       ],
       "source_refs": [
         "source_note_card_executive_brief",
@@ -73,7 +73,7 @@
       "selector_key": "prd",
       "title": "PRD",
       "headline": "The adopted PRD is present, but still provisional.",
-      "summary": "The adopted workspace should make CodeSync reviewable as a governed workflow-control product with one explicit launch lane and a visible review queue for unresolved proof gaps.",
+      "summary": "The adopted workspace should make Adoption Workspace reviewable as a governed workflow-control product with one explicit launch lane and a visible review queue for unresolved proof gaps.",
       "key_points": [
         "The adopted PRD is a first-pass artifact.",
         "Delivery planning should wait until review closes major proof gaps."
@@ -84,17 +84,17 @@
           "status": "in_progress",
           "gate_status": "pending",
           "artifact_ids": [
-            "prd_codesync"
+            "prd_adoption_workspace"
           ],
           "summary": "A first-pass PRD was generated from the adopted notes and research pack, but it still requires PM review before handoff is treated as strong."
         }
       ],
       "artifact_ids": [
-        "prd_codesync"
+        "prd_adoption_workspace"
       ],
       "source_refs": [
-        "research_notebook_codesync",
-        "research_brief_codesync"
+        "research_notebook_adoption_workspace",
+        "research_brief_adoption_workspace"
       ],
       "backing_mode": "artifact_backed",
       "confidence": "medium"
@@ -102,18 +102,18 @@
   ],
   "action_items": [
     {
-      "action_id": "review_queue_codesync_launch_lane",
+      "action_id": "review_queue_adoption_workspace_launch_lane",
       "title": "Confirm the first launch lane and keep the adopted PRD scoped to it.",
       "rationale": "Use the narrow workflow-control lane as the first bounded external story instead of broadening to a full platform claim.",
       "priority": "high",
       "action_type": "review_queue",
       "source_refs": [
-        "research_brief_codesync",
-        "prd_codesync"
+        "research_brief_adoption_workspace",
+        "prd_adoption_workspace"
       ]
     },
     {
-      "action_id": "action_codesync_workspace_adoption_prototype_gap",
+      "action_id": "action_adoption_workspace_workspace_adoption_prototype_gap",
       "title": "Add prototype proof before treating the thread as handoff-ready.",
       "rationale": "Prototype proof remains a required step before the adopted PRD should be treated as ready for downstream delivery planning.",
       "priority": "high",
@@ -123,11 +123,11 @@
   ],
   "pinned_context": {
     "target_segments": [
-      "segment_physician_led_multisite_primary_care"
+      "segment_multiteam_ops_hub"
     ],
     "target_personas": [
-      "persona_ipa_executive",
-      "persona_rcm_director"
+      "persona_operations_executive",
+      "persona_workflow_ops_lead"
     ],
     "pending_questions": [
       "Which claims are supported strongly enough for external reuse?",
@@ -140,10 +140,10 @@
       "Treat the adopted PRD as provisional until PM review resolves proof gaps."
     ],
     "source_artifact_ids": [
-      "research_notebook_codesync",
-      "research_brief_codesync",
-      "prd_codesync",
-      "item_lifecycle_state_codesync"
+      "research_notebook_adoption_workspace",
+      "research_brief_adoption_workspace",
+      "prd_adoption_workspace",
+      "item_lifecycle_state_adoption_workspace"
     ],
     "confidence_summary": "The adopted problem, concept, segment, persona, and PRD artifacts are usable as a first pass, but customer claims, security posture, and packaging still require explicit PM review."
   },

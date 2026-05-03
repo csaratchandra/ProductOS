@@ -1,17 +1,17 @@
 {
   "schema_version": "1.0.0",
-  "adoption_review_queue_id": "adoption_review_queue_codesync_workspace_adoption",
-  "workspace_id": "ws_codesync",
-  "source_workspace_path": "workspaces/CodeSync",
+  "adoption_review_queue_id": "adoption_review_queue_adoption_workspace_workspace_adoption",
+  "workspace_id": "ws_adoption_workspace",
+  "source_workspace_path": "workspaces/sample-adoption-source",
   "generated_artifact_ids": [
-    "research_brief_codesync_workspace_adoption",
-    "problem_brief_codesync_workspace_adoption",
-    "concept_brief_codesync_workspace_adoption",
-    "prd_codesync_workspace_adoption"
+    "research_brief_adoption_workspace_workspace_adoption",
+    "problem_brief_adoption_workspace_workspace_adoption",
+    "concept_brief_adoption_workspace_workspace_adoption",
+    "prd_adoption_workspace_workspace_adoption"
   ],
   "review_items": [
     {
-      "review_item_id": "review_claims_codesync_workspace_adoption",
+      "review_item_id": "review_claims_adoption_workspace_workspace_adoption",
       "title": "Validate commercial and performance claims before external reuse.",
       "uncertainty_type": "claim_evidence",
       "confidence": "low",
@@ -23,7 +23,7 @@
       "recommended_reviewer_action": "Confirm which outcome claims are observed, which remain inferred, and which must stay in hypothesis language."
     },
     {
-      "review_item_id": "review_security_codesync_workspace_adoption",
+      "review_item_id": "review_security_adoption_workspace_workspace_adoption",
       "title": "Confirm security and compliance posture before customer-facing packaging.",
       "uncertainty_type": "security_posture",
       "confidence": "low",

@@ -199,7 +199,7 @@ def _classify_file(source_dir: Path, path: Path) -> dict[str, Any]:
     input_type = "raw_note"
     inbox_lane = "raw-notes"
     recommended_workflow_ids = ["wf_inbox_to_normalized_evidence"]
-    derived_artifact_ids = ["idea_record_codesync_workspace_adoption"]
+    derived_artifact_ids = ["idea_record_workspace_adoption"]
 
     if "research" in path_text and suffix in {".md", ".html"}:
         classification = "research_note"
@@ -211,28 +211,28 @@ def _classify_file(source_dir: Path, path: Path) -> dict[str, Any]:
             "wf_problem_brief_to_prd",
         ]
         derived_artifact_ids = [
-            "research_notebook_codesync_workspace_adoption",
-            "research_brief_codesync_workspace_adoption",
-            "problem_brief_codesync_workspace_adoption",
+            "research_notebook_workspace_adoption",
+            "research_brief_workspace_adoption",
+            "problem_brief_workspace_adoption",
         ]
     elif suffix in {".png", ".jpg", ".jpeg", ".gif", ".svg"}:
         classification = "visual_asset"
         input_type = "screenshot"
         inbox_lane = "screenshots"
         recommended_workflow_ids = ["wf_inbox_to_normalized_evidence", "wf_artifact_to_readable_doc"]
-        derived_artifact_ids = ["concept_brief_codesync_workspace_adoption", "prd_codesync_workspace_adoption"]
+        derived_artifact_ids = ["concept_brief_workspace_adoption", "prd_workspace_adoption"]
     elif suffix in {".html", ".pdf"}:
         classification = "presentation_or_document"
         input_type = "document"
         inbox_lane = "documents"
         recommended_workflow_ids = ["wf_inbox_to_normalized_evidence", "wf_artifact_to_readable_doc"]
-        derived_artifact_ids = ["concept_brief_codesync_workspace_adoption", "prd_codesync_workspace_adoption"]
+        derived_artifact_ids = ["concept_brief_workspace_adoption", "prd_workspace_adoption"]
     elif suffix in {".txt"} or "transcript" in name:
         classification = "transcript_or_session_note"
         input_type = "transcript"
         inbox_lane = "transcripts"
         recommended_workflow_ids = ["wf_inbox_to_normalized_evidence", "wf_problem_brief_to_prd"]
-        derived_artifact_ids = ["problem_brief_codesync_workspace_adoption", "prd_codesync_workspace_adoption"]
+        derived_artifact_ids = ["problem_brief_workspace_adoption", "prd_workspace_adoption"]
 
     return {
         "path": path,
@@ -258,36 +258,69 @@ def _clip_sentence(text: str, limit: int) -> str:
     return compact[: limit - 3].rstrip() + "..."
 
 
-def _infer_codesync_context(source_dir: Path) -> dict[str, str]:
+def _fallback_note_card_path(source_dir: Path, patterns: list[str]) -> Path | None:
+    ranked_candidates: list[tuple[int, int, str, Path]] = []
+    seen_paths: set[Path] = set()
+    for pattern_index, pattern in enumerate(patterns):
+        if "/" in pattern:
+            candidate = source_dir / pattern
+            if candidate.exists() and candidate.is_file():
+                return candidate
+            continue
+        for candidate in source_dir.rglob(pattern):
+            if not candidate.is_file() or candidate in seen_paths:
+                continue
+            seen_paths.add(candidate)
+            relative = candidate.relative_to(source_dir)
+            if any(part.startswith(".") for part in relative.parts):
+                continue
+            ranked_candidates.append((pattern_index, len(relative.parts), relative.as_posix(), candidate))
+    if ranked_candidates:
+        ranked_candidates.sort(key=lambda item: (item[0], item[1], item[2]))
+        return ranked_candidates[0][3]
+
+    for candidate in sorted(source_dir.rglob("*")):
+        if not candidate.is_file():
+            continue
+        relative = candidate.relative_to(source_dir)
+        if any(part.startswith(".") for part in relative.parts):
+            continue
+        if candidate.suffix.lower() not in {".md", ".txt", ".json", ".yaml", ".yml"}:
+            continue
+        return candidate
+    return None
+
+
+def _infer_workspace_adoption_context(source_dir: Path, name: str) -> dict[str, str]:
     executive_brief = _read_or_empty(source_dir / "Notes" / "research" / "01-executive-brief.md")
-    self_analysis = _read_or_empty(source_dir / "Notes" / "research" / "02-codesync-self-analysis.md")
+    self_analysis = _read_or_empty(source_dir / "Notes" / "research" / "02-self-analysis.md")
     segment_map = _read_or_empty(source_dir / "Notes" / "research" / "05-segment-map.md")
     persona_pack = _read_or_empty(source_dir / "Notes" / "research" / "06-persona-pack.md")
     pilot = _read_or_empty(source_dir / "Notes" / "research" / "16-customer-pilot-proposal.md")
 
     wedge = (
-        "Governed workflow control for ambulatory patient access, billing execution, denial prevention, "
-        "and value-based care coordination without replacing incumbent systems."
+        "Governed workflow control for cross-team operations that need queue visibility, handoff reliability, "
+        "and auditability without replacing incumbent systems."
     )
     if "operating layer" in executive_brief.lower():
         wedge = (
-            "Operating layer for physician-led IPAs and multi-site ambulatory groups that need to unify patient "
-            "access, billing execution, denial prevention, post-acute transitions, and value-based workflows."
+            "Operating layer for cross-functional teams that need to coordinate intake, exception handling, "
+            "handoffs, and service delivery across existing tools."
         )
 
     best_beachhead = (
-        "Physician-led, multi-site primary care or internal medicine groups with central billing, "
-        "meaningful Medicare Advantage exposure, and visible post-acute or chronic-care burden."
+        "Mid-market operations teams coordinating work across multiple systems, shared queues, "
+        "and repeated handoffs."
     )
     if "best beachhead" in segment_map.lower():
         best_beachhead = (
-            "Physician-led multi-site primary care or internal medicine groups with central billing, fragmented "
-            "workflows, meaningful Medicare Advantage exposure, and a visible post-acute or chronic-care burden."
+            "Mid-market, multi-team operators with fragmented workflows, cross-functional queue ownership, "
+            "and a visible exception-handling burden."
         )
 
-    launch_lane = "Eligibility verification and prior authorization control."
+    launch_lane = "Intake triage and exception routing control."
     if "primary pilot lane" in pilot.lower():
-        launch_lane = "Eligibility verification and prior authorization control as the initial governed launch lane."
+        launch_lane = "Intake triage and exception routing control as the initial governed launch lane."
 
     proof_gap = (
         "Public positioning implies large outcomes, but external proof, quantified before-after evidence, "
@@ -304,8 +337,8 @@ def _infer_codesync_context(source_dir: Path) -> dict[str, str]:
         "best_beachhead": best_beachhead,
         "launch_lane": launch_lane,
         "proof_gap": proof_gap,
-        "persona_signal": "Executives want ROI and visibility, RCM leaders want queue control, and front-office teams want fewer handoff failures.",
-        "source_summary": "CodeSync exists today as a strong research pack and pilot narrative, but not as first-class ProductOS operating state.",
+        "persona_signal": "Leaders want ROI and visibility, operations owners want queue control, and frontline teams want fewer handoff failures.",
+        "source_summary": f"{name} exists today as a strong research pack and pilot narrative, but not as first-class ProductOS operating state.",
         "pilot_summary": "The current proposal is a controlled 90-day pilot proving one workflow lane first, then one adjacent expansion lane after evidence.",
     }
 
@@ -315,6 +348,7 @@ def _build_source_note_cards(
     source_dir: Path,
     workspace_id: str,
     product_slug: str,
+    name: str,
     generated_at: str,
     opportunity_id: str,
     feature_id: str,
@@ -324,53 +358,80 @@ def _build_source_note_cards(
             "bundle_key": "source_note_card_executive_brief",
             "artifact_id": f"source_note_card_{product_slug}_executive_brief",
             "path": source_dir / "Notes" / "research" / "01-executive-brief.md",
+            "fallback_patterns": ["README.md", "package.json", "pnpm-workspace.yaml", "turbo.json"],
             "source_type": "market_report",
-            "title": "CodeSync executive brief",
-            "tags": ["codesync", "market", "wedge"],
+            "title": f"{name} executive brief",
+            "tags": [product_slug, "market", "wedge"],
             "implication": "The workspace should be adopted around one narrow launch lane and not a broad platform claim.",
         },
         {
             "bundle_key": "source_note_card_self_analysis",
             "artifact_id": f"source_note_card_{product_slug}_self_analysis",
-            "path": source_dir / "Notes" / "research" / "02-codesync-self-analysis.md",
+            "path": source_dir / "Notes" / "research" / "02-self-analysis.md",
+            "fallback_patterns": ["AGENTS.md", "CLAUDE.md", "README.md", "package.json"],
             "source_type": "competitor_site",
-            "title": "CodeSync self analysis",
-            "tags": ["codesync", "positioning", "inference"],
+            "title": f"{name} self analysis",
+            "tags": [product_slug, "positioning", "inference"],
             "implication": "Observed and inferred product-surface claims should remain visibly separated in adopted artifacts.",
         },
         {
             "bundle_key": "source_note_card_segment_map",
             "artifact_id": f"source_note_card_{product_slug}_segment_map",
             "path": source_dir / "Notes" / "research" / "05-segment-map.md",
+            "fallback_patterns": ["README.md", "AGENTS.md", "package.json"],
             "source_type": "other",
-            "title": "CodeSync segment map",
-            "tags": ["codesync", "segments", "beachhead"],
+            "title": f"{name} segment map",
+            "tags": [product_slug, "segments", "beachhead"],
             "implication": "The adopted workspace should preserve one recommended beachhead and explicit expansion ladder.",
         },
         {
             "bundle_key": "source_note_card_persona_pack",
             "artifact_id": f"source_note_card_{product_slug}_persona_pack",
             "path": source_dir / "Notes" / "research" / "06-persona-pack.md",
+            "fallback_patterns": ["AGENTS.md", "README.md", "package.json"],
             "source_type": "other",
-            "title": "CodeSync persona pack",
-            "tags": ["codesync", "personas", "buyers"],
+            "title": f"{name} persona pack",
+            "tags": [product_slug, "personas", "buyers"],
             "implication": "The adopted workspace should retain buyer, operator, and workflow-user distinctions rather than flattening them.",
         },
         {
             "bundle_key": "source_note_card_pilot_proposal",
             "artifact_id": f"source_note_card_{product_slug}_pilot_proposal",
             "path": source_dir / "Notes" / "research" / "16-customer-pilot-proposal.md",
+            "fallback_patterns": ["NODEJS_UPGRADE_PLAN.md", "APPS_DOS_FIX_PLAN.md", "README.md"],
             "source_type": "other",
-            "title": "CodeSync pilot proposal",
-            "tags": ["codesync", "pilot", "launch-lane"],
+            "title": f"{name} pilot proposal",
+            "tags": [product_slug, "pilot", "launch-lane"],
             "implication": "The adopted PRD should inherit the controlled pilot shape and review-first rollout model.",
         },
     ]
     cards: dict[str, dict[str, Any]] = {}
     for spec in note_specs:
-        text = _read_or_empty(spec["path"])
+        source_path = spec["path"]
+        text = _read_or_empty(source_path)
+        confidence = "moderate"
+        unknowns = [
+            "The source is a workspace note and still requires PM confirmation before external proof claims are made."
+        ]
+        followup_questions = [
+            "What part of this note is observed versus inferred versus hypothesis?"
+        ]
         if not text:
-            continue
+            source_path = _fallback_note_card_path(source_dir, spec.get("fallback_patterns", []))
+            if source_path is None:
+                continue
+            text = _read_or_empty(source_path)
+            if not text:
+                continue
+            confidence = "low"
+            unknowns = [
+                "The canonical research note is missing, so this card was synthesized from a code-first repository document.",
+                "PM review should confirm whether the fallback source captures actual buyer, market, and launch-lane intent.",
+            ]
+            followup_questions = [
+                "Which claims here reflect implemented system behavior versus planning or repository guidance?",
+                "Which missing research note should replace this fallback source for future adoption refreshes?",
+            ]
         lines = [line.strip() for line in text.splitlines() if line.strip() and not line.startswith("#")]
         claim = _clip_sentence(lines[0] if lines else text, 240)
         snippet = _clip_sentence(" ".join(lines[:2]) if lines else text, 280)
@@ -379,23 +440,19 @@ def _build_source_note_cards(
             "source_note_card_id": spec["artifact_id"],
             "workspace_id": workspace_id,
             "source_type": spec["source_type"],
-            "source_ref": _relative_path(spec["path"], source_dir),
+            "source_ref": _relative_path(source_path, source_dir),
             "title": spec["title"],
             "claim": claim,
             "source_snippet": snippet,
             "implication": spec["implication"],
-            "confidence": "moderate",
+            "confidence": confidence,
             "freshness_status": "usable_with_review",
-            "unknowns": [
-                "The source is a workspace note and still requires PM confirmation before external proof claims are made."
-            ],
-            "followup_questions": [
-                "What part of this note is observed versus inferred versus hypothesis?"
-            ],
+            "unknowns": unknowns,
+            "followup_questions": followup_questions,
             "source_metadata": {
-                "source_slice_ref": spec["path"].name,
+                "source_slice_ref": source_path.name,
                 "dedupe_key": _slug(spec["artifact_id"]),
-                "credibility_tier": "unknown",
+                "credibility_tier": "unknown" if confidence == "moderate" else "community",
             },
             "dedupe_key": _slug(spec["artifact_id"]),
             "linked_entity_refs": [
@@ -421,8 +478,8 @@ def _build_review_items(product_slug: str, generated_at: str, review_threshold: 
             "confidence": "low",
             "status": "open",
             "source_refs": [
-                "Notes/research/01-executive-brief.md",
-                "Notes/research/09-kpi-benchmark-guardrails.md",
+                    "Notes/research/01-executive-brief.md",
+                    "Notes/research/09-kpi-benchmark-guardrails.md",
             ],
             "recommended_reviewer_action": (
                 "Confirm which outcome claims are observed, which remain inferred, and which must stay in hypothesis language."
@@ -479,11 +536,11 @@ def _build_review_items(product_slug: str, generated_at: str, review_threshold: 
                 "confidence": "medium",
                 "status": "open",
                 "source_refs": [
-                    "Notes/research/02-codesync-self-analysis.md",
+                    "Notes/research/02-self-analysis.md",
                     "Notes/research/15-slide-ready-narrative.md",
                 ],
                 "recommended_reviewer_action": (
-                    "Decide which positioning language is canonical so adopted artifacts do not mix PM suite, RCM platform, and orchestration narratives."
+                    "Decide which positioning language is canonical so adopted artifacts do not mix PM suite, workflow platform, and orchestration narratives."
                 ),
             }
         )
@@ -494,16 +551,17 @@ def _build_item_lifecycle_state(
     *,
     workspace_id: str,
     product_slug: str,
+    name: str,
     best_beachhead: str,
     generated_at: str,
 ) -> dict[str, Any]:
     opportunity_id = f"opp_{product_slug}_workflow_control"
     feature_id = f"feature_{product_slug}_launch_lane"
-    segment_id = "segment_physician_led_multisite_primary_care"
+    segment_id = "segment_multiteam_ops_hub"
     persona_ids = [
-        "persona_ipa_executive",
-        "persona_rcm_director",
-        "persona_practice_manager",
+        "persona_operations_executive",
+        "persona_workflow_ops_lead",
+        "persona_frontline_team_lead",
     ]
     artifact_ids_by_stage = {
         "signal_intake": [f"idea_record_{product_slug}"],
@@ -524,7 +582,7 @@ def _build_item_lifecycle_state(
         "research_synthesis": ("completed", "passed", "The research pack was condensed into a first-pass research notebook and research brief."),
         "segmentation_and_personas": ("completed", "passed", f"The beachhead segment and primary buyer personas were inferred from the research pack: {best_beachhead}"),
         "problem_framing": ("completed", "passed", "The adopted problem brief captures the workflow-fragmentation problem and launch-lane wedge."),
-        "concept_shaping": ("completed", "passed", "The concept brief now frames CodeSync as a governed workflow control layer rather than a broad AI platform claim."),
+        "concept_shaping": ("completed", "passed", "The concept brief now frames the adopted workspace as a governed workflow control layer rather than a broad AI platform claim."),
         "prototype_validation": ("in_progress", "pending", "No explicit prototype validation artifact was found in the source workspace; prototype proof remains a required next step."),
         "prd_handoff": ("in_progress", "pending", "A first-pass PRD was generated from the adopted notes and research pack, but it still requires PM review before handoff is treated as strong."),
         "story_planning": ("not_started", "not_started", "Story planning should begin only after the adopted PRD and launch lane are confirmed."),
@@ -550,7 +608,7 @@ def _build_item_lifecycle_state(
         "schema_version": "1.0.0",
         "item_lifecycle_state_id": f"item_lifecycle_state_{product_slug}",
         "workspace_id": workspace_id,
-        "title": "CodeSync workflow control adoption path",
+        "title": f"{name} workflow control adoption path",
         "item_ref": {
             "entity_type": "opportunity",
             "entity_id": opportunity_id,
@@ -579,7 +637,7 @@ def _build_item_lifecycle_state(
         "lifecycle_stages": lifecycle_stages,
         "pending_questions": [
             "Which claims are supported strongly enough for external customer reuse versus internal planning only?",
-            "Should the first launch lane stay limited to eligibility and prior authorization before denial-prevention expansion is added?",
+            "Should the first launch lane stay limited to intake triage and exception routing before adjacent workflow expansion is added?",
         ],
         "blocked_reasons": [],
         "audit_log": [
@@ -593,7 +651,7 @@ def _build_item_lifecycle_state(
                 "timestamp": generated_at,
                 "actor": "Workspace adoption",
                 "event_type": "artifact_created",
-                "summary": "First-pass discovery artifacts were generated from the CodeSync notes and research pack.",
+                "summary": "First-pass discovery artifacts were generated from the source notes and research pack.",
             },
             {
                 "timestamp": generated_at,
@@ -3645,25 +3703,26 @@ def build_workspace_adoption_bundle_from_source(
     product_slug = _slug(name)
     source_files = [_classify_file(source, path) for path in _visible_files(source)]
     file_counts = Counter(item["classification"] for item in source_files)
-    context = _infer_codesync_context(source)
+    context = _infer_workspace_adoption_context(source, name)
     review_items = _build_review_items(product_slug, generated_at, review_threshold)
 
     opportunity_id = f"opp_{product_slug}_workflow_control"
     feature_id = f"feature_{product_slug}_launch_lane"
     segment_ids = [
-        "segment_physician_led_multisite_primary_care",
-        "segment_broader_ipa_networks",
-        "segment_specialty_auth_heavy_groups",
+        "segment_multiteam_ops_hub",
+        "segment_scaling_ops_networks",
+        "segment_exception_heavy_service_teams",
     ]
     persona_ids = [
-        "persona_ipa_executive",
-        "persona_rcm_director",
-        "persona_practice_manager",
+        "persona_operations_executive",
+        "persona_workflow_ops_lead",
+        "persona_frontline_team_lead",
     ]
     source_note_cards = _build_source_note_cards(
         source_dir=source,
         workspace_id=workspace_id,
         product_slug=product_slug,
+        name=name,
         generated_at=generated_at,
         opportunity_id=opportunity_id,
         feature_id=feature_id,
@@ -3699,7 +3758,7 @@ def build_workspace_adoption_bundle_from_source(
             "research_brief_id": f"research_brief_{product_slug}",
             "workspace_id": workspace_id,
             "title": f"Research Brief: {name} workflow control wedge",
-            "research_question": f"Where does {name} have the strongest initial wedge across ambulatory patient access, RCM, and coordination workflows?",
+            "research_question": f"Where does {name} have the strongest initial wedge across intake, exception handling, and coordination workflows?",
             "summary": context["wedge"],
             "strategic_implications": [
                 "The first launch lane should stay narrow enough to prove control and ROI quickly.",
@@ -3792,7 +3851,7 @@ def build_workspace_adoption_bundle_from_source(
                 },
             ],
             "synthesis_provenance": [
-                "Synthesized from the CodeSync executive brief, self-analysis, segment map, persona pack, and customer pilot proposal.",
+                f"Synthesized from the {name} executive brief, self-analysis, segment map, persona pack, and customer pilot proposal.",
                 "Observed versus inferred claim modes are kept explicit so external research can refine the product definition rather than overwrite the source corpus.",
             ],
             "recommendation": "advance_to_problem_brief",
@@ -3822,7 +3881,7 @@ def build_workspace_adoption_bundle_from_source(
             "problem_brief_id": f"problem_brief_{product_slug}",
             "workspace_id": workspace_id,
             "title": f"Problem brief: {name} workspace adoption",
-            "problem_summary": "The current CodeSync work is strategically rich, but it is trapped in notes, research docs, and presentation material rather than governed product state.",
+            "problem_summary": f"The current {name} work is strategically rich, but it is trapped in notes, research docs, and presentation material rather than governed product state.",
             "strategic_fit_summary": "ProductOS can unlock the value of the existing research by converting it into artifact-backed product definition and a bounded launch-lane plan.",
             "why_this_problem_now": context["proof_gap"],
             "why_this_problem_for_this_segment": f"The immediate segment is {context['best_beachhead']}",
@@ -3926,9 +3985,9 @@ def build_workspace_adoption_bundle_from_source(
             "workspace_id": workspace_id,
             "title": f"Segment map: {name} workspace adoption",
             "market_name": "Ambulatory workflow control software",
-            "market_scope_summary": "Organizations needing workflow control across patient access, billing execution, denial prevention, and coordination without full-stack replacement.",
+            "market_scope_summary": "Organizations needing workflow control across intake, exception handling, coordination, and service delivery without full-stack replacement.",
             "segmentation_lens": "workflow_maturity",
-            "segmentation_logic": "Segments are separated by workflow fragmentation, payer complexity, multi-entity coordination, and ability to buy a narrow launch lane.",
+            "segmentation_logic": "Segments are separated by workflow fragmentation, exception complexity, multi-entity coordination, and ability to buy a narrow launch lane.",
             "prioritization_basis": {
                 "lane": "must_now",
                 "scoring_method": "weighted beachhead readiness and proof-path scoring",
@@ -3938,11 +3997,11 @@ def build_workspace_adoption_bundle_from_source(
             "segments": [
                 {
                     "segment_id": segment_ids[0],
-                    "name": "Physician-led multi-site primary care groups",
-                    "definition": "Primary care or internal medicine groups operating with IPA-like complexity, central billing, and meaningful payer friction.",
-                    "qualifying_traits": ["central billing", "multi-site coordination"],
-                    "core_job": "Reduce handoff failure and improve workflow control across patient access and reimbursement operations.",
-                    "struggle_moments": ["Prior authorization delays create downstream denials.", "No single workflow layer connects access, billing, and care follow-up."],
+                    "name": "Multi-team operations hubs",
+                    "definition": "Operations teams coordinating work across systems, queues, and repeated exception paths.",
+                    "qualifying_traits": ["shared queue ownership", "multi-system coordination"],
+                    "core_job": "Reduce handoff failure and improve workflow control across intake, exceptions, and follow-through.",
+                    "struggle_moments": ["Exceptions bounce between teams without clear ownership.", "No single workflow layer connects intake, resolution, and follow-up."],
                     "primary_value_drivers": ["Reduced manual touches", "Better workflow visibility"],
                     "buying_context": "Executive and operations-led buying motion with strong ROI expectations.",
                     "adoption_constraints": ["The launch lane must be narrow.", "Proof must come before broad platform expansion."],
@@ -3954,22 +4013,22 @@ def build_workspace_adoption_bundle_from_source(
                         }
                     ],
                     "best_fit_posture": "niche",
-                    "solution_entry_points": ["Eligibility and prior authorization control", "Denial prevention expansion after proof"],
+                    "solution_entry_points": ["Intake triage and exception routing control", "Adjacent exception prevention after proof"],
                     "confidence": "high",
                     "attractiveness": "high",
                     "urgency": "high",
                     "priority_score": 94,
                     "priority_rationale": "This segment can buy a narrow launch lane quickly and produces the clearest first proof path.",
                     "agentic_delivery_fit": "strong",
-                    "evidence_refs": ["codesync_segment_signal_1"],
+                    "evidence_refs": [f"{product_slug}_segment_signal_1"],
                 },
                 {
                     "segment_id": segment_ids[1],
-                    "name": "Broader physician-led IPA networks",
-                    "definition": "Distributed ambulatory organizations coordinating across practices, contracts, and service lines.",
-                    "qualifying_traits": ["cross-practice operations", "payer complexity"],
-                    "core_job": "Create one operating view across locations, queues, and payer-sensitive workflows.",
-                    "struggle_moments": ["Workflow ownership is fragmented across teams.", "Operational visibility does not map cleanly to financial outcomes."],
+                    "name": "Scaling operations networks",
+                    "definition": "Distributed organizations coordinating across teams, tools, and service lines.",
+                    "qualifying_traits": ["cross-team operations", "multi-queue complexity"],
+                    "core_job": "Create one operating view across locations, queues, and exception-sensitive workflows.",
+                    "struggle_moments": ["Workflow ownership is fragmented across teams.", "Operational visibility does not map cleanly to service outcomes."],
                     "primary_value_drivers": ["Cross-entity visibility", "Governed workflow routing"],
                     "buying_context": "Executive plus platform-operations sponsorship.",
                     "adoption_constraints": ["Broader scope raises implementation risk.", "The first lane must already be repeatable."],
@@ -3981,25 +4040,25 @@ def build_workspace_adoption_bundle_from_source(
                         }
                     ],
                     "best_fit_posture": "niche",
-                    "solution_entry_points": ["Launch-lane repetition", "Adjacent denial and appeal workflows"],
+                    "solution_entry_points": ["Launch-lane repetition", "Adjacent exception and escalation workflows"],
                     "confidence": "moderate",
                     "attractiveness": "high",
                     "urgency": "medium",
                     "priority_score": 79,
                     "priority_rationale": "This segment is attractive but should wait until the first launch lane proves the workflow-control wedge.",
                     "agentic_delivery_fit": "viable",
-                    "evidence_refs": ["codesync_segment_signal_2"],
+                    "evidence_refs": [f"{product_slug}_segment_signal_2"],
                 },
                 {
                     "segment_id": segment_ids[2],
-                    "name": "Specialty groups with heavy auth and denial burden",
-                    "definition": "Specialty practices with repeated payer friction and measurable administrative pain.",
-                    "qualifying_traits": ["high auth burden", "specialty payer nuance"],
-                    "core_job": "Reduce repeated high-friction administrative steps without destabilizing current operations.",
-                    "struggle_moments": ["Payer-specific documentation and approval steps create rework.", "Specialty nuance increases proof demands."],
-                    "primary_value_drivers": ["Faster queue handling", "Better denial prevention"],
-                    "buying_context": "Specialty operations and revenue leadership.",
-                    "adoption_constraints": ["Category fit must be clearer.", "Launch only after primary-care proof is credible."],
+                    "name": "Exception-heavy service teams",
+                    "definition": "Teams with repeated exception handling and measurable administrative drag.",
+                    "qualifying_traits": ["high exception burden", "service-specific workflow nuance"],
+                    "core_job": "Reduce repeated high-friction operational steps without destabilizing current delivery.",
+                    "struggle_moments": ["Tool-specific exception steps create rework.", "Service nuance increases proof demands."],
+                    "primary_value_drivers": ["Faster queue handling", "Better exception prevention"],
+                    "buying_context": "Service operations and delivery leadership.",
+                    "adoption_constraints": ["Category fit must be clearer.", "Launch only after core proof is credible."],
                     "posture_fit": [
                         {
                             "posture": "niche",
@@ -4008,14 +4067,14 @@ def build_workspace_adoption_bundle_from_source(
                         }
                     ],
                     "best_fit_posture": "niche",
-                    "solution_entry_points": ["Payer workflow automation", "Appeal and denial workflows"],
+                    "solution_entry_points": ["Tool-specific workflow automation", "Escalation and exception workflows"],
                     "confidence": "moderate",
                     "attractiveness": "medium",
                     "urgency": "medium",
                     "priority_score": 63,
                     "priority_rationale": "The segment is viable later, but specialty nuance would overload the first bounded adoption slice.",
                     "agentic_delivery_fit": "weak",
-                    "evidence_refs": ["codesync_segment_signal_3"],
+                    "evidence_refs": [f"{product_slug}_segment_signal_3"],
                 },
             ],
             "recommended_beachhead_segment_id": segment_ids[0],
@@ -4034,21 +4093,21 @@ def build_workspace_adoption_bundle_from_source(
             "personas": [
                 {
                     "persona_ref": {"entity_type": "persona", "entity_id": persona_ids[0]},
-                    "role": "IPA executive / platform buyer",
-                    "goals": ["Gain executive visibility into workflow and financial impact.", "Prove ROI quickly with one launch lane."],
-                    "pains": ["Too many disconnected tools.", "No clean line from operational chaos to financial impact."],
+                    "role": "Operations executive / platform buyer",
+                    "goals": ["Gain executive visibility into workflow and delivery impact.", "Prove ROI quickly with one launch lane."],
+                    "pains": ["Too many disconnected tools.", "No clean line from operational chaos to delivery impact."],
                 },
                 {
                     "persona_ref": {"entity_type": "persona", "entity_id": persona_ids[1]},
-                    "role": "Central RCM director",
-                    "goals": ["Reduce preventable denials.", "Improve queue control and payer-specific visibility."],
-                    "pains": ["Manual payer portals.", "No single source of truth for operational performance."],
+                    "role": "Workflow operations lead",
+                    "goals": ["Reduce preventable exceptions.", "Improve queue control and cross-system visibility."],
+                    "pains": ["Manual tool hopping.", "No single source of truth for operational performance."],
                 },
                 {
                     "persona_ref": {"entity_type": "persona", "entity_id": persona_ids[2]},
-                    "role": "Practice manager / front office lead",
-                    "goals": ["Reduce registration and authorization friction.", "Keep patient access smoother without adding staff burden."],
-                    "pains": ["Incomplete intake.", "Eligibility surprises and weak handoffs into billing."],
+                    "role": "Frontline team lead",
+                    "goals": ["Reduce intake and handoff friction.", "Keep execution smoother without adding staff burden."],
+                    "pains": ["Incomplete intake.", "Unexpected exceptions and weak handoffs into downstream work."],
                 },
             ],
             "source_artifact_ids": [segment_map["segment_map_id"]],
@@ -4063,10 +4122,10 @@ def build_workspace_adoption_bundle_from_source(
             "prd_id": f"prd_{product_slug}",
             "workspace_id": workspace_id,
             "title": f"PRD: {name} workspace adoption launch lane",
-            "problem_summary": "CodeSync has a strong notes-first research pack, but it lacks first-class ProductOS product definition artifacts and a bounded launch-lane PRD.",
-            "outcome_summary": "The adopted workspace should make CodeSync reviewable as a governed workflow-control product with one explicit launch lane and a visible review queue for unresolved proof gaps.",
-            "scope_summary": "Adopt the existing research pack into ProductOS, keep the first launch lane focused on eligibility and prior authorization control, and preserve explicit review gates for claims, security, and commercial packaging.",
-            "strategic_context_summary": "The adopted PRD should keep CodeSync positioned as a governed workflow-control layer above incumbent systems rather than as a full-stack replacement promise.",
+            "problem_summary": f"{name} has a strong notes-first research pack, but it lacks first-class ProductOS product definition artifacts and a bounded launch-lane PRD.",
+            "outcome_summary": f"The adopted workspace should make {name} reviewable as a governed workflow-control product with one explicit launch lane and a visible review queue for unresolved proof gaps.",
+            "scope_summary": "Adopt the existing research pack into ProductOS, keep the first launch lane focused on intake triage and exception routing control, and preserve explicit review gates for claims, security, and commercial packaging.",
+            "strategic_context_summary": f"The adopted PRD should keep {name} positioned as a governed workflow-control layer above incumbent systems rather than as a full-stack replacement promise.",
             "value_hypothesis": "A bounded launch lane with explicit review gates should reduce PM reconstruction work while producing a safer and more reviewable adoption packet.",
             "target_outcomes": [
                 "Produce one launch-lane PRD that a PM can review without reopening the original notes corpus.",
@@ -4095,7 +4154,7 @@ def build_workspace_adoption_bundle_from_source(
                 reviewer_handoff="Engineering, design, and PM should review scope boundaries before any story or launch automation extends the adopted slice.",
             ),
             "scope_boundaries": [
-                "Stay focused on the eligibility and prior-authorization launch lane.",
+                "Stay focused on the intake-triage and exception-routing launch lane.",
                 "Preserve visible review gates for claims, security, and commercial packaging.",
             ],
             "out_of_scope": [
@@ -4115,27 +4174,48 @@ def build_workspace_adoption_bundle_from_source(
 
     intake_items = []
     key_sources = [
-        ("01-executive-brief.md", ["wf_inbox_to_normalized_evidence", "wf_research_command_center", "wf_problem_brief_to_prd"], [research_notebook["research_notebook_id"], research_brief["research_brief_id"], problem_brief["problem_brief_id"]]),
-        ("02-codesync-self-analysis.md", ["wf_inbox_to_normalized_evidence", "wf_research_command_center"], [research_notebook["research_notebook_id"], concept_brief["concept_brief_id"]]),
-        ("05-segment-map.md", ["wf_inbox_to_normalized_evidence", "wf_research_command_center"], [segment_map["segment_map_id"], persona_pack["persona_pack_id"]]),
-        ("06-persona-pack.md", ["wf_inbox_to_normalized_evidence", "wf_research_command_center"], [persona_pack["persona_pack_id"]]),
-        ("16-customer-pilot-proposal.md", ["wf_inbox_to_normalized_evidence", "wf_problem_brief_to_prd"], [prd["prd_id"]]),
+        (
+            "source_note_card_executive_brief",
+            ["wf_inbox_to_normalized_evidence", "wf_research_command_center", "wf_problem_brief_to_prd"],
+            [research_notebook["research_notebook_id"], research_brief["research_brief_id"], problem_brief["problem_brief_id"]],
+        ),
+        (
+            "source_note_card_self_analysis",
+            ["wf_inbox_to_normalized_evidence", "wf_research_command_center"],
+            [research_notebook["research_notebook_id"], concept_brief["concept_brief_id"]],
+        ),
+        (
+            "source_note_card_segment_map",
+            ["wf_inbox_to_normalized_evidence", "wf_research_command_center"],
+            [segment_map["segment_map_id"], persona_pack["persona_pack_id"]],
+        ),
+        (
+            "source_note_card_persona_pack",
+            ["wf_inbox_to_normalized_evidence", "wf_research_command_center"],
+            [persona_pack["persona_pack_id"]],
+        ),
+        (
+            "source_note_card_pilot_proposal",
+            ["wf_inbox_to_normalized_evidence", "wf_problem_brief_to_prd"],
+            [prd["prd_id"]],
+        ),
     ]
-    for filename, workflow_ids, artifact_ids in key_sources:
-        source_path = source / "Notes" / "research" / filename
-        if not source_path.exists():
+    for bundle_key, workflow_ids, artifact_ids in key_sources:
+        source_note_card = source_note_cards.get(bundle_key)
+        if source_note_card is None:
             continue
+        source_path = source / source_note_card["source_ref"]
         intake_items.append(
             {
-                "item_id": f"inbox_raw_note_{_slug(source_path.stem)}",
-                "inbox_path": _relative_path(source_path, source),
+                "item_id": f"inbox_raw_note_{_slug(Path(source_note_card['source_ref']).stem)}",
+                "inbox_path": source_note_card["source_ref"],
                 "input_type": "raw_note",
                 "captured_at": generated_at,
                 "provenance_status": "complete",
                 "normalization_status": "routed",
                 "recommended_workflow_ids": workflow_ids,
                 "derived_artifact_ids": artifact_ids,
-                "notes": f"Adopted from {filename} during bounded workspace conversion.",
+                "notes": f"Adopted from {source_note_card['source_ref']} during bounded workspace conversion.",
             }
         )
 
@@ -4160,6 +4240,7 @@ def build_workspace_adoption_bundle_from_source(
     item_lifecycle_state = _build_item_lifecycle_state(
         workspace_id=workspace_id,
         product_slug=product_slug,
+        name=name,
         best_beachhead=context["best_beachhead"],
         generated_at=generated_at,
     )
@@ -4170,7 +4251,7 @@ def build_workspace_adoption_bundle_from_source(
             product_slug=product_slug,
             item_state=item_lifecycle_state,
             focus_area="discovery",
-            summary="The adopted workspace now converts the original CodeSync research pack into a traceable discovery path through a provisional PRD handoff.",
+            summary="The adopted workspace now converts the original research pack into a traceable discovery path through a provisional PRD handoff.",
             created_at=generated_at,
         ),
         "lifecycle_stage_snapshot_delivery": _build_snapshot(
@@ -4350,10 +4431,22 @@ def _seed_runtime_support_assets(root: Path, destination: Path, workspace_id: st
         _write_json(artifacts_dir / filename, payload)
         _append_manifest_artifact_path(manifest_path, f"artifacts/{filename}")
 
+    existing_source_note_card_ids: set[str] = set()
+    for existing_path in sorted(artifacts_dir.glob("source_note_card*.json")):
+        payload = _load_json(existing_path)
+        source_note_card_id = payload.get("source_note_card_id")
+        if isinstance(source_note_card_id, str) and source_note_card_id:
+            existing_source_note_card_ids.add(source_note_card_id)
+
     for source_path in sorted(support_dir.glob("source_note_card*.json")):
         payload = _rewrite_workspace_ids(_load_json(source_path), workspace_id)
+        source_note_card_id = payload.get("source_note_card_id")
+        if isinstance(source_note_card_id, str) and source_note_card_id in existing_source_note_card_ids:
+            continue
         _write_json(artifacts_dir / source_path.name, payload)
         _append_manifest_artifact_path(manifest_path, f"artifacts/{source_path.name}")
+        if isinstance(source_note_card_id, str) and source_note_card_id:
+            existing_source_note_card_ids.add(source_note_card_id)
 
 
 def _copy_source_into_inbox(

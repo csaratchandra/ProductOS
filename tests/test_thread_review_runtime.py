@@ -32,12 +32,12 @@ def test_self_hosting_thread_review_bundle_uses_artifact_backing(self_hosting_wo
     assert _section(bundle, "outcome_review")["backing_mode"] == "artifact_backed"
 
 
-def test_adoption_thread_review_bundle_marks_fallback_and_deferred_sections(root_dir: Path, codesync_workspace_dir: Path):
+def test_adoption_thread_review_bundle_marks_fallback_and_deferred_sections(root_dir: Path, adoption_workspace_dir: Path):
     bundle = build_workspace_adoption_bundle_from_source(
         root_dir,
-        source_dir=codesync_workspace_dir,
-        workspace_id="ws_codesync",
-        name="CodeSync",
+        source_dir=adoption_workspace_dir,
+        workspace_id="ws_adoption_workspace",
+        name="Adoption Workspace",
         generated_at="2026-04-09T10:00:00Z",
     )["thread_review_bundle"]
 

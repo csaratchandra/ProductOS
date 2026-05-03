@@ -345,6 +345,50 @@ def test_productos_start_command_creates_workspace_and_mission(root_dir: Path, t
     assert "artifacts/product_vision_brief.json" in manifest["artifact_paths"]
     assert "artifacts/strategy_option_set.json" in manifest["artifact_paths"]
     assert "artifacts/market_strategy_brief.json" in manifest["artifact_paths"]
+    assert "artifacts/increment_plan.json" in manifest["artifact_paths"]
+    assert "artifacts/decision_queue.example.json" in manifest["artifact_paths"]
+    assert "artifacts/source_note_card_openai_deep_research_official_2026.example.json" in manifest["artifact_paths"]
+
+
+def test_productos_start_workspace_can_run_discover(root_dir: Path, tmp_path: Path):
+    destination = tmp_path / "acme-discover-workspace"
+    output_dir = tmp_path / "acme-discover-output"
+
+    start_result = _run_cli(
+        root_dir,
+        "start",
+        "--dest",
+        str(destination),
+        "--workspace-id",
+        "ws_acme_discover",
+        "--name",
+        "Acme Discover Workspace",
+        "--mode",
+        "startup",
+        "--title",
+        "Activation discover mission",
+        "--customer-problem",
+        "Customers are not reaching activation quickly enough.",
+        "--business-goal",
+        "Create a reviewable discovery packet for the activation problem.",
+    )
+
+    assert start_result.returncode == 0, start_result.stderr or start_result.stdout
+
+    discover_result = _run_self_hosting_cli(
+        root_dir,
+        destination,
+        "run",
+        "discover",
+        "--output-dir",
+        str(output_dir),
+    )
+
+    assert discover_result.returncode == 0, discover_result.stderr or discover_result.stdout
+    assert "Phase: discover" in discover_result.stdout
+    assert (output_dir / "discover_strategy_context_brief.json").exists()
+    assert (output_dir / "discover_research_brief.json").exists()
+    assert (output_dir / "discover_execution_session_state.json").exists()
 
 
 def test_case_variant_launchers_delegate_to_productos_cli(root_dir: Path):
@@ -1432,7 +1476,7 @@ def test_productos_run_improve_blocks_promotion_when_external_research_review_re
                         "topic": "proof_posture",
                         "severity": "moderate",
                         "statement": "External sources disagree on whether buyers already require measurable governance proof.",
-                        "question_ids": ["research_q_codesync_outcomes_proof"],
+                        "question_ids": ["research_q_adoption_workspace_outcomes_proof"],
                         "source_ids": ["src_proof", "src_competitor"],
                     }
                 ],

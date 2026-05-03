@@ -2672,7 +2672,7 @@ def _build_competitor_dossier(
         "source_artifact_ids": _source_ids(competitor_sources) or _source_ids(normalized_sources),
         "status_quo_alternatives": [
             "Manual coordination across notes, spreadsheets, and incumbent workflow tools",
-            "Incumbent RCM or workflow vendors with partial control layers",
+            "Incumbent workflow or operations vendors with partial control layers",
         ],
         "internal_build_risk": "medium",
         "competitive_landscape_status": competitive_landscape_status,

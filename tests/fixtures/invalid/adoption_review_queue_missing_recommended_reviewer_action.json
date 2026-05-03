@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0.0",
-  "adoption_review_queue_id": "adoption_review_queue_codesync_workspace_adoption",
-  "workspace_id": "ws_codesync",
-  "source_workspace_path": "workspaces/CodeSync",
+  "adoption_review_queue_id": "adoption_review_queue_adoption_workspace_workspace_adoption",
+  "workspace_id": "ws_adoption_workspace",
+  "source_workspace_path": "workspaces/sample-adoption-source",
   "generated_artifact_ids": [
-    "research_brief_codesync_workspace_adoption"
+    "research_brief_adoption_workspace_workspace_adoption"
   ],
   "review_items": [
     {
-      "review_item_id": "review_claims_codesync_workspace_adoption",
+      "review_item_id": "review_claims_adoption_workspace_workspace_adoption",
       "title": "Validate commercial and performance claims before external reuse.",
       "uncertainty_type": "claim_evidence",
       "confidence": "low",

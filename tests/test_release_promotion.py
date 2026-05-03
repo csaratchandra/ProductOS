@@ -520,7 +520,7 @@ def test_promote_release_from_ralph_blocks_unresolved_external_research_review(t
                     "topic": "proof_posture",
                     "severity": "moderate",
                     "statement": "External sources disagree on whether buyers already require measurable governance proof.",
-                    "question_ids": ["research_q_codesync_outcomes_proof"],
+                    "question_ids": ["research_q_adoption_workspace_outcomes_proof"],
                     "source_ids": ["src_proof", "src_competitor"],
                 }
             ],

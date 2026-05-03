@@ -54,11 +54,19 @@ def self_hosting_workspace_dir(root_dir: Path) -> Path:
 
 
 @pytest.fixture
-def codesync_workspace_dir(root_dir: Path) -> Path:
-    workspace_dir = root_dir / "workspaces" / "CodeSync"
-    if not workspace_dir.exists():
-        pytest.skip("CodeSync benchmark workspace is not included in this repo boundary.")
-    return workspace_dir
+def adoption_workspace_dir(root_dir: Path) -> Path:
+    workspaces_root = root_dir / "workspaces"
+    if not workspaces_root.exists():
+        pytest.skip("Private adoption benchmark workspace is not included in this repo boundary.")
+
+    candidates = sorted(
+        path
+        for path in workspaces_root.iterdir()
+        if path.is_dir() and not path.name.startswith(".") and (path / "Notes" / "research").exists()
+    )
+    if not candidates:
+        pytest.skip("Private adoption benchmark workspace is not included in this repo boundary.")
+    return candidates[0]
 
 
 @pytest.fixture
