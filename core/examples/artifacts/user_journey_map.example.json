@@ -1,0 +1,195 @@
+{
+  "schema_version": "1.0.0",
+  "user_journey_map_id": "ujm_competitive_analysis_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "User Journey — Generate Competitive Analysis (Desktop)",
+  "persona_ref": "pers_sarah_enterprise_pm",
+  "use_case_ref": "competitive_emergency_response",
+  "device_context": {
+    "primary_device": "desktop",
+    "supported_devices": [
+      "desktop",
+      "tablet"
+    ],
+    "screen_size_range": "1280px - 2560px"
+  },
+  "steps": [
+    {
+      "step_id": "step_01",
+      "step_order": 1,
+      "step_name": "Trigger competitive scan",
+      "trigger": "PM receives Slack alert that competitor X launched a feature, or PM clicks Run Competitive Scan in dashboard",
+      "user_action": "Type competitor name or select from monitored list. Choose scan scope: targeted or full. Click Scan Now.",
+      "user_thought": "I need to understand what they shipped and whether it threatens our roadmap fast.",
+      "system_response": "Loading spinner with progress and estimated time. Show partial results as they arrive from different surfaces.",
+      "cognitive_load": "low",
+      "time_expected_seconds": 5,
+      "potential_errors": [
+        "Competitor URL unreachable shows graceful error with last known scan date"
+      ],
+      "accessibility_notes": [
+        "Scan trigger button keyboard accessible",
+        "Loading progress announces to screen readers"
+      ],
+      "mobile_variant_difference": "Tap competitor name from list. Progress shown as push notification.",
+      "interruption_behavior": "Scan continues in background. Notification sent when complete.",
+      "power_user_shortcut": "Cmd+K scan"
+    },
+    {
+      "step_id": "step_02",
+      "step_name": "Review scan progress",
+      "step_order": 2,
+      "trigger": "Scan is running. Results begin arriving from monitored surfaces.",
+      "user_action": "Watch live results feed. Review partial findings as they populate. Identify any errors or unreachable surfaces.",
+      "user_thought": "Looks like pricing page changed immediately. Let me check that first while blog scan completes.",
+      "system_response": "Real-time results feed: each surface result appears as it completes. Changed surfaces highlighted. Errors shown inline with retry status.",
+      "cognitive_load": "medium",
+      "time_expected_seconds": 90,
+      "potential_errors": [
+        "Surface timeout triggers retry with backoff",
+        "Rate limited surface pauses and resumes after cooldown"
+      ],
+      "accessibility_notes": [
+        "Results feed announces new arrivals to screen readers",
+        "Changed surfaces distinguished by icon and label, not just color"
+      ],
+      "mobile_variant_difference": "Collapsed feed with expandable cards per surface result.",
+      "interruption_behavior": "Results persist if PM navigates away. Feed state maintained.",
+      "power_user_shortcut": "None needed during scan progress"
+    },
+    {
+      "step_id": "step_03",
+      "step_name": "Interpret competitive alert",
+      "step_order": 3,
+      "trigger": "Scan completes. Alert generated for each material change detected.",
+      "user_action": "Read alert headline and description. Review evidence source URLs. Assess severity and competitive impact.",
+      "user_thought": "CompetitorAlpha launched AI PRD generation. This directly overlaps with our V10 roadmap. I need to brief the CTO.",
+      "system_response": "Alert card displayed with: headline, severity badge, competitive impact summary, affected artifacts list, recommended PM action, suggested response timeframe.",
+      "cognitive_load": "medium",
+      "time_expected_seconds": 120,
+      "potential_errors": [
+        "Alert may classify severity incorrectly based on thin evidence",
+        "Multiple alerts from same scan overwhelm PM"
+      ],
+      "accessibility_notes": [
+        "Severity communicated by both color and label",
+        "Alert content fully keyboard navigable"
+      ],
+      "mobile_variant_difference": "Stacked alert cards with priority sort.",
+      "interruption_behavior": "Alerts marked as new persist until acknowledged. Acknowledged alerts archived.",
+      "power_user_shortcut": "Cmd+Enter to acknowledge all"
+    },
+    {
+      "step_id": "step_04",
+      "step_name": "Compare competitive matrix",
+      "step_order": 4,
+      "trigger": "PM opens competitive feature matrix to compare current state against new competitor capabilities.",
+      "user_action": "Navigate to feature matrix view. Compare per-feature capability scores. Review differentiation summary and gap analysis.",
+      "user_thought": "We lead on 10 features but they just caught up on PRD generation. Our overall score is still ahead but the gap is narrowing.",
+      "system_response": "Interactive matrix: columns for competitors, rows for feature categories. Scores color-coded. Differentiation summary auto-updated. Gap analysis surfaced.",
+      "cognitive_load": "high",
+      "time_expected_seconds": 300,
+      "potential_errors": [
+        "Feature scores may be outdated for some competitors",
+        "Differentiation assessment may not account for unreleased features"
+      ],
+      "accessibility_notes": [
+        "Matrix needs proper header associations",
+        "Arrow key navigation for cell-by-cell comparison"
+      ],
+      "mobile_variant_difference": "Stacked cards per feature category with expandable competitor comparisons.",
+      "interruption_behavior": "Matrix view state persisted. Filters and sort maintained.",
+      "power_user_shortcut": "Cmd+F to filter by feature"
+    }
+  ],
+  "cognitive_load_profile": {
+    "overall_assessment": "lightweight",
+    "highest_load_step": "step_04",
+    "load_distribution": "Lightweight throughout — the journey is designed for speed. Only step 4 (review comparison) has moderate cognitive load during interpretation.",
+    "mitigation_suggestions": [
+      "Pre-fill competitor list from radar state — PM shouldn't have to remember competitor names",
+      "Default scan scope to 'targeted' for single competitor — fewer decisions = faster flow"
+    ]
+  },
+  "error_paths": {
+    "most_common_error": "Competitor surface unreachable (429 rate limit or 403 blocked)",
+    "error_discovery_mechanism": "System detects during scan — surfaces graceful error inline: 'competitorAlpha.com/pricing returned 429. Retrying in 60s. Last known good scan: 2 days ago.'",
+    "recovery_paths": [
+      "Retry automatically after backoff period",
+      "Use last known good data with staleness warning",
+      "Skip unreachable surface and complete scan with partial data — clearly labeled"
+    ],
+    "prevention_suggestions": [
+      "Implement exponential backoff and rotating user agents",
+      "Pre-cache competitor surfaces during scheduled scans to reduce latency during PM-requested scans"
+    ]
+  },
+  "accessibility_assessment": {
+    "wcag_level_target": "AA",
+    "screen_reader_findings": "All interactive elements have labels. Loading states announced. Results tables have proper header associations. Comparison chart needs alt text describing key findings.",
+    "keyboard_navigation_findings": "All triggers keyboard accessible. Tab order follows visual layout. Results matrix needs arrow key navigation for cell-by-cell review.",
+    "contrast_findings": "Primary interaction elements pass 4.5:1 contrast. Alert badges (red/green) need 3:1 minimum — current design meets this.",
+    "overall_score": "minor_gaps",
+    "improvement_items": [
+      "Comparison chart alt text generation",
+      "Screen reader announcement of real-time result updates as they arrive"
+    ]
+  },
+  "multi_device_continuity": {
+    "cross_device_flow": "Scan can be initiated on desktop, results viewable on tablet for mobile review during meetings. State syncs via workspace.",
+    "state_persistence": "Scan results persist indefinitely (linked to competitor_radar_state). PM can revisit scan from 3 months ago to compare changes.",
+    "layout_differences": "Desktop: side-by-side comparison matrix with full detail. Tablet: stacked cards with key metrics; tap to expand detail.",
+    "seamless_transitions": true
+  },
+  "first_time_vs_returning": {
+    "first_time_experience": "First-time user sees guided setup: 'Select competitors to monitor' with auto-populated list from competitor_dossier. Explains what scanning does and what it does not do (competitive intelligence, not automated decision-making). Estimated time to first scan: 2 minutes.",
+    "returning_experience": "Returning user sees competitor list with 'last scanned: X ago' badges. Click competitor to scan. Keyboard power users: Cmd+K 'scan [competitor]' completes in <3 seconds.",
+    "progressive_disclosure_strategy": "Day 1: basic scan → alert → PM review. Week 2: auto-scheduled scans with digest. Month 2: auto-alert routing to affected artifacts (battle cards, strategy briefs)."
+  },
+  "offline_scenarios": {
+    "connectivity_requirements": "always_online",
+    "offline_behavior": "Cannot initiate scan offline — requires network access to fetch competitor surfaces. Last known scan results cached and viewable offline.",
+    "sync_strategy": "Results cached locally. On reconnect, compares cached results with server state — if server has newer scan, replaces local cache."
+  },
+  "collaboration_scenarios": {
+    "multi_user_actions": [
+      "PM initiates scan — results visible to entire product team workspace",
+      "Engineering lead views competitive feature matrix for technical capability comparison"
+    ],
+    "real_time_needs": false,
+    "async_handoff_points": [
+      "PM adds annotation to scan result: '@eng-lead can you evaluate if competitor's new API capability affects our architecture?'"
+    ]
+  },
+  "notification_handling": {
+    "notification_types": [
+      "in_app",
+      "email"
+    ],
+    "frequency_policy": "Scan complete notification: in-app immediately, email only for critical/high severity alerts. Digest: daily summary of all competitive changes (low/medium severity aggregated).",
+    "user_control": "Full per-competitor notification settings. PM can mute low-severity competitor for 30 days. Critical alerts always notify regardless of settings."
+  },
+  "power_user_shortcuts": {
+    "keyboard_shortcuts": [
+      "Cmd+K → 'scan [competitor]' — quick scan",
+      "Cmd+K → 'compare [competitor_a] [competitor_b]' — side-by-side comparison",
+      "Cmd+Shift+A → acknowledge all alerts for current competitor"
+    ],
+    "command_palette": true,
+    "templates_and_presets": [
+      "Saved scan configurations: 'Weekly Full Scan' (all competitors, all surfaces), 'CompetitorAlpha Deep Dive' (single competitor, all surfaces + social mining), 'Quick Pricing Check' (pricing pages only, all primary competitors)"
+    ]
+  },
+  "visual_flow_spec": {
+    "title": "Competitive Analysis Generation Flow",
+    "screens_visible": 8,
+    "sentiment_overlay": false,
+    "rendering_mode": "dashboard",
+    "annotations": true
+  },
+  "source_evidence_refs": [
+    "source_note_card_sarah_interview_001",
+    "source_note_card_sarah_observation_003"
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

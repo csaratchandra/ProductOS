@@ -1,44 +1,64 @@
 # Dual Target Fidelity
 
-## Purpose
+## 1. Purpose
 
-Keep ProductOS visual outputs coherent across HTML and PPT targets without pretending that every composition can map perfectly.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-- when a visual surface targets both HTML and PPT
-- when a design uses richer HTML behavior that might need a PPT-safe fallback
-- when fidelity tradeoffs could affect meaning or reading path
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- visual direction plan
-- render model or render spec
-- target formats
-- known renderer constraints
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- fidelity assessment
-- fallback recommendation
-- blocker or warning when a composition cannot hold meaning across targets
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- fidelity tradeoffs must stay explicit
-- do not silently degrade meaning in PPT export
-- prefer a simpler accurate fallback over a flashy misleading translation
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. identify the target formats and required parity level
-2. inspect the planned composition for target-specific risk
-3. define fallback behavior where needed
-4. mark aligned, partial, or at-risk fidelity explicitly
-5. block export when the reading path would materially degrade
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- fidelity status is explicit
-- fallbacks preserve meaning
-- blocked cases are recorded instead of silently shipped
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

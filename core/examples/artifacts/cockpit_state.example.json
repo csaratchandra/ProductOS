@@ -5,6 +5,7 @@
   "mode": "plan",
   "status": "active",
   "coordination_status": "healthy",
+  "ralph_stage": "refine",
   "mission_control": {
     "mission_ref": "mission_brief_ws_productos_v2_runtime",
     "mission_title": "PM-visible runtime foundation",
@@ -69,6 +70,52 @@
       "recommended_action": "start",
       "urgency": "time_sensitive",
       "why_now": "Validation evidence is complete and should be archived before the manual verification pass begins."
+    }
+  ],
+  "approval_queue": [
+    {
+      "approval_id": "approval_discovery_packet",
+      "title": "Discovery packet review",
+      "owner": "ProductOS PM",
+      "status": "pending",
+      "artifact_refs": [
+        "mission_brief_ws_productos_v2_runtime",
+        "phase_packet_ws_productos_v2_discovery"
+      ]
+    }
+  ],
+  "budget_status": {
+    "status": "within_threshold",
+    "visible_route_count": 3,
+    "review_threshold": 1,
+    "pause_threshold": 2,
+    "pause_reason": "No route-level budget threshold is currently breached."
+  },
+  "workspace_tree_ref": "workspace_tree_state_ws_productos_v2",
+  "context_view_refs": [
+    {
+      "view_id": "context_view_readme",
+      "label": "Readme",
+      "ref_type": "document",
+      "ref_path": "internal/ProductOS-Next/README.md"
+    },
+    {
+      "view_id": "context_view_mission_brief",
+      "label": "Mission Brief",
+      "ref_type": "artifact",
+      "ref_path": "internal/ProductOS-Next/artifacts/mission_brief.json"
+    }
+  ],
+  "recommended_pm_actions": [
+    {
+      "recommendation_id": "recommended_pm_action_runtime",
+      "summary": "Review the discovery packet and keep the next phase blocked until the evidence trail is explicit.",
+      "source_artifact_refs": [
+        "mission_brief_ws_productos_v2_runtime",
+        "phase_packet_ws_productos_v2_discovery"
+      ],
+      "observed_vs_inferred": "mixed",
+      "assumption_note": "The recommendation is seeded from repo-visible scaffolding until workspace evidence replaces the starter defaults."
     }
   ],
   "active_orchestration_state_id": "orch_state_ws_productos_v2_runtime",

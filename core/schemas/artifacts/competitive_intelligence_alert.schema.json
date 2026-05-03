@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/competitive_intelligence_alert.schema.json",
+  "title": "ProductOS Competitive Intelligence Alert",
+  "description": "Structured alert generated when competitor radar detects a material change — feature launch, pricing update, positioning shift, hiring signal, acquisition, or other strategic move — with severity scoring, competitive impact analysis, and recommended PM action.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "alert_id",
+    "workspace_id",
+    "competitor_id",
+    "competitor_name",
+    "change_type",
+    "detected_at",
+    "headline",
+    "description",
+    "evidence_source_urls",
+    "severity",
+    "confidence",
+    "competitive_impact",
+    "affected_artifacts",
+    "recommended_pm_action",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "alert_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "competitor_id": { "type": "string", "minLength": 1 },
+    "competitor_name": { "type": "string", "minLength": 2 },
+    "change_type": {
+      "type": "string",
+      "enum": ["feature_launch", "pricing_update", "positioning_shift", "hiring_signal", "acquisition", "partnership", "funding", "leadership_change", "product_retirement", "patent_filing", "regulatory_development", "customer_win", "customer_loss", "other"]
+    },
+    "detected_at": { "type": "string", "format": "date-time" },
+    "headline": { "type": "string", "minLength": 10 },
+    "description": { "type": "string", "minLength": 20 },
+    "evidence_source_urls": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
+    "screenshot_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low", "informational"]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "moderate", "low"]
+    },
+    "competitive_impact": { "$ref": "#/$defs/competitiveImpact" },
+    "affected_artifacts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/affectedArtifact" },
+      "minItems": 1
+    },
+    "recommended_pm_action": { "type": "string", "minLength": 10 },
+    "suggested_response_timeframe": {
+      "type": "string",
+      "enum": ["immediate", "within_24h", "within_week", "within_month", "monitor_only"]
+    },
+    "linked_radar_surface_ref": { "type": "string", "minLength": 1 },
+    "previous_related_alert_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "status": {
+      "type": "string",
+      "enum": ["new", "acknowledged", "actioned", "dismissed", "superseded"]
+    },
+    "acknowledged_by": { "type": "string" },
+    "acknowledged_at": { "type": "string", "format": "date-time" },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "competitiveImpact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["threat_level", "urgency", "strategic_significance", "impact_summary"],
+      "properties": {
+        "threat_level": {
+          "type": "string",
+          "enum": ["existential", "major", "moderate", "minor", "none"]
+        },
+        "urgency": {
+          "type": "string",
+          "enum": ["immediate", "short_term", "medium_term", "long_term"]
+        },
+        "strategic_significance": { "type": "string", "minLength": 10 },
+        "impact_summary": { "type": "string", "minLength": 10 },
+        "segments_affected": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "features_at_risk": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 },
+          "default": []
+        }
+      }
+    },
+    "affectedArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_type", "artifact_id", "impact_description"],
+      "properties": {
+        "artifact_type": { "type": "string", "minLength": 3 },
+        "artifact_id": { "type": "string", "minLength": 1 },
+        "impact_description": { "type": "string", "minLength": 10 },
+        "refresh_recommended": { "type": "boolean", "default": true },
+        "priority": {
+          "type": "string",
+          "enum": ["must_now", "next", "later"]
+        }
+      }
+    }
+  }
+}

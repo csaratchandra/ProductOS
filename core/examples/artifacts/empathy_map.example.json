@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0.0",
+  "empathy_map_id": "em_sarah_enterprise_pm_20260503",
+  "workspace_id": "ws_productos_v2",
+  "persona_archetype_pack_ref": "pap_enterprise_pm_2026",
+  "persona_ref": "pers_sarah_enterprise_pm",
+  "persona_name": "Sarah Chen",
+  "think_and_feel": {
+    "major_preoccupations": [
+      "How do I prove this strategy is right when I'm working with incomplete data?",
+      "Am I spending my time on the right things — or just busy work?"
+    ],
+    "worries": [
+      "If this launch fails, my credibility takes a hit I can't afford right now",
+      "The CTO is skeptical of AI-generated work — I need the output to be impeccable"
+    ],
+    "aspirations": [
+      "I want to be the PM who brings the most compelling strategy deck to the quarterly review",
+      "I want my engineering teams to feel so well-supported that they never complain about ambiguous requirements"
+    ],
+    "emotional_state": "Motivated but stretched thin. Confident in her judgment but frustrated by the overhead of proving it. Carries low-level anxiety about whether she's spending her time on high-leverage work or busy work."
+  },
+  "see": {
+    "environment": "Open-plan tech office. Whiteboards covered in roadmap sketches. Standing desks. Slack notifications perpetually unread — 47 channels. Calendar is a solid block of color with 25-min gaps.",
+    "market_offering": [
+      "Competitor tools promising 'AI PM copilot' but delivering shallow summaries that she still has to rewrite",
+      "Her VP praising another PM's 'data-driven strategy deck' while Sarah's deck is still half-finished in Google Docs"
+    ],
+    "colleagues_behavior": [
+      "Engineering lead opening every sprint planning with 'still waiting on the PRD'",
+      "VP Sales forwarding customer emails with 'can we build this?' without context",
+      "Her APM struggling with stakeholder presentations — she sees herself 4 years ago"
+    ],
+    "competitor_activity": "CompetitorAlpha just launched AI PRD generation. Their blog post is circulating in her PM Slack community. She hasn't had time to do a proper competitive analysis yet."
+  },
+  "say_and_do": {
+    "public_attitude": [
+      "In leadership meetings: 'We're on track. Discovery is substantially complete. I'll have the deck to you by Thursday.'",
+      "In Slack: 'Great question — let me pull together some context and get back to you by EOD.'"
+    ],
+    "behavior_in_meetings": [
+      "Takes meticulous notes during stakeholder meetings — captures exact phrasing of objections to pre-wire counter-evidence",
+      "When asked a question she can't answer: 'I want to make sure I have the right data before I give you a recommendation. Can I come back to you on this tomorrow?'"
+    ],
+    "behavior_with_team": "Sends detailed Slack messages at 10pm with 'no need to respond tonight — just thinking through the onboarding flow.' Her APM jokes that Sarah's brain never stops processing product problems.",
+    "behavior_with_tools": "Keeps Jira meticulously organized — every story has acceptance criteria, every epic has a clear outcome. Google Docs are chaotic — 14 half-finished documents with titles like 'Q3_strategy_v4_FINAL_USE_THIS_ONE.'"
+  },
+  "hear": {
+    "from_boss": [
+      "'I need this deck to be board-ready. Don't just tell me what we're building — show me why it matters to the business.'",
+      "'You're doing great work, but I need you to spend less time compiling and more time thinking.'"
+    ],
+    "from_peers": [
+      "'How do you keep your Jira so clean? My backlog is a disaster.'",
+      "'Have you tried that new competitive intel tool? It saved me 4 hours last week.'"
+    ],
+    "from_directs": [
+      "'I want to present at the next product review but I need your help structuring the narrative.'"
+    ],
+    "from_industry": [
+      "PM Twitter: 'AI will replace PMs' vs 'AI will make PMs 10x more effective' — both narratives circulating",
+      "Industry reports: '2026 is the year AI PM tooling goes mainstream'"
+    ]
+  },
+  "pains": {
+    "fears": [
+      "Being the PM whose strategy deck gets eviscerated in the quarterly review because the data was shallow",
+      "Spending another year doing 'busy work' instead of developing strategic judgment"
+    ],
+    "frustrations": [
+      "The same insight requires 4 different formats for 4 different stakeholders — and she's the bottleneck on all of them",
+      "Competitive intelligence takes 2-4 hours per analysis and she needs it 3x per month"
+    ],
+    "obstacles": [
+      "Security review adds 4 weeks to any new tool adoption — can't experiment quickly",
+      "Engineering team capacity is fixed — every new feature request means deprioritizing something else"
+    ],
+    "failure_risks": [
+      "Shipping a feature based on a single customer anecdote — the VP Sales' request might not represent the broader segment need",
+      "Presenting strategy without quantified competitive context — the CTO will ask and she won't have the answer ready"
+    ]
+  },
+  "gains": {
+    "wants": [
+      "A tool that generates her first draft — not the final answer. She always refines but hates starting from blank",
+      "Competitive intelligence that auto-updates — she should never be surprised by a competitor launch again"
+    ],
+    "needs": [
+      "Evidence traceability — every claim in her deck must link back to a customer interview, data point, or market report",
+      "Persona-aware output formatting — the CTO deck and the CFO deck should be auto-generated from the same analysis with different framing"
+    ],
+    "success_measures": [
+      "Time from 'messy research inputs' to 'leadership-ready strategy deck' reduced from 2 weeks to 2 days",
+      "Engineering team story ambiguity reduced — sprint carry-over drops from 30% to <15%",
+      "Stakeholder questions answered with evidence in the meeting, not 'I'll get back to you'"
+    ],
+    "dream_state": "She opens a single dashboard, sees her entire product universe — competitive moves, segment health, persona feedback, execution status. The top 5 actions she should take today are surfaced. She picks the most important one, the AI generates the first draft of the stakeholder communication, and she spends her day refining with judgment — not compiling from scratch."
+  },
+  "evidence_basis": {
+    "confidence": "high",
+    "source_count": 4,
+    "gaps": [
+      "Need more direct observation data for 'behavior_in_meetings' — currently inferred from interview descriptions"
+    ]
+  },
+  "visual_canvas_spec": {
+    "title": "Empathy Map — Sarah Chen (Senior PM)",
+    "quadrants": [
+      "think_and_feel",
+      "see",
+      "say_and_do",
+      "hear",
+      "pains",
+      "gains"
+    ],
+    "layout": "6_section_canvas",
+    "center_label": "Sarah Chen — Senior PM"
+  },
+  "source_evidence_refs": [
+    "source_note_card_sarah_interview_001",
+    "source_note_card_sarah_interview_002",
+    "source_note_card_sarah_observation_003",
+    "source_note_card_enterprise_pm_survey_004"
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

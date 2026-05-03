@@ -12,6 +12,7 @@
     "mode",
     "status",
     "coordination_status",
+    "ralph_stage",
     "mission_control",
     "request_summary",
     "current_focus",
@@ -19,6 +20,11 @@
     "active_agents",
     "active_queue_refs",
     "queue_recommendations",
+    "approval_queue",
+    "budget_status",
+    "workspace_tree_ref",
+    "context_view_refs",
+    "recommended_pm_actions",
     "active_orchestration_state_id",
     "active_execution_session_state_ids",
     "active_workflow_state_ids",
@@ -75,6 +81,17 @@
         "blocked"
       ]
     },
+    "ralph_stage": {
+      "type": "string",
+      "enum": [
+        "inspect",
+        "implement",
+        "refine",
+        "validate",
+        "fix",
+        "revalidate"
+      ]
+    },
     "mission_control": {
       "$ref": "#/$defs/missionControl"
     },
@@ -107,6 +124,34 @@
       "type": "array",
       "items": {
         "$ref": "#/$defs/queueRecommendation"
+      },
+      "default": []
+    },
+    "approval_queue": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/approvalItem"
+      },
+      "default": []
+    },
+    "budget_status": {
+      "$ref": "#/$defs/budgetStatus"
+    },
+    "workspace_tree_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "context_view_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/contextViewRef"
+      },
+      "default": []
+    },
+    "recommended_pm_actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/recommendationTrace"
       },
       "default": []
     },
@@ -398,6 +443,141 @@
           ]
         },
         "why_now": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "approvalItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approval_id",
+        "title",
+        "owner",
+        "status",
+        "artifact_refs"
+      ],
+      "properties": {
+        "approval_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "approved", "blocked"]
+        },
+        "artifact_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "budgetStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "visible_route_count",
+        "review_threshold",
+        "pause_threshold",
+        "pause_reason"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["within_threshold", "watch", "paused"]
+        },
+        "visible_route_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "review_threshold": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pause_threshold": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pause_reason": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "contextViewRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "view_id",
+        "label",
+        "ref_type",
+        "ref_path"
+      ],
+      "properties": {
+        "view_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 2
+        },
+        "ref_type": {
+          "type": "string",
+          "enum": ["artifact", "document"]
+        },
+        "ref_path": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "recommendationTrace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recommendation_id",
+        "summary",
+        "source_artifact_refs",
+        "observed_vs_inferred",
+        "assumption_note"
+      ],
+      "properties": {
+        "recommendation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 3
+        },
+        "source_artifact_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "observed_vs_inferred": {
+          "type": "string",
+          "enum": ["observed", "inferred", "mixed"]
+        },
+        "assumption_note": {
           "type": "string",
           "minLength": 3
         }

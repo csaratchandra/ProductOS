@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "api_contract_id": "ac_api_generate_discovery_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "ProductOS V10 — Discovery Generation API",
+  "version": "1.0.0",
+  "base_path": "/api/v10/discovery",
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/generate/pestle",
+      "summary": "Generate PESTLE analysis for a specified market and geographic scope",
+      "request": {
+        "content_type": "application/json",
+        "parameters": [
+          {
+            "name": "workspace_id",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "Target workspace"
+          }
+        ],
+        "body_schema": {
+          "market_name": "string",
+          "geographic_scope": [
+            "string"
+          ]
+        },
+        "example_body": {
+          "market_name": "AI PM Tooling",
+          "geographic_scope": [
+            "US",
+            "EU"
+          ]
+        }
+      },
+      "responses": [
+        {
+          "status_code": 200,
+          "description": "PESTLE analysis generated successfully",
+          "body_schema": {
+            "pestle_analysis_id": "string",
+            "status": "generated"
+          },
+          "example_body": {
+            "pestle_analysis_id": "pa_123",
+            "status": "generated"
+          }
+        },
+        {
+          "status_code": 422,
+          "description": "Invalid market scope — geographic region unsupported"
+        }
+      ],
+      "tags": [
+        "Discovery"
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer_token",
+    "header_name": "Authorization"
+  },
+  "rate_limiting": {
+    "requests_per_minute": 30,
+    "headers": true,
+    "burst_limit": 10
+  },
+  "common_error_responses": [
+    {
+      "status_code": 401,
+      "error_code": "UNAUTHORIZED",
+      "message": "Invalid or expired API token",
+      "resolution_hint": "Generate a new API token from workspace settings"
+    },
+    {
+      "status_code": 429,
+      "error_code": "RATE_LIMITED",
+      "message": "Too many requests",
+      "resolution_hint": "Wait for rate limit window to reset. Check Retry-After header."
+    }
+  ],
+  "linked_story_refs": [
+    "story_pestle_generation"
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

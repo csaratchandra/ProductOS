@@ -16,6 +16,14 @@ from components.presentation.python.productos_presentation import (
 )
 from components.workflow_corridor.python.productos_workflow_corridor import build_workflow_corridor_bundle
 from .mission import build_strategy_discover_bundle_from_mission
+from .pm_superpowers import (
+    build_cross_product_insight_index,
+    build_phase_packet,
+    build_portfolio_state_from_workspaces,
+    build_product_record,
+    build_workspace_tree_state,
+    enrich_runtime_states,
+)
 from .baseline import (
     build_foundation_bundle_from_workspace,
     build_market_intelligence_bundle_from_workspace,
@@ -299,12 +307,18 @@ def _route_budget(
     active_route_count: int,
     awaiting_review_count: int,
     blocked_route_count: int,
+    route_review_threshold: int = 1,
+    route_pause_threshold: int = 2,
+    auto_pause_on_threshold: bool = True,
 ) -> dict[str, int]:
     return {
         "max_parallel_routes": max_parallel_routes,
         "active_route_count": active_route_count,
         "awaiting_review_count": awaiting_review_count,
         "blocked_route_count": blocked_route_count,
+        "route_review_threshold": route_review_threshold,
+        "route_pause_threshold": route_pause_threshold,
+        "auto_pause_on_threshold": auto_pause_on_threshold,
     }
 
 
@@ -2401,9 +2415,12 @@ def build_next_version_bundle_from_workspace(
                 "availability_status": "available",
                 "supported_actions": [
                     "inspect_repo",
+                    "workspace_init",
+                    "phase_plan",
                     "run_superpower_loop",
                     "capture_review_findings",
                     "run_validation",
+                    "cockpit_export",
                     "export_artifacts",
                 ],
                 "requires_host_support": True,
@@ -2432,9 +2449,12 @@ def build_next_version_bundle_from_workspace(
                 "availability_status": "available",
                 "supported_actions": [
                     "inspect_repo",
+                    "workspace_init",
+                    "phase_plan",
                     "run_superpower_loop",
                     "capture_review_findings",
                     "run_validation",
+                    "cockpit_export",
                     "export_artifacts",
                 ],
                 "requires_host_support": True,
@@ -2463,9 +2483,12 @@ def build_next_version_bundle_from_workspace(
                 "availability_status": "available",
                 "supported_actions": [
                     "inspect_repo",
+                    "workspace_init",
+                    "phase_plan",
                     "run_superpower_loop",
                     "capture_review_findings",
                     "run_validation",
+                    "cockpit_export",
                     "export_artifacts",
                 ],
                 "requires_host_support": True,
@@ -2494,9 +2517,12 @@ def build_next_version_bundle_from_workspace(
                 "availability_status": "available",
                 "supported_actions": [
                     "inspect_repo",
+                    "workspace_init",
+                    "phase_plan",
                     "run_superpower_loop",
                     "capture_review_findings",
                     "run_validation",
+                    "cockpit_export",
                     "export_artifacts",
                 ],
                 "requires_host_support": True,
@@ -5359,9 +5385,83 @@ def build_next_version_bundle_from_workspace(
             }
         )
 
+    pm_mission_brief = workspace_mission_brief or {
+        "mission_brief_id": mission_ref,
+        "workspace_id": workspace_id,
+        "portfolio_id": workspace_id,
+        "title": mission_title,
+        "mission_summary": mission_current_task_summary,
+        "target_user": "Product manager",
+        "customer_problem": problem_brief["problem_statement"],
+        "business_goal": "Create a bounded, reviewable PM control plane from repo-native state.",
+        "maturity_band": "zero_to_one",
+        "primary_outcomes": ["Create one PM-visible mission control surface."],
+        "primary_kpis": ["time to reviewable PM package"],
+        "review_gate_owner": "ProductOS PM",
+        "success_metrics": ["time to reviewable PM package"],
+        "constraints": ["Keep PM approval explicit before release movement."],
+        "audience": ["PM"],
+        "operating_mode": "full_loop",
+        "mission_router": _default_mission_router(),
+        "steering_context": _default_steering_context(workspace_path),
+        "primary_workflow_refs": ["core/workflows/mastery/next-version-superpower-ops-workflow.md"],
+        "source_refs": [_relative_path(workspace_path / "workspace_manifest.yaml")],
+        "stage_goals": {},
+        "known_risks": ["This fallback mission was inferred because no mission_brief.json was present."],
+        "next_action": mission_current_task_summary,
+        "created_at": generated_at,
+        "updated_at": generated_at,
+    }
+    product_record = build_product_record(
+        workspace_path,
+        mission_brief=pm_mission_brief,
+        generated_at=generated_at,
+        lifecycle_phase="delivery" if discover_promoted else "discovery",
+    )
+    phase_packet = build_phase_packet(
+        workspace_path,
+        mission_brief=pm_mission_brief,
+        product_record=product_record,
+        lifecycle_phase=product_record["lifecycle_stage"],
+        generated_at=generated_at,
+    )
+    workspace_tree_state = build_workspace_tree_state(
+        workspace_path,
+        mission_brief=pm_mission_brief,
+        product_record=product_record,
+        generated_at=generated_at,
+    )
+    portfolio_state = build_portfolio_state_from_workspaces(
+        [workspace_path],
+        generated_at=generated_at,
+        suite_id=pm_mission_brief.get("portfolio_id"),
+    )
+    cross_product_insight_index = build_cross_product_insight_index(
+        [workspace_path],
+        generated_at=generated_at,
+        portfolio_id=pm_mission_brief.get("portfolio_id"),
+    )
+    cockpit_state, orchestration_state = enrich_runtime_states(
+        mission_brief=pm_mission_brief,
+        product_record=product_record,
+        phase_packet=phase_packet,
+        workspace_tree_state=workspace_tree_state,
+        next_version_bundle={
+            "cockpit_state": cockpit_state,
+            "orchestration_state": orchestration_state,
+            "eval_run_report": eval_run_report,
+            "next_version_release_gate_decision": next_version_release_gate_decision,
+        },
+    )
+
     bundle = {
         "cockpit_state": cockpit_state,
         "orchestration_state": orchestration_state,
+        "product_record": product_record,
+        "portfolio_state": portfolio_state,
+        "workspace_tree_state": workspace_tree_state,
+        "phase_packet": phase_packet,
+        "cross_product_insight_index": cross_product_insight_index,
         "intake_routing_state": intake_routing_state,
         "memory_retrieval_state": memory_retrieval_state,
         "context_pack": context_pack,

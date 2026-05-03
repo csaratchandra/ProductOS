@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/win_loss_analysis.schema.json",
+  "title": "ProductOS Win/Loss Analysis",
+  "description": "Analysis of win/loss records with pattern detection across competitors, segments, features, and pricing — identifying systematic reasons for deal outcomes and generating actionable product and sales improvements.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "win_loss_analysis_id", "workspace_id", "title", "analysis_period", "win_count", "loss_count", "win_rate_pct", "patterns", "competitive_loss_breakdown", "recommendations", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "win_loss_analysis_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 5},
+    "analysis_period": {"type": "string", "minLength": 5},
+    "win_count": {"type": "integer", "minimum": 0},
+    "loss_count": {"type": "integer", "minimum": 0},
+    "no_decision_count": {"type": "integer", "minimum": 0},
+    "win_rate_pct": {"type": "number", "minimum": 0, "maximum": 100},
+    "patterns": {"$ref": "#/$defs/patterns"},
+    "competitive_loss_breakdown": {"type": "array", "items": {"$ref": "#/$defs/competitiveLoss"}, "default": []},
+    "feature_gaps_from_losses": {"type": "array", "items": {"$ref": "#/$defs/featureGap"}, "default": []},
+    "pricing_gaps_from_losses": {"type": "array", "items": {"$ref": "#/$defs/pricingGap"}, "default": []},
+    "recommendations": {"type": "array", "items": {"$ref": "#/$defs/recommendation"}, "minItems": 1},
+    "source_records": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "patterns": {
+      "type": "object", "additionalProperties": false,
+      "required": ["win_patterns", "loss_patterns", "trend_direction"],
+      "properties": {
+        "win_patterns": {"type": "array", "items": {"$ref": "#/$defs/pattern"}, "minItems": 1},
+        "loss_patterns": {"type": "array", "items": {"$ref": "#/$defs/pattern"}, "minItems": 1},
+        "trend_direction": {"type": "string", "enum": ["improving", "stable", "declining"]}
+      }
+    },
+    "pattern": {
+      "type": "object", "additionalProperties": false,
+      "required": ["pattern_id", "description", "frequency", "win_rate_in_pattern", "key_factors"],
+      "properties": {
+        "pattern_id": {"type": "string", "minLength": 1},
+        "description": {"type": "string", "minLength": 10},
+        "frequency": {"type": "integer", "minimum": 1},
+        "win_rate_in_pattern": {"type": "number", "minimum": 0, "maximum": 100},
+        "key_factors": {"type": "array", "items": {"type": "string", "minLength": 5}, "minItems": 1}
+      }
+    },
+    "competitiveLoss": {
+      "type": "object", "additionalProperties": false,
+      "required": ["competitor_id", "competitor_name", "loss_count", "loss_reasons"],
+      "properties": {
+        "competitor_id": {"type": "string", "minLength": 1},
+        "competitor_name": {"type": "string", "minLength": 2},
+        "loss_count": {"type": "integer", "minimum": 1},
+        "loss_reasons": {"type": "array", "items": {"$ref": "#/$defs/lossReason"}, "minItems": 1}
+      }
+    },
+    "lossReason": {
+      "type": "object", "additionalProperties": false,
+      "required": ["reason", "contribution_pct", "addressable"],
+      "properties": {
+        "reason": {"type": "string", "minLength": 5},
+        "contribution_pct": {"type": "integer", "minimum": 1, "maximum": 100},
+        "addressable": {"type": "boolean"}
+      }
+    },
+    "featureGap": {
+      "type": "object", "additionalProperties": false,
+      "required": ["feature_name", "losses_attributed", "revenue_impact_estimate", "priority_recommendation"],
+      "properties": {
+        "feature_name": {"type": "string", "minLength": 3},
+        "losses_attributed": {"type": "integer", "minimum": 1},
+        "revenue_impact_estimate": {"type": "string", "minLength": 5},
+        "priority_recommendation": {"type": "string", "enum": ["must_now", "next", "later"]},
+        "addressing_this_would_flip_pct": {"type": "integer", "minimum": 0, "maximum": 100}
+      }
+    },
+    "pricingGap": {
+      "type": "object", "additionalProperties": false,
+      "required": ["price_point_at_loss", "losses_at_price", "segment", "recommendation"],
+      "properties": {
+        "price_point_at_loss": {"type": "number", "minimum": 0},
+        "losses_at_price": {"type": "integer", "minimum": 1},
+        "segment": {"type": "string", "minLength": 3},
+        "recommendation": {"type": "string", "minLength": 10}
+      }
+    },
+    "recommendation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["action", "impact", "effort", "owner"],
+      "properties": {
+        "action": {"type": "string", "minLength": 10},
+        "impact": {"type": "string", "enum": ["high", "medium", "low"]},
+        "effort": {"type": "string", "enum": ["low", "medium", "high"]},
+        "owner": {"type": "string", "minLength": 3}
+      }
+    }
+  }
+}

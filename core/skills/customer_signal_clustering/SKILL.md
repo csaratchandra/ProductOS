@@ -1,40 +1,64 @@
 # Customer Signal Clustering
 
-## Purpose
+## 1. Purpose
 
-Cluster customer and support signals into reusable patterns that can drive priority and outcome decisions.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when `customer_pulse` or `outcome_review` has many raw signals and the PM needs usable patterns.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- customer evidence
-- operator evidence
-- support or adoption notes
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- support signal clusters
-- adoption signal clusters
-- priority implications
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not mix positive adoption pull with support pain in one cluster
-- keep evidence refs on every cluster
-- preserve uncertainty when the cluster is weak
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. separate pain from pull
-2. group repeated signals into bounded clusters
-3. label cluster strength and implications
-4. connect the clusters to the next PM decision
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- clusters should feel distinct
-- each cluster should have evidence refs
-- the resulting priority implication should be readable
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

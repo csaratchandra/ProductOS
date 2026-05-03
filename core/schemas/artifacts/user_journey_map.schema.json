@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/user_journey_map.schema.json",
+  "title": "ProductOS User Journey Map",
+  "description": "Screen-level user journey with per-step cognitive load assessment, accessibility considerations, error recovery paths, first-time vs returning user variants, multi-device continuity, offline scenarios, collaboration context, notification handling, and visual flow rendering spec.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "user_journey_map_id",
+    "workspace_id",
+    "title",
+    "persona_ref",
+    "use_case_ref",
+    "device_context",
+    "steps",
+    "cognitive_load_profile",
+    "accessibility_assessment",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "user_journey_map_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "persona_ref": { "type": "string", "minLength": 1 },
+    "use_case_ref": { "type": "string", "minLength": 1 },
+    "device_context": { "$ref": "#/$defs/deviceContext" },
+    "steps": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/step" },
+      "minItems": 3
+    },
+    "cognitive_load_profile": { "$ref": "#/$defs/cognitiveLoadProfile" },
+    "error_paths": { "$ref": "#/$defs/errorPaths" },
+    "accessibility_assessment": { "$ref": "#/$defs/accessibilityAssessment" },
+    "multi_device_continuity": { "$ref": "#/$defs/multiDeviceContinuity" },
+    "first_time_vs_returning": { "$ref": "#/$defs/firstTimeVsReturning" },
+    "offline_scenarios": { "$ref": "#/$defs/offlineScenarios" },
+    "collaboration_scenarios": { "$ref": "#/$defs/collaborationScenarios" },
+    "notification_handling": { "$ref": "#/$defs/notificationHandling" },
+    "power_user_shortcuts": { "$ref": "#/$defs/powerUserShortcuts" },
+    "visual_flow_spec": { "$ref": "#/$defs/visualFlowSpec" },
+    "source_evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "deviceContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary_device", "supported_devices", "screen_size_range"],
+      "properties": {
+        "primary_device": { "type": "string", "enum": ["desktop", "tablet", "mobile", "multi_device"] },
+        "supported_devices": { "type": "array", "items": { "type": "string", "enum": ["desktop", "tablet", "mobile"] }, "minItems": 1 },
+        "screen_size_range": { "type": "string", "minLength": 5 }
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "step_id", "step_order", "step_name", "trigger", "user_action", "system_response",
+        "cognitive_load", "time_expected_seconds", "potential_errors"
+      ],
+      "properties": {
+        "step_id": { "type": "string", "minLength": 1 },
+        "step_order": { "type": "integer", "minimum": 1 },
+        "step_name": { "type": "string", "minLength": 3 },
+        "trigger": { "type": "string", "minLength": 5 },
+        "user_action": { "type": "string", "minLength": 10 },
+        "user_thought": { "type": "string", "minLength": 5 },
+        "system_response": { "type": "string", "minLength": 10 },
+        "cognitive_load": { "type": "string", "enum": ["low", "medium", "high", "very_high"] },
+        "time_expected_seconds": { "type": "integer", "minimum": 1 },
+        "potential_errors": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1
+        },
+        "accessibility_notes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "default": []
+        },
+        "mobile_variant_difference": { "type": "string", "minLength": 5 },
+        "interruption_behavior": { "type": "string", "minLength": 5 },
+        "power_user_shortcut": { "type": "string", "minLength": 3 }
+      }
+    },
+    "cognitiveLoadProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["overall_assessment", "highest_load_step", "load_distribution", "mitigation_suggestions"],
+      "properties": {
+        "overall_assessment": { "type": "string", "enum": ["lightweight", "manageable", "demanding", "overwhelming"] },
+        "highest_load_step": { "type": "string", "minLength": 3 },
+        "load_distribution": { "type": "string", "minLength": 10 },
+        "mitigation_suggestions": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 1 }
+      }
+    },
+    "errorPaths": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["most_common_error", "error_discovery_mechanism", "recovery_paths", "prevention_suggestions"],
+      "properties": {
+        "most_common_error": { "type": "string", "minLength": 10 },
+        "error_discovery_mechanism": { "type": "string", "minLength": 5 },
+        "recovery_paths": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 1 },
+        "prevention_suggestions": { "type": "array", "items": { "type": "string", "minLength": 5 }, "default": [] }
+      }
+    },
+    "accessibilityAssessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wcag_level_target", "screen_reader_findings", "keyboard_navigation_findings", "contrast_findings", "overall_score"],
+      "properties": {
+        "wcag_level_target": { "type": "string", "enum": ["A", "AA", "AAA"] },
+        "screen_reader_findings": { "type": "string", "minLength": 10 },
+        "keyboard_navigation_findings": { "type": "string", "minLength": 10 },
+        "contrast_findings": { "type": "string", "minLength": 10 },
+        "overall_score": { "type": "string", "enum": ["compliant", "minor_gaps", "major_gaps", "inaccessible"] },
+        "improvement_items": { "type": "array", "items": { "type": "string", "minLength": 5 }, "default": [] }
+      }
+    },
+    "multiDeviceContinuity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cross_device_flow", "state_persistence", "layout_differences", "seamless_transitions"],
+      "properties": {
+        "cross_device_flow": { "type": "string", "minLength": 10 },
+        "state_persistence": { "type": "string", "minLength": 10 },
+        "layout_differences": { "type": "string", "minLength": 10 },
+        "seamless_transitions": { "type": "boolean" }
+      }
+    },
+    "firstTimeVsReturning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["first_time_experience", "returning_experience", "progressive_disclosure_strategy"],
+      "properties": {
+        "first_time_experience": { "type": "string", "minLength": 20 },
+        "returning_experience": { "type": "string", "minLength": 20 },
+        "progressive_disclosure_strategy": { "type": "string", "minLength": 10 }
+      }
+    },
+    "offlineScenarios": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["connectivity_requirements", "offline_behavior", "sync_strategy"],
+      "properties": {
+        "connectivity_requirements": { "type": "string", "enum": ["always_online", "offline_capable", "mostly_offline"] },
+        "offline_behavior": { "type": "string", "minLength": 10 },
+        "sync_strategy": { "type": "string", "minLength": 10 }
+      }
+    },
+    "collaborationScenarios": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["multi_user_actions", "real_time_needs", "async_handoff_points"],
+      "properties": {
+        "multi_user_actions": { "type": "array", "items": { "type": "string", "minLength": 5 }, "default": [] },
+        "real_time_needs": { "type": "boolean" },
+        "async_handoff_points": { "type": "array", "items": { "type": "string", "minLength": 5 }, "default": [] }
+      }
+    },
+    "notificationHandling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["notification_types", "frequency_policy", "user_control"],
+      "properties": {
+        "notification_types": { "type": "array", "items": { "type": "string", "enum": ["push", "email", "in_app", "sms", "none"] }, "minItems": 1 },
+        "frequency_policy": { "type": "string", "minLength": 10 },
+        "user_control": { "type": "string", "minLength": 10 }
+      }
+    },
+    "powerUserShortcuts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["keyboard_shortcuts", "command_palette", "templates_and_presets"],
+      "properties": {
+        "keyboard_shortcuts": { "type": "array", "items": { "type": "string", "minLength": 3 }, "default": [] },
+        "command_palette": { "type": "boolean" },
+        "templates_and_presets": { "type": "array", "items": { "type": "string", "minLength": 3 }, "default": [] }
+      }
+    },
+    "visualFlowSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "screens_visible", "sentiment_overlay", "rendering_mode", "annotations"],
+      "properties": {
+        "title": { "type": "string", "minLength": 5 },
+        "screens_visible": { "type": "integer", "minimum": 1 },
+        "sentiment_overlay": { "type": "boolean" },
+        "rendering_mode": { "type": "string", "enum": ["slide", "dashboard", "workshop_board"] },
+        "annotations": { "type": "boolean" }
+      }
+    }
+  }
+}

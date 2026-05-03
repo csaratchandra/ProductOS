@@ -1,0 +1,472 @@
+{
+  "schema_version": "1.0.0",
+  "customer_journey_map_id": "cjm_enterprise_pm_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "Enterprise PM — Customer Journey: ProductOS Adoption",
+  "target_segment_ref": "seg_enterprise_pm",
+  "target_persona_refs": [
+    "pers_sarah_enterprise_pm"
+  ],
+  "journey_stages": [
+    {
+      "stage_id": "stage_unaware",
+      "stage_name": "unaware",
+      "stage_order": 1,
+      "description": "PM does not realize they have a research compilation problem. They think spending 15hrs/week on manual competitive research, status updates, and strategy doc compilation is just part of the job.",
+      "persona_actions": [
+        "Reads competitor blogs manually",
+        "Asks peers for tool recommendations",
+        "Continues existing manual workflow"
+      ],
+      "persona_thoughts": "This is just how PM work is done. Every PM I know spends hours on manual research.",
+      "emotion_score": 4,
+      "emotion_label": "neutral",
+      "touchpoints": [
+        "PM Slack community",
+        "Peer conversations"
+      ],
+      "channels": [
+        "social_media",
+        "chat"
+      ],
+      "pain_points": [
+        "No awareness that AI tooling can reduce 15hrs/week of manual work",
+        "Assumes all PMs operate this way — no urgency to change"
+      ],
+      "time_spent": "months to years",
+      "drop_off_risk": "low",
+      "persons_involved": [
+        "Product Manager",
+        "Peer PMs"
+      ]
+    },
+    {
+      "stage_id": "stage_aware",
+      "stage_name": "aware",
+      "stage_order": 2,
+      "description": "PM sees a peer using AI PM tooling and realizes they are spending 15hrs/week on tasks that could be automated. Initial curiosity triggered.",
+      "persona_actions": [
+        "Clicks on peer shared link",
+        "Searches for AI PM tools on ProductHunt",
+        "Joins PM AI tooling Slack community"
+      ],
+      "persona_thoughts": "Wait, Sarah from the PM community cut her discovery time by 70%? What am I doing wrong?",
+      "emotion_score": 5,
+      "emotion_label": "neutral",
+      "touchpoints": [
+        "Peer shared link",
+        "ProductHunt listing"
+      ],
+      "channels": [
+        "social_media",
+        "website"
+      ],
+      "pain_points": [
+        "Hard to distinguish real capability from hype — every tool claims to be AI-powered",
+        "No trusted source for AI PM tooling comparison"
+      ],
+      "time_spent": "2 to 3 days",
+      "drop_off_risk": "medium",
+      "persons_involved": [
+        "Product Manager"
+      ]
+    },
+    {
+      "stage_id": "stage_research",
+      "stage_name": "research",
+      "stage_order": 3,
+      "description": "PM actively evaluates 3-4 AI PM tooling options. Reads G2 and Capterra reviews, watches demo videos, asks peer PMs in Slack communities for honest feedback.",
+      "persona_actions": [
+        "Reads G2 and Capterra reviews",
+        "Watches vendor demo videos",
+        "Posts in PM Slack asking for recommendations",
+        "Creates comparison spreadsheet"
+      ],
+      "persona_thoughts": "I need something that actually saves time — not another tool that adds overhead. The real test is output quality compared to what I produce manually.",
+      "emotion_score": 6,
+      "emotion_label": "satisfied",
+      "touchpoints": [
+        "G2 reviews",
+        "Capterra reviews",
+        "Vendor demos",
+        "PM Slack threads"
+      ],
+      "channels": [
+        "review_site",
+        "website",
+        "chat"
+      ],
+      "pain_points": [
+        "Inconsistent review quality — hard to compare depth across tools",
+        "Demo videos show happy path only — do not reveal edge cases or failure modes"
+      ],
+      "time_spent": "1 to 2 weeks",
+      "drop_off_risk": "high",
+      "persons_involved": [
+        "Product Manager",
+        "Peer PMs"
+      ]
+    },
+    {
+      "stage_id": "stage_consideration",
+      "stage_name": "consideration",
+      "stage_order": 4,
+      "description": "PM narrows to 2 options. Signs up for trials. Compares output quality against their own manual work. The first generated competitive analysis and PRD draft are the critical evaluation points.",
+      "persona_actions": [
+        "Signs up for 14-day trial",
+        "Generates first competitive analysis",
+        "Generates first PRD draft",
+        "Compares AI output side-by-side with manual output"
+      ],
+      "persona_thoughts": "This is the real test. If the AI output is 80% as good as my manual work, I will recommend this to my VP. If it is below 60%, I will abandon.",
+      "emotion_score": 7,
+      "emotion_label": "satisfied",
+      "touchpoints": [
+        "Trial workspace",
+        "Sample output comparison"
+      ],
+      "channels": [
+        "website",
+        "app"
+      ],
+      "pain_points": [
+        "14-day trial is too short to test quarterly workflow",
+        "Output quality comparison is manual and subjective — no built-in benchmark"
+      ],
+      "time_spent": "1 to 2 weeks",
+      "drop_off_risk": "high",
+      "persons_involved": [
+        "Product Manager"
+      ]
+    },
+    {
+      "stage_id": "stage_decision",
+      "stage_name": "decision",
+      "stage_order": 5,
+      "description": "PM selects ProductOS based on Jira integration depth and evidence traceability. Prepares business case with ROI quantification for VP approval.",
+      "persona_actions": [
+        "Drafts business case document",
+        "Quantifies ROI: hours saved vs cost",
+        "Presents recommendation to VP Product",
+        "Requests security review from CTO"
+      ],
+      "persona_thoughts": "I am confident this will save 10hrs/week. But I need to prove it with numbers the VP will believe — not just my enthusiasm.",
+      "emotion_score": 8,
+      "emotion_label": "satisfied",
+      "touchpoints": [
+        "Business case document",
+        "VP Product meeting"
+      ],
+      "channels": [
+        "email",
+        "chat"
+      ],
+      "pain_points": [
+        "Need to quantify ROI for VP approval — no built-in ROI calculator in the tool",
+        "Stakeholder-specific messaging requires separate documents"
+      ],
+      "time_spent": "1 week",
+      "drop_off_risk": "medium",
+      "persons_involved": [
+        "Product Manager",
+        "VP Product"
+      ]
+    },
+    {
+      "stage_id": "stage_purchase",
+      "stage_name": "purchase",
+      "stage_order": 6,
+      "description": "VP approves purchase. Procurement process begins: legal review, security questionnaire (45 questions), SOC2 compliance verification. Three separate processes, each asking for different documentation.",
+      "persona_actions": [
+        "Submits purchase request",
+        "Fills security questionnaire",
+        "Coordinates legal review",
+        "Follows up on stuck procurement steps"
+      ],
+      "persona_thoughts": "Why is this taking so long? The security questionnaire is 45 questions and the vendor docs do not have pre-filled answers. This should not take 4 weeks.",
+      "emotion_score": 5,
+      "emotion_label": "frustrated",
+      "touchpoints": [
+        "Procurement system",
+        "Security questionnaire",
+        "Compliance documentation"
+      ],
+      "channels": [
+        "email",
+        "chat"
+      ],
+      "pain_points": [
+        "Security questionnaire is 45 questions — PM has to pull answers from vendor docs manually",
+        "Legal review finds gaps in compliance documentation — delays 2 weeks"
+      ],
+      "time_spent": "3 to 4 weeks",
+      "drop_off_risk": "medium",
+      "persons_involved": [
+        "Product Manager",
+        "Legal",
+        "Security team",
+        "VP Product"
+      ]
+    },
+    {
+      "stage_id": "stage_onboarding",
+      "stage_name": "onboarding",
+      "stage_order": 7,
+      "description": "PM sets up workspace. Ingests first batch of research documents. First generated output is promising but needs refinement — the PRD is too shallow and persona descriptions feel generic.",
+      "persona_actions": [
+        "Configures workspace from template",
+        "Uploads first batch of research files",
+        "Runs first discovery generation",
+        "Reviews and edits first AI-generated outputs"
+      ],
+      "persona_thoughts": "The first output is promising but not production-ready. I still need to rewrite about 30%. But the structure is there — I am not starting from blank anymore.",
+      "emotion_score": 7,
+      "emotion_label": "satisfied",
+      "touchpoints": [
+        "Workspace setup wizard",
+        "First generated PRD",
+        "Support documentation"
+      ],
+      "channels": [
+        "app",
+        "chat",
+        "knowledge_base"
+      ],
+      "pain_points": [
+        "Learning curve steeper than expected — need to understand artifact dependency graph",
+        "First PRD is too shallow — need to configure maturity band and depth settings"
+      ],
+      "time_spent": "1 to 2 weeks",
+      "drop_off_risk": "high",
+      "persons_involved": [
+        "Product Manager",
+        "Support team"
+      ]
+    },
+    {
+      "stage_id": "stage_adoption",
+      "stage_name": "adoption",
+      "stage_order": 8,
+      "description": "PM integrates ProductOS into weekly workflow. Auto-generated status mail saves 3hrs/week. Strategy deck first draft saves 8hrs/quarter. PM becomes dependent on the tool for routine PM tasks.",
+      "persona_actions": [
+        "Runs weekly status mail generation",
+        "Uses ProductOS for strategy deck first drafts",
+        "Configures competitive radar for automated monitoring",
+        "Reviews and approves AI-generated outputs"
+      ],
+      "persona_thoughts": "I just saved 3 hours this week on status updates alone. The strategy deck first draft was 70% there — I spent 2 hours refining instead of 10 hours building from scratch.",
+      "emotion_score": 8,
+      "emotion_label": "delighted",
+      "touchpoints": [
+        "Weekly status mail",
+        "Strategy deck draft",
+        "Competitive alerts"
+      ],
+      "channels": [
+        "app",
+        "email"
+      ],
+      "pain_points": [
+        "Occasional output that feels AI-generated — generic persona descriptions that need rewriting",
+        "Still some manual cleanup needed for stakeholder-facing outputs"
+      ],
+      "time_spent": "ongoing usage",
+      "drop_off_risk": "low",
+      "persons_involved": [
+        "Product Manager"
+      ]
+    },
+    {
+      "stage_id": "stage_expansion",
+      "stage_name": "expansion",
+      "stage_order": 9,
+      "description": "PM brings their 2 APMs onto ProductOS. Creates shared workspace. Team velocity improves — stories now have auto-generated acceptance criteria. PM becomes internal champion.",
+      "persona_actions": [
+        "Invites APMs to workspace",
+        "Configures team permissions",
+        "Trains APMs on ProductOS workflow",
+        "Integrates ProductOS into team sprint planning"
+      ],
+      "persona_thoughts": "My APMs are getting up to speed faster. Stories are less ambiguous. Sprint carry-over is dropping. This is actually working at team scale.",
+      "emotion_score": 9,
+      "emotion_label": "delighted",
+      "touchpoints": [
+        "Team workspace",
+        "Shared artifacts",
+        "Knowledge base"
+      ],
+      "channels": [
+        "app",
+        "email"
+      ],
+      "pain_points": [
+        "Permission model needs work — APMs can accidentally modify canonical artifacts",
+        "Would like approval workflow for team contributions before they reach canonical state"
+      ],
+      "time_spent": "ongoing expansion",
+      "drop_off_risk": "low",
+      "persons_involved": [
+        "Product Manager",
+        "APMs",
+        "Engineering lead"
+      ]
+    },
+    {
+      "stage_id": "stage_advocacy",
+      "stage_name": "advocacy",
+      "stage_order": 10,
+      "description": "PM recommends ProductOS in PM Slack community. Writes G2 and Capterra reviews. Presents at internal PM all-hands about cutting discovery time by 70%. Becomes reference customer.",
+      "persona_actions": [
+        "Writes G2 and Capterra reviews",
+        "Recommends ProductOS in PM Slack communities",
+        "Presents case study at internal all-hands",
+        "Agrees to be a reference customer"
+      ],
+      "persona_thoughts": "I genuinely believe this makes PMs better. I want other PMs to experience the same leverage I am getting. Plus, being the PM who brought this tool to the team is good for my career.",
+      "emotion_score": 9,
+      "emotion_label": "delighted",
+      "touchpoints": [
+        "G2 review page",
+        "PM Slack communities",
+        "Internal presentation"
+      ],
+      "channels": [
+        "review_site",
+        "social_media",
+        "in_product"
+      ],
+      "pain_points": [
+        "No referral program or incentive for advocacy",
+        "No built-in case study template — advocacy content written from scratch"
+      ],
+      "time_spent": "ongoing advocacy",
+      "drop_off_risk": "low",
+      "persons_involved": [
+        "Product Manager",
+        "PM Community"
+      ]
+    },
+    {
+      "stage_id": "stage_renewal",
+      "stage_name": "renewal_or_churn",
+      "stage_order": 11,
+      "description": "Annual renewal approaches. PM evaluates if value delivered matches price. Reviews output quality trend over past year. Assesses if competitors have caught up. Renewal decision depends on: output quality improvement trajectory, feature roadmap delivery (V10?), and integration stability.",
+      "persona_actions": [
+        "Reviews annual usage metrics",
+        "Compares current output quality to manual baseline",
+        "Checks competitor landscape for alternatives",
+        "Makes renewal recommendation to VP Product"
+      ],
+      "persona_thoughts": "ProductOS saved me about 400 hours this year. But competitor X just launched a similar tool at half the price. If V10 ships with the prototype generation and dashboard they promised, I will renew. If not, I will evaluate alternatives.",
+      "emotion_score": 7,
+      "emotion_label": "neutral",
+      "touchpoints": [
+        "Usage analytics",
+        "Renewal pricing page",
+        "Competitor comparison"
+      ],
+      "channels": [
+        "email",
+        "app"
+      ],
+      "pain_points": [
+        "ROI quantification is manual — would like auto-generated value delivered report",
+        "Feature roadmap delivery is key renewal driver but roadmap visibility is limited"
+      ],
+      "time_spent": "1 to 2 weeks",
+      "drop_off_risk": "medium",
+      "persons_involved": [
+        "Product Manager",
+        "VP Product"
+      ]
+    }
+  ],
+  "overall_emotion_curve": {
+    "overall_trend": "improving",
+    "peak_emotion_stage": "adoption",
+    "valley_emotion_stage": "purchase",
+    "curve_description": "U-shaped journey: high satisfaction during evaluation and adoption, deep valley during procurement/security review, recovery during onboarding and adoption"
+  },
+  "moments_of_truth": [
+    {
+      "moment_id": "mot_001",
+      "stage_id": "stage_consideration",
+      "description": "First generated PRD output — PM compares quality against their manual work. If output is >80% parity, they proceed. If <60%, they abandon.",
+      "importance": "critical",
+      "current_performance": "adequate",
+      "improvement_needed": true
+    },
+    {
+      "moment_id": "mot_002",
+      "stage_id": "stage_purchase",
+      "description": "Security review questionnaire — if documentation is incomplete or compliance gaps exist, deal stalls for 2-4 weeks. Enterprise buyers may walk if gaps are material.",
+      "importance": "critical",
+      "current_performance": "weak",
+      "improvement_needed": true
+    },
+    {
+      "moment_id": "mot_003",
+      "stage_id": "stage_onboarding",
+      "description": "First 7 days of usage — PM needs to reach 'time-to-first-value' within 1 week or adoption stalls. Key value moment: first auto-generated competitive analysis.",
+      "importance": "high",
+      "current_performance": "adequate",
+      "improvement_needed": true
+    }
+  ],
+  "gap_analysis": {
+    "current_vs_ideal_summary": "Current journey: strong evaluation and long-term adoption, but procurement/security review creates a 4-week valley that loses 15% of qualified deals. Ideal journey: automated security documentation + pre-built compliance packs reduce purchase stage to 1 week.",
+    "critical_gaps": [
+      {
+        "gap_id": "gap_001",
+        "stage_id": "stage_purchase",
+        "description": "Security review documentation insufficient — enterprise buyers blocked on incomplete compliance information",
+        "impact_on_customer": "4-week delay in deployment. 15% drop-off during security review stage.",
+        "priority": "must_now"
+      }
+    ],
+    "unmet_expectations": [
+      "PM expected 'one-click deployment' after procurement — actual setup requires workspace configuration and artifact dependency understanding"
+    ]
+  },
+  "opportunities": [
+    {
+      "opportunity_id": "opp_001",
+      "title": "Auto-Generated Security Documentation",
+      "stage_id": "stage_purchase",
+      "description": "Generate SOC2 compliance pack, security questionnaire answers, and architecture diagram automatically from product artifacts",
+      "potential_impact": "transformative",
+      "effort_estimate": "medium",
+      "linked_feature_concept": "compliance_automation"
+    },
+    {
+      "opportunity_id": "opp_002",
+      "title": "7-Day Onboarding Accelerator",
+      "stage_id": "stage_onboarding",
+      "description": "Pre-configured workspace template with 7-day guided workflow that produces first usable competitive analysis by day 3",
+      "potential_impact": "significant",
+      "effort_estimate": "medium",
+      "linked_feature_concept": "onboarding_accelerator"
+    },
+    {
+      "opportunity_id": "opp_003",
+      "title": "ROI Value Report",
+      "stage_id": "stage_renewal_or_churn",
+      "description": "Auto-generated quarterly value report: hours saved, artifacts generated, PM leverage increase since adoption",
+      "potential_impact": "significant",
+      "effort_estimate": "low",
+      "linked_feature_concept": "roi_value_report"
+    }
+  ],
+  "visual_map_spec": {
+    "title": "ProductOS Customer Journey — Enterprise PM",
+    "stages_visible": 11,
+    "emotion_curve_visible": true,
+    "touchpoint_overlay": true,
+    "rendering_mode": "dashboard"
+  },
+  "source_evidence_refs": [
+    "source_note_card_sarah_interview_001",
+    "source_note_card_sarah_interview_002"
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

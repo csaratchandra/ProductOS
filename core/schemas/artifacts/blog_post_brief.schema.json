@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/blog_post_brief.schema.json",
+  "title": "ProductOS Blog Post Brief",
+  "description": "SEO-researched blog post outline with target keyword, search intent analysis, audience segmentation, 5-7 key points, unique angle, competitor content analysis, internal link strategy, word count target, and CTA.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "blog_post_brief_id", "workspace_id", "working_title", "target_keyword", "search_intent", "target_audience", "key_points", "unique_angle", "cta", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "blog_post_brief_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "working_title": {"type": "string", "minLength": 5},
+    "title_variants": {"type": "array", "items": {"type": "string", "minLength": 5}, "minItems": 1},
+    "target_keyword": {"type": "string", "minLength": 3},
+    "search_intent": {"type": "string", "enum": ["informational", "commercial_investigation", "transactional", "navigational"]},
+    "target_audience": {"type": "string", "minLength": 10},
+    "key_points": {"type": "array", "items": {"type": "string", "minLength": 10}, "minItems": 3, "maxItems": 7},
+    "unique_angle": {"type": "string", "minLength": 20},
+    "supporting_data": {"type": "array", "items": {"type": "string", "minLength": 10}, "minItems": 1},
+    "competitor_content_analysis": {"type": "string", "minLength": 30},
+    "internal_links": {"type": "array", "items": {"type": "string", "minLength": 3}, "default": []},
+    "cta": {"type": "string", "minLength": 10},
+    "estimated_word_count": {"type": "integer", "minimum": 500},
+    "generated_at": {"type": "string", "format": "date-time"}
+  }
+}

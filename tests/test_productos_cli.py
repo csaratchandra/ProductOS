@@ -34,6 +34,25 @@ def _run_self_hosting_cli(root_dir: Path, workspace_dir: Path, *args: str) -> su
     return _run_cli(root_dir, "--workspace-dir", str(workspace_dir), *args)
 
 
+def _make_mission_first_workspace(root_dir: Path, tmp_path: Path) -> Path:
+    workspace_copy = tmp_path / "starter-mission-first"
+    shutil.copytree(root_dir / "templates", workspace_copy)
+    artifacts_dir = workspace_copy / "artifacts"
+    for path in list(artifacts_dir.glob("*.json")):
+        if path.name in {
+            "mission_brief.json",
+            "item_lifecycle_state.json",
+            "lifecycle_stage_snapshot.json",
+            "lifecycle_stage_snapshot_delivery.json",
+            "lifecycle_stage_snapshot_launch.json",
+            "lifecycle_stage_snapshot_outcomes.json",
+            "lifecycle_stage_snapshot_full_lifecycle.json",
+        }:
+            continue
+        path.unlink()
+    return workspace_copy
+
+
 def _workflow_corridor_source_bundle() -> dict:
     return {
         "workspace_id": "ws_corridor_cli",
@@ -212,10 +231,21 @@ def test_productos_status_command(root_dir: Path, self_hosting_workspace_dir: Pa
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Mode: status" in result.stdout
     assert "Mission: PM superpower recovery mission" in result.stdout
+    assert "Maturity Band:" in result.stdout
+    assert "Lifecycle Phase:" in result.stdout
+    assert "Active Phase Packet:" in result.stdout
+    assert "Lifecycle Tracks: P0=passed, P1=watch, P2=passed" in result.stdout
+    assert "Workspace Coherence: artifact_backed" in result.stdout
+    assert "Governed Docs: artifact_backed" in result.stdout
+    assert "Research Packet: 18/18 (lifecycle_fallback" in result.stdout
+    assert "Downstream Traceability: artifact_backed (reopen=ready)" in result.stdout
+    assert "V9 Release Gate: blocked" in result.stdout
     assert "Top Priority Feature: presentation_superpower" in result.stdout
     assert "Truthfulness Status: healthy" in result.stdout
     assert "Eval Status: passed (0 regressions)" in result.stdout
     assert "Research Coverage:" in result.stdout
+    assert "Strategy Refresh:" in result.stdout
+    assert "Downstream Packet:" in result.stdout
     assert "Stable Promotion: ready" in result.stdout
 
 
@@ -335,16 +365,24 @@ def test_productos_start_command_creates_workspace_and_mission(root_dir: Path, t
     with (destination / "workspace_manifest.yaml").open("r", encoding="utf-8") as handle:
         manifest = yaml.safe_load(handle)
     mission_brief = json.loads((destination / "artifacts" / "mission_brief.json").read_text(encoding="utf-8"))
+    product_record = json.loads((destination / "artifacts" / "product_record.json").read_text(encoding="utf-8"))
+    phase_packet = json.loads((destination / "artifacts" / "phase_packet_discovery.json").read_text(encoding="utf-8"))
 
     assert manifest["workspace_id"] == "ws_acme_start"
     assert manifest["name"] == "Acme Start Workspace"
     assert manifest["mode"] == "startup"
     assert mission_brief["title"] == "Activation recovery mission"
     assert mission_brief["operating_mode"] == "discover"
+    assert mission_brief["maturity_band"] == "zero_to_one"
+    assert product_record["mission_ref"] == mission_brief["mission_brief_id"]
+    assert product_record["maturity_band"] == "zero_to_one"
+    assert phase_packet["lifecycle_phase"] == "discovery"
     assert "artifacts/strategy_context_brief.json" in manifest["artifact_paths"]
     assert "artifacts/product_vision_brief.json" in manifest["artifact_paths"]
     assert "artifacts/strategy_option_set.json" in manifest["artifact_paths"]
     assert "artifacts/market_strategy_brief.json" in manifest["artifact_paths"]
+    assert "artifacts/product_record.json" in manifest["artifact_paths"]
+    assert "artifacts/phase_packet_discovery.json" in manifest["artifact_paths"]
     assert "artifacts/increment_plan.json" in manifest["artifact_paths"]
     assert "artifacts/decision_queue.example.json" in manifest["artifact_paths"]
     assert "artifacts/source_note_card_openai_deep_research_official_2026.example.json" in manifest["artifact_paths"]
@@ -389,6 +427,205 @@ def test_productos_start_workspace_can_run_discover(root_dir: Path, tmp_path: Pa
     assert (output_dir / "discover_strategy_context_brief.json").exists()
     assert (output_dir / "discover_research_brief.json").exists()
     assert (output_dir / "discover_execution_session_state.json").exists()
+
+
+def test_productos_phase_plan_generates_lifecycle_packet(root_dir: Path, tmp_path: Path):
+    destination = tmp_path / "phase-plan-workspace"
+    start_result = _run_cli(
+        root_dir,
+        "start",
+        "--dest",
+        str(destination),
+        "--workspace-id",
+        "ws_phase_plan",
+        "--name",
+        "Phase Plan Workspace",
+        "--mode",
+        "startup",
+        "--title",
+        "Phase planning mission",
+        "--customer-problem",
+        "The PM needs phase-aware scaffolding without rebuilding the workspace by hand.",
+        "--business-goal",
+        "Create a reusable lifecycle packet for the next decision.",
+        "--maturity-band",
+        "one_to_ten",
+        "--stage-goal",
+        "validation:Prove the riskiest assumptions before delivery opens.",
+    )
+    assert start_result.returncode == 0, start_result.stderr or start_result.stdout
+
+    result = _run_self_hosting_cli(
+        root_dir,
+        destination,
+        "phase",
+        "plan",
+        "validation",
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "Phase Packet: phase_packet_ws_phase_plan_validation" in result.stdout
+    phase_packet = json.loads((destination / "artifacts" / "phase_packet_validation.json").read_text(encoding="utf-8"))
+    product_record = json.loads((destination / "artifacts" / "product_record.json").read_text(encoding="utf-8"))
+    assert phase_packet["lifecycle_phase"] == "validation"
+    assert phase_packet["phase_goal"] == "Prove the riskiest assumptions before delivery opens."
+    assert product_record["lifecycle_stage"] == "validation"
+
+
+def test_productos_cockpit_build_emits_bundle_and_html(root_dir: Path, tmp_path: Path):
+    destination = tmp_path / "cockpit-workspace"
+    start_result = _run_cli(
+        root_dir,
+        "start",
+        "--dest",
+        str(destination),
+        "--workspace-id",
+        "ws_cockpit",
+        "--name",
+        "Cockpit Workspace",
+        "--mode",
+        "startup",
+        "--title",
+        "Cockpit mission",
+        "--customer-problem",
+        "The PM needs one generated control center with approvals, tasks, and evidence traces.",
+        "--business-goal",
+        "Create a mission-first cockpit bundle and HTML export.",
+    )
+    assert start_result.returncode == 0, start_result.stderr or start_result.stdout
+
+    result = _run_self_hosting_cli(root_dir, destination, "cockpit", "build")
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    bundle_path = destination / "outputs" / "cockpit" / "cockpit_bundle.json"
+    html_path = destination / "outputs" / "cockpit" / "control-center.html"
+    assert bundle_path.exists()
+    assert html_path.exists()
+    bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
+    assert bundle["cockpit_bundle_id"] == "cockpit_bundle_ws_cockpit"
+    assert bundle["cockpit_state"]["workspace_tree_ref"] == bundle["workspace_tree_state"]["workspace_tree_state_id"]
+    assert bundle["cockpit_state"]["recommended_pm_actions"]
+    assert bundle["research_posture"]["review_status"]
+    assert bundle["strategy_refresh_posture"]["status"]
+    html = html_path.read_text(encoding="utf-8")
+    assert "Cockpit mission" in html
+    assert "bounded PM control-plane surface" in html
+    assert "Research Posture" in html
+    assert "Strategy Spine" in html
+
+
+def test_productos_review_surfaces_phase_metadata(root_dir: Path, self_hosting_workspace_dir: Path):
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "review")
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "Mission: PM superpower recovery mission" in result.stdout
+    assert "Maturity Band:" in result.stdout
+    assert "Lifecycle Phase:" in result.stdout
+    assert "Active Phase Packet:" in result.stdout
+    assert "Lifecycle Tracks: P0=passed, P1=watch, P2=passed" in result.stdout
+    assert "Workspace Coherence: artifact_backed" in result.stdout
+    assert "Governed Docs: artifact_backed" in result.stdout
+    assert "V9 Release Gate: blocked" in result.stdout
+    assert "Governed Research:" in result.stdout
+    assert "Strategy Refresh:" in result.stdout
+
+
+def test_productos_status_review_and_v9_work_on_mission_first_starter_workspace(root_dir: Path, tmp_path: Path):
+    workspace_copy = _make_mission_first_workspace(root_dir, tmp_path)
+
+    status_result = _run_cli(root_dir, "--workspace-dir", str(workspace_copy), "status")
+    review_result = _run_cli(root_dir, "--workspace-dir", str(workspace_copy), "review")
+    v9_result = _run_cli(root_dir, "--workspace-dir", str(workspace_copy), "v9")
+
+    assert status_result.returncode == 0, status_result.stderr or status_result.stdout
+    assert "Workspace Coherence: lifecycle_fallback" in status_result.stdout
+    assert "Governed Docs: deferred" in status_result.stdout
+    assert "Research Packet:" in status_result.stdout
+    assert "V9 Release Gate: blocked" in status_result.stdout
+
+    assert review_result.returncode == 0, review_result.stderr or review_result.stdout
+    assert "Workspace Coherence: lifecycle_fallback" in review_result.stdout
+    assert "Downstream Traceability: deferred" in review_result.stdout
+
+    assert v9_result.returncode == 0, v9_result.stderr or v9_result.stdout
+    assert "Target Release: 10.0.0" in v9_result.stdout
+    assert "Workspace Coherence: lifecycle_fallback" in v9_result.stdout
+    assert "Release Decision: no_go" in v9_result.stdout
+
+
+def test_productos_status_review_and_v9_work_on_partial_adoption_workspace(
+    root_dir: Path,
+    adoption_workspace_dir: Path,
+):
+    status_result = _run_cli(root_dir, "--workspace-dir", str(adoption_workspace_dir), "status")
+    review_result = _run_cli(root_dir, "--workspace-dir", str(adoption_workspace_dir), "review")
+    v9_result = _run_cli(root_dir, "--workspace-dir", str(adoption_workspace_dir), "v9")
+
+    assert status_result.returncode == 0, status_result.stderr or status_result.stdout
+    assert "Workspace Coherence: deferred" in status_result.stdout
+    assert "V9 Release Gate: blocked" in status_result.stdout
+
+    assert review_result.returncode == 0, review_result.stderr or review_result.stdout
+    assert "Workspace Coherence: deferred" in review_result.stdout
+
+    assert v9_result.returncode == 0, v9_result.stderr or v9_result.stdout
+    assert "Target Release: 10.0.0" in v9_result.stdout
+    assert "Release Decision: no_go" in v9_result.stdout
+
+
+def test_productos_portfolio_build_rolls_up_multiple_workspaces(root_dir: Path, tmp_path: Path):
+    workspace_a = tmp_path / "portfolio-a"
+    workspace_b = tmp_path / "portfolio-b"
+    for destination, workspace_id, title in [
+        (workspace_a, "ws_portfolio_a", "Portfolio mission A"),
+        (workspace_b, "ws_portfolio_b", "Portfolio mission B"),
+    ]:
+        result = _run_cli(
+            root_dir,
+            "start",
+            "--dest",
+            str(destination),
+            "--workspace-id",
+            workspace_id,
+            "--name",
+            f"{title} Workspace",
+            "--mode",
+            "startup",
+            "--title",
+            title,
+            "--customer-problem",
+            "The PM needs to view multiple products from one generated portfolio surface.",
+            "--business-goal",
+            "Build a portfolio rollup without reconstructing context.",
+            "--portfolio-id",
+            "suite_pm_superpowers",
+        )
+        assert result.returncode == 0, result.stderr or result.stdout
+
+    result = _run_cli(
+        root_dir,
+        "portfolio",
+        "build",
+        "--workspace",
+        str(workspace_a),
+        "--workspace",
+        str(workspace_b),
+        "--suite-id",
+        "suite_pm_superpowers",
+        "--output-dir",
+        str(tmp_path / "portfolio-output"),
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    portfolio_state = json.loads((tmp_path / "portfolio-output" / "portfolio_state.json").read_text(encoding="utf-8"))
+    cross_product_insight_index = json.loads(
+        (tmp_path / "portfolio-output" / "cross_product_insight_index.json").read_text(encoding="utf-8")
+    )
+    assert portfolio_state["suite_id"] == "suite_pm_superpowers"
+    assert len(portfolio_state["product_summaries"]) == 2
+    assert portfolio_state["product_summaries"][0]["review_gate_owner"] == "ProductOS PM"
+    assert cross_product_insight_index["portfolio_id"] == "suite_pm_superpowers"
+    assert len(cross_product_insight_index["insights"]) == 2
 
 
 def test_case_variant_launchers_delegate_to_productos_cli(root_dir: Path):
@@ -937,18 +1174,84 @@ def test_productos_status_review_and_doctor_surface_feed_governance(
     assert "Feed Governance Alerts:" in status_result.stdout
     assert "feed_competitor_research: unconfigured" in status_result.stdout
     assert "feed_customer_evidence: cadence stale" in status_result.stdout
+    assert "Research Review: clear" in status_result.stdout
+    assert "Research Search: completed" in status_result.stdout
+    assert "Research Contradictions: 0" in status_result.stdout
+    assert "Research Freshness: feed registry 1 current, 1 due, 1 stale" in status_result.stdout
+    assert "Research Recommendation:" in status_result.stdout
+    assert "Strategy Refresh:" in status_result.stdout
+    assert "Downstream Packet:" in status_result.stdout
+    assert "Missing Downstream Artifacts:" in status_result.stdout
 
     assert review_result.returncode == 0, review_result.stderr or review_result.stdout
     assert "Feed Governance: degraded (1 unconfigured, 1 stale, 1 due)" in review_result.stdout
     assert "Promotion Blockers:" in review_result.stdout
     assert "- Feed Governance:" in review_result.stdout
     assert "Feed Governance Alerts:" in review_result.stdout
+    assert "Research Review: clear" in review_result.stdout
+    assert "Research Freshness: feed registry 1 current, 1 due, 1 stale" in review_result.stdout
+    assert "Strategy Refresh:" in review_result.stdout
 
     assert doctor_result.returncode == 0, doctor_result.stderr or doctor_result.stdout
     assert "Feed Governance: degraded (1 unconfigured, 1 stale, 1 due)" in doctor_result.stdout
     assert "Promotion Blockers:" in doctor_result.stdout
     assert "- Feed Governance:" in doctor_result.stdout
     assert "Feed Governance Alerts:" in doctor_result.stdout
+    assert "Research Review: clear" in doctor_result.stdout
+    assert "Research Freshness: feed registry 1 current, 1 due, 1 stale" in doctor_result.stdout
+    assert "Strategy Refresh:" in doctor_result.stdout
+
+
+def test_productos_status_and_review_surface_research_contradictions(
+    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+):
+    workspace_copy = tmp_path / "workspace-copy"
+    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+
+    (workspace_copy / "artifacts" / "external_research_review.json").write_text(
+        json.dumps(
+            {
+                "schema_version": "1.0.0",
+                "external_research_review_id": "external_research_review_ws_productos_v2",
+                "workspace_id": "ws_productos_v2",
+                "review_status": "review_required",
+                "accepted_source_ids": ["src_proof", "src_competitor"],
+                "contradiction_items": [
+                    {
+                        "contradiction_id": "external_contradiction_proof_posture",
+                        "topic": "proof_posture",
+                        "severity": "moderate",
+                        "statement": "External sources disagree on whether buyers already require measurable governance proof.",
+                        "question_ids": ["research_q_adoption_workspace_outcomes_proof"],
+                        "source_ids": ["src_proof", "src_competitor"],
+                    }
+                ],
+                "review_items": [
+                    "External sources disagree on whether buyers already require measurable governance proof."
+                ],
+                "recommendation": "pm_review_required",
+                "created_at": "2026-04-08T10:00:00Z",
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    status_result = _run_self_hosting_cli(root_dir, workspace_copy, "status")
+    review_result = _run_self_hosting_cli(root_dir, workspace_copy, "review")
+
+    assert status_result.returncode == 0, status_result.stderr or status_result.stdout
+    assert "Research Review: review_required" in status_result.stdout
+    assert "Research Contradictions: 1" in status_result.stdout
+    assert "External sources disagree on whether buyers already require measurable governance proof." in status_result.stdout
+    assert "Strategy Refresh: blocked_on_research_review" in status_result.stdout
+
+    assert review_result.returncode == 0, review_result.stderr or review_result.stdout
+    assert "Research Review: review_required" in review_result.stdout
+    assert "Research Contradictions: 1" in review_result.stdout
+    assert "External sources disagree on whether buyers already require measurable governance proof." in review_result.stdout
+    assert "Strategy Refresh: blocked_on_research_review" in review_result.stdout
 
 
 def test_productos_cutover_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
@@ -1207,6 +1510,19 @@ def test_productos_v7_command(root_dir: Path, self_hosting_workspace_dir: Path, 
     assert (tmp_path / "runtime_scenario_report_v7_lifecycle_traceability.json").exists()
     assert (tmp_path / "release_gate_decision_v7_lifecycle_traceability.json").exists()
     assert (tmp_path / "ralph_loop_state_v7_lifecycle_traceability.json").exists()
+
+
+def test_productos_v9_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "v9", "--output-dir", str(tmp_path))
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "V9 Bundle: World-class PM superpowers — autonomous intelligence, decisions, discovery, prototypes, marketing, and living system" in result.stdout
+    assert "Target Release: 10.0.0" in result.stdout
+    assert "Track Statuses: P0=passed, P1=watch, P2=passed" in result.stdout
+    assert "Release Decision: no_go" in result.stdout
+    assert (tmp_path / "runtime_scenario_report_v9_lifecycle_enrichment.json").exists()
+    assert (tmp_path / "release_gate_decision_v9_lifecycle_enrichment.json").exists()
+    assert (tmp_path / "ralph_loop_state_v9_lifecycle_enrichment.json").exists()
 
 
 def test_productos_run_discover_command_exports_phase_artifacts(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
@@ -2105,8 +2421,8 @@ def test_productos_init_mission_updates_delivery_and_launch_artifacts_in_initial
     )
 
 
-def test_productos_validate_workspace_command(root_dir: Path):
-    workspace_dir = root_dir / "workspaces" / "contract-intelligence-platform"
+def test_productos_validate_workspace_command(root_dir: Path, contract_intelligence_workspace_dir: Path):
+    workspace_dir = contract_intelligence_workspace_dir
     result = _run_cli(root_dir, "--workspace-dir", str(workspace_dir), "validate-workspace")
 
     assert result.returncode == 0, result.stderr or result.stdout

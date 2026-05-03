@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/competitor_radar_state.schema.json",
+  "title": "ProductOS Competitor Radar State",
+  "description": "Persistent monitoring state tracking competitor digital surfaces, detection intervals, and change confidence across websites, review platforms, app stores, social channels, job postings, patent filings, and press releases.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "competitor_radar_state_id",
+    "workspace_id",
+    "status",
+    "scan_frequency_hours",
+    "last_full_scan_at",
+    "monitored_competitors",
+    "change_detection_summary",
+    "active_alerts_count",
+    "radar_health"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "competitor_radar_state_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["active", "paused", "error", "initializing"]
+    },
+    "scan_frequency_hours": { "type": "integer", "minimum": 1 },
+    "last_full_scan_at": { "type": "string", "format": "date-time" },
+    "next_scan_at": { "type": "string", "format": "date-time" },
+    "monitored_competitors": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/monitoredCompetitor" },
+      "minItems": 1
+    },
+    "change_detection_summary": { "$ref": "#/$defs/changeDetectionSummary" },
+    "active_alerts_count": { "type": "integer", "minimum": 0 },
+    "radar_health": { "$ref": "#/$defs/radarHealth" },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "monitoredCompetitor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "competitor_id",
+        "competitor_name",
+        "dossier_ref",
+        "priority_level",
+        "surfaces",
+        "last_change_detected_at",
+        "monitoring_status"
+      ],
+      "properties": {
+        "competitor_id": { "type": "string", "minLength": 1 },
+        "competitor_name": { "type": "string", "minLength": 2 },
+        "dossier_ref": { "type": "string", "minLength": 1 },
+        "priority_level": {
+          "type": "string",
+          "enum": ["primary", "secondary", "watch"]
+        },
+        "surfaces": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/monitoredSurface" },
+          "minItems": 1
+        },
+        "last_change_detected_at": { "type": "string", "format": "date-time" },
+        "monitoring_status": {
+          "type": "string",
+          "enum": ["healthy", "degraded", "blocked", "not_reachable"]
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "monitoredSurface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "surface_type",
+        "surface_url",
+        "last_checked_at",
+        "last_known_state_hash",
+        "check_status"
+      ],
+      "properties": {
+        "surface_type": {
+          "type": "string",
+          "enum": ["website", "pricing_page", "documentation", "blog", "app_store", "g2", "capterra", "product_hunt", "twitter", "linkedin", "job_board", "patent_db", "press_release", "sec_filing", "support_forum", "changelog", "api_docs", "github", "other"]
+        },
+        "surface_url": { "type": "string", "minLength": 5 },
+        "last_checked_at": { "type": "string", "format": "date-time" },
+        "last_known_state_hash": { "type": "string", "minLength": 1 },
+        "current_state_hash": { "type": "string", "minLength": 1 },
+        "check_status": {
+          "type": "string",
+          "enum": ["unchanged", "changed", "error", "ignored"]
+        },
+        "last_change_description": { "type": "string", "minLength": 10 },
+        "check_frequency_override_hours": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "changeDetectionSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_changes_detected",
+        "by_change_type",
+        "by_competitor",
+        "most_recent_change_at"
+      ],
+      "properties": {
+        "total_changes_detected": { "type": "integer", "minimum": 0 },
+        "by_change_type": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["feature_launch", "pricing_update", "positioning_shift", "hiring_signal", "acquisition", "partnership", "funding", "leadership_change", "product_retirement", "other"],
+          "properties": {
+            "feature_launch": { "type": "integer", "minimum": 0 },
+            "pricing_update": { "type": "integer", "minimum": 0 },
+            "positioning_shift": { "type": "integer", "minimum": 0 },
+            "hiring_signal": { "type": "integer", "minimum": 0 },
+            "acquisition": { "type": "integer", "minimum": 0 },
+            "partnership": { "type": "integer", "minimum": 0 },
+            "funding": { "type": "integer", "minimum": 0 },
+            "leadership_change": { "type": "integer", "minimum": 0 },
+            "product_retirement": { "type": "integer", "minimum": 0 },
+            "other": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "by_competitor": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/competitorChangeCount" },
+          "minItems": 1
+        },
+        "most_recent_change_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "competitorChangeCount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["competitor_id", "competitor_name", "change_count"],
+      "properties": {
+        "competitor_id": { "type": "string", "minLength": 1 },
+        "competitor_name": { "type": "string", "minLength": 2 },
+        "change_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "radarHealth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["overall", "surface_reachability_pct", "stale_surface_count"],
+      "properties": {
+        "overall": {
+          "type": "string",
+          "enum": ["healthy", "degraded", "critical"]
+        },
+        "surface_reachability_pct": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "stale_surface_count": { "type": "integer", "minimum": 0 },
+        "last_health_check_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

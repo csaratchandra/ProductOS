@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/messaging_house.schema.json",
+  "title": "ProductOS Messaging House",
+  "description": "Complete messaging architecture with positioning statement, value propositions with proof points, tagline variants, key messages per segment, emotional and functional benefits, and competitive differentiation framing — validated against April Dunford's positioning framework.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "messaging_house_id", "workspace_id", "title", "positioning", "value_propositions", "proof_points", "tagline_variants", "segment_messages", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "messaging_house_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 5},
+    "positioning": {"$ref": "#/$defs/positioning"},
+    "value_propositions": {"type": "array", "items": {"$ref": "#/$defs/valueProp"}, "minItems": 2, "maxItems": 5},
+    "proof_points": {"type": "array", "items": {"$ref": "#/$defs/proofPoint"}, "minItems": 3},
+    "tagline_variants": {"type": "array", "items": {"$ref": "#/$defs/tagline"}, "minItems": 2, "maxItems": 5},
+    "segment_messages": {"type": "array", "items": {"$ref": "#/$defs/segmentMessage"}, "minItems": 1},
+    "competitive_differentiation": {"type": "string", "minLength": 20},
+    "anti_claims": {"type": "array", "items": {"type": "string", "minLength": 10}, "minItems": 1},
+    "source_evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "positioning": {"type": "object", "additionalProperties": false, "required": ["for_target", "who_need", "product_name", "is_a", "that_provides", "unlike_alternatives", "we_deliver"], "properties": {"for_target": {"type": "string", "minLength": 10}, "who_need": {"type": "string", "minLength": 10}, "product_name": {"type": "string"}, "is_a": {"type": "string", "minLength": 10}, "that_provides": {"type": "string", "minLength": 10}, "unlike_alternatives": {"type": "string", "minLength": 10}, "we_deliver": {"type": "string", "minLength": 10}}},
+    "valueProp": {"type": "object", "additionalProperties": false, "required": ["headline", "description", "functional_benefit", "emotional_benefit", "proof_point_refs"], "properties": {"headline": {"type": "string", "minLength": 5}, "description": {"type": "string", "minLength": 10}, "functional_benefit": {"type": "string", "minLength": 5}, "emotional_benefit": {"type": "string", "minLength": 5}, "proof_point_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1}}},
+    "proofPoint": {"type": "object", "additionalProperties": false, "required": ["point_id", "statement", "evidence_type", "evidence_ref"], "properties": {"point_id": {"type": "string", "minLength": 1}, "statement": {"type": "string", "minLength": 10}, "evidence_type": {"type": "string", "enum": ["customer_quote", "metric", "case_study", "competitive_gap", "benchmark", "testimonial"]}, "evidence_ref": {"type": "string", "minLength": 1}}},
+    "tagline": {"type": "object", "additionalProperties": false, "required": ["variant", "use_case"], "properties": {"variant": {"type": "string", "minLength": 3}, "use_case": {"type": "string", "enum": ["hero", "social", "elevator_pitch", "email_subject", "ad_headline"]}}},
+    "segmentMessage": {"type": "object", "additionalProperties": false, "required": ["segment_id", "segment_name", "key_message", "why_switch", "primary_benefit"], "properties": {"segment_id": {"type": "string", "minLength": 1}, "segment_name": {"type": "string"}, "key_message": {"type": "string", "minLength": 10}, "why_switch": {"type": "string", "minLength": 10}, "primary_benefit": {"type": "string", "minLength": 10}}}
+  }
+}

@@ -1,6 +1,6 @@
 # ProductOS
 
-ProductOS V8.4.0 is the current stable ProductOS Core line.
+ProductOS V10.0.0 is the current stable ProductOS Core line.
 
 ProductOS is distributed under the Apache License 2.0. Forks, improvements, and
 suggestions are welcome through issues and pull requests.
@@ -18,7 +18,7 @@ For PM adoption on a new product, the canonical starting surface is [templates](
 
 ## Operating Model
 
-ProductOS V8.4.0 is organized around the PM lifecycle plus governed research and improvement loops:
+ProductOS V10.0.0 is organized around the PM lifecycle plus governed research, decision, and living-system loops:
 
 The current stable line strengthens the mission-to-strategy discovery spine, reusable research skills, and strategy-linked discovery artifacts while keeping PM review and release boundaries explicit.
 
@@ -53,6 +53,13 @@ Recommended command:
 
 `./productos start --dest /path/to/new-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode startup --title "Your mission" --customer-problem "Customer problem" --business-goal "Business goal"`
 
+Mission-first scaffolding commands:
+
+- `./productos start --dest /path/to/new-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode startup --title "Your mission" --customer-problem "Customer problem" --business-goal "Business goal" --maturity-band one_to_ten --primary-kpi "time to reviewable PRD" --primary-outcome "Create one reviewable PM package" --review-gate-owner "ProductOS PM" --stage-goal validation:"Prove the riskiest assumptions before delivery opens."`
+- `./productos --workspace-dir /path/to/new-workspace phase plan validation`
+- `./productos --workspace-dir /path/to/new-workspace cockpit build`
+- `./productos portfolio build --workspace /path/to/workspace-a --workspace /path/to/workspace-b --suite-id suite_pm_superpowers`
+
 Recommended next step:
 
 `./productos --workspace-dir /path/to/new-workspace run discover`
@@ -74,6 +81,8 @@ For an existing product workspace, start with:
 `./productos import --source /path/to/existing-product-folder --dest /path/to/adopted-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode research --emit-report --emit-thread-page`
 
 The repo also accepts the entrypoint names `./ProductOS`, `./productOS`, and `./PRODUCTOS`.
+
+The mission, phase, cockpit, and portfolio surfaces are bounded PM control-plane helpers. They improve repo-native reviewability and coordination, but they do not broaden the public `V10.0.0` claim boundary on their own.
 
 ## Validation And Testing
 

@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "release_id": "release_10_0_0",
+  "core_version": "10.0.0",
+  "released_at": "2026-05-03T08:00:00Z",
+  "release_type": "major",
+  "change_classification": "major_product_change",
+  "customer_visible": true,
+  "classification_rationale": "V10 introduces 36 new schemas and skills across autonomous intelligence, decision support, discovery depth, prototype generation, marketing content, stakeholder management, and a living system — transforming ProductOS from a structured artifact engine into a world-class PM superpower platform.",
+  "summary": "ProductOS V10.0.0 is the stable release for the PM superpower platform, autonomous intelligence, decision intelligence, prototype generation, marketing content, and the living Product Health Dashboard.",
+  "breaking_changes": [
+    "Skill system upgraded from 7-element V9 format to 12-element V10 format"
+  ],
+  "upgrade_actions": [
+    "Adopt new V10 schemas in workspace artifact generation pipelines",
+    "Run autonomous full-lifecycle discovery-to-launch with `./productos run full-lifecycle`",
+    "Use Product Health Dashboard as single source of product truth",
+    "Configure competitive radar with competitor surfaces for continuous monitoring",
+    "Review autonomous review gate thresholds per maturity band"
+  ]
+ }

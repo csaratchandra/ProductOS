@@ -1,41 +1,64 @@
 # Source Discovery
 
-## Purpose
+## 1. Purpose
 
-Find candidate sources across bounded external and internal surfaces for a research question or operating task.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when ProductOS needs candidate market, competitor, customer, operator, or internal context sources before synthesis begins.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- research question or operating question
-- source-type expectation
-- bounded search scope or feed scope
-- existing canonical source context when available
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- candidate source list
-- source coverage summary
-- search-status summary
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not treat discovery as validation
-- do not hide empty, partial, or no-result states
-- do not broaden into unrestricted source intake without an explicit scope
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-- generate bounded queries or feed matches
-- collect candidate sources
-- deduplicate obvious repeats
-- record coverage and discovery status
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- the resulting candidate set should map back to the triggering questions
-- no-results and partial-coverage states should remain explicit
-- candidate source provenance should stay visible
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

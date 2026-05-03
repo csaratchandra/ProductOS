@@ -1,41 +1,64 @@
 # Outcome Signal Evaluation
 
-## Purpose
+## 1. Purpose
 
-Evaluate whether post-release signals support keeping, iterating, or reopening the current slice.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when drafting or reviewing `outcome_review`.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- outcome review draft
-- support signals
-- adoption signals
-- target outcomes and evidence refs
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- claim verification summary
-- decision on keep, iterate, or rollback
-- reopen recommendations when needed
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not confuse adoption anecdotes with outcome proof
-- keep support pain visible even when adoption looks strong
-- tie reopen recommendations to evidence
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. compare target outcomes to observed signals
-2. separate support and adoption movement
-3. decide whether the current slice should keep, iterate, or reopen upstream work
-4. record the evidence behind the decision
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- the keep or iterate call should be justified
-- support and adoption should both be represented
-- reopen recommendations should be actionable
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

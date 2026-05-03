@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "demo_video_script_id": "dvs_productos_v10_intro_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "ProductOS V10 — 4-Minute Product Demo",
+  "total_duration_seconds": 240,
+  "opening_hook": {
+    "script": "Sarah is a Senior PM. She spends 15 hours every week on manual competitive research, PRD writing, and strategy decks. Next week, her CTO asked for a competitive analysis in a leadership review. Let's see what happens.",
+    "visual": "Split screen: PM calendar showing blocked time → transition to ProductOS dashboard → click 'Generate Competitive Analysis'",
+    "duration_seconds": 15
+  },
+  "segments": [
+    {
+      "timestamp_start_seconds": 15,
+      "visual": "ProductOS dashboard with CompetitorAlpha listed. PM types 'scan CompetitorAlpha' in Cmd+K palette. Loading bar with real-time results arriving from website, pricing page, blog, G2.",
+      "audio": "Sarah types a single command. ProductOS scans CompetitorAlpha's website, pricing page, blog, and G2 reviews simultaneously. In 90 seconds, she has a structured competitive intelligence alert.",
+      "key_message": "Competitive intelligence that used to take 4 hours now takes 90 seconds.",
+      "duration_seconds": 40
+    },
+    {
+      "timestamp_start_seconds": 55,
+      "visual": "Competitive intelligence alert card: 'CompetitorAlpha launched AI PRD generation.' Impact assessment highlights overlapping V10 roadmap. Recommended PM action with timeframe: 'Within 24 hours.'",
+      "audio": "The alert tells Sarah exactly what changed, why it matters to ProductOS, and what to do about it. She shares the alert with her CTO directly from the dashboard.",
+      "key_message": "Every competitive alert includes impact analysis and recommended action — PM doesn't have to analyze raw data.",
+      "duration_seconds": 35
+    },
+    {
+      "timestamp_start_seconds": 90,
+      "visual": "Product Health Dashboard: PESTLE spider chart with trend arrows, segment health heatmap, persona satisfaction cards, hypothesis portfolio tree with risk heat coloring, execution tracker, top-5 recommended actions.",
+      "audio": "Sarah opens her Product Health Dashboard. In one surface, she sees: PESTLE environmental analysis, segment penetration rates, persona satisfaction trends, hypothesis validation progress, sprint execution status, and — most importantly — the top 5 actions she should take today.",
+      "key_message": "One dashboard replaces 8 tools. PM sees their entire product universe in one view.",
+      "duration_seconds": 50
+    },
+    {
+      "timestamp_start_seconds": 140,
+      "visual": "Prototype variant comparison: 3 interactive HTML dashboards side-by-side. PM clicks through Variant A (clean minimalist with wizard flow), then Variant B (bold dashboard-first), then Variant C (data-dense professional).",
+      "audio": "ProductOS doesn't just write a PRD — it generates 3 working interactive HTML prototypes with different design directions. Sarah compares them side by side, picks the best one, and shares it with her engineering lead for feedback.",
+      "key_message": "PM goes from concept to working prototype without designers or developers.",
+      "duration_seconds": 50
+    },
+    {
+      "timestamp_start_seconds": 190,
+      "visual": "Auto-generated marketing content pack: messaging house, battle card, blog post brief, email sequence. One-click export to Google Slides.",
+      "audio": "When Sarah is ready to launch, ProductOS generates her marketing content pack — messaging, competitive comparison, blog posts, email sequences. She exports to Google Slides for her leadership presentation.",
+      "key_message": "PM becomes a one-person marketing team. Everything generated from the same product truth.",
+      "duration_seconds": 35
+    }
+  ],
+  "closing_cta": "ProductOS V10. Your PM Superpowers, Automated. Start your free trial at productOS.dev.",
+  "target_audience": "Product Managers and PM leaders evaluating AI tooling",
+  "generated_at": "2026-05-03T08:00:00Z"
+}

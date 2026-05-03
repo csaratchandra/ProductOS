@@ -1,43 +1,64 @@
 # Visual Regression Review
 
-## Purpose
+## 1. Purpose
 
-Review generated visual outputs against prior approved patterns and quality expectations so ProductOS does not drift back into weaker design or weaker truthfulness.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-- when a visual system change could alter hierarchy, fidelity, or publish posture
-- when a new pattern is being promoted from trial to standard
-- when generated outputs should be compared against approved fixtures or dogfood artifacts
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- generated visual output
-- prior approved example or review artifact
-- quality rubric or review expectations
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- regression review summary
-- blockers, warnings, and strengths
-- recommendation to proceed, revise, defer, or block
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- regression review must check both aesthetics and truthfulness
-- do not approve visual polish that weakens evidence visibility
-- compare against approved repo fixtures where available
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. identify the baseline fixture or approved sample
-2. compare hierarchy, evidence treatment, fidelity, and reading path
-3. separate real regressions from neutral stylistic change
-4. record blockers and warnings explicitly
-5. recommend the next action clearly
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- real regressions are named explicitly
-- review outcome is decision-ready
-- approval is not granted without comparing against a real baseline
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

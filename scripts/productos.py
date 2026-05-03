@@ -43,6 +43,9 @@ from core.python.productos_runtime import (
     build_external_research_feed_registry_from_workspace,
     build_external_research_plan_from_workspace,
     build_next_version_bundle_from_workspace,
+    build_cockpit_bundle_from_workspace,
+    build_cross_product_insight_index,
+    build_portfolio_state_from_workspaces,
     build_thread_review_bundle_from_workspace,
     build_thread_review_presentation_package,
     build_thread_review_release_bundle_from_workspace,
@@ -53,24 +56,35 @@ from core.python.productos_runtime import (
     build_v6_cutover_plan_from_workspace,
     build_v7_lifecycle_bundle_from_workspace,
     build_v7_cutover_plan_from_workspace,
+    build_v9_lifecycle_bundle_from_workspace,
+    build_v9_cutover_plan_from_workspace,
     format_item_lifecycle_state,
     format_lifecycle_stage_snapshot,
     format_v5_cutover_plan_markdown,
     format_v6_cutover_plan_markdown,
     format_v7_cutover_plan_markdown,
+    format_v9_cutover_plan_markdown,
     init_workspace_from_template,
+    inspect_v9_lifecycle_enrichment_state,
     load_item_lifecycle_state_from_workspace,
     load_lifecycle_stage_snapshot_from_workspace,
     discover_external_research_sources_from_workspace,
+    load_phase_packet_from_workspace,
+    load_product_record_from_workspace,
     research_workspace_from_manifest,
+    render_cockpit_html,
     run_external_research_loop_from_workspace,
+    summarize_research_posture,
+    summarize_strategy_refresh_posture,
     sync_canonical_discovery_operations_artifacts,
     summarize_v5_lifecycle_bundle,
     summarize_v6_lifecycle_bundle,
     summarize_v7_lifecycle_bundle,
+    summarize_v9_lifecycle_bundle,
     init_mission_in_workspace,
     load_mission_brief_from_workspace,
     sync_canonical_discover_artifacts,
+    write_phase_packet_for_workspace,
     write_thread_review_index_site,
     write_thread_review_markdown,
     write_thread_review_package,
@@ -81,6 +95,7 @@ from core.python.productos_runtime.next_version import NEXT_VERSION_ARTIFACT_SCH
 from core.python.productos_runtime.v5 import V5_ARTIFACT_SCHEMAS
 from core.python.productos_runtime.v6 import V6_ARTIFACT_SCHEMAS
 from core.python.productos_runtime.v7 import V7_ARTIFACT_SCHEMAS
+from core.python.productos_runtime.v9 import V9_ARTIFACT_SCHEMAS
 from core.python.productos_runtime.release import evaluate_promotion_gate, run_public_release
 from core.python.productos_runtime.visual_os import (
     build_visual_direction_plan,
@@ -216,6 +231,28 @@ def _build_bundle(args: argparse.Namespace) -> dict[str, dict]:
     )
 
 
+def _try_build_bundle(args: argparse.Namespace) -> dict[str, dict] | None:
+    try:
+        return _build_bundle(args)
+    except Exception:
+        return None
+
+
+def _build_v9_program_state(
+    workspace_dir: Path,
+    *,
+    generated_at: str,
+    adapter_name: str,
+    bundle: dict[str, dict] | None,
+) -> dict[str, object]:
+    return inspect_v9_lifecycle_enrichment_state(
+        workspace_dir,
+        generated_at=generated_at,
+        adapter_name=adapter_name,
+        next_version_bundle=bundle,
+    )
+
+
 def _validate_bundle(bundle: dict[str, dict]) -> list[str]:
     failures: list[str] = []
     for artifact_name, schema_name in NEXT_VERSION_ARTIFACT_SCHEMAS.items():
@@ -266,6 +303,39 @@ def _write_json_payload(path: Path, payload: dict) -> None:
     with path.open("w", encoding="utf-8") as handle:
         json.dump(payload, handle, indent=2)
         handle.write("\n")
+
+
+def _product_context_for_cli(
+    workspace_dir: Path,
+    bundle: dict[str, object],
+) -> tuple[dict[str, object] | None, dict[str, object] | None]:
+    product_record = load_product_record_from_workspace(workspace_dir)
+    if product_record is None:
+        candidate = bundle.get("product_record")
+        product_record = candidate if isinstance(candidate, dict) else None
+
+    phase_packet = load_phase_packet_from_workspace(workspace_dir)
+    if phase_packet is None:
+        candidate = bundle.get("phase_packet")
+        phase_packet = candidate if isinstance(candidate, dict) else None
+
+    return product_record, phase_packet
+
+
+def _parse_phase_goals(raw_values: list[str] | None) -> dict[str, str]:
+    goals: dict[str, str] = {}
+    for raw_value in raw_values or []:
+        if ":" not in raw_value:
+            raise SystemExit(f"Invalid --stage-goal '{raw_value}'. Use lifecycle_phase:goal_text.")
+        phase, goal = raw_value.split(":", 1)
+        normalized_phase = phase.strip()
+        normalized_goal = goal.strip()
+        if normalized_phase not in {"discovery", "validation", "delivery", "launch", "support_learning", "improve"}:
+            raise SystemExit(f"Unsupported lifecycle phase '{normalized_phase}' in --stage-goal.")
+        if not normalized_goal:
+            raise SystemExit(f"Stage goal for '{normalized_phase}' cannot be empty.")
+        goals[normalized_phase] = normalized_goal
+    return goals
 
 
 def _write_release_review_markdown(output_dir: Path, bundle: dict[str, dict]) -> None:
@@ -562,6 +632,26 @@ def _print_research_summary(bundle: dict[str, dict]) -> None:
         print(f"Selected Research Sources: {len(selected_manifest.get('sources', []))}")
 
 
+def _print_research_posture(bundle: dict[str, dict]) -> None:
+    summary = summarize_research_posture(bundle)
+    print(f"Research Review: {summary['review_status']}")
+    print(f"Research Search: {summary['search_status']}")
+    print(f"Research Contradictions: {summary['contradiction_count']}")
+    print(f"Research Freshness: {summary['freshness_summary']}")
+    print(f"Research Recommendation: {summary['recommendation']}")
+
+
+def _print_strategy_refresh_posture(bundle: dict[str, dict]) -> None:
+    summary = summarize_strategy_refresh_posture(bundle)
+    evidence_types = ", ".join(summary["available_evidence_types"]) if summary["available_evidence_types"] else "none"
+    missing_downstream = ", ".join(summary["missing_downstream_types"]) if summary["missing_downstream_types"] else "none"
+    print(f"Strategy Refresh: {summary['status']}")
+    print(f"Strategy Evidence: {summary['available_evidence_count']} ({evidence_types})")
+    print(f"Downstream Packet: {summary['downstream_packet_status']}")
+    print(f"Missing Downstream Artifacts: {missing_downstream}")
+    print(f"Strategy Recommendation: {summary['recommendation']}")
+
+
 def _signal_lane_id_for_source_type(source_type: str) -> str:
     if source_type in {"market_validation", "security_review"}:
         return "market"
@@ -596,46 +686,101 @@ def _print_promotion_blockers(gate: dict[str, object]) -> None:
             print(f"- {blocker}")
 
 
+def _print_v9_program_summary(program_state: dict[str, object]) -> None:
+    track_states = program_state["track_states"]
+    track_summary = ", ".join(
+        f"{track_id}={track_state['status']}"
+        for track_id, track_state in track_states.items()
+    )
+    research_packet = program_state["research_packet"]
+    governed_docs = program_state["governed_docs"]
+    downstream = program_state["downstream"]
+    stale_inputs = program_state["stale_release_inputs"]
+    print(f"Lifecycle Tracks: {track_summary}")
+    print(f"Workspace Coherence: {program_state['workspace_coherence_mode']}")
+    if program_state.get("fallback_reasons"):
+        print(f"Fallback Reasons: {', '.join(program_state['fallback_reasons'])}")
+    print(
+        "Governed Docs: "
+        f"{governed_docs['mode']} ({governed_docs['sync_mode']}, validation={governed_docs['validation_status']})"
+    )
+    print(
+        "Research Packet: "
+        f"{research_packet['present_count']}/{research_packet['required_count']} "
+        f"({research_packet['mode']}, freshness={research_packet['freshness']}, "
+        f"contradictions={research_packet['contradiction_count']})"
+    )
+    print(f"Research Downstream Readiness: {'ready' if research_packet['downstream_ready'] else 'pending'}")
+    print(
+        "Downstream Traceability: "
+        f"{downstream['mode']} (reopen={'ready' if downstream['reopen_ready'] else 'pending'})"
+    )
+    print(f"V9 Stale Inputs: {stale_inputs['count']} ({stale_inputs['status']})")
+    print(f"V9 Release Gate: {program_state['gate_status']}")
+
+
 def cmd_status(args: argparse.Namespace) -> int:
-    bundle = _build_bundle(args)
     workspace_dir = _workspace_dir(args)
-    cockpit = bundle["cockpit_state"]
-    review = bundle["feature_portfolio_review"]
-    eval_report = bundle["eval_run_report"]
-    swarm_plan = bundle["autonomous_pm_swarm_plan"]
-    swarm_scorecard = bundle["autonomous_pm_swarm_feature_scorecard"]
-    gate = _promotion_gate(bundle)
-    cutover_plan = _load_stable_cutover_plan(workspace_dir, args.generated_at)
-    focus = cockpit["current_focus"]
-    top_priority_feature = review["top_priority_feature_id"]
-    if cutover_plan and cutover_plan["selection_status"] == "stable_active" and cutover_plan["stable_release_version"] == "7.0.0":
-        focus = "Keep ProductOS V7.0.0 stable for lifecycle traceability through outcome_review and prepare the next external publication slice."
-        top_priority_feature = cutover_plan["top_priority_feature_id"]
-    elif cutover_plan and cutover_plan["selection_status"] == "stable_active" and cutover_plan["stable_release_version"] == "6.0.0":
-        focus = "Keep ProductOS V6.0.0 stable for lifecycle traceability through release_readiness and prepare the next bounded lifecycle expansion."
-        top_priority_feature = cutover_plan["top_priority_feature_id"]
-    print(f"Mode: {cockpit['mode']}")
-    print(f"Status: {cockpit['status']}")
-    print(f"Focus: {focus}")
+    bundle = _try_build_bundle(args)
+    program_state = _build_v9_program_state(
+        workspace_dir,
+        generated_at=args.generated_at,
+        adapter_name=args.adapter,
+        bundle=bundle,
+    )
+    product_record, phase_packet = _product_context_for_cli(workspace_dir, bundle or {})
+    if bundle is not None:
+        cockpit = bundle["cockpit_state"]
+        review = bundle["feature_portfolio_review"]
+        eval_report = bundle["eval_run_report"]
+        swarm_plan = bundle["autonomous_pm_swarm_plan"]
+        swarm_scorecard = bundle["autonomous_pm_swarm_feature_scorecard"]
+        focus = cockpit["current_focus"]
+        cutover_plan = _load_stable_cutover_plan(workspace_dir, args.generated_at)
+        top_priority_feature = review["top_priority_feature_id"]
+        if cutover_plan and cutover_plan["selection_status"] == "stable_active" and cutover_plan["stable_release_version"] == "7.0.0":
+            focus = "Keep ProductOS V7.0.0 stable for lifecycle traceability through outcome_review and prepare the next external publication slice."
+            top_priority_feature = cutover_plan["top_priority_feature_id"]
+        elif cutover_plan and cutover_plan["selection_status"] == "stable_active" and cutover_plan["stable_release_version"] == "6.0.0":
+            focus = "Keep ProductOS V6.0.0 stable for lifecycle traceability through release_readiness and prepare the next bounded lifecycle expansion."
+            top_priority_feature = cutover_plan["top_priority_feature_id"]
+        print(f"Mode: {cockpit['mode']}")
+        print(f"Status: {cockpit['status']}")
+        print(f"Focus: {focus}")
+    else:
+        print("Mode: review")
+        print("Status: watch")
+        print("Focus: Keep the lifecycle-enrichment program coherent even when the full next-version runtime is unavailable for this workspace.")
     _print_mission_summary(workspace_dir)
-    _print_mission_control(cockpit)
-    print(f"Top Priority Feature: {top_priority_feature}")
-    print(f"Truthfulness Status: {review['truthfulness_status']}")
-    print(f"Eval Status: {eval_report['status']} ({eval_report['regression_count']} regressions)")
-    print(f"Governed Research: {_governed_research_status(bundle)}")
-    print(f"Feed Governance: {_feed_governance_status(bundle)}")
-    _print_research_summary(bundle)
-    print(f"Swarm Plan: {swarm_plan['status']} ({swarm_plan['operating_mode']})")
-    print(f"Swarm Readiness: {swarm_scorecard['overall_score']}/5 ({swarm_scorecard['adoption_recommendation']})")
-    print(f"Stable Promotion: {gate['status']}")
-    _print_promotion_blockers(gate)
-    feed_alerts = _feed_governance_alerts(bundle)
-    if feed_alerts:
-        print("Feed Governance Alerts:")
-        for alert in feed_alerts:
-            print(f"- {alert}")
-    print(f"Internal Use Features: {len(review['internal_use_feature_ids'])}")
-    print(f"Active Improvement Features: {len(review['active_improvement_feature_ids'])}")
+    if bundle is not None:
+        _print_mission_control(bundle["cockpit_state"])
+    if product_record is not None:
+        print(f"Maturity Band: {product_record['maturity_band']}")
+        print(f"Lifecycle Phase: {product_record['lifecycle_stage']}")
+    if phase_packet is not None:
+        print(f"Active Phase Packet: {phase_packet['phase_packet_id']}")
+    _print_v9_program_summary(program_state)
+    if bundle is not None:
+        gate = _promotion_gate(bundle)
+        print(f"Top Priority Feature: {top_priority_feature}")
+        print(f"Truthfulness Status: {review['truthfulness_status']}")
+        print(f"Eval Status: {eval_report['status']} ({eval_report['regression_count']} regressions)")
+        print(f"Governed Research: {_governed_research_status(bundle)}")
+        print(f"Feed Governance: {_feed_governance_status(bundle)}")
+        _print_research_summary(bundle)
+        _print_research_posture(bundle)
+        _print_strategy_refresh_posture(bundle)
+        print(f"Swarm Plan: {swarm_plan['status']} ({swarm_plan['operating_mode']})")
+        print(f"Swarm Readiness: {swarm_scorecard['overall_score']}/5 ({swarm_scorecard['adoption_recommendation']})")
+        print(f"Stable Promotion: {gate['status']}")
+        _print_promotion_blockers(gate)
+        feed_alerts = _feed_governance_alerts(bundle)
+        if feed_alerts:
+            print("Feed Governance Alerts:")
+            for alert in feed_alerts:
+                print(f"- {alert}")
+        print(f"Internal Use Features: {len(review['internal_use_feature_ids'])}")
+        print(f"Active Improvement Features: {len(review['active_improvement_feature_ids'])}")
     return 0
 
 
@@ -725,39 +870,56 @@ def cmd_run(args: argparse.Namespace) -> int:
 
 
 def cmd_review(args: argparse.Namespace) -> int:
-    bundle = _build_bundle(args)
     workspace_dir = _workspace_dir(args)
-    cockpit = bundle["cockpit_state"]
-    portfolio = bundle["feature_portfolio_review"]
-    eval_report = bundle["eval_run_report"]
-    swarm_plan = bundle["autonomous_pm_swarm_plan"]
-    swarm_scorecard = bundle["autonomous_pm_swarm_feature_scorecard"]
-    gate = _promotion_gate(bundle)
+    bundle = _try_build_bundle(args)
+    program_state = _build_v9_program_state(
+        workspace_dir,
+        generated_at=args.generated_at,
+        adapter_name=args.adapter,
+        bundle=bundle,
+    )
+    product_record, phase_packet = _product_context_for_cli(workspace_dir, bundle or {})
     _print_mission_summary(workspace_dir)
-    _print_mission_control(cockpit)
-    print(f"Governed Research: {_governed_research_status(bundle)}")
-    print(f"Feed Governance: {_feed_governance_status(bundle)}")
-    _print_research_summary(bundle)
-    print(f"Swarm Plan: {swarm_plan['status']} ({swarm_plan['release_boundary']})")
-    print(f"Swarm Readiness: {swarm_scorecard['overall_score']}/5 -> {swarm_scorecard['next_action']}")
-    print("Pending Review Points:")
-    for point in cockpit["pending_review_points"]:
-        print(f"- {point}")
-    feed_alerts = _feed_governance_alerts(bundle)
-    if feed_alerts:
-        print("Feed Governance Alerts:")
-        for alert in feed_alerts:
-            print(f"- {alert}")
-    print(f"Stable Promotion: {gate['status']}")
-    _print_promotion_blockers(gate)
-    print(f"Eval Summary: {eval_report['summary']}")
-    print("Sub-5 Features:")
-    for item in portfolio["feature_summaries"]:
-        if item["overall_score"] < 5:
-            print(
-                f"- {item['feature_id']}: {item['overall_score']}/5 "
-                f"({item['provenance_classification']}) -> {item['next_action']}"
-            )
+    if bundle is not None:
+        _print_mission_control(bundle["cockpit_state"])
+    if product_record is not None:
+        print(f"Maturity Band: {product_record['maturity_band']}")
+        print(f"Lifecycle Phase: {product_record['lifecycle_stage']}")
+    if phase_packet is not None:
+        print(f"Active Phase Packet: {phase_packet['phase_packet_id']}")
+    _print_v9_program_summary(program_state)
+    if bundle is not None:
+        cockpit = bundle["cockpit_state"]
+        portfolio = bundle["feature_portfolio_review"]
+        eval_report = bundle["eval_run_report"]
+        swarm_plan = bundle["autonomous_pm_swarm_plan"]
+        swarm_scorecard = bundle["autonomous_pm_swarm_feature_scorecard"]
+        gate = _promotion_gate(bundle)
+        print(f"Governed Research: {_governed_research_status(bundle)}")
+        print(f"Feed Governance: {_feed_governance_status(bundle)}")
+        _print_research_summary(bundle)
+        _print_research_posture(bundle)
+        _print_strategy_refresh_posture(bundle)
+        print(f"Swarm Plan: {swarm_plan['status']} ({swarm_plan['release_boundary']})")
+        print(f"Swarm Readiness: {swarm_scorecard['overall_score']}/5 -> {swarm_scorecard['next_action']}")
+        print("Pending Review Points:")
+        for point in cockpit["pending_review_points"]:
+            print(f"- {point}")
+        feed_alerts = _feed_governance_alerts(bundle)
+        if feed_alerts:
+            print("Feed Governance Alerts:")
+            for alert in feed_alerts:
+                print(f"- {alert}")
+        print(f"Stable Promotion: {gate['status']}")
+        _print_promotion_blockers(gate)
+        print(f"Eval Summary: {eval_report['summary']}")
+        print("Sub-5 Features:")
+        for item in portfolio["feature_summaries"]:
+            if item["overall_score"] < 5:
+                print(
+                    f"- {item['feature_id']}: {item['overall_score']}/5 "
+                    f"({item['provenance_classification']}) -> {item['next_action']}"
+                )
     return 0
 
 
@@ -1234,6 +1396,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
             "claude": "adapter_claude_style_thin",
             "windsurf": "adapter_windsurf_thin",
             "antigravity": "adapter_antigravity_thin",
+        "opencode": "adapter_opencode_thin",
         }[args.adapter]
     )
     review = bundle["feature_portfolio_review"]
@@ -1257,6 +1420,8 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     print(f"Governed Research: {_governed_research_status(bundle)}")
     print(f"Feed Governance: {_feed_governance_status(bundle)}")
     _print_research_summary(bundle)
+    _print_research_posture(bundle)
+    _print_strategy_refresh_posture(bundle)
     print(f"Swarm Plan: {swarm_plan['status']} ({swarm_plan['operating_mode']})")
     print(f"Swarm Readiness: {swarm_scorecard['overall_score']}/5 ({swarm_scorecard['adoption_recommendation']})")
     print(f"Stable Promotion: {gate['status']}")
@@ -1292,6 +1457,14 @@ def cmd_cutover(args: argparse.Namespace) -> int:
             target_version=args.target_version,
         )
         formatter = format_v6_cutover_plan_markdown
+    elif args.target_version.startswith("9."):
+        plan = build_v9_cutover_plan_from_workspace(
+            _workspace_dir(args),
+            generated_at=args.generated_at,
+            adapter_name=args.adapter,
+            target_version=args.target_version,
+        )
+        formatter = format_v9_cutover_plan_markdown
     else:
         plan = build_v7_cutover_plan_from_workspace(
             _workspace_dir(args),
@@ -1374,6 +1547,20 @@ def cmd_v7(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_v9(args: argparse.Namespace) -> int:
+    next_version_bundle = _try_build_bundle(args)
+    bundle = build_v9_lifecycle_bundle_from_workspace(
+        _workspace_dir(args),
+        generated_at=args.generated_at,
+        adapter_name=args.adapter,
+        next_version_bundle=next_version_bundle,
+    )
+    print(summarize_v9_lifecycle_bundle(_workspace_dir(args), bundle))
+    if args.output_dir:
+        _write_artifacts(args.output_dir, bundle, list(V9_ARTIFACT_SCHEMAS.keys()))
+    return 0
+
+
 def cmd_trace(args: argparse.Namespace) -> int:
     if args.item_id:
         payload = load_item_lifecycle_state_from_workspace(_workspace_dir(args), item_id=args.item_id)
@@ -1400,6 +1587,7 @@ def cmd_init_workspace(args: argparse.Namespace) -> int:
 
 def cmd_start(args: argparse.Namespace) -> int:
     success_metrics = args.success_metric or ["time to reviewable PRD"]
+    primary_kpis = args.primary_kpi or success_metrics
     init_workspace_from_template(
         ROOT,
         template_name=args.template,
@@ -1419,16 +1607,26 @@ def cmd_start(args: argparse.Namespace) -> int:
         audience=args.audience,
         operating_mode=args.operating_mode,
         generated_at=args.generated_at,
+        maturity_band=args.maturity_band,
+        primary_outcomes=args.primary_outcome,
+        primary_kpis=primary_kpis,
+        review_gate_owner=args.review_gate_owner,
+        portfolio_id=args.portfolio_id,
+        stage_goals=_parse_phase_goals(args.stage_goal),
+        known_risks=args.known_risk,
     )
     print(f"Started workspace at {args.dest}")
     print(f"Mission Brief: {mission_brief['mission_brief_id']}")
     print(f"Operating Mode: {mission_brief['operating_mode']}")
+    print(f"Maturity Band: {mission_brief['maturity_band']}")
+    print(f"Portfolio: {mission_brief['portfolio_id']}")
     print(f"Next Action: {mission_brief['next_action']}")
     return 0
 
 
 def cmd_init_mission(args: argparse.Namespace) -> int:
     workspace_dir = _workspace_dir(args)
+    primary_kpis = args.primary_kpi or args.success_metric
     mission_brief = init_mission_in_workspace(
         workspace_dir,
         title=args.title,
@@ -1440,12 +1638,105 @@ def cmd_init_mission(args: argparse.Namespace) -> int:
         audience=args.audience,
         operating_mode=args.operating_mode,
         generated_at=args.generated_at,
+        maturity_band=args.maturity_band,
+        primary_outcomes=args.primary_outcome,
+        primary_kpis=primary_kpis,
+        review_gate_owner=args.review_gate_owner,
+        portfolio_id=args.portfolio_id,
+        stage_goals=_parse_phase_goals(args.stage_goal),
+        known_risks=args.known_risk,
     )
     print(f"Mission Brief: {mission_brief['mission_brief_id']}")
     print(f"Workspace: {workspace_dir}")
     print(f"Operating Mode: {mission_brief['operating_mode']}")
+    print(f"Maturity Band: {mission_brief['maturity_band']}")
     print(f"Primary Workflows: {len(mission_brief['primary_workflow_refs'])}")
     print(f"Next Action: {mission_brief['next_action']}")
+    return 0
+
+
+def cmd_phase_plan(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
+    mission_brief = load_mission_brief_from_workspace(workspace_dir)
+    if mission_brief is None:
+        raise SystemExit(f"No mission brief found in {workspace_dir}. Run `./productos init-mission` first.")
+    phase_packet = write_phase_packet_for_workspace(
+        workspace_dir,
+        mission_brief=mission_brief,
+        lifecycle_phase=args.phase,
+        generated_at=args.generated_at,
+    )
+    if args.output_dir is not None:
+        _write_json_payload(args.output_dir / f"phase_packet_{args.phase}.json", phase_packet)
+    print(f"Phase Packet: {phase_packet['phase_packet_id']}")
+    print(f"Lifecycle Phase: {phase_packet['lifecycle_phase']}")
+    print(f"Tasks: {len(phase_packet['task_queue'])}")
+    return 0
+
+
+def cmd_cockpit_build(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
+    cockpit_bundle = build_cockpit_bundle_from_workspace(
+        workspace_dir,
+        generated_at=args.generated_at,
+        adapter_name=args.adapter,
+    )
+    failures = _validate_named_bundle(
+        {"cockpit_bundle": cockpit_bundle},
+        {"cockpit_bundle": "cockpit_bundle.schema.json"},
+    )
+    if failures:
+        for failure in failures:
+            print(f"FAIL: {failure}")
+        return 1
+    output_dir = args.output_dir or (workspace_dir / "outputs" / "cockpit")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    bundle_path = output_dir / "cockpit_bundle.json"
+    html_path = output_dir / "control-center.html"
+    _write_json_payload(bundle_path, cockpit_bundle)
+    html_path.write_text(render_cockpit_html(cockpit_bundle), encoding="utf-8")
+    print(f"Cockpit Bundle: {bundle_path}")
+    print(f"Cockpit HTML: {html_path}")
+    print(f"Mission: {cockpit_bundle['mission_brief']['title']}")
+    return 0
+
+
+def cmd_portfolio_build(args: argparse.Namespace) -> int:
+    workspace_dirs = args.workspace or [_workspace_dir(args)]
+    portfolio_state = build_portfolio_state_from_workspaces(
+        workspace_dirs,
+        generated_at=args.generated_at,
+        suite_id=args.suite_id,
+    )
+    cross_product_insight_index = build_cross_product_insight_index(
+        workspace_dirs,
+        generated_at=args.generated_at,
+        portfolio_id=args.suite_id,
+    )
+    failures = _validate_named_bundle(
+        {
+            "portfolio_state": portfolio_state,
+            "cross_product_insight_index": cross_product_insight_index,
+        },
+        {
+            "portfolio_state": "portfolio_state.schema.json",
+            "cross_product_insight_index": "cross_product_insight_index.schema.json",
+        },
+    )
+    if failures:
+        for failure in failures:
+            print(f"FAIL: {failure}")
+        return 1
+    output_dir = args.output_dir or ROOT / "outputs" / "portfolio"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    portfolio_path = output_dir / "portfolio_state.json"
+    insight_index_path = output_dir / "cross_product_insight_index.json"
+    _write_json_payload(portfolio_path, portfolio_state)
+    _write_json_payload(insight_index_path, cross_product_insight_index)
+    print(f"Portfolio State: {portfolio_path}")
+    print(f"Cross Product Insight Index: {insight_index_path}")
+    print(f"Suite: {portfolio_state['suite_id']}")
+    print(f"Products: {len(portfolio_state['product_summaries'])}")
     return 0
 
 
@@ -1733,7 +2024,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--adapter",
         default="codex",
-        choices=["codex", "claude", "windsurf", "antigravity"],
+        choices=["codex", "claude", "windsurf", "antigravity", "opencode"],
     )
 
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -1851,8 +2142,19 @@ def parse_args() -> argparse.Namespace:
     start_parser.add_argument("--customer-problem", required=True)
     start_parser.add_argument("--business-goal", required=True)
     start_parser.add_argument("--success-metric", action="append")
+    start_parser.add_argument("--primary-kpi", action="append")
+    start_parser.add_argument("--primary-outcome", action="append")
     start_parser.add_argument("--constraint", action="append")
     start_parser.add_argument("--audience", action="append")
+    start_parser.add_argument("--known-risk", action="append")
+    start_parser.add_argument("--stage-goal", action="append")
+    start_parser.add_argument("--portfolio-id")
+    start_parser.add_argument("--review-gate-owner", default="ProductOS PM")
+    start_parser.add_argument(
+        "--maturity-band",
+        choices=["zero_to_one", "one_to_ten", "ten_to_hundred", "hundred_to_thousand_plus"],
+        default="zero_to_one",
+    )
     start_parser.add_argument(
         "--operating-mode",
         choices=["discover", "discover_to_align", "full_loop"],
@@ -1872,13 +2174,43 @@ def parse_args() -> argparse.Namespace:
     mission_parser.add_argument("--customer-problem", required=True)
     mission_parser.add_argument("--business-goal", required=True)
     mission_parser.add_argument("--success-metric", action="append", required=True)
+    mission_parser.add_argument("--primary-kpi", action="append")
+    mission_parser.add_argument("--primary-outcome", action="append")
     mission_parser.add_argument("--constraint", action="append")
     mission_parser.add_argument("--audience", action="append")
+    mission_parser.add_argument("--known-risk", action="append")
+    mission_parser.add_argument("--stage-goal", action="append")
+    mission_parser.add_argument("--portfolio-id")
+    mission_parser.add_argument("--review-gate-owner", default="ProductOS PM")
+    mission_parser.add_argument(
+        "--maturity-band",
+        choices=["zero_to_one", "one_to_ten", "ten_to_hundred", "hundred_to_thousand_plus"],
+        default="zero_to_one",
+    )
     mission_parser.add_argument(
         "--operating-mode",
         choices=["discover", "discover_to_align", "full_loop"],
         default="discover_to_align",
     )
+
+    phase_parser = subparsers.add_parser("phase")
+    phase_subparsers = phase_parser.add_subparsers(dest="phase_command", required=True)
+    phase_plan_parser = phase_subparsers.add_parser("plan")
+    phase_plan_parser.add_argument("phase", choices=["discovery", "validation", "delivery", "launch", "support_learning", "improve"])
+    phase_plan_parser.add_argument("--output-dir", type=Path)
+
+    cockpit_parser = subparsers.add_parser("cockpit")
+    cockpit_subparsers = cockpit_parser.add_subparsers(dest="cockpit_command", required=True)
+    cockpit_build_parser = cockpit_subparsers.add_parser("build")
+    cockpit_build_parser.add_argument("--output-dir", type=Path)
+    cockpit_build_parser.add_argument("--adapter", choices=["codex", "claude", "windsurf", "antigravity", "opencode"], default="codex")
+
+    portfolio_parser = subparsers.add_parser("portfolio")
+    portfolio_subparsers = portfolio_parser.add_subparsers(dest="portfolio_command", required=True)
+    portfolio_build_parser = portfolio_subparsers.add_parser("build")
+    portfolio_build_parser.add_argument("--workspace", type=Path, action="append")
+    portfolio_build_parser.add_argument("--suite-id")
+    portfolio_build_parser.add_argument("--output-dir", type=Path)
 
     adopt_parser = subparsers.add_parser("import", aliases=["adopt-workspace"])
     adopt_parser.add_argument("--source", type=Path, required=True)
@@ -1934,6 +2266,8 @@ def parse_args() -> argparse.Namespace:
     v6_parser.add_argument("--output-dir", type=Path)
     v7_parser = subparsers.add_parser("v7")
     v7_parser.add_argument("--output-dir", type=Path)
+    v9_parser = subparsers.add_parser("v9")
+    v9_parser.add_argument("--output-dir", type=Path)
     cutover_parser = subparsers.add_parser("cutover")
     cutover_parser.add_argument("--target-version", default="7.0.0")
     cutover_parser.add_argument("--output-path", type=Path)
@@ -1986,6 +2320,15 @@ def main() -> int:
         return cmd_trace(args)
     if args.command == "start":
         return cmd_start(args)
+    if args.command == "phase":
+        if args.phase_command == "plan":
+            return cmd_phase_plan(args)
+    if args.command == "cockpit":
+        if args.cockpit_command == "build":
+            return cmd_cockpit_build(args)
+    if args.command == "portfolio":
+        if args.portfolio_command == "build":
+            return cmd_portfolio_build(args)
     if args.command == "init-workspace":
         return cmd_init_workspace(args)
     if args.command == "init-mission":
@@ -2018,6 +2361,8 @@ def main() -> int:
         return cmd_v6(args)
     if args.command == "v7":
         return cmd_v7(args)
+    if args.command == "v9":
+        return cmd_v9(args)
     if args.command == "cutover":
         return cmd_cutover(args)
     if args.command == "release":

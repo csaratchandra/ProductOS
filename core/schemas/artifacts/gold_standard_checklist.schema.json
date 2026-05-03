@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/gold_standard_checklist.schema.json",
+  "title": "ProductOS Gold Standard Checklist",
+  "description": "Per-artifact excellence criteria validated against named external frameworks. Each checklist item is a specific, verifiable quality check with pass/fail scoring, evidence requirements, and auto-routed improvement actions for sub-pass items.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gold_standard_checklist_id",
+    "workspace_id",
+    "target_artifact_type",
+    "framework_alignment",
+    "checklist_items",
+    "validation_date",
+    "overall_result",
+    "next_action"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "gold_standard_checklist_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "target_artifact_type": { "type": "string", "minLength": 3 },
+    "target_artifact_id": { "type": "string", "minLength": 1 },
+    "framework_alignment": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/frameworkReference" },
+      "minItems": 1
+    },
+    "checklist_items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/checklistItem" },
+      "minItems": 3
+    },
+    "validation_date": { "type": "string", "format": "date-time" },
+    "passed_count": { "type": "integer", "minimum": 0 },
+    "failed_count": { "type": "integer", "minimum": 0 },
+    "pass_rate_pct": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "overall_result": { "type": "string", "enum": ["gold_standard_met", "partially_met", "not_met"] },
+    "improvement_actions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/improvementAction" },
+      "default": []
+    },
+    "next_action": { "type": "string", "minLength": 10 }
+  },
+  "$defs": {
+    "frameworkReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["framework_name", "framework_authority", "alignment_scope"],
+      "properties": {
+        "framework_name": { "type": "string", "minLength": 3 },
+        "framework_authority": { "type": "string", "minLength": 5 },
+        "alignment_scope": { "type": "string", "minLength": 10 }
+      }
+    },
+    "checklistItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["item_id", "criterion", "evidence_required", "result", "evidence_provided"],
+      "properties": {
+        "item_id": { "type": "string", "minLength": 1 },
+        "criterion": { "type": "string", "minLength": 10 },
+        "evidence_required": { "type": "string", "minLength": 5 },
+        "result": { "type": "string", "enum": ["pass", "fail", "partial"] },
+        "evidence_provided": { "type": "string", "minLength": 3 },
+        "failure_rationale": { "type": "string", "minLength": 10 }
+      }
+    },
+    "improvementAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["item_id", "action", "priority", "route_target"],
+      "properties": {
+        "item_id": { "type": "string", "minLength": 1 },
+        "action": { "type": "string", "minLength": 10 },
+        "priority": { "type": "string", "enum": ["must_now", "next", "later"] },
+        "route_target": { "type": "string", "enum": ["productos_feedback_log", "improvement_loop_state", "feature_scorecard", "release_scope_recommendation"] }
+      }
+    }
+  }
+}

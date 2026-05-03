@@ -51,8 +51,10 @@ def test_workspace_source_note_card_validation_reports_missing_references(tmp_pa
     assert "source_note_card_missing_demo" in failures[0]
 
 
-def test_workspace_source_note_card_validation_passes_for_contract_intelligence_workspace(root_dir: Path):
-    workspace_dir = root_dir / "workspaces" / "contract-intelligence-platform"
+def test_workspace_source_note_card_validation_passes_for_contract_intelligence_workspace(
+    contract_intelligence_workspace_dir: Path,
+):
+    workspace_dir = contract_intelligence_workspace_dir
 
     summary, failures = inspect_workspace_source_note_card_refs(workspace_dir)
 

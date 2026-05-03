@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "capacity_model_id": "cm_v10_q2_2026",
+  "workspace_id": "ws_productos_v2",
+  "title": "ProductOS V10 — Team Capacity Model Q2 2026",
+  "analysis_period": "Sprints 9-16 (16 weeks)",
+  "teams": [
+    {
+      "team_id": "team_core",
+      "name": "Core ProductOS Team",
+      "headcount": 4,
+      "velocity_per_sprint": 42,
+      "allocation_pct": 95,
+      "available_sprints": 8
+    }
+  ],
+  "total_capacity_sprints": 8,
+  "total_capacity_story_points": 336,
+  "scope_demand": {
+    "total_story_points": 89,
+    "by_priority": [
+      {
+        "priority": "must_now",
+        "story_points": 55,
+        "feature_count": 4
+      },
+      {
+        "priority": "next",
+        "story_points": 21,
+        "feature_count": 2
+      },
+      {
+        "priority": "later",
+        "story_points": 13,
+        "feature_count": 2
+      }
+    ],
+    "by_team": [
+      {
+        "team_id": "team_core",
+        "assigned_points": 89,
+        "required_sprints": 2.1
+      }
+    ]
+  },
+  "gap_analysis": {
+    "capacity_point_gap": 247,
+    "sprint_gap": 5.9,
+    "must_now_gap": -55,
+    "assessment": "under_capacity"
+  },
+  "trade_off_scenarios": [
+    {
+      "name": "Accelerate Marketing Content",
+      "scope_adjustment": "Bring Sprint 16-17 marketing work forward. Add 21 story points.",
+      "result": "Total demand reaches 110 points — still within capacity (336). Must-now priority increases to 76 points.",
+      "features_deprioritized": [],
+      "features_accelerated": [
+        "messaging_house",
+        "battle_cards",
+        "blog_briefs"
+      ]
+    }
+  ],
+  "recommendations": [
+    "Team is significantly under capacity (247 point surplus over 8 sprints). Consider: 1) Acceleration of Sprint 16-17 marketing content to fill capacity gap. 2) Increase prototype polish budget from 34 to 55 points for higher fidelity. 3) Assign 1 engineer to parallel track: living system auto-refresh infrastructure."
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

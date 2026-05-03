@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "blog_post_brief_id": "bpb_productos_beta_insights_20260503",
+  "workspace_id": "ws_productos_v2",
+  "working_title": "What We Learned from 10 PM Beta Testers: AI PM Tooling in 2026",
+  "title_variants": [
+    "10 PMs Tried AI Product Management Tools for 30 Days — Here's What They Found",
+    "The State of AI Product Management: Insights from 10 PM Beta Testers"
+  ],
+  "target_keyword": "AI product management tools 2026",
+  "search_intent": "commercial_investigation",
+  "target_audience": "Product Managers researching AI tools for their workflow. Mid-to-senior level PMs at tech companies 10-1000 employees. Currently spending 10+ hrs/week on manual PM tasks.",
+  "key_points": [
+    "PMs report 70%+ time savings on discovery research when using AI tooling",
+    "Output quality parity with manual work is the #1 adoption driver — PMs abandon tools that require >30% rewrite",
+    "Competitive intelligence automation is the most underrated PM AI capability",
+    "Prototype generation before PRD commits is a game-changer for PM-engineering alignment",
+    "PMs fear AI replacing judgment, but overwhelmingly report AI making them better at judgment — by handling the grunt work"
+  ],
+  "unique_angle": "Not a generic 'AI is coming for PM' piece. Data-backed insights from actual PMs testing actual tools. Specific numbers: 70% time savings, 30% rewrite threshold for abandonment, competitive intel as underrated capability. Actionable framework: what PMs should look for when evaluating AI PM tools.",
+  "supporting_data": [
+    "PM survey data: 85% spend >10hrs/week on manual tasks",
+    "Beta tester feedback: average 70% reduction in discovery time",
+    "Competitive feature matrix: PESTLE analysis absent across all monitored competitors"
+  ],
+  "competitor_content_analysis": "Top-ranking content for 'AI PM tools 2026' is product listing roundups with no original data. None cite actual PM beta test results. Angle: we have the data. This piece does what none of the top-10 ranking content does: shares actual PM testing insights with named metrics.",
+  "internal_links": [
+    "/product",
+    "/features/discovery",
+    "/features/competitive-intelligence"
+  ],
+  "cta": "Try ProductOS free for 14 days. See how AI changes your PM workflow.",
+  "estimated_word_count": 2500,
+  "generated_at": "2026-05-03T08:00:00Z"
+}

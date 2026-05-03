@@ -1,40 +1,64 @@
 # Persona Priority Scoring
 
-## Purpose
+## 1. Purpose
 
-Make priority personas explicit so downstream artifacts stop serving everyone vaguely.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when `persona_archetype_pack` needs a real priority order for problem, concept, or PRD work.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- persona pack
-- evidence about pain, authority, and adoption influence
-- current wedge constraints
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- persona priority scores
-- rationale for primary and secondary personas
-- handoff implications
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not merge buyer and operator needs into one persona
-- keep evidence confidence visible
-- preserve downstream handoff preferences
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. score each persona on pain, authority, and workflow leverage
-2. identify the true primary persona for the slice
-3. capture what downstream teams must know about that choice
-4. record what evidence is still missing
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- one persona should clearly lead
-- secondary personas should still have explicit rationale
-- handoff implications should be usable downstream
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

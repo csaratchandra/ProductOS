@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "feedback_capture_id": "fc_persona_card_too_shallow_20260503",
+  "workspace_id": "ws_productos_v2",
+  "feedback_type": "enhancement",
+  "source": "pm",
+  "target_artifact_id": "persona_narrative_card_sarah_enterprise_pm",
+  "target_field": "day_in_the_life.core_workday",
+  "description": "PM reviewed the Sarah Chen persona card and noted: 'The core workday description is accurate but missing her Slack notification anxiety. She mentioned in the interview that 47 unread Slack channels cause her background stress throughout the day. This is an important emotional detail that should be in the persona.'",
+  "severity": "medium",
+  "propagation_impact": [
+    {
+      "artifact_id": "empathy_map_sarah_enterprise_pm",
+      "artifact_type": "empathy_map",
+      "impact_description": "Empathy map 'Pains' section should reflect Slack notification anxiety as a frustration point",
+      "regeneration_mode": "auto_regenerate"
+    },
+    {
+      "artifact_id": "customer_journey_map_enterprise_pm",
+      "artifact_type": "customer_journey_map",
+      "impact_description": "Journey 'Consideration' stage pain points should note communication tool fragmentation as friction",
+      "regeneration_mode": "pm_review_regenerate"
+    }
+  ],
+  "regeneration_scope": "pm_review_regenerate",
+  "status": "captured",
+  "generated_at": "2026-05-03T08:00:00Z"
+}

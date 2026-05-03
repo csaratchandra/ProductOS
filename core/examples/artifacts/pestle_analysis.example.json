@@ -1,0 +1,351 @@
+{
+  "schema_version": "1.0.0",
+  "pestle_analysis_id": "pa_ai_pm_tooling_global_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "AI PM Tooling — Global PESTLE Analysis Q2 2026",
+  "market_name": "AI-Powered Product Management Tooling",
+  "geographic_scope": [
+    "Global",
+    "US",
+    "EU",
+    "UK",
+    "APAC"
+  ],
+  "analysis_date": "2026-05-03T08:00:00Z",
+  "factors": {
+    "political": {
+      "impact_score": 7,
+      "confidence": "high",
+      "trend_direction": "deteriorating",
+      "trend_velocity": "accelerating",
+      "key_findings": [
+        {
+          "observation": "EU AI Act classifies autonomous decision-support AI as limited-risk with transparency obligations effective August 2026",
+          "significance": "critical",
+          "source_ref": "reg_eu_ai_act"
+        },
+        {
+          "observation": "US Executive Order 14110 establishes NIST AI safety standards — currently voluntary but enterprise buyers beginning to require compliance",
+          "significance": "major",
+          "source_ref": "reg_us_ai_eo"
+        },
+        {
+          "observation": "China's AI regulations require government approval for public deployment of generative AI systems — potential barrier for APAC expansion",
+          "significance": "major",
+          "source_ref": "source_apac_reg_001"
+        }
+      ],
+      "risks": [
+        "Autonomous decision intelligence features may require additional compliance controls before EU launch",
+        "Enterprise procurement gatekeepers increasingly requiring AI safety certification before purchase"
+      ],
+      "opportunities": [
+        "Regulatory complexity creates moat — new entrants face high compliance bar",
+        "Enterprise buyers willing to pay premium for compliant AI tooling"
+      ],
+      "timeline_projection_6m": "EU AI Act transparency obligations enforcement begins. US NIST standards remain voluntary but de facto required for enterprise deals. APAC fragmentation increases.",
+      "timeline_projection_12m": "Additional jurisdictions likely follow EU model. Compliance becomes table-stakes for enterprise AI tooling. First-mover advantage in compliant AI PM workflows.",
+      "timeline_projection_24m": "Global AI governance framework likely consolidated around OECD/UN principles. Standardized certification emerges. Market bifurcates into certified and non-certified segments.",
+      "evidence_refs": [
+        "reg_eu_ai_act",
+        "reg_us_ai_eo",
+        "source_apac_reg_001"
+      ]
+    },
+    "economic": {
+      "impact_score": 5,
+      "confidence": "moderate",
+      "trend_direction": "improving",
+      "trend_velocity": "steady",
+      "key_findings": [
+        {
+          "observation": "Global PM tooling market growing at 35% CAGR — projected $5.5B by 2028. AI-native tools capturing disproportionate share of new spend",
+          "significance": "critical",
+          "source_ref": "market_sizing_2026"
+        },
+        {
+          "observation": "LLM API costs declining 40% YoY — reducing cost barrier for AI-intensive PM workflows",
+          "significance": "major",
+          "source_ref": "source_llm_pricing_001"
+        },
+        {
+          "observation": "Enterprise software budgets shifting toward AI augmentation — PM tooling budget growing 2x faster than general SaaS spend",
+          "significance": "major",
+          "source_ref": "source_budget_trend_001"
+        }
+      ],
+      "risks": [
+        "Tech sector layoffs reducing total PM headcount — smaller addressable market for per-seat pricing",
+        "VC funding pullback may reduce startup segment willingness-to-pay"
+      ],
+      "opportunities": [
+        "Cost reduction in AI infrastructure improves unit economics for AI-native tooling",
+        "Enterprise focus on 'do more with less' aligns with ProductOS value prop of PM leverage"
+      ],
+      "timeline_projection_6m": "Continued AI cost decline. PM tooling budgets growing. Startup segment still constrained by funding environment.",
+      "timeline_projection_12m": "AI infrastructure costs approach commodity pricing. PM tooling adoption accelerates across enterprise. Startup funding likely recovers — pent-up demand.",
+      "timeline_projection_24m": "AI PM tooling becomes standard category. Market consolidation begins. Winners determined by integration depth, not just feature count.",
+      "evidence_refs": [
+        "market_sizing_2026",
+        "source_llm_pricing_001",
+        "source_budget_trend_001"
+      ]
+    },
+    "social": {
+      "impact_score": 6,
+      "confidence": "high",
+      "trend_direction": "improving",
+      "trend_velocity": "accelerating",
+      "key_findings": [
+        {
+          "observation": "85% of PMs report spending >10hrs/week on manual research, documentation, and status updates — strong latent demand for automation",
+          "significance": "critical",
+          "source_ref": "source_pm_survey_2026"
+        },
+        {
+          "observation": "Remote/hybrid work increases async PM workflow needs — PMs managing distributed teams value automated status and alignment tools",
+          "significance": "major",
+          "source_ref": "source_work_trends_001"
+        },
+        {
+          "observation": "PM career path increasingly requires AI literacy — PMs actively seeking AI tooling skills for career advancement",
+          "significance": "moderate",
+          "source_ref": "source_career_trends_001"
+        }
+      ],
+      "risks": [
+        "AI anxiety among PMs — fear of automation replacing PM judgment. Must position as augmentation, not replacement.",
+        "Tool fatigue — PMs already using 5+ tools. ProductOS must consolidate, not add another tool."
+      ],
+      "opportunities": [
+        "PM willingness to adopt AI tooling at all-time high — receptive market",
+        "Async work trend creates permanent demand for AI-generated status, alignment, and documentation"
+      ],
+      "timeline_projection_6m": "PM AI literacy becomes hiring requirement at top tech companies. PM tool adoption driven by career incentives.",
+      "timeline_projection_12m": "AI-assisted PM workflows normalized. PMs who don't use AI tooling at competitive disadvantage.",
+      "timeline_projection_24m": "PM role evolution: strategic judgment + AI orchestration. Routine PM tasks fully automated. PM value shifts to taste, judgment, and stakeholder influence.",
+      "evidence_refs": [
+        "source_pm_survey_2026",
+        "source_work_trends_001",
+        "source_career_trends_001"
+      ]
+    },
+    "technological": {
+      "impact_score": 8,
+      "confidence": "high",
+      "trend_direction": "improving",
+      "trend_velocity": "accelerating",
+      "key_findings": [
+        {
+          "observation": "LLM capabilities doubling approximately every 12 months — reasoning, planning, and multi-step task completion improving rapidly",
+          "significance": "critical",
+          "source_ref": "source_llm_benchmarks_2026"
+        },
+        {
+          "observation": "Agent orchestration frameworks maturing — LangChain, AutoGPT, CrewAI enabling reliable multi-agent workflows for PM tasks",
+          "significance": "critical",
+          "source_ref": "source_agent_frameworks_001"
+        },
+        {
+          "observation": "Code generation quality reaching production-grade for structured output tasks — PRD templates, API specs, HTML prototypes auto-generatable with high reliability",
+          "significance": "major",
+          "source_ref": "source_code_gen_001"
+        }
+      ],
+      "risks": [
+        "LLM provider concentration risk — dependency on 2-3 major API providers",
+        "Model deprecation risk — PM workflows built on specific model behavior may break with version changes",
+        "Security: prompt injection and data leakage remain unsolved for enterprise deployment"
+      ],
+      "opportunities": [
+        "Agent capability improvement directly increases ProductOS superpower ceiling",
+        "Code generation quality enables previously impossible features: live HTML prototypes, API contract generation",
+        "Multi-agent frameworks align perfectly with ProductOS swarm architecture"
+      ],
+      "timeline_projection_6m": "GPT-5 class models available. Agent reliability crosses enterprise threshold. Multi-agent orchestration becomes practical for PM workflows.",
+      "timeline_projection_12m": "On-device LLMs viable for sensitive data — solves enterprise data privacy objection. Agent-to-agent communication standards emerge.",
+      "timeline_projection_24m": "AI agents capable of end-to-end PM workflow execution with >95% reliability. Human PM shifts to supervision + strategic judgment. ProductOS autonomous mode becomes default.",
+      "evidence_refs": [
+        "source_llm_benchmarks_2026",
+        "source_agent_frameworks_001",
+        "source_code_gen_001"
+      ]
+    },
+    "legal": {
+      "impact_score": 8,
+      "confidence": "high",
+      "trend_direction": "deteriorating",
+      "trend_velocity": "accelerating",
+      "key_findings": [
+        {
+          "observation": "EU AI Act requires transparency labeling on all AI-generated content — every ProductOS output must declare AI origin",
+          "significance": "critical",
+          "source_ref": "reg_eu_ai_act"
+        },
+        {
+          "observation": "GDPR data processing requirements apply to PM tooling that processes user research data containing personal information",
+          "significance": "major",
+          "source_ref": "source_gdpr_pm_tooling_001"
+        },
+        {
+          "observation": "Liability frameworks for AI-generated recommendations undefined — if ProductOS recommends a strategy that fails, who is liable?",
+          "significance": "major",
+          "source_ref": "source_ai_liability_001"
+        }
+      ],
+      "risks": [
+        "EU market access requires compliance by August 2026 — hard deadline",
+        "AI liability uncertainty may slow enterprise adoption until frameworks established",
+        "Data sovereignty requirements force regional hosting — operational complexity"
+      ],
+      "opportunities": [
+        "Competitors who ignore compliance become non-viable for enterprise deals — ProductOS compliance = competitive moat",
+        "Transparency requirements align with ProductOS philosophy: AI is augmentation, decisions are human"
+      ],
+      "timeline_projection_6m": "EU AI Act compliance deadline: must implement transparency features. First AI liability cases set precedents.",
+      "timeline_projection_12m": "US likely passes AI legislation following midterm elections. Global patchwork of AI laws increases compliance complexity.",
+      "timeline_projection_24m": "International AI governance treaty likely. Standardized certification emerges. Compliance-as-a-service for AI tools becomes viable business.",
+      "evidence_refs": [
+        "reg_eu_ai_act",
+        "source_gdpr_pm_tooling_001",
+        "source_ai_liability_001"
+      ]
+    },
+    "environmental": {
+      "impact_score": 3,
+      "confidence": "moderate",
+      "trend_direction": "stable",
+      "trend_velocity": "steady",
+      "key_findings": [
+        {
+          "observation": "LLM training and inference carbon footprint increasingly scrutinized — enterprise sustainability requirements may mandate carbon reporting",
+          "significance": "moderate",
+          "source_ref": "source_ai_sustainability_001"
+        },
+        {
+          "observation": "Remote/hybrid work reducing PM travel and office energy consumption — net positive environmental impact of PM tooling",
+          "significance": "minor",
+          "source_ref": "source_work_trends_001"
+        }
+      ],
+      "risks": [
+        "Enterprise sustainability scoring may penalize AI-heavy products without carbon transparency",
+        "Data center energy costs may increase with carbon pricing — impacts AI API costs"
+      ],
+      "opportunities": [
+        "Carbon-transparent AI tooling as differentiator for sustainability-conscious enterprises",
+        "Remote work enablement narrative: ProductOS reduces need for in-person PM coordination = lower carbon footprint"
+      ],
+      "timeline_projection_6m": "Sustainability reporting becomes standard for enterprise SaaS procurement.",
+      "timeline_projection_12m": "Carbon pricing in major jurisdictions begins affecting AI API costs.",
+      "timeline_projection_24m": "Green AI certifications established. Carbon-neutral AI operations expected by enterprise buyers.",
+      "evidence_refs": [
+        "source_ai_sustainability_001",
+        "source_work_trends_001"
+      ]
+    }
+  },
+  "factor_interconnections": [
+    {
+      "factor_a": "political",
+      "factor_b": "legal",
+      "relationship": "causally_linked",
+      "description": "Political decisions (EU AI Act, US Executive Order) directly create legal requirements. Regulatory momentum is accelerating — more jurisdictions following.",
+      "strength": "strong"
+    },
+    {
+      "factor_a": "technological",
+      "factor_b": "economic",
+      "relationship": "mutually_reinforcing",
+      "description": "Declining AI costs enable more sophisticated agent capabilities. Better agents increase adoption, driving market growth, funding further development.",
+      "strength": "strong"
+    },
+    {
+      "factor_a": "social",
+      "factor_b": "technological",
+      "relationship": "mutually_reinforcing",
+      "description": "PM AI literacy demand drives tool adoption. Tool adoption creates data that improves AI. Cycle accelerates PM capability evolution.",
+      "strength": "moderate"
+    },
+    {
+      "factor_a": "political",
+      "factor_b": "economic",
+      "relationship": "counterbalancing",
+      "description": "Regulatory compliance adds cost (counterbalancing growth), but regulatory barriers reduce competition (supporting growth for compliant players). Net effect: favors established compliant vendors.",
+      "strength": "moderate"
+    },
+    {
+      "factor_a": "legal",
+      "factor_b": "technological",
+      "relationship": "causally_linked",
+      "description": "Legal requirements drive technology choices: EU AI Act mandates transparency features in product. Data sovereignty laws drive regional hosting architecture decisions.",
+      "strength": "strong"
+    }
+  ],
+  "composite_risk_score": 62,
+  "key_strategic_implications": [
+    "EU AI Act compliance (August 2026 deadline) is the single most time-sensitive action — must ship AI transparency labels on all generated outputs before deadline",
+    "Regulatory complexity is a moat, not just a cost — ProductOS should invest in compliance depth as competitive differentiator for enterprise deals",
+    "Agent capability improvement trajectory means V10 autonomous features will be competitive minimum by 2027, not aspirational — timeline must be aggressive",
+    "Enterprise PM tooling budgets are the growth engine — startup segment is currently constrained. Prioritize enterprise compliance and security features",
+    "PM role evolution toward AI orchestration aligns with ProductOS mission. Position as the tool that makes PMs better at the part of their job AI cannot do: judgment and influence"
+  ],
+  "geographic_variations": [
+    {
+      "region": "EU",
+      "differentiating_factors": [
+        "political",
+        "legal"
+      ],
+      "risk_adjustment": "higher_risk",
+      "summary": "EU AI Act creates compliance deadline. GDPR adds data handling requirements. Higher regulatory cost but lower competition — opportunity for compliant-first positioning."
+    },
+    {
+      "region": "US",
+      "differentiating_factors": [
+        "economic",
+        "technological"
+      ],
+      "risk_adjustment": "similar_risk",
+      "summary": "Largest PM tooling market. Regulatory framework emerging but not yet binding. Primary market for enterprise PM tooling growth."
+    },
+    {
+      "region": "APAC",
+      "differentiating_factors": [
+        "political",
+        "social"
+      ],
+      "risk_adjustment": "higher_risk",
+      "summary": "Fragmented regulatory landscape. China blocks foreign AI tools. Japan and Korea growing PM maturity. Requires regional partnerships for market access."
+    }
+  ],
+  "scenario_projections": [
+    {
+      "scenario_name": "AI Regulation Overreach",
+      "likelihood": "possible",
+      "trigger_conditions": [
+        "Major AI safety incident involving autonomous decision tools makes global headlines",
+        "EU extends high-risk classification to all autonomous workflow tools"
+      ],
+      "pestle_impact": "Political/Legal factors spike to impact score 9. All autonomous features require human-in-the-loop. Product differentiation shifts from autonomy to compliance.",
+      "strategic_implication": "Pivot V10 positioning from 'autonomous' to 'compliance-first AI-assisted.' Human review gates become product feature, not limitation."
+    },
+    {
+      "scenario_name": "LLM Commoditization",
+      "likelihood": "likely",
+      "trigger_conditions": [
+        "Open-source models match GPT-5 performance",
+        "Multiple providers offering same capability at near-zero cost"
+      ],
+      "pestle_impact": "Economic/Technological factors become tailwinds. AI features become table-stakes. Differentiation shifts from AI capability to domain-specific PM workflow depth.",
+      "strategic_implication": "V10's gold-standard PM workflows become primary differentiator, not AI generation. Invest heavily in PM-domain expertise depth."
+    }
+  ],
+  "source_evidence_refs": [
+    "reg_eu_ai_act",
+    "reg_us_ai_eo",
+    "market_sizing_2026",
+    "source_pm_survey_2026"
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

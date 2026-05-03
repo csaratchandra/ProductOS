@@ -1,44 +1,64 @@
 # Workflow Corridor Design
 
-## Purpose
+## 1. Purpose
 
-Design customer-safe workflow corridors that explain ownership, handoffs, proof posture, and scenario deltas on one HTML-native page.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-- when a PM needs to explain a workflow externally without relying on slides
-- when workflow publication needs stage, ownership, and proof grammar rather than deck storytelling
-- when corridor output must stay customer-safe and publication-gated
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- `workflow_corridor_spec`
-- workflow stages, lanes, transitions, overlays, personas, and proof items
-- audience and publication context
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- corridor composition guidance
-- corridor narrative and section priorities
-- escalation when the workflow is too ambiguous to publish safely
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- stage cards are the primary structural primitive
-- ownership transitions must read as explicit handoffs
-- proof rails must distinguish observed, inferred, and hypothesis-level claims
-- scenario deltas must stay secondary to the canonical baseline
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. confirm the canonical workflow baseline and publication mode
-2. map stages, owners, and handoffs into one corridor reading path
-3. keep proof posture visible beside the claims it supports
-4. place persona and scenario variation as secondary overlays
-5. fail or bound the output when ownership or proof ambiguity is still material
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- the corridor explains one workflow clearly without presenter narration
-- ownership and blocked/watch states remain visible
-- customer-safe publication never depends on post-render cleanup
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

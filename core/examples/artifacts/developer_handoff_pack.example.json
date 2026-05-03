@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "developer_handoff_pack_id": "dhp_v10_discovery_sprint_10",
+  "workspace_id": "ws_productos_v2",
+  "title": "Developer Handoff Pack — V10 Discovery Generation (Sprint 10)",
+  "sprint_target": "Sprint 10",
+  "prd_ref": "prd_productos_v2",
+  "story_refs": [
+    "story_pestle_generation",
+    "story_segment_map",
+    "story_persona_synthesis",
+    "story_journey_synthesis"
+  ],
+  "story_map_ref": "story_map_discovery_pipeline",
+  "acceptance_criteria_refs": [
+    "ac_set_pestle",
+    "ac_set_segment",
+    "ac_set_persona",
+    "ac_set_journey"
+  ],
+  "api_contract_refs": [
+    "api_contract_generate_discovery"
+  ],
+  "data_model_impact_ref": "data_model_impact_discovery_artifacts",
+  "rollout_strategy_ref": "rollout_discovery_pipeline_feature_flag",
+  "non_functional_requirements": [
+    {
+      "category": "performance",
+      "requirement": "PESTLE generation completes within 90 seconds for 6-factor analysis",
+      "measurement": "P95 latency < 90s",
+      "priority": "must_have"
+    },
+    {
+      "category": "security",
+      "requirement": "All generated artifacts inherit workspace-level access control",
+      "measurement": "RBAC enforcement on artifact read/write",
+      "priority": "must_have"
+    }
+  ],
+  "test_case_set_refs": [
+    "tcs_pestle_validation",
+    "tcs_segment_validation"
+  ],
+  "dependency_graph": [
+    {
+      "from_story_id": "story_pestle_generation",
+      "to_story_id": "story_segment_map",
+      "type": "sequential",
+      "notes": "Segments reference PESTLE economic data — PESTLE must ship first or with mock data"
+    }
+  ],
+  "handoff_ready_gates": {
+    "all_stories_have_ac": true,
+    "ambiguity_score_below_threshold": true,
+    "dependencies_identified": true,
+    "api_contracts_vetted": false,
+    "nfr_specified": true,
+    "test_cases_written": true,
+    "overall_ready": false,
+    "blockers": [
+      "API contract for generate/pestle endpoint needs engineering review — schema has not been validated against OpenAPI 3.0 spec"
+    ]
+  },
+  "generated_at": "2026-05-03T08:00:00Z"
+}

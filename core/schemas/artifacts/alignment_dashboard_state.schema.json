@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/alignment_dashboard_state.schema.json",
+  "title": "ProductOS Alignment Dashboard State",
+  "description": "Stakeholder alignment dashboard — supporter/neutral/detractor positions, last contact, open actions, decision history.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "alignment_dashboard_state_id",
+    "workspace_id",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "alignment_dashboard_state_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

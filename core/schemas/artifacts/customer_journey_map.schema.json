@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/customer_journey_map.schema.json",
+  "title": "ProductOS Customer Journey Map",
+  "description": "End-to-end customer journey across all 11 stages from unaware through advocacy, with per-stage emotion scores, touchpoints, channels, pain points, moments of truth, drop-off indicators, personas involved, and gap analysis generating opportunity briefs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "customer_journey_map_id",
+    "workspace_id",
+    "title",
+    "target_segment_ref",
+    "target_persona_refs",
+    "journey_stages",
+    "overall_emotion_curve",
+    "moments_of_truth",
+    "gap_analysis",
+    "opportunities",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "customer_journey_map_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "target_segment_ref": { "type": "string", "minLength": 1 },
+    "target_persona_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "journey_stages": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/journeyStage" },
+      "minItems": 8
+    },
+    "overall_emotion_curve": { "$ref": "#/$defs/emotionCurve" },
+    "moments_of_truth": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/momentOfTruth" },
+      "minItems": 2
+    },
+    "gap_analysis": { "$ref": "#/$defs/gapAnalysis" },
+    "opportunities": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/journeyOpportunity" },
+      "minItems": 1
+    },
+    "competitive_journey_comparison": { "$ref": "#/$defs/competitiveJourneyComparison" },
+    "visual_map_spec": { "$ref": "#/$defs/journeyVisualMapSpec" },
+    "source_evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "journeyStage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_id", "stage_name", "stage_order", "description", "persona_actions",
+        "emotion_score", "touchpoints", "channels", "pain_points", "time_spent", "drop_off_risk"
+      ],
+      "properties": {
+        "stage_id": { "type": "string", "minLength": 1 },
+        "stage_name": {
+          "type": "string",
+          "enum": ["unaware", "aware", "research", "consideration", "decision", "purchase", "onboarding", "adoption", "expansion", "advocacy", "renewal_or_churn"]
+        },
+        "stage_order": { "type": "integer", "minimum": 1 },
+        "description": { "type": "string", "minLength": 10 },
+        "persona_actions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 2
+        },
+        "persona_thoughts": { "type": "string", "minLength": 10 },
+        "emotion_score": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "emotion_label": {
+          "type": "string",
+          "enum": ["frustrated", "confused", "neutral", "satisfied", "delighted"]
+        },
+        "touchpoints": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["website", "app", "email", "phone", "chat", "social_media", "sales_call", "support_ticket", "knowledge_base", "community", "in_product", "webinar", "event", "referral", "review_site", "partner", "other"]
+          },
+          "minItems": 1
+        },
+        "pain_points": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1
+        },
+        "time_spent": { "type": "string", "minLength": 3 },
+        "drop_off_risk": { "type": "string", "enum": ["high", "medium", "low", "none"] },
+        "persons_involved": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "default": []
+        }
+      }
+    },
+    "emotionCurve": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["overall_trend", "peak_emotion_stage", "valley_emotion_stage", "curve_description"],
+      "properties": {
+        "overall_trend": { "type": "string", "enum": ["improving", "stable", "declining", "u_shaped", "rollercoaster"] },
+        "peak_emotion_stage": { "type": "string", "minLength": 3 },
+        "valley_emotion_stage": { "type": "string", "minLength": 3 },
+        "curve_description": { "type": "string", "minLength": 10 }
+      }
+    },
+    "momentOfTruth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["moment_id", "stage_id", "description", "importance", "current_performance", "improvement_needed"],
+      "properties": {
+        "moment_id": { "type": "string", "minLength": 1 },
+        "stage_id": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 20 },
+        "importance": { "type": "string", "enum": ["critical", "high", "medium"] },
+        "current_performance": { "type": "string", "enum": ["strong", "adequate", "weak", "unknown"] },
+        "improvement_needed": { "type": "boolean" }
+      }
+    },
+    "gapAnalysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_vs_ideal_summary", "critical_gaps", "unmet_expectations"],
+      "properties": {
+        "current_vs_ideal_summary": { "type": "string", "minLength": 20 },
+        "critical_gaps": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/journeyGap" },
+          "minItems": 1
+        },
+        "unmet_expectations": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10 },
+          "default": []
+        }
+      }
+    },
+    "journeyGap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gap_id", "stage_id", "description", "impact_on_customer", "priority"],
+      "properties": {
+        "gap_id": { "type": "string", "minLength": 1 },
+        "stage_id": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 10 },
+        "impact_on_customer": { "type": "string", "minLength": 10 },
+        "priority": { "type": "string", "enum": ["must_now", "next", "later"] }
+      }
+    },
+    "journeyOpportunity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["opportunity_id", "title", "stage_id", "description", "potential_impact", "effort_estimate", "linked_feature_concept"],
+      "properties": {
+        "opportunity_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 5 },
+        "stage_id": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 10 },
+        "potential_impact": { "type": "string", "enum": ["transformative", "significant", "incremental"] },
+        "effort_estimate": { "type": "string", "enum": ["low", "medium", "high"] },
+        "linked_feature_concept": { "type": "string", "minLength": 3 }
+      }
+    },
+    "competitiveJourneyComparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["competitor_id", "competitor_name", "stages_compared", "our_advantage_stages", "our_disadvantage_stages", "summary"],
+      "properties": {
+        "competitor_id": { "type": "string", "minLength": 1 },
+        "competitor_name": { "type": "string", "minLength": 2 },
+        "stages_compared": { "type": "array", "items": { "type": "string", "minLength": 3 }, "minItems": 1 },
+        "our_advantage_stages": { "type": "array", "items": { "type": "string", "minLength": 3 }, "default": [] },
+        "our_disadvantage_stages": { "type": "array", "items": { "type": "string", "minLength": 3 }, "default": [] },
+        "summary": { "type": "string", "minLength": 10 }
+      }
+    },
+    "journeyVisualMapSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "stages_visible", "emotion_curve_visible", "touchpoint_overlay", "rendering_mode"],
+      "properties": {
+        "title": { "type": "string", "minLength": 5 },
+        "stages_visible": { "type": "integer", "minimum": 1, "maximum": 11 },
+        "emotion_curve_visible": { "type": "boolean" },
+        "touchpoint_overlay": { "type": "boolean" },
+        "rendering_mode": { "type": "string", "enum": ["slide", "memo", "dashboard", "workshop_board"] }
+      }
+    }
+  }
+}

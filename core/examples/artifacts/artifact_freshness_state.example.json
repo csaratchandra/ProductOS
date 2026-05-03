@@ -1,0 +1,174 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_freshness_state_id": "afs_ws_productos_v2_20260503",
+  "workspace_id": "ws_productos_v2",
+  "status": "attention_needed",
+  "last_scan_at": "2026-05-03T08:00:00Z",
+  "entries": [
+    {
+      "artifact_id": "pestle_analysis_ws_productos_v2",
+      "artifact_type": "pestle_analysis",
+      "artifact_title": "ProductOS Operating Environment PESTLE",
+      "generated_at": "2026-03-22T08:00:00Z",
+      "source_freshness_at": "2026-03-01T00:00:00Z",
+      "ttl_days": 90,
+      "age_days": 42,
+      "freshness_status": "approaching_stale",
+      "next_refresh_due_at": "2026-06-20T08:00:00Z",
+      "drift_detected": true,
+      "drift_reason": "Multiple LLM providers announced significant pricing changes since last PESTLE analysis. Competitive landscape in AI agent tooling shifted materially.",
+      "linked_sources": [
+        "source_note_card_001",
+        "source_note_card_002"
+      ],
+      "downstream_dependent_artifacts": [
+        "strategy_option_set_productos_v2",
+        "market_strategy_brief_productos_v2",
+        "market_sizing_brief_productos_v2"
+      ]
+    },
+    {
+      "artifact_id": "competitor_dossier_productos_v2",
+      "artifact_type": "competitor_dossier",
+      "artifact_title": "AI PM Tooling Competitor Dossier",
+      "generated_at": "2026-02-15T08:00:00Z",
+      "source_freshness_at": "2026-01-30T00:00:00Z",
+      "ttl_days": 60,
+      "age_days": 77,
+      "freshness_status": "critical_stale",
+      "next_refresh_due_at": "2026-04-15T08:00:00Z",
+      "drift_detected": true,
+      "drift_reason": "Competitor X launched AI-powered PRD generation. Competitor Y announced agent-based workflow automation. Both changes significantly alter competitive positioning.",
+      "linked_sources": [
+        "source_note_card_003",
+        "source_note_card_004"
+      ],
+      "downstream_dependent_artifacts": [
+        "competitive_feature_matrix_productos_v2",
+        "market_strategy_brief_productos_v2",
+        "battle_card_productos_competitor_x",
+        "battle_card_productos_competitor_y"
+      ]
+    },
+    {
+      "artifact_id": "persona_archetype_pack_productos_v2",
+      "artifact_type": "persona_archetype_pack",
+      "artifact_title": "PM Persona Archetype Pack",
+      "generated_at": "2026-04-10T08:00:00Z",
+      "source_freshness_at": "2026-04-05T00:00:00Z",
+      "ttl_days": 120,
+      "age_days": 23,
+      "freshness_status": "fresh",
+      "next_refresh_due_at": "2026-08-08T08:00:00Z",
+      "drift_detected": false,
+      "linked_sources": [
+        "source_note_card_005"
+      ],
+      "downstream_dependent_artifacts": [
+        "prd_productos_v2",
+        "customer_journey_map_productos_v2",
+        "story_pack_productos_v2"
+      ]
+    },
+    {
+      "artifact_id": "prd_productos_v2",
+      "artifact_type": "prd",
+      "artifact_title": "ProductOS V10 PRD",
+      "generated_at": "2026-04-20T08:00:00Z",
+      "source_freshness_at": "2026-04-18T00:00:00Z",
+      "ttl_days": 90,
+      "age_days": 13,
+      "freshness_status": "fresh",
+      "next_refresh_due_at": "2026-07-19T08:00:00Z",
+      "drift_detected": false,
+      "linked_sources": [
+        "source_note_card_006"
+      ],
+      "downstream_dependent_artifacts": [
+        "story_pack_productos_v2",
+        "acceptance_criteria_set_productos_v2",
+        "developer_handoff_pack_productos_v2"
+      ]
+    },
+    {
+      "artifact_id": "market_sizing_brief_productos_v2",
+      "artifact_type": "market_sizing_brief",
+      "artifact_title": "PM Tooling Market Sizing 2026",
+      "generated_at": "2025-12-15T08:00:00Z",
+      "source_freshness_at": "2025-11-30T00:00:00Z",
+      "ttl_days": 180,
+      "age_days": 139,
+      "freshness_status": "stale",
+      "next_refresh_due_at": "2026-06-12T08:00:00Z",
+      "drift_detected": true,
+      "drift_reason": "AI agent tooling market has grown approximately 3x faster than originally projected. TAM estimates from 2025 are likely 40-60% below current reality.",
+      "linked_sources": [
+        "source_note_card_007"
+      ],
+      "downstream_dependent_artifacts": [
+        "strategy_option_set_productos_v2",
+        "investor_memo_productos_v2"
+      ]
+    }
+  ],
+  "stale_count": 1,
+  "critical_stale_count": 1,
+  "alerts": [
+    {
+      "alert_id": "freshness_alert_001",
+      "severity": "critical",
+      "message": "Competitor dossier is 77 days old (17 days past TTL). Two major competitors have shipped significant features since last update. Downstream battle cards and competitive matrix may be incorrect.",
+      "affected_artifact_ids": [
+        "competitor_dossier_productos_v2",
+        "competitive_feature_matrix_productos_v2",
+        "battle_card_productos_competitor_x",
+        "battle_card_productos_competitor_y"
+      ],
+      "recommended_action": "Run competitive radar scan immediately. Refresh competitor_dossier and all downstream battle cards. Re-evaluate market strategy positioning.",
+      "detected_at": "2026-05-03T08:00:00Z"
+    },
+    {
+      "alert_id": "freshness_alert_002",
+      "severity": "high",
+      "message": "Market sizing brief from December 2025 is stale. AI agent tooling market has grown faster than projections. TAM/SAM/SOM likely outdated. Investor content references stale numbers.",
+      "affected_artifact_ids": [
+        "market_sizing_brief_productos_v2",
+        "investor_memo_productos_v2"
+      ],
+      "recommended_action": "Refresh market sizing with 2026 data. Update TAM/SAM/SOM projections. Revalidate investor memo numbers.",
+      "detected_at": "2026-05-03T08:00:00Z"
+    },
+    {
+      "alert_id": "freshness_alert_003",
+      "severity": "medium",
+      "message": "PESTLE analysis approaching staleness (42 of 90 days). Drift detected due to pricing changes and competitive shifts in LLM provider landscape. Economic factors may have shifted.",
+      "affected_artifact_ids": [
+        "pestle_analysis_ws_productos_v2",
+        "strategy_option_set_productos_v2"
+      ],
+      "recommended_action": "Schedule PESTLE refresh within 30 days. Prioritize Economic and Technological factors given LLM pricing shifts.",
+      "detected_at": "2026-05-03T08:00:00Z"
+    }
+  ],
+  "refresh_recommendations": [
+    {
+      "recommendation_id": "refresh_rec_001",
+      "artifact_id": "competitor_dossier_productos_v2",
+      "reason": "Critical stale. Two competitor launches detected. Battle cards and competitive matrix outdated.",
+      "priority": "must_now",
+      "suggested_regeneration_scope": "downstream_propagation",
+      "estimated_impact": "Battle cards used by sales team contain incorrect competitive claims. Market strategy brief may reference outdated competitive landscape.",
+      "trigger_condition": "Competitive radar detected feature launches from 2 major competitors within 30 days"
+    },
+    {
+      "recommendation_id": "refresh_rec_002",
+      "artifact_id": "market_sizing_brief_productos_v2",
+      "reason": "Stale. Market growth rate exceeded projections. Investor content references stale numbers.",
+      "priority": "next",
+      "suggested_regeneration_scope": "full_artifact",
+      "estimated_impact": "Investor communications may understate market opportunity. Strategy options may underweight growth scenarios.",
+      "trigger_condition": "Market growth rate 3x above original projections"
+    }
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "objection_playbook_id": "op_productos_v10_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "ProductOS V10 — Stakeholder Objection Playbook",
+  "objections": [
+    {
+      "objection_text": "This is too expensive. We can do this manually.",
+      "common_from": [
+        "VP Finance",
+        "CFO"
+      ],
+      "response_strategy": "Quantify the cost of manual PM work. 10hrs/week/PM at $100/hr = $52K/year per PM. ProductOS Professional tier at $79/seat/month = $948/year per PM. ROI: 55x. The question is not 'can we afford this?' — it is 'can we afford not to use this?'",
+      "supporting_evidence": "PM time study: 15hrs/week on manual tasks. Average PM hourly rate: $100-150/hr.",
+      "counter_example": "Company X cut 3 PM headcount from their budget by adopting ProductOS — $450K saved annually. They didn't fire PMs — they stopped needing to hire more as the team scaled."
+    },
+    {
+      "objection_text": "How do we know the AI output is reliable?",
+      "common_from": [
+        "CTO",
+        "Engineering Lead"
+      ],
+      "response_strategy": "Every AI-generated claim includes an evidence source citation. ProductOS uses a composite review gate: f(confidence, decision_impact, maturity_band). High-confidence + low-impact artifacts are auto-published. Low-confidence or high-impact artifacts are flagged for PM review. Gold standard checklists validated against named external frameworks (McKinsey, Forrester, NN/g). PM always has final authority.",
+      "supporting_evidence": "Gold standard validation: 8/8 pass rate on PESTLE analysis checklist. Evidence traceability: every finding in example has source_ref.",
+      "escalation_path": "If CTO remains unconvinced: offer 30-day pilot with engineering team. Measure output quality against manual baseline. Set go/no-go criteria before pilot starts."
+    },
+    {
+      "objection_text": "This will replace PM jobs.",
+      "common_from": [
+        "PM Team Members",
+        "People Team"
+      ],
+      "response_strategy": "ProductOS does not replace PM judgment — it augments it. It automates the 60% of PM time spent on compilation, freeing PMs for the 40% that only humans can do: strategic judgment, stakeholder influence, taste, and customer empathy. PMs who use ProductOS report feeling more strategic, not less valuable. The tool makes PMs better at the part of their job AI cannot do.",
+      "supporting_evidence": "Beta tester feedback: 'I feel more like a strategist and less like a documentation compiler.' PMs using ProductOS reported higher job satisfaction scores."
+    }
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

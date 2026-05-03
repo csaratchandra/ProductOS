@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0.0",
+  "battle_card_id": "bc_competitoralpha_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "Battle Card: CompetitorAlpha — Q2 2026",
+  "competitor_ref": "comp_001",
+  "overview": {
+    "one_liner": "CompetitorAlpha is a general-purpose PM tooling platform with strong PRD generation and enterprise features (SSO, audit logging).",
+    "our_positioning_vs_theirs": "ProductOS: world-class strategy, discovery, prototypes, and marketing — autonomous with review gates. CompetitorAlpha: solid PRD and execution features — manual-heavy strategy, no prototypes, no living system.",
+    "primary_competitive_advantage": "PESTLE analysis, decision intelligence, AI prototype generation (3 variants), autonomous review gates, living system auto-refresh — none of which CompetitorAlpha offers.",
+    "primary_competitive_disadvantage": "CompetitorAlpha has 10x more users and broader brand awareness. They have shipped AI PRD generation already — we are on Sprint 10-11 for this capability."
+  },
+  "feature_comparison": [
+    {
+      "feature": "PESTLE Analysis",
+      "our_capability": "strong",
+      "their_capability": "absent",
+      "advantage": "us",
+      "detail": "ProductOS V10 auto-generates 6-factor PESTLE with 3-horizon projections. CompetitorAlpha has no environmental analysis."
+    },
+    {
+      "feature": "AI Prototype Generation",
+      "our_capability": "strong",
+      "their_capability": "weak",
+      "advantage": "us",
+      "detail": "ProductOS generates 3 interactive HTML variants with WCAG accessibility. CompetitorAlpha offers static mockups only."
+    },
+    {
+      "feature": "PRD Generation",
+      "our_capability": "adequate",
+      "their_capability": "strong",
+      "advantage": "them",
+      "detail": "CompetitorAlpha launched AI PRD generation in April 2026. ProductOS V10 PRD pipeline ships Sprint 10-11 — includes non-functional requirements and rollout strategy they lack."
+    },
+    {
+      "feature": "Enterprise Features (SSO, Audit)",
+      "our_capability": "weak",
+      "their_capability": "strong",
+      "advantage": "them",
+      "detail": "CompetitorAlpha offers SSO, audit logging, and dedicated support at $299/seat. ProductOS enterprise tier planned for Sprint 18."
+    },
+    {
+      "feature": "Living System (Auto-Refresh)",
+      "our_capability": "strong",
+      "their_capability": "absent",
+      "advantage": "us",
+      "detail": "ProductOS detects staleness, drift, and auto-refreshes artifacts. CompetitorAlpha generates static outputs."
+    }
+  ],
+  "pricing_comparison": "CompetitorAlpha: Starter $29/seat, Pro $79/seat, Enterprise $299/seat (with SSO, audit). ProductOS V10: targeting $39-149/seat with hybrid subscription + usage model. Positioned between CompetitorAlpha's Pro and Enterprise tiers for core capabilities. Enterprise tier (SSO+audit) competitive at $149/seat — 50% below CompetitorAlpha's $299.",
+  "ideal_customer_profile": "CompetitorAlpha wins: large enterprise PM teams prioritizing SSO and audit compliance, PMs who primarily need PRD generation. ProductOS wins: PMs who need full lifecycle (strategy → discovery → prototypes → execution), PMs who value evidence traceability and autonomous workflow, PMs who want AI-generated marketing and investor content.",
+  "win_themes": [
+    {
+      "theme": "Full PM Lifecycle",
+      "description": "ProductOS covers strategy through execution through launch. CompetitorAlpha focuses on discovery and PRD only. PMs who need the full stack choose ProductOS."
+    },
+    {
+      "theme": "Autonomous with Review Gates",
+      "description": "ProductOS runs fully autonomous discovery-to-PRD pipelines while keeping PM in control through smart review gates. CompetitorAlpha requires manual PM orchestration."
+    }
+  ],
+  "loss_themes": [
+    {
+      "theme": "Enterprise Security Requirements",
+      "description": "Deals lost when enterprise prospect requires SSO + audit logging + SOC2 Type II. ProductOS lacks these at current stage. Addressing Sprint 18."
+    }
+  ],
+  "objection_handling": [
+    {
+      "objection": "CompetitorAlpha already has AI PRD generation — why wait for your V10?",
+      "response": "CompetitorAlpha's PRD generation produces generic outputs — our competitive analysis of their v1 shows outputs with 40%+ rewrite rate in beta tests. ProductOS V10 PRDs include non-functional requirements extraction, rollout strategy, and API contract generation — none of which CompetitorAlpha offers. And our gold-standard validation means your PRD passes McKinsey-grade quality checks before you see it.",
+      "supporting_evidence": "CompetitorAlpha G2 reviews citing 'needs significant manual editing.' ProductOS beta: <20% rewrite rate target."
+    },
+    {
+      "objection": "CompetitorAlpha has SSO and audit logging — you don't",
+      "response": "Correct — and we are transparent about it. ProductOS V10 Enterprise tier with SSO and audit logging ships Sprint 18. In the meantime, we support SAML-based SSO through your identity provider and our SOC2 Type II certification covers audit requirements. If SSO is a hard requirement today, let us scope a custom integration for your timeline. We would rather be honest about our roadmap than promise features that do not exist.",
+      "supporting_evidence": "SOC2 Type II certification. SAML SSO integration documentation. Enterprise tier roadmap: Sprint 18."
+    }
+  ],
+  "sales_conversation_guide": "If prospect mentions CompetitorAlpha: 'Great question. CompetitorAlpha is strong on PRD generation. But what happens before the PRD? ProductOS starts earlier — PESTLE analysis of your market, segment identification with competitive heatmapping, persona synthesis with empathy maps. You get a strategy foundation before the PRD, not just a PRD in isolation. And after the PRD, you get AI-generated HTML prototypes, developer handoff packs with API contracts, and marketing content — all from the same system.'",
+  "recent_competitive_moves": "CompetitorAlpha shipped AI PRD generation (April 2026). Launched Enterprise tier at $299/seat with SSO + audit (May 2026). Hiring 5 ML Engineers — inferred: AI feature expansion accelerating.",
+  "generated_at": "2026-05-03T08:00:00Z"
+}

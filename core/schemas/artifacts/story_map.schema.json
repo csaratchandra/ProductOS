@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/story_map.schema.json",
+  "title": "ProductOS Story Map",
+  "description": "Visual story map (Jeff Patton style) with backbone activities, user tasks decomposed into stories, release slices, persona lanes, and sprint assignment — providing a visual execution plan from user workflow to development increments.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "story_map_id", "workspace_id", "title", "persona_ref", "backbone", "user_tasks", "release_slices", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "story_map_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 5},
+    "persona_ref": {"type": "string", "minLength": 1},
+    "backbone": {"type": "array", "items": {"$ref": "#/$defs/backboneActivity"}, "minItems": 2},
+    "user_tasks": {"type": "array", "items": {"$ref": "#/$defs/userTask"}, "minItems": 2},
+    "release_slices": {"type": "array", "items": {"$ref": "#/$defs/releaseSlice"}, "minItems": 1},
+    "visual_spec": {"$ref": "#/$defs/visualSpec"},
+    "source_evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "backboneActivity": {"type": "object", "additionalProperties": false, "required": ["activity_id", "name", "order", "description"], "properties": {"activity_id": {"type": "string", "minLength": 1}, "name": {"type": "string", "minLength": 3}, "order": {"type": "integer", "minimum": 1}, "description": {"type": "string", "minLength": 5}}},
+    "userTask": {"type": "object", "additionalProperties": false, "required": ["task_id", "name", "activity_id", "stories"], "properties": {"task_id": {"type": "string", "minLength": 1}, "name": {"type": "string", "minLength": 3}, "activity_id": {"type": "string", "minLength": 1}, "stories": {"type": "array", "items": {"$ref": "#/$defs/storyCard"}, "minItems": 1}}},
+    "storyCard": {"type": "object", "additionalProperties": false, "required": ["story_id", "title", "priority"], "properties": {"story_id": {"type": "string", "minLength": 1}, "title": {"type": "string", "minLength": 5}, "priority": {"type": "string", "enum": ["must_now", "next", "later"]}, "release_slice": {"type": "string"}, "sprint": {"type": "string"}}},
+    "releaseSlice": {"type": "object", "additionalProperties": false, "required": ["slice_id", "name", "target_outcome", "story_ids"], "properties": {"slice_id": {"type": "string", "minLength": 1}, "name": {"type": "string", "minLength": 3}, "target_outcome": {"type": "string", "minLength": 10}, "story_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1}}},
+    "visualSpec": {"type": "object", "additionalProperties": false, "required": ["title", "layout", "rendering_mode"], "properties": {"title": {"type": "string", "minLength": 5}, "layout": {"type": "string", "enum": ["horizontal_swimlanes", "vertical_slices", "kanban_board"]}, "rendering_mode": {"type": "string", "enum": ["slide", "dashboard", "workshop_board"]}}}
+  }
+}

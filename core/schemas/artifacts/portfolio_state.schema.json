@@ -9,6 +9,9 @@
     "schema_version",
     "portfolio_state_id",
     "suite_id",
+    "review_gate_owner",
+    "primary_outcomes",
+    "primary_kpis",
     "summary",
     "product_summaries",
     "opportunity_portfolio_summary",
@@ -28,6 +31,26 @@
     "suite_id": {
       "type": "string",
       "minLength": 1
+    },
+    "review_gate_owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "primary_outcomes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    },
+    "primary_kpis": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
     },
     "summary": {
       "type": "string",
@@ -76,8 +99,14 @@
         "workspace_id",
         "product_name",
         "lifecycle_stage",
+        "maturity_band",
         "status",
         "owner",
+        "review_gate_owner",
+        "primary_outcomes",
+        "primary_kpis",
+        "top_mission_title",
+        "next_approval_needed",
         "target_release_or_increment"
       ],
       "properties": {
@@ -100,7 +129,18 @@
             "validation",
             "delivery",
             "launch",
-            "support"
+            "support",
+            "support_learning",
+            "improve"
+          ]
+        },
+        "maturity_band": {
+          "type": "string",
+          "enum": [
+            "zero_to_one",
+            "one_to_ten",
+            "ten_to_hundred",
+            "hundred_to_thousand_plus"
           ]
         },
         "status": {
@@ -117,9 +157,37 @@
           "type": "string",
           "minLength": 1
         },
+        "review_gate_owner": {
+          "type": "string",
+          "minLength": 1
+        },
         "target_release_or_increment": {
           "type": "string",
           "minLength": 1
+        },
+        "primary_outcomes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "minItems": 1
+        },
+        "primary_kpis": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "minItems": 1
+        },
+        "top_mission_title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "next_approval_needed": {
+          "type": "string",
+          "minLength": 3
         },
         "feature_count": {
           "type": "integer",

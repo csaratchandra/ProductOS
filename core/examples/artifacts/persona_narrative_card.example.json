@@ -1,0 +1,201 @@
+{
+  "schema_version": "1.0.0",
+  "persona_narrative_card_id": "pnc_sarah_enterprise_pm_20260503",
+  "workspace_id": "ws_productos_v2",
+  "persona_archetype_pack_ref": "pap_enterprise_pm_2026",
+  "persona_ref": "pers_sarah_enterprise_pm",
+  "name": "Sarah Chen",
+  "identity": {
+    "age_range": "32-38",
+    "location": "San Francisco, CA (Remote-first company)",
+    "education": "BS Computer Science, MBA",
+    "role_title": "Senior Product Manager",
+    "years_in_role": "6 years in PM, 3 years in current role",
+    "reports_to": "VP of Product",
+    "team_size": "3 direct reports (2 APMs, 1 Data Analyst)",
+    "career_stage": "mid_career",
+    "photo_description": "Woman in her mid-30s with shoulder-length dark hair, wearing a navy blazer over a white blouse. Confident but approachable smile. Standing in front of a whiteboard covered with sticky notes and product roadmap sketches. Modern tech office background with natural light."
+  },
+  "day_in_the_life": {
+    "morning_routine": "Sarah starts her day at 7:15am — checks Slack messages and email from her phone while her coffee brews. The overnight customer escalation from the EU team catches her eye immediately. By 7:45am she's at her standing desk, dual monitors lit up. She opens Productboard, Jira, and her personal Notion dashboard. The first 45 minutes are sacred — she reviews yesterday's feature adoption metrics and updates her stakeholder status doc before anyone else is online.",
+    "core_workday": "9am standup with her 2 engineering teams (15 min each, back-to-back). She's listening for blockers, not status — her teams self-report well. 10am-12pm is her deep work block: she's building the Q3 strategy deck for the VP review next week. She's switching between a competitor's G2 reviews, customer interview transcripts from last month, and a half-finished PRD in Google Docs. She wishes she had a tool that synthesized all of this instead of having 8 tabs open. Lunch is a 20-minute walk around the block — she processes ideas better moving.",
+    "afternoon_challenges": "1-3pm is meetings: a customer advisory call (enterprise account threatening churn because they need SSO), cross-functional alignment with Design on the new onboarding flow, and a 30-minute 1:1 with her APM who's struggling with stakeholder presentation skills. 3-4pm is firefighting: the CTO flagged a security concern about a competitor's new feature overlapping with their roadmap. Sarah needs competitive analysis fast but she knows it'll take her 2 hours to compile manually. She puts it on tomorrow's list with a sinking feeling.",
+    "evening_reflection": "5pm: Sarah closes her laptop but her mind is still running. She dictated 3 voice memos on her commute concept for tomorrow: 1) accelerate SSO feature, 2) competitive analysis for CTO, 3) prep for VP review. She knows she will spend her evening mentally structuring the deck — she wishes the AI could just build the first draft from her scattered notes. She grabs takeout, watches 20 minutes of a Netflix show, and then opens her laptop again at 8:30pm 'just to outline the deck.' She goes to bed at 11pm feeling like she worked 12 hours but only got 6 hours of deep work done.",
+    "weekly_rhythm": "Monday: sprint planning + leadership sync. Tuesday/Wednesday: deep work + customer calls. Thursday: stakeholder reviews (Product Review, Design Review). Friday: 1:1s, weekly status mail, backlog grooming. Sunday evening: 30 minutes of 'getting ahead of the week' anxiety prep."
+  },
+  "voice_samples": [
+    {
+      "context": "During a stakeholder review with the CTO",
+      "quote": "I don't need the AI to tell me what to build. I need it to handle the 80% of my time I spend compiling research, formatting decks, and chasing status updates — so I can actually think about what to build.",
+      "tone": "Frustrated but articulate — she's made this case before"
+    },
+    {
+      "context": "In a 1:1 with her APM",
+      "quote": "The hardest part of this job isn't the strategy. It's proving the strategy to people who need it in a completely different format. The CTO wants a technical deep-dive. The CFO wants an ROI model. The VP Sales wants a one-pager. I'm writing the same insight four different ways.",
+      "tone": "Mentoring, wearily honest"
+    },
+    {
+      "context": "User research interview about her current workflow",
+      "quote": "I spent 14 hours on competitive research last month. Fourteen hours. I have an MBA and 6 years of PM experience. I should be spending those hours on strategy and customer conversations, not copying-pasting from G2 reviews into a spreadsheet.",
+      "tone": "Exasperated but self-aware"
+    }
+  ],
+  "behavioral_profile": {
+    "technology_comfort": "expert",
+    "learning_style": "self_serve",
+    "communication_preference": "async",
+    "daily_tools": [
+      "Jira",
+      "Confluence",
+      "Google Docs",
+      "Slack",
+      "Notion",
+      "Productboard",
+      "Figma",
+      "Mixpanel",
+      "Salesforce (reluctantly)"
+    ],
+    "switch_cost": "high",
+    "switch_cost_rationale": "Her entire workflow is built on Jira/Confluence. Switching would require migrating 3 years of product history and retraining her engineering teams. Any new tool must integrate deeply with Jira or it's dead on arrival."
+  },
+  "decision_journey": {
+    "discovery_channel": "ProductHunt → peer PM Slack community validation → vendor demo request",
+    "evaluation_criteria": [
+      {
+        "rank": 1,
+        "criterion": "Jira integration depth — must sync stories bidirectionally",
+        "weight": "must_have"
+      },
+      {
+        "rank": 2,
+        "criterion": "Output quality compared to manual work — must be 80%+ parity",
+        "weight": "must_have"
+      },
+      {
+        "rank": 3,
+        "criterion": "Security review pass (SOC2 Type II minimum)",
+        "weight": "must_have"
+      },
+      {
+        "rank": 4,
+        "criterion": "Time-to-value: can she get useful output in first week?",
+        "weight": "high"
+      },
+      {
+        "rank": 5,
+        "criterion": "Customizable output formats (her CTO wants one format, her CFO another)",
+        "weight": "high"
+      }
+    ],
+    "decision_authority": "primary_recommender",
+    "budget_signoff_needed": true,
+    "evaluation_timeline": "4-6 weeks (includes security review)",
+    "influencers": [
+      "CTO (technical evaluation)",
+      "VP Product (budget signoff)",
+      "Engineering lead (workflow impact)"
+    ],
+    "deal_killers": [
+      "No Jira integration",
+      "Fails security review",
+      "Output quality feels 'obviously AI-generated' — must feel professionally produced"
+    ]
+  },
+  "relationship_map": {
+    "influences": [
+      "2 APMs on her team",
+      "Engineering lead's sprint planning",
+      "VP Product's quarterly strategy"
+    ],
+    "influenced_by": [
+      "CTO (architecture decisions)",
+      "VP Product (strategic direction)",
+      "VP Sales (customer demands)"
+    ],
+    "reports_to_chain": [
+      "VP of Product → CPO → CEO"
+    ],
+    "primary_collaborators": [
+      "Engineering lead (daily)",
+      "Product Designer (weekly)",
+      "Data Analyst (weekly)",
+      "Customer Success lead (ad-hoc)"
+    ],
+    "conflicts_with": [
+      "VP Sales — wants every customer request prioritized immediately. Sarah wants evidence, not anecdotes."
+    ]
+  },
+  "use_cases": {
+    "primary": {
+      "scenario": "Quarterly strategy preparation: needs to synthesize 3 months of customer interviews, competitive intel, product analytics into a leadership-ready strategy deck with options and trade-offs",
+      "frequency": "quarterly",
+      "criticality": "critical",
+      "outcome_if_solved": "Strategy deck produced in 2 days instead of 2 weeks. Leadership decisions accelerated by one sprint."
+    },
+    "secondary": {
+      "scenario": "Weekly status and alignment: needs to produce sprint status, flag blockers, update roadmap, and keep engineering + leadership aligned without daily meetings",
+      "frequency": "weekly",
+      "criticality": "high",
+      "outcome_if_solved": "5 fewer meetings per week. 4 hours/week saved on status compilation."
+    },
+    "edge": {
+      "scenario": "Competitive emergency response: competitor launches overlapping feature. Needs competitive analysis, strategic implications, and stakeholder communication within 4 hours",
+      "frequency": "rarely",
+      "criticality": "critical",
+      "outcome_if_solved": "Competitive response time reduced from 2 days to 4 hours. Leadership confidence in PM preparedness."
+    },
+    "anti_use": {
+      "scenario": "Sarah will NOT use ProductOS as a project management tool — she already has Jira. She will NOT use ProductOS to replace customer conversations — AI can synthesize research but she will still do the interviews herself.",
+      "frequency": "rarely",
+      "criticality": "critical",
+      "outcome_if_solved": "ProductOS positioned correctly as PM augmentation, not PM replacement. Sarah becomes champion, not skeptic."
+    }
+  },
+  "satisfaction_drivers": {
+    "must_haves": [
+      "Jira integration working on day 1",
+      "Output quality at or above what she'd produce manually in 80% of cases",
+      "Security review pass within evaluation timeline",
+      "Visible source citations on every AI-generated claim"
+    ],
+    "delighters": [
+      "Persona-aware output formatting (knows her CTO wants technical detail, her CFO wants financial framing)",
+      "Living system — artifacts auto-refresh when underlying data changes",
+      "One-click export to Google Slides for her stakeholder presentations"
+    ],
+    "detractors": [
+      "Output that looks 'obviously AI' — generic, repetitive, lacking domain-specific insight",
+      "Requires her to learn a new complex workflow — learning curve >1 hour is dealbreaker",
+      "No undo or version history — she needs to iterate without fear of losing work"
+    ],
+    "indifference_zone": [
+      "Mobile app — she works on desktop",
+      "Team collaboration features — she's the only PM evaluting"
+    ]
+  },
+  "maturity_band_variation": {
+    "zero_to_one_behavior": "Early adopter. Will tolerate rough edges. Cares about speed and insight freshness more than polish. Values prototype generation more than polished PRDs.",
+    "one_to_ten_behavior": "Expects reliable output. Cares about integration depth. Needs artifacts that engineering can execute from. Values developer handoff pack more than strategy depth.",
+    "ten_to_hundred_behavior": "Expects enterprise-grade reliability. Cares about compliance and security. Needs portfolio-level views. Values dashboard and status automation more than individual artifact depth."
+  },
+  "visual_card_spec": {
+    "title": "Sarah Chen — Senior PM Persona",
+    "sections": [
+      "Photo + Identity",
+      "Day-in-the-Life Story",
+      "Key Quote Pullout",
+      "Behavioral Profile + Tools",
+      "Decision Journey",
+      "Must-Haves vs Deal-Killers"
+    ],
+    "layout": "one_page_profile",
+    "color_palette": "professional_navy_teal",
+    "quote_pullout": "'I need the AI to handle the 80% of my time I spend compiling, formatting, and chasing — so I can actually think about what to build.'"
+  },
+  "source_evidence_refs": [
+    "source_note_card_sarah_interview_001",
+    "source_note_card_sarah_interview_002",
+    "source_note_card_sarah_observation_003"
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

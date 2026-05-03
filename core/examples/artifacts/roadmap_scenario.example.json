@@ -1,0 +1,224 @@
+{
+  "schema_version": "1.0.0",
+  "roadmap_scenario_id": "rs_v10_q2_q3_2026",
+  "workspace_id": "ws_productos_v2",
+  "title": "ProductOS V10 Roadmap — Q2-Q3 2026",
+  "time_horizon_months": 6,
+  "scenarios": [
+    {
+      "name": "Optimistic",
+      "type": "optimistic",
+      "description": "All sprints deliver on time. Engineering velocity holds at 95%+. PRD acceleration succeeds without quality compromise. Prototype generation ships at high fidelity.",
+      "risk_level": "high",
+      "probability_of_on_time_delivery": 55,
+      "milestones": [
+        {
+          "milestone_id": "ms_opt_01",
+          "title": "Sprint 9-10: Roadmap + Tech Bridge Complete",
+          "sprint_number": 10,
+          "features": [
+            {
+              "feature_id": "feat_roadmap",
+              "name": "Roadmap Intelligence",
+              "story_points": 13,
+              "owner_team": "Core"
+            },
+            {
+              "feature_id": "feat_winloss",
+              "name": "Win/Loss Analysis",
+              "story_points": 8,
+              "owner_team": "Core"
+            }
+          ],
+          "confidence": "high"
+        },
+        {
+          "milestone_id": "ms_opt_02",
+          "title": "Sprint 11-13: Prototype Generation Complete",
+          "sprint_number": 13,
+          "features": [
+            {
+              "feature_id": "feat_prototype",
+              "name": "AI Prototype Generation",
+              "story_points": 34,
+              "owner_team": "Core"
+            }
+          ],
+          "confidence": "moderate"
+        },
+        {
+          "milestone_id": "ms_opt_03",
+          "title": "Sprint 14-15: Developer + Support Outputs",
+          "sprint_number": 15,
+          "features": [
+            {
+              "feature_id": "feat_prd",
+              "name": "PRD Generation",
+              "story_points": 21,
+              "owner_team": "Core"
+            },
+            {
+              "feature_id": "feat_stories",
+              "name": "Dev-Ready Stories",
+              "story_points": 13,
+              "owner_team": "Core"
+            }
+          ],
+          "confidence": "moderate"
+        }
+      ]
+    },
+    {
+      "name": "Expected",
+      "type": "expected",
+      "description": "Probable path considering current velocity and known risks. PRD acceleration absorbs 2 sprints. Prototype generation delayed 1 sprint for quality.",
+      "risk_level": "medium",
+      "probability_of_on_time_delivery": 75,
+      "milestones": [
+        {
+          "milestone_id": "ms_exp_01",
+          "title": "Sprint 9-10: Roadmap + Tech Bridge Complete",
+          "sprint_number": 10,
+          "features": [
+            {
+              "feature_id": "feat_roadmap",
+              "name": "Roadmap Intelligence",
+              "story_points": 13,
+              "owner_team": "Core"
+            },
+            {
+              "feature_id": "feat_winloss",
+              "name": "Win/Loss Analysis",
+              "story_points": 8,
+              "owner_team": "Core"
+            }
+          ],
+          "confidence": "high"
+        },
+        {
+          "milestone_id": "ms_exp_02",
+          "title": "Sprint 11-14: Prototype Generation Complete",
+          "sprint_number": 14,
+          "features": [
+            {
+              "feature_id": "feat_prototype",
+              "name": "AI Prototype Generation",
+              "story_points": 34,
+              "owner_team": "Core"
+            }
+          ],
+          "confidence": "moderate"
+        }
+      ]
+    },
+    {
+      "name": "Pessimistic",
+      "type": "pessimistic",
+      "description": "PRD acceleration causes quality dip requiring 2 sprints of rework. Engineering has 2-week velocity dip. Marketing and investor content deferred to post-launch.",
+      "risk_level": "low",
+      "probability_of_on_time_delivery": 90,
+      "milestones": [
+        {
+          "milestone_id": "ms_pes_01",
+          "title": "Sprint 9-10: Roadmap + Tech Bridge Complete",
+          "sprint_number": 10,
+          "features": [
+            {
+              "feature_id": "feat_roadmap",
+              "name": "Roadmap Intelligence",
+              "story_points": 13,
+              "owner_team": "Core"
+            },
+            {
+              "feature_id": "feat_winloss",
+              "name": "Win/Loss Analysis",
+              "story_points": 8,
+              "owner_team": "Core"
+            }
+          ],
+          "confidence": "high"
+        },
+        {
+          "milestone_id": "ms_pes_02",
+          "title": "Sprint 11-16: Prototype Generation (Delayed)",
+          "sprint_number": 16,
+          "features": [
+            {
+              "feature_id": "feat_prototype",
+              "name": "AI Prototype Generation",
+              "story_points": 34,
+              "owner_team": "Core"
+            }
+          ],
+          "confidence": "low"
+        }
+      ]
+    }
+  ],
+  "shared_dependencies": [
+    {
+      "from_feature_id": "feat_prototype",
+      "to_feature_id": "feat_prd",
+      "type": "blocks",
+      "description": "PRD artifact references prototype comparison matrix — prototypes must be generated before PRD can be complete."
+    },
+    {
+      "from_feature_id": "feat_prd",
+      "to_feature_id": "feat_stories",
+      "type": "enables",
+      "description": "User stories are generated from PRD scope — PRD must be at decision_ready before stories can be decomposed."
+    }
+  ],
+  "critical_path": [
+    "feat_prototype",
+    "feat_prd",
+    "feat_stories"
+  ],
+  "okr_alignment": {
+    "company_objective": "Launch ProductOS V10 as the world-class AI PM superpower platform by Q4 2026",
+    "product_key_results": [
+      "KR1: 10+ PM beta testers report PM leverage increase >=3x vs current workflow by Sprint 15",
+      "KR2: Feature scorecard average >=4.0 across all V10 capabilities by Sprint 18",
+      "KR3: Gold standard validation pass rate >=90% for all generated artifacts by Sprint 16"
+    ],
+    "feature_metric_map": [
+      {
+        "feature_id": "feat_prototype",
+        "metric": "Prototype fidelity score",
+        "target": ">=4/5 by beta testers",
+        "measurement_method": "Beta tester survey after first prototype interaction"
+      },
+      {
+        "feature_id": "feat_prd",
+        "metric": "PRD rewrite rate",
+        "target": "<20%",
+        "measurement_method": "Compare AI-generated PRD vs PM final version word diff"
+      }
+    ]
+  },
+  "stakeholder_views": [
+    {
+      "audience": "executive",
+      "visible_elements": [
+        "scenario milestones",
+        "OKR alignment",
+        "critical path"
+      ],
+      "generated_from": "expected scenario"
+    },
+    {
+      "audience": "engineering",
+      "visible_elements": [
+        "dependency graph",
+        "sprint-level features",
+        "story point estimates"
+      ],
+      "generated_from": "expected scenario"
+    }
+  ],
+  "source_evidence_refs": [
+    "feature_scorecard_feat_prototype",
+    "feature_scorecard_feat_prd"
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

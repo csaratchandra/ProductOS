@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/cross_product_insight_index.schema.json",
+  "title": "ProductOS Cross Product Insight Index",
+  "description": "Tagged discoveries, reusable lessons, and evidence-backed recommendations across workspaces.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "cross_product_insight_index_id",
+    "portfolio_id",
+    "insights",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "cross_product_insight_index_id": { "type": "string", "minLength": 1 },
+    "portfolio_id": { "type": "string", "minLength": 1 },
+    "insights": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/insight"
+      },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "insight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "insight_id",
+        "workspace_id",
+        "mission_ref",
+        "title",
+        "summary",
+        "tags",
+        "observed_vs_inferred",
+        "evidence_refs",
+        "reusable_recommendation"
+      ],
+      "properties": {
+        "insight_id": { "type": "string", "minLength": 1 },
+        "workspace_id": { "type": "string", "minLength": 1 },
+        "mission_ref": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "summary": { "type": "string", "minLength": 10 },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 },
+          "minItems": 1
+        },
+        "observed_vs_inferred": { "type": "string", "enum": ["observed", "inferred", "mixed"] },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "reusable_recommendation": { "type": "string", "minLength": 10 }
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "phase_packet_id": "phase_packet_ws_productos_v2_discovery",
+  "workspace_id": "ws_productos_v2",
+  "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+  "product_record_ref": "product_record_productos_core",
+  "lifecycle_phase": "discovery",
+  "maturity_band": "one_to_ten",
+  "phase_goal": "Create a reviewable mission-first discovery packet with explicit evidence posture.",
+  "question_prompts": [
+    "What is the highest-signal decision the PM needs from discovery?",
+    "Which evidence is observed versus inferred for PM superpower recovery mission?"
+  ],
+  "task_queue": [
+    {
+      "task_id": "task_pm_superpower_recovery_mission_discovery_01",
+      "title": "Discovery task 1",
+      "summary": "Frame the problem in customer language before solution framing expands.",
+      "owner": "ProductOS PM",
+      "status": "planned",
+      "source_artifact_refs": [
+        "mission_brief_ws_productos_v2_pm_superpower_recovery",
+        "product_record_productos_core"
+      ]
+    }
+  ],
+  "expected_artifacts": [
+    "mission_brief",
+    "strategy_context_brief",
+    "problem_brief",
+    "research_notebook"
+  ],
+  "success_metrics": [
+    {
+      "metric_name": "time from intake to reviewable PRD",
+      "target_signal": "Discovery should improve time from intake to reviewable prd without weakening reviewability.",
+      "measurement_posture": "observed"
+    }
+  ],
+  "approval_gates": [
+    {
+      "gate_id": "approval_gate_pm_superpower_recovery_mission_discovery",
+      "title": "Discovery PM review",
+      "owner": "ProductOS PM",
+      "status": "pending",
+      "required_artifact_refs": [
+        "mission_brief_ws_productos_v2_pm_superpower_recovery",
+        "product_record_productos_core"
+      ]
+    }
+  ],
+  "recommended_pm_actions": [
+    {
+      "recommendation_id": "pm_action_pm_superpower_recovery_mission_discovery",
+      "summary": "Approve the bounded discovery packet only after the evidence trail and next decision stay legible.",
+      "source_artifact_refs": [
+        "mission_brief_ws_productos_v2_pm_superpower_recovery",
+        "product_record_productos_core"
+      ],
+      "observed_vs_inferred": "mixed",
+      "assumption_note": "Task content is maturity-aware scaffolding until workspace-specific evidence replaces the starter defaults."
+    }
+  ],
+  "source_artifact_ids": [
+    "mission_brief_ws_productos_v2_pm_superpower_recovery",
+    "product_record_productos_core"
+  ],
+  "created_at": "2026-04-09T08:00:00Z",
+  "updated_at": "2026-04-09T08:00:00Z"
+}

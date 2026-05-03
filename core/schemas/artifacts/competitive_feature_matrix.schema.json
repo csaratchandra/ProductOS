@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/competitive_feature_matrix.schema.json",
+  "title": "ProductOS Competitive Feature Matrix",
+  "description": "Auto-updated structured feature comparison across competitors with capability scoring, gap analysis, differentiation strengths, and segment-specific competitive positioning.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "competitive_feature_matrix_id",
+    "workspace_id",
+    "title",
+    "competitor_dossier_ref",
+    "comparison_date",
+    "feature_categories",
+    "competitors",
+    "capability_scores",
+    "differentiation_summary",
+    "gap_analysis",
+    "last_updated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "competitive_feature_matrix_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "competitor_dossier_ref": { "type": "string", "minLength": 1 },
+    "comparison_date": { "type": "string", "format": "date-time" },
+    "feature_categories": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/featureCategory" },
+      "minItems": 1
+    },
+    "competitors": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/competitor" },
+      "minItems": 1
+    },
+    "capability_scores": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/capabilityScore" },
+      "minItems": 1
+    },
+    "differentiation_summary": { "$ref": "#/$defs/differentiationSummary" },
+    "gap_analysis": { "$ref": "#/$defs/gapAnalysis" },
+    "source_evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "last_updated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "featureCategory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category_id", "category_name", "weight", "features"],
+      "properties": {
+        "category_id": { "type": "string", "minLength": 1 },
+        "category_name": { "type": "string", "minLength": 2 },
+        "weight": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "features": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/feature" },
+          "minItems": 1
+        }
+      }
+    },
+    "feature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["feature_id", "feature_name", "is_differentiator"],
+      "properties": {
+        "feature_id": { "type": "string", "minLength": 1 },
+        "feature_name": { "type": "string", "minLength": 2 },
+        "is_differentiator": { "type": "boolean" },
+        "description": { "type": "string", "minLength": 5 }
+      }
+    },
+    "competitor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["competitor_id", "competitor_name", "type"],
+      "properties": {
+        "competitor_id": { "type": "string", "minLength": 1 },
+        "competitor_name": { "type": "string", "minLength": 2 },
+        "type": {
+          "type": "string",
+          "enum": ["direct", "indirect", "potential", "replaced_by"]
+        },
+        "overall_capability_score": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "strength_summary": { "type": "string", "minLength": 5 },
+        "weakness_summary": { "type": "string", "minLength": 5 }
+      }
+    },
+    "capabilityScore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["feature_id", "scores"],
+      "properties": {
+        "feature_id": { "type": "string", "minLength": 1 },
+        "scores": {
+          "type": "object",
+          "additionalProperties": {"type": "string", "enum": ["strong", "adequate", "weak", "absent", "unknown"]}
+        },
+        "our_score": {
+          "type": "string",
+          "enum": ["strong", "adequate", "weak", "absent", "unknown"]
+        },
+        "leader": { "type": "string", "minLength": 2 },
+        "evidence_ref": { "type": "string", "minLength": 1 }
+      }
+    },
+    "differentiationSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["where_we_lead", "where_we_are_parity", "where_we_lag", "moat_strength"],
+      "properties": {
+        "where_we_lead": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "where_we_are_parity": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "where_we_lag": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "moat_strength": {
+          "type": "string",
+          "enum": ["strong", "adequate", "weak", "none"]
+        },
+        "moat_rationale": { "type": "string", "minLength": 10 }
+      }
+    },
+    "gapAnalysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["critical_gaps", "emerging_threats", "opportunity_windows"],
+      "properties": {
+        "critical_gaps": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/gapItem" },
+          "minItems": 1
+        },
+        "emerging_threats": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/gapItem" },
+          "default": []
+        },
+        "opportunity_windows": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/gapItem" },
+          "default": []
+        }
+      }
+    },
+    "gapItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description", "competitor_id", "segment_impact", "recommended_action"],
+      "properties": {
+        "description": { "type": "string", "minLength": 10 },
+        "competitor_id": { "type": "string", "minLength": 1 },
+        "segment_impact": { "type": "string", "minLength": 5 },
+        "recommended_action": { "type": "string", "minLength": 10 },
+        "priority": {
+          "type": "string",
+          "enum": ["must_now", "next", "later", "park"]
+        }
+      }
+    }
+  }
+}

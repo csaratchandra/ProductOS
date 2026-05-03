@@ -1,44 +1,64 @@
 # Visual Pattern Selection
 
-## Purpose
+## 1. Purpose
 
-Choose the most appropriate ProductOS visual pattern for a deck, corridor, or map based on audience, decision goal, evidence posture, and format constraints.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-- when multiple valid visual patterns could fit the same source artifact
-- when the work needs a deliberate choice between executive, operational, corridor, or map patterns
-- when HTML and PPT targets impose different composition tradeoffs
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- visual source artifact
-- audience and communication goal
-- fidelity target
-- evidence and risk posture
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- selected pattern family
-- rationale for the pattern choice
-- rejected pattern notes when a tempting pattern would be misleading
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- choose clarity and truthfulness over novelty
-- do not select a pattern that hides blockers, uncertainty, or ownership
-- avoid patterns that cannot be reproduced acceptably for the intended target
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. identify the visual lane and target audience
-2. identify the one primary message the surface must carry
-3. shortlist patterns that fit the content and fidelity target
-4. reject patterns that distort the reading path or claim posture
-5. select one pattern and record why it is the safest strong choice
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- one chosen pattern is explicit
-- pattern choice is traceable to the audience and message
-- rejected patterns are recorded when they would create a real risk
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

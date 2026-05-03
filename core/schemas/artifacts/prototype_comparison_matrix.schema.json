@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/prototype_comparison_matrix.schema.json",
+  "title": "ProductOS Prototype Comparison Matrix",
+  "description": "Side-by-side comparison of generated prototype variants scored across visual quality, interaction depth, IA clarity, accessibility compliance, state completeness, data realism, and user test readiness — surfacing the recommended variant with PM selection rationale.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "prototype_comparison_matrix_id", "workspace_id", "title", "generation_plan_ref", "variants", "scoring_dimensions", "comparison_scores", "recommended_variant", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "prototype_comparison_matrix_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 5},
+    "generation_plan_ref": {"type": "string", "minLength": 1},
+    "variants": {"type": "array", "items": {"$ref": "#/$defs/variant"}, "minItems": 2},
+    "scoring_dimensions": {"type": "array", "items": {"$ref": "#/$defs/dimension"}, "minItems": 4},
+    "comparison_scores": {"type": "array", "items": {"$ref": "#/$defs/variantScores"}, "minItems": 2},
+    "recommended_variant": {"$ref": "#/$defs/recommendedVariant"},
+    "pm_selection": {"$ref": "#/$defs/pmSelection"},
+    "source_evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "variant": {"type": "object", "additionalProperties": false, "required": ["variant_id", "name", "description", "prototype_record_ref", "differentiation_summary"], "properties": {"variant_id": {"type": "string", "minLength": 1}, "name": {"type": "string", "minLength": 3}, "description": {"type": "string", "minLength": 10}, "prototype_record_ref": {"type": "string", "minLength": 1}, "differentiation_summary": {"type": "string", "minLength": 10}, "screenshot_refs": {"type": "array", "items": {"type": "string"}, "default": []}}},
+    "dimension": {"type": "object", "additionalProperties": false, "required": ["dimension_id", "name", "weight"], "properties": {"dimension_id": {"type": "string", "minLength": 1}, "name": {"type": "string", "minLength": 3}, "weight": {"type": "integer", "minimum": 1, "maximum": 100}, "description": {"type": "string", "minLength": 5}}},
+    "variantScores": {"type": "object", "additionalProperties": false, "required": ["variant_id", "scores", "total"], "properties": {"variant_id": {"type": "string", "minLength": 1}, "scores": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 1, "maximum": 10}}, "total": {"type": "integer"}}},
+    "recommendedVariant": {"type": "object", "additionalProperties": false, "required": ["variant_id", "rationale", "strengths", "weaknesses"], "properties": {"variant_id": {"type": "string", "minLength": 1}, "rationale": {"type": "string", "minLength": 10}, "strengths": {"type": "array", "items": {"type": "string", "minLength": 5}, "minItems": 1}, "weaknesses": {"type": "array", "items": {"type": "string", "minLength": 5}, "minItems": 1}}},
+    "pmSelection": {"type": "object", "additionalProperties": false, "required": ["selected_variant_id", "rationale", "iteration_plan"], "properties": {"selected_variant_id": {"type": "string", "minLength": 1}, "rationale": {"type": "string", "minLength": 10}, "iteration_plan": {"type": "string", "minLength": 10}, "selected_at": {"type": "string", "format": "date-time"}}}
+  }
+}

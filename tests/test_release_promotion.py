@@ -270,6 +270,29 @@ def test_promote_public_release_updates_only_tracked_public_surfaces(tmp_path: P
     assert "ProductOS `V7.2.0`" in overview
 
 
+def test_promote_public_release_can_promote_to_v9_after_manual_gate_clear(tmp_path: Path):
+    root = tmp_path / "repo"
+    _seed_public_release_repo(root, version="8.4.0")
+
+    result = promote_public_release(
+        root,
+        slice_label="lifecycle enrichment program",
+        released_at="2026-05-03T12:00:00Z",
+        target_version="9.0.0",
+    )
+
+    release = json.loads((root / "registry" / "releases" / "release_9_0_0.json").read_text(encoding="utf-8"))
+    workspace = json.loads((root / "registry" / "workspaces" / "ws_productos_v2.registration.json").read_text(encoding="utf-8"))
+    suite = json.loads((root / "registry" / "suites" / "suite_productos.registration.json").read_text(encoding="utf-8"))
+    readme = (root / "README.md").read_text(encoding="utf-8")
+
+    assert result["target_version"] == "9.0.0"
+    assert release["core_version"] == "9.0.0"
+    assert workspace["current_core_version"] == "9.0.0"
+    assert suite["current_core_version"] == "9.0.0"
+    assert "ProductOS V9.0.0 is the current stable ProductOS Core line." in readme
+
+
 def test_run_public_release_commits_tags_and_blocks_ignored_boundaries(tmp_path: Path):
     root = tmp_path / "repo"
     _seed_public_release_repo(root)

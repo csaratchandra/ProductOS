@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "experiment_id": "exp_prototype_recommendations_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "Experiment: Dashboard Recommended Actions Effect on PM Decision Rate",
+  "hypothesis_ref": "h_test_01",
+  "background": "Product Health Dashboard planned with top-5 recommended actions. Hypothesis: this increases PM proactive decision rate by 40% vs dashboard without recommendations.",
+  "variants": {
+    "control": {
+      "name": "Control",
+      "description": "Dashboard without recommended actions panel. PM views metrics, alerts, and status but must determine next actions independently.",
+      "allocation_pct": 50
+    },
+    "treatments": [
+      {
+        "name": "Recommended Actions",
+        "description": "Dashboard with top-5 AI-recommended actions panel prominently placed. Each action includes: what to do, why, link to affected artifact.",
+        "allocation_pct": 50
+      }
+    ]
+  },
+  "primary_metric": "decisions_made_per_week",
+  "secondary_metrics": [
+    "time_to_decision_hours",
+    "artifact_regeneration_count",
+    "pm_satisfaction_score"
+  ],
+  "mde_pct": 20,
+  "significance_level": 0.05,
+  "power": 0.8,
+  "sample_size_required": 200,
+  "estimated_duration_days": 28,
+  "decision_criteria": {
+    "ship_if": "Primary metric shows >=20% increase with p<0.05 AND no guardrail metrics violated",
+    "hold_if": "Primary metric shows 10-20% increase or p between 0.05-0.10 — need more data",
+    "abandon_if": "Primary metric shows <10% increase OR p>0.10 after 28 days"
+  },
+  "guardrail_metrics": [
+    {
+      "metric": "dashboard_load_time_ms",
+      "acceptable_range": "<2000ms (no degradation)",
+      "action_if_violated": "Pause experiment. Fix performance before continuing."
+    }
+  ],
+  "status": "designed",
+  "generated_at": "2026-05-03T08:00:00Z"
+}

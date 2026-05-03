@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "drift_alert_id": "dda_pestle_llm_pricing_20260503",
+  "workspace_id": "ws_productos_v2",
+  "source_change_ref": "competitive_intelligence_alert_cia_20260503_001",
+  "drifted_artifact_id": "pestle_analysis_ai_pm_tooling_global_20260503",
+  "drift_severity": "high",
+  "drift_description": "PESTLE Economic factor projection assumed LLM API costs would continue declining 40% YoY. CompetitorAlpha's launch of AI PRD generation — using a different LLM provider with 30% lower costs — suggests our cost assumptions may be 15-20% too conservative. Additionally, competitive intensity has increased more than our original PESTLE anticipated.",
+  "affected_downstream": [
+    {
+      "artifact_id": "strategy_option_set_productos_v2",
+      "artifact_type": "strategy_option_set",
+      "impact": "Option A (accelerate PRD) assumed competitor gap of 4-6 weeks. New cost data suggests competitor could accelerate further. Sensitivity analysis assumptions changed.",
+      "refresh_priority": "must_now"
+    },
+    {
+      "artifact_id": "pricing_analysis_productos_v10_20260503",
+      "artifact_type": "pricing_analysis",
+      "impact": "Unit economics assume LLM costs at current rates. If competitor costs are 30% lower, our gross margin projections are optimistic.",
+      "refresh_priority": "next"
+    },
+    {
+      "artifact_id": "investor_memo_productos_seed_2026",
+      "artifact_type": "investor_memo",
+      "impact": "Market sizing section references PESTLE economic projections. Drift could affect market size and growth rate claims.",
+      "refresh_priority": "next"
+    }
+  ],
+  "recommended_action": "Refresh PESTLE Economic factor with updated LLM pricing data from competitive radar. Re-run sensitivity analysis on PRD acceleration decision. Update pricing analysis gross margin assumptions.",
+  "auto_regenerate_scope": "pm_review_first",
+  "detected_at": "2026-05-03T08:00:00Z"
+}

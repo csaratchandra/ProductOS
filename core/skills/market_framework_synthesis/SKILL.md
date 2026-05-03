@@ -1,40 +1,64 @@
 # Market Framework Synthesis
 
-## Purpose
+## 1. Purpose
 
-Select and apply the smallest useful market framework set for a bounded PM decision.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when `market_analysis_brief`, `market_sizing_brief`, or `market_share_brief` work risks becoming generic summary instead of decision support.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- market evidence and competitor evidence
-- current problem, concept, or strategy context
-- framework registry or explicit decision scope
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- selected framework rationale
-- explicit framework-to-artifact mapping
-- market synthesis that explains why the chosen framework fits
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not use more frameworks than the decision requires
-- keep sizing and market narrative separate when confidence differs
-- preserve evidence gaps instead of smoothing them over
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. restate the decision the market work must support
-2. choose the framework set with explicit applicability logic
-3. synthesize only the conclusions that the chosen framework can support
-4. record remaining gaps and what would change the recommendation
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- framework choice should be explainable in one paragraph
-- outputs should feel decision-oriented rather than encyclopedic
-- evidence gaps should remain visible
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

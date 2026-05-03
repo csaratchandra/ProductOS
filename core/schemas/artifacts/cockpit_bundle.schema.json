@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/cockpit_bundle.schema.json",
+  "title": "ProductOS Cockpit Bundle",
+  "description": "Aggregated PM-facing bundle used by CLI status, exported HTML, and local preview surfaces.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "cockpit_bundle_id",
+    "workspace_id",
+    "portfolio_id",
+    "mission_ref",
+    "product_record_ref",
+    "bundle_status",
+    "ralph_stage",
+    "mission_brief",
+    "product_record",
+    "portfolio_state",
+    "workspace_tree_state",
+    "active_phase_packet",
+    "cockpit_state",
+    "orchestration_state",
+    "cross_product_insight_index",
+    "research_posture",
+    "strategy_refresh_posture",
+    "context_view_refs",
+    "recommended_pm_actions",
+    "generated_html_ref",
+    "source_artifact_ids",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "cockpit_bundle_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "portfolio_id": { "type": "string", "minLength": 1 },
+    "mission_ref": { "type": "string", "minLength": 1 },
+    "product_record_ref": { "type": "string", "minLength": 1 },
+    "bundle_status": { "type": "string", "minLength": 3 },
+    "ralph_stage": { "type": "string", "enum": ["inspect", "implement", "refine", "validate", "fix", "revalidate"] },
+    "mission_brief": { "type": "object" },
+    "product_record": { "type": "object" },
+    "portfolio_state": { "type": "object" },
+    "workspace_tree_state": { "type": "object" },
+    "active_phase_packet": { "type": "object" },
+    "cockpit_state": { "type": "object" },
+    "orchestration_state": { "type": "object" },
+    "cross_product_insight_index": { "type": "object" },
+    "research_posture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "review_status",
+        "contradiction_count",
+        "search_status",
+        "question_count",
+        "candidate_count",
+        "selected_source_count",
+        "freshness_summary",
+        "recommendation"
+      ],
+      "properties": {
+        "review_status": { "type": "string", "minLength": 3 },
+        "contradiction_count": { "type": "integer", "minimum": 0 },
+        "search_status": { "type": "string", "minLength": 3 },
+        "question_count": { "type": "integer", "minimum": 0 },
+        "candidate_count": { "type": "integer", "minimum": 0 },
+        "selected_source_count": { "type": "integer", "minimum": 0 },
+        "freshness_summary": { "type": "string", "minLength": 3 },
+        "recommendation": { "type": "string", "minLength": 3 }
+      }
+    },
+    "strategy_refresh_posture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "available_evidence_count",
+        "available_evidence_types",
+        "downstream_packet_status",
+        "available_downstream_count",
+        "missing_downstream_types",
+        "recommendation"
+      ],
+      "properties": {
+        "status": { "type": "string", "minLength": 3 },
+        "available_evidence_count": { "type": "integer", "minimum": 0 },
+        "available_evidence_types": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 }
+        },
+        "downstream_packet_status": { "type": "string", "enum": ["available", "missing"] },
+        "available_downstream_count": { "type": "integer", "minimum": 0 },
+        "missing_downstream_types": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 }
+        },
+        "recommendation": { "type": "string", "minLength": 3 }
+      }
+    },
+    "context_view_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["view_id", "label", "ref_type", "ref_path"],
+        "properties": {
+          "view_id": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 2 },
+          "ref_type": { "type": "string", "enum": ["artifact", "document"] },
+          "ref_path": { "type": "string", "minLength": 3 }
+        }
+      }
+    },
+    "recommended_pm_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["recommendation_id", "summary", "source_artifact_refs", "observed_vs_inferred", "assumption_note"],
+        "properties": {
+          "recommendation_id": { "type": "string", "minLength": 1 },
+          "summary": { "type": "string", "minLength": 3 },
+          "source_artifact_refs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 1
+          },
+          "observed_vs_inferred": { "type": "string", "enum": ["observed", "inferred", "mixed"] },
+          "assumption_note": { "type": "string", "minLength": 3 }
+        }
+      }
+    },
+    "generated_html_ref": { "type": "string", "minLength": 3 },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

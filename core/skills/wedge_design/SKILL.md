@@ -1,41 +1,64 @@
 # Wedge Design
 
-## Purpose
+## 1. Purpose
 
-Define the narrow entry wedge that is buyable now and expandable later.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when ProductOS needs to move from broad product ambition to a first credible lane, buyer motion, or launch slice.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- target segment and persona
-- workflow pain and evidence
-- competitor alternatives
-- product capability and proof constraints
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- wedge statement
-- expansion logic
-- wedge-specific proof requirements
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not confuse the long-term vision with the first sellable wedge
-- do not choose a wedge that cannot be defended with current proof
-- do not claim adjacent expansion without a visible bridge
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-- identify the highest-friction narrow lane
-- define why it is buyable, low-disruption, and measurable
-- map the adjacent expansion path that uses the same control model
-- preserve the proof gaps and constraints
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- the wedge should be narrow enough to prove and broad enough to matter
-- the expansion path should feel earned rather than bolted on
-- proof requirements should match the wedge, not the whole platform vision
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

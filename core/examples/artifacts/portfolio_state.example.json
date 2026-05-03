@@ -2,6 +2,15 @@
   "schema_version": "1.0.0",
   "portfolio_state_id": "portfolio_state_suite_productos_2026_03_19",
   "suite_id": "suite_productos",
+  "review_gate_owner": "Sarat",
+  "primary_outcomes": [
+    "Generate one mission-first cockpit bundle per workspace.",
+    "Make portfolio rollups readable without reconstructing context."
+  ],
+  "primary_kpis": [
+    "time from intake to reviewable PM package",
+    "number of cross-workspace approvals visible in one control center"
+  ],
   "summary": "The current portfolio contains one active product workspace with delivery work on track and no blocked cross-product dependencies.",
   "product_summaries": [
     {
@@ -9,9 +18,19 @@
       "workspace_id": "ws_productos_v2",
       "product_name": "ProductOS Core",
       "lifecycle_stage": "delivery",
+      "maturity_band": "one_to_ten",
       "status": "on_track",
       "owner": "Sarat",
+      "review_gate_owner": "Sarat",
       "target_release_or_increment": "pi_2026_q2_01",
+      "primary_outcomes": [
+        "Give the PM one control center instead of many disconnected commands."
+      ],
+      "primary_kpis": [
+        "time from intake to reviewable PRD"
+      ],
+      "top_mission_title": "PM superpower recovery mission",
+      "next_approval_needed": "delivery PM review",
       "feature_count": 1
     }
   ],

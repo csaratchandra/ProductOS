@@ -1,40 +1,64 @@
 # Segment Enrichment
 
-## Purpose
+## 1. Purpose
 
-Expand a raw segment draft into a prioritizable segment definition with explicit buying context, posture fit, and entry-point clarity.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when `segment_map` work is too thin to support beachhead selection, prioritization, or downstream problem framing.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- draft segment notes or `segment_map`
-- market and competitor context
-- observed evidence about adoption constraints and buying behavior
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- enriched segment definitions
-- prioritized segment rationale
-- explicit beachhead recommendation inputs
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not collapse distinct segments into one vague bucket
-- keep observed evidence separate from inferred fit
-- avoid broad platform claims when the segment wedge is still narrow
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. restate the segmentation lens and decision it must support
-2. sharpen each segment's core job, struggle moments, and buying context
-3. score segment attractiveness and agentic delivery fit explicitly
-4. explain why the recommended beachhead should go first
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- each segment should feel materially distinct
-- prioritization should be explicit rather than implied
-- the beachhead rationale should match the evidence and posture
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

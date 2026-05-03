@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/decision_analysis.schema.json",
+  "title": "ProductOS Decision Analysis",
+  "description": "Comprehensive decision intelligence artifact supporting trade-off analysis, decision trees with probability-weighted outcomes, sensitivity analysis, premortem failure-mode identification, reversibility scoring, and structured decision records with assumptions and review triggers.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "decision_analysis_id",
+    "workspace_id",
+    "title",
+    "decision_question",
+    "analysis_type",
+    "status",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "decision_analysis_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 5 },
+    "decision_question": { "type": "string", "minLength": 10 },
+    "analysis_type": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["trade_off", "decision_tree", "sensitivity", "premortem", "reversibility"] },
+      "minItems": 1
+    },
+    "status": { "type": "string", "enum": ["draft", "analysis_complete", "pm_reviewed", "decided", "deferred"] },
+    "context": { "$ref": "#/$defs/decisionContext" },
+    "trade_off_analysis": { "$ref": "#/$defs/tradeOffAnalysis" },
+    "decision_tree": { "$ref": "#/$defs/decisionTree" },
+    "sensitivity_analysis": { "$ref": "#/$defs/sensitivityAnalysis" },
+    "premortem": { "$ref": "#/$defs/premortem" },
+    "reversibility_scoring": { "$ref": "#/$defs/reversibilityScoring" },
+    "recommended_decision": { "$ref": "#/$defs/recommendedDecision" },
+    "linked_entity_refs": { "type": "array", "items": { "type": "string", "minLength": 1 }, "default": [] },
+    "source_evidence_refs": { "type": "array", "items": { "type": "string", "minLength": 1 }, "default": [] },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "decisionContext": {
+      "type": "object", "additionalProperties": false,
+      "required": ["stakes", "stakeholders", "timeline_pressure", "constraints"],
+      "properties": {
+        "stakes": { "type": "string", "minLength": 10 },
+        "stakeholders": { "type": "array", "items": { "type": "string", "minLength": 3 }, "minItems": 1 },
+        "timeline_pressure": { "type": "string", "enum": ["immediate", "short_term", "medium_term", "long_term"] },
+        "constraints": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 1 }
+      }
+    },
+    "tradeOffAnalysis": {
+      "type": "object", "additionalProperties": false,
+      "required": ["options", "criteria", "scoring_matrix", "recommendation"],
+      "properties": {
+        "options": { "type": "array", "items": { "$ref": "#/$defs/option" }, "minItems": 2 },
+        "criteria": { "type": "array", "items": { "$ref": "#/$defs/criterion" }, "minItems": 3 },
+        "scoring_matrix": { "$ref": "#/$defs/scoringMatrix" },
+        "recommendation": { "$ref": "#/$defs/tradeOffRecommendation" }
+      }
+    },
+    "option": {
+      "type": "object", "additionalProperties": false,
+      "required": ["option_id", "name", "description", "expected_outcome", "cost_estimate", "timeline_estimate", "risk_level"],
+      "properties": {
+        "option_id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 3 },
+        "description": { "type": "string", "minLength": 10 },
+        "expected_outcome": { "type": "string", "minLength": 10 },
+        "cost_estimate": { "type": "string", "minLength": 3 },
+        "timeline_estimate": { "type": "string", "minLength": 3 },
+        "risk_level": { "type": "string", "enum": ["high", "medium", "low"] }
+      }
+    },
+    "criterion": {
+      "type": "object", "additionalProperties": false,
+      "required": ["criterion_id", "name", "weight", "type"],
+      "properties": {
+        "criterion_id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 3 },
+        "weight": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "type": { "type": "string", "enum": ["must_have", "quantitative", "qualitative"] }
+      }
+    },
+    "scoringMatrix": {
+      "type": "object", "additionalProperties": false,
+      "required": ["scores", "weighted_totals", "ranked_options"],
+      "properties": {
+        "scores": { "type": "array", "items": { "$ref": "#/$defs/optionScore" }, "minItems": 1 },
+        "weighted_totals": { "$ref": "#/$defs/weightedTotals" },
+        "ranked_options": { "type": "array", "items": { "type": "string", "minLength": 3 }, "minItems": 1 }
+      }
+    },
+    "optionScore": {
+      "type": "object", "additionalProperties": false,
+      "required": ["option_id", "criterion_scores"],
+      "properties": {
+        "option_id": { "type": "string", "minLength": 1 },
+        "criterion_scores": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1, "maximum": 10 } }
+      }
+    },
+    "weightedTotals": {
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
+    "tradeOffRecommendation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["recommended_option_id", "rationale", "key_trade_offs", "what_is_lost"],
+      "properties": {
+        "recommended_option_id": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 10 },
+        "key_trade_offs": { "type": "array", "items": { "type": "string", "minLength": 10 }, "minItems": 1 },
+        "what_is_lost": { "type": "string", "minLength": 10 }
+      }
+    },
+    "decisionTree": {
+      "type": "object", "additionalProperties": false,
+      "required": ["nodes", "probabilities", "expected_values", "recommended_path"],
+      "properties": {
+        "nodes": { "type": "array", "items": { "$ref": "#/$defs/treeNode" }, "minItems": 3 },
+        "probabilities": { "type": "array", "items": { "$ref": "#/$defs/probabilityBranch" }, "minItems": 1 },
+        "expected_values": { "type": "object", "additionalProperties": { "type": "number" } },
+        "recommended_path": { "type": "string", "minLength": 3 }
+      }
+    },
+    "treeNode": {
+      "type": "object", "additionalProperties": false,
+      "required": ["node_id", "type", "label"],
+      "properties": {
+        "node_id": { "type": "string", "minLength": 1 },
+        "type": { "type": "string", "enum": ["decision", "chance", "outcome"] },
+        "label": { "type": "string", "minLength": 3 },
+        "parent_node_id": { "type": "string", "minLength": 1 },
+        "outcome_value": { "type": "number" }
+      }
+    },
+    "probabilityBranch": {
+      "type": "object", "additionalProperties": false,
+      "required": ["from_node_id", "to_node_id", "probability", "label"],
+      "properties": {
+        "from_node_id": { "type": "string", "minLength": 1 },
+        "to_node_id": { "type": "string", "minLength": 1 },
+        "probability": { "type": "number", "minimum": 0, "maximum": 1 },
+        "label": { "type": "string", "minLength": 3 }
+      }
+    },
+    "sensitivityAnalysis": {
+      "type": "object", "additionalProperties": false,
+      "required": ["assumptions_tested", "critical_assumptions", "conclusion"],
+      "properties": {
+        "assumptions_tested": { "type": "array", "items": { "$ref": "#/$defs/assumptionTest" }, "minItems": 2 },
+        "critical_assumptions": { "type": "array", "items": { "type": "string", "minLength": 10 }, "minItems": 1 },
+        "conclusion": { "type": "string", "minLength": 10 },
+        "decision_holds_within_range": { "type": "string", "minLength": 10 }
+      }
+    },
+    "assumptionTest": {
+      "type": "object", "additionalProperties": false,
+      "required": ["assumption", "base_value", "tested_range", "result", "flips_decision_at"],
+      "properties": {
+        "assumption": { "type": "string", "minLength": 10 },
+        "base_value": { "type": "string", "minLength": 3 },
+        "tested_range": { "type": "string", "minLength": 5 },
+        "result": { "type": "string", "enum": ["robust", "moderately_sensitive", "highly_sensitive"] },
+        "flips_decision_at": { "type": "string", "minLength": 5 }
+      }
+    },
+    "premortem": {
+      "type": "object", "additionalProperties": false,
+      "required": ["failure_scenarios", "early_warning_indicators", "reversal_triggers"],
+      "properties": {
+        "failure_scenarios": { "type": "array", "items": { "$ref": "#/$defs/failureScenario" }, "minItems": 2 },
+        "early_warning_indicators": { "type": "array", "items": { "type": "string", "minLength": 10 }, "minItems": 2 },
+        "reversal_triggers": { "type": "array", "items": { "type": "string", "minLength": 10 }, "minItems": 1 }
+      }
+    },
+    "failureScenario": {
+      "type": "object", "additionalProperties": false,
+      "required": ["scenario", "probability", "impact_if_occurs", "leading_indicators"],
+      "properties": {
+        "scenario": { "type": "string", "minLength": 20 },
+        "probability": { "type": "string", "enum": ["likely", "possible", "unlikely"] },
+        "impact_if_occurs": { "type": "string", "enum": ["catastrophic", "severe", "moderate", "minor"] },
+        "leading_indicators": { "type": "array", "items": { "type": "string", "minLength": 10 }, "minItems": 1 }
+      }
+    },
+    "reversibilityScoring": {
+      "type": "object", "additionalProperties": false,
+      "required": ["reversibility_level", "cost_to_reverse", "time_to_reverse", "irreversible_after", "recommendation"],
+      "properties": {
+        "reversibility_level": { "type": "string", "enum": ["easily_reversible", "reversible_with_effort", "hard_to_reverse", "irreversible"] },
+        "cost_to_reverse": { "type": "string", "minLength": 5 },
+        "time_to_reverse": { "type": "string", "minLength": 5 },
+        "irreversible_after": { "type": "string", "minLength": 5 },
+        "recommendation": { "type": "string", "minLength": 10 }
+      }
+    },
+    "recommendedDecision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["recommendation", "confidence", "assumptions", "review_trigger"],
+      "properties": {
+        "recommendation": { "type": "string", "minLength": 10 },
+        "confidence": { "type": "string", "enum": ["high", "moderate", "low"] },
+        "assumptions": { "type": "array", "items": { "type": "string", "minLength": 10 }, "minItems": 1 },
+        "review_trigger": { "type": "string", "minLength": 10 }
+      }
+    }
+  }
+}

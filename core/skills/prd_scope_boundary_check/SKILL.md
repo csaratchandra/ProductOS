@@ -1,41 +1,64 @@
-# PRD Scope Boundary Check
+# Prd Scope Boundary Check
 
-## Purpose
+## 1. Purpose
 
-Keep PRD scope bounded to the validated problem and concept so delivery handoff does not quietly expand.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when drafting or reviewing a `prd`, especially before story generation or release-facing reuse.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- `problem_brief`
-- `concept_brief`
-- draft `prd`
-- linked evidence and target persona context
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- scope boundary review
-- out-of-scope clarification
-- handoff risks for story and acceptance work
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not allow hidden feature expansion
-- keep out-of-scope items explicit
-- preserve the validated persona and prioritization spine
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. compare PRD scope against the problem and concept
-2. identify additions that are not justified upstream
-3. sharpen scope boundaries and out-of-scope language
-4. record the downstream risks if the PRD stays ambiguous
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- scope should be traceable upstream
-- out-of-scope items should be concrete
-- downstream teams should be able to tell what is intentionally excluded
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

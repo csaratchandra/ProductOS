@@ -1,0 +1,156 @@
+{
+  "schema_version": "1.0.0",
+  "maturity_band_profile_id": "mbp_zero_to_one_ws_productos",
+  "workspace_id": "ws_productos_v2",
+  "band": "zero_to_one",
+  "band_label": "0\u21921 Customers",
+  "primary_focus": "Problem validation and product-market fit search. Heavy strategic discovery with maximum evidence requirements. Multiple prototype variants to explore solution space before committing.",
+  "discovery_depth": {
+    "depth_level": "exhaustive",
+    "mandatory_artifacts": [
+      "pestle_analysis",
+      "market_sizing_brief",
+      "segment_map",
+      "persona_archetype_pack",
+      "empathy_map",
+      "customer_journey_map",
+      "user_journey_map",
+      "hypothesis_portfolio",
+      "competitor_dossier",
+      "research_brief",
+      "problem_brief",
+      "concept_brief"
+    ],
+    "optional_artifacts": [
+      "market_share_brief",
+      "consultant_report_digest"
+    ],
+    "rationale": "Early-stage products need exhaustive discovery to avoid building the wrong thing. PESTLE validates market viability. Deep personas and journeys surface real user needs. Hypothesis portfolio manages uncertainty systematically."
+  },
+  "strategy_depth": {
+    "depth_level": "deep",
+    "mandatory_artifacts": [
+      "strategy_context_brief",
+      "strategy_option_set",
+      "market_strategy_brief",
+      "wedge_design",
+      "right_to_win_assessment",
+      "displacement_barrier_assessment",
+      "decision_premortem"
+    ],
+    "optional_artifacts": [
+      "landscape_matrix"
+    ],
+    "rationale": "Strategy must produce multiple distinct options and subject each to premortem analysis. Single-frame strategy is anti-pattern at this stage."
+  },
+  "planning_depth": {
+    "depth_level": "standard",
+    "mandatory_artifacts": [
+      "prototype_generation_plan",
+      "prototype_comparison_matrix",
+      "prd"
+    ],
+    "optional_artifacts": [
+      "story_pack"
+    ],
+    "rationale": "Prototypes reduce the biggest source of risk: building the wrong thing. 3 variants cover the solution space. PRD stays focused on core value hypothesis."
+  },
+  "execution_depth": {
+    "depth_level": "focused",
+    "mandatory_artifacts": [
+      "acceptance_criteria_set",
+      "feature_scorecard"
+    ],
+    "optional_artifacts": [
+      "story_pack",
+      "status_mail"
+    ],
+    "rationale": "Execution stays lean. Build only what validates the core hypothesis. No heavy process until PMF signal is strong."
+  },
+  "launch_depth": {
+    "depth_level": "focused",
+    "mandatory_artifacts": [
+      "release_readiness",
+      "release_note"
+    ],
+    "optional_artifacts": [
+      "messaging_house",
+      "help_manual"
+    ],
+    "rationale": "Launch is about learning, not scale. Readiness check ensures minimum bar. Marketing content is lightweight."
+  },
+  "support_depth": {
+    "depth_level": "focused",
+    "mandatory_artifacts": [
+      "outcome_review",
+      "issue_log"
+    ],
+    "optional_artifacts": [
+      "help_manual"
+    ],
+    "rationale": "Outcome review is critical: did the hypothesis validate? Issue log captures real user friction for next iteration."
+  },
+  "prototype_expectation": {
+    "prototype_count": 3,
+    "fidelity_level": "medium",
+    "primary_purpose": "Explore solution space breadth before committing to a single design direction. PM selects best-fit variant after side-by-side evaluation.",
+    "variant_count": 3,
+    "should_include_service_blueprint": false,
+    "should_include_pitch_prototype": true
+  },
+  "review_sensitivity": {
+    "auto_approve_thresholds": [
+      "High confidence + Low impact only"
+    ],
+    "pm_review_thresholds": [
+      "All decision-driving outputs",
+      "All stakeholder-facing outputs",
+      "Any moderate or low confidence output",
+      "All high-impact outputs"
+    ],
+    "blocked_thresholds": [
+      "Low confidence AND critical impact",
+      "Unresolved contradictions in evidence",
+      "Policy or compliance blocks",
+      "Missing required review layer"
+    ],
+    "rationale": "0\u21921 is maximum review: product is fragile. Every decision is high-stakes. PM gate is active on nearly everything."
+  },
+  "autonomy_permission_level": "maximum_review",
+  "artifact_priority_sequence": [
+    "pestle_analysis",
+    "segment_map",
+    "persona_archetype_pack",
+    "customer_journey_map",
+    "hypothesis_portfolio",
+    "concept_brief",
+    "prototype_generation_plan",
+    "prd"
+  ],
+  "evidence_requirements": {
+    "minimum_source_count": 5,
+    "freshness_ttl_days": 60,
+    "required_source_types": [
+      "customer_interview",
+      "competitor_analysis",
+      "market_report",
+      "user_observation",
+      "domain_expert"
+    ],
+    "allow_single_source": false,
+    "require_multi_source_corroboration": true
+  },
+  "superpower_targets": {
+    "pm_leverage_target": 4,
+    "output_quality_target": 4,
+    "autonomy_quality_target": 3,
+    "expected_pm_rewrite_rate_pct": 25
+  },
+  "anti_patterns": [
+    "Building without customer evidence — discovery must precede any build decision",
+    "Single-strategy-option thinking — must generate and evaluate multiple paths",
+    "Skipping prototype validation — unvalidated concepts committing to PRD",
+    "Over-polishing before PMF signal — v1 should be good, not perfect"
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

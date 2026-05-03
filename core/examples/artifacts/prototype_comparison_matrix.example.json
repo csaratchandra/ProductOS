@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.0.0",
+  "prototype_comparison_matrix_id": "pcm_competitive_analysis_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "Prototype Comparison: Competitive Analysis Dashboard — 3 Variants",
+  "generation_plan_ref": "pgp_competitive_analysis_20260503",
+  "variants": [
+    {
+      "variant_id": "var_a",
+      "name": "Variant A: Clean Minimalist",
+      "description": "Sparse, elegant interface. Wizard-based flow guides PM through scan → review → action. Sidebar navigation with progressive disclosure.",
+      "prototype_record_ref": "proto_rec_comp_analysis_var_a",
+      "differentiation_summary": "Best for first-time PMs. Lowest cognitive load. Wizard flow reduces decisions per screen.",
+      "screenshot_refs": [
+        "screen_var_a_dashboard.png"
+      ]
+    },
+    {
+      "variant_id": "var_b",
+      "name": "Variant B: Bold Dashboard",
+      "description": "Information-dense dashboard-first design. All competitive data visible at a glance. Top-nav with quick actions. Power-user focused.",
+      "prototype_record_ref": "proto_rec_comp_analysis_var_b",
+      "differentiation_summary": "Best for experienced PMs. Fastest time to insight. All data surfacing simultaneously.",
+      "screenshot_refs": [
+        "screen_var_b_dashboard.png"
+      ]
+    },
+    {
+      "variant_id": "var_c",
+      "name": "Variant C: Data-Dense Professional",
+      "description": "Professional, enterprise-style. Progressive disclosure with expandable sections. Hybrid navigation. Balanced between depth and clarity.",
+      "prototype_record_ref": "proto_rec_comp_analysis_var_c",
+      "differentiation_summary": "Best for enterprise PMs. Maximum data depth without overwhelming. Professional presentation for stakeholder sharing.",
+      "screenshot_refs": [
+        "screen_var_c_dashboard.png"
+      ]
+    }
+  ],
+  "scoring_dimensions": [
+    {
+      "dimension_id": "dim_visual",
+      "name": "Visual Quality",
+      "weight": 20,
+      "description": "Polish, professionalism, aesthetic appeal"
+    },
+    {
+      "dimension_id": "dim_interaction",
+      "name": "Interaction Depth",
+      "weight": 20,
+      "description": "Ease of use, flow clarity, micro-interactions"
+    },
+    {
+      "dimension_id": "dim_ia",
+      "name": "Information Architecture",
+      "weight": 15,
+      "description": "How well information is organized and discoverable"
+    },
+    {
+      "dimension_id": "dim_accessibility",
+      "name": "Accessibility",
+      "weight": 15,
+      "description": "WCAG 2.1 AA compliance score"
+    },
+    {
+      "dimension_id": "dim_states",
+      "name": "State Completeness",
+      "weight": 15,
+      "description": "Coverage of loading, empty, error, edge, onboarding states"
+    },
+    {
+      "dimension_id": "dim_testability",
+      "name": "User Test Readiness",
+      "weight": 15,
+      "description": "Can PM run moderated tests with this prototype today?"
+    }
+  ],
+  "comparison_scores": [
+    {
+      "variant_id": "var_a",
+      "scores": {
+        "dim_visual": 8,
+        "dim_interaction": 9,
+        "dim_ia": 8,
+        "dim_accessibility": 9,
+        "dim_states": 8,
+        "dim_testability": 9
+      },
+      "total": 850
+    },
+    {
+      "variant_id": "var_b",
+      "scores": {
+        "dim_visual": 9,
+        "dim_interaction": 8,
+        "dim_ia": 7,
+        "dim_accessibility": 7,
+        "dim_states": 7,
+        "dim_testability": 7
+      },
+      "total": 745
+    },
+    {
+      "variant_id": "var_c",
+      "scores": {
+        "dim_visual": 8,
+        "dim_interaction": 7,
+        "dim_ia": 9,
+        "dim_accessibility": 8,
+        "dim_states": 9,
+        "dim_testability": 8
+      },
+      "total": 815
+    }
+  ],
+  "recommended_variant": {
+    "variant_id": "var_a",
+    "rationale": "Variant A scores highest on weighted dimensions (850 vs 815 for C, 745 for B). Wizard-based flow reduces PM cognitive load by 40% vs dashboard-first approach. Highest accessibility and testability scores. Best for the target persona (Sarah Chen — values self-serve, guided first-time experience).",
+    "strengths": [
+      "Lowest cognitive load — ideal for PM exploring new competitive intelligence workflow",
+      "Best accessibility score — WCAG AA compliance with screen reader announcements",
+      "Wizard flow reduces errors — PM guided step-by-step"
+    ],
+    "weaknesses": [
+      "Less suited for power users — would need keyboard shortcuts and command palette additions",
+      "Information density lower than Variant C — PMs wanting all data at once will prefer C"
+    ]
+  },
+  "pm_selection": {
+    "selected_variant_id": "var_a",
+    "rationale": "PM selected Variant A after comparing all 3 with engineering lead. Wizard flow aligns with the first-time experience we want to deliver. Will iterate to add power user shortcuts (from Variant B) and data expansion (from Variant C) in v2.",
+    "iteration_plan": "Sprint 12: Add Cmd+K command palette from Variant B. Add expandable data sections from Variant C. Rescore after iteration.",
+    "selected_at": "2026-05-05T14:00:00Z"
+  },
+  "generated_at": "2026-05-03T08:00:00Z"
+}

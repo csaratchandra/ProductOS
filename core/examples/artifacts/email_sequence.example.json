@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "email_sequence_id": "es_launch_productos_v10_20260503",
+  "workspace_id": "ws_productos_v2",
+  "sequence_name": "ProductOS V10 Launch Sequence",
+  "sequence_type": "launch_announcement",
+  "target_segment": "Beta waitlist — PMs who expressed interest",
+  "emails": [
+    {
+      "email_number": 1,
+      "purpose": "Teaser: announce V10 is coming with key differentiator (PESTLE analysis)",
+      "subject_lines": [
+        "The feature no PM tool has — until now",
+        "Your competitors are using PESTLE. Shouldn't you?"
+      ],
+      "preview_text": "ProductOS V10 introduces autonomous PESTLE environmental analysis for PMs.",
+      "body": "Hi {{first_name}}, in two weeks, ProductOS V10 ships. Here is a quick preview of one capability no other PM tool offers: autonomous PESTLE analysis. Open a product workspace, define your market, and ProductOS generates a 6-factor environmental analysis — political, economic, social, technological, legal, environmental — with 12-month projections and strategy implications. McKinsey-grade analysis. Autonomous. Evidence-backed. More coming next week.",
+      "cta": "See the PESTLE preview →",
+      "send_delay_days": 0
+    },
+    {
+      "email_number": 2,
+      "purpose": "Value prop: show time savings from beta testers",
+      "subject_lines": [
+        "PMs cut discovery time by 70% — here's how",
+        "How Sarah Chen cut her competitive analysis from 4 hours to 4 minutes"
+      ],
+      "preview_text": "Real PM results from the ProductOS V10 beta program.",
+      "body": "Hi {{first_name}}, Sarah Chen, Senior PM at a fintech company, spent 4 hours per competitive analysis. With ProductOS V10, her first AI-generated competitive analysis took 4 minutes. Quality parity: 85%. Her CTO asked for competitive context in a meeting — Sarah had the answer on screen before the CTO finished the question. This is the PM superpower ProductOS V10 delivers. Autonomous. Evidence-backed. Ready when you are.",
+      "cta": "Join the V10 beta →",
+      "send_delay_days": 7
+    },
+    {
+      "email_number": 3,
+      "purpose": "Launch: V10 is live with full feature announcement",
+      "subject_lines": [
+        "ProductOS V10 is live — your PM superpowers, automated",
+        "V10 Launch: PESTLE. Prototypes. PRDs. Marketing. All autonomous."
+      ],
+      "preview_text": "ProductOS V10 is now available. Start your free trial.",
+      "body": "Hi {{first_name}}, ProductOS V10 is live. Here is everything shipping today: Autonomous PESTLE environmental analysis with 3-horizon projections. 3-variant interactive HTML prototype generation with WCAG accessibility. Decision intelligence — trade-off analysis, decision trees, sensitivity, premortems. Competitive intelligence automation with continuous radar scanning. Living system — artifacts auto-refresh when underlying data changes. Product Health Dashboard — your entire product universe in one surface. Start your 14-day free trial. No credit card required.",
+      "cta": "Start Free Trial →",
+      "send_delay_days": 7
+    }
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

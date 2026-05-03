@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0.0",
+  "competitor_radar_state_id": "crs_ai_pm_tooling_20260503",
+  "workspace_id": "ws_productos_v2",
+  "status": "active",
+  "scan_frequency_hours": 24,
+  "last_full_scan_at": "2026-05-03T06:00:00Z",
+  "next_scan_at": "2026-05-04T06:00:00Z",
+  "monitored_competitors": [
+    {
+      "competitor_id": "comp_001",
+      "competitor_name": "CompetitorAlpha",
+      "dossier_ref": "competitor_dossier_productos_v2",
+      "priority_level": "primary",
+      "surfaces": [
+        {
+          "surface_type": "website",
+          "surface_url": "https://competitoralpha.com",
+          "last_checked_at": "2026-05-03T06:00:00Z",
+          "last_known_state_hash": "a1b2c3d4e5f6",
+          "current_state_hash": "a1b2c3d4e5f6",
+          "check_status": "unchanged"
+        },
+        {
+          "surface_type": "pricing_page",
+          "surface_url": "https://competitoralpha.com/pricing",
+          "last_checked_at": "2026-05-03T06:01:00Z",
+          "last_known_state_hash": "p1q2r3s4t5",
+          "current_state_hash": "x1y2z3w4v5",
+          "check_status": "changed",
+          "last_change_description": "Introduced new Enterprise tier at $299/seat/month. Added SSO and audit logging as Enterprise-only features."
+        },
+        {
+          "surface_type": "blog",
+          "surface_url": "https://competitoralpha.com/blog",
+          "last_checked_at": "2026-05-03T06:02:00Z",
+          "last_known_state_hash": "b1l2o3g4h5",
+          "current_state_hash": "b1l2o3g4n6",
+          "check_status": "changed",
+          "last_change_description": "Published 'Introducing AI-Powered PRD Generation' — new feature announcement with product demo video."
+        },
+        {
+          "surface_type": "g2",
+          "surface_url": "https://g2.com/products/competitoralpha",
+          "last_checked_at": "2026-05-03T06:03:00Z",
+          "last_known_state_hash": "g1r2i3d4",
+          "current_state_hash": "g1r2i3d5",
+          "check_status": "changed",
+          "last_change_description": "Review count increased from 247 to 312. Average rating dropped from 4.4 to 4.2. Recent negative reviews mention 'steep learning curve for new AI features'."
+        },
+        {
+          "surface_type": "job_board",
+          "surface_url": "https://competitoralpha.com/careers",
+          "last_checked_at": "2026-05-03T06:04:00Z",
+          "last_known_state_hash": "j1o2b3h4",
+          "current_state_hash": "j1o2b5h6",
+          "check_status": "changed",
+          "last_change_description": "5 new ML Engineer openings, 2 Product Designer openings. Pattern suggests major AI feature expansion in next 2 quarters."
+        }
+      ],
+      "last_change_detected_at": "2026-05-03T06:04:00Z",
+      "monitoring_status": "healthy",
+      "notes": "Increased hiring velocity suggests product expansion. Pricing change to capture enterprise customers."
+    },
+    {
+      "competitor_id": "comp_002",
+      "competitor_name": "CompetitorBeta",
+      "dossier_ref": "competitor_dossier_productos_v2",
+      "priority_level": "primary",
+      "surfaces": [
+        {
+          "surface_type": "website",
+          "surface_url": "https://competitorbeta.io",
+          "last_checked_at": "2026-05-03T06:10:00Z",
+          "last_known_state_hash": "w1e2b3s4",
+          "current_state_hash": "w1e2b3s4",
+          "check_status": "unchanged"
+        },
+        {
+          "surface_type": "changelog",
+          "surface_url": "https://competitorbeta.io/changelog",
+          "last_checked_at": "2026-05-03T06:11:00Z",
+          "last_known_state_hash": "c1g2l3o4",
+          "current_state_hash": "c1g5l6o7",
+          "check_status": "changed",
+          "last_change_description": "v3.2.0: 'Agent-based workflow automation now available. Configure autonomous research loops, PRD drafting, and stakeholder update generation.'"
+        }
+      ],
+      "last_change_detected_at": "2026-05-03T06:11:00Z",
+      "monitoring_status": "healthy"
+    }
+  ],
+  "change_detection_summary": {
+    "total_changes_detected": 6,
+    "by_change_type": {
+      "feature_launch": 2,
+      "pricing_update": 1,
+      "positioning_shift": 0,
+      "hiring_signal": 1,
+      "acquisition": 0,
+      "partnership": 0,
+      "funding": 0,
+      "leadership_change": 0,
+      "product_retirement": 0,
+      "other": 2
+    },
+    "by_competitor": [
+      {"competitor_id": "comp_001", "competitor_name": "CompetitorAlpha", "change_count": 4},
+      {"competitor_id": "comp_002", "competitor_name": "CompetitorBeta", "change_count": 2}
+    ],
+    "most_recent_change_at": "2026-05-03T06:11:00Z"
+  },
+  "active_alerts_count": 3,
+  "radar_health": {
+    "overall": "healthy",
+    "surface_reachability_pct": 100,
+    "stale_surface_count": 0,
+    "last_health_check_at": "2026-05-03T06:00:00Z"
+  },
+  "generated_at": "2026-05-03T08:00:00Z"
+}

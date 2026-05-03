@@ -20,6 +20,7 @@ from .adoption import (
 from .cutover import build_v5_cutover_plan_from_workspace, format_v5_cutover_plan_markdown
 from .cutover import build_v6_cutover_plan_from_workspace, format_v6_cutover_plan_markdown
 from .cutover import build_v7_cutover_plan_from_workspace, format_v7_cutover_plan_markdown
+from .cutover import build_v9_cutover_plan_from_workspace, format_v9_cutover_plan_markdown
 from .release import (
     infer_next_version,
     latest_release_metadata,
@@ -53,6 +54,19 @@ from .lifecycle import (
 )
 from .mission import init_mission_in_workspace, load_mission_brief_from_workspace, sync_canonical_discover_artifacts
 from .next_version import build_next_version_bundle_from_workspace
+from .pm_superpowers import (
+    build_cockpit_bundle_from_workspace,
+    build_cross_product_insight_index,
+    build_portfolio_state_from_workspaces,
+    format_phase_packet_markdown,
+    load_phase_packet_from_workspace,
+    load_product_record_from_workspace,
+    render_cockpit_html,
+    summarize_research_posture,
+    summarize_strategy_refresh_posture,
+    seed_pm_superpower_artifacts,
+    write_phase_packet_for_workspace,
+)
 from .visual_os import (
     build_visual_direction_plan,
     build_visual_quality_review_for_corridor,
@@ -62,6 +76,12 @@ from .visual_os import (
 from .v5 import build_v5_lifecycle_bundle_from_workspace, summarize_v5_lifecycle_bundle
 from .v6 import build_v6_lifecycle_bundle_from_workspace, summarize_v6_lifecycle_bundle
 from .v7 import build_v7_lifecycle_bundle_from_workspace, summarize_v7_lifecycle_bundle
+from .v9 import (
+    V9_ARTIFACT_SCHEMAS,
+    build_v9_lifecycle_bundle_from_workspace,
+    inspect_v9_lifecycle_enrichment_state,
+    summarize_v9_lifecycle_bundle,
+)
 
 __all__ = [
     "build_foundation_bundle_from_workspace",
@@ -78,6 +98,9 @@ __all__ = [
     "ADOPTION_ARTIFACT_SCHEMAS",
     "THREAD_REVIEW_RELEASE_ARTIFACT_SCHEMAS",
     "build_next_version_bundle_from_workspace",
+    "build_cockpit_bundle_from_workspace",
+    "build_cross_product_insight_index",
+    "build_portfolio_state_from_workspaces",
     "build_visual_direction_plan",
     "build_visual_quality_review_for_corridor",
     "build_visual_quality_review_for_deck",
@@ -94,6 +117,12 @@ __all__ = [
     "build_v7_cutover_plan_from_workspace",
     "format_v7_cutover_plan_markdown",
     "summarize_v7_lifecycle_bundle",
+    "build_v9_lifecycle_bundle_from_workspace",
+    "build_v9_cutover_plan_from_workspace",
+    "format_v9_cutover_plan_markdown",
+    "summarize_v9_lifecycle_bundle",
+    "inspect_v9_lifecycle_enrichment_state",
+    "V9_ARTIFACT_SCHEMAS",
     "load_all_item_lifecycle_states_from_workspace",
     "load_item_lifecycle_state_from_workspace",
     "load_lifecycle_stage_snapshot_from_workspace",
@@ -102,7 +131,15 @@ __all__ = [
     "init_workspace_from_template",
     "init_mission_in_workspace",
     "load_mission_brief_from_workspace",
+    "load_phase_packet_from_workspace",
+    "load_product_record_from_workspace",
+    "format_phase_packet_markdown",
+    "render_cockpit_html",
+    "summarize_research_posture",
+    "summarize_strategy_refresh_posture",
+    "seed_pm_superpower_artifacts",
     "sync_canonical_discover_artifacts",
+    "write_phase_packet_for_workspace",
     "latest_release_metadata",
     "latest_release_path",
     "infer_next_version",

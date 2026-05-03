@@ -1,0 +1,158 @@
+{
+  "schema_version": "1.0.0",
+  "hypothesis_portfolio_id": "hp_productos_v10_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "ProductOS V10 Hypothesis Portfolio — Q2 2026",
+  "hypotheses": [
+    {
+      "hypothesis_id": "h_strat_01",
+      "statement": "PMs will pay for AI tooling that reduces manual PM work by >10hrs/week because the time saved is worth 10x the cost of the tool",
+      "type": "value",
+      "level": "strategic",
+      "status": "planned",
+      "validation_method": "Willingness-to-pay interviews with 10 PMs showing >80% would pay >= $49/seat/month for 10hrs/week savings",
+      "kill_criteria": "If <50% of interviewed PMs are willing to pay >= $39/seat/month, value hypothesis is invalidated",
+      "impact_if_true": "transformative",
+      "uncertainty": "medium",
+      "risk_priority_score": 85,
+      "evidence_refs": [
+        "source_note_card_sarah_interview_001"
+      ],
+      "last_evaluated_at": "2026-05-01T00:00:00Z"
+    },
+    {
+      "hypothesis_id": "h_tact_01a",
+      "statement": "Enterprise PMs value evidence traceability (source citations on AI outputs) more than output depth — they will accept shallower AI output if every claim is sourced",
+      "type": "usability",
+      "level": "tactical",
+      "parent_id": "h_strat_01",
+      "status": "planned",
+      "validation_method": "A/B test: PMs shown same output with and without source citations. Preference measured.",
+      "kill_criteria": "If <60% of PMs prefer sourced output over deeper unsourced output, traceability is over-weighted in product design",
+      "impact_if_true": "significant",
+      "uncertainty": "medium",
+      "risk_priority_score": 70,
+      "evidence_refs": [
+        "source_note_card_sarah_interview_002"
+      ],
+      "last_evaluated_at": "2026-04-28T00:00:00Z"
+    },
+    {
+      "hypothesis_id": "h_tact_02",
+      "statement": "Prototype generation (3 interactive HTML variants) significantly reduces PM-to-engineering handoff ambiguity compared to text-only PRDs — sprint carry-over drops from 30% to <15%",
+      "type": "usability",
+      "level": "tactical",
+      "status": "draft",
+      "validation_method": "Measure sprint carry-over rate before and after prototype handoff on 3 engineering teams over 3 sprints",
+      "kill_criteria": "If sprint carry-over does not drop below 20% after 3 sprints of prototype handoffs, prototype investment is not justified by ambiguity reduction",
+      "impact_if_true": "significant",
+      "uncertainty": "high",
+      "risk_priority_score": 92,
+      "evidence_refs": [
+        "source_note_card_sarah_observation_003"
+      ],
+      "last_evaluated_at": "2026-04-20T00:00:00Z"
+    },
+    {
+      "hypothesis_id": "h_tact_03",
+      "statement": "PESTLE analysis is a 10x differentiator — no competitor offers it and PMs report it as a top-3 capability they need but cannot get from existing tools",
+      "type": "competitive",
+      "level": "tactical",
+      "status": "in_test",
+      "validation_method": "Competitive feature matrix confirms absence across all monitored competitors. PM interviews confirm PESTLE as top-3 unmet need.",
+      "kill_criteria": "If competitor ships PESTLE analysis OR <40% of PMs rank PESTLE in top-5 needs, differentiator claim weakens",
+      "impact_if_true": "significant",
+      "uncertainty": "low",
+      "risk_priority_score": 45,
+      "evidence_refs": [
+        "competitive_feature_matrix_productos_v2",
+        "source_pm_survey_2026"
+      ],
+      "last_evaluated_at": "2026-05-03T00:00:00Z"
+    },
+    {
+      "hypothesis_id": "h_test_01",
+      "statement": "Product Health Dashboard with top-5 recommended actions increases weekly PM proactive decision rate by 40% vs dashboard-only without recommendations",
+      "type": "usability",
+      "level": "testable",
+      "parent_id": "h_strat_01",
+      "status": "draft",
+      "validation_method": "A/B test: Group A sees dashboard with recommended actions. Group B sees dashboard without. Measure: decisions made per week, time to action",
+      "kill_criteria": "If decision rate increase is <20%, recommended actions feature is not delivering expected PM leverage",
+      "impact_if_true": "significant",
+      "uncertainty": "medium",
+      "risk_priority_score": 75,
+      "evidence_refs": [
+        "source_note_card_sarah_interview_001"
+      ],
+      "last_evaluated_at": "2026-04-25T00:00:00Z"
+    }
+  ],
+  "interdependencies": [
+    {
+      "from_id": "h_strat_01",
+      "to_id": "h_tact_01a",
+      "relationship": "depends_on",
+      "description": "If value hypothesis is invalidated, enterprise traceability hypothesis becomes irrelevant — no one will pay for the tool at all"
+    },
+    {
+      "from_id": "h_tact_01a",
+      "to_id": "h_tact_02",
+      "relationship": "mutually_reinforcing",
+      "description": "Traceability on prototypes (not just text PRDs) amplifies engineering handoff quality — both hypotheses reinforce each other"
+    },
+    {
+      "from_id": "h_tact_03",
+      "to_id": "h_strat_01",
+      "relationship": "depends_on",
+      "description": "If PESTLE is not a differentiator, the strategic value hypothesis weakens — differentiation is part of why PMs would pay"
+    }
+  ],
+  "risk_prioritization": {
+    "top_risk_hypotheses": [
+      "h_tact_02",
+      "h_strat_01",
+      "h_test_01",
+      "h_tact_01a",
+      "h_tact_03"
+    ],
+    "risk_heat_assessment": "Highest risk is prototype effectiveness (h_tact_02) — high uncertainty with transformative impact. Strategic value hypothesis (h_strat_01) is next — medium uncertainty with transformative impact. PESTLE differentiator (h_tact_03) is lowest risk — already partially validated by competitive matrix."
+  },
+  "portfolio_summary": {
+    "total": 5,
+    "by_status": {
+      "draft": 2,
+      "planned": 2,
+      "in_test": 1,
+      "validated": 0,
+      "invalidated": 0,
+      "inconclusive": 0
+    },
+    "by_level": {
+      "strategic": 1,
+      "tactical": 3,
+      "testable": 1
+    },
+    "risk_distribution": "Highest risk: h_tact_02 (92) — prototype effectiveness. Second highest: h_strat_01 (85) — value hypothesis. Low risk: h_tact_03 (45) — PESTLE differentiator."
+  },
+  "prototype_routing": [
+    {
+      "hypothesis_id": "h_tact_02",
+      "priority": "must_now",
+      "rationale": "Highest risk score (92). Prototype effectiveness is critical to ProductOS value and is highly uncertain. Generate 3 interactive HTML prototypes and test with engineering teams before committing to full prototype pipeline.",
+      "suggested_prototype_type": "interactive_html"
+    },
+    {
+      "hypothesis_id": "h_test_01",
+      "priority": "next",
+      "rationale": "Dashboard recommended actions feature has high PM leverage potential but medium uncertainty. Prototype a dashboard mockup with realistic action recommendations for PM testing.",
+      "suggested_prototype_type": "visual_mockup"
+    }
+  ],
+  "source_evidence_refs": [
+    "source_note_card_sarah_interview_001",
+    "source_note_card_sarah_interview_002",
+    "source_note_card_sarah_observation_003"
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

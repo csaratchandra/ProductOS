@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0.0",
+  "investor_pitch_deck_id": "ipd_productos_seed_2026",
+  "workspace_id": "ws_productos_v2",
+  "company_name": "ProductOS Inc.",
+  "funding_ask": "Raising $1.5M Seed to complete V10 development and launch with enterprise compliance features.",
+  "slides": [
+    {
+      "slide_number": 1,
+      "title": "Title",
+      "action_title": "ProductOS gives Product Managers god-like superpowers — automating 80% of their manual workflow with world-class AI",
+      "key_message": "ProductOS is an AI-powered PM operating system that autonomously generates McKinsey-quality strategy, IDEO-quality prototypes, and April Dunford-quality positioning from messy research inputs.",
+      "supporting_data": [
+        "85% of PMs spend >10hrs/week on manual tasks",
+        "PM tooling market: $2.8B, growing 35% CAGR"
+      ],
+      "source": "PM survey 2026, Industry analysts"
+    },
+    {
+      "slide_number": 2,
+      "title": "Problem",
+      "action_title": "PMs spend 60% of their week on manual compilation, not strategic thinking",
+      "key_message": "The typical PM spends 15hrs/week on competitive research, documentation, status updates, and strategy deck creation. This is work that AI can do at 90%+ quality parity — freeing PMs for the work AI cannot do: judgment, taste, stakeholder influence.",
+      "supporting_data": [
+        "15hrs/week on manual PM tasks",
+        "40% rewrite rate on existing AI PM tool outputs",
+        "0 AI PM tools offer PESTLE, decision intelligence, or autonomous prototypes"
+      ],
+      "source": "PM survey 2026, Competitive feature matrix Q2 2026"
+    },
+    {
+      "slide_number": 3,
+      "title": "Solution",
+      "action_title": "ProductOS V10 autonomously generates the full PM lifecycle — strategy, discovery, prototypes, execution, and content",
+      "key_message": "Drop messy research inputs. ProductOS generates: McKinsey-quality PESTLE analysis, evidence-backed personas with empathy maps, end-to-end customer journeys with emotion curves, 3 interactive HTML prototypes with WCAG accessibility, developer-ready PRDs and stories, and complete marketing content packs.",
+      "supporting_data": [
+        "Covers 100% of PM lifecycle",
+        "<20% rewrite rate target",
+        "10+ unique capabilities"
+      ],
+      "source": "competitive_feature_matrix_productos_v2"
+    },
+    {
+      "slide_number": 4,
+      "title": "Why Now",
+      "action_title": "Three tailwinds converge in 2026: LLM capability maturity, PM AI literacy demand, and regulatory moat",
+      "key_message": "1) LLM agents now reliable enough for production PM workflows 2) 85% of PMs actively seeking AI tooling for career advancement 3) EU AI Act creates compliance barrier — first-mover advantage for compliant AI PM tools",
+      "supporting_data": [
+        "LLM reliability crossing enterprise threshold",
+        "85% PM AI literacy demand",
+        "EU AI Act August 2026 compliance deadline"
+      ],
+      "source": "PESTLE analysis 2026, PM survey 2026, EU AI Act"
+    },
+    {
+      "slide_number": 5,
+      "title": "Market",
+      "action_title": ".8B PM tooling market growing 35% CAGR — AI-native tools capturing 2x the growth",
+      "key_message": "TAM: .8B (2026) → .5B (2028). SAM: .2B enterprise PM segment. SOM: M target (0.5% penetration of SAM). AI-native PM tools growing at 70% vs 35% for the category.",
+      "supporting_data": [
+        ".8B → .5B (2028)",
+        "35% CAGR",
+        "AI-native 70% growth"
+      ],
+      "source": "market_sizing_2026"
+    },
+    {
+      "slide_number": 6,
+      "title": "Product",
+      "action_title": "ProductOS V10: autonomous PM operating system with 3 layers — Intelligence, Decisions, Production",
+      "key_message": "Intelligence Layer: competitive radar, weak signal detection, PESTLE auto-refresh. Decision Layer: trade-off analysis, decision trees, premortems, pricing intelligence. Production Layer: AI prototypes, PRDs, stories, marketing content. All connected through a living system and Product Health Dashboard.",
+      "supporting_data": [
+        "4 intelligence subsystems",
+        "5 decision subsystems",
+        "6 production subsystems"
+      ],
+      "source": "ProductOS V10 architecture"
+    },
+    {
+      "slide_number": 7,
+      "title": "Traction",
+      "action_title": "V10 beta: 10 PMs reporting 70% time savings and 85% output quality parity",
+      "key_message": "10 PM beta testers. 8/10 would recommend. Average 10+ hrs/week time savings. Output quality: 85% parity with manual PM work. Key finding: competitive intelligence automation is most underrated capability.",
+      "supporting_data": [
+        "10 beta testers",
+        "80% recommend rate",
+        "70% time reduction",
+        "85% output quality"
+      ],
+      "source": "Beta program Q2 2026"
+    },
+    {
+      "slide_number": 8,
+      "title": "Competition",
+      "action_title": "ProductOS offers 10+ capabilities no competitor offers — each validated by gold-standard external frameworks",
+      "key_message": "Competitive feature matrix analysis across 3 competitors shows ProductOS leading on 10/16 capabilities. Unique capabilities include: PESTLE analysis, decision intelligence, AI prototype generation, autonomous review gates, and living system auto-refresh.",
+      "supporting_data": [
+        "10/16 capabilities where ProductOS leads",
+        "4/16 at parity",
+        "2/16 where competitors lead (PRD generation, enterprise SSO)"
+      ],
+      "source": "competitive_feature_matrix_productos_v2"
+    },
+    {
+      "slide_number": 9,
+      "title": "Business Model",
+      "action_title": "Hybrid subscription + usage model: -149/seat with /bin/zsh.10/agent run — 55x ROI for PM teams",
+      "key_message": "Professional: /seat/month (full discovery + autonomous). Enterprise: /seat/month (SSO + audit + dedicated support). Usage: /bin/zsh.10/agent run for autonomous workflows. Unit economics: LTV/CAC 8:1 enterprise, 6:1 startup.",
+      "supporting_data": [
+        "-149/seat tiers",
+        "LTV/CAC 8:1 enterprise",
+        "55x ROI vs manual PM cost"
+      ],
+      "source": "pricing_analysis_productos_v10"
+    },
+    {
+      "slide_number": 10,
+      "title": "Team",
+      "action_title": "4 engineers + 1 PM with deep AI agent and PM workflow expertise",
+      "key_message": "Team background: AI agent tooling, enterprise PM workflows, developer tools. Previously built PM tooling at [company].",
+      "supporting_data": [
+        "4 engineers full-time",
+        "1 Product Manager",
+        "AI agent and PM domain expertise"
+      ],
+      "source": "Team profiles"
+    },
+    {
+      "slide_number": 11,
+      "title": "Financials",
+      "action_title": "Path to M ARR in 3 years with .5M Seed",
+      "key_message": "Year 1: K ARR (50 enterprise accounts + 200 startup). Year 2: M ARR. Year 3: M ARR. Gross margin: 85%. Burn: K/month.",
+      "supporting_data": [
+        "Year 1: K ARR",
+        "Year 3: M ARR",
+        "85% gross margin"
+      ],
+      "source": "Financial model"
+    },
+    {
+      "slide_number": 12,
+      "title": "Ask",
+      "action_title": "Raising .5M Seed to complete V10 and launch with enterprise compliance",
+      "key_message": ".5M on SAFE. 18-month runway. Use: 60% engineering, 20% GTM, 10% infra, 10% compliance. Milestone: K ARR within 12 months.",
+      "supporting_data": [
+        ".5M Seed",
+        "18-month runway",
+        "K ARR target"
+      ],
+      "source": "Use of funds plan"
+    }
+  ],
+  "narrative_flow": "The narrative arcs from the PM's pain (too much manual work) → the market opportunity (PMs willing to pay for AI leverage) → ProductOS as the only complete solution → defensibility through regulatory moat and unique capabilities → team capable of executing → financials showing path to $5M ARR.",
+  "source_evidence_refs": [
+    "competitive_feature_matrix_productos_v2",
+    "pm_survey_2026"
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

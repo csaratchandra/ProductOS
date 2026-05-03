@@ -1,40 +1,64 @@
 # Story Testability Expansion
 
-## Purpose
+## 1. Purpose
 
-Turn story intent into concrete, reviewable acceptance expectations before QA or implementation rely on guesswork.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when story drafts exist but acceptance criteria or testability notes are too thin to support confident delivery handoff.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- `story_pack`
-- source `prd`
-- existing acceptance notes or QA concerns
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- stronger acceptance criteria
-- explicit test methods
-- story-level testability notes
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not mark criteria testable without explaining how
-- avoid vague acceptance language that hides scope
-- keep each criterion tied to the originating story and PRD
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. inspect each story for observable behavior or verification gaps
-2. add testability notes and criterion-level test methods
-3. separate must-pass criteria from lower-priority checks
-4. confirm the acceptance set is still bounded to the story
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- every criterion should have an explicit test method
-- acceptance language should be observable and specific
-- QA should not need to infer the verification approach
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

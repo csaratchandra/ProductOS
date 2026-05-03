@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/battle_card.schema.json",
+  "title": "ProductOS Battle Card",
+  "description": "Per-competitor competitive battle card for sales enablement — overview, positioning comparison, feature comparison matrix, pricing comparison, win/loss themes, objection handling script, and sales conversation guide.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "battle_card_id", "workspace_id", "title", "competitor_ref", "overview", "feature_comparison", "win_themes", "loss_themes", "objection_handling", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "battle_card_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 5},
+    "competitor_ref": {"type": "string", "minLength": 1},
+    "overview": {"$ref": "#/$defs/overview"},
+    "feature_comparison": {"type": "array", "items": {"$ref": "#/$defs/featureComparison"}, "minItems": 5},
+    "pricing_comparison": {"type": "string", "minLength": 20},
+    "ideal_customer_profile": {"type": "string", "minLength": 20},
+    "win_themes": {"type": "array", "items": {"$ref": "#/$defs/theme"}, "minItems": 2},
+    "loss_themes": {"type": "array", "items": {"$ref": "#/$defs/theme"}, "minItems": 1},
+    "objection_handling": {"type": "array", "items": {"$ref": "#/$defs/objection"}, "minItems": 2},
+    "sales_conversation_guide": {"type": "string", "minLength": 30},
+    "recent_competitive_moves": {"type": "string", "minLength": 10},
+    "source_evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "overview": {"type": "object", "additionalProperties": false, "required": ["one_liner", "our_positioning_vs_theirs", "primary_competitive_advantage", "primary_competitive_disadvantage"], "properties": {"one_liner": {"type": "string", "minLength": 10}, "our_positioning_vs_theirs": {"type": "string", "minLength": 30}, "primary_competitive_advantage": {"type": "string", "minLength": 10}, "primary_competitive_disadvantage": {"type": "string", "minLength": 10}}},
+    "featureComparison": {"type": "object", "additionalProperties": false, "required": ["feature", "our_capability", "their_capability", "advantage"], "properties": {"feature": {"type": "string", "minLength": 3}, "our_capability": {"type": "string", "enum": ["strong", "adequate", "weak", "absent"]}, "their_capability": {"type": "string", "enum": ["strong", "adequate", "weak", "absent"]}, "advantage": {"type": "string", "enum": ["us", "them", "tie"]}, "detail": {"type": "string", "minLength": 5}}},
+    "theme": {"type": "object", "additionalProperties": false, "required": ["theme", "description"], "properties": {"theme": {"type": "string", "minLength": 5}, "description": {"type": "string", "minLength": 10}}},
+    "objection": {"type": "object", "additionalProperties": false, "required": ["objection", "response", "supporting_evidence"], "properties": {"objection": {"type": "string", "minLength": 10}, "response": {"type": "string", "minLength": 20}, "supporting_evidence": {"type": "string", "minLength": 5}}}
+  }
+}

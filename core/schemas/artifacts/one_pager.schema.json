@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/one_pager.schema.json",
+  "title": "ProductOS One-Pager",
+  "description": "Single-page product summary for sales enablement and buyer conversations — value proposition, key metrics, customer quote, feature highlights, competitive differentiators, pricing summary, and CTA — designed for both print and digital distribution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "one_pager_id", "workspace_id", "title", "product_name", "value_proposition", "key_metrics", "feature_highlights", "competitive_differentiators", "cta", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "one_pager_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 5},
+    "product_name": {"type": "string", "minLength": 3},
+    "value_proposition": {"type": "string", "minLength": 30},
+    "key_metrics": {"type": "array", "items": {"$ref": "#/$defs/metric"}, "minItems": 2, "maxItems": 4},
+    "customer_quote": {"type": "string", "minLength": 20},
+    "feature_highlights": {"type": "array", "items": {"$ref": "#/$defs/featureHighlight"}, "minItems": 3, "maxItems": 6},
+    "competitive_differentiators": {"type": "array", "items": {"type": "string", "minLength": 10}, "minItems": 2, "maxItems": 4},
+    "pricing_summary": {"type": "string", "minLength": 10},
+    "cta": {"type": "string", "minLength": 10},
+    "footer": {"type": "string", "minLength": 5},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "metric": {"type": "object", "additionalProperties": false, "required": ["label", "value"], "properties": {"label": {"type": "string", "minLength": 3}, "value": {"type": "string", "minLength": 1}}},
+    "featureHighlight": {"type": "object", "additionalProperties": false, "required": ["title", "description", "icon"], "properties": {"title": {"type": "string", "minLength": 3}, "description": {"type": "string", "minLength": 10}, "icon": {"type": "string", "minLength": 3}}}
+  }
+}

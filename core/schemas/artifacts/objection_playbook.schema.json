@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/objection_playbook.schema.json",
+  "title": "ProductOS Objection Playbook",
+  "description": "Structured objection handling playbook mapping common objections to stakeholder types, with response strategies, supporting evidence, counter-examples, and escalation paths for objections that require PM intervention.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "objection_playbook_id", "workspace_id", "title", "objections", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "objection_playbook_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 5},
+    "objections": {"type": "array", "items": {"$ref": "#/$defs/objection"}, "minItems": 3},
+    "source_evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "objection": {"type": "object", "additionalProperties": false, "required": ["objection_text", "common_from", "response_strategy", "supporting_evidence"], "properties": {"objection_text": {"type": "string", "minLength": 10}, "common_from": {"type": "array", "items": {"type": "string", "minLength": 3}, "minItems": 1}, "response_strategy": {"type": "string", "minLength": 20}, "supporting_evidence": {"type": "string", "minLength": 10}, "counter_example": {"type": "string", "minLength": 10}, "escalation_path": {"type": "string", "minLength": 10}}}
+  }
+}

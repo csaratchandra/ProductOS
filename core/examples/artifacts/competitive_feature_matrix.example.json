@@ -1,0 +1,158 @@
+{
+  "schema_version": "1.0.0",
+  "competitive_feature_matrix_id": "cfm_ai_pm_tooling_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "AI PM Tooling — Competitive Feature Matrix Q2 2026",
+  "competitor_dossier_ref": "competitor_dossier_productos_v2",
+  "comparison_date": "2026-05-03T08:00:00Z",
+  "feature_categories": [
+    {
+      "category_id": "cat_discovery",
+      "category_name": "Discovery & Research",
+      "weight": 30,
+      "features": [
+        {"feature_id": "feat_pestle", "feature_name": "PESTLE Analysis", "is_differentiator": true, "description": "Auto-generated 6-factor environmental analysis with trend projections"},
+        {"feature_id": "feat_competitor_monitoring", "feature_name": "Competitive Intelligence Automation", "is_differentiator": true, "description": "Continuous competitor radar with change detection and structured alerts"},
+        {"feature_id": "feat_segmentation", "feature_name": "Segment Analysis", "is_differentiator": false, "description": "Structured segment mapping with posture fit and beachhead recommendation"},
+        {"feature_id": "feat_persona", "feature_name": "Persona Synthesis", "is_differentiator": false, "description": "Evidence-backed persona archetype packs"},
+        {"feature_id": "feat_journey", "feature_name": "Customer & User Journey Mapping", "is_differentiator": true, "description": "End-to-end journey with emotion curves, moments of truth, and gap analysis"}
+      ]
+    },
+    {
+      "category_id": "cat_strategy",
+      "category_name": "Strategy & Decision Intelligence",
+      "weight": 25,
+      "features": [
+        {"feature_id": "feat_strategy_options", "feature_name": "Strategy Option Generation", "is_differentiator": false, "description": "Multiple strategy option generation with trade-off analysis"},
+        {"feature_id": "feat_decision_intel", "feature_name": "Decision Intelligence", "is_differentiator": true, "description": "Trade-off analysis, decision trees, sensitivity analysis, premortems"},
+        {"feature_id": "feat_pricing_intel", "feature_name": "Pricing Intelligence", "is_differentiator": true, "description": "Competitor pricing matrix, willingness-to-pay synthesis, model options"},
+        {"feature_id": "feat_roadmap", "feature_name": "Roadmap Intelligence", "is_differentiator": true, "description": "Multi-scenario roadmap with capacity modeling and dependency sequencing"}
+      ]
+    },
+    {
+      "category_id": "cat_production",
+      "category_name": "Production & Execution",
+      "weight": 25,
+      "features": [
+        {"feature_id": "feat_prototype", "feature_name": "AI Prototype Generation", "is_differentiator": true, "description": "3-variant interactive HTML prototypes with WCAG accessibility and user testing kits"},
+        {"feature_id": "feat_prd", "feature_name": "PRD Generation", "is_differentiator": false, "description": "Structured PRD with non-functional requirements and rollout strategy"},
+        {"feature_id": "feat_stories", "feature_name": "Developer-Ready User Stories", "is_differentiator": true, "description": "INVEST format stories with API contracts and technical impact analysis"},
+        {"feature_id": "feat_marketing", "feature_name": "Marketing Content Generation", "is_differentiator": true, "description": "Messaging house, battle cards, blog briefs, email sequences, investor content"}
+      ]
+    },
+    {
+      "category_id": "cat_system",
+      "category_name": "System Intelligence",
+      "weight": 20,
+      "features": [
+        {"feature_id": "feat_living", "feature_name": "Living System (Auto-Refresh)", "is_differentiator": true, "description": "Staleness monitoring, drift detection, auto-refresh triggers, impact propagation"},
+        {"feature_id": "feat_dashboard", "feature_name": "Product Health Dashboard", "is_differentiator": true, "description": "Single-surface product overview with autonomous alerts and recommended actions"},
+        {"feature_id": "feat_gates", "feature_name": "Autonomous Review Gates", "is_differentiator": true, "description": "Composite gate: f(confidence, impact, maturity) with auto-publish and PM review routing"}
+      ]
+    }
+  ],
+  "competitors": [
+    {
+      "competitor_id": "comp_001",
+      "competitor_name": "CompetitorAlpha",
+      "type": "direct",
+      "overall_capability_score": 72,
+      "strength_summary": "Strong general-purpose PM tooling. Large user base. Good discovery research features.",
+      "weakness_summary": "No PESTLE analysis. No decision intelligence. No living system. Prototype capability is static mockups only."
+    },
+    {
+      "competitor_id": "comp_002",
+      "competitor_name": "CompetitorBeta",
+      "type": "direct",
+      "overall_capability_score": 68,
+      "strength_summary": "Innovative agent-based approach. Good workflow automation.",
+      "weakness_summary": "Narrow feature set compared to full PM lifecycle. No competitive intelligence. No pricing intelligence. No marketing content generation."
+    },
+    {
+      "competitor_id": "comp_003",
+      "competitor_name": "StatusQuo (Manual PM Process)",
+      "type": "indirect",
+      "overall_capability_score": 30,
+      "strength_summary": "No subscription cost. Fully customizable. PM has complete control.",
+      "weakness_summary": "15+ hrs/week on manual research. 2-week PRD cycle. No automated insights. Zero competitive monitoring."
+    }
+  ],
+  "capability_scores": [
+    {"feature_id": "feat_pestle", "scores": {"competitor_001": "absent", "competitor_002": "absent", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_radar_surface_website"},
+    {"feature_id": "feat_competitor_monitoring", "scores": {"competitor_001": "weak", "competitor_002": "absent", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_radar_surface_g2"},
+    {"feature_id": "feat_segmentation", "scores": {"competitor_001": "adequate", "competitor_002": "weak", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_radar_surface_website"},
+    {"feature_id": "feat_persona", "scores": {"competitor_001": "adequate", "competitor_002": "adequate", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_dossier_competitors"},
+    {"feature_id": "feat_journey", "scores": {"competitor_001": "weak", "competitor_002": "absent", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_radar_surface_website"},
+    {"feature_id": "feat_strategy_options", "scores": {"competitor_001": "adequate", "competitor_002": "weak", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_radar_surface_website"},
+    {"feature_id": "feat_decision_intel", "scores": {"competitor_001": "absent", "competitor_002": "absent", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_radar_surface_documentation"},
+    {"feature_id": "feat_pricing_intel", "scores": {"competitor_001": "absent", "competitor_002": "absent", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_radar_surface_pricing_page"},
+    {"feature_id": "feat_roadmap", "scores": {"competitor_001": "weak", "competitor_002": "weak", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_dossier_competitors"},
+    {"feature_id": "feat_prototype", "scores": {"competitor_001": "weak", "competitor_002": "adequate", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_radar_surface_blog"},
+    {"feature_id": "feat_prd", "scores": {"competitor_001": "strong", "competitor_002": "adequate", "competitor_003": "absent"}, "our_score": "adequate", "leader": "CompetitorAlpha", "evidence_ref": "competitor_radar_surface_blog"},
+    {"feature_id": "feat_stories", "scores": {"competitor_001": "adequate", "competitor_002": "adequate", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_dossier_competitors"},
+    {"feature_id": "feat_marketing", "scores": {"competitor_001": "absent", "competitor_002": "absent", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_radar_surface_website"},
+    {"feature_id": "feat_living", "scores": {"competitor_001": "absent", "competitor_002": "absent", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_radar_surface_documentation"},
+    {"feature_id": "feat_dashboard", "scores": {"competitor_001": "weak", "competitor_002": "weak", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_dossier_competitors"},
+    {"feature_id": "feat_gates", "scores": {"competitor_001": "absent", "competitor_002": "weak", "competitor_003": "absent"}, "our_score": "strong", "leader": "ProductOS", "evidence_ref": "competitor_radar_surface_documentation"}
+  ],
+  "differentiation_summary": {
+    "where_we_lead": [
+      "PESTLE Analysis — no competitor offers structured environmental analysis",
+      "Competitive Intelligence Automation — continuous radar with structured alerts",
+      "Customer & User Journey Mapping — end-to-end with emotion curves and gap analysis",
+      "Decision Intelligence — trade-off analysis, decision trees, sensitivity, premortems",
+      "Pricing Intelligence — competitor pricing matrix, willingness-to-pay models",
+      "Prototype Generation — 3-variant interactive HTML with WCAG accessibility and testing kits",
+      "Developer-Ready Stories — INVEST format with API contracts and NFR extraction",
+      "Marketing Content — messaging house, battle cards, blog briefs, investor content",
+      "Living System — staleness monitoring, drift detection, auto-refresh",
+      "Review Gates — composite f(confidence, impact, maturity) autonomous routing"
+    ],
+    "where_we_are_parity": [
+      "Segment Analysis — similar depth to CompetitorAlpha, but our heatmap + beachhead sequencing is superior",
+      "Persona Synthesis — similar feature presence, but our evidence-backed depth with empathy maps leads",
+      "Strategy Options — similar generation capability, but our premortem-linked options differentiate"
+    ],
+    "where_we_lag": [
+      "PRD Generation — CompetitorAlpha just launched AI-powered PRD generation. ProductOS V10 PRD pipeline is planned for Sprint 14-15. Must accelerate to maintain competitive parity.",
+      "Market Share & User Base — CompetitorAlpha has approximately 10x more users. Our advantage is feature depth, not user count."
+    ],
+    "moat_strength": "adequate",
+    "moat_rationale": "ProductOS V10's moat rests on the combination of PESTLE + Decision Intelligence + Living System + Prototype Generation — no single competitor offers even 2 of these. However, PRD generation gap is a near-term threat that CompetitorAlpha can exploit. Moat strengthens once V10 ships end-to-end."
+  },
+  "gap_analysis": {
+    "critical_gaps": [
+      {
+        "description": "PRD Generation — CompetitorAlpha has launched a working feature. ProductOS V10's PRD pipeline is still in planning.",
+        "competitor_id": "comp_001",
+        "segment_impact": "Enterprise PMs and Startup PMs — both segments value automated PRD generation highly",
+        "recommended_action": "Accelerate PRD pipeline from Sprint 14-15 to Sprint 10-11. Ship MVP PRD generation within 6 weeks.",
+        "priority": "must_now"
+      }
+    ],
+    "emerging_threats": [
+      {
+        "description": "Agent-Based Workflow Automation — CompetitorBeta launched autonomous research loops, PRD drafting, and stakeholder updates. This is adjacent to our swarm capability.",
+        "competitor_id": "comp_002",
+        "segment_impact": "PMs who value end-to-end automation and minimal manual intervention",
+        "recommended_action": "Ensure ProductOS V10 autonomous run differentiates on decision quality (not just automation volume). Emphasize review gates and gold-standard validation.",
+        "priority": "next"
+      }
+    ],
+    "opportunity_windows": [
+      {
+        "description": "Pricing Intelligence Gap — No competitor offers pricing analysis or willingness-to-pay synthesis. This is a clear beachhead for differentiation.",
+        "competitor_id": "comp_001",
+        "segment_impact": "Enterprise PMs making build-vs-buy decisions. PMs justifying product investment.",
+        "recommended_action": "Prioritize pricing intelligence in Sprint 7-8. Make this the flagship differentiator in launch messaging.",
+        "priority": "next"
+      }
+    ]
+  },
+  "source_evidence_refs": [
+    "competitor_radar_state_crs_ai_pm_tooling_20260503",
+    "competitor_dossier_productos_v2",
+    "competitive_intelligence_alert_cia_20260503_001"
+  ],
+  "last_updated_at": "2026-05-03T08:00:00Z"
+}

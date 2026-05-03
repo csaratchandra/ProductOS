@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/developer_handoff_pack.schema.json",
+  "title": "ProductOS Developer Handoff Pack",
+  "description": "Complete developer-ready specification bundle uniting PRD, user stories with INVEST acceptance criteria, story map, API contracts, non-functional requirements, data model impact assessment, rollback strategy, test case set, and dependency graph — everything an engineering team needs for sprint planning.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "developer_handoff_pack_id", "workspace_id", "title", "prd_ref", "story_refs", "acceptance_criteria_refs", "api_contract_refs", "test_case_set_refs", "handoff_ready_gates", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "developer_handoff_pack_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 5},
+    "sprint_target": {"type": "string", "minLength": 3},
+    "prd_ref": {"type": "string", "minLength": 1},
+    "story_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+    "story_map_ref": {"type": "string", "minLength": 1},
+    "acceptance_criteria_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+    "api_contract_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "data_model_impact_ref": {"type": "string", "minLength": 1},
+    "rollout_strategy_ref": {"type": "string", "minLength": 1},
+    "non_functional_requirements": {"type": "array", "items": {"$ref": "#/$defs/nfr"}, "minItems": 1},
+    "test_case_set_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+    "dependency_graph": {"type": "array", "items": {"$ref": "#/$defs/dependency"}, "minItems": 1},
+    "handoff_ready_gates": {"$ref": "#/$defs/handoffReadyGates"},
+    "engineering_notes": {"type": "array", "items": {"type": "string", "minLength": 5}, "default": []},
+    "source_evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "nfr": {
+      "type": "object", "additionalProperties": false,
+      "required": ["category", "requirement", "measurement"],
+      "properties": {
+        "category": {"type": "string", "enum": ["performance", "security", "scalability", "reliability", "compliance", "accessibility", "observability"]},
+        "requirement": {"type": "string", "minLength": 10},
+        "measurement": {"type": "string", "minLength": 5},
+        "priority": {"type": "string", "enum": ["must_have", "should_have", "nice_to_have"]}
+      }
+    },
+    "dependency": {
+      "type": "object", "additionalProperties": false,
+      "required": ["from_story_id", "to_story_id", "type"],
+      "properties": {
+        "from_story_id": {"type": "string", "minLength": 1},
+        "to_story_id": {"type": "string", "minLength": 1},
+        "type": {"type": "string", "enum": ["code_dependency", "data_dependency", "api_dependency", "sequential"]},
+        "notes": {"type": "string", "minLength": 3}
+      }
+    },
+    "handoffReadyGates": {
+      "type": "object", "additionalProperties": false,
+      "required": ["all_stories_have_ac", "ambiguity_score_below_threshold", "dependencies_identified", "api_contracts_vetted", "nfr_specified", "test_cases_written"],
+      "properties": {
+        "all_stories_have_ac": {"type": "boolean"},
+        "ambiguity_score_below_threshold": {"type": "boolean"},
+        "dependencies_identified": {"type": "boolean"},
+        "api_contracts_vetted": {"type": "boolean"},
+        "nfr_specified": {"type": "boolean"},
+        "test_cases_written": {"type": "boolean"},
+        "overall_ready": {"type": "boolean"},
+        "blockers": {"type": "array", "items": {"type": "string", "minLength": 5}, "default": []}
+      }
+    }
+  }
+}

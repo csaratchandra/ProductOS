@@ -1,0 +1,518 @@
+{
+  "schema_version": "1.0.0",
+  "cockpit_bundle_id": "cockpit_bundle_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "portfolio_id": "portfolio_productos_v9",
+  "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+  "product_record_ref": "product_record_productos_core",
+  "bundle_status": "active",
+  "ralph_stage": "refine",
+  "mission_brief": {
+    "schema_version": "1.0.0",
+    "mission_brief_id": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+    "workspace_id": "ws_productos_v2",
+    "portfolio_id": "portfolio_productos_v9",
+    "title": "PM superpower recovery mission",
+    "mission_summary": "ProductOS should help PMs turn messy product reality into governed artifacts, alignment outputs, and execution loops while driving repeatable customer and business outcomes.",
+    "target_user": "Product manager using ProductOS with approved AI agents",
+    "customer_problem": "PMs spend too much time reconstructing the same truth into artifacts, presentations, reviews, and weekly operating loops.",
+    "business_goal": "Reduce PM setup friction and make ProductOS credible as the PM operating system for the first impatient customer.",
+    "maturity_band": "one_to_ten",
+    "primary_outcomes": [
+      "Generate one repo-native PM control plane from a single mission."
+    ],
+    "primary_kpis": [
+      "time from intake to reviewable PRD"
+    ],
+    "review_gate_owner": "ProductOS PM",
+    "success_metrics": [
+      "time from intake to reviewable PRD"
+    ],
+    "constraints": [
+      "Keep PM approval explicit for decision-driving scope and release movement."
+    ],
+    "audience": [
+      "PM",
+      "leadership"
+    ],
+    "operating_mode": "full_loop",
+    "mission_router": {
+      "entry_phase": "discover",
+      "phase_sequence": ["discover", "align", "operate", "improve"],
+      "primary_reviewer_lane": "pm_builder",
+      "routing_rationale": "Run the full PM loop from a mission-first discover start while keeping PM approval explicit at every decision-driving boundary.",
+      "stop_conditions": [
+        "Stop if any phase loses provenance, reviewability, or PM approval visibility."
+      ]
+    },
+    "steering_context": {
+      "steering_refs": [
+        "internal/ProductOS-Next/docs/planning/steering-context.md"
+      ],
+      "operating_norms": [
+        "Treat the repository as the system of record."
+      ],
+      "memory_priority_order": [
+        "decisions",
+        "evidence"
+      ],
+      "default_artifact_focus": [
+        "mission_brief",
+        "prd"
+      ]
+    },
+    "primary_workflow_refs": [
+      "../../core/workflows/decision-intelligence/mission-to-strategy-spine-workflow.md"
+    ],
+    "source_refs": [
+      "internal/ProductOS-Next/workspace_manifest.yaml"
+    ],
+    "stage_goals": {
+      "discovery": "Create a reviewable mission-first discovery packet with explicit evidence posture."
+    },
+    "known_risks": [
+      "The PM control center is still generated from artifacts and should not be claimed as deeper autonomy."
+    ],
+    "next_action": "Run the mission through discover first, keep evidence and approvals explicit, then expand phase coverage only when the prior outputs stay reviewable.",
+    "created_at": "2026-04-09T08:00:00Z",
+    "updated_at": "2026-04-09T08:00:00Z"
+  },
+  "product_record": {
+    "schema_version": "1.0.0",
+    "product_record_id": "product_record_productos_core",
+    "workspace_id": "ws_productos_v2",
+    "portfolio_id": "portfolio_productos_v9",
+    "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+    "product_name": "ProductOS Core",
+    "lifecycle_stage": "delivery",
+    "maturity_band": "one_to_ten",
+    "status": "on_track",
+    "owner": "Sarat",
+    "review_gate_owner": "Sarat",
+    "primary_outcomes": [
+      "Give the PM one control center instead of many disconnected commands."
+    ],
+    "primary_kpis": [
+      "time from intake to reviewable PRD"
+    ],
+    "target_release_or_increment": "pi_2026_q2_01",
+    "feature_record_ids": [
+      "feature_record_biweekly_status_mail"
+    ],
+    "dependency_ids": [],
+    "risk_summary": [
+      "Canonical multi-product portfolio state is newly introduced and still thin."
+    ],
+    "linked_artifact_ids": [
+      "mission_brief_ws_productos_v2_pm_superpower_recovery"
+    ],
+    "linked_decision_ids": [],
+    "approvals": {
+      "pm": "approved",
+      "leadership": "not_needed",
+      "customer_commitment": "not_needed",
+      "compliance": "not_needed"
+    },
+    "last_updated_at": "2026-04-09T08:00:00Z"
+  },
+  "portfolio_state": {
+    "schema_version": "1.0.0",
+    "portfolio_state_id": "portfolio_state_suite_productos_2026_03_19",
+    "suite_id": "suite_productos",
+    "review_gate_owner": "Sarat",
+    "primary_outcomes": [
+      "Generate one mission-first cockpit bundle per workspace."
+    ],
+    "primary_kpis": [
+      "time from intake to reviewable PM package"
+    ],
+    "summary": "The current portfolio contains one active product workspace with delivery work on track and no blocked cross-product dependencies.",
+    "product_summaries": [
+      {
+        "product_record_id": "product_record_productos_core",
+        "workspace_id": "ws_productos_v2",
+        "product_name": "ProductOS Core",
+        "lifecycle_stage": "delivery",
+        "maturity_band": "one_to_ten",
+        "status": "on_track",
+        "owner": "Sarat",
+        "review_gate_owner": "Sarat",
+        "target_release_or_increment": "pi_2026_q2_01",
+        "primary_outcomes": [
+          "Give the PM one control center instead of many disconnected commands."
+        ],
+        "primary_kpis": [
+          "time from intake to reviewable PRD"
+        ],
+        "top_mission_title": "PM superpower recovery mission",
+        "next_approval_needed": "delivery PM review",
+        "feature_count": 1
+      }
+    ],
+    "opportunity_portfolio_summary": [],
+    "cross_product_dependencies": [],
+    "portfolio_risks": [],
+    "generated_at": "2026-04-09T08:00:00Z"
+  },
+  "workspace_tree_state": {
+    "schema_version": "1.0.0",
+    "workspace_tree_state_id": "workspace_tree_state_ws_productos_v2",
+    "workspace_id": "ws_productos_v2",
+    "portfolio_id": "portfolio_productos_v9",
+    "root": {
+      "node_id": "tree_node_portfolio_portfolio_productos_v9",
+      "node_type": "portfolio",
+      "label": "portfolio_productos_v9",
+      "children": [
+        {
+          "node_id": "tree_node_workspace_ws_productos_v2",
+          "node_type": "workspace",
+          "label": "ProductOS V2 Workspace",
+          "ref": "internal/ProductOS-Next",
+          "children": [
+            {
+              "node_id": "tree_node_mission_ws_productos_v2",
+              "node_type": "mission",
+              "label": "PM superpower recovery mission",
+              "ref": "internal/ProductOS-Next/artifacts/mission_brief.json",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    "active_mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+    "active_product_record_ref": "product_record_productos_core",
+    "generated_at": "2026-04-09T08:00:00Z"
+  },
+  "active_phase_packet": {
+    "schema_version": "1.0.0",
+    "phase_packet_id": "phase_packet_ws_productos_v2_discovery",
+    "workspace_id": "ws_productos_v2",
+    "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+    "product_record_ref": "product_record_productos_core",
+    "lifecycle_phase": "discovery",
+    "maturity_band": "one_to_ten",
+    "phase_goal": "Create a reviewable mission-first discovery packet with explicit evidence posture.",
+    "question_prompts": [
+      "What is the highest-signal decision the PM needs from discovery?"
+    ],
+    "task_queue": [
+      {
+        "task_id": "task_pm_superpower_recovery_mission_discovery_01",
+        "title": "Discovery task 1",
+        "summary": "Frame the problem in customer language before solution framing expands.",
+        "owner": "ProductOS PM",
+        "status": "planned",
+        "source_artifact_refs": [
+          "mission_brief_ws_productos_v2_pm_superpower_recovery",
+          "product_record_productos_core"
+        ]
+      }
+    ],
+    "expected_artifacts": [
+      "mission_brief",
+      "problem_brief"
+    ],
+    "success_metrics": [
+      {
+        "metric_name": "time from intake to reviewable PRD",
+        "target_signal": "Discovery should improve time from intake to reviewable prd without weakening reviewability.",
+        "measurement_posture": "observed"
+      }
+    ],
+    "approval_gates": [
+      {
+        "gate_id": "approval_gate_pm_superpower_recovery_mission_discovery",
+        "title": "Discovery PM review",
+        "owner": "ProductOS PM",
+        "status": "pending",
+        "required_artifact_refs": [
+          "mission_brief_ws_productos_v2_pm_superpower_recovery",
+          "product_record_productos_core"
+        ]
+      }
+    ],
+    "recommended_pm_actions": [
+      {
+        "recommendation_id": "pm_action_pm_superpower_recovery_mission_discovery",
+        "summary": "Approve the bounded discovery packet only after the evidence trail and next decision stay legible.",
+        "source_artifact_refs": [
+          "mission_brief_ws_productos_v2_pm_superpower_recovery",
+          "product_record_productos_core"
+        ],
+        "observed_vs_inferred": "mixed",
+        "assumption_note": "Task content is maturity-aware scaffolding until workspace-specific evidence replaces the starter defaults."
+      }
+    ],
+    "source_artifact_ids": [
+      "mission_brief_ws_productos_v2_pm_superpower_recovery",
+      "product_record_productos_core"
+    ],
+    "created_at": "2026-04-09T08:00:00Z",
+    "updated_at": "2026-04-09T08:00:00Z"
+  },
+  "cockpit_state": {
+    "schema_version": "1.0.0",
+    "cockpit_state_id": "cockpit_state_ws_productos_v2_runtime",
+    "workspace_id": "ws_productos_v2",
+    "mode": "plan",
+    "status": "active",
+    "coordination_status": "healthy",
+    "ralph_stage": "refine",
+    "mission_control": {
+      "mission_ref": "mission_brief_ws_productos_v2_runtime",
+      "mission_title": "PM-visible runtime foundation",
+      "active_stage": "improve",
+      "current_route_ref": "route_runtime_proof",
+      "next_route_ref": "route_prioritize_v3_1_expansion",
+      "current_task_name": "Choose the first V3.1 runtime expansion",
+      "current_task_summary": "The runtime foundation is complete, so the PM should choose the next bounded expansion from one visible control surface.",
+      "current_task_status": "awaiting_pm_review",
+      "reviewer_lane": "pm_builder"
+    },
+    "request_summary": "Operate the completed V3.0 runtime foundation from one PM-facing cockpit surface.",
+    "current_focus": "Keep queue actions, intake routing, and memory reuse legible now that the V3.0 runtime foundation is live.",
+    "recommended_next_step": {
+      "action_summary": "Review the highest-priority post-launch decision and follow-up item from the live runtime queues.",
+      "target_type": "queue",
+      "target_ref": "decision_queue_productos_v3",
+      "rationale": "V3.0 is complete, so the cockpit should now steer ongoing prioritization instead of waiting on foundation work."
+    },
+    "active_agents": [
+      {
+        "agent_name": "cockpit",
+        "status": "active",
+        "current_task": "Maintain PM-visible runtime state and expose the next controlled action."
+      }
+    ],
+    "active_queue_refs": [
+      {
+        "queue_type": "decision_queue",
+        "artifact_id": "decision_queue_productos_v3",
+        "summary": "Choose the first V3.1 runtime expansion based on the completed V3.0 benchmark evidence"
+      }
+    ],
+    "queue_recommendations": [
+      {
+        "queue_type": "decision_queue",
+        "artifact_id": "decision_queue_productos_v3",
+        "item_id": "dec_prioritize_v3_1_runtime_expansion",
+        "recommended_action": "review_now",
+        "urgency": "routine",
+        "why_now": "The runtime foundation is live and the next decision should shape the first V3.1 expansion based on evidence."
+      }
+    ],
+    "approval_queue": [
+      {
+        "approval_id": "approval_discovery_packet",
+        "title": "Discovery packet review",
+        "owner": "ProductOS PM",
+        "status": "pending",
+        "artifact_refs": [
+          "mission_brief_ws_productos_v2_runtime",
+          "phase_packet_ws_productos_v2_discovery"
+        ]
+      }
+    ],
+    "budget_status": {
+      "status": "within_threshold",
+      "visible_route_count": 3,
+      "review_threshold": 1,
+      "pause_threshold": 2,
+      "pause_reason": "No route-level budget threshold is currently breached."
+    },
+    "workspace_tree_ref": "workspace_tree_state_ws_productos_v2",
+    "context_view_refs": [
+      {
+        "view_id": "context_view_readme",
+        "label": "Readme",
+        "ref_type": "document",
+        "ref_path": "internal/ProductOS-Next/README.md"
+      }
+    ],
+    "recommended_pm_actions": [
+      {
+        "recommendation_id": "recommended_pm_action_runtime",
+        "summary": "Review the discovery packet and keep the next phase blocked until the evidence trail is explicit.",
+        "source_artifact_refs": [
+          "mission_brief_ws_productos_v2_pm_superpower_recovery",
+          "phase_packet_ws_productos_v2_discovery"
+        ],
+        "observed_vs_inferred": "mixed",
+        "assumption_note": "The recommendation is seeded from repo-visible scaffolding until workspace evidence replaces the starter defaults."
+      }
+    ],
+    "active_orchestration_state_id": "orch_state_ws_productos_v2_runtime",
+    "active_execution_session_state_ids": [
+      "exec_session_ws_productos_v2_runtime"
+    ],
+    "active_workflow_state_ids": [
+      "wf_state_v3_runtime_foundation_2026_03_21"
+    ],
+    "blocked_route_ids": [],
+    "awaiting_review_route_ids": [],
+    "pending_review_points": [],
+    "missing_context_questions": [],
+    "blocking_reasons": [],
+    "source_artifact_ids": [
+      "decision_queue_productos_v3"
+    ],
+    "created_at": "2026-03-21T23:30:00Z",
+    "updated_at": "2026-03-21T23:30:00Z"
+  },
+  "orchestration_state": {
+    "schema_version": "1.0.0",
+    "orchestration_state_id": "orch_state_ws_productos_v2_runtime",
+    "workspace_id": "ws_productos_v2",
+    "goal": "Execute the V3 runtime foundation with visible coordination, intake, memory, and release-gate proof.",
+    "status": "completed",
+    "coordination_summary": "The runtime foundation route is complete, validation passed, and the cockpit is now the stable PM-visible control surface.",
+    "initiating_agent": "cockpit",
+    "mission_control": {
+      "mission_ref": "mission_brief_ws_productos_v2_runtime",
+      "mission_title": "PM-visible runtime foundation",
+      "active_stage": "improve",
+      "current_route_ref": "route_runtime_proof",
+      "next_route_ref": "route_prioritize_v3_1_expansion",
+      "current_task_name": "Choose the first V3.1 runtime expansion",
+      "current_task_summary": "The runtime foundation is complete, so the next controlled move is a bounded expansion decision rather than more hidden coordination.",
+      "current_task_status": "awaiting_pm_review",
+      "reviewer_lane": "pm_builder"
+    },
+    "route_budget": {
+      "max_parallel_routes": 3,
+      "active_route_count": 0,
+      "awaiting_review_count": 0,
+      "blocked_route_count": 0,
+      "route_review_threshold": 1,
+      "route_pause_threshold": 2,
+      "auto_pause_on_threshold": true
+    },
+    "active_route_ids": [],
+    "blocked_route_ids": [],
+    "awaiting_review_route_ids": [],
+    "linked_workflow_state_ids": [
+      "wf_state_v3_runtime_foundation_2026_03_21"
+    ],
+    "linked_execution_session_state_ids": [
+      "exec_session_ws_productos_v2_runtime"
+    ],
+    "route_plan": [
+      {
+        "route_id": "route_runtime_proof",
+        "agent_name": "workflow",
+        "objective": "Generate benchmark, runtime scenario, and release-gate proof artifacts.",
+        "rationale": "V3 should prove improvement over V2 with explicit evidence rather than narrative claims.",
+        "stage": "cross_cutting",
+        "status": "completed",
+        "reviewer_lane": "pm_builder",
+        "budget_status": "within_threshold",
+        "estimated_spend_points": 1,
+        "spent_points": 1,
+        "pause_reason": "",
+        "expected_output_artifact_ids": [
+          "pm_benchmark_ws_productos_v2_runtime"
+        ],
+        "next_action": "Use the completed proof package to choose the first evidence-backed V3.1 runtime expansion."
+      }
+    ],
+    "pause_reasons": [],
+    "approval_checkpoints": [],
+    "queue_impacts": [
+      {
+        "queue_type": "decision_queue",
+        "artifact_id": "decision_queue_productos_v3",
+        "item_id": "dec_prioritize_v3_1_runtime_expansion",
+        "recommended_action": "review_now",
+        "reason": "The runtime foundation is shipped, and this decision now shapes the first evidence-backed V3.1 expansion.",
+        "status": "recommended"
+      }
+    ],
+    "handoff_log": [],
+    "retry_events": [],
+    "escalations": [],
+    "created_at": "2026-03-21T23:30:00Z",
+    "updated_at": "2026-03-21T23:30:00Z"
+  },
+  "cross_product_insight_index": {
+    "schema_version": "1.0.0",
+    "cross_product_insight_index_id": "cross_product_insight_index_portfolio_productos_v9",
+    "portfolio_id": "portfolio_productos_v9",
+    "insights": [
+      {
+        "insight_id": "insight_ws_productos_v2",
+        "workspace_id": "ws_productos_v2",
+        "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+        "title": "Reuse signals from PM superpower recovery mission",
+        "summary": "The mission already captures explicit KPIs, review ownership, and a bounded PM-first control plane.",
+        "tags": [
+          "one_to_ten",
+          "delivery",
+          "pm_superpower"
+        ],
+        "observed_vs_inferred": "observed",
+        "evidence_refs": [
+          "mission_brief_ws_productos_v2_pm_superpower_recovery",
+          "product_record_productos_core"
+        ],
+        "reusable_recommendation": "Reuse the mission intake, KPI framing, and approval posture before opening a parallel workspace flow."
+      }
+    ],
+    "generated_at": "2026-04-09T08:00:00Z"
+  },
+  "research_posture": {
+    "review_status": "clear",
+    "contradiction_count": 0,
+    "search_status": "completed",
+    "question_count": 3,
+    "candidate_count": 3,
+    "selected_source_count": 3,
+    "freshness_summary": "candidate sources 3 usable_with_review",
+    "recommendation": "continue with refresh"
+  },
+  "strategy_refresh_posture": {
+    "status": "ready_for_strategy_refresh",
+    "available_evidence_count": 3,
+    "available_evidence_types": [
+      "market_analysis_brief",
+      "competitor_dossier",
+      "customer_pulse"
+    ],
+    "downstream_packet_status": "missing",
+    "available_downstream_count": 0,
+    "missing_downstream_types": [
+      "opportunity_portfolio_view",
+      "prioritization_decision_record",
+      "feature_prioritization_brief"
+    ],
+    "recommendation": "Refresh the canonical strategy packet from the governed research surface, then persist the missing downstream packet artifacts: opportunity_portfolio_view, prioritization_decision_record, feature_prioritization_brief."
+  },
+  "context_view_refs": [
+    {
+      "view_id": "context_view_readme",
+      "label": "Readme",
+      "ref_type": "document",
+      "ref_path": "internal/ProductOS-Next/README.md"
+    }
+  ],
+  "recommended_pm_actions": [
+    {
+      "recommendation_id": "recommended_pm_action_runtime",
+      "summary": "Review the discovery packet and keep the next phase blocked until the evidence trail is explicit.",
+      "source_artifact_refs": [
+        "mission_brief_ws_productos_v2_pm_superpower_recovery",
+        "phase_packet_ws_productos_v2_discovery"
+      ],
+      "observed_vs_inferred": "mixed",
+      "assumption_note": "The recommendation is seeded from repo-visible scaffolding until workspace evidence replaces the starter defaults."
+    }
+  ],
+  "generated_html_ref": "internal/ProductOS-Next/outputs/cockpit/control-center.html",
+  "source_artifact_ids": [
+    "mission_brief_ws_productos_v2_pm_superpower_recovery",
+    "product_record_productos_core",
+    "phase_packet_ws_productos_v2_discovery"
+  ],
+  "generated_at": "2026-04-09T08:00:00Z"
+}

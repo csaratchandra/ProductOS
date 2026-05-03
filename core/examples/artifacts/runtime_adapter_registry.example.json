@@ -71,8 +71,44 @@
       "host_constraints": [
         "Requires writable workspace access."
       ],
-      "notes": "Used for local runtime generation and validation."
-    }
-  ],
-  "evaluated_at": "2026-03-21T23:30:00Z"
+"notes": "Used for local runtime generation and validation."
+      },
+      {
+        "adapter_id": "adapter_opencode_thin",
+        "name": "OpenCode Thin Adapter",
+"capability_type": "custom",
+        "availability_status": "available",
+        "supported_actions": [
+          "inspect_repo",
+          "run_superpower_loop",
+          "capture_review_findings",
+          "run_validation",
+          "export_artifacts"
+        ],
+        "requires_host_support": true,
+        "verification_status": "verified",
+        "used_by_default": false,
+        "supported_mission_stages": [
+          "discover",
+          "align",
+          "operate",
+          "improve"
+        ],
+        "prompt_pattern_capabilities": {
+          "mission_routing": "repo_managed",
+          "task_boundary_visibility": "repo_managed",
+          "research_freshness": "repo_managed",
+          "validation_enforcement": "repo_managed",
+          "delegation_support": "native",
+          "approval_gating": "repo_managed",
+          "memory_steering": "repo_managed",
+          "artifact_export": "repo_managed"
+        },
+        "host_constraints": [
+          "Requires writable workspace access and repo-local validation support."
+        ],
+        "notes": "OpenCode thin adapter for vendor-neutral agent harness standard conformance."
+      }
+    ],
+    "evaluated_at": "2026-03-21T23:30:00Z"
 }

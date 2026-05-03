@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/empathy_map.schema.json",
+  "title": "ProductOS Empathy Map",
+  "description": "Structured empathy map canvas for a priority persona showing Think & Feel, See, Say & Do, Hear, Pains, and Gains — derived from evidence, not assumptions — with visual canvas rendering spec for workshops and presentations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "empathy_map_id",
+    "workspace_id",
+    "persona_archetype_pack_ref",
+    "persona_ref",
+    "persona_name",
+    "think_and_feel",
+    "see",
+    "say_and_do",
+    "hear",
+    "pains",
+    "gains",
+    "evidence_basis",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "empathy_map_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "persona_archetype_pack_ref": { "type": "string", "minLength": 1 },
+    "persona_ref": { "type": "string", "minLength": 1 },
+    "persona_name": { "type": "string", "minLength": 3 },
+    "think_and_feel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["major_preoccupations", "worries", "aspirations", "emotional_state"],
+      "properties": {
+        "major_preoccupations": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "worries": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "aspirations": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "emotional_state": { "type": "string", "minLength": 10 }
+      }
+    },
+    "see": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["environment", "market_offering", "colleagues_behavior", "competitor_activity"],
+      "properties": {
+        "environment": { "type": "string", "minLength": 10 },
+        "market_offering": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "colleagues_behavior": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "competitor_activity": { "type": "string", "minLength": 10 }
+      }
+    },
+    "say_and_do": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["public_attitude", "behavior_in_meetings", "behavior_with_team", "behavior_with_tools"],
+      "properties": {
+        "public_attitude": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "behavior_in_meetings": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "behavior_with_team": { "type": "string", "minLength": 10 },
+        "behavior_with_tools": { "type": "string", "minLength": 10 }
+      }
+    },
+    "hear": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from_boss", "from_peers", "from_directs", "from_industry"],
+      "properties": {
+        "from_boss": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "from_peers": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "from_directs": { "type": "array", "items": { "type": "string", "minLength": 5 }, "default": [] },
+        "from_industry": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 1 }
+      }
+    },
+    "pains": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fears", "frustrations", "obstacles", "failure_risks"],
+      "properties": {
+        "fears": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "frustrations": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "obstacles": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "failure_risks": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 1 }
+      }
+    },
+    "gains": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wants", "needs", "success_measures", "dream_state"],
+      "properties": {
+        "wants": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "needs": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "success_measures": { "type": "array", "items": { "type": "string", "minLength": 5 }, "minItems": 2 },
+        "dream_state": { "type": "string", "minLength": 10 }
+      }
+    },
+    "evidence_basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["confidence", "source_count", "gaps"],
+      "properties": {
+        "confidence": { "type": "string", "enum": ["high", "moderate", "low"] },
+        "source_count": { "type": "integer", "minimum": 1 },
+        "gaps": { "type": "array", "items": { "type": "string", "minLength": 5 }, "default": [] }
+      }
+    },
+    "visual_canvas_spec": { "$ref": "#/$defs/visualCanvasSpec" },
+    "source_evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "visualCanvasSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "quadrants", "layout"],
+      "properties": {
+        "title": { "type": "string", "minLength": 5 },
+        "quadrants": { "type": "array", "items": { "type": "string", "enum": ["think_and_feel", "see", "say_and_do", "hear", "pains", "gains"] }, "minItems": 4 },
+        "layout": { "type": "string", "minLength": 5 },
+        "center_label": { "type": "string", "minLength": 5 }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/email_sequence.schema.json",
+  "title": "ProductOS Email Sequence",
+  "description": "Multi-email sequence for launch, nurture, or re-engagement campaigns — per email with subject line variants, preview text, body, CTA, personalization tokens, and send timing recommendations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "email_sequence_id", "workspace_id", "sequence_name", "sequence_type", "emails", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "email_sequence_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "sequence_name": {"type": "string", "minLength": 5},
+    "sequence_type": {"type": "string", "enum": ["launch_announcement", "nurture", "re_engagement", "onboarding", "upsell", "churn_prevention"]},
+    "target_segment": {"type": "string", "minLength": 3},
+    "emails": {"type": "array", "items": {"$ref": "#/$defs/email"}, "minItems": 2},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "email": {"type": "object", "additionalProperties": false, "required": ["email_number", "purpose", "subject_lines", "preview_text", "body", "cta"], "properties": {"email_number": {"type": "integer", "minimum": 1}, "purpose": {"type": "string", "minLength": 10}, "subject_lines": {"type": "array", "items": {"type": "string", "minLength": 5}, "minItems": 2, "maxItems": 4}, "preview_text": {"type": "string", "minLength": 10}, "body": {"type": "string", "minLength": 50}, "cta": {"type": "string", "minLength": 5}, "send_delay_days": {"type": "integer", "minimum": 0}}}
+  }
+}

@@ -3,7 +3,7 @@ import json
 import re
 
 
-STANDARD_SKILL_HEADERS = [
+STANDARD_SKILL_HEADERS_V9 = [
     "Purpose",
     "Trigger / When To Use",
     "Inputs",
@@ -11,6 +11,21 @@ STANDARD_SKILL_HEADERS = [
     "Guardrails",
     "Execution Pattern",
     "Validation Expectations",
+]
+
+STANDARD_SKILL_HEADERS_V10 = [
+    "1. Purpose",
+    "2. Trigger / When To Use",
+    "3. Prerequisites",
+    "4. Input Specification",
+    "5. Execution Steps",
+    "6. Output Specification",
+    "7. Guardrails",
+    "8. Gold Standard Checklist",
+    "9. Examples",
+    "10. Cross-References",
+    "11. Maturity Band Variations",
+    "12. Validation Criteria",
 ]
 
 REQUIRED_CORE_SKILLS = [
@@ -26,12 +41,20 @@ REQUIRED_CORE_SKILLS = [
     "publish_safe_summarization",
 ]
 
-
 def test_all_core_skills_follow_standard_section_order(root_dir: Path):
     for skill_path in sorted((root_dir / "core" / "skills").glob("*/SKILL.md")):
+        if skill_path.name == "SKILL_CONTRACT_TEMPLATE.md":
+            continue
         text = skill_path.read_text(encoding="utf-8")
         headers = re.findall(r"^##\s+(.+)$", text, re.MULTILINE)
-        assert headers == STANDARD_SKILL_HEADERS, f"{skill_path} has inconsistent section order: {headers}"
+        is_v9 = headers == STANDARD_SKILL_HEADERS_V9
+        is_v10 = headers == STANDARD_SKILL_HEADERS_V10
+        assert is_v9 or is_v10, (
+            f"{skill_path} follows neither V9 nor V10 section order.\n"
+            f"Expected V9: {STANDARD_SKILL_HEADERS_V9}\n"
+            f"Expected V10: {STANDARD_SKILL_HEADERS_V10}\n"
+            f"Got: {headers}"
+        )
 
 
 def test_required_core_skills_exist(root_dir: Path):

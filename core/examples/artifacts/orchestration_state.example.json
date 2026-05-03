@@ -21,7 +21,10 @@
     "max_parallel_routes": 3,
     "active_route_count": 0,
     "awaiting_review_count": 0,
-    "blocked_route_count": 0
+    "blocked_route_count": 0,
+    "route_review_threshold": 1,
+    "route_pause_threshold": 2,
+    "auto_pause_on_threshold": true
   },
   "active_route_ids": [],
   "blocked_route_ids": [],
@@ -41,6 +44,10 @@
       "stage": "cross_cutting",
       "status": "completed",
       "reviewer_lane": "ai_reviewer",
+      "budget_status": "within_threshold",
+      "estimated_spend_points": 1,
+      "spent_points": 1,
+      "pause_reason": "",
       "expected_output_artifact_ids": [
         "cockpit_state_ws_productos_v2_runtime",
         "runtime_scenario_report_ws_productos_v2_runtime",
@@ -60,6 +67,10 @@
       "depends_on_route_ids": [
         "route_update_runtime_contracts"
       ],
+      "budget_status": "within_threshold",
+      "estimated_spend_points": 1,
+      "spent_points": 1,
+      "pause_reason": "",
       "execution_session_state_id": "exec_session_ws_productos_v2_runtime",
       "notes": "Completed after schema validation, runtime proof, and release-readiness checks all passed.",
       "next_action": "Use the validated runtime bundle as the baseline for the next bounded expansion."
@@ -72,6 +83,10 @@
       "stage": "cross_cutting",
       "status": "completed",
       "reviewer_lane": "pm_builder",
+      "budget_status": "within_threshold",
+      "estimated_spend_points": 1,
+      "spent_points": 1,
+      "pause_reason": "",
       "expected_output_artifact_ids": [
         "pm_benchmark_ws_productos_v2_runtime",
         "release_readiness_ws_productos_v2_runtime",
@@ -81,6 +96,8 @@
       "next_action": "Use the completed proof package to choose the first evidence-backed V3.1 runtime expansion."
     }
   ],
+  "pause_reasons": [],
+  "approval_checkpoints": [],
   "queue_impacts": [
     {
       "queue_type": "decision_queue",

@@ -1,40 +1,64 @@
 # Displacement Barrier Assessment
 
-## Purpose
+## 1. Purpose
 
-Make switching friction and incumbent inertia explicit before ProductOS claims competitive advantage.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when `competitor_dossier`, `landscape_matrix`, or positioning work needs to explain why buyers would actually switch.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- competitor evidence
-- status quo alternatives
-- product wedge and proof plan
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- displacement barriers
-- required proof to displace
-- implications for sequencing and launch scope
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not confuse feature gaps with switching barriers
-- include status quo and in-house alternatives, not only vendors
-- keep proof requirements concrete
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. name the real alternative set
-2. list the friction that keeps the buyer where they are
-3. map the minimum proof needed to overcome each barrier
-4. feed the barriers into prioritization and release logic
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- the buyer’s no-change path should be explicit
-- barriers should be specific enough to influence sequencing
-- required proof should connect to actual evidence work
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

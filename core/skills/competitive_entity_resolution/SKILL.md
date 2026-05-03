@@ -1,41 +1,64 @@
 # Competitive Entity Resolution
 
-## Purpose
+## 1. Purpose
 
-Turn vague competitor categories into a named competitor set for the actual buyer, workflow, and wedge being analyzed.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when ProductOS has abstract alternatives such as status quo, services, or point solutions and needs a concrete comparison set before strategy or positioning work proceeds.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- target segment and persona context
-- workflow lane or decision context
-- current competitor notes, URLs, or source cards
-- known status quo alternatives
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- named competitor set
-- rationale for each included competitor
-- explicit unresolved competitor gaps
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not treat abstract buckets as sufficient when named vendors can be identified
-- do not over-expand into a long undifferentiated market list
-- do not hide when the market is still under-resolved
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-- identify the real job and buying context
-- separate direct competitors from adjacent tools, services, internal build, and status quo
-- resolve the minimum named set needed for comparison
-- record any remaining blind spots explicitly
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- the competitor set should match the actual ICP and workflow lane
-- each named competitor should have a visible inclusion rationale
-- unresolved competitor coverage should remain explicit
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

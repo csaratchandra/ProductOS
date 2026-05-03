@@ -1,43 +1,64 @@
 # Visual Message Hierarchy
 
-## Purpose
+## 1. Purpose
 
-Define the primary message, reading path, and evidence placement for ProductOS visuals so the output is immediately understandable and persuasive without losing truthfulness.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-- when a PM needs a deck, corridor page, memo visual, or map to explain a decision clearly
-- when a rendering risks becoming visually dense or narratively ambiguous
-- when multiple valid layouts exist and the work needs one deliberate reading path
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- source artifact or render contract
-- audience and communication goal
-- evidence, risk, and certainty cues
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- primary message statement
-- ordered reading path
-- hierarchy guidance for headline, support, and evidence treatment
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- one primary message per visual or section
-- supporting evidence must stay close to the claim it justifies
-- visual compression must not hide blockers, ambiguity, or ownership
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. identify the decision, explanation goal, or proof boundary
-2. define the one headline-level message the visual must carry
-3. order the supporting content into a clear reading path
-4. place evidence, certainty, and risk cues where the reader needs them
-5. remove decorative or duplicate content that weakens the message
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- the reader can state the main point without narration
-- the reading path is obvious from the layout
-- evidence and risk treatment are visible where interpretation happens
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

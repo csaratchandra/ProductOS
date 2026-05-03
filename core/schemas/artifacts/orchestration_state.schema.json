@@ -19,6 +19,8 @@
     "blocked_route_ids",
     "awaiting_review_route_ids",
     "route_plan",
+    "pause_reasons",
+    "approval_checkpoints",
     "queue_impacts",
     "handoff_log",
     "retry_events",
@@ -115,6 +117,21 @@
         "$ref": "#/$defs/route"
       },
       "minItems": 1
+    },
+    "pause_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "default": []
+    },
+    "approval_checkpoints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/approvalCheckpoint"
+      },
+      "default": []
     },
     "queue_impacts": {
       "type": "array",
@@ -227,7 +244,10 @@
         "max_parallel_routes",
         "active_route_count",
         "awaiting_review_count",
-        "blocked_route_count"
+        "blocked_route_count",
+        "route_review_threshold",
+        "route_pause_threshold",
+        "auto_pause_on_threshold"
       ],
       "properties": {
         "max_parallel_routes": {
@@ -245,6 +265,17 @@
         "blocked_route_count": {
           "type": "integer",
           "minimum": 0
+        },
+        "route_review_threshold": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "route_pause_threshold": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "auto_pause_on_threshold": {
+          "type": "boolean"
         }
       }
     },
@@ -259,7 +290,11 @@
         "stage",
         "status",
         "reviewer_lane",
-        "next_action"
+        "next_action",
+        "budget_status",
+        "estimated_spend_points",
+        "spent_points",
+        "pause_reason"
       ],
       "properties": {
         "route_id": {
@@ -343,7 +378,69 @@
         "notes": {
           "type": "string"
         },
+        "budget_status": {
+          "type": "string",
+          "enum": ["within_threshold", "watch", "paused"]
+        },
+        "estimated_spend_points": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "spent_points": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pause_reason": {
+          "type": "string"
+        },
         "next_action": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "approvalCheckpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_id",
+        "route_id",
+        "title",
+        "owner",
+        "status",
+        "required_evidence_refs",
+        "blocked_reason"
+      ],
+      "properties": {
+        "checkpoint_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "route_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "approved", "blocked"]
+        },
+        "required_evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "blocked_reason": {
           "type": "string",
           "minLength": 3
         }

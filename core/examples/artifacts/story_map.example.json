@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "story_map_id": "sm_discovery_pipeline_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "Story Map: Discovery Generation Pipeline — V10",
+  "persona_ref": "pers_sarah_enterprise_pm",
+  "backbone": [
+    {
+      "activity_id": "ba_define_scope",
+      "name": "Define Discovery Scope",
+      "order": 1,
+      "description": "PM defines market, segments, geographic scope, and depth level for discovery generation"
+    },
+    {
+      "activity_id": "ba_generate_environmental",
+      "name": "Generate Environmental Analysis",
+      "order": 2,
+      "description": "System generates PESTLE analysis, regulatory tracking, and competitive intelligence"
+    },
+    {
+      "activity_id": "ba_generate_personas",
+      "name": "Generate Persona Artifacts",
+      "order": 3,
+      "description": "System generates persona archetype packs, narrative cards, and empathy maps"
+    }
+  ],
+  "user_tasks": [
+    {
+      "task_id": "ut_configure_discovery",
+      "name": "Configure Discovery Settings",
+      "activity_id": "ba_define_scope",
+      "stories": [
+        {
+          "story_id": "story_discovery_config",
+          "title": "As a PM, I can configure discovery depth, maturity band, and geographic scope before generation",
+          "priority": "must_now"
+        },
+        {
+          "story_id": "story_discovery_templates",
+          "title": "As a PM, I can save discovery configuration as a reusable template",
+          "priority": "next"
+        }
+      ]
+    },
+    {
+      "task_id": "ut_generate_pestle",
+      "name": "Generate PESTLE Analysis",
+      "activity_id": "ba_generate_environmental",
+      "stories": [
+        {
+          "story_id": "story_pestle_generation",
+          "title": "As a PM, I can trigger PESTLE generation for a defined market and get a 6-factor analysis with 3-horizon projections",
+          "priority": "must_now"
+        }
+      ]
+    }
+  ],
+  "release_slices": [
+    {
+      "slice_id": "rs_discovery_mvp",
+      "name": "Discovery MVP — Sprint 10",
+      "target_outcome": "PM can generate complete PESTLE + segment map + persona pack from scratch in <5 minutes",
+      "story_ids": [
+        "story_discovery_config",
+        "story_pestle_generation"
+      ]
+    }
+  ],
+  "visual_spec": {
+    "title": "Discovery Pipeline Story Map",
+    "layout": "horizontal_swimlanes",
+    "rendering_mode": "workshop_board"
+  },
+  "generated_at": "2026-05-03T08:00:00Z"
+}

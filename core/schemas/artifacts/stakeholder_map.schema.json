@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/stakeholder_map.schema.json",
+  "title": "ProductOS Stakeholder Map",
+  "description": "Power/interest grid mapping every stakeholder with influence level, decision role, current position, key concerns, communication preferences, and relationship dynamics — enabling targeted influence strategy.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "stakeholder_map_id", "workspace_id", "title", "stakeholders", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "stakeholder_map_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 5},
+    "stakeholders": {"type": "array", "items": {"$ref": "#/$defs/stakeholder"}, "minItems": 3},
+    "visual_spec": {"$ref": "#/$defs/visualSpec"},
+    "source_evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "stakeholder": {"type": "object", "additionalProperties": false, "required": ["stakeholder_id", "name", "role", "power_level", "interest_level", "current_position", "key_concerns", "communication_preference"], "properties": {"stakeholder_id": {"type": "string", "minLength": 1}, "name": {"type": "string", "minLength": 3}, "role": {"type": "string", "minLength": 3}, "power_level": {"type": "integer", "minimum": 1, "maximum": 5}, "interest_level": {"type": "integer", "minimum": 1, "maximum": 5}, "current_position": {"type": "string", "enum": ["supporter", "neutral", "detractor", "unknown"]}, "decision_influence": {"type": "string", "enum": ["veto", "approval", "advisory", "informed", "none"]}, "key_concerns": {"type": "array", "items": {"type": "string", "minLength": 5}, "minItems": 1}, "communication_preference": {"type": "string", "minLength": 10}, "relationship_to_others": {"type": "array", "items": {"type": "string", "minLength": 3}, "default": []}, "last_contact": {"type": "string", "format": "date-time"}, "next_meeting": {"type": "string", "format": "date-time"}}},
+    "visualSpec": {"type": "object", "additionalProperties": false, "required": ["title", "grid_type"], "properties": {"title": {"type": "string", "minLength": 5}, "grid_type": {"type": "string", "enum": ["power_interest_grid", "influence_map", "relationship_web"]}}}
+  }
+}

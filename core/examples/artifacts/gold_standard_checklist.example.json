@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "gold_standard_checklist_id": "gsc_pestle_analysis_20260503",
+  "workspace_id": "ws_productos_v2",
+  "target_artifact_type": "pestle_analysis",
+  "target_artifact_id": "pa_ai_pm_tooling_global_20260503",
+  "framework_alignment": [
+    {
+      "framework_name": "PESTLE Analysis (Francis Aguilar)",
+      "framework_authority": "Harvard Business Review / Strategic Management",
+      "alignment_scope": "All 6 factors covered with trend projections and strategic implications — extends original PESTLE with geographic variation and scenario modeling"
+    },
+    {
+      "framework_name": "Scenario Planning",
+      "framework_authority": "Shell / Global Business Network",
+      "alignment_scope": "Two distinct scenarios modeled with trigger conditions and strategic implications"
+    },
+    {
+      "framework_name": "Five Forces (Porter)",
+      "framework_authority": "Michael Porter / Harvard Business School",
+      "alignment_scope": "PESTLE informs competitive rivalry and threat of new entrants analysis"
+    }
+  ],
+  "checklist_items": [
+    {
+      "item_id": "pestle_001",
+      "criterion": "All 6 PESTLE factors are covered with specific, non-generic findings",
+      "evidence_required": "Each factor must have at least 2 key_findings with specific observations, not platitudes",
+      "result": "pass",
+      "evidence_provided": "Political: 3 findings (EU AI Act, US EO, China AI regs). Economic: 3 findings. Social: 3 findings. Technological: 3 findings. Legal: 3 findings. Environmental: 2 findings. All with source_refs."
+    },
+    {
+      "item_id": "pestle_002",
+      "criterion": "Every finding is cited to a specific evidence source",
+      "evidence_required": "Each finding must have a source_ref that resolves to a source_note_card or artifact",
+      "result": "pass",
+      "evidence_provided": "17/17 findings have source_refs. Sources include regulations, market reports, surveys, and domain research."
+    },
+    {
+      "item_id": "pestle_003",
+      "criterion": "Trend projections exist for 6-month, 12-month, and 24-month horizons",
+      "evidence_required": "Per factor, explicit forward-looking statements with reasoning",
+      "result": "pass",
+      "evidence_provided": "All 6 factors have all 3 timeline projections. Projections grounded in evidence trends and interconnected factor analysis."
+    },
+    {
+      "item_id": "pestle_004",
+      "criterion": "Factor interconnections are mapped with explicit relationships",
+      "evidence_required": "Minimum 4 interconnections showing different relationship types",
+      "result": "pass",
+      "evidence_provided": "5 interconnections covering: causally_linked (2), mutually_reinforcing (2), counterbalancing (1). All with strength assessment."
+    },
+    {
+      "item_id": "pestle_005",
+      "criterion": "Risks and opportunities are surfaced per factor — not just description",
+      "evidence_required": "Each factor must have risks and opportunities arrays",
+      "result": "pass",
+      "evidence_provided": "All 6 factors have risks + opportunities. Risks are specific and actionable. Opportunities tied to strategic implications."
+    },
+    {
+      "item_id": "pestle_006",
+      "criterion": "Composite risk score and key strategic implications are actionable",
+      "evidence_required": "Risk score with rationale. Implications that a PM can directly action on",
+      "result": "pass",
+      "evidence_provided": "Composite risk score: 62. 5 key implications, each tied to specific factors and timeline projections."
+    },
+    {
+      "item_id": "pestle_007",
+      "criterion": "Geographic variations modeled for relevant regions",
+      "evidence_required": "Per region, differentiating factors and risk adjustment",
+      "result": "pass",
+      "evidence_provided": "EU, US, APAC modeled with factor differences and risk adjustments."
+    },
+    {
+      "item_id": "pestle_008",
+      "criterion": "Scenario projections for different futures",
+      "evidence_required": "Minimum 2 scenarios with trigger conditions and implications",
+      "result": "pass",
+      "evidence_provided": "AI Regulation Overreach (possible) and LLM Commoditization (likely) — each with triggers and strategy implications."
+    }
+  ],
+  "validation_date": "2026-05-03T12:00:00Z",
+  "passed_count": 8,
+  "failed_count": 0,
+  "pass_rate_pct": 100,
+  "overall_result": "gold_standard_met",
+  "improvement_actions": [],
+  "next_action": "PESTLE Analysis meets gold standard. Route to strategy phase for option generation. Schedule freshness review at TTL (90 days)."
+}

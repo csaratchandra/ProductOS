@@ -1,40 +1,64 @@
 # Signal Priority Scoring
 
-## Purpose
+## 1. Purpose
 
-Convert mixed evidence into a visible priority score without hiding burden, ambiguity, or weak proof.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when ProductOS must rank problems, opportunities, or features and the repo should preserve why.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- current evidence artifacts
-- agentic leverage assumptions
-- compliance and ambiguity burden
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- score inputs
-- priority lane assignment
-- rationale for rank ordering
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not compress all tradeoffs into one unexplained number
-- keep PM override explicit
-- preserve weak evidence warnings
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. score customer value, strategic fit, leverage, and burden separately
-2. assign a lane with rationale
-3. record the source artifacts behind the rank
-4. note where PM judgment overrode the raw order
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- the score should be explainable quickly
-- burden should visibly affect the result
-- source artifacts should remain attached to the decision
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

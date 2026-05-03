@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/api_contract.schema.json",
+  "title": "ProductOS API Contract",
+  "description": "Auto-generated API contract from user stories including OpenAPI-compliant endpoint definitions, request/response schemas, authentication requirements, error codes, rate limits, and developer documentation notes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "api_contract_id", "workspace_id", "title", "base_path", "endpoints", "auth", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "api_contract_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 3},
+    "version": {"type": "string", "minLength": 1},
+    "base_path": {"type": "string", "minLength": 3},
+    "endpoints": {"type": "array", "items": {"$ref": "#/$defs/endpoint"}, "minItems": 1},
+    "auth": {"$ref": "#/$defs/auth"},
+    "rate_limiting": {"$ref": "#/$defs/rateLimiting"},
+    "common_error_responses": {"type": "array", "items": {"$ref": "#/$defs/errorResponse"}, "minItems": 1},
+    "linked_story_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "endpoint": {
+      "type": "object", "additionalProperties": false,
+      "required": ["method", "path", "summary", "request", "responses"],
+      "properties": {
+        "method": {"type": "string", "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]},
+        "path": {"type": "string", "minLength": 1},
+        "summary": {"type": "string", "minLength": 10},
+        "request": {"$ref": "#/$defs/request"},
+        "responses": {"type": "array", "items": {"$ref": "#/$defs/response"}, "minItems": 1},
+        "tags": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []}
+      }
+    },
+    "request": {
+      "type": "object", "additionalProperties": false,
+      "required": ["content_type"],
+      "properties": {
+        "content_type": {"type": "string", "minLength": 3},
+        "parameters": {"type": "array", "items": {"$ref": "#/$defs/parameter"}, "default": []},
+        "body_schema": {"type": "object"},
+        "example_body": {"type": "object"}
+      }
+    },
+    "parameter": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "in", "type", "required"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "in": {"type": "string", "enum": ["path", "query", "header"]},
+        "type": {"type": "string", "minLength": 3},
+        "required": {"type": "boolean"},
+        "description": {"type": "string", "minLength": 3}
+      }
+    },
+    "response": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status_code", "description"],
+      "properties": {
+        "status_code": {"type": "integer", "minimum": 100, "maximum": 599},
+        "description": {"type": "string", "minLength": 5},
+        "body_schema": {"type": "object"},
+        "example_body": {"type": "object"}
+      }
+    },
+    "errorResponse": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status_code", "error_code", "message", "resolution_hint"],
+      "properties": {
+        "status_code": {"type": "integer"},
+        "error_code": {"type": "string", "minLength": 3},
+        "message": {"type": "string", "minLength": 5},
+        "resolution_hint": {"type": "string", "minLength": 10}
+      }
+    },
+    "auth": {
+      "type": "object", "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": {"type": "string", "enum": ["api_key", "bearer_token", "oauth2", "basic", "none"]},
+        "header_name": {"type": "string", "minLength": 3},
+        "scopes": {"type": "array", "items": {"type": "string", "minLength": 3}, "default": []}
+      }
+    },
+    "rateLimiting": {
+      "type": "object", "additionalProperties": false,
+      "required": ["requests_per_minute", "headers"],
+      "properties": {
+        "requests_per_minute": {"type": "integer", "minimum": 1},
+        "headers": {"type": "boolean"},
+        "burst_limit": {"type": "integer", "minimum": 1}
+      }
+    }
+  }
+}

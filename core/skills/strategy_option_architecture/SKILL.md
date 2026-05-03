@@ -1,41 +1,64 @@
 # Strategy Option Architecture
 
-## Purpose
+## 1. Purpose
 
-Generate materially different strategic options before ProductOS commits to one posture.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when the team is deciding posture, wedge, beachhead, or offering shape and more than one credible path exists.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- strategy question
-- current research and strategy packet
-- constraints and business goals
-- known risks and dependencies
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- strategy option set
-- recommended option with rationale
-- explicit tradeoffs and rejected paths
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not produce cosmetic variants of the same bet
-- do not skip the conservative or lower-risk path when it is credible
-- do not commit posture before the option space is explicit
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-- identify the core decision to be made
-- generate materially different options across posture, wedge, or offering shape
-- compare upside, failure mode, reversibility, and dependency burden
-- recommend one option and preserve the rejected paths
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- the options should differ materially, not stylistically
-- the recommendation should follow from the visible tradeoffs
-- rejected paths should remain reviewable after commitment
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

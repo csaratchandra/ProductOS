@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0.0",
+  "one_pager_id": "op_productos_v10_sales_2026",
+  "workspace_id": "ws_productos_v2",
+  "title": "ProductOS V10 Product One-Pager",
+  "product_name": "ProductOS V10",
+  "value_proposition": "ProductOS gives Product Managers god-like superpowers — autonomously generating world-class strategy, prototypes, PRDs, and marketing content from messy research inputs. PMs cut manual work by 70% while producing McKinsey-quality outputs.",
+  "key_metrics": [
+    {
+      "label": "PM Time Saved",
+      "value": "10+ hrs/week"
+    },
+    {
+      "label": "Discovery Time Reduction",
+      "value": "70%"
+    },
+    {
+      "label": "Output Quality vs Manual",
+      "value": "90%+ parity"
+    }
+  ],
+  "customer_quote": "\"ProductOS saved me 3 hours this week on status updates alone. The strategy deck first draft was 70% there — I spent 2 hours refining instead of 10 hours building from scratch.\" — Sarah Chen, Senior PM",
+  "feature_highlights": [
+    {
+      "title": "Autonomous PESTLE Analysis",
+      "description": "6-factor environmental analysis with 3-horizon projections. McKinsey-grade. Evidence-backed.",
+      "icon": "globe"
+    },
+    {
+      "title": "AI Prototype Generation",
+      "description": "3 interactive HTML variants with WCAG accessibility. Compare side-by-side. Pick the best.",
+      "icon": "layout"
+    },
+    {
+      "title": "Decision Intelligence",
+      "description": "Trade-off analysis, decision trees, sensitivity, premortems. Make better decisions, faster.",
+      "icon": "brain"
+    },
+    {
+      "title": "Living System",
+      "description": "Artifacts auto-refresh when data changes. Never ship from stale research again.",
+      "icon": "refresh"
+    },
+    {
+      "title": "Marketing Content Pack",
+      "description": "Messaging, battle cards, blog briefs, emails — all auto-generated from product truth.",
+      "icon": "megaphone"
+    }
+  ],
+  "competitive_differentiators": [
+    "Only PM tool with PESTLE environmental analysis and decision intelligence",
+    "3-variant AI prototype generation — no competitor offers interactive HTML prototypes",
+    "Living system that auto-refreshes artifacts — competitors generate static outputs"
+  ],
+  "pricing_summary": "Starting at $39/seat/month for core discovery. Professional tier at $79/seat/month with autonomous mode. Enterprise tier with SSO + dedicated support at $149/seat/month. 14-day free trial — no credit card required.",
+  "cta": "Start your free trial at productos.dev/trial",
+  "footer": "ProductOS Inc. | SOC2 Type II | GDPR Compliant | productos.dev",
+  "generated_at": "2026-05-03T08:00:00Z"
+}

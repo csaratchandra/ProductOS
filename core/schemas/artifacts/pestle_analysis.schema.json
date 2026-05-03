@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/pestle_analysis.schema.json",
+  "title": "ProductOS PESTLE Analysis",
+  "description": "Comprehensive environmental analysis across Political, Economic, Social, Technological, Legal, and Environmental factors with per-factor scoring, trend projections, interconnectedness mapping, geographic variation, and strategy implications.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pestle_analysis_id",
+    "workspace_id",
+    "title",
+    "market_name",
+    "geographic_scope",
+    "analysis_date",
+    "factors",
+    "factor_interconnections",
+    "composite_risk_score",
+    "key_strategic_implications",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "pestle_analysis_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "market_name": { "type": "string", "minLength": 3 },
+    "geographic_scope": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 2 },
+      "minItems": 1
+    },
+    "analysis_date": { "type": "string", "format": "date-time" },
+    "factors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["political", "economic", "social", "technological", "legal", "environmental"],
+      "properties": {
+        "political": { "$ref": "#/$defs/pestleFactor" },
+        "economic": { "$ref": "#/$defs/pestleFactor" },
+        "social": { "$ref": "#/$defs/pestleFactor" },
+        "technological": { "$ref": "#/$defs/pestleFactor" },
+        "legal": { "$ref": "#/$defs/pestleFactor" },
+        "environmental": { "$ref": "#/$defs/pestleFactor" }
+      }
+    },
+    "factor_interconnections": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/factorInterconnection" },
+      "minItems": 1
+    },
+    "composite_risk_score": { "type": "integer", "minimum": 1, "maximum": 100 },
+    "key_strategic_implications": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 10 },
+      "minItems": 1
+    },
+    "geographic_variations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/geographicVariation" },
+      "default": []
+    },
+    "scenario_projections": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/scenarioProjection" },
+      "default": []
+    },
+    "source_evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "pestleFactor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "impact_score",
+        "confidence",
+        "trend_direction",
+        "trend_velocity",
+        "key_findings",
+        "risks",
+        "opportunities",
+        "evidence_refs"
+      ],
+      "properties": {
+        "impact_score": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "confidence": { "type": "string", "enum": ["high", "moderate", "low"] },
+        "trend_direction": { "type": "string", "enum": ["improving", "stable", "deteriorating", "volatile"] },
+        "trend_velocity": { "type": "string", "enum": ["accelerating", "steady", "decelerating", "uncertain"] },
+        "key_findings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/finding" },
+          "minItems": 1
+        },
+        "risks": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1
+        },
+        "opportunities": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1
+        },
+        "timeline_projection_6m": { "type": "string", "minLength": 10 },
+        "timeline_projection_12m": { "type": "string", "minLength": 10 },
+        "timeline_projection_24m": { "type": "string", "minLength": 10 },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observation", "significance", "source_ref"],
+      "properties": {
+        "observation": { "type": "string", "minLength": 10 },
+        "significance": { "type": "string", "enum": ["critical", "major", "moderate", "minor"] },
+        "source_ref": { "type": "string", "minLength": 1 }
+      }
+    },
+    "factorInterconnection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["factor_a", "factor_b", "relationship", "description", "strength"],
+      "properties": {
+        "factor_a": { "type": "string", "enum": ["political", "economic", "social", "technological", "legal", "environmental"] },
+        "factor_b": { "type": "string", "enum": ["political", "economic", "social", "technological", "legal", "environmental"] },
+        "relationship": { "type": "string", "enum": ["mutually_reinforcing", "counterbalancing", "causally_linked", "correlated"] },
+        "description": { "type": "string", "minLength": 10 },
+        "strength": { "type": "string", "enum": ["strong", "moderate", "weak"] }
+      }
+    },
+    "geographicVariation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["region", "differentiating_factors", "risk_adjustment", "summary"],
+      "properties": {
+        "region": { "type": "string", "minLength": 2 },
+        "differentiating_factors": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["political", "economic", "social", "technological", "legal", "environmental"] },
+          "minItems": 1
+        },
+        "risk_adjustment": { "type": "string", "enum": ["higher_risk", "similar_risk", "lower_risk"] },
+        "summary": { "type": "string", "minLength": 10 }
+      }
+    },
+    "scenarioProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scenario_name", "likelihood", "trigger_conditions", "pestle_impact", "strategic_implication"],
+      "properties": {
+        "scenario_name": { "type": "string", "minLength": 3 },
+        "likelihood": { "type": "string", "enum": ["likely", "possible", "unlikely"] },
+        "trigger_conditions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10 },
+          "minItems": 1
+        },
+        "pestle_impact": { "type": "string", "minLength": 10 },
+        "strategic_implication": { "type": "string", "minLength": 10 }
+      }
+    }
+  }
+}

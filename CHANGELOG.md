@@ -1,13 +1,37 @@
 # Changelog
 
-## Unreleased
+## V10.0.0 — 2026-05-03
+
+ProductOS V10 transforms PMs from manual compilers into strategic decision-makers with autonomous, living, world-class AI capabilities.
 
 ### Added
 
-- internal-only `autonomous_pm_swarm_plan` schema and example
-- governed autonomous PM swarm model and hardening workflow docs
-- next-version runtime surfacing for internal swarm readiness
-- invalid fixture coverage for swarm anti-loop controls
+- 36 new artifact schemas across Intelligence, Discovery, Decision, Roadmap, Prototype, Marketing, Investor, Stakeholder, and Living System layers
+- Autonomous PESTLE environmental analysis (6 factors, 3-horizon projections, spider chart)
+- Competitive Intelligence Engine: continuous radar scanning 19+ surfaces, structured alerts, auto-updating feature matrix
+- Full-depth persona system: 12+ dimensional profiles, empathy maps, narrative cards, voice samples, decision journeys
+- Complete customer and user journey mapping (11 stages, emotion curves, accessibility, screen-level flows)
+- Decision Intelligence: trade-off analysis, decision trees, sensitivity analysis, premortems, reversibility scoring
+- Pricing Intelligence: competitor matrix, WTP synthesis, pricing model options, unit economics
+- Hypothesis Portfolio Management: tree decomposition, kill criteria, risk prioritization, auto-route to prototypes
+- 3-variant AI prototype generation: interactive HTML with visual/interaction/IA differentiation, WCAG accessibility
+- Developer Handoff Pack: PRD + INVEST stories + ACs + API contracts + NFRs + story maps + dependency graphs
+- Full marketing content pack: messaging house, battle cards, blog briefs, email sequences, investor pitch deck + memo
+- Stakeholder Management: power/interest maps, objection playbooks, meeting briefs, alignment dashboards
+- Living System: freshness monitoring, drift detection, auto-refresh triggers, impact propagation
+- Product Health Dashboard: single-surface product universe with autonomous alerts and top-5 recommended actions
+- Autonomous Review Gates: composite f(confidence, impact, maturity) — auto-publish or PM review routing
+- Gold Standard Validation: per-artifact excellence criteria against named external frameworks (McKinsey, NN/g, Forrester, etc.)
+- 12-element skill contract standard applied to 36 skills (purpose, trigger, prerequisites, inputs, steps, outputs, guardrails, gold standard, examples, cross-refs, maturity bands, validation)
+- OpenCode adapter parity: full support alongside Codex, Claude, Windsurf, and Antigravity
+- Structured feedback capture with downstream auto-trace and regeneration
+- Maturity band intelligence: adaptive behavior across 0→1, 1→10, 10→100, 100→10K+ product stages
+
+### Changed
+
+- Baseline version promoted to 10.0.0
+- Skill system upgraded from 7-element V9 format to 12-element V10 depth
+- Discovery artifacts enriched to exceptional depth across all phases
 
 ## V7.0.0 - 2026-04-08
 

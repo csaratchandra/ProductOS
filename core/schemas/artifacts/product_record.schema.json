@@ -9,10 +9,16 @@
     "schema_version",
     "product_record_id",
     "workspace_id",
+    "portfolio_id",
+    "mission_ref",
     "product_name",
     "lifecycle_stage",
+    "maturity_band",
     "status",
     "owner",
+    "review_gate_owner",
+    "primary_outcomes",
+    "primary_kpis",
     "target_release_or_increment",
     "feature_record_ids",
     "approvals",
@@ -31,6 +37,14 @@
       "type": "string",
       "minLength": 1
     },
+    "portfolio_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mission_ref": {
+      "type": "string",
+      "minLength": 1
+    },
     "product_name": {
       "type": "string",
       "minLength": 3
@@ -42,7 +56,18 @@
         "validation",
         "delivery",
         "launch",
-        "support"
+        "support",
+        "support_learning",
+        "improve"
+      ]
+    },
+    "maturity_band": {
+      "type": "string",
+      "enum": [
+        "zero_to_one",
+        "one_to_ten",
+        "ten_to_hundred",
+        "hundred_to_thousand_plus"
       ]
     },
     "status": {
@@ -58,6 +83,26 @@
     "owner": {
       "type": "string",
       "minLength": 1
+    },
+    "review_gate_owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "primary_outcomes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    },
+    "primary_kpis": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
     },
     "target_release_or_increment": {
       "type": "string",

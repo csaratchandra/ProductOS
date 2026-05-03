@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/maturity_band_profile.schema.json",
+  "title": "ProductOS Maturity Band Profile",
+  "description": "Defines how ProductOS adapts its operating behavior — artifact depth, review thresholds, autonomy levels, prototype needs, and superpower expectations — per product maturity band.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "maturity_band_profile_id",
+    "workspace_id",
+    "band",
+    "band_label",
+    "primary_focus",
+    "discovery_depth",
+    "strategy_depth",
+    "prototype_expectation",
+    "review_sensitivity",
+    "autonomy_permission_level",
+    "artifact_priority_sequence",
+    "evidence_requirements",
+    "superpower_targets",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "maturity_band_profile_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "band": {
+      "type": "string",
+      "enum": ["zero_to_one", "one_to_ten", "ten_to_hundred", "hundred_to_thousand_plus"]
+    },
+    "band_label": {
+      "type": "string",
+      "enum": ["0\u21921 Customers", "1\u219210 Customers", "10\u2192100 Customers", "100\u219210K+ Customers"]
+    },
+    "primary_focus": {
+      "type": "string",
+      "minLength": 10
+    },
+    "discovery_depth": { "$ref": "#/$defs/phaseDepth" },
+    "strategy_depth": { "$ref": "#/$defs/phaseDepth" },
+    "planning_depth": { "$ref": "#/$defs/phaseDepth" },
+    "execution_depth": { "$ref": "#/$defs/phaseDepth" },
+    "launch_depth": { "$ref": "#/$defs/phaseDepth" },
+    "support_depth": { "$ref": "#/$defs/phaseDepth" },
+    "prototype_expectation": { "$ref": "#/$defs/prototypeExpectation" },
+    "review_sensitivity": { "$ref": "#/$defs/reviewSensitivity" },
+    "autonomy_permission_level": {
+      "type": "string",
+      "enum": ["maximum_review", "high_review", "moderate_review", "balanced_review"]
+    },
+    "artifact_priority_sequence": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "minItems": 1
+    },
+    "evidence_requirements": { "$ref": "#/$defs/evidenceRequirements" },
+    "superpower_targets": { "$ref": "#/$defs/superpowerTargets" },
+    "anti_patterns": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "phaseDepth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["depth_level", "mandatory_artifacts", "optional_artifacts"],
+      "properties": {
+        "depth_level": {
+          "type": "string",
+          "enum": ["exhaustive", "deep", "standard", "focused"]
+        },
+        "mandatory_artifacts": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "optional_artifacts": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "default": []
+        },
+        "rationale": { "type": "string", "minLength": 10 }
+      }
+    },
+    "prototypeExpectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prototype_count", "fidelity_level", "primary_purpose"],
+      "properties": {
+        "prototype_count": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "fidelity_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "v1_candidate"]
+        },
+        "primary_purpose": { "type": "string", "minLength": 10 },
+        "variant_count": { "type": "integer", "minimum": 1, "maximum": 3 },
+        "should_include_service_blueprint": { "type": "boolean" },
+        "should_include_pitch_prototype": { "type": "boolean" }
+      }
+    },
+    "reviewSensitivity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["auto_approve_thresholds", "pm_review_thresholds", "blocked_thresholds"],
+      "properties": {
+        "auto_approve_thresholds": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1
+        },
+        "pm_review_thresholds": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1
+        },
+        "blocked_thresholds": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1
+        },
+        "rationale": { "type": "string", "minLength": 10 }
+      }
+    },
+    "evidenceRequirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum_source_count", "freshness_ttl_days", "required_source_types"],
+      "properties": {
+        "minimum_source_count": { "type": "integer", "minimum": 1 },
+        "freshness_ttl_days": { "type": "integer", "minimum": 1 },
+        "required_source_types": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3 },
+          "minItems": 1
+        },
+        "allow_single_source": { "type": "boolean" },
+        "require_multi_source_corroboration": { "type": "boolean" }
+      }
+    },
+    "superpowerTargets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pm_leverage_target", "output_quality_target", "autonomy_quality_target"],
+      "properties": {
+        "pm_leverage_target": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "output_quality_target": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "autonomy_quality_target": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "expected_pm_rewrite_rate_pct": { "type": "integer", "minimum": 0, "maximum": 100 }
+      }
+    }
+  }
+}

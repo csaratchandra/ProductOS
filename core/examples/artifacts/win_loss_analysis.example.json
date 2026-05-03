@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0.0",
+  "win_loss_analysis_id": "wla_q1_2026_demo",
+  "workspace_id": "ws_productos_v2",
+  "title": "ProductOS V8 Demo — Win/Loss Analysis Q1 2026",
+  "analysis_period": "January - March 2026",
+  "win_count": 8,
+  "loss_count": 5,
+  "no_decision_count": 3,
+  "win_rate_pct": 61.5,
+  "patterns": {
+    "win_patterns": [
+      {
+        "pattern_id": "wp_001",
+        "description": "PM evaluating for personal productivity wins when they test output quality side-by-side with their manual work. Key moment: first competitive analysis generated in <10 minutes vs their 2-hour manual process.",
+        "frequency": 5,
+        "win_rate_in_pattern": 83.3,
+        "key_factors": [
+          "Fast time-to-first-value",
+          "Output quality parity with manual work",
+          "Peer recommendation"
+        ]
+      }
+    ],
+    "loss_patterns": [
+      {
+        "pattern_id": "lp_001",
+        "description": "Enterprise PM blocked at security review stage — documentation insufficient. 3 deals lost because security questionnaire couldn't be answered within 2-week window.",
+        "frequency": 3,
+        "win_rate_in_pattern": 0.0,
+        "key_factors": [
+          "Missing SOC2 documentation",
+          "No pre-filled security questionnaire",
+          "4-week procurement timeline kills deal"
+        ]
+      }
+    ],
+    "trend_direction": "improving"
+  },
+  "competitive_loss_breakdown": [
+    {
+      "competitor_id": "comp_001",
+      "competitor_name": "CompetitorAlpha",
+      "loss_count": 3,
+      "loss_reasons": [
+        {
+          "reason": "Enterprise features (SSO, audit)",
+          "contribution_pct": 40,
+          "addressable": true
+        },
+        {
+          "reason": "Brand recognition",
+          "contribution_pct": 35,
+          "addressable": false
+        },
+        {
+          "reason": "Pricing transparency",
+          "contribution_pct": 25,
+          "addressable": true
+        }
+      ]
+    }
+  ],
+  "feature_gaps_from_losses": [
+    {
+      "feature_name": "SSO and Audit Logging",
+      "losses_attributed": 3,
+      "revenue_impact_estimate": "$45K ARR",
+      "priority_recommendation": "must_now",
+      "addressing_this_would_flip_pct": 60
+    },
+    {
+      "feature_name": "Pre-built Security Documentation",
+      "losses_attributed": 2,
+      "revenue_impact_estimate": "$30K ARR",
+      "priority_recommendation": "next",
+      "addressing_this_would_flip_pct": 40
+    }
+  ],
+  "pricing_gaps_from_losses": [
+    {
+      "price_point_at_loss": 79,
+      "losses_at_price": 2,
+      "segment": "Enterprise PM",
+      "recommendation": "Enterprise PMs willing to pay $149-199/seat for SSO+audit — our $79 pricing undersells value. Reposition enterprise tier at $149/seat with security features."
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Prioritize SSO + SOC2 audit documentation in Sprint 14",
+      "impact": "high",
+      "effort": "medium",
+      "owner": "Engineering Lead"
+    },
+    {
+      "action": "Create pre-filled security questionnaire for enterprise prospects",
+      "impact": "high",
+      "effort": "low",
+      "owner": "Product Manager"
+    },
+    {
+      "action": "Launch enterprise pricing tier at $149/seat with SSO and audit features",
+      "impact": "high",
+      "effort": "medium",
+      "owner": "PM + Sales"
+    }
+  ],
+  "source_records": [
+    "win_loss_record_wlr_001",
+    "win_loss_record_wlr_002"
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

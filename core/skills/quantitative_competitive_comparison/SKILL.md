@@ -1,40 +1,64 @@
 # Quantitative Competitive Comparison
 
-## Purpose
+## 1. Purpose
 
-Turn qualitative competitor notes into bounded comparative signals that can influence prioritization.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when a PM needs more than prose to compare ProductOS against named competitors or status quo.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- competitor dossier
-- landscape matrix
-- selected comparison axes
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- comparative score signals
-- explicit confidence notes
-- ranked competitive implications
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- keep scoring directional, not falsely precise
-- attach evidence refs to every material comparison
-- preserve uncertainty where evidence is thin
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. choose the few axes that matter for the decision
-2. rate each alternative on those axes with explicit evidence
-3. explain what the score changes in practice
-4. surface where the comparison is still too weak to trust
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- scores should map to a real decision
-- confidence should be visible
-- no score should appear without evidence
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

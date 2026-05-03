@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/phase_packet.schema.json",
+  "title": "ProductOS Phase Packet",
+  "description": "Lifecycle-phase packet with PM questions, tasks, expected artifacts, and review gates.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "phase_packet_id",
+    "workspace_id",
+    "mission_ref",
+    "product_record_ref",
+    "lifecycle_phase",
+    "maturity_band",
+    "phase_goal",
+    "question_prompts",
+    "task_queue",
+    "expected_artifacts",
+    "success_metrics",
+    "approval_gates",
+    "recommended_pm_actions",
+    "source_artifact_ids",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "phase_packet_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mission_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "product_record_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_phase": {
+      "type": "string",
+      "enum": ["discovery", "validation", "delivery", "launch", "support_learning", "improve"]
+    },
+    "maturity_band": {
+      "type": "string",
+      "enum": ["zero_to_one", "one_to_ten", "ten_to_hundred", "hundred_to_thousand_plus"]
+    },
+    "phase_goal": {
+      "type": "string",
+      "minLength": 10
+    },
+    "question_prompts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 10
+      },
+      "minItems": 1
+    },
+    "task_queue": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/task"
+      },
+      "minItems": 1
+    },
+    "expected_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "minItems": 1
+    },
+    "success_metrics": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/successMetric"
+      },
+      "minItems": 1
+    },
+    "approval_gates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/approvalGate"
+      },
+      "minItems": 1
+    },
+    "recommended_pm_actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/recommendationTrace"
+      },
+      "minItems": 1
+    },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_id", "title", "summary", "owner", "status", "source_artifact_refs"],
+      "properties": {
+        "task_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "summary": { "type": "string", "minLength": 10 },
+        "owner": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "enum": ["planned", "active", "blocked", "completed"] },
+        "source_artifact_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        }
+      }
+    },
+    "successMetric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric_name", "target_signal", "measurement_posture"],
+      "properties": {
+        "metric_name": { "type": "string", "minLength": 3 },
+        "target_signal": { "type": "string", "minLength": 10 },
+        "measurement_posture": { "type": "string", "enum": ["observed", "inferred", "mixed"] }
+      }
+    },
+    "approvalGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "title", "owner", "status", "required_artifact_refs"],
+      "properties": {
+        "gate_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "owner": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "enum": ["pending", "approved", "blocked"] },
+        "required_artifact_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        }
+      }
+    },
+    "recommendationTrace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recommendation_id", "summary", "source_artifact_refs", "observed_vs_inferred", "assumption_note"],
+      "properties": {
+        "recommendation_id": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 3 },
+        "source_artifact_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "observed_vs_inferred": { "type": "string", "enum": ["observed", "inferred", "mixed"] },
+        "assumption_note": { "type": "string", "minLength": 3 }
+      }
+    }
+  }
+}

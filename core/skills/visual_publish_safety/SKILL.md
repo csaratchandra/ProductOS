@@ -1,43 +1,64 @@
 # Visual Publish Safety
 
-## Purpose
+## 1. Purpose
 
-Keep ProductOS visuals publish-safe by enforcing claim boundaries, audience safety, redaction posture, and visible proof treatment before distribution.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-- when a visual may be shared outside the immediate working team
-- when customer-safe and internal-only material risk being mixed
-- when publish readiness depends on proof posture or redaction quality
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- render contract or output draft
-- audience mode and publication mode
-- proof items, risk notes, and source visibility rules
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- publish-safety assessment
-- required redactions or blockers
-- explicit recommendation to publish, hold, or bound the claim
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- unsupported certainty must fail publish
-- internal-only content must not leak into customer-safe output
-- proof gaps must remain visible when they change interpretation
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. confirm target audience and sharing mode
-2. check claim posture against visible proof
-3. verify redaction and visibility rules
-4. confirm the output does not hide material blockers or caveats
-5. record publish blockers or bounded-release guidance explicitly
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- publish readiness is explicit, not implied
-- customer-safe outputs exclude internal-only detail
-- proof, risk, and certainty treatment remain visible after adaptation
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/demo_video_script.schema.json",
+  "title": "ProductOS Demo Video Script",
+  "description": "Structured demo video script with timestamped segments, visual descriptions (what's on screen), audio narration (what PM says), key moments to highlight, total duration target of 3-5 minutes, opening hook, and closing CTA.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "demo_video_script_id", "workspace_id", "title", "total_duration_seconds", "opening_hook", "segments", "closing_cta", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "demo_video_script_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 5},
+    "total_duration_seconds": {"type": "integer", "minimum": 60, "maximum": 600},
+    "opening_hook": {"$ref": "#/$defs/hook"},
+    "segments": {"type": "array", "items": {"$ref": "#/$defs/segment"}, "minItems": 3},
+    "closing_cta": {"type": "string", "minLength": 20},
+    "target_audience": {"type": "string", "minLength": 5},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "hook": {"type": "object", "additionalProperties": false, "required": ["script", "visual", "duration_seconds"], "properties": {"script": {"type": "string", "minLength": 20}, "visual": {"type": "string", "minLength": 10}, "duration_seconds": {"type": "integer", "minimum": 5, "maximum": 30}}},
+    "segment": {"type": "object", "additionalProperties": false, "required": ["timestamp_start_seconds", "visual", "audio", "key_message"], "properties": {"timestamp_start_seconds": {"type": "integer", "minimum": 0}, "visual": {"type": "string", "minLength": 20}, "audio": {"type": "string", "minLength": 20}, "key_message": {"type": "string", "minLength": 10}, "duration_seconds": {"type": "integer", "minimum": 10}}}
+  }
+}

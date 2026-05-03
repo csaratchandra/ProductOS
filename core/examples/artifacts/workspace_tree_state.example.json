@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "workspace_tree_state_id": "workspace_tree_state_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "portfolio_id": "portfolio_productos_v9",
+  "root": {
+    "node_id": "tree_node_portfolio_portfolio_productos_v9",
+    "node_type": "portfolio",
+    "label": "portfolio_productos_v9",
+    "children": [
+      {
+        "node_id": "tree_node_workspace_ws_productos_v2",
+        "node_type": "workspace",
+        "label": "ProductOS V2 Workspace",
+        "ref": "internal/ProductOS-Next",
+        "children": [
+          {
+            "node_id": "tree_node_mission_ws_productos_v2",
+            "node_type": "mission",
+            "label": "PM superpower recovery mission",
+            "ref": "internal/ProductOS-Next/artifacts/mission_brief.json",
+            "children": []
+          },
+          {
+            "node_id": "tree_node_docs_ws_productos_v2",
+            "node_type": "collection",
+            "label": "Docs",
+            "ref": "internal/ProductOS-Next/docs",
+            "children": [
+              {
+                "node_id": "tree_node_doc_mission_brief",
+                "node_type": "document",
+                "label": "docs/planning/mission-brief.md",
+                "ref": "internal/ProductOS-Next/docs/planning/mission-brief.md",
+                "children": []
+              }
+            ]
+          },
+          {
+            "node_id": "tree_node_artifacts_ws_productos_v2",
+            "node_type": "collection",
+            "label": "Artifacts",
+            "ref": "internal/ProductOS-Next/artifacts",
+            "children": [
+              {
+                "node_id": "tree_node_artifact_mission_brief",
+                "node_type": "artifact",
+                "label": "mission_brief.json",
+                "ref": "internal/ProductOS-Next/artifacts/mission_brief.json",
+                "children": []
+              },
+              {
+                "node_id": "tree_node_artifact_product_record",
+                "node_type": "artifact",
+                "label": "product_record.json",
+                "ref": "internal/ProductOS-Next/artifacts/product_record.json",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "active_mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+  "active_product_record_ref": "product_record_productos_core",
+  "generated_at": "2026-04-09T08:00:00Z"
+}

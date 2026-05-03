@@ -1,40 +1,64 @@
 # Market Sizing Reasoning Check
 
-## Purpose
+## 1. Purpose
 
-Stress-test TAM, SAM, and SOM reasoning so sizing is explicit, reviewable, and bounded.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when `market_sizing_brief` claims could materially influence prioritization or release posture.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- market sizing draft
-- formulas, assumptions, and source refs
-- current segment and wedge definition
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- tightened formula path
-- clearer confidence and sensitivity notes
-- identified assumption risks
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not present proxy math as observed truth
-- separate bottom-up from top-down reasoning
-- flag any sizing logic that assumes future adoption without evidence
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. inspect each estimate and formula path
-2. test whether the assumptions match the current wedge
-3. identify the assumptions that move the result most
-4. rewrite confidence and sensitivity notes accordingly
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- each estimate should have a readable formula
-- the key assumptions should be obvious
-- confidence should match the evidence quality
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

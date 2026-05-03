@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/artifact_freshness_state.schema.json",
+  "title": "ProductOS Artifact Freshness State",
+  "description": "Tracks staleness of every workspace artifact, assigns freshness TTL per artifact type, detects drift conditions that should trigger auto-refresh, and surfaces freshness alerts for PM attention.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_freshness_state_id",
+    "workspace_id",
+    "status",
+    "last_scan_at",
+    "entries",
+    "stale_count",
+    "critical_stale_count",
+    "alerts"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "artifact_freshness_state_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["fresh", "attention_needed", "critical"]
+    },
+    "last_scan_at": { "type": "string", "format": "date-time" },
+    "entries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/freshnessEntry" },
+      "minItems": 1
+    },
+    "stale_count": { "type": "integer", "minimum": 0 },
+    "critical_stale_count": { "type": "integer", "minimum": 0 },
+    "alerts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/freshnessAlert" },
+      "default": []
+    },
+    "refresh_recommendations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/refreshRecommendation" },
+      "default": []
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "freshnessEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "artifact_type",
+        "artifact_title",
+        "generated_at",
+        "source_freshness_at",
+        "ttl_days",
+        "age_days",
+        "freshness_status",
+        "next_refresh_due_at"
+      ],
+      "properties": {
+        "artifact_id": { "type": "string", "minLength": 1 },
+        "artifact_type": { "type": "string", "minLength": 3 },
+        "artifact_title": { "type": "string", "minLength": 3 },
+        "generated_at": { "type": "string", "format": "date-time" },
+        "source_freshness_at": { "type": "string", "format": "date-time" },
+        "ttl_days": { "type": "integer", "minimum": 1 },
+        "age_days": { "type": "integer", "minimum": 0 },
+        "freshness_status": {
+          "type": "string",
+          "enum": ["fresh", "approaching_stale", "stale", "critical_stale"]
+        },
+        "next_refresh_due_at": { "type": "string", "format": "date-time" },
+        "drift_detected": { "type": "boolean", "default": false },
+        "drift_reason": { "type": "string", "minLength": 10 },
+        "linked_sources": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "downstream_dependent_artifacts": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        }
+      }
+    },
+    "freshnessAlert": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alert_id",
+        "severity",
+        "message",
+        "affected_artifact_ids",
+        "recommended_action",
+        "detected_at"
+      ],
+      "properties": {
+        "alert_id": { "type": "string", "minLength": 1 },
+        "severity": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low"]
+        },
+        "message": { "type": "string", "minLength": 10 },
+        "affected_artifact_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "recommended_action": { "type": "string", "minLength": 10 },
+        "detected_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "refreshRecommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recommendation_id",
+        "artifact_id",
+        "reason",
+        "priority",
+        "suggested_regeneration_scope",
+        "estimated_impact"
+      ],
+      "properties": {
+        "recommendation_id": { "type": "string", "minLength": 1 },
+        "artifact_id": { "type": "string", "minLength": 1 },
+        "reason": { "type": "string", "minLength": 10 },
+        "priority": {
+          "type": "string",
+          "enum": ["must_now", "next", "later", "park"]
+        },
+        "suggested_regeneration_scope": {
+          "type": "string",
+          "enum": ["full_artifact", "targeted_fields", "downstream_propagation"]
+        },
+        "estimated_impact": { "type": "string", "minLength": 10 },
+        "trigger_condition": { "type": "string", "minLength": 10 }
+      }
+    }
+  }
+}

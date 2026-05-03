@@ -7,6 +7,7 @@ from .next_version import build_next_version_bundle_from_workspace
 from .release import categorize_promotion_blockers, evaluate_promotion_gate, latest_release_metadata, parse_semver
 from .v6 import build_v6_lifecycle_bundle_from_workspace
 from .v7 import build_v7_lifecycle_bundle_from_workspace
+from .v9 import build_v9_lifecycle_bundle_from_workspace, inspect_v9_lifecycle_enrichment_state
 
 
 SELECTED_V5_BUNDLE_ID = "v5_lifecycle_traceability_prd_handoff"
@@ -46,6 +47,8 @@ SELECTED_V7_BUNDLE_EVIDENCE = [
     "templates/docs/delivery/launch-outcome-review.md",
     "CHANGELOG.md",
 ]
+
+
 def build_v5_cutover_plan_from_workspace(
     workspace_dir,
     *,
@@ -510,6 +513,140 @@ def format_v7_cutover_plan_markdown(plan: dict[str, Any]) -> str:
         lines.append(f"- {step}")
     lines.extend(
         [
+            "",
+            "## Rules",
+            "",
+            f"- {plan['bundle_selection_rule']}",
+            f"- {plan['retirement_rule']}",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def build_v9_cutover_plan_from_workspace(
+    workspace_dir,
+    *,
+    generated_at: str,
+    target_version: str = "9.0.0",
+    adapter_name: str = "codex",
+) -> dict[str, Any]:
+    bundle = build_v9_lifecycle_bundle_from_workspace(
+        workspace_dir,
+        generated_at=generated_at,
+        target_version=target_version,
+        adapter_name=adapter_name,
+    )
+    program_state = inspect_v9_lifecycle_enrichment_state(
+        workspace_dir,
+        generated_at=generated_at,
+        adapter_name=adapter_name,
+    )
+    release_gate = bundle["release_gate_decision_v9_lifecycle_enrichment"]
+    readiness = bundle["release_readiness_v9_lifecycle_enrichment"]
+    latest_release = latest_release_metadata(Path(__file__).resolve().parents[3])
+    promoted = parse_semver(latest_release["core_version"]) >= parse_semver(target_version)
+    blockers = [
+        f"{check['name']}: {check['notes']}"
+        for check in readiness["checks"]
+        if check["status"] != "passed"
+    ]
+    gate_status = "ready" if release_gate["decision"] == "go" else "blocked"
+
+    if gate_status == "blocked":
+        selection_status = "deferred"
+        current_stage = "hold_lifecycle_enrichment_gate"
+    elif promoted:
+        selection_status = "stable_active"
+        current_stage = "operate_v9_stable"
+    else:
+        selection_status = "selected_for_promotion"
+        current_stage = "promote_v9_stable"
+
+    return {
+        "target_version": target_version,
+        "source_baseline_version": bundle["runtime_scenario_report_v9_lifecycle_enrichment"]["baseline_version"],
+        "current_stage": current_stage,
+        "selection_status": selection_status,
+        "promotion_gate_status": gate_status,
+        "stable_release_version": latest_release["core_version"],
+        "top_priority_feature_id": "lifecycle_enrichment_program",
+        "blocking_feature_ids": [
+            track_id.lower()
+            for track_id, track_state in program_state["track_states"].items()
+            if track_state["status"] != "passed"
+        ],
+        "blockers": blockers,
+        "build_strategy": "promote_only_after_shared_gate",
+        "selected_bundle_id": None if gate_status == "blocked" else "v9_lifecycle_enrichment_program",
+        "selected_bundle_name": None if gate_status == "blocked" else "Lifecycle enrichment through governed research and reopen readiness",
+        "selected_bundle_scope": (
+            []
+            if gate_status == "blocked"
+            else [
+                "Promote the lifecycle-enrichment program only after P0, P1, and P2 all pass one shared release gate.",
+                "Keep V8.4.0 stable until workspace coherence, governed research, and downstream reopen loops are all artifact-backed.",
+                "Ignore superseded March increment and next-version release-gate artifacts when evaluating V9 proof.",
+            ]
+        ),
+        "selection_evidence_paths": [] if gate_status == "blocked" else [
+            "internal/ProductOS-Next/docs/planning/current-plan.md",
+            "internal/ProductOS-Next/docs/planning/next-version-release-review.md",
+            "internal/ProductOS-Next/docs/planning/roadmap.md",
+        ],
+        "bundle_selection_rule": (
+            "Do not promote V9 until runtime coherence, governed research, and downstream learning loops all clear as artifact-backed in one shared gate."
+        ),
+        "retirement_rule": (
+            "Keep V8.4.0 as the public stable line until the V9 lifecycle-enrichment gate is explicitly go."
+        ),
+        "required_steps": (
+            [
+                "Remove the remaining fallback and deferred evidence from the lifecycle-enrichment program.",
+                "Keep public stable-line surfaces on V8.4.0 while the shared V9 gate remains blocked.",
+                "Rerun the V9 bundle and promote only after P0, P1, and P2 all pass together.",
+            ]
+            if gate_status == "blocked"
+            else [
+                "Promote ProductOS V9.0.0 across the stable release metadata and public docs.",
+                "Update workspace and suite registrations to V9.0.0 in the same promotion step.",
+            ]
+        ),
+        "generated_at": generated_at,
+    }
+
+
+def format_v9_cutover_plan_markdown(plan: dict[str, Any]) -> str:
+    lines = [
+        "# V9 Cutover Plan",
+        "",
+        f"Target Version: `{plan['target_version']}`",
+        f"Source Baseline: `V{plan['source_baseline_version']}`",
+        f"Current Stage: `{plan['current_stage']}`",
+        f"Selection Status: `{plan['selection_status']}`",
+        f"Promotion Gate: `{plan['promotion_gate_status']}`",
+        f"Stable Release: `V{plan['stable_release_version']}`",
+        "",
+        "## Build Strategy",
+        "",
+        "- keep V8.4.0 public until the full lifecycle-enrichment gate is go",
+        "- require P0 runtime coherence, P1 governed research, and P2 downstream reopen loops to pass together",
+        "- treat the April 27 planning docs as canonical and ignore superseded March release inputs",
+        "",
+        "## Current Blockers",
+        "",
+    ]
+    if plan["blockers"]:
+        for blocker in plan["blockers"]:
+            lines.append(f"- {blocker}")
+    else:
+        lines.append("- The V9 lifecycle-enrichment bundle is selected and ready for stable promotion.")
+    lines.extend(
+        [
+            "",
+            "## Required Steps",
+            "",
+            *[f"- {step}" for step in plan["required_steps"]],
             "",
             "## Rules",
             "",

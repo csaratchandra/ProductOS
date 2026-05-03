@@ -1,0 +1,323 @@
+{
+  "schema_version": "1.0.0",
+  "pricing_analysis_id": "pa_productos_v10_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "ProductOS V10 Pricing Analysis — Q2 2026",
+  "target_segments": [
+    "seg_enterprise_pm",
+    "seg_startup_pm"
+  ],
+  "analysis_date": "2026-05-03T08:00:00Z",
+  "competitor_pricing": {
+    "competitors": [
+      {
+        "competitor_id": "comp_001",
+        "competitor_name": "CompetitorAlpha",
+        "pricing_model_type": "tiered_flat",
+        "tiers": [
+          {
+            "tier_name": "Starter",
+            "price_amount": 29,
+            "price_unit": "per_month_per_user",
+            "features_included": [
+              "Basic discovery research",
+              "PRD templates",
+              "5 competitor comparisons/month"
+            ],
+            "features_excluded": [
+              "PESTLE analysis",
+              "Autonomous agents",
+              "API access"
+            ]
+          },
+          {
+            "tier_name": "Pro",
+            "price_amount": 79,
+            "price_unit": "per_month_per_user",
+            "features_included": [
+              "Advanced discovery",
+              "Unlimited competitors",
+              "Export to PPT",
+              "Priority support"
+            ],
+            "features_excluded": [
+              "Custom integrations",
+              "Dedicated support"
+            ]
+          },
+          {
+            "tier_name": "Enterprise",
+            "price_amount": 299,
+            "price_unit": "per_month_per_user",
+            "features_included": [
+              "SSO",
+              "Audit logging",
+              "Custom integrations",
+              "Dedicated support",
+              "SLA"
+            ],
+            "features_excluded": []
+          }
+        ],
+        "last_updated": "2026-05-03T06:01:00Z"
+      },
+      {
+        "competitor_id": "comp_002",
+        "competitor_name": "CompetitorBeta",
+        "pricing_model_type": "usage_based",
+        "tiers": [
+          {
+            "tier_name": "Free",
+            "price_amount": 0,
+            "price_unit": "per_month_flat",
+            "features_included": [
+              "5 agent runs/month",
+              "Basic output",
+              "Community support"
+            ],
+            "features_excluded": [
+              "Advanced agents",
+              "Export",
+              "History"
+            ]
+          },
+          {
+            "tier_name": "Pro",
+            "price_amount": 0.5,
+            "price_unit": "per_usage_unit",
+            "features_included": [
+              "Unlimited agent runs",
+              "Advanced output",
+              "Export all formats",
+              "30-day history"
+            ],
+            "features_excluded": [
+              "Team features",
+              "SSO"
+            ]
+          }
+        ],
+        "last_updated": "2026-04-15T00:00:00Z"
+      }
+    ],
+    "comparison_summary": "CompetitorAlpha leads on enterprise features (SSO, audit) at $299/seat. CompetitorBeta uses usage-based pricing at $0.50/agent run — attractive for low-volume teams but unpredictable at scale. ProductOS gap: no published pricing yet — need to establish position between these extremes."
+  },
+  "willingness_to_pay": {
+    "per_segment": [
+      {
+        "segment_id": "seg_enterprise_pm",
+        "segment_name": "Enterprise PMs",
+        "wtp_range_low": 49,
+        "wtp_range_high": 199,
+        "median_wtp": 99,
+        "price_elasticity": "inelastic",
+        "evidence_basis": "3 interview sources. Enterprise PMs report current PM tooling spend of $75-150/seat/month. Value prop of 10hrs/week savings at $100/hr implies $4K/month of value — willing to pay 10% of value ($400/month). Conservative WTP estimate at 25% of value range."
+      },
+      {
+        "segment_id": "seg_startup_pm",
+        "segment_name": "Startup PMs",
+        "wtp_range_low": 19,
+        "wtp_range_high": 79,
+        "median_wtp": 39,
+        "price_elasticity": "elastic",
+        "evidence_basis": "2 interview sources. Startup PMs are price-sensitive — current tooling spend is <$30/seat/month. Budget constrained by funding environment. Freemium or low-entry tier essential for adoption."
+      }
+    ],
+    "synthesis_method": "Customer interview analysis combined with value-based pricing framework (10-25% of estimated value delivered per month). Conservative estimates used for WTP range.",
+    "confidence": "moderate"
+  },
+  "price_sensitivity": {
+    "method": "research_synthesis",
+    "findings": {
+      "too_expensive": 149,
+      "expensive": 99,
+      "bargain": 49,
+      "too_cheap": 19
+    },
+    "optimal_price_point": 79
+  },
+  "pricing_model_options": {
+    "models": [
+      {
+        "model_id": "model_subscription",
+        "model_name": "Tiered Per-Seat Subscription",
+        "model_type": "tiered_per_seat",
+        "pros": [
+          "Predictable revenue",
+          "Simple for customers to understand",
+          "Aligned with enterprise procurement expectations",
+          "Scales with team adoption"
+        ],
+        "cons": [
+          "Startup PMs may be priced out at meaningful tiers",
+          "Does not capture high-usage power users value differential",
+          "Per-seat model penalizes team adoption"
+        ],
+        "best_for": "Enterprise PMs who expect predictable annual pricing",
+        "revenue_projection_annual": 1200000,
+        "pricing_tiers": [
+          {
+            "tier_name": "Starter",
+            "price_amount": 29,
+            "price_unit": "per_month_per_user",
+            "features_included": [
+              "Discovery basics",
+              "PRD generation",
+              "5 competitive scans/month"
+            ],
+            "features_excluded": [
+              "PESTLE analysis",
+              "Autonomous mode",
+              "API access",
+              "SSO"
+            ]
+          },
+          {
+            "tier_name": "Professional",
+            "price_amount": 79,
+            "price_unit": "per_month_per_user",
+            "features_included": [
+              "Full discovery",
+              "Autonomous mode",
+              "Unlimited scans",
+              "Export all formats"
+            ],
+            "features_excluded": [
+              "SSO",
+              "Dedicated support"
+            ]
+          }
+        ]
+      },
+      {
+        "model_id": "model_hybrid",
+        "model_name": "Hybrid: Subscription + Usage",
+        "model_type": "hybrid",
+        "pros": [
+          "Base subscription ensures predictable revenue",
+          "Usage component captures value for heavy users",
+          "Lower entry barrier with base tier",
+          "Scales with customer value received"
+        ],
+        "cons": [
+          "More complex to communicate",
+          "Harder for procurement to approve unpredictable cost",
+          "Requires usage metering infrastructure"
+        ],
+        "best_for": "Balancing enterprise predictability with startup accessibility",
+        "revenue_projection_annual": 1400000,
+        "pricing_tiers": []
+      },
+      {
+        "model_id": "model_usage",
+        "model_name": "Pure Usage-Based",
+        "model_type": "usage_based",
+        "pros": [
+          "Zero-cost entry — maximum adoption",
+          "Revenue scales directly with value delivered",
+          "Startup-friendly",
+          "Aligns with ProductOS value prop of PM leverage"
+        ],
+        "cons": [
+          "Revenue unpredictable month-to-month",
+          "Enterprise procurement dislikes variable cost",
+          "Hard to forecast financials for investors",
+          "Requires sophisticated metering"
+        ],
+        "best_for": "Startup PMs and low-volume exploration",
+        "revenue_projection_annual": 800000,
+        "pricing_tiers": []
+      }
+    ],
+    "recommended_model": "model_hybrid"
+  },
+  "unit_economics": {
+    "per_segment": [
+      {
+        "segment_id": "seg_enterprise_pm",
+        "cac": 15000,
+        "ltv": 120000,
+        "ltv_cac_ratio": 8.0,
+        "payback_period_months": 4,
+        "gross_margin_pct": 85,
+        "assessment": "healthy"
+      },
+      {
+        "segment_id": "seg_startup_pm",
+        "cac": 3000,
+        "ltv": 18000,
+        "ltv_cac_ratio": 6.0,
+        "payback_period_months": 6,
+        "gross_margin_pct": 80,
+        "assessment": "healthy"
+      }
+    ]
+  },
+  "roi_calculator_spec": {
+    "title": "ProductOS ROI Calculator",
+    "inputs": [
+      {
+        "field": "team_size",
+        "label": "Product Team Size",
+        "default_value": 5,
+        "description": "Number of PMs using ProductOS"
+      },
+      {
+        "field": "hourly_rate",
+        "label": "Average PM Hourly Rate",
+        "default_value": 100,
+        "description": "Blended hourly cost of PM time"
+      },
+      {
+        "field": "hours_saved_per_pm_week",
+        "label": "Hours Saved per PM per Week",
+        "default_value": 10,
+        "description": "Estimated hours saved by automating research, docs, and status updates"
+      }
+    ],
+    "outputs": [
+      {
+        "label": "Weekly Hours Saved",
+        "formula": "team_size * hours_saved_per_pm_week",
+        "format": "number"
+      },
+      {
+        "label": "Annual Cost Savings",
+        "formula": "team_size * hours_saved_per_pm_week * hourly_rate * 52",
+        "format": "currency"
+      },
+      {
+        "label": "ROI",
+        "formula": "(annual_savings - annual_cost) / annual_cost * 100",
+        "format": "percentage"
+      },
+      {
+        "label": "Payback Period",
+        "formula": "annual_cost / (annual_savings / 12)",
+        "format": "months"
+      }
+    ],
+    "value_proposition": "ProductOS returns [ROI]% in year one. Typical enterprise team of 5 PMs saves [$X]/year — paying for itself in [Y] months."
+  },
+  "recommendation": {
+    "recommended_model_id": "model_hybrid",
+    "recommended_starting_price": 39,
+    "rationale": "Hybrid model balances enterprise predictability with startup accessibility. Base subscription at $39/seat/month covers core discovery. Usage pricing at $0.10/agent run for autonomous workflows ensures revenue scales with value. Enterprise tier at $149/seat/month includes SSO + dedicated support. This positions ProductOS between CompetitorBeta (free/usage) and CompetitorAlpha ($79-299/seat).",
+    "risks": [
+      "Hybrid model complexity may confuse early adopters — need clear documentation",
+      "Usage pricing requires metering infrastructure we haven't built yet",
+      "Enterprise buyers may push for flat pricing — be prepared to offer annual contracts with usage caps"
+    ],
+    "next_steps": [
+      "Build usage metering infrastructure in Sprint 8",
+      "Create pricing page with interactive calculator",
+      "Validate WTP estimates with 5 additional enterprise PM interviews",
+      "Draft enterprise annual contract template"
+    ]
+  },
+  "source_evidence_refs": [
+    "source_note_card_sarah_interview_001",
+    "competitor_radar_state_crs_ai_pm_tooling_20260503"
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

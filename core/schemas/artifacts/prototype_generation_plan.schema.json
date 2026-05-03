@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/prototype_generation_plan.schema.json",
+  "title": "ProductOS Prototype Generation Plan",
+  "description": "Specification for generating multiple interactive HTML prototype variants — defining target concept, variant count, differentiated axes (visual, interaction, IA), fidelity levels, state coverage requirements, accessibility targets, and success criteria for PM selection.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "prototype_generation_plan_id", "workspace_id", "title", "concept_ref", "variant_count", "differentiation_axes", "fidelity_target", "state_coverage", "accessibility_target", "output_spec", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "prototype_generation_plan_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 5},
+    "concept_ref": {"type": "string", "minLength": 1},
+    "persona_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "variant_count": {"type": "integer", "minimum": 2, "maximum": 5},
+    "differentiation_axes": {
+      "type": "array",
+      "items": {"type": "string", "enum": ["visual_design", "interaction_model", "information_architecture", "navigation_pattern", "layout_density"]},
+      "minItems": 1
+    },
+    "fidelity_target": {"type": "string", "enum": ["low", "medium", "high", "v1_candidate"]},
+    "state_coverage": {"type": "array", "items": {"type": "string", "enum": ["loading", "empty", "normal", "error", "edge_case", "onboarding", "power_user"]}, "minItems": 3},
+    "accessibility_target": {"type": "string", "enum": ["A", "AA", "AAA"]},
+    "device_targets": {"type": "array", "items": {"type": "string", "enum": ["desktop", "tablet", "mobile"]}, "default": ["desktop"]},
+    "data_realism": {"type": "string", "enum": ["realistic", "lorem_ipsum", "production_sample"]},
+    "include_annotations": {"type": "boolean", "default": true},
+    "include_user_test_kit": {"type": "boolean", "default": true},
+    "output_spec": {"$ref": "#/$defs/outputSpec"},
+    "success_criteria": {"type": "array", "items": {"type": "string", "minLength": 10}, "minItems": 1},
+    "design_token_set_ref": {"type": "string", "minLength": 1},
+    "source_evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "outputSpec": {
+      "type": "object", "additionalProperties": false,
+      "required": ["format", "framework", "hosting"],
+      "properties": {
+        "format": {"type": "string", "enum": ["html_css_js", "react_components", "figma_embed", "static_images"]},
+        "framework": {"type": "string", "minLength": 3},
+        "hosting": {"type": "string", "enum": ["local_file", "shareable_url", "embedded_iframe"]},
+        "include_source_code": {"type": "boolean", "default": true},
+        "include_component_library": {"type": "boolean", "default": true}
+      }
+    }
+  }
+}

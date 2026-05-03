@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "cross_product_insight_index_id": "cross_product_insight_index_portfolio_productos_v9",
+  "portfolio_id": "portfolio_productos_v9",
+  "insights": [
+    {
+      "insight_id": "insight_ws_productos_v2",
+      "workspace_id": "ws_productos_v2",
+      "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+      "title": "Reuse signals from PM superpower recovery mission",
+      "summary": "The mission already captures explicit KPIs, review ownership, and a bounded PM-first control plane.",
+      "tags": [
+        "one_to_ten",
+        "delivery",
+        "pm_superpower"
+      ],
+      "observed_vs_inferred": "observed",
+      "evidence_refs": [
+        "mission_brief_ws_productos_v2_pm_superpower_recovery",
+        "product_record_productos_core"
+      ],
+      "reusable_recommendation": "Reuse the mission intake, KPI framing, and approval posture before opening a parallel workspace flow."
+    }
+  ],
+  "generated_at": "2026-04-09T08:00:00Z"
+}

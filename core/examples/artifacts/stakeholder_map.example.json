@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "stakeholder_map_id": "sm_productos_v10_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "ProductOS V10 — Stakeholder Map Q2 2026",
+  "stakeholders": [
+    {
+      "stakeholder_id": "sh_cto",
+      "name": "David Park",
+      "role": "CTO",
+      "power_level": 5,
+      "interest_level": 4,
+      "current_position": "neutral",
+      "decision_influence": "veto",
+      "key_concerns": [
+        "Technical feasibility of AI-generated outputs",
+        "Security and data privacy",
+        "Integration with existing tech stack",
+        "Architecture and scalability"
+      ],
+      "communication_preference": "Technical deep-dives. Pre-read materials 48hrs before meetings. Async preferred.",
+      "relationship_to_others": [
+        "Influences: VP Product (budget decisions)",
+        "Influenced by: Engineering lead (technical recommendations)"
+      ],
+      "last_contact": "2026-04-28T00:00:00Z",
+      "next_meeting": "2026-05-10T14:00:00Z"
+    },
+    {
+      "stakeholder_id": "sh_vp_product",
+      "name": "Maria Santos",
+      "role": "VP Product",
+      "power_level": 5,
+      "interest_level": 5,
+      "current_position": "supporter",
+      "decision_influence": "approval",
+      "key_concerns": [
+        "PM team productivity improvement",
+        "V10 timeline and quality targets",
+        "Competitive differentiation evidence",
+        "Enterprise customer feedback"
+      ],
+      "communication_preference": "Executive summary first. Data-driven. Monthly strategy reviews.",
+      "last_contact": "2026-05-01T00:00:00Z",
+      "next_meeting": "2026-05-15T10:00:00Z"
+    },
+    {
+      "stakeholder_id": "sh_vp_sales",
+      "name": "James Wilson",
+      "role": "VP Sales",
+      "power_level": 4,
+      "interest_level": 3,
+      "current_position": "detractor",
+      "decision_influence": "advisory",
+      "key_concerns": [
+        "Battle cards and sales enablement",
+        "Competitive pricing positioning",
+        "Enterprise procurement readiness"
+      ],
+      "communication_preference": "Impact on deals. Visual comparison. Real examples.",
+      "last_contact": "2026-04-25T00:00:00Z",
+      "next_meeting": "2026-05-08T11:00:00Z"
+    }
+  ],
+  "visual_spec": {
+    "title": "ProductOS V10 Stakeholder Map",
+    "grid_type": "power_interest_grid"
+  },
+  "generated_at": "2026-05-03T08:00:00Z"
+}

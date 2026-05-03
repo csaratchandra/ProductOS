@@ -9,6 +9,7 @@ import yaml
 
 from .governed_docs import render_governed_markdown
 from .lifecycle import DISCOVERY_STAGE_ORDER, LIFECYCLE_STAGE_ORDER
+from .pm_superpowers import seed_pm_superpower_artifacts
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -589,6 +590,13 @@ def build_mission_brief(
     audience: list[str] | None,
     operating_mode: str,
     generated_at: str,
+    maturity_band: str = "zero_to_one",
+    primary_outcomes: list[str] | None = None,
+    primary_kpis: list[str] | None = None,
+    review_gate_owner: str = "ProductOS PM",
+    portfolio_id: str | None = None,
+    stage_goals: dict[str, str] | None = None,
+    known_risks: list[str] | None = None,
 ) -> dict[str, Any]:
     workspace_path = Path(workspace_dir).resolve()
     workspace_id, workspace_name, source_refs = _workspace_metadata(workspace_path)
@@ -609,6 +617,7 @@ def build_mission_brief(
         "schema_version": "1.0.0",
         "mission_brief_id": mission_brief_id,
         "workspace_id": workspace_id,
+        "portfolio_id": portfolio_id or workspace_id,
         "title": title,
         "mission_summary": (
             f"{workspace_name} should help {target_user} solve {customer_problem.lower()} while driving "
@@ -617,6 +626,10 @@ def build_mission_brief(
         "target_user": target_user,
         "customer_problem": customer_problem,
         "business_goal": business_goal,
+        "maturity_band": maturity_band,
+        "primary_outcomes": _unique_strings(primary_outcomes or [business_goal]),
+        "primary_kpis": _unique_strings(primary_kpis or metrics),
+        "review_gate_owner": review_gate_owner,
         "success_metrics": metrics,
         "constraints": mission_constraints,
         "audience": mission_audience,
@@ -625,6 +638,13 @@ def build_mission_brief(
         "steering_context": steering_context,
         "primary_workflow_refs": workflow_refs,
         "source_refs": source_refs,
+        "stage_goals": stage_goals or {},
+        "known_risks": _unique_strings(
+            known_risks
+            or [
+                "Starter defaults still need workspace-specific evidence before they should drive release movement.",
+            ]
+        ),
         "next_action": "Run the mission through the strategy spine first, keep evidence and approvals explicit, then expand phase coverage only when the prior outputs stay reviewable.",
         "created_at": generated_at,
         "updated_at": generated_at,
@@ -1161,13 +1181,15 @@ def format_mission_brief_markdown(mission_brief: dict[str, Any]) -> str:
     lines = [
         f"Status: active",
         f"Audience: {', '.join(mission_brief['audience'])}",
-        "Owner: ProductOS PM",
+        f"Owner: {mission_brief.get('review_gate_owner', 'ProductOS PM')}",
         f"Updated At: {mission_brief['updated_at'][:10]}",
         "",
         "## Mission",
         "",
         f"- Title: `{mission_brief['title']}`",
+        f"- Portfolio: `{mission_brief.get('portfolio_id', mission_brief['workspace_id'])}`",
         f"- Target user: `{mission_brief['target_user']}`",
+        f"- Maturity band: `{mission_brief.get('maturity_band', 'zero_to_one')}`",
         f"- Operating mode: `{mission_brief['operating_mode']}`",
         f"- Entry phase: `{mission_brief['mission_router']['entry_phase']}`",
         f"- Phase sequence: {', '.join(f'`{item}`' for item in mission_brief['mission_router']['phase_sequence'])}",
@@ -1188,6 +1210,20 @@ def format_mission_brief_markdown(mission_brief: dict[str, Any]) -> str:
     lines.extend(["", "## Constraints", ""])
     for item in mission_brief["constraints"]:
         lines.append(f"- {item}")
+    lines.extend(["", "## Primary Outcomes", ""])
+    for item in mission_brief.get("primary_outcomes", []):
+        lines.append(f"- {item}")
+    lines.extend(["", "## Primary KPIs", ""])
+    for item in mission_brief.get("primary_kpis", []):
+        lines.append(f"- {item}")
+    if mission_brief.get("known_risks"):
+        lines.extend(["", "## Known Risks", ""])
+        for item in mission_brief["known_risks"]:
+            lines.append(f"- {item}")
+    if mission_brief.get("stage_goals"):
+        lines.extend(["", "## Stage Goals", ""])
+        for phase, goal in mission_brief["stage_goals"].items():
+            lines.append(f"- `{phase}`: {goal}")
     lines.extend(["", "## Steering Norms", ""])
     for item in mission_brief["steering_context"]["operating_norms"]:
         lines.append(f"- {item}")
@@ -1404,6 +1440,13 @@ def init_mission_in_workspace(
     audience: list[str] | None,
     operating_mode: str,
     generated_at: str,
+    maturity_band: str = "zero_to_one",
+    primary_outcomes: list[str] | None = None,
+    primary_kpis: list[str] | None = None,
+    review_gate_owner: str = "ProductOS PM",
+    portfolio_id: str | None = None,
+    stage_goals: dict[str, str] | None = None,
+    known_risks: list[str] | None = None,
 ) -> dict[str, Any]:
     workspace_path = Path(workspace_dir).resolve()
     mission_brief = build_mission_brief(
@@ -1417,6 +1460,13 @@ def init_mission_in_workspace(
         audience=audience,
         operating_mode=operating_mode,
         generated_at=generated_at,
+        maturity_band=maturity_band,
+        primary_outcomes=primary_outcomes,
+        primary_kpis=primary_kpis,
+        review_gate_owner=review_gate_owner,
+        portfolio_id=portfolio_id,
+        stage_goals=stage_goals,
+        known_risks=known_risks,
     )
     artifacts_dir = workspace_path / "artifacts"
     docs_dir = workspace_path / "docs" / "planning"
@@ -1444,6 +1494,11 @@ def init_mission_in_workspace(
         mission_brief=mission_brief,
     )
     _rebase_safe_lifecycle_trace(
+        workspace_path,
+        mission_brief=mission_brief,
+        generated_at=generated_at,
+    )
+    seed_pm_superpower_artifacts(
         workspace_path,
         mission_brief=mission_brief,
         generated_at=generated_at,

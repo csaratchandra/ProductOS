@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "messaging_house_id": "mh_productos_v10_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "ProductOS V10 Messaging House — Q2 2026",
+  "positioning": {
+    "for_target": "Product Managers at 10-1000+ person companies who spend 15+ hrs/week on manual research, competitive analysis, documentation, and stakeholder alignment",
+    "who_need": "to ship products faster with better evidence and less manual overhead",
+    "product_name": "ProductOS",
+    "is_a": "an AI-powered product management operating system that autonomously generates world-class strategy, research, prototypes, PRDs, and marketing content",
+    "that_provides": "McKinsey-quality analysis, IDEO-quality prototypes, and April Dunford-quality positioning — automatically, from your messy research inputs",
+    "unlike_alternatives": "manual PM workflows (Google Docs + spreadsheets) and shallow AI copilots that produce generic outputs requiring 40%+ rewrite",
+    "we_deliver": "10+ hours/week of PM time recovered. Artifacts at >90% quality parity with expert PM output. Evidence traceability on every claim."
+  },
+  "value_propositions": [
+    {
+      "headline": "From Messy Research to Leadership-Ready Strategy in Minutes",
+      "description": "Drop in your interview notes, competitor research, and market data. ProductOS autonomously synthesizes a McKinsey-grade PESTLE analysis, strategy options, and stakeholder-ready deck.",
+      "functional_benefit": "Reduce strategy preparation from 2 weeks to 2 days",
+      "emotional_benefit": "Confidence in every leadership presentation — every claim is evidence-backed",
+      "proof_point_refs": [
+        "pp_benchmark_discovery_time"
+      ]
+    },
+    {
+      "headline": "Working Prototypes Before You Write a Line of Code",
+      "description": "AI generates 3 interactive HTML prototypes with different visual, interaction, and architecture approaches. Compare side-by-side. Pick the best. Iterate.",
+      "functional_benefit": "Validate product ideas before engineering commits",
+      "emotional_benefit": "Never ship the wrong thing because 'it seemed good in the PRD'",
+      "proof_point_refs": [
+        "pp_prototype_fidelity"
+      ]
+    }
+  ],
+  "proof_points": [
+    {
+      "point_id": "pp_benchmark_discovery_time",
+      "statement": "PMs cut discovery research and strategy prep time by 70% — from 15 hours/week to under 5 hours/week",
+      "evidence_type": "benchmark",
+      "evidence_ref": "pm_survey_2026_discovery_time"
+    },
+    {
+      "point_id": "pp_prototype_fidelity",
+      "statement": "AI-generated prototypes score 4.2/5 on interaction quality vs 3.1/5 for static wireframes — validated by 3 PM beta testers",
+      "evidence_type": "metric",
+      "evidence_ref": "prototype_quality_report_beta"
+    },
+    {
+      "point_id": "pp_competitor_gap",
+      "statement": "ProductOS is the only PM tool offering PESTLE analysis, decision intelligence, and autonomous review gates — confirmed by competitive feature matrix",
+      "evidence_type": "competitive_gap",
+      "evidence_ref": "competitive_feature_matrix_productos_v2"
+    }
+  ],
+  "tagline_variants": [
+    {
+      "variant": "Your PM Superpowers, Automated.",
+      "use_case": "hero"
+    },
+    {
+      "variant": "PM Workflows That Think.",
+      "use_case": "social"
+    },
+    {
+      "variant": "From research chaos to board-ready strategy — automatically.",
+      "use_case": "elevator_pitch"
+    }
+  ],
+  "segment_messages": [
+    {
+      "segment_id": "seg_enterprise_pm",
+      "segment_name": "Enterprise PM",
+      "key_message": "ProductOS integrates with your Jira, Confluence, and security stack. SOC2 compliant. SSO and audit logging. Enterprise procurement-ready.",
+      "why_switch": "Your PM team spends 30% of their week on manual compilation. ProductOS recovers that time while meeting enterprise security requirements.",
+      "primary_benefit": "PM team velocity increases without adding headcount — the enterprise efficiency play"
+    }
+  ],
+  "competitive_differentiation": "ProductOS is the only PM tool combining PESTLE environmental analysis, autonomous decision intelligence, AI prototype generation with WCAG accessibility, and a living system that auto-refreshes artifacts when underlying data changes. CompetitorAlpha offers strong PRD generation but no PESTLE, no prototypes, no living system. CompetitorBeta offers innovative agents but no competitive intelligence, no pricing analysis, no marketing content generation.",
+  "anti_claims": [
+    "ProductOS does NOT replace PM judgment — it augments it. All autonomous outputs have visible review gates.",
+    "ProductOS is NOT a project management tool. It integrates with Jira for execution. It focuses on strategy, discovery, and communication."
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

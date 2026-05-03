@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "prototype_generation_plan_id": "pgp_competitive_analysis_20260503",
+  "workspace_id": "ws_productos_v2",
+  "title": "Prototype Generation Plan: Competitive Analysis Dashboard",
+  "concept_ref": "concept_competitive_intelligence_dashboard",
+  "persona_refs": [
+    "pers_sarah_enterprise_pm"
+  ],
+  "variant_count": 3,
+  "differentiation_axes": [
+    "visual_design",
+    "interaction_model",
+    "information_architecture"
+  ],
+  "fidelity_target": "high",
+  "state_coverage": [
+    "loading",
+    "empty",
+    "normal",
+    "error",
+    "edge_case",
+    "onboarding"
+  ],
+  "accessibility_target": "AA",
+  "device_targets": [
+    "desktop",
+    "tablet"
+  ],
+  "data_realism": "realistic",
+  "include_annotations": true,
+  "include_user_test_kit": true,
+  "output_spec": {
+    "format": "html_css_js",
+    "framework": "vanilla",
+    "hosting": "shareable_url",
+    "include_source_code": true,
+    "include_component_library": true
+  },
+  "success_criteria": [
+    "All 6 state variants present per screen across all 3 prototypes",
+    "WCAG 2.1 AA compliance auto-validated",
+    "3 PM beta testers give >=4/5 satisfaction score",
+    "Engineering lead confirms prototype reduces ambiguity by >=20%"
+  ],
+  "design_token_set_ref": "dts_productos_v10_20260503",
+  "source_evidence_refs": [
+    "customer_journey_map_cjm_enterprise_pm_20260503"
+  ],
+  "generated_at": "2026-05-03T08:00:00Z"
+}

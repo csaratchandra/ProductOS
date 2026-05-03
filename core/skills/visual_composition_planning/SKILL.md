@@ -1,44 +1,64 @@
 # Visual Composition Planning
 
-## Purpose
+## 1. Purpose
 
-Translate a chosen visual pattern into a concrete composition plan with reading path, density, evidence placement, and emphasis rules.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-- when a visual pattern has been selected and needs an implementation-ready composition plan
-- when the output must balance hierarchy, density, and proof treatment intentionally
-- when a lane needs shared composition logic instead of ad hoc rendering choices
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- selected visual pattern
-- source artifact
-- audience and output mode
-- fidelity and safety constraints
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- composition plan
-- reading-path guidance
-- evidence and annotation placement guidance
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- one primary reading path per surface
-- evidence must stay close to the claim it supports
-- density must match the target audience and mode
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. define the headline, support, and proof regions
-2. decide composition density and rhythm
-3. place evidence, confidence, and source treatment explicitly
-4. define which elements are essential versus decorative
-5. record fallback rules for constrained targets
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- the reading path is implementation-ready
-- evidence placement is explicit
-- fallback logic is defined when fidelity is constrained
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

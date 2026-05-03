@@ -1,40 +1,64 @@
 # Problem Severity Quantification
 
-## Purpose
+## 1. Purpose
 
-Make problem urgency explicit so downstream prioritization and gating decisions do not rely on vague qualitative language.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when a `problem_brief` exists but severity, urgency, or evidence strength are not explicit enough to justify prioritization.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- draft `problem_brief`
-- segment and persona context
-- evidence about pain frequency, impact, and trust gaps
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- quantified problem severity summary
-- priority rationale for the problem
-- explicit handoff readiness recommendation
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not convert weak evidence into false precision
-- keep severity rationale grounded in actual workflow pain and evidence strength
-- block downstream claims when severity is still speculative
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. identify the pain frequency and user impact
-2. classify evidence strength and current uncertainty
-3. translate severity into a priority lane and downstream recommendation
-4. state what would still block PRD or story work
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- severity should be traceable to evidence
-- the priority lane should match the stated severity
-- blocking gaps should remain visible
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

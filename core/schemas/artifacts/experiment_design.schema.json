@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/experiment_design.schema.json",
+  "title": "ProductOS Experiment Design",
+  "description": "Structured experiment design with hypothesis, variants (control + treatments), primary and secondary metrics, minimum detectable effect, sample size calculation, duration estimation, statistical decision criteria, and auto-trigger to decision upon conclusion.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment_id", "workspace_id", "title", "hypothesis_ref", "variants", "primary_metric", "mde_pct", "significance_level", "power", "status", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "experiment_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 5},
+    "hypothesis_ref": {"type": "string", "minLength": 1},
+    "background": {"type": "string", "minLength": 10},
+    "variants": {"$ref": "#/$defs/variants"},
+    "primary_metric": {"type": "string", "minLength": 3},
+    "secondary_metrics": {"type": "array", "items": {"type": "string", "minLength": 3}, "minItems": 1},
+    "mde_pct": {"type": "number", "minimum": 0.1},
+    "significance_level": {"type": "number", "enum": [0.01, 0.05, 0.10]},
+    "power": {"type": "number", "minimum": 0.5, "maximum": 0.99},
+    "sample_size_required": {"type": "integer", "minimum": 1},
+    "estimated_duration_days": {"type": "integer", "minimum": 1},
+    "decision_criteria": {"$ref": "#/$defs/decisionCriteria"},
+    "guardrail_metrics": {"type": "array", "items": {"$ref": "#/$defs/guardrailMetric"}, "minItems": 1},
+    "status": {"type": "string", "enum": ["designed", "running", "concluded", "abandoned"]},
+    "conclusion": {"$ref": "#/$defs/conclusion"},
+    "source_evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "variants": {
+      "type": "object", "additionalProperties": false,
+      "required": ["control", "treatments"],
+      "properties": {
+        "control": {"$ref": "#/$defs/variant"},
+        "treatments": {"type": "array", "items": {"$ref": "#/$defs/variant"}, "minItems": 1}
+      }
+    },
+    "variant": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "description", "allocation_pct"],
+      "properties": {
+        "name": {"type": "string", "minLength": 2},
+        "description": {"type": "string", "minLength": 10},
+        "allocation_pct": {"type": "integer", "minimum": 1, "maximum": 100}
+      }
+    },
+    "decisionCriteria": {
+      "type": "object", "additionalProperties": false,
+      "required": ["ship_if", "hold_if", "abandon_if"],
+      "properties": {
+        "ship_if": {"type": "string", "minLength": 10},
+        "hold_if": {"type": "string", "minLength": 10},
+        "abandon_if": {"type": "string", "minLength": 10}
+      }
+    },
+    "guardrailMetric": {
+      "type": "object", "additionalProperties": false,
+      "required": ["metric", "acceptable_range", "action_if_violated"],
+      "properties": {
+        "metric": {"type": "string", "minLength": 3},
+        "acceptable_range": {"type": "string", "minLength": 5},
+        "action_if_violated": {"type": "string", "minLength": 10}
+      }
+    },
+    "conclusion": {
+      "type": "object", "additionalProperties": false,
+      "required": ["result", "winning_variant", "p_value", "practical_significance", "recommendation"],
+      "properties": {
+        "result": {"type": "string", "enum": ["conclusive", "inconclusive", "negative"]},
+        "winning_variant": {"type": "string", "minLength": 2},
+        "p_value": {"type": "number", "minimum": 0, "maximum": 1},
+        "practical_significance": {"type": "string", "minLength": 10},
+        "recommendation": {"type": "string", "enum": ["ship", "iterate", "hold", "abandon"]},
+        "learning_captured": {"type": "string", "minLength": 10}
+      }
+    }
+  }
+}

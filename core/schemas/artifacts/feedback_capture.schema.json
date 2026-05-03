@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/feedback_capture.schema.json",
+  "title": "ProductOS Feedback Capture",
+  "description": "Structured feedback capture with taxonomy (correction/enhancement/objection/question/approval/rejection), propagation graph tracing downstream impacts, confidence tracking, PM action logging, and regeneration scope control.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "feedback_capture_id", "workspace_id", "feedback_type", "source", "target_artifact_id", "description", "propagation_impact", "status", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "feedback_capture_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "feedback_type": {"type": "string", "enum": ["correction", "enhancement", "objection", "question", "approval", "rejection"]},
+    "source": {"type": "string", "enum": ["pm", "stakeholder", "user_test", "analytics", "competitive_alert", "auto_detection"]},
+    "target_artifact_id": {"type": "string", "minLength": 1},
+    "target_field": {"type": "string"},
+    "description": {"type": "string", "minLength": 10},
+    "severity": {"type": "string", "enum": ["blocker", "high", "medium", "low"]},
+    "propagation_impact": {"type": "array", "items": {"$ref": "#/$defs/propagationItem"}, "minItems": 1},
+    "regeneration_scope": {"type": "string", "enum": ["auto_regenerate", "pm_review_regenerate", "full_artifact_regenerate", "branch"]},
+    "status": {"type": "string", "enum": ["captured", "triaged", "actioned", "resolved", "dismissed"]},
+    "pm_action": {"type": "string", "enum": ["accepted", "rejected", "deferred"]},
+    "pm_action_rationale": {"type": "string"},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "propagationItem": {"type": "object", "additionalProperties": false, "required": ["artifact_id", "artifact_type", "impact_description", "regeneration_mode"], "properties": {"artifact_id": {"type": "string", "minLength": 1}, "artifact_type": {"type": "string"}, "impact_description": {"type": "string", "minLength": 10}, "regeneration_mode": {"type": "string", "enum": ["auto_regenerate", "pm_review_regenerate", "branch"]}}}
+  }
+}

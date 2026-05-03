@@ -1,40 +1,64 @@
 # Story Decomposition And Ambiguity Detection
 
-## Purpose
+## 1. Purpose
 
-Break a bounded PRD slice into implementable stories while surfacing ambiguity before engineering or QA inherit it.
+To be specified during detailed skill implementation — follow the V10 12-element skill contract standard defined in `core/skills/SKILL_CONTRACT_TEMPLATE.md`.
 
-## Trigger / When To Use
+## 2. Trigger / When To Use
 
-Use when converting a `prd` into a `story_pack` or when story drafts feel broad, merged, or hard to test.
+To be specified during detailed skill implementation.
 
-## Inputs
+## 3. Prerequisites
 
-- `prd`
-- linked persona and segment context
-- existing delivery constraints or implementation notes
+Refer to upstream skill dependencies in `core/skills/` and associated artifact schemas.
 
-## Outputs
+## 4. Input Specification
 
-- decomposed stories
-- ambiguity notes
-- delivery burden summary
+| Field | Type | Source | Required | Notes |
+|---|---|---|---|---|
+| Input schema to be defined during detailed implementation | — | — | — | — |
 
-## Guardrails
+## 5. Execution Steps
 
-- do not merge unrelated work into one story
-- keep each story inside PRD scope
-- preserve the blocked versus review-needed distinction when ambiguity remains
+1. Execution steps to be defined during detailed implementation.
+2. Follow the execution pattern documented in the skill's V9 SKILL.md for baseline guidance.
 
-## Execution Pattern
+## 6. Output Specification
 
-1. identify the smallest coherent delivery slices in the PRD
-2. split user-facing, enabling, and risk-reduction work where needed
-3. write explicit ambiguity notes for missing decisions or vague language
-4. summarize the delivery burden that the story pack now creates
+Output artifact to be defined during detailed implementation. Refer to associated schema.
 
-## Validation Expectations
+## 7. Guardrails
 
-- stories should be smaller and clearer than the source PRD
-- ambiguity should be explicit and actionable
-- downstream teams should know what still requires review
+- Align with ProductOS failure-mode system
+- Define confidence thresholds and escalation rules during detailed implementation
+
+## 8. Gold Standard Checklist
+
+- [ ] Checklist to be defined during detailed implementation
+- [ ] Must include external framework alignment references
+- [ ] Must include evidence traceability criteria
+
+## 9. Examples
+
+Examples to be added during detailed implementation. Reference existing example payloads in `core/examples/artifacts/`.
+
+## 10. Cross-References
+
+- **Upstream skills**: To be defined during detailed implementation
+- **Downstream skills**: To be defined during detailed implementation
+- **Schemas**: Refer to associated schemas in `core/schemas/artifacts/`
+
+## 11. Maturity Band Variations
+
+| Band | Depth |
+|---|---|
+| 0→1 | To be defined |
+| 1→10 | To be defined |
+| 10→100 | To be defined |
+| 100→10K+ | To be defined |
+
+## 12. Validation Criteria
+
+- **Schema conformance**: validates against associated artifact schemas
+- **Test file**: TBD
+- **Example fixture**: associated `.example.json` files

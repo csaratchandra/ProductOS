@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/capacity_model.schema.json",
+  "title": "ProductOS Capacity Model",
+  "description": "Team capacity model mapping available engineering resources against roadmap scope to surface realistic delivery timelines, capacity gaps, trade-off scenarios, and recommended scope adjustments.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "capacity_model_id", "workspace_id", "title", "teams", "total_capacity_sprints", "scope_demand", "gap_analysis", "recommendations", "generated_at"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "capacity_model_id": {"type": "string", "minLength": 1},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 5},
+    "analysis_period": {"type": "string", "minLength": 5},
+    "teams": {"type": "array", "items": {"$ref": "#/$defs/team"}, "minItems": 1},
+    "total_capacity_sprints": {"type": "integer", "minimum": 1},
+    "total_capacity_story_points": {"type": "integer", "minimum": 1},
+    "scope_demand": {"$ref": "#/$defs/scopeDemand"},
+    "gap_analysis": {"$ref": "#/$defs/gapAnalysis"},
+    "trade_off_scenarios": {"type": "array", "items": {"$ref": "#/$defs/tradeOffScenario"}, "default": []},
+    "recommendations": {"type": "array", "items": {"type": "string", "minLength": 10}, "minItems": 1},
+    "source_evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "default": []},
+    "generated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "team": {
+      "type": "object", "additionalProperties": false,
+      "required": ["team_id", "name", "headcount", "velocity_per_sprint", "allocation_pct", "available_sprints"],
+      "properties": {
+        "team_id": {"type": "string", "minLength": 1},
+        "name": {"type": "string", "minLength": 3},
+        "headcount": {"type": "integer", "minimum": 1},
+        "velocity_per_sprint": {"type": "integer", "minimum": 1},
+        "allocation_pct": {"type": "integer", "minimum": 0, "maximum": 100},
+        "available_sprints": {"type": "integer", "minimum": 1}
+      }
+    },
+    "scopeDemand": {
+      "type": "object", "additionalProperties": false,
+      "required": ["total_story_points", "by_priority", "by_team"],
+      "properties": {
+        "total_story_points": {"type": "integer", "minimum": 1},
+        "by_priority": {"type": "array", "items": {"$ref": "#/$defs/priorityDemand"}, "minItems": 1},
+        "by_team": {"type": "array", "items": {"$ref": "#/$defs/teamDemand"}, "minItems": 1}
+      }
+    },
+    "priorityDemand": {
+      "type": "object", "additionalProperties": false,
+      "required": ["priority", "story_points", "feature_count"],
+      "properties": {
+        "priority": {"type": "string", "enum": ["must_now", "next", "later", "park"]},
+        "story_points": {"type": "integer", "minimum": 0},
+        "feature_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "teamDemand": {
+      "type": "object", "additionalProperties": false,
+      "required": ["team_id", "assigned_points", "required_sprints"],
+      "properties": {
+        "team_id": {"type": "string", "minLength": 1},
+        "assigned_points": {"type": "integer", "minimum": 0},
+        "required_sprints": {"type": "number"}
+      }
+    },
+    "gapAnalysis": {
+      "type": "object", "additionalProperties": false,
+      "required": ["capacity_point_gap", "sprint_gap", "must_now_gap", "assessment"],
+      "properties": {
+        "capacity_point_gap": {"type": "integer"},
+        "sprint_gap": {"type": "number"},
+        "must_now_gap": {"type": "integer"},
+        "assessment": {"type": "string", "enum": ["over_capacity", "at_capacity", "under_capacity"]}
+      }
+    },
+    "tradeOffScenario": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "scope_adjustment", "result", "features_deprioritized", "features_accelerated"],
+      "properties": {
+        "name": {"type": "string", "minLength": 5},
+        "scope_adjustment": {"type": "string", "minLength": 10},
+        "result": {"type": "string", "minLength": 10},
+        "features_deprioritized": {"type": "array", "items": {"type": "string", "minLength": 3}, "default": []},
+        "features_accelerated": {"type": "array", "items": {"type": "string", "minLength": 3}, "default": []}
+      }
+    }
+  }
+}
