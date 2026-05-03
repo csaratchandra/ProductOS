@@ -7,6 +7,164 @@ from typing import Any
 
 from . import yaml_compat as yaml
 
+ROOT = Path(__file__).resolve().parents[3]
+CORE_EXAMPLES_DIR = ROOT / "core" / "examples" / "artifacts"
+PRESENTATION_EXAMPLES_DIR = ROOT / "components" / "presentation" / "examples" / "artifacts"
+SELF_HOSTING_ARTIFACTS_DIR = ROOT / "internal" / "ProductOS-Next" / "artifacts"
+
+_STARTER_SUPPORT_ARTIFACT_SOURCES = (
+    ("increment_plan.json", CORE_EXAMPLES_DIR / "increment_plan.example.json"),
+    ("program_increment_state.example.json", CORE_EXAMPLES_DIR / "program_increment_state.example.json"),
+    ("release_readiness.example.json", CORE_EXAMPLES_DIR / "release_readiness.example.json"),
+    ("release_gate_decision.example.json", CORE_EXAMPLES_DIR / "release_gate_decision.example.json"),
+    ("runtime_adapter_registry.example.json", CORE_EXAMPLES_DIR / "runtime_adapter_registry.example.json"),
+    ("execution_session_state.example.json", CORE_EXAMPLES_DIR / "execution_session_state.example.json"),
+    ("productos_feedback_log.example.json", CORE_EXAMPLES_DIR / "productos_feedback_log.example.json"),
+    ("presentation_brief.example.json", PRESENTATION_EXAMPLES_DIR / "presentation_brief.example.json"),
+    ("presentation_sample_record.example.json", CORE_EXAMPLES_DIR / "presentation_sample_record.example.json"),
+    ("presentation_pattern_review.example.json", CORE_EXAMPLES_DIR / "presentation_pattern_review.example.json"),
+    ("feedback_cluster_state.example.json", CORE_EXAMPLES_DIR / "feedback_cluster_state.example.json"),
+    ("gap_cluster_state.example.json", CORE_EXAMPLES_DIR / "gap_cluster_state.example.json"),
+    ("improvement_loop_state.example.json", CORE_EXAMPLES_DIR / "improvement_loop_state.example.json"),
+    ("pm_benchmark.example.json", CORE_EXAMPLES_DIR / "pm_benchmark.example.json"),
+    ("superpower_benchmark.example.json", CORE_EXAMPLES_DIR / "superpower_benchmark.example.json"),
+    ("decision_queue.example.json", CORE_EXAMPLES_DIR / "decision_queue.example.json"),
+    ("decision_log.example.json", CORE_EXAMPLES_DIR / "decision_log.example.json"),
+    ("follow_up_queue.example.json", CORE_EXAMPLES_DIR / "follow_up_queue.example.json"),
+    ("status_mail.example.json", CORE_EXAMPLES_DIR / "status_mail.example.json"),
+    ("issue_log.example.json", CORE_EXAMPLES_DIR / "issue_log.example.json"),
+    (
+        "runtime_scenario_report_adapter_parity.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "runtime_scenario_report_adapter_parity.example.json",
+    ),
+    (
+        "runtime_scenario_report_market_refresh.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "runtime_scenario_report_market_refresh.example.json",
+    ),
+    (
+        "runtime_scenario_report_market_distribution.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "runtime_scenario_report_market_distribution.example.json",
+    ),
+    ("document_sync_state_live_docs.example.json", SELF_HOSTING_ARTIFACTS_DIR / "document_sync_state_live_docs.example.json"),
+    (
+        "validation_lane_report_next_version_completion.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "validation_lane_report_next_version_completion.example.json",
+    ),
+    (
+        "manual_validation_record_next_version_completion.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "manual_validation_record_next_version_completion.example.json",
+    ),
+    (
+        "release_gate_decision_next_version_completion.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "release_gate_decision_next_version_completion.example.json",
+    ),
+    (
+        "research_notebook_agentic_market_intelligence.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "research_notebook_agentic_market_intelligence.example.json",
+    ),
+    (
+        "landscape_matrix_agentic_market_intelligence.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "landscape_matrix_agentic_market_intelligence.example.json",
+    ),
+    (
+        "competitor_dossier_agentic_market_intelligence.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "competitor_dossier_agentic_market_intelligence.example.json",
+    ),
+    (
+        "market_analysis_brief_agentic_market_intelligence.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "market_analysis_brief_agentic_market_intelligence.example.json",
+    ),
+    (
+        "research_feature_recommendation_brief.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "research_feature_recommendation_brief.example.json",
+    ),
+    ("ralph_loop_state.example.json", SELF_HOSTING_ARTIFACTS_DIR / "ralph_loop_state.example.json"),
+    (
+        "validation_lane_report_market_intelligence.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "validation_lane_report_market_intelligence.example.json",
+    ),
+    (
+        "manual_validation_record_market_intelligence.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "manual_validation_record_market_intelligence.example.json",
+    ),
+    (
+        "rejected_path_record_market_intelligence.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "rejected_path_record_market_intelligence.example.json",
+    ),
+    (
+        "leadership_review_market_intelligence_distribution.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "leadership_review_market_intelligence_distribution.example.json",
+    ),
+    (
+        "portfolio_update_market_intelligence_distribution.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "portfolio_update_market_intelligence_distribution.example.json",
+    ),
+    (
+        "source_note_card_productboard_spark_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_productboard_spark_official_2026.example.json",
+    ),
+    (
+        "source_note_card_jpd_ai_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_jpd_ai_official_2026.example.json",
+    ),
+    (
+        "source_note_card_aha_knowledge_ai_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_aha_knowledge_ai_official_2026.example.json",
+    ),
+    (
+        "source_note_card_linear_asks_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_linear_asks_official_2026.example.json",
+    ),
+    (
+        "source_note_card_notion_mcp_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_notion_mcp_official_2026.example.json",
+    ),
+    (
+        "source_note_card_coda_ai_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_coda_ai_official_2026.example.json",
+    ),
+    (
+        "source_note_card_asana_ai_teammates_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_asana_ai_teammates_official_2026.example.json",
+    ),
+    (
+        "source_note_card_openai_deep_research_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_openai_deep_research_official_2026.example.json",
+    ),
+    (
+        "source_note_card_gemini_deep_research_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_gemini_deep_research_official_2026.example.json",
+    ),
+    (
+        "source_note_card_perplexity_deep_research_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_perplexity_deep_research_official_2026.example.json",
+    ),
+    (
+        "source_note_card_glean_agentic_engine_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_glean_agentic_engine_official_2026.example.json",
+    ),
+    (
+        "source_note_card_crayon_ci_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_crayon_ci_official_2026.example.json",
+    ),
+    (
+        "source_note_card_klue_compete_agent_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_klue_compete_agent_official_2026.example.json",
+    ),
+    (
+        "source_note_card_semrush_eyeon_official_2026.example.json",
+        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_semrush_eyeon_official_2026.example.json",
+    ),
+    (
+        "source_note_card_app_review_jpd.example.json",
+        CORE_EXAMPLES_DIR / "source_note_card_app_review_jpd.example.json",
+    ),
+    (
+        "source_note_card_consultant_ai_pm.example.json",
+        CORE_EXAMPLES_DIR / "source_note_card.example.json",
+    ),
+)
+
 
 LIFECYCLE_STAGE_ORDER = [
     "signal_intake",
@@ -43,6 +201,20 @@ def _write_json(path: Path, payload: dict[str, Any]) -> None:
     with path.open("w", encoding="utf-8") as handle:
         json.dump(payload, handle, indent=2)
         handle.write("\n")
+
+
+def _seed_starter_support_artifacts(destination: Path, manifest: dict[str, Any]) -> None:
+    artifacts_dir = destination / "artifacts"
+    artifact_paths = manifest.setdefault("artifact_paths", [])
+    existing_paths = set(artifact_paths)
+    for filename, source_path in _STARTER_SUPPORT_ARTIFACT_SOURCES:
+        target_path = artifacts_dir / filename
+        if not target_path.exists():
+            shutil.copy2(source_path, target_path)
+        relative_path = f"artifacts/{filename}"
+        if relative_path not in existing_paths:
+            artifact_paths.append(relative_path)
+            existing_paths.add(relative_path)
 
 
 def _workspace_artifacts_dir(workspace_dir: Path | str) -> Path:
@@ -201,6 +373,7 @@ def init_workspace_from_template(
     manifest["mode"] = mode
     if manifest.get("active_increment_id") == "pi_YYYY_qX_01":
         manifest["active_increment_id"] = "pi_initial_01"
+    _seed_starter_support_artifacts(destination, manifest)
     with manifest_path.open("w", encoding="utf-8") as handle:
         yaml.safe_dump(manifest, handle, sort_keys=False)
 
