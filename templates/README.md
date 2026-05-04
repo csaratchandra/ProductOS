@@ -27,6 +27,13 @@ The starter now includes:
 
 Recommended start path:
 
-1. initialize a new workspace with `./productos init-workspace ...`
-2. replace the seeded artifacts with product-specific evidence
-3. keep ProductOS internal self-hosting work outside your product workspace
+1. run `./productos start`
+2. choose `Start a new workspace` or `Bring existing work into ProductOS`
+3. if you start a new workspace, choose `Startup` or `Enterprise`, then choose what you want ProductOS to help you create first
+4. replace the seeded artifacts with product-specific evidence
+5. keep ProductOS internal self-hosting work outside your product workspace
+
+Advanced path:
+
+- `./productos init-workspace ...`
+- `./productos --workspace-dir /path/to/workspace init-mission ...`

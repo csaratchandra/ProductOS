@@ -51,18 +51,35 @@ If you want to use ProductOS for a new product or feature:
 
 Recommended command:
 
-`./productos start --dest /path/to/new-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode startup --title "Your mission" --customer-problem "Customer problem" --business-goal "Business goal"`
+`./productos start`
 
-Mission-first scaffolding commands:
+The guided `start` flow keeps day-1 choices small:
 
-- `./productos start --dest /path/to/new-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode startup --title "Your mission" --customer-problem "Customer problem" --business-goal "Business goal" --maturity-band one_to_ten --primary-kpi "time to reviewable PRD" --primary-outcome "Create one reviewable PM package" --review-gate-owner "ProductOS PM" --stage-goal validation:"Prove the riskiest assumptions before delivery opens."`
-- `./productos --workspace-dir /path/to/new-workspace phase plan validation`
-- `./productos --workspace-dir /path/to/new-workspace cockpit build`
-- `./productos portfolio build --workspace /path/to/workspace-a --workspace /path/to/workspace-b --suite-id suite_pm_superpowers`
+- `Start a new workspace`
+- `Bring existing work into ProductOS`
+
+For a new workspace, ProductOS asks for:
+
+- the workspace name
+- where to create it
+- `Startup` or `Enterprise`
+- what you want ProductOS to help you create first
+
+ProductOS then fills the first mission defaults and recommends the next command.
 
 Recommended next step:
 
-`./productos --workspace-dir /path/to/new-workspace run discover`
+- `./productos --workspace-dir /path/to/new-workspace run discover`
+
+Advanced startup commands:
+
+- `./productos start --non-interactive --dest /path/to/new-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode startup --title "Your mission" --customer-problem "Customer problem" --business-goal "Business goal"`
+- `./productos start --kind import --non-interactive --source /path/to/existing-product-folder --dest /path/to/adopted-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode enterprise`
+- `./productos init-workspace --dest /path/to/new-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode startup`
+- `./productos --workspace-dir /path/to/new-workspace init-mission --title "Your mission" --target-user "Product manager" --customer-problem "Customer problem" --business-goal "Business goal" --success-metric "time to reviewable PM package"`
+- `./productos --workspace-dir /path/to/new-workspace phase plan validation`
+- `./productos --workspace-dir /path/to/new-workspace cockpit build`
+- `./productos portfolio build --workspace /path/to/workspace-a --workspace /path/to/workspace-b --suite-id suite_pm_superpowers`
 
 Canonical visual export commands:
 
@@ -77,6 +94,10 @@ Visual studio workflow:
 - `./productos visual review /tmp/path/to/output-dir`
 
 For an existing product workspace, start with:
+
+`./productos start`
+
+If you want the lower-level adoption command directly:
 
 `./productos import --source /path/to/existing-product-folder --dest /path/to/adopted-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode research --emit-report --emit-thread-page`
 

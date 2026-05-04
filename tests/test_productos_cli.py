@@ -10,12 +10,13 @@ import yaml
 from conftest import latest_release
 
 
-def _run_cli(root_dir: Path, *args: str) -> subprocess.CompletedProcess[str]:
+def _run_cli(root_dir: Path, *args: str, input_text: str | None = None) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         [sys.executable, "scripts/productos.py", *args],
         cwd=root_dir,
         capture_output=True,
         text=True,
+        input=input_text,
         check=False,
     )
 
@@ -386,6 +387,96 @@ def test_productos_start_command_creates_workspace_and_mission(root_dir: Path, t
     assert "artifacts/increment_plan.json" in manifest["artifact_paths"]
     assert "artifacts/decision_queue.example.json" in manifest["artifact_paths"]
     assert "artifacts/source_note_card_openai_deep_research_official_2026.example.json" in manifest["artifact_paths"]
+
+
+def test_productos_start_guided_flow_creates_workspace_with_mode_defaults(root_dir: Path, tmp_path: Path):
+    destination = tmp_path / "acme-guided-workspace"
+    result = _run_cli(
+        root_dir,
+        "start",
+        input_text="\n".join(
+            [
+                "1",
+                "Acme Guided Workspace",
+                str(destination),
+                "2",
+                "3",
+            ]
+        )
+        + "\n",
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "Started workspace at" in result.stdout
+    assert "Mode: enterprise" in result.stdout
+    assert "First Win: PRD" in result.stdout
+    assert "Mission: Create the first reviewable PRD" in result.stdout
+    assert "Next Command: ./productos --workspace-dir" in result.stdout
+
+    with (destination / "workspace_manifest.yaml").open("r", encoding="utf-8") as handle:
+        manifest = yaml.safe_load(handle)
+    mission_brief = json.loads((destination / "artifacts" / "mission_brief.json").read_text(encoding="utf-8"))
+
+    assert manifest["workspace_id"] == "ws_acme_guided_workspace"
+    assert manifest["name"] == "Acme Guided Workspace"
+    assert manifest["mode"] == "enterprise"
+    assert mission_brief["title"] == "Create the first reviewable PRD"
+    assert mission_brief["maturity_band"] == "one_to_ten"
+    assert mission_brief["success_metrics"] == ["time to reviewable PRD"]
+    assert mission_brief["primary_outcomes"] == ["Create one reviewable PRD"]
+
+
+def test_productos_start_guided_import_flow_adopts_existing_workspace(root_dir: Path, tmp_path: Path):
+    source_dir = tmp_path / "existing-product-folder"
+    repo_dir = source_dir / "workflow-control-repo-main"
+    repo_dir.mkdir(parents=True)
+    (repo_dir / "README.md").write_text(
+        "# Workflow Control Repo\n\nAdoption Workspace centralizes workflow-control operations across apps, packages, and services.\n",
+        encoding="utf-8",
+    )
+    (repo_dir / "AGENTS.md").write_text(
+        "# Repository Guidelines\n\nKeep observed claims separate from inferred positioning.\n",
+        encoding="utf-8",
+    )
+    (repo_dir / "package.json").write_text(
+        json.dumps({"name": "workflow-control-repo", "private": True}, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (repo_dir / "NODEJS_UPGRADE_PLAN.md").write_text(
+        "# Upgrade Plan\n\nPin Node.js to a safe version and verify deployment runtime settings.\n",
+        encoding="utf-8",
+    )
+
+    destination = tmp_path / "guided-adopted-workspace"
+    result = _run_cli(
+        root_dir,
+        "start",
+        "--kind",
+        "import",
+        input_text="\n".join(
+            [
+                str(source_dir),
+                "Adopted Guided Workspace",
+                str(destination),
+                "1",
+            ]
+        )
+        + "\n",
+    )
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "Adoption Status: completed" in result.stdout
+    assert f"Destination: {destination}" in result.stdout
+    assert "Mode: startup" in result.stdout
+    assert "Next Command: ./productos --workspace-dir" in result.stdout
+
+    with (destination / "workspace_manifest.yaml").open("r", encoding="utf-8") as handle:
+        manifest = yaml.safe_load(handle)
+
+    assert manifest["workspace_id"] == "ws_adopted_guided_workspace"
+    assert manifest["name"] == "Adopted Guided Workspace"
+    assert manifest["mode"] == "startup"
+    assert (destination / "artifacts" / "workspace_adoption_report.json").exists()
 
 
 def test_productos_start_workspace_can_run_discover(root_dir: Path, tmp_path: Path):

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -198,6 +199,55 @@ RESEARCH_RUNTIME_ARTIFACTS = list(RESEARCH_RUNTIME_ARTIFACT_SCHEMAS.keys())
 RESEARCH_PLANNING_ARTIFACTS = list(RESEARCH_PLANNING_ARTIFACT_SCHEMAS.keys())
 RESEARCH_FEED_REGISTRY_ARTIFACTS = list(RESEARCH_FEED_REGISTRY_ARTIFACT_SCHEMAS.keys())
 RESEARCH_DISCOVERY_ARTIFACTS = list(RESEARCH_DISCOVERY_ARTIFACT_SCHEMAS.keys())
+START_MODE_TO_MATURITY_BAND = {
+    "startup": "zero_to_one",
+    "enterprise": "one_to_ten",
+}
+START_FIRST_WIN_CHOICES = [
+    {
+        "value": "strategy_brief",
+        "label": "Strategy brief",
+        "description": "Clarify product direction before downstream execution expands.",
+        "success_metric": "time to reviewable strategy brief",
+        "primary_outcome": "Create one reviewable strategy brief",
+        "title": "Create the first reviewable strategy brief",
+    },
+    {
+        "value": "problem_brief",
+        "label": "Problem brief",
+        "description": "Frame the customer problem clearly before solution work grows.",
+        "success_metric": "time to reviewable problem brief",
+        "primary_outcome": "Create one reviewable problem brief",
+        "title": "Create the first reviewable problem brief",
+    },
+    {
+        "value": "prd",
+        "label": "PRD",
+        "description": "Turn the first product slice into one reviewable spec quickly.",
+        "success_metric": "time to reviewable PRD",
+        "primary_outcome": "Create one reviewable PRD",
+        "title": "Create the first reviewable PRD",
+    },
+    {
+        "value": "research_pack",
+        "label": "Research pack",
+        "description": "Collect the first evidence-backed research package for the product.",
+        "success_metric": "time to reviewable research pack",
+        "primary_outcome": "Create one reviewable research pack",
+        "title": "Create the first reviewable research pack",
+    },
+    {
+        "value": "roadmap",
+        "label": "Roadmap / plan",
+        "description": "Shape the first reviewable plan for what the team should do next.",
+        "success_metric": "time to reviewable roadmap",
+        "primary_outcome": "Create one reviewable roadmap",
+        "title": "Create the first reviewable roadmap",
+    },
+]
+START_FIRST_WIN_BY_VALUE = {
+    choice["value"]: choice for choice in START_FIRST_WIN_CHOICES
+}
 
 
 def _default_timestamp() -> str:
@@ -336,6 +386,402 @@ def _parse_phase_goals(raw_values: list[str] | None) -> dict[str, str]:
             raise SystemExit(f"Stage goal for '{normalized_phase}' cannot be empty.")
         goals[normalized_phase] = normalized_goal
     return goals
+
+
+def _slug(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
+
+
+def _normalized_text(value: object | None) -> str | None:
+    if value is None:
+        return None
+    text = str(value).strip()
+    return text or None
+
+
+def _start_kind_from_args(args: argparse.Namespace) -> str:
+    if args.kind:
+        return args.kind
+    if args.source is not None:
+        return "import"
+    return "new"
+
+
+def _start_mode_for_guided_flow(args: argparse.Namespace) -> str | None:
+    mode = _normalized_text(args.mode)
+    if mode is None:
+        return None
+    if mode not in START_MODE_TO_MATURITY_BAND:
+        raise SystemExit("Guided start only supports --mode startup or --mode enterprise.")
+    return mode
+
+
+def _start_new_is_fully_specified(args: argparse.Namespace) -> bool:
+    required_values = [
+        args.dest,
+        _normalized_text(args.workspace_id),
+        _normalized_text(args.name),
+        _normalized_text(args.mode),
+        _normalized_text(args.title),
+        _normalized_text(args.customer_problem),
+        _normalized_text(args.business_goal),
+    ]
+    return all(value is not None for value in required_values)
+
+
+def _start_import_is_fully_specified(args: argparse.Namespace) -> bool:
+    required_values = [
+        args.source,
+        args.dest,
+        _normalized_text(args.workspace_id),
+        _normalized_text(args.name),
+        _normalized_text(args.mode),
+    ]
+    return all(value is not None for value in required_values)
+
+
+def _interactive_start_required(args: argparse.Namespace) -> bool:
+    kind = _start_kind_from_args(args)
+    if args.non_interactive:
+        return False
+    if kind == "import":
+        return not _start_import_is_fully_specified(args)
+    return not _start_new_is_fully_specified(args)
+
+
+def _prompt_text(prompt: str, *, default: str | None = None) -> str:
+    while True:
+        suffix = f" [{default}]" if default else ""
+        try:
+            raw_value = input(f"{prompt}{suffix}: ")
+        except EOFError as exc:
+            raise SystemExit("Startup cancelled.") from exc
+        normalized = raw_value.strip()
+        if normalized:
+            return normalized
+        if default is not None:
+            return default
+        print("Please enter a value.")
+
+
+def _prompt_choice(
+    prompt: str,
+    options: list[dict[str, str]],
+    *,
+    default_value: str | None = None,
+) -> str:
+    default_index = 1
+    if default_value is not None:
+        for index, option in enumerate(options, start=1):
+            if option["value"] == default_value:
+                default_index = index
+                break
+    while True:
+        print(prompt)
+        for index, option in enumerate(options, start=1):
+            print(f"  {index}. {option['label']} - {option['description']}")
+        selected = _prompt_text("Choose an option", default=str(default_index))
+        if selected.isdigit():
+            option_index = int(selected)
+            if 1 <= option_index <= len(options):
+                return options[option_index - 1]["value"]
+        print("Enter one of the numbered options.")
+
+
+def _prompt_path(
+    prompt: str,
+    *,
+    default: Path | None = None,
+    must_exist: bool = False,
+    must_not_exist: bool = False,
+) -> Path:
+    default_value = default.as_posix() if default is not None else None
+    while True:
+        raw_value = _prompt_text(prompt, default=default_value)
+        candidate = Path(raw_value).expanduser()
+        if not candidate.is_absolute():
+            candidate = (Path.cwd() / candidate).resolve()
+        else:
+            candidate = candidate.resolve()
+        if must_exist and not candidate.exists():
+            print("That path does not exist yet. Enter an existing path.")
+            continue
+        if must_not_exist and candidate.exists():
+            print("That destination already exists. Choose a new path.")
+            continue
+        return candidate
+
+
+def _default_start_destination(workspace_name: str) -> Path:
+    return ROOT / "workspaces" / _slug(workspace_name)
+
+
+def _guided_first_win_choice(args: argparse.Namespace) -> dict[str, str]:
+    prompt = "What should ProductOS help you create first?"
+    choice_value = _prompt_choice(prompt, START_FIRST_WIN_CHOICES)
+    return START_FIRST_WIN_BY_VALUE[choice_value]
+
+
+def _run_start_new(
+    *,
+    dest: Path,
+    workspace_id: str,
+    name: str,
+    mode: str,
+    title: str,
+    customer_problem: str,
+    business_goal: str,
+    success_metrics: list[str],
+    primary_kpis: list[str],
+    primary_outcomes: list[str],
+    target_user: str,
+    operating_mode: str,
+    generated_at: str,
+    maturity_band: str,
+    constraints: list[str] | None,
+    audience: list[str] | None,
+    review_gate_owner: str,
+    portfolio_id: str | None,
+    stage_goals: dict[str, str],
+    known_risks: list[str] | None,
+    template_name: str,
+    guided: bool,
+    first_win_label: str | None = None,
+) -> int:
+    init_workspace_from_template(
+        ROOT,
+        template_name=template_name,
+        dest=dest,
+        workspace_id=workspace_id,
+        name=name,
+        mode=mode,
+    )
+    mission_brief = init_mission_in_workspace(
+        dest,
+        title=title,
+        target_user=target_user,
+        customer_problem=customer_problem,
+        business_goal=business_goal,
+        success_metrics=success_metrics,
+        constraints=constraints,
+        audience=audience,
+        operating_mode=operating_mode,
+        generated_at=generated_at,
+        maturity_band=maturity_band,
+        primary_outcomes=primary_outcomes,
+        primary_kpis=primary_kpis,
+        review_gate_owner=review_gate_owner,
+        portfolio_id=portfolio_id,
+        stage_goals=stage_goals,
+        known_risks=known_risks,
+    )
+    print(f"Started workspace at {dest}")
+    if guided:
+        print(f"Mode: {mode}")
+        if first_win_label is not None:
+            print(f"First Win: {first_win_label}")
+        print(f"Mission: {mission_brief['title']}")
+        print(f"Next Command: ./productos --workspace-dir {dest} run discover")
+        return 0
+    print(f"Mission Brief: {mission_brief['mission_brief_id']}")
+    print(f"Operating Mode: {mission_brief['operating_mode']}")
+    print(f"Maturity Band: {mission_brief['maturity_band']}")
+    print(f"Portfolio: {mission_brief['portfolio_id']}")
+    print(f"Next Action: {mission_brief['next_action']}")
+    return 0
+
+
+def _run_workspace_adoption(
+    *,
+    source: Path,
+    dest: Path,
+    workspace_id: str,
+    name: str,
+    mode: str,
+    generated_at: str,
+    review_threshold: str,
+    emit_report: bool = False,
+    emit_thread_page: bool = False,
+    include_runtime_support_assets: bool = False,
+    dry_run: bool = False,
+    output_dir: Path | None = None,
+    guided: bool = False,
+) -> int:
+    bundle = build_workspace_adoption_bundle_from_source(
+        ROOT,
+        source_dir=source,
+        workspace_id=workspace_id,
+        name=name,
+        generated_at=generated_at,
+        review_threshold=review_threshold,
+    )
+    failures = _validate_named_bundle(bundle, ADOPTION_ARTIFACT_SCHEMAS)
+    if failures:
+        for failure in failures:
+            print(f"FAIL: {failure}")
+        return 1
+
+    if output_dir:
+        _write_artifacts(output_dir, bundle, ADOPTION_ARTIFACTS)
+        if emit_thread_page:
+            write_thread_review_page(bundle["thread_review_bundle"], output_dir / "thread-review.html")
+
+    report = bundle["workspace_adoption_report"]
+    review_queue = bundle["adoption_review_queue"]
+    print(f"Source Workspace Mode: {report['source_workspace_mode']}")
+    print(f"Source Files: {report['source_file_count']}")
+    print(f"Generated Artifacts: {len(report['generated_artifact_ids'])}")
+    print(f"Review Items: {review_queue['review_items'] and len(review_queue['review_items']) or 0}")
+
+    if dry_run:
+        print("Adoption Status: dry-run")
+        print("Dry Run: no workspace files were written.")
+        return 0
+
+    destination, adopted_bundle = adopt_workspace_from_source(
+        ROOT,
+        source_dir=source,
+        dest=dest,
+        workspace_id=workspace_id,
+        name=name,
+        mode=mode,
+        generated_at=generated_at,
+        review_threshold=review_threshold,
+        emit_report=emit_report,
+        emit_thread_page=emit_thread_page,
+        include_runtime_support_assets=include_runtime_support_assets,
+    )
+    print("Adoption Status: completed")
+    print(f"Destination: {destination}")
+    if guided:
+        print(f"Mode: {mode}")
+        print(f"Next Command: ./productos --workspace-dir {destination} review")
+        return 0
+    print(f"Lifecycle Item: {adopted_bundle['item_lifecycle_state']['item_ref']['entity_id']}")
+    if emit_thread_page:
+        print(f"Thread Review Page: {destination / 'docs' / 'review' / 'thread-review.html'}")
+    return 0
+
+
+def _run_guided_start(args: argparse.Namespace) -> int:
+    kind = args.kind
+    if kind is None:
+        kind = _prompt_choice(
+            "How do you want to get started?",
+            [
+                {
+                    "value": "new",
+                    "label": "Start a new workspace",
+                    "description": "Create a fresh ProductOS workspace for a product or feature.",
+                },
+                {
+                    "value": "import",
+                    "label": "Bring existing work into ProductOS",
+                    "description": "Adopt an existing folder of notes, docs, or product files.",
+                },
+            ],
+            default_value=_start_kind_from_args(args),
+        )
+    if kind == "import":
+        source = args.source or _prompt_path(
+            "Where is the existing product folder?",
+            must_exist=True,
+        )
+        name = _normalized_text(args.name) or _prompt_text("What should this workspace be called?")
+        dest = args.dest or _prompt_path(
+            "Where should ProductOS create the new workspace?",
+            default=_default_start_destination(name),
+            must_not_exist=True,
+        )
+        mode = _start_mode_for_guided_flow(args) or _prompt_choice(
+            "Which mode fits this workspace best?",
+            [
+                {
+                    "value": "startup",
+                    "label": "Startup",
+                    "description": "Simpler, faster default for a new or early-stage team.",
+                },
+                {
+                    "value": "enterprise",
+                    "label": "Enterprise",
+                    "description": "More structured default for a governance-heavy product environment.",
+                },
+            ],
+            default_value="startup",
+        )
+        workspace_id = _normalized_text(args.workspace_id) or f"ws_{_slug(name)}"
+        return _run_workspace_adoption(
+            source=source,
+            dest=dest,
+            workspace_id=workspace_id,
+            name=name,
+            mode=mode,
+            generated_at=args.generated_at,
+            review_threshold=args.review_threshold,
+            guided=True,
+        )
+
+    name = _normalized_text(args.name) or _prompt_text("What should this workspace be called?")
+    dest = args.dest or _prompt_path(
+        "Where should ProductOS create the workspace?",
+        default=_default_start_destination(name),
+        must_not_exist=True,
+    )
+    mode = _start_mode_for_guided_flow(args) or _prompt_choice(
+        "Which mode fits this workspace best?",
+        [
+            {
+                "value": "startup",
+                "label": "Startup",
+                "description": "Simpler, faster default for a new or early-stage team.",
+            },
+            {
+                "value": "enterprise",
+                "label": "Enterprise",
+                "description": "More structured default for a governance-heavy product environment.",
+            },
+        ],
+        default_value="startup",
+    )
+    first_win = _guided_first_win_choice(args)
+    workspace_id = _normalized_text(args.workspace_id) or f"ws_{_slug(name)}"
+    title = _normalized_text(args.title) or first_win["title"]
+    deliverable_name = first_win["label"].lower()
+    customer_problem = _normalized_text(args.customer_problem) or (
+        f"The PM needs a fast way to turn messy product context into a reviewable {deliverable_name}."
+    )
+    business_goal = _normalized_text(args.business_goal) or (
+        f"Help {name} get to a clear product direction faster with less PM coordination overhead."
+    )
+    success_metrics = args.success_metric or [first_win["success_metric"]]
+    primary_kpis = args.primary_kpi or success_metrics
+    primary_outcomes = args.primary_outcome or [first_win["primary_outcome"]]
+    maturity_band = START_MODE_TO_MATURITY_BAND[mode]
+    return _run_start_new(
+        dest=dest,
+        workspace_id=workspace_id,
+        name=name,
+        mode=mode,
+        title=title,
+        customer_problem=customer_problem,
+        business_goal=business_goal,
+        success_metrics=success_metrics,
+        primary_kpis=primary_kpis,
+        primary_outcomes=primary_outcomes,
+        target_user=args.target_user or "Product manager",
+        operating_mode=args.operating_mode,
+        generated_at=args.generated_at,
+        maturity_band=maturity_band,
+        constraints=args.constraint,
+        audience=args.audience,
+        review_gate_owner=args.review_gate_owner,
+        portfolio_id=args.portfolio_id,
+        stage_goals=_parse_phase_goals(args.stage_goal),
+        known_risks=args.known_risk,
+        template_name=args.template,
+        guided=True,
+        first_win_label=first_win["label"],
+    )
 
 
 def _write_release_review_markdown(output_dir: Path, bundle: dict[str, dict]) -> None:
@@ -1586,42 +2032,70 @@ def cmd_init_workspace(args: argparse.Namespace) -> int:
 
 
 def cmd_start(args: argparse.Namespace) -> int:
-    success_metrics = args.success_metric or ["time to reviewable PRD"]
+    if _interactive_start_required(args):
+        return _run_guided_start(args)
+
+    kind = _start_kind_from_args(args)
+    if kind == "import":
+        mode = _normalized_text(args.mode)
+        if mode not in START_MODE_TO_MATURITY_BAND:
+            raise SystemExit("`start --kind import` requires --mode startup or --mode enterprise.")
+        if args.source is None or args.dest is None:
+            raise SystemExit("`start --kind import --non-interactive` requires --source and --dest.")
+        workspace_id = _normalized_text(args.workspace_id)
+        name = _normalized_text(args.name)
+        if workspace_id is None or name is None:
+            raise SystemExit("`start --kind import --non-interactive` requires --workspace-id and --name.")
+        return _run_workspace_adoption(
+            source=args.source,
+            dest=args.dest,
+            workspace_id=workspace_id,
+            name=name,
+            mode=mode,
+            generated_at=args.generated_at,
+            review_threshold=args.review_threshold,
+            guided=False,
+        )
+
+    if args.dest is None:
+        raise SystemExit("`start --non-interactive` requires --dest.")
+    workspace_id = _normalized_text(args.workspace_id)
+    name = _normalized_text(args.name)
+    mode = _normalized_text(args.mode)
+    title = _normalized_text(args.title)
+    customer_problem = _normalized_text(args.customer_problem)
+    business_goal = _normalized_text(args.business_goal)
+    if None in {workspace_id, name, mode, title, customer_problem, business_goal}:
+        raise SystemExit(
+            "`start --non-interactive` requires --workspace-id, --name, --mode, --title, --customer-problem, and --business-goal."
+        )
+    success_metrics = args.success_metric or ["time to reviewable PM package"]
     primary_kpis = args.primary_kpi or success_metrics
-    init_workspace_from_template(
-        ROOT,
-        template_name=args.template,
+    primary_outcomes = args.primary_outcome or ["Create one reviewable PM package"]
+    return _run_start_new(
         dest=args.dest,
-        workspace_id=args.workspace_id,
-        name=args.name,
-        mode=args.mode,
-    )
-    mission_brief = init_mission_in_workspace(
-        args.dest,
-        title=args.title,
-        target_user=args.target_user,
-        customer_problem=args.customer_problem,
-        business_goal=args.business_goal,
+        workspace_id=workspace_id,
+        name=name,
+        mode=mode,
+        title=title,
+        customer_problem=customer_problem,
+        business_goal=business_goal,
         success_metrics=success_metrics,
-        constraints=args.constraint,
-        audience=args.audience,
+        primary_kpis=primary_kpis,
+        primary_outcomes=primary_outcomes,
+        target_user=args.target_user or "Product manager",
         operating_mode=args.operating_mode,
         generated_at=args.generated_at,
         maturity_band=args.maturity_band,
-        primary_outcomes=args.primary_outcome,
-        primary_kpis=primary_kpis,
+        constraints=args.constraint,
+        audience=args.audience,
         review_gate_owner=args.review_gate_owner,
         portfolio_id=args.portfolio_id,
         stage_goals=_parse_phase_goals(args.stage_goal),
         known_risks=args.known_risk,
+        template_name=args.template,
+        guided=False,
     )
-    print(f"Started workspace at {args.dest}")
-    print(f"Mission Brief: {mission_brief['mission_brief_id']}")
-    print(f"Operating Mode: {mission_brief['operating_mode']}")
-    print(f"Maturity Band: {mission_brief['maturity_band']}")
-    print(f"Portfolio: {mission_brief['portfolio_id']}")
-    print(f"Next Action: {mission_brief['next_action']}")
-    return 0
 
 
 def cmd_init_mission(args: argparse.Namespace) -> int:
@@ -1822,40 +2296,8 @@ def cmd_thread_review_release_check(args: argparse.Namespace) -> int:
 
 
 def cmd_adopt_workspace(args: argparse.Namespace) -> int:
-    bundle = build_workspace_adoption_bundle_from_source(
-        ROOT,
-        source_dir=args.source,
-        workspace_id=args.workspace_id,
-        name=args.name,
-        generated_at=args.generated_at,
-        review_threshold=args.review_threshold,
-    )
-    failures = _validate_named_bundle(bundle, ADOPTION_ARTIFACT_SCHEMAS)
-    if failures:
-        for failure in failures:
-            print(f"FAIL: {failure}")
-        return 1
-
-    if args.output_dir:
-        _write_artifacts(args.output_dir, bundle, ADOPTION_ARTIFACTS)
-        if args.emit_thread_page:
-            write_thread_review_page(bundle["thread_review_bundle"], args.output_dir / "thread-review.html")
-
-    report = bundle["workspace_adoption_report"]
-    review_queue = bundle["adoption_review_queue"]
-    print(f"Source Workspace Mode: {report['source_workspace_mode']}")
-    print(f"Source Files: {report['source_file_count']}")
-    print(f"Generated Artifacts: {len(report['generated_artifact_ids'])}")
-    print(f"Review Items: {review_queue['review_items'] and len(review_queue['review_items']) or 0}")
-
-    if args.dry_run:
-        print("Adoption Status: dry-run")
-        print("Dry Run: no workspace files were written.")
-        return 0
-
-    destination, adopted_bundle = adopt_workspace_from_source(
-        ROOT,
-        source_dir=args.source,
+    return _run_workspace_adoption(
+        source=args.source,
         dest=args.dest,
         workspace_id=args.workspace_id,
         name=args.name,
@@ -1865,13 +2307,10 @@ def cmd_adopt_workspace(args: argparse.Namespace) -> int:
         emit_report=args.emit_report,
         emit_thread_page=args.emit_thread_page,
         include_runtime_support_assets=args.include_runtime_support_assets,
+        dry_run=args.dry_run,
+        output_dir=args.output_dir,
+        guided=False,
     )
-    print("Adoption Status: completed")
-    print(f"Destination: {destination}")
-    print(f"Lifecycle Item: {adopted_bundle['item_lifecycle_state']['item_ref']['entity_id']}")
-    if args.emit_thread_page:
-        print(f"Thread Review Page: {destination / 'docs' / 'review' / 'thread-review.html'}")
-    return 0
 
 
 def cmd_research_workspace(args: argparse.Namespace) -> int:
@@ -2133,14 +2572,17 @@ def parse_args() -> argparse.Namespace:
 
     start_parser = subparsers.add_parser("start")
     start_parser.add_argument("--template", choices=["templates"], default="templates")
-    start_parser.add_argument("--dest", type=Path, required=True)
-    start_parser.add_argument("--workspace-id", required=True)
-    start_parser.add_argument("--name", required=True)
-    start_parser.add_argument("--mode", required=True)
-    start_parser.add_argument("--title", required=True)
+    start_parser.add_argument("--kind", choices=["new", "import"])
+    start_parser.add_argument("--non-interactive", action="store_true")
+    start_parser.add_argument("--source", type=Path)
+    start_parser.add_argument("--dest", type=Path)
+    start_parser.add_argument("--workspace-id")
+    start_parser.add_argument("--name")
+    start_parser.add_argument("--mode")
+    start_parser.add_argument("--title")
     start_parser.add_argument("--target-user", default="Product manager")
-    start_parser.add_argument("--customer-problem", required=True)
-    start_parser.add_argument("--business-goal", required=True)
+    start_parser.add_argument("--customer-problem")
+    start_parser.add_argument("--business-goal")
     start_parser.add_argument("--success-metric", action="append")
     start_parser.add_argument("--primary-kpi", action="append")
     start_parser.add_argument("--primary-outcome", action="append")
@@ -2150,6 +2592,7 @@ def parse_args() -> argparse.Namespace:
     start_parser.add_argument("--stage-goal", action="append")
     start_parser.add_argument("--portfolio-id")
     start_parser.add_argument("--review-gate-owner", default="ProductOS PM")
+    start_parser.add_argument("--review-threshold", choices=["medium", "high"], default="medium")
     start_parser.add_argument(
         "--maturity-band",
         choices=["zero_to_one", "one_to_ten", "ten_to_hundred", "hundred_to_thousand_plus"],
