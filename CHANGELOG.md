@@ -1,5 +1,30 @@
 # Changelog
 
+## Upcoming V10.1.0
+
+ProductOS V10.1.0 narrows the Day-1 PM experience around a simpler startup path instead of a flag-heavy CLI contract.
+
+### Added
+
+- guided `./productos start` flow for first-time PM setup
+- two Day-1 setup paths: start a new workspace or bring existing work into ProductOS
+- beginner `Startup` and `Enterprise` mode selection in the guided flow
+- first-win deliverable selection that maps to initial mission defaults
+- guided import path routed through the existing workspace adoption engine
+- CLI tests covering guided new-workspace setup and guided import setup
+
+### Changed
+
+- `./productos start` no longer requires all workspace and mission flags up front
+- guided startup now derives `workspace_id`, mode-aligned `maturity_band`, and initial mission defaults automatically
+- PM-facing setup language now centers on the first deliverable to create instead of `success_metric = time to reviewable PRD`
+- public onboarding docs now lead with `./productos start` and move flag-heavy commands into advanced usage
+
+### Validation
+
+- `python3 scripts/productos.py start --help`
+- `pytest tests/test_productos_cli.py`
+
 ## V10.0.0 — 2026-05-03
 
 ProductOS V10 transforms PMs from manual compilers into strategic decision-makers with autonomous, living, world-class AI capabilities.
