@@ -25,7 +25,7 @@
     {
       "feedback_id": "pfb_002",
       "category": "missing_capability",
-      "summary": "The self-hosting workspace needed a dedicated inbox scaffold so rough PM inputs could be dropped into known locations without setup work.",
+      "summary": "The reference workspace needed a dedicated inbox scaffold so rough PM inputs could be dropped into known locations without setup work.",
       "impact_level": "medium",
       "status": "closed",
       "source_type": "benchmark_review",

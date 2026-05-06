@@ -8,7 +8,7 @@
   "offering_hypothesis": "The offering is a seeded and readable starter workspace, not an empty scaffold.",
   "wedge_hypothesis": "A concrete lifecycle trace is the clearest niche wedge for starter adoption.",
   "why_now": "V5 introduces lifecycle traceability as a first-class capability and needs a reusable adoption baseline.",
-  "why_us": "The starter workspace is the cleanest way to demonstrate ProductOS outside the self-hosting workspace.",
+  "why_us": "The starter workspace is the cleanest way to demonstrate ProductOS outside the reference workspace.",
   "advantage_hypothesis": "A seeded, readable discovery path lowers adoption friction more than an empty scaffold.",
   "status": "validated",
   "idea_record_ids": [

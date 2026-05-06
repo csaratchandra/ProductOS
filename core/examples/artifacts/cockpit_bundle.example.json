@@ -47,7 +47,7 @@
     },
     "steering_context": {
       "steering_refs": [
-        "internal/ProductOS-Next/docs/planning/steering-context.md"
+        "tests/fixtures/workspaces/productos-sample/docs/planning/steering-context.md"
       ],
       "operating_norms": [
         "Treat the repository as the system of record."
@@ -65,7 +65,7 @@
       "../../core/workflows/decision-intelligence/mission-to-strategy-spine-workflow.md"
     ],
     "source_refs": [
-      "internal/ProductOS-Next/workspace_manifest.yaml"
+      "tests/fixtures/workspaces/productos-sample/workspace_manifest.yaml"
     ],
     "stage_goals": {
       "discovery": "Create a reviewable mission-first discovery packet with explicit evidence posture."
@@ -168,13 +168,13 @@
           "node_id": "tree_node_workspace_ws_productos_v2",
           "node_type": "workspace",
           "label": "ProductOS V2 Workspace",
-          "ref": "internal/ProductOS-Next",
+          "ref": "tests/fixtures/workspaces/productos-sample",
           "children": [
             {
               "node_id": "tree_node_mission_ws_productos_v2",
               "node_type": "mission",
               "label": "PM superpower recovery mission",
-              "ref": "internal/ProductOS-Next/artifacts/mission_brief.json",
+              "ref": "tests/fixtures/workspaces/productos-sample/artifacts/mission_brief.json",
               "children": []
             }
           ]
@@ -328,7 +328,7 @@
         "view_id": "context_view_readme",
         "label": "Readme",
         "ref_type": "document",
-        "ref_path": "internal/ProductOS-Next/README.md"
+        "ref_path": "tests/fixtures/workspaces/productos-sample/README.md"
       }
     ],
     "recommended_pm_actions": [
@@ -493,7 +493,7 @@
       "view_id": "context_view_readme",
       "label": "Readme",
       "ref_type": "document",
-      "ref_path": "internal/ProductOS-Next/README.md"
+      "ref_path": "tests/fixtures/workspaces/productos-sample/README.md"
     }
   ],
   "recommended_pm_actions": [
@@ -508,7 +508,7 @@
       "assumption_note": "The recommendation is seeded from repo-visible scaffolding until workspace evidence replaces the starter defaults."
     }
   ],
-  "generated_html_ref": "internal/ProductOS-Next/outputs/cockpit/control-center.html",
+  "generated_html_ref": "tests/fixtures/workspaces/productos-sample/outputs/cockpit/control-center.html",
   "source_artifact_ids": [
     "mission_brief_ws_productos_v2_pm_superpower_recovery",
     "product_record_productos_core",

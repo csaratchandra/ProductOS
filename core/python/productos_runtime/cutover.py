@@ -39,7 +39,7 @@ SELECTED_V7_BUNDLE_NAME = "Lifecycle traceability through outcome review"
 SELECTED_V7_BUNDLE_SCOPE = [
     "Extend item-first lifecycle traceability from release_readiness through launch_preparation and outcome_review.",
     "Attach release communication and post-release learning evidence to the same canonical item trace.",
-    "Preserve discovery, delivery, launch, outcomes, and full_lifecycle snapshot parity across the self-hosting and starter workspaces.",
+    "Preserve discovery, delivery, launch, outcomes, and full_lifecycle snapshot parity across the reference and starter workspaces.",
     "Keep external publication adapters and broader distribution packaging as later bounded releases.",
 ]
 SELECTED_V7_BUNDLE_EVIDENCE = [
@@ -531,14 +531,21 @@ def build_v9_cutover_plan_from_workspace(
     target_version: str = "9.0.0",
     adapter_name: str = "codex",
 ) -> dict[str, Any]:
+    workspace_path = Path(workspace_dir).resolve()
+    root_dir = Path(__file__).resolve().parents[3]
+    evidence_paths = [
+        str((workspace_path / "docs" / "planning" / "current-plan.md").relative_to(root_dir)),
+        str((workspace_path / "docs" / "planning" / "next-version-release-review.md").relative_to(root_dir)),
+        str((workspace_path / "docs" / "planning" / "roadmap.md").relative_to(root_dir)),
+    ]
     bundle = build_v9_lifecycle_bundle_from_workspace(
-        workspace_dir,
+        workspace_path,
         generated_at=generated_at,
         target_version=target_version,
         adapter_name=adapter_name,
     )
     program_state = inspect_v9_lifecycle_enrichment_state(
-        workspace_dir,
+        workspace_path,
         generated_at=generated_at,
         adapter_name=adapter_name,
     )
@@ -589,11 +596,7 @@ def build_v9_cutover_plan_from_workspace(
                 "Ignore superseded March increment and next-version release-gate artifacts when evaluating V9 proof.",
             ]
         ),
-        "selection_evidence_paths": [] if gate_status == "blocked" else [
-            "internal/ProductOS-Next/docs/planning/current-plan.md",
-            "internal/ProductOS-Next/docs/planning/next-version-release-review.md",
-            "internal/ProductOS-Next/docs/planning/roadmap.md",
-        ],
+        "selection_evidence_paths": [] if gate_status == "blocked" else evidence_paths,
         "bundle_selection_rule": (
             "Do not promote V9 until runtime coherence, governed research, and downstream learning loops all clear as artifact-backed in one shared gate."
         ),

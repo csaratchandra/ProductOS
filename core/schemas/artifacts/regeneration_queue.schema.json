@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/regeneration_queue.schema.json",
+  "title": "ProductOS Regeneration Queue",
+  "description": "Orchestrates artifact regeneration after source changes. Tracks trigger events, queued items, dependency sequences, and PM approval status for the living system.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "regeneration_queue_id",
+    "workspace_id",
+    "trigger_event",
+    "queued_items",
+    "dependency_sequence",
+    "status",
+    "pm_review_required",
+    "auto_executed_count",
+    "pm_review_count",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "regeneration_queue_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "trigger_event": {
+      "$ref": "#/$defs/triggerEvent"
+    },
+    "queued_items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/queuedItem"
+      },
+      "minItems": 0
+    },
+    "dependency_sequence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "paused", "completed"]
+    },
+    "pm_review_required": {
+      "type": "boolean"
+    },
+    "auto_executed_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "pm_review_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "triggerEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_type", "source_artifact_ref", "change_summary"],
+      "properties": {
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "artifact_updated",
+            "competitive_alert",
+            "pm_note_added",
+            "research_fresh",
+            "stakeholder_feedback"
+          ]
+        },
+        "source_artifact_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "change_summary": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "queuedItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item_id",
+        "target_artifact_ref",
+        "impact_classification",
+        "regeneration_mode",
+        "status",
+        "delta_preview"
+      ],
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_artifact_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "impact_classification": {
+          "type": "string",
+          "enum": ["mechanical", "content_deep", "structural"]
+        },
+        "regeneration_mode": {
+          "type": "string",
+          "enum": ["auto", "pm_review", "full_rebuild"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "auto_executed", "approved", "rejected", "completed"]
+        },
+        "delta_preview": {
+          "type": "string",
+          "minLength": 3
+        },
+        "pm_note": {
+          "type": "string",
+          "default": ""
+        },
+        "executed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "execution_log": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "default": []
+        }
+      }
+    }
+  }
+}

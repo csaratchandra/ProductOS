@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "regeneration_queue_id": "rq_ws_example_001",
+  "workspace_id": "ws_example_product",
+  "trigger_event": {
+    "event_type": "competitive_alert",
+    "source_artifact_ref": "artifacts/competitor_dossier.json",
+    "change_summary": "CompetitorAlpha launched new AI PRD generator feature"
+  },
+  "queued_items": [
+    {
+      "item_id": "rq_item_001",
+      "target_artifact_ref": "artifacts/strategy_context_brief.json",
+      "impact_classification": "content_deep",
+      "regeneration_mode": "pm_review",
+      "status": "pending",
+      "delta_preview": "3 claims outdated: pricing advantage, feature parity, segment targeting",
+      "pm_note": "",
+      "executed_at": "2026-05-06T12:00:00Z",
+      "execution_log": []
+    },
+    {
+      "item_id": "rq_item_002",
+      "target_artifact_ref": "artifacts/battle_card.json",
+      "impact_classification": "mechanical",
+      "regeneration_mode": "auto",
+      "status": "pending",
+      "delta_preview": "Update feature comparison table row for CompetitorAlpha AI PRD",
+      "pm_note": "",
+      "executed_at": "2026-05-06T12:00:00Z",
+      "execution_log": []
+    }
+  ],
+  "dependency_sequence": [
+    "artifacts/battle_card.json",
+    "artifacts/strategy_context_brief.json"
+  ],
+  "status": "active",
+  "pm_review_required": true,
+  "auto_executed_count": 1,
+  "pm_review_count": 1,
+  "generated_at": "2026-05-06T12:00:00Z"
+}

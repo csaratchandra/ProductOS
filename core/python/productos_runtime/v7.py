@@ -145,7 +145,7 @@ def build_v7_lifecycle_bundle_from_workspace(
         "candidate_version": target_version,
         "status": overall_status,
         "summary": (
-            "The selected V7 bundle proves one canonical lifecycle trace through launch preparation and post-release outcome review in both the self-hosting and starter workspaces."
+            "The selected V7 bundle proves one canonical lifecycle trace through launch preparation and post-release outcome review in both the reference and starter workspaces."
             if overall_status == "passed"
             else "The selected V7 lifecycle-traceability bundle is partially proven, but one or more launch, outcome, parity, or full-lifecycle checks still need review."
         ),
@@ -269,7 +269,7 @@ def build_v7_lifecycle_bundle_from_workspace(
             "status": tester_status,
             "tester_role": "AI Tester",
             "checks_run": [
-                "Validated self-hosting lifecycle state through launch preparation and outcome review.",
+                "Validated reference-workspace lifecycle state through launch preparation and outcome review.",
                 "Validated starter-workspace lifecycle state parity through launch preparation and outcome review.",
                 "Validated discovery, delivery, launch, outcomes, and full_lifecycle snapshot coverage.",
                 "Validated that no post-release_readiness stages remain not_started in the promoted slice.",
@@ -385,7 +385,7 @@ def build_v7_lifecycle_bundle_from_workspace(
             {
                 "name": "Self-hosting lifecycle trace reaches outcome_review",
                 "status": "passed" if self_hosting_ready else "failed",
-                "notes": "The self-hosting workspace exposes one item-first lifecycle trace from discovery through launch preparation and outcome review.",
+                "notes": "The reference workspace exposes one item-first lifecycle trace from discovery through launch preparation and outcome review.",
             },
             {
                 "name": "Starter-workspace adoption parity through outcome_review",
@@ -416,7 +416,7 @@ def build_v7_lifecycle_bundle_from_workspace(
         "runtime_scenario_report_ref": runtime_scenario_report["runtime_scenario_report_id"],
         "release_readiness_ref": release_readiness["release_readiness_id"],
         "rationale": (
-            "The selected V7 bundle proves one canonical lifecycle trace through launch preparation and post-release outcome review in both the self-hosting and starter workspaces."
+            "The selected V7 bundle proves one canonical lifecycle trace through launch preparation and post-release outcome review in both the reference and starter workspaces."
             if overall_status == "passed"
             else "The selected V7 lifecycle-traceability bundle still has unresolved proof gaps, so stable promotion should wait for those checks to pass."
         ),
@@ -462,7 +462,7 @@ def build_v7_lifecycle_bundle_from_workspace(
                 "stage_key": "inspect",
                 "status": "passed" if self_hosting_ready else "blocked",
                 "owner": "AI Librarian",
-                "findings_summary": "The self-hosting and starter-workspace lifecycle traces were inspected as one bounded V7 release claim through launch preparation and outcome review.",
+                "findings_summary": "The reference and starter-workspace lifecycle traces were inspected as one bounded V7 release claim through launch preparation and outcome review.",
                 "evidence_refs": [
                     workspace_item["item_lifecycle_state_id"],
                     starter_item["item_lifecycle_state_id"],
@@ -488,7 +488,7 @@ def build_v7_lifecycle_bundle_from_workspace(
                     runtime_scenario_report["runtime_scenario_report_id"],
                     validation_lane_report["validation_lane_report_id"],
                 ],
-                "exit_condition": "Automated parity, focus-area, and full-lifecycle proof passes for both the self-hosting and starter workspaces.",
+                "exit_condition": "Automated parity, focus-area, and full-lifecycle proof passes for both the reference and starter workspaces.",
             },
             {
                 "stage_key": "implement",
@@ -567,7 +567,7 @@ def summarize_v7_lifecycle_bundle(
             f"V7 Bundle: {V7_BUNDLE_NAME}",
             f"Target Release: {report['candidate_version']}",
             f"Scenario Status: {report['status']}",
-            f"Self-Hosting Stage: {workspace_item['current_stage']}",
+            f"Reference Stage: {workspace_item['current_stage']}",
             f"Starter Stage: {starter_item['current_stage']}",
             f"Release Readiness: {readiness['status']}",
             f"Release Decision: {decision['decision']}",

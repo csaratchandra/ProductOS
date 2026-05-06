@@ -16,8 +16,8 @@ def test_lifecycle_trace_core_examples_validate(root_dir: Path):
         assert not errors, f"{example_path.name} failed {schema_name}: {[error.message for error in errors]}"
 
 
-def test_workspace_lifecycle_trace_assets_validate(self_hosting_workspace_dir: Path):
-    artifacts_dir = self_hosting_workspace_dir / "artifacts"
+def test_workspace_lifecycle_trace_assets_validate(bundled_workspace_dir: Path):
+    artifacts_dir = bundled_workspace_dir / "artifacts"
     cases = [
         ("research_notebook.schema.json", artifacts_dir / "research_notebook_pm_lifecycle_visibility.example.json"),
         ("segment_map.schema.json", artifacts_dir / "segment_map_pm_lifecycle_visibility.example.json"),
@@ -51,8 +51,8 @@ def test_workspace_lifecycle_trace_assets_validate(self_hosting_workspace_dir: P
         assert not errors, f"{path.name} failed {schema_name}: {[error.message for error in errors]}"
 
 
-def test_mixed_competitor_research_is_present(self_hosting_workspace_dir: Path):
-    artifacts_dir = self_hosting_workspace_dir / "artifacts"
+def test_mixed_competitor_research_is_present(bundled_workspace_dir: Path):
+    artifacts_dir = bundled_workspace_dir / "artifacts"
     dossier = load_json(artifacts_dir / "competitor_dossier_pm_lifecycle_visibility.example.json")
     snapshot = load_json(artifacts_dir / "lifecycle_stage_snapshot_discovery.example.json")
     full_lifecycle = load_json(artifacts_dir / "lifecycle_stage_snapshot_full_lifecycle.example.json")

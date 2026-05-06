@@ -1,11 +1,11 @@
 # Feature Scoring And Dogfood Review Workflow
 
-Purpose: Convert a self-hosted ProductOS feature run into a `feature_scorecard` so every next-version capability is graded before promotion.
+Purpose: Convert a repo-native ProductOS feature run into a `feature_scorecard` so every next-version capability is graded before promotion.
 
 ## Inputs
 
 - the feature slice being reviewed
-- dogfood run evidence from the current self-hosting workspace
+- dogfood run evidence from the current workspace under review
 - relevant validation-lane outputs
 - relevant manual validation outputs
 - current `pm_superpower_benchmark`

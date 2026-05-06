@@ -4,7 +4,7 @@ Purpose: Define the internal-only governed model for broader autonomous PM/swarm
 
 ## Boundary
 
-This model is for ProductOS self-hosting and internal dogfooding.
+This model is for ProductOS repo-native hardening and explicit-workspace dogfooding.
 
 It is not permission to market ProductOS as a full autonomous PM replacement.
 

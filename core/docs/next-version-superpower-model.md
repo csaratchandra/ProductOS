@@ -6,7 +6,7 @@ Purpose: Define the current ProductOS runtime shape for building the next versio
 
 The next version remains `CLI + repo` first.
 
-ProductOS should prove the next-version loops inside the current self-hosting workspace before claiming a broader product surface.
+ProductOS should prove the next-version loops inside an explicit workspace before claiming a broader product surface.
 
 ## Control Surface
 
@@ -35,7 +35,7 @@ Core commands:
 
 Every major slice should:
 
-1. run in the self-hosting workspace
+1. run in an explicit workspace selected with `--workspace-dir`
 2. emit a `feature_scorecard`
 3. update the `feature_portfolio_review`
 4. route sub-`5/5` gaps into the improvement loop

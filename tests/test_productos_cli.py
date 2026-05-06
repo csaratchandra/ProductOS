@@ -31,8 +31,16 @@ def _run_launcher(root_dir: Path, launcher_name: str, *args: str) -> subprocess.
     )
 
 
-def _run_self_hosting_cli(root_dir: Path, workspace_dir: Path, *args: str) -> subprocess.CompletedProcess[str]:
+def _run_workspace_cli(root_dir: Path, workspace_dir: Path, *args: str) -> subprocess.CompletedProcess[str]:
     return _run_cli(root_dir, "--workspace-dir", str(workspace_dir), *args)
+
+
+def test_productos_status_requires_explicit_workspace(root_dir: Path):
+    result = _run_cli(root_dir, "status")
+
+    assert result.returncode != 0
+    assert "Workspace selection is explicit." in (result.stderr or result.stdout)
+    assert "--workspace-dir" in (result.stderr or result.stdout)
 
 
 def _make_mission_first_workspace(root_dir: Path, tmp_path: Path) -> Path:
@@ -226,8 +234,8 @@ def _workflow_corridor_source_bundle() -> dict:
     }
 
 
-def test_productos_status_command(root_dir: Path, self_hosting_workspace_dir: Path):
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "status")
+def test_productos_status_command(root_dir: Path, bundled_workspace_dir: Path):
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "status")
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Mode: status" in result.stdout
@@ -250,8 +258,8 @@ def test_productos_status_command(root_dir: Path, self_hosting_workspace_dir: Pa
     assert "Stable Promotion: ready" in result.stdout
 
 
-def test_productos_doctor_command(root_dir: Path, self_hosting_workspace_dir: Path):
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "doctor")
+def test_productos_doctor_command(root_dir: Path, bundled_workspace_dir: Path):
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "doctor")
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Bundle Status: healthy" in result.stdout
@@ -261,9 +269,9 @@ def test_productos_doctor_command(root_dir: Path, self_hosting_workspace_dir: Pa
     assert "Top Priority Feature: presentation_superpower" in result.stdout
 
 
-def test_productos_init_mission_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+def test_productos_init_mission_command(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
     for relative_path in [
         "artifacts/strategy_context_brief.json",
         "artifacts/product_vision_brief.json",
@@ -277,7 +285,7 @@ def test_productos_init_mission_command(root_dir: Path, self_hosting_workspace_d
         if path.exists():
             path.unlink()
 
-    result = _run_self_hosting_cli(
+    result = _run_workspace_cli(
         root_dir,
         workspace_copy,
         "init-mission",
@@ -333,7 +341,7 @@ def test_productos_init_mission_command(root_dir: Path, self_hosting_workspace_d
     assert "artifacts/market_strategy_brief.json" in manifest["artifact_paths"]
     assert (workspace_copy / "docs" / "planning" / "mission-brief.md").exists()
 
-    status_result = _run_self_hosting_cli(root_dir, workspace_copy, "status")
+    status_result = _run_workspace_cli(root_dir, workspace_copy, "status")
     assert status_result.returncode == 0, status_result.stderr or status_result.stdout
     assert "Mission: Customer recovery mission" in status_result.stdout
 
@@ -504,7 +512,7 @@ def test_productos_start_workspace_can_run_discover(root_dir: Path, tmp_path: Pa
 
     assert start_result.returncode == 0, start_result.stderr or start_result.stdout
 
-    discover_result = _run_self_hosting_cli(
+    discover_result = _run_workspace_cli(
         root_dir,
         destination,
         "run",
@@ -546,7 +554,7 @@ def test_productos_phase_plan_generates_lifecycle_packet(root_dir: Path, tmp_pat
     )
     assert start_result.returncode == 0, start_result.stderr or start_result.stdout
 
-    result = _run_self_hosting_cli(
+    result = _run_workspace_cli(
         root_dir,
         destination,
         "phase",
@@ -585,7 +593,7 @@ def test_productos_cockpit_build_emits_bundle_and_html(root_dir: Path, tmp_path:
     )
     assert start_result.returncode == 0, start_result.stderr or start_result.stdout
 
-    result = _run_self_hosting_cli(root_dir, destination, "cockpit", "build")
+    result = _run_workspace_cli(root_dir, destination, "cockpit", "build")
 
     assert result.returncode == 0, result.stderr or result.stdout
     bundle_path = destination / "outputs" / "cockpit" / "cockpit_bundle.json"
@@ -605,8 +613,8 @@ def test_productos_cockpit_build_emits_bundle_and_html(root_dir: Path, tmp_path:
     assert "Strategy Spine" in html
 
 
-def test_productos_review_surfaces_phase_metadata(root_dir: Path, self_hosting_workspace_dir: Path):
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "review")
+def test_productos_review_surfaces_phase_metadata(root_dir: Path, bundled_workspace_dir: Path):
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "review")
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Mission: PM superpower recovery mission" in result.stdout
@@ -727,10 +735,10 @@ def test_case_variant_launchers_delegate_to_productos_cli(root_dir: Path):
         assert "import" in result.stdout
 
 
-def test_productos_run_discover_can_fall_back_to_mission_brief(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+def test_productos_run_discover_can_fall_back_to_mission_brief(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
     workspace_copy = tmp_path / "workspace-copy"
     output_dir = tmp_path / "discover-output"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
     for relative_path in [
         "artifacts/strategy_context_brief.json",
@@ -754,7 +762,7 @@ def test_productos_run_discover_can_fall_back_to_mission_brief(root_dir: Path, s
         if path.exists():
             path.unlink()
 
-    result = _run_self_hosting_cli(
+    result = _run_workspace_cli(
         root_dir,
         workspace_copy,
         "run",
@@ -936,10 +944,10 @@ def test_productos_visual_export_map_command(root_dir: Path, tmp_path: Path):
 
 
 def test_productos_run_discover_persist_syncs_canonical_discover_artifacts_from_mission(
-    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path
 ):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
     for relative_path in [
         "artifacts/strategy_context_brief.json",
@@ -963,7 +971,7 @@ def test_productos_run_discover_persist_syncs_canonical_discover_artifacts_from_
         if path.exists():
             path.unlink()
 
-    result = _run_self_hosting_cli(
+    result = _run_workspace_cli(
         root_dir,
         workspace_copy,
         "run",
@@ -1009,10 +1017,10 @@ def test_productos_run_discover_persist_syncs_canonical_discover_artifacts_from_
 
 
 def test_productos_init_mission_does_not_overwrite_mature_lifecycle_examples(
-    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path
 ):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
     original_item = json.loads(
         (workspace_copy / "artifacts" / "item_lifecycle_state_pm_lifecycle_visibility.example.json").read_text(
@@ -1020,7 +1028,7 @@ def test_productos_init_mission_does_not_overwrite_mature_lifecycle_examples(
         )
     )
 
-    result = _run_self_hosting_cli(
+    result = _run_workspace_cli(
         root_dir,
         workspace_copy,
         "init-mission",
@@ -1049,14 +1057,14 @@ def test_productos_init_mission_does_not_overwrite_mature_lifecycle_examples(
 
 
 def test_productos_align_and_operate_outputs_include_custom_mission_context(
-    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path
 ):
     workspace_copy = tmp_path / "workspace-copy"
     align_output_dir = tmp_path / "align-output"
     operate_output_dir = tmp_path / "operate-output"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
-    mission_result = _run_self_hosting_cli(
+    mission_result = _run_workspace_cli(
         root_dir,
         workspace_copy,
         "init-mission",
@@ -1077,7 +1085,7 @@ def test_productos_align_and_operate_outputs_include_custom_mission_context(
     )
     assert mission_result.returncode == 0, mission_result.stderr or mission_result.stdout
 
-    align_result = _run_self_hosting_cli(
+    align_result = _run_workspace_cli(
         root_dir,
         workspace_copy,
         "run",
@@ -1085,7 +1093,7 @@ def test_productos_align_and_operate_outputs_include_custom_mission_context(
         "--output-dir",
         str(align_output_dir),
     )
-    operate_result = _run_self_hosting_cli(
+    operate_result = _run_workspace_cli(
         root_dir,
         workspace_copy,
         "run",
@@ -1125,12 +1133,12 @@ def test_productos_align_and_operate_outputs_include_custom_mission_context(
 
 
 def test_productos_run_align_rejects_discover_only_mission(
-    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path
 ):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
-    mission_result = _run_self_hosting_cli(
+    mission_result = _run_workspace_cli(
         root_dir,
         workspace_copy,
         "init-mission",
@@ -1149,7 +1157,7 @@ def test_productos_run_align_rejects_discover_only_mission(
     )
     assert mission_result.returncode == 0, mission_result.stderr or mission_result.stdout
 
-    result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "align")
+    result = _run_workspace_cli(root_dir, workspace_copy, "run", "align")
 
     assert result.returncode == 1
     assert "routes through [discover]" in (result.stderr or result.stdout)
@@ -1157,12 +1165,12 @@ def test_productos_run_align_rejects_discover_only_mission(
 
 
 def test_productos_run_operate_rejects_discover_to_align_mission(
-    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path
 ):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
-    mission_result = _run_self_hosting_cli(
+    mission_result = _run_workspace_cli(
         root_dir,
         workspace_copy,
         "init-mission",
@@ -1181,7 +1189,7 @@ def test_productos_run_operate_rejects_discover_to_align_mission(
     )
     assert mission_result.returncode == 0, mission_result.stderr or mission_result.stdout
 
-    result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "operate")
+    result = _run_workspace_cli(root_dir, workspace_copy, "run", "operate")
 
     assert result.returncode == 1
     assert "routes through [discover, align]" in (result.stderr or result.stdout)
@@ -1189,10 +1197,10 @@ def test_productos_run_operate_rejects_discover_to_align_mission(
 
 
 def test_productos_status_review_and_doctor_surface_feed_governance(
-    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path
 ):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
     feed_registry = {
         "schema_version": "1.0.0",
@@ -1254,9 +1262,9 @@ def test_productos_status_review_and_doctor_surface_feed_governance(
         encoding="utf-8",
     )
 
-    status_result = _run_self_hosting_cli(root_dir, workspace_copy, "status")
-    review_result = _run_self_hosting_cli(root_dir, workspace_copy, "review")
-    doctor_result = _run_self_hosting_cli(root_dir, workspace_copy, "doctor")
+    status_result = _run_workspace_cli(root_dir, workspace_copy, "status")
+    review_result = _run_workspace_cli(root_dir, workspace_copy, "review")
+    doctor_result = _run_workspace_cli(root_dir, workspace_copy, "doctor")
 
     assert status_result.returncode == 0, status_result.stderr or status_result.stdout
     assert "Feed Governance: degraded (1 unconfigured, 1 stale, 1 due)" in status_result.stdout
@@ -1294,10 +1302,10 @@ def test_productos_status_review_and_doctor_surface_feed_governance(
 
 
 def test_productos_status_and_review_surface_research_contradictions(
-    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path
 ):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
     (workspace_copy / "artifacts" / "external_research_review.json").write_text(
         json.dumps(
@@ -1329,8 +1337,8 @@ def test_productos_status_and_review_surface_research_contradictions(
         encoding="utf-8",
     )
 
-    status_result = _run_self_hosting_cli(root_dir, workspace_copy, "status")
-    review_result = _run_self_hosting_cli(root_dir, workspace_copy, "review")
+    status_result = _run_workspace_cli(root_dir, workspace_copy, "status")
+    review_result = _run_workspace_cli(root_dir, workspace_copy, "review")
 
     assert status_result.returncode == 0, status_result.stderr or status_result.stdout
     assert "Research Review: review_required" in status_result.stdout
@@ -1345,9 +1353,9 @@ def test_productos_status_and_review_surface_research_contradictions(
     assert "Strategy Refresh: blocked_on_research_review" in review_result.stdout
 
 
-def test_productos_cutover_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+def test_productos_cutover_command(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
     output_path = tmp_path / "v7-cutover-plan.md"
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "cutover", "--output-path", str(output_path))
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "cutover", "--output-path", str(output_path))
     stable_release_version = latest_release(root_dir)["core_version"]
 
     assert result.returncode == 0, result.stderr or result.stdout
@@ -1368,10 +1376,10 @@ def test_productos_cutover_command(root_dir: Path, self_hosting_workspace_dir: P
 
 
 def test_productos_v5_cutover_markdown_groups_feed_governance_blockers(
-    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path
 ):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
     (workspace_copy / "artifacts" / "research_brief.json").write_text(
         json.dumps(
@@ -1542,7 +1550,7 @@ def test_productos_v5_cutover_markdown_groups_feed_governance_blockers(
     )
 
     output_path = tmp_path / "v5-cutover-plan.md"
-    result = _run_self_hosting_cli(
+    result = _run_workspace_cli(
         root_dir,
         workspace_copy,
         "cutover",
@@ -1559,13 +1567,13 @@ def test_productos_v5_cutover_markdown_groups_feed_governance_blockers(
     assert "## Governed Research Blockers" not in markdown
 
 
-def test_productos_v5_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
-    archived_v5_dir = self_hosting_workspace_dir / "archive" / "historical-artifacts" / "v5_lifecycle_traceability"
+def test_productos_v5_command(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
+    archived_v5_dir = bundled_workspace_dir / "archive" / "historical-artifacts" / "v5_lifecycle_traceability"
     release_5_path = root_dir / "registry" / "releases" / "release_5_0_0.json"
     if not archived_v5_dir.exists() or not release_5_path.exists():
         pytest.skip("Historical V5 validation surface is not included in this repo boundary.")
 
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "v5", "--output-dir", str(tmp_path))
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "v5", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "V5 Bundle: Lifecycle traceability through PRD handoff" in result.stdout
@@ -1577,8 +1585,8 @@ def test_productos_v5_command(root_dir: Path, self_hosting_workspace_dir: Path, 
     assert (tmp_path / "ralph_loop_state_v5_lifecycle_traceability.json").exists()
 
 
-def test_productos_v6_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "v6", "--output-dir", str(tmp_path))
+def test_productos_v6_command(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "v6", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "V6 Bundle: Lifecycle traceability through release readiness" in result.stdout
@@ -1590,8 +1598,8 @@ def test_productos_v6_command(root_dir: Path, self_hosting_workspace_dir: Path, 
     assert (tmp_path / "ralph_loop_state_v6_lifecycle_traceability.json").exists()
 
 
-def test_productos_v7_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "v7", "--output-dir", str(tmp_path))
+def test_productos_v7_command(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "v7", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "V7 Bundle: Lifecycle traceability through outcome review" in result.stdout
@@ -1603,8 +1611,8 @@ def test_productos_v7_command(root_dir: Path, self_hosting_workspace_dir: Path, 
     assert (tmp_path / "ralph_loop_state_v7_lifecycle_traceability.json").exists()
 
 
-def test_productos_v9_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "v9", "--output-dir", str(tmp_path))
+def test_productos_v9_command(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "v9", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "V9 Bundle: World-class PM superpowers — autonomous intelligence, decisions, discovery, prototypes, marketing, and living system" in result.stdout
@@ -1616,8 +1624,8 @@ def test_productos_v9_command(root_dir: Path, self_hosting_workspace_dir: Path, 
     assert (tmp_path / "ralph_loop_state_v9_lifecycle_enrichment.json").exists()
 
 
-def test_productos_run_discover_command_exports_phase_artifacts(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "run", "discover", "--output-dir", str(tmp_path))
+def test_productos_run_discover_command_exports_phase_artifacts(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "run", "discover", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Phase: discover" in result.stdout
@@ -1651,11 +1659,11 @@ def test_productos_run_discover_command_exports_phase_artifacts(root_dir: Path, 
     assert any(path.name.startswith("source_note_card_") for path in tmp_path.glob("source_note_card_*.json"))
 
 
-def test_productos_run_discover_persist_uses_persisted_outputs_for_scoring(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+def test_productos_run_discover_persist_uses_persisted_outputs_for_scoring(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
-    persist_result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "discover", "--persist")
+    persist_result = _run_workspace_cli(root_dir, workspace_copy, "run", "discover", "--persist")
     assert persist_result.returncode == 0, persist_result.stderr or persist_result.stdout
 
     persisted_dir = workspace_copy / "outputs" / "discover"
@@ -1670,7 +1678,7 @@ def test_productos_run_discover_persist_uses_persisted_outputs_for_scoring(root_
     assert (persisted_dir / "discover_prd.json").exists()
 
     export_dir = tmp_path / "persisted-discover-export"
-    rerun_result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "discover", "--output-dir", str(export_dir))
+    rerun_result = _run_workspace_cli(root_dir, workspace_copy, "run", "discover", "--output-dir", str(export_dir))
     assert rerun_result.returncode == 0, rerun_result.stderr or rerun_result.stdout
 
     scorecard = json.loads((export_dir / "discover_feature_scorecard.json").read_text(encoding="utf-8"))
@@ -1680,8 +1688,8 @@ def test_productos_run_discover_persist_uses_persisted_outputs_for_scoring(root_
     assert scorecard["blocked_by"] == []
 
 
-def test_productos_run_align_command_exports_phase_artifacts(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "run", "align", "--output-dir", str(tmp_path))
+def test_productos_run_align_command_exports_phase_artifacts(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "run", "align", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Phase: align" in result.stdout
@@ -1705,7 +1713,8 @@ def test_productos_run_align_command_exports_phase_artifacts(root_dir: Path, sel
     document_sync_state = json.loads((tmp_path / "align_document_sync_state.json").read_text(encoding="utf-8"))
     discovery_doc = next(doc for doc in document_sync_state["documents"] if doc["doc_key"] == "discovery_operations")
     strategy_doc = next(doc for doc in document_sync_state["documents"] if doc["doc_key"] == "product_strategy_vision")
-    assert discovery_doc["readable_path"] == "internal/ProductOS-Next/docs/discovery/research-operations.md"
+    workspace_prefix = bundled_workspace_dir.relative_to(root_dir).as_posix()
+    assert discovery_doc["readable_path"] == f"{workspace_prefix}/docs/discovery/research-operations.md"
     assert discovery_doc["source_artifact_refs"] == [
         "handoff_discovery_to_research_ws_productos_v2",
         "research_notebook_ws_productos_v2",
@@ -1716,7 +1725,7 @@ def test_productos_run_align_command_exports_phase_artifacts(root_dir: Path, sel
     ]
     assert discovery_doc["version_number"] == 1
     assert discovery_doc["modification_log"][0]["version_number"] == 1
-    assert strategy_doc["readable_path"] == "internal/ProductOS-Next/docs/strategy/product-strategy-vision.md"
+    assert strategy_doc["readable_path"] == f"{workspace_prefix}/docs/strategy/product-strategy-vision.md"
     assert strategy_doc["source_artifact_refs"] == [
         "strategy_context_brief_pm_superpower_recovery",
         "product_vision_brief_pm_superpower_recovery",
@@ -1727,11 +1736,11 @@ def test_productos_run_align_command_exports_phase_artifacts(root_dir: Path, sel
     assert strategy_doc["modification_log"][0]["updated_by"] == "ProductOS PM"
 
 
-def test_productos_run_align_persist_uses_persisted_outputs_for_presentation_scoring(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+def test_productos_run_align_persist_uses_persisted_outputs_for_presentation_scoring(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
-    persist_result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "align", "--persist")
+    persist_result = _run_workspace_cli(root_dir, workspace_copy, "run", "align", "--persist")
     assert persist_result.returncode == 0, persist_result.stderr or persist_result.stdout
 
     persisted_dir = workspace_copy / "outputs" / "align"
@@ -1747,7 +1756,7 @@ def test_productos_run_align_persist_uses_persisted_outputs_for_presentation_sco
     assert (persisted_dir / "corridor_visual_quality_review.json").exists()
 
     export_dir = tmp_path / "persisted-align-export"
-    rerun_result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "align", "--output-dir", str(export_dir))
+    rerun_result = _run_workspace_cli(root_dir, workspace_copy, "run", "align", "--output-dir", str(export_dir))
     assert rerun_result.returncode == 0, rerun_result.stderr or rerun_result.stdout
 
     scorecard = json.loads((export_dir / "presentation_feature_scorecard.json").read_text(encoding="utf-8"))
@@ -1757,8 +1766,8 @@ def test_productos_run_align_persist_uses_persisted_outputs_for_presentation_sco
     assert scorecard["blocked_by"] == []
 
 
-def test_productos_run_operate_command_exports_phase_artifacts(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "run", "operate", "--output-dir", str(tmp_path))
+def test_productos_run_operate_command_exports_phase_artifacts(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "run", "operate", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Phase: operate" in result.stdout
@@ -1770,11 +1779,11 @@ def test_productos_run_operate_command_exports_phase_artifacts(root_dir: Path, s
     assert (tmp_path / "weekly_pm_autopilot_feature_scorecard.json").exists()
 
 
-def test_productos_run_operate_persist_uses_persisted_outputs_for_scoring(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+def test_productos_run_operate_persist_uses_persisted_outputs_for_scoring(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
-    persist_result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "operate", "--persist")
+    persist_result = _run_workspace_cli(root_dir, workspace_copy, "run", "operate", "--persist")
     assert persist_result.returncode == 0, persist_result.stderr or persist_result.stdout
 
     persisted_dir = workspace_copy / "outputs" / "operate"
@@ -1782,7 +1791,7 @@ def test_productos_run_operate_persist_uses_persisted_outputs_for_scoring(root_d
     assert (persisted_dir / "operate_issue_log.json").exists()
 
     export_dir = tmp_path / "persisted-operate-export"
-    rerun_result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "operate", "--output-dir", str(export_dir))
+    rerun_result = _run_workspace_cli(root_dir, workspace_copy, "run", "operate", "--output-dir", str(export_dir))
     assert rerun_result.returncode == 0, rerun_result.stderr or rerun_result.stdout
 
     scorecard = json.loads((export_dir / "weekly_pm_autopilot_feature_scorecard.json").read_text(encoding="utf-8"))
@@ -1793,12 +1802,12 @@ def test_productos_run_operate_persist_uses_persisted_outputs_for_scoring(root_d
 
 
 def test_productos_plan_research_builds_plan_from_fallback_problem_brief(
-    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path
 ):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
-    result = _run_self_hosting_cli(root_dir, workspace_copy, "plan-research", "--output-dir", str(tmp_path))
+    result = _run_workspace_cli(root_dir, workspace_copy, "plan-research", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Research Plan:" in result.stdout
@@ -1816,8 +1825,8 @@ def test_productos_plan_research_builds_plan_from_fallback_problem_brief(
     assert plan["coverage_summary"]["recommended_next_step"].startswith("Fill the source manifest template")
 
 
-def test_productos_run_improve_command_exports_phase_artifacts(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "run", "improve", "--output-dir", str(tmp_path))
+def test_productos_run_improve_command_exports_phase_artifacts(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "run", "improve", "--output-dir", str(tmp_path))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Phase: improve" in result.stdout
@@ -1835,11 +1844,11 @@ def test_productos_run_improve_command_exports_phase_artifacts(root_dir: Path, s
     assert (tmp_path / "next_version_release_review.md").exists()
 
 
-def test_productos_run_improve_persist_uses_persisted_review_for_scoring(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+def test_productos_run_improve_persist_uses_persisted_review_for_scoring(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
-    persist_result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "improve", "--persist")
+    persist_result = _run_workspace_cli(root_dir, workspace_copy, "run", "improve", "--persist")
     assert persist_result.returncode == 0, persist_result.stderr or persist_result.stdout
 
     persisted_dir = workspace_copy / "outputs" / "improve"
@@ -1850,7 +1859,7 @@ def test_productos_run_improve_persist_uses_persisted_review_for_scoring(root_di
     assert (workspace_copy / "docs" / "planning" / "next-version-release-review.md").exists()
 
     export_dir = tmp_path / "persisted-improve-export"
-    rerun_result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "improve", "--output-dir", str(export_dir))
+    rerun_result = _run_workspace_cli(root_dir, workspace_copy, "run", "improve", "--output-dir", str(export_dir))
     assert rerun_result.returncode == 0, rerun_result.stderr or rerun_result.stdout
 
     scorecard = json.loads((export_dir / "self_improvement_feature_scorecard.json").read_text(encoding="utf-8"))
@@ -1864,10 +1873,10 @@ def test_productos_run_improve_persist_uses_persisted_review_for_scoring(root_di
 
 
 def test_productos_run_improve_blocks_promotion_when_external_research_review_requires_pm_review(
-    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path
 ):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
     (workspace_copy / "artifacts" / "external_research_review.json").write_text(
         json.dumps(
@@ -1900,7 +1909,7 @@ def test_productos_run_improve_blocks_promotion_when_external_research_review_re
     )
 
     export_dir = tmp_path / "research-gated-improve-export"
-    result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "improve", "--output-dir", str(export_dir))
+    result = _run_workspace_cli(root_dir, workspace_copy, "run", "improve", "--output-dir", str(export_dir))
 
     assert result.returncode == 0, result.stderr or result.stdout
     portfolio = json.loads((export_dir / "feature_portfolio_review.json").read_text(encoding="utf-8"))
@@ -1916,10 +1925,10 @@ def test_productos_run_improve_blocks_promotion_when_external_research_review_re
 
 
 def test_productos_run_improve_blocks_promotion_when_research_discovery_finds_no_sources(
-    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path
 ):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
     (workspace_copy / "artifacts" / "research_brief.json").write_text(
         json.dumps(
@@ -2008,7 +2017,7 @@ def test_productos_run_improve_blocks_promotion_when_research_discovery_finds_no
     )
 
     export_dir = tmp_path / "research-discovery-blocked-improve-export"
-    result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "improve", "--output-dir", str(export_dir))
+    result = _run_workspace_cli(root_dir, workspace_copy, "run", "improve", "--output-dir", str(export_dir))
 
     assert result.returncode == 0, result.stderr or result.stdout
     portfolio = json.loads((export_dir / "feature_portfolio_review.json").read_text(encoding="utf-8"))
@@ -2024,10 +2033,10 @@ def test_productos_run_improve_blocks_promotion_when_research_discovery_finds_no
 
 
 def test_productos_run_improve_carries_feed_governance_blockers_into_release_gate_artifact(
-    root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path
+    root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path
 ):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
 
     (workspace_copy / "artifacts" / "research_brief.json").write_text(
         json.dumps(
@@ -2198,7 +2207,7 @@ def test_productos_run_improve_carries_feed_governance_blockers_into_release_gat
     )
 
     export_dir = tmp_path / "feed-governance-improve-export"
-    result = _run_self_hosting_cli(root_dir, workspace_copy, "run", "improve", "--output-dir", str(export_dir))
+    result = _run_workspace_cli(root_dir, workspace_copy, "run", "improve", "--output-dir", str(export_dir))
 
     assert result.returncode == 0, result.stderr or result.stdout
     portfolio = json.loads((export_dir / "feature_portfolio_review.json").read_text(encoding="utf-8"))
@@ -2216,9 +2225,9 @@ def test_productos_run_improve_carries_feed_governance_blockers_into_release_gat
     assert "## Feed Governance Blockers" in review_md
 
 
-def test_productos_export_command_writes_bundle(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+def test_productos_export_command_writes_bundle(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
     output_dir = tmp_path / "bundle"
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "export", "--output-dir", str(output_dir))
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "export", "--output-dir", str(output_dir))
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Exported " in result.stdout
@@ -2232,8 +2241,8 @@ def test_productos_export_command_writes_bundle(root_dir: Path, self_hosting_wor
     assert payload["top_priority_feature_id"] == "presentation_superpower"
 
 
-def test_productos_trace_item_command(root_dir: Path, self_hosting_workspace_dir: Path):
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "trace", "--item-id", "opp_pm_lifecycle_traceability")
+def test_productos_trace_item_command(root_dir: Path, bundled_workspace_dir: Path):
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "trace", "--item-id", "opp_pm_lifecycle_traceability")
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Item: Lifecycle traceability and stage visibility for PM work" in result.stdout
@@ -2241,8 +2250,8 @@ def test_productos_trace_item_command(root_dir: Path, self_hosting_workspace_dir
     assert "- problem_framing: completed" in result.stdout
 
 
-def test_productos_trace_stage_command(root_dir: Path, self_hosting_workspace_dir: Path):
-    result = _run_self_hosting_cli(root_dir, self_hosting_workspace_dir, "trace", "--stage", "delivery")
+def test_productos_trace_stage_command(root_dir: Path, bundled_workspace_dir: Path):
+    result = _run_workspace_cli(root_dir, bundled_workspace_dir, "trace", "--stage", "delivery")
 
     assert result.returncode == 0, result.stderr or result.stdout
     assert "Focus Area: delivery" in result.stdout
@@ -2251,13 +2260,13 @@ def test_productos_trace_stage_command(root_dir: Path, self_hosting_workspace_di
     assert "- release_readiness: items=1, gate_passed=1" in result.stdout
 
 
-def test_productos_thread_review_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+def test_productos_thread_review_command(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
     output_path = tmp_path / "thread-review.html"
     markdown_path = tmp_path / "thread-review.md"
     package_dir = tmp_path / "thread-package"
-    result = _run_self_hosting_cli(
+    result = _run_workspace_cli(
         root_dir,
-        self_hosting_workspace_dir,
+        bundled_workspace_dir,
         "thread-review",
         "--item-id",
         "opp_pm_lifecycle_traceability",
@@ -2295,9 +2304,9 @@ def test_productos_thread_review_command(root_dir: Path, self_hosting_workspace_
     assert "## Stage Rail" in markdown
 
 
-def test_productos_thread_review_index_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+def test_productos_thread_review_index_command(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
     artifacts_dir = workspace_copy / "artifacts"
     source_path = artifacts_dir / "item_lifecycle_state_pm_lifecycle_visibility.example.json"
     payload = json.loads(source_path.read_text(encoding="utf-8"))
@@ -2329,11 +2338,11 @@ def test_productos_thread_review_index_command(root_dir: Path, self_hosting_work
     assert "Lifecycle traceability and stage visibility for PM work" in index_html
 
 
-def test_productos_thread_review_release_check_command(root_dir: Path, self_hosting_workspace_dir: Path, tmp_path: Path):
+def test_productos_thread_review_release_check_command(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
     output_dir = tmp_path / "thread-release-check"
-    result = _run_self_hosting_cli(
+    result = _run_workspace_cli(
         root_dir,
-        self_hosting_workspace_dir,
+        bundled_workspace_dir,
         "thread-review-release-check",
         "--item-id",
         "opp_pm_lifecycle_traceability",

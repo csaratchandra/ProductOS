@@ -12,26 +12,26 @@
         "node_id": "tree_node_workspace_ws_productos_v2",
         "node_type": "workspace",
         "label": "ProductOS V2 Workspace",
-        "ref": "internal/ProductOS-Next",
+        "ref": "tests/fixtures/workspaces/productos-sample",
         "children": [
           {
             "node_id": "tree_node_mission_ws_productos_v2",
             "node_type": "mission",
             "label": "PM superpower recovery mission",
-            "ref": "internal/ProductOS-Next/artifacts/mission_brief.json",
+            "ref": "tests/fixtures/workspaces/productos-sample/artifacts/mission_brief.json",
             "children": []
           },
           {
             "node_id": "tree_node_docs_ws_productos_v2",
             "node_type": "collection",
             "label": "Docs",
-            "ref": "internal/ProductOS-Next/docs",
+            "ref": "tests/fixtures/workspaces/productos-sample/docs",
             "children": [
               {
                 "node_id": "tree_node_doc_mission_brief",
                 "node_type": "document",
                 "label": "docs/planning/mission-brief.md",
-                "ref": "internal/ProductOS-Next/docs/planning/mission-brief.md",
+                "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/mission-brief.md",
                 "children": []
               }
             ]
@@ -40,20 +40,20 @@
             "node_id": "tree_node_artifacts_ws_productos_v2",
             "node_type": "collection",
             "label": "Artifacts",
-            "ref": "internal/ProductOS-Next/artifacts",
+            "ref": "tests/fixtures/workspaces/productos-sample/artifacts",
             "children": [
               {
                 "node_id": "tree_node_artifact_mission_brief",
                 "node_type": "artifact",
                 "label": "mission_brief.json",
-                "ref": "internal/ProductOS-Next/artifacts/mission_brief.json",
+                "ref": "tests/fixtures/workspaces/productos-sample/artifacts/mission_brief.json",
                 "children": []
               },
               {
                 "node_id": "tree_node_artifact_product_record",
                 "node_type": "artifact",
                 "label": "product_record.json",
-                "ref": "internal/ProductOS-Next/artifacts/product_record.json",
+                "ref": "tests/fixtures/workspaces/productos-sample/artifacts/product_record.json",
                 "children": []
               }
             ]

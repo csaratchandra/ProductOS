@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "pm_note_delta_proposal_id": "pndp_example_001",
+  "workspace_id": "ws_example_product",
+  "source_note": {
+    "note_path": "inbox/raw-notes/customer-call-may6.txt",
+    "note_type": "transcript",
+    "summary": "Customer mentioned CompetitorAlpha's new AI feature that generates PRDs automatically"
+  },
+  "proposed_deltas": [
+    {
+      "delta_id": "pd_001",
+      "target_artifact_ref": "artifacts/competitor_dossier.json",
+      "proposed_change": "Add CompetitorAlpha AI PRD generator launch to competitive timeline with Q2 2026 date",
+      "confidence": "high",
+      "evidence_quote": "'CompetitorAlpha just launched an AI PRD generator that seems similar to our V10 roadmap'",
+      "regeneration_queue_item_id": "rq_item_003"
+    },
+    {
+      "delta_id": "pd_002",
+      "target_artifact_ref": "artifacts/strategy_context_brief.json",
+      "proposed_change": "Update differentiation claims to account for CompetitorAlpha AI feature parity",
+      "confidence": "medium",
+      "evidence_quote": "'Customer is evaluating both our solution and CompetitorAlpha for next quarter'",
+      "regeneration_queue_item_id": "rq_item_004"
+    }
+  ],
+  "generated_at": "2026-05-06T12:00:00Z"
+}

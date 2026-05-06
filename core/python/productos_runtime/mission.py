@@ -1061,7 +1061,7 @@ def build_strategy_discover_bundle_from_mission(
             f"Mission-first discover for the '{mission_brief['title']}' loop is a sharper wedge than asking the PM to reconstruct the same context across phases."
         ),
         "why_now": (
-            "The PM-first mission surface now exists, so discover should inherit that intent directly instead of depending on implicit self-hosting context."
+            "The PM-first mission surface now exists, so discover should inherit that intent directly instead of depending on implicit workspace context."
         ),
         "why_us": (
             "ProductOS already has schemas, workflows, validation, and phase surfaces that can turn one mission into bounded downstream work."

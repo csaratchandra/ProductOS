@@ -105,6 +105,13 @@ from core.python.productos_runtime.visual_os import (
     build_visual_quality_review_for_map,
     infer_visual_review_target,
 )
+from core.python.productos_runtime.living_system import (
+    build_regeneration_queue,
+    detect_circular_dependencies,
+    process_regeneration_item,
+)
+from core.python.productos_runtime.markdown_renderer import render_living_document
+from core.python.productos_runtime.export_pipeline import export_artifact
 
 SCHEMA_DIR = ROOT / "core" / "schemas" / "artifacts"
 PHASE_ARTIFACTS = {
@@ -263,13 +270,9 @@ def _workspace_dir(args: argparse.Namespace) -> Path:
     if args.workspace_dir is not None:
         return args.workspace_dir
 
-    private_workspace = ROOT / "internal" / "ProductOS-Next"
-    if private_workspace.exists():
-        return private_workspace
-
     raise SystemExit(
-        "No default self-hosting workspace is included in this repo checkout. "
-        "Pass --workspace-dir to run this command against a specific workspace."
+        "Workspace selection is explicit. Pass --workspace-dir to run this command against "
+        "a specific workspace, or create one with `./productos start`."
     )
 
 
@@ -864,8 +867,8 @@ def _load_stable_cutover_plan(workspace_dir: Path, generated_at: str) -> dict | 
             generated_at=generated_at,
         )
     except KeyError:
-        # Product workspaces do not necessarily carry the internal self-hosting
-        # lifecycle item used by the ProductOS V7 publication cutover logic.
+        # Product workspaces do not necessarily carry the reference lifecycle
+        # item used by the ProductOS V7 publication cutover logic.
         return cutover_plan
 
 
@@ -2007,6 +2010,148 @@ def cmd_v9(args: argparse.Namespace) -> int:
     return 0
 
 
+# V11 Living System Commands
+
+
+def cmd_queue_build(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
+    trigger = {
+        "event_type": args.event_type or "artifact_updated",
+        "source_artifact_ref": args.source_artifact,
+        "change_summary": args.change_summary or "Manual queue build via CLI",
+    }
+    queue = build_regeneration_queue(trigger, workspace_dir, generated_at=args.generated_at)
+    
+    # Check for circular dependencies
+    circular = detect_circular_dependencies(queue["dependency_sequence"], workspace_dir)
+    if circular:
+        print("FAIL: Circular dependencies detected:")
+        for ref in circular:
+            print(f"  - {ref}")
+        return 1
+    
+    if args.output_dir:
+        _write_json_payload(args.output_dir / "regeneration_queue.json", queue)
+        print(f"Regeneration Queue: {args.output_dir / 'regeneration_queue.json'}")
+    
+    print(f"Queue ID: {queue['regeneration_queue_id']}")
+    print(f"Status: {queue['status']}")
+    print(f"Items: {len(queue['queued_items'])}")
+    print(f"Auto-executable: {queue['auto_executed_count']}")
+    print(f"PM Review Required: {queue['pm_review_count']}")
+    
+    for item in queue["queued_items"]:
+        print(f"  - {item['item_id']}: {item['target_artifact_ref']} [{item['impact_classification']}] -> {item['status']}")
+        print(f"    Delta: {item['delta_preview']}")
+    
+    return 0
+
+
+def cmd_queue_review(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
+    
+    # Load existing queue
+    queue_path = args.queue_path or (workspace_dir / "outputs" / "operate" / "regeneration_queue.json")
+    if not queue_path.exists():
+        raise SystemExit(f"No regeneration queue found at {queue_path}")
+    
+    queue = _load_json(queue_path)
+    
+    # Find the item
+    item = next((i for i in queue["queued_items"] if i["item_id"] == args.item_id), None)
+    if item is None:
+        raise SystemExit(f"Item {args.item_id} not found in queue")
+    
+    processed = process_regeneration_item(
+        item,
+        workspace_dir,
+        action=args.action,
+        pm_note=args.pm_note or "",
+        generated_at=args.generated_at,
+    )
+    
+    # Update queue
+    for idx, q_item in enumerate(queue["queued_items"]):
+        if q_item["item_id"] == args.item_id:
+            queue["queued_items"][idx] = processed
+            break
+    
+    # Write back
+    _write_json_payload(queue_path, queue)
+    
+    print(f"Item {args.item_id}: {processed['status']}")
+    print(f"Action: {args.action}")
+    if args.pm_note:
+        print(f"PM Note: {args.pm_note}")
+    print(f"Log: {processed['execution_log'][-1] if processed['execution_log'] else 'No log'}")
+    
+    return 0
+
+
+def cmd_render_doc(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
+    
+    try:
+        rendered = render_living_document(
+            args.doc_key,
+            workspace_dir,
+            generated_at=args.generated_at,
+        )
+    except ValueError as exc:
+        raise SystemExit(str(exc))
+    except FileNotFoundError as exc:
+        raise SystemExit(str(exc))
+    
+    output_path = args.output_path or (workspace_dir / "docs" / f"{args.doc_key}.md")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(rendered, encoding="utf-8")
+    
+    print(f"Rendered: {output_path}")
+    print(f"Doc Key: {args.doc_key}")
+    print(f"Lines: {len(rendered.splitlines())}")
+    
+    return 0
+
+
+def cmd_review_delta(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
+    
+    # Load cockpit state to find the living updates queue
+    cockpit_path = workspace_dir / "outputs" / "cockpit" / "cockpit_bundle.json"
+    if cockpit_path.exists():
+        cockpit = _load_json(cockpit_path)
+        living_updates = cockpit.get("cockpit_state", {}).get("living_updates_queue", [])
+    else:
+        living_updates = []
+    
+    update = next((u for u in living_updates if u["update_id"] == args.update_id), None)
+    if update is None:
+        raise SystemExit(f"Update {args.update_id} not found in cockpit living updates queue")
+    
+    update["pm_action"] = args.action
+    if args.pm_note:
+        update["pm_note"] = args.pm_note
+    update["reviewed_at"] = args.generated_at
+    
+    # Write back cockpit state
+    if cockpit_path.exists():
+        _write_json_payload(cockpit_path, cockpit)
+    
+    print(f"Update {args.update_id}: {args.action}")
+    print(f"Target: {update['target_artifact']}")
+    print(f"Classification: {update['impact_classification']}")
+    if args.pm_note:
+        print(f"PM Note: {args.pm_note}")
+    
+    # If approved, trigger regeneration queue processing
+    if args.action == "approve":
+        print(f"Approved. Downstream regeneration queued for {update['target_artifact']}")
+    elif args.action == "reject":
+        print(f"Rejected. Downstream propagation blocked for {update['target_artifact']}")
+    
+    return 0
+
+
 def cmd_trace(args: argparse.Namespace) -> int:
     if args.item_id:
         payload = load_item_lifecycle_state_from_workspace(_workspace_dir(args), item_id=args.item_id)
@@ -2726,6 +2871,32 @@ def parse_args() -> argparse.Namespace:
     release_parser.add_argument("--branch")
     release_parser.add_argument("--push", action="store_true")
 
+    # V11 Living System CLI
+    queue_parser = subparsers.add_parser("queue")
+    queue_subparsers = queue_parser.add_subparsers(dest="queue_command", required=True)
+    queue_build_parser = queue_subparsers.add_parser("build")
+    queue_build_parser.add_argument("--source-artifact", required=True)
+    queue_build_parser.add_argument("--event-type", choices=["artifact_updated", "competitive_alert", "pm_note_added", "research_fresh", "stakeholder_feedback"])
+    queue_build_parser.add_argument("--change-summary")
+    queue_build_parser.add_argument("--output-dir", type=Path)
+
+    queue_review_parser = queue_subparsers.add_parser("review")
+    queue_review_parser.add_argument("--queue-path", type=Path)
+    queue_review_parser.add_argument("--item-id", required=True)
+    queue_review_parser.add_argument("--action", choices=["approve", "reject", "modify"], required=True)
+    queue_review_parser.add_argument("--pm-note")
+
+    render_parser = subparsers.add_parser("render")
+    render_subparsers = render_parser.add_subparsers(dest="render_command", required=True)
+    render_doc_parser = render_subparsers.add_parser("doc")
+    render_doc_parser.add_argument("--doc-key", choices=["prd", "problem-brief", "strategy-brief", "user-journey"], required=True)
+    render_doc_parser.add_argument("--output-path", type=Path)
+
+    review_parser = subparsers.add_parser("review-delta")
+    review_parser.add_argument("--update-id", required=True)
+    review_parser.add_argument("--action", choices=["approve", "reject", "modify"], required=True)
+    review_parser.add_argument("--pm-note")
+
     return parser.parse_args()
 
 
@@ -2810,6 +2981,16 @@ def main() -> int:
         return cmd_cutover(args)
     if args.command == "release":
         return cmd_release(args)
+    if args.command == "queue":
+        if args.queue_command == "build":
+            return cmd_queue_build(args)
+        if args.queue_command == "review":
+            return cmd_queue_review(args)
+    if args.command == "render":
+        if args.render_command == "doc":
+            return cmd_render_doc(args)
+    if args.command == "review-delta":
+        return cmd_review_delta(args)
     raise AssertionError(f"Unsupported command: {args.command}")
 
 

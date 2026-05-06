@@ -97,13 +97,13 @@
       "view_id": "context_view_readme",
       "label": "Readme",
       "ref_type": "document",
-      "ref_path": "internal/ProductOS-Next/README.md"
+      "ref_path": "tests/fixtures/workspaces/productos-sample/README.md"
     },
     {
       "view_id": "context_view_mission_brief",
       "label": "Mission Brief",
       "ref_type": "artifact",
-      "ref_path": "internal/ProductOS-Next/artifacts/mission_brief.json"
+      "ref_path": "tests/fixtures/workspaces/productos-sample/artifacts/mission_brief.json"
     }
   ],
   "recommended_pm_actions": [

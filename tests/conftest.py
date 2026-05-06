@@ -101,10 +101,10 @@ def root_dir() -> Path:
 
 
 @pytest.fixture
-def self_hosting_workspace_dir(root_dir: Path) -> Path:
-    workspace_dir = root_dir / "internal" / "ProductOS-Next"
+def bundled_workspace_dir(root_dir: Path) -> Path:
+    workspace_dir = root_dir / "tests" / "fixtures" / "workspaces" / "productos-sample"
     if not workspace_dir.exists():
-        pytest.skip("Private self-hosting workspace is not included in this repo boundary.")
+        pytest.skip("Bundled workspace fixture is not included in this repo boundary.")
     return workspace_dir
 
 

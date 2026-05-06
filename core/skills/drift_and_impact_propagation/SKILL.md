@@ -27,7 +27,7 @@ Any artifact refreshed or updated. Intelligence alert generated. PM modifies an 
 2. Map downstream dependencies: Load the artifact dependency graph. Which artifacts reference the changed artifact? Direct references (in linked_entity_refs, source_artifact_ids) and indirect references (via entity chains).
 3. Assess impact per dependent: Per downstream artifact: what specifically would change? Is the change mechanical (just update a ref) or content-deep (the meaning changes)?
 4. Classify impact: Minor (reference update only), Moderate (one section affected), Major (core claim or assumption changed), Critical (artifact would be misleading if not updated).
-5. Determine regeneration mode: Auto-regenerate (mechanical changes, ref updates), PM review-regenerate (content changes needing judgment), Full artifact regenerate (major impact, rebuild from upstream sources).
+5. Determine regeneration mode: Classify as `mechanical` (reference updates, date stamps, version bumps, link corrections), `content_deep` (claims, strategy, scope, positioning changed), or `structural` (artifact schema or relationships changed). Mechanical items auto-execute via `process_regeneration_item()`. Content-deep items queue in `regeneration_queue.json` for PM review. Structural items always escalate to PM.
 6. Build propagation alert: Generate drift_detection_alert with: source change, drifted artifact, severity, affected downstream list with per-artifact impact and refresh priority.
 7. Recommend regeneration sequence: Order downstream artifacts by dependency depth. Deepest dependencies first (so intermediate artifacts are fresh when regenerating their dependents).
 

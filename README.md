@@ -2,6 +2,8 @@
 
 ProductOS V10.0.0 is the current stable ProductOS Core line.
 
+> The repo includes an in-progress V11 **Living Product System** slice: auto-propagating artifact changes, living markdown documents rendered from structured truth, PM delta review lanes, and format-agnostic export pipelines. See `core/docs/v11-living-system-execution-plan.md` for the implementation architecture.
+
 ProductOS is distributed under the Apache License 2.0. Forks, improvements, and
 suggestions are welcome through issues and pull requests.
 
@@ -11,6 +13,7 @@ This repository contains:
 - `components/workflow_corridor/`: HTML-first workflow corridor lane for customer-safe public workflow pages
 - `components/presentation/`: deck lane for internal/executive HTML presentations and PPT export
 - `templates/`: the starter surface for creating a new product workspace
+- `tests/fixtures/`: bundled regression fixtures, including the sample workspace used by CLI and runtime tests
 - `registry/`: release, workspace, suite, and improvement records
 - `workspaces/`: reserved for real product workspaces and intentionally empty in the shared repo
 
@@ -20,7 +23,7 @@ For PM adoption on a new product, the canonical starting surface is [templates](
 
 ProductOS V10.0.0 is organized around the PM lifecycle plus governed research, decision, and living-system loops:
 
-The current stable line strengthens the mission-to-strategy discovery spine, reusable research skills, and strategy-linked discovery artifacts while keeping PM review and release boundaries explicit.
+The current stable line remains V10.0.0. The repo also contains the in-progress V11 Living Product System slice: auto-propagation of artifact changes through dependency graphs, living markdown documents rendered from structured truth, PM delta review lanes with approve/reject/modify actions, and format-agnostic export pipelines (agent briefs, stakeholder updates, battle cards, decks).
 
 1. current-state assessment
 2. discovery
@@ -71,6 +74,13 @@ Recommended next step:
 
 - `./productos --workspace-dir /path/to/new-workspace run discover`
 
+V11 Living System commands:
+
+- `./productos --workspace-dir /path/to/workspace queue build --source-artifact artifacts/prd.json --change-summary "Scope tightened"`
+- `./productos --workspace-dir /path/to/workspace queue review --item-id rq_item_001 --action approve`
+- `./productos --workspace-dir /path/to/workspace render doc --doc-key prd`
+- `./productos --workspace-dir /path/to/workspace review-delta --update-id lu_001 --action approve --pm-note "Looks correct"`
+
 Advanced startup commands:
 
 - `./productos start --non-interactive --dest /path/to/new-workspace --workspace-id ws_your_product --name "Your Product Workspace" --mode startup --title "Your mission" --customer-problem "Customer problem" --business-goal "Business goal"`
@@ -111,11 +121,14 @@ Validation and tests are intentionally local and simple:
 
 - `./validate-artifacts`
 - `pytest`
+- `pytest tests/test_v11_living_system.py`
 - `./productos visual export deck components/presentation/examples/artifacts/presentation_brief.example.json`
 - `./productos visual export corridor core/examples/artifacts/workflow_corridor_spec.example.json`
 - `./productos visual export map core/examples/artifacts/visual_map_spec.example.json`
 - `./productos v6 --output-dir /tmp/productos-v6-lifecycle`
 - `./productos v7 --output-dir /tmp/productos-v7-lifecycle`
+- `./productos v9 --output-dir /tmp/productos-v9-lifecycle`
+- `./productos --workspace-dir /path/to/workspace queue build --source-artifact artifacts/prd.json`
 
 The shell entrypoints select a Python `3.10+` interpreter automatically when one is available on `PATH`.
 
@@ -133,7 +146,7 @@ Use the public release operator when a bounded feature slice is ready to become 
 
 `./productos release --slice-label "public release operator slice" --push`
 
-This flow updates tracked public release surfaces, commits them, tags the release commit, and pushes branch plus tag in order. It intentionally excludes `internal/` and `workspaces/` from the release commit.
+This flow updates tracked public release surfaces, commits them, tags the release commit, and pushes branch plus tag in order. It intentionally excludes `workspaces/` from the release commit.
 
 For approved agent tools, start with [AGENTS.md](/Users/sarat/Documents/code/ProductOS/AGENTS.md) before deeper repo docs.
 

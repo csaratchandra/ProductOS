@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/pm_note_delta_proposal.schema.json",
+  "title": "ProductOS PM Note Delta Proposal",
+  "description": "Structured delta proposed from unstructured PM input (transcripts, meeting notes, voice memos). Maps raw notes to artifact change proposals for PM review.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pm_note_delta_proposal_id",
+    "workspace_id",
+    "source_note",
+    "proposed_deltas",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "pm_note_delta_proposal_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_note": {
+      "$ref": "#/$defs/sourceNote"
+    },
+    "proposed_deltas": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/proposedDelta"
+      },
+      "minItems": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "sourceNote": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["note_path", "note_type", "summary"],
+      "properties": {
+        "note_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "note_type": {
+          "type": "string",
+          "enum": ["transcript", "meeting_notes", "voice_memo", "screenshot", "document"]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "proposedDelta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "delta_id",
+        "target_artifact_ref",
+        "proposed_change",
+        "confidence",
+        "evidence_quote",
+        "regeneration_queue_item_id"
+      ],
+      "properties": {
+        "delta_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_artifact_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "proposed_change": {
+          "type": "string",
+          "minLength": 3
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low", "needs_pm_clarification"]
+        },
+        "evidence_quote": {
+          "type": "string",
+          "minLength": 3
+        },
+        "regeneration_queue_item_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

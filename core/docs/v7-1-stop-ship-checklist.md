@@ -9,7 +9,7 @@ Release is blocked if any item below is still true.
 - release truthfulness is not `healthy`
 - discover scoring still mixes generated bundle narration with live decision artifacts
 - weekly PM autopilot still depends on seeded or example operating artifacts
-- customer workspaces still receive internal, example, or self-hosting residue by default
+- customer workspaces still receive internal-only or sample-fixture residue by default
 - the docs or deck path still requires material PM reconstruction before use
 - the research loop cannot distinguish `observed`, `inferred`, and `hypothesis`
 - the portfolio review and promotion gate disagree on release readiness

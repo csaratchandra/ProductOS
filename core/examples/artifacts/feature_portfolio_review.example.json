@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "feature_portfolio_review_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
   "workspace_id": "ws_productos_v2",
-  "review_scope": "Completed next-version superpower scoring across the current ProductOS self-hosting workspace.",
+  "review_scope": "Completed next-version superpower scoring across the current ProductOS workspace.",
   "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
   "adapter_registry_ref": "runtime_adapter_registry_ws_productos_v2_next_version",
   "truthfulness_status": "watch",

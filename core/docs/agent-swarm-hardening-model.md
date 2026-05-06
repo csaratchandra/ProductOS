@@ -37,4 +37,4 @@ Keep swarm internal. Route through same scoring and review surfaces. Only broade
 
 ## Next Action
 
-Run 10 dogfood cycles in `internal/ProductOS-Next/` with 3+ parallel agents. Collect evidence per hardening requirement. Rescore after evidence.
+Run 10 dogfood cycles in one explicit workspace with 3+ parallel agents. Collect evidence per hardening requirement. Rescore after evidence.

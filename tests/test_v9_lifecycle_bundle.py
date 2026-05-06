@@ -5,9 +5,9 @@ from core.python.productos_runtime import build_v9_lifecycle_bundle_from_workspa
 from core.python.productos_runtime.v9 import V9_ARTIFACT_SCHEMAS
 
 
-def test_build_v9_lifecycle_bundle_from_workspace_validates(self_hosting_workspace_dir: Path):
+def test_build_v9_lifecycle_bundle_from_workspace_validates(bundled_workspace_dir: Path):
     bundle = build_v9_lifecycle_bundle_from_workspace(
-        self_hosting_workspace_dir,
+        bundled_workspace_dir,
         generated_at="2026-05-03T08:00:00Z",
     )
 
@@ -18,9 +18,9 @@ def test_build_v9_lifecycle_bundle_from_workspace_validates(self_hosting_workspa
         assert not errors, f"{artifact_name} failed schema validation: {[error.message for error in errors]}"
 
 
-def test_v9_lifecycle_bundle_cross_refs_and_gate_stay_blocked_before_promotion(self_hosting_workspace_dir: Path):
+def test_v9_lifecycle_bundle_cross_refs_and_gate_stay_blocked_before_promotion(bundled_workspace_dir: Path):
     bundle = build_v9_lifecycle_bundle_from_workspace(
-        self_hosting_workspace_dir,
+        bundled_workspace_dir,
         generated_at="2026-05-03T08:00:00Z",
     )
 
@@ -45,9 +45,9 @@ def test_v9_lifecycle_bundle_cross_refs_and_gate_stay_blocked_before_promotion(s
     assert validation_report["overall_status"] == "ready_for_manual_validation"
 
 
-def test_v9_bundle_does_not_move_public_stable_line_before_go_gate(root_dir: Path, self_hosting_workspace_dir: Path):
+def test_v9_bundle_does_not_move_public_stable_line_before_go_gate(root_dir: Path, bundled_workspace_dir: Path):
     bundle = build_v9_lifecycle_bundle_from_workspace(
-        self_hosting_workspace_dir,
+        bundled_workspace_dir,
         generated_at="2026-05-03T08:00:00Z",
     )
 

@@ -72,6 +72,13 @@ def _outputs_dir(workspace_path: Path, phase: str) -> Path:
     return workspace_path / "outputs" / phase
 
 
+def _root_relative_path(path: Path) -> str:
+    try:
+        return path.relative_to(ROOT).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
 def _load_manifest(workspace_path: Path) -> dict[str, Any]:
     manifest_path = workspace_path / "workspace_manifest.yaml"
     if not manifest_path.exists():
@@ -601,8 +608,9 @@ def build_v9_lifecycle_bundle_from_workspace(
     adapter_name: str = "codex",
     next_version_bundle: dict[str, Any] | None = None,
 ) -> dict[str, dict[str, Any]]:
+    workspace_path = Path(workspace_dir).resolve()
     program_state = inspect_v9_lifecycle_enrichment_state(
-        workspace_dir,
+        workspace_path,
         generated_at=generated_at,
         adapter_name=adapter_name,
         next_version_bundle=next_version_bundle,
@@ -611,7 +619,7 @@ def build_v9_lifecycle_bundle_from_workspace(
     track_states = program_state["track_states"]
     overall_status = "passed" if program_state["gate_status"] == "ready" else "watch"
     mission_state = _artifact_source_state(
-        Path(workspace_dir).resolve(),
+        workspace_path,
         patterns=[("artifacts", "mission_brief.json")],
     )
     coherence_evidence_refs = [
@@ -638,7 +646,7 @@ def build_v9_lifecycle_bundle_from_workspace(
         "scenarios": [
             {
                 "scenario_id": "scenario_workspace_coherence",
-                "name": "Workspace coherence survives starter, adoption, and self-hosting variance",
+                "name": "Workspace coherence survives starter, adoption, and workspace-shape variance",
                 "status": "passed" if track_states["P0"]["status"] == "passed" else ("watch" if track_states["P0"]["status"] == "watch" else "failed"),
                 "metric_deltas": [
                     {
@@ -701,7 +709,7 @@ def build_v9_lifecycle_bundle_from_workspace(
                         "trend": "improved" if any(track["status"] == "passed" for track in track_states.values()) else "flat",
                     }
                 ],
-                "evidence_refs": ["internal/ProductOS-Next/docs/planning/current-plan.md"],
+                "evidence_refs": [_root_relative_path(workspace_path / "docs" / "planning" / "current-plan.md")],
                 "gaps": [] if program_state["gate_status"] == "ready" else ["The shared V9 release gate remains blocked until all three lifecycle-enrichment tracks are fully artifact-backed."],
             },
         ],
@@ -778,7 +786,7 @@ def build_v9_lifecycle_bundle_from_workspace(
                     *coherence_evidence_refs,
                     *program_state["research_packet"]["artifact_ids"][:4],
                     *program_state["downstream"]["artifact_ids"][:4],
-                    "internal/ProductOS-Next/docs/planning/current-plan.md",
+                    _root_relative_path(workspace_path / "docs" / "planning" / "current-plan.md"),
                 ]
             )
         ),
@@ -814,7 +822,7 @@ def build_v9_lifecycle_bundle_from_workspace(
             {
                 "claim": "ProductOS should keep V10.0.0 as the public stable line until the shared V9 release gate is go.",
                 "status": "verified",
-                "evidence_refs": ["internal/ProductOS-Next/docs/planning/current-plan.md"],
+                "evidence_refs": [_root_relative_path(workspace_path / "docs" / "planning" / "current-plan.md")],
             },
         ],
         "launch_roles": [

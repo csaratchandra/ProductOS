@@ -20,7 +20,7 @@ Do not treat marketing as a side channel that can bypass source artifacts, valid
 
 ## Standard Surface
 
-Every self-hosting ProductOS workspace should maintain a live bundle with at least these docs:
+Every ProductOS workspace should maintain a live bundle with at least these docs:
 
 - `docs/product/product-overview.md`
 - `docs/product/getting-started.md`

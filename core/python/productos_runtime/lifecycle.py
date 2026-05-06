@@ -10,7 +10,7 @@ from . import yaml_compat as yaml
 ROOT = Path(__file__).resolve().parents[3]
 CORE_EXAMPLES_DIR = ROOT / "core" / "examples" / "artifacts"
 PRESENTATION_EXAMPLES_DIR = ROOT / "components" / "presentation" / "examples" / "artifacts"
-SELF_HOSTING_ARTIFACTS_DIR = ROOT / "internal" / "ProductOS-Next" / "artifacts"
+REFERENCE_WORKSPACE_ARTIFACTS_DIR = ROOT / "tests" / "fixtures" / "workspaces" / "productos-sample" / "artifacts"
 
 _STARTER_SUPPORT_ARTIFACT_SOURCES = (
     ("increment_plan.json", CORE_EXAMPLES_DIR / "increment_plan.example.json"),
@@ -35,125 +35,125 @@ _STARTER_SUPPORT_ARTIFACT_SOURCES = (
     ("issue_log.example.json", CORE_EXAMPLES_DIR / "issue_log.example.json"),
     (
         "runtime_scenario_report_adapter_parity.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "runtime_scenario_report_adapter_parity.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "runtime_scenario_report_adapter_parity.example.json",
     ),
     (
         "runtime_scenario_report_market_refresh.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "runtime_scenario_report_market_refresh.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "runtime_scenario_report_market_refresh.example.json",
     ),
     (
         "runtime_scenario_report_market_distribution.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "runtime_scenario_report_market_distribution.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "runtime_scenario_report_market_distribution.example.json",
     ),
-    ("document_sync_state_live_docs.example.json", SELF_HOSTING_ARTIFACTS_DIR / "document_sync_state_live_docs.example.json"),
+    ("document_sync_state_live_docs.example.json", REFERENCE_WORKSPACE_ARTIFACTS_DIR / "document_sync_state_live_docs.example.json"),
     (
         "validation_lane_report_next_version_completion.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "validation_lane_report_next_version_completion.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "validation_lane_report_next_version_completion.example.json",
     ),
     (
         "manual_validation_record_next_version_completion.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "manual_validation_record_next_version_completion.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "manual_validation_record_next_version_completion.example.json",
     ),
     (
         "release_gate_decision_next_version_completion.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "release_gate_decision_next_version_completion.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "release_gate_decision_next_version_completion.example.json",
     ),
     (
         "research_notebook_agentic_market_intelligence.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "research_notebook_agentic_market_intelligence.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "research_notebook_agentic_market_intelligence.example.json",
     ),
     (
         "landscape_matrix_agentic_market_intelligence.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "landscape_matrix_agentic_market_intelligence.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "landscape_matrix_agentic_market_intelligence.example.json",
     ),
     (
         "competitor_dossier_agentic_market_intelligence.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "competitor_dossier_agentic_market_intelligence.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "competitor_dossier_agentic_market_intelligence.example.json",
     ),
     (
         "market_analysis_brief_agentic_market_intelligence.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "market_analysis_brief_agentic_market_intelligence.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "market_analysis_brief_agentic_market_intelligence.example.json",
     ),
     (
         "research_feature_recommendation_brief.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "research_feature_recommendation_brief.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "research_feature_recommendation_brief.example.json",
     ),
-    ("ralph_loop_state.example.json", SELF_HOSTING_ARTIFACTS_DIR / "ralph_loop_state.example.json"),
+    ("ralph_loop_state.example.json", REFERENCE_WORKSPACE_ARTIFACTS_DIR / "ralph_loop_state.example.json"),
     (
         "validation_lane_report_market_intelligence.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "validation_lane_report_market_intelligence.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "validation_lane_report_market_intelligence.example.json",
     ),
     (
         "manual_validation_record_market_intelligence.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "manual_validation_record_market_intelligence.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "manual_validation_record_market_intelligence.example.json",
     ),
     (
         "rejected_path_record_market_intelligence.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "rejected_path_record_market_intelligence.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "rejected_path_record_market_intelligence.example.json",
     ),
     (
         "leadership_review_market_intelligence_distribution.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "leadership_review_market_intelligence_distribution.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "leadership_review_market_intelligence_distribution.example.json",
     ),
     (
         "portfolio_update_market_intelligence_distribution.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "portfolio_update_market_intelligence_distribution.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "portfolio_update_market_intelligence_distribution.example.json",
     ),
     (
         "source_note_card_productboard_spark_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_productboard_spark_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_productboard_spark_official_2026.example.json",
     ),
     (
         "source_note_card_jpd_ai_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_jpd_ai_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_jpd_ai_official_2026.example.json",
     ),
     (
         "source_note_card_aha_knowledge_ai_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_aha_knowledge_ai_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_aha_knowledge_ai_official_2026.example.json",
     ),
     (
         "source_note_card_linear_asks_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_linear_asks_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_linear_asks_official_2026.example.json",
     ),
     (
         "source_note_card_notion_mcp_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_notion_mcp_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_notion_mcp_official_2026.example.json",
     ),
     (
         "source_note_card_coda_ai_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_coda_ai_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_coda_ai_official_2026.example.json",
     ),
     (
         "source_note_card_asana_ai_teammates_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_asana_ai_teammates_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_asana_ai_teammates_official_2026.example.json",
     ),
     (
         "source_note_card_openai_deep_research_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_openai_deep_research_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_openai_deep_research_official_2026.example.json",
     ),
     (
         "source_note_card_gemini_deep_research_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_gemini_deep_research_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_gemini_deep_research_official_2026.example.json",
     ),
     (
         "source_note_card_perplexity_deep_research_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_perplexity_deep_research_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_perplexity_deep_research_official_2026.example.json",
     ),
     (
         "source_note_card_glean_agentic_engine_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_glean_agentic_engine_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_glean_agentic_engine_official_2026.example.json",
     ),
     (
         "source_note_card_crayon_ci_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_crayon_ci_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_crayon_ci_official_2026.example.json",
     ),
     (
         "source_note_card_klue_compete_agent_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_klue_compete_agent_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_klue_compete_agent_official_2026.example.json",
     ),
     (
         "source_note_card_semrush_eyeon_official_2026.example.json",
-        SELF_HOSTING_ARTIFACTS_DIR / "source_note_card_semrush_eyeon_official_2026.example.json",
+        REFERENCE_WORKSPACE_ARTIFACTS_DIR / "source_note_card_semrush_eyeon_official_2026.example.json",
     ),
     (
         "source_note_card_app_review_jpd.example.json",

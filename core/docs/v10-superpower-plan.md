@@ -41,7 +41,7 @@ PRODUCT HEALTH DASHBOARD
 | 16-17 | Marketing + Investor | `messaging_house`, `battle_card`, `blog_post_brief`, `email_sequence`, `social_media_pack`, `investor_pitch_deck`, `investor_memo`, `demo_video_script`, `one_pager` | `messaging_house_construction`, `battle_card_generation`, `investor_content_generation` + 3 more |
 | 18 | Stakeholder + Living System | `stakeholder_map`, `meeting_brief`, `objection_playbook`, `alignment_dashboard_state`, `feedback_capture`, `drift_detection_alert`, `impact_propagation_map` | `stakeholder_management`, `freshness_and_staleness_scan`, `drift_and_impact_propagation` |
 | 19 | Dashboard + Analytics | `cohort_analysis`, `funnel_analysis`, `feature_adoption_report`, `churn_prediction`, health dashboard panels | `health_dashboard_build` + analytics skills |
-| 20 | Validation + Release | Blueprint trace matrix, feature scorecards, dogfood in `internal/ProductOS-Next/`, release note | Feature scorecards for all capabilities |
+| 20 | Validation + Release | Blueprint trace matrix, feature scorecards, dogfood in an explicit workspace, release note | Feature scorecards for all capabilities |
 
 ---
 

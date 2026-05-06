@@ -1,0 +1,31 @@
+# User Journey: {{ title }}
+
+*Generated: {{ generated_at }}*  
+*Source: user_journey_map.json | Template: user-journey.md.jinja2 v1.0.0*
+
+---
+
+## Persona
+
+{{ persona_summary }}
+
+## Journey Steps
+
+| Step | Trigger | Action | Cognitive Load | Error Recovery | Accessibility |
+|---|---|---|---|---|---|
+{{ journey_steps }}
+
+## Key Pain Points
+
+{{ pain_points }}
+
+## Opportunities
+
+{{ opportunities }}
+
+---
+
+*Modification Log:*
+- {{ generated_at }}: Generated from structured artifacts
+
+<!-- PM NOTE: Manual PM annotations go here and survive re-rendering -->

@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "registration_id": "ws_reg_productos_v2",
   "workspace_id": "ws_productos_v2",
-  "workspace_name": "ProductOS Self-Hosting Workspace",
+  "workspace_name": "ProductOS Reference Workspace",
   "current_core_version": "10.0.0",
   "upgrade_history": [
     {

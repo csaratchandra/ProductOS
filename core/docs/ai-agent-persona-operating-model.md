@@ -538,7 +538,7 @@ ProductOS should treat the AI Agent persona as a first-class internal operating 
 
 Reason:
 
-- ProductOS is already being built through an AI-assisted self-hosting loop
+- ProductOS is already being built through an AI-assisted repo-native loop
 - the PM persona alone is not enough to structure that loop
 - without an explicit AI Agent operating model, self-improvement will remain partially accidental
 

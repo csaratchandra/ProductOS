@@ -10,7 +10,7 @@
   "summary": "Release-candidate integration update with PM-facing queue terminology, current-state assessment coverage, and a local validation and test harness.",
   "breaking_changes": [],
   "upgrade_actions": [
-    "Adopt current-state assessment artifacts and workflows in the self-hosting workspace.",
+    "Adopt current-state assessment artifacts and workflows in the reference workspace.",
     "Use follow-up queue as the PM-facing queue term.",
     "Run local validation and pytest before declaring V2 release-candidate ready."
   ]

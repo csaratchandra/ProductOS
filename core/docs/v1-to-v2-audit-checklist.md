@@ -31,7 +31,7 @@ Evidence to inspect:
 
 - [README.md](../../README.md)
 - [current-state-assessment-workflow.md](../workflows/discovery/current-state-assessment-workflow.md)
-- one private self-hosting workspace manifest, if available outside the public repo boundary
+- one explicit workspace manifest, if available outside the public repo boundary
 
 ### 2. PM terminology and usability
 
@@ -52,14 +52,14 @@ Check whether V2 can operate ProductOS itself as a product more cleanly than V1.
 
 Audit:
 
-- dedicated self-hosting workspace
+- dedicated reference workspace
 - lifecycle artifacts in the workspace
 - release and adoption records
 - improvement records feeding back into core
 
 Evidence to inspect:
 
-- one private self-hosting workspace, if available outside the public repo boundary
+- one private explicit workspace, if available outside the public repo boundary
 - [registry/releases](../../registry/releases)
 - [registry/improvements](../../registry/improvements)
 
@@ -77,7 +77,7 @@ Audit:
 
 Important:
 
-- V2 now includes note-oriented artifacts plus a scaffolded workspace `inbox/` in the self-hosting workspace
+- V2 now includes note-oriented artifacts plus a scaffolded workspace `inbox/` in the reference workspace
 - the inbox is wired to the inbox normalization workflow so raw material can convert into structured evidence
 
 ### 5. ProductOS feedback logging

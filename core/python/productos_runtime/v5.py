@@ -39,7 +39,7 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 def _load_archived_v5_item_and_snapshot(workspace_dir: Path | str) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
     root_dir = _root_dir_from_workspace(workspace_dir)
-    archive_dir = root_dir / "internal" / "ProductOS-Next" / "archive" / "historical-artifacts" / "v5_lifecycle_traceability"
+    archive_dir = root_dir / "tests" / "fixtures" / "workspaces" / "productos-sample" / "archive" / "historical-artifacts" / "v5_lifecycle_traceability"
     if archive_dir.exists():
         return (
             _load_json(archive_dir / "item_lifecycle_state_pm_lifecycle_visibility.example.json"),
@@ -134,7 +134,7 @@ def build_v5_lifecycle_bundle_from_workspace(
         "candidate_version": target_version,
         "status": overall_status,
         "summary": (
-            "The selected V5 bundle proves item-first lifecycle traceability through prd_handoff in the self-hosting workspace and the starter workspace while keeping later lifecycle stages explicitly deferred."
+            "The selected V5 bundle proves item-first lifecycle traceability through prd_handoff in the reference workspace and the starter workspace while keeping later lifecycle stages explicitly deferred."
             if overall_status == "passed"
             else "The selected V5 lifecycle-traceability bundle is partially proven, but one or more parity or scope-boundary checks still need review."
         ),
@@ -228,7 +228,7 @@ def build_v5_lifecycle_bundle_from_workspace(
             "blocking_findings": [] if overall_status == "passed" else ["The selected V5 release claim is not yet fully supported by the current lifecycle-traceability evidence."],
             "non_blocking_findings": [
                 "Later lifecycle stages remain intentionally deferred past prd_handoff.",
-                "The starter workspace is the clean adoption surface rather than the self-hosting workspace.",
+                "The starter workspace is the clean adoption surface rather than the reference workspace.",
             ],
             "unresolved_questions": [] if overall_status == "passed" else ["Which parity gap must be closed before the selected V5 bundle can promote?"],
         },
@@ -236,7 +236,7 @@ def build_v5_lifecycle_bundle_from_workspace(
             "status": tester_status,
             "tester_role": "AI Tester",
             "checks_run": [
-                "Validated self-hosting lifecycle state through prd_handoff.",
+                "Validated reference-workspace lifecycle state through prd_handoff.",
                 "Validated starter-workspace lifecycle state parity.",
                 "Validated explicit post-prd boundary across both workspaces.",
             ],
@@ -306,7 +306,7 @@ def build_v5_lifecycle_bundle_from_workspace(
         "workspace_id": workspace_item["workspace_id"],
         "feature_id": "feature_v5_lifecycle_traceability_prd_handoff",
         "status": release_readiness_status,
-        "decision_summary": "The V5 slice is ready when self-hosting and starter-workspace traces both reach PRD handoff and the release boundary remains explicit.",
+        "decision_summary": "The V5 slice is ready when reference and starter-workspace traces both reach PRD handoff and the release boundary remains explicit.",
         "launch_roles": [
             {
                 "role_name": "Release owner",
@@ -347,7 +347,7 @@ def build_v5_lifecycle_bundle_from_workspace(
             {
                 "name": "Self-hosting lifecycle trace reaches prd_handoff",
                 "status": "passed" if self_hosting_ready else "failed",
-                "notes": "The self-hosting workspace exposes one item-first lifecycle trace through the complete discovery path into PRD handoff.",
+                "notes": "The reference workspace exposes one item-first lifecycle trace through the complete discovery path into PRD handoff.",
             },
             {
                 "name": "Starter-workspace adoption parity",
@@ -373,7 +373,7 @@ def build_v5_lifecycle_bundle_from_workspace(
         "runtime_scenario_report_ref": runtime_scenario_report["runtime_scenario_report_id"],
         "release_readiness_ref": release_readiness["release_readiness_id"],
         "rationale": (
-            "The selected V5 bundle proves item-first lifecycle traceability through prd_handoff in both the self-hosting and starter workspaces, while keeping later lifecycle stages explicitly deferred."
+            "The selected V5 bundle proves item-first lifecycle traceability through prd_handoff in both the reference and starter workspaces, while keeping later lifecycle stages explicitly deferred."
             if overall_status == "passed"
             else "The selected V5 lifecycle-traceability bundle still has unresolved proof gaps, so stable promotion should wait for those checks to pass."
         ),
@@ -415,7 +415,7 @@ def build_v5_lifecycle_bundle_from_workspace(
                 "stage_key": "inspect",
                 "status": "passed" if self_hosting_ready else "blocked",
                 "owner": "AI Librarian",
-                "findings_summary": "The self-hosting and starter-workspace lifecycle traces were inspected as one bounded V5 release claim.",
+                "findings_summary": "The reference and starter-workspace lifecycle traces were inspected as one bounded V5 release claim.",
                 "evidence_refs": [
                     workspace_item["item_lifecycle_state_id"],
                     starter_item["item_lifecycle_state_id"],
@@ -441,7 +441,7 @@ def build_v5_lifecycle_bundle_from_workspace(
                     runtime_scenario_report["runtime_scenario_report_id"],
                     validation_lane_report["validation_lane_report_id"],
                 ],
-                "exit_condition": "Automated parity and scope-boundary proof passes for both the self-hosting and starter workspaces.",
+                "exit_condition": "Automated parity and scope-boundary proof passes for both the reference and starter workspaces.",
             },
             {
                 "stage_key": "implement",
@@ -514,7 +514,7 @@ def summarize_v5_lifecycle_bundle(
             f"V5 Bundle: {V5_BUNDLE_NAME}",
             f"Target Release: {report['candidate_version']}",
             f"Scenario Status: {report['status']}",
-            f"Self-Hosting Stage: {workspace_item['current_stage']}",
+            f"Reference Stage: {workspace_item['current_stage']}",
             f"Starter Stage: {starter_item['current_stage']}",
             f"Release Readiness: {readiness['status']}",
             f"Release Decision: {decision['decision']}",

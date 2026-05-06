@@ -33,11 +33,10 @@ def _seed_public_release_repo(root: Path, *, version: str = "7.2.0") -> None:
     (root / "registry" / "releases").mkdir(parents=True)
     (root / "registry" / "workspaces").mkdir(parents=True)
     (root / "registry" / "suites").mkdir(parents=True)
-    (root / "internal" / "ProductOS-Next" / "docs" / "product").mkdir(parents=True)
     (root / "docs").mkdir(parents=True)
 
     (root / ".gitignore").write_text(
-        ".DS_Store\n.pytest_cache/\n__pycache__/\ninternal/*\n!internal/README.md\nworkspaces/*\n!workspaces/.gitkeep\n",
+        ".DS_Store\n.pytest_cache/\n__pycache__/\nworkspaces/*\n!workspaces/.gitkeep\n",
         encoding="utf-8",
     )
     (root / "README.md").write_text(
@@ -48,10 +47,6 @@ def _seed_public_release_repo(root: Path, *, version: str = "7.2.0") -> None:
         encoding="utf-8",
     )
     (root / "docs" / "public-note.md").write_text("Tracked public release note.\n", encoding="utf-8")
-    (root / "internal" / "ProductOS-Next" / "docs" / "product" / "product-overview.md").write_text(
-        f"The current stable line is ProductOS `V{version}`.\n",
-        encoding="utf-8",
-    )
     _write_json(
         root / "registry" / "releases" / f"release_{version.replace('.', '_')}.json",
         {
@@ -74,7 +69,7 @@ def _seed_public_release_repo(root: Path, *, version: str = "7.2.0") -> None:
             "schema_version": "1.0.0",
             "registration_id": "ws_reg_productos_v2",
             "workspace_id": "ws_productos_v2",
-            "workspace_name": "ProductOS Self-Hosting Workspace",
+            "workspace_name": "ProductOS Reference Workspace",
             "current_core_version": version,
             "upgrade_history": [
                 {
@@ -114,17 +109,12 @@ def test_promote_release_from_ralph_updates_current_release_surfaces(tmp_path: P
     (root / "registry" / "releases").mkdir(parents=True)
     (root / "registry" / "workspaces").mkdir(parents=True)
     (root / "registry" / "suites").mkdir(parents=True)
-    (root / "internal" / "ProductOS-Next" / "docs" / "product").mkdir(parents=True)
 
     (root / "README.md").write_text(
         "# ProductOS\n\n"
         "ProductOS V4.1.0 is the current stable ProductOS Core line.\n\n"
         "ProductOS V4.1.0 is organized around the PM lifecycle plus governed research and improvement loops:\n\n"
         "- latest stable release assets remain present\n",
-        encoding="utf-8",
-    )
-    (root / "internal" / "ProductOS-Next" / "docs" / "product" / "product-overview.md").write_text(
-        "The current stable line is ProductOS `V4.1.0`.\n",
         encoding="utf-8",
     )
 
@@ -150,7 +140,7 @@ def test_promote_release_from_ralph_updates_current_release_surfaces(tmp_path: P
             "schema_version": "1.0.0",
             "registration_id": "ws_reg_productos_v2",
             "workspace_id": "ws_productos_v2",
-            "workspace_name": "ProductOS Self-Hosting Workspace",
+            "workspace_name": "ProductOS Reference Workspace",
             "current_core_version": "4.1.0",
             "upgrade_history": [
                 {
@@ -184,7 +174,7 @@ def test_promote_release_from_ralph_updates_current_release_surfaces(tmp_path: P
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_live_docs.example.json",
+        root / "fixtures" / "workspace" / "artifacts" / "ralph_loop_state_live_docs.example.json",
         {
             "schema_version": "1.0.0",
             "ralph_loop_state_id": "ralph_loop_state_ws_productos_v2_v4_2_live_docs",
@@ -210,7 +200,7 @@ def test_promote_release_from_ralph_updates_current_release_surfaces(tmp_path: P
 
     result = promote_release_from_ralph(
         root,
-        root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_live_docs.example.json",
+        root / "fixtures" / "workspace" / "artifacts" / "ralph_loop_state_live_docs.example.json",
         released_at="2026-03-21T10:10:00Z",
     )
 
@@ -220,7 +210,6 @@ def test_promote_release_from_ralph_updates_current_release_surfaces(tmp_path: P
     workspace = json.loads((root / "registry" / "workspaces" / "ws_productos_v2.registration.json").read_text(encoding="utf-8"))
     suite = json.loads((root / "registry" / "suites" / "suite_productos.registration.json").read_text(encoding="utf-8"))
     readme = (root / "README.md").read_text(encoding="utf-8")
-    overview = (root / "internal" / "ProductOS-Next" / "docs" / "product" / "product-overview.md").read_text(encoding="utf-8")
 
     assert workspace["current_core_version"] == "4.2.0"
     assert suite["current_core_version"] == "4.2.0"
@@ -231,11 +220,10 @@ def test_promote_release_from_ralph_updates_current_release_surfaces(tmp_path: P
     assert "ProductOS V4.2.0 is the current stable ProductOS Core line." in readme
     assert "ProductOS V4.2.0 is the current stable ProductOS Core line." in readme
     assert "latest stable release assets remain present" in readme
-    assert "ProductOS `V4.2.0`" in overview
 
     promote_release_from_ralph(
         root,
-        root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_live_docs.example.json",
+        root / "fixtures" / "workspace" / "artifacts" / "ralph_loop_state_live_docs.example.json",
         released_at="2026-03-21T10:10:00Z",
     )
     workspace_after_second_run = json.loads(
@@ -258,7 +246,6 @@ def test_promote_public_release_updates_only_tracked_public_surfaces(tmp_path: P
     workspace = json.loads((root / "registry" / "workspaces" / "ws_productos_v2.registration.json").read_text(encoding="utf-8"))
     suite = json.loads((root / "registry" / "suites" / "suite_productos.registration.json").read_text(encoding="utf-8"))
     readme = (root / "README.md").read_text(encoding="utf-8")
-    overview = (root / "internal" / "ProductOS-Next" / "docs" / "product" / "product-overview.md").read_text(encoding="utf-8")
 
     assert result["target_version"] == "7.3.0"
     assert result["tag_name"] == "v7.3.0"
@@ -267,7 +254,6 @@ def test_promote_public_release_updates_only_tracked_public_surfaces(tmp_path: P
     assert workspace["current_core_version"] == "7.3.0"
     assert suite["current_core_version"] == "7.3.0"
     assert "ProductOS V7.3.0 is the current stable ProductOS Core line." in readme
-    assert "ProductOS `V7.2.0`" in overview
 
 
 def test_promote_public_release_can_promote_to_v9_after_manual_gate_clear(tmp_path: Path):
@@ -303,8 +289,8 @@ def test_run_public_release_commits_tags_and_blocks_ignored_boundaries(tmp_path:
     _run_git(root, "commit", "-m", "Initial state")
 
     (root / "docs" / "queued-feature.md").write_text("Release the queued public feature.\n", encoding="utf-8")
-    (root / "internal" / "ProductOS-Next" / "artifacts").mkdir(parents=True, exist_ok=True)
-    (root / "internal" / "ProductOS-Next" / "artifacts" / "ignored-proof.json").write_text(
+    (root / "workspaces" / "local-only").mkdir(parents=True, exist_ok=True)
+    (root / "workspaces" / "local-only" / "ignored-proof.json").write_text(
         "{\"status\": \"local-only\"}\n",
         encoding="utf-8",
     )
@@ -321,14 +307,14 @@ def test_run_public_release_commits_tags_and_blocks_ignored_boundaries(tmp_path:
     assert _run_git(root, "describe", "--tags", "--exact-match") == "v7.3.0"
     assert "docs/queued-feature.md" in committed_paths
     assert "registry/releases/release_7_3_0.json" in committed_paths
-    assert all(not path.startswith("internal/") for path in committed_paths)
+    assert all(not path.startswith("workspaces/") for path in committed_paths)
     assert verify_public_release_alignment(root, target_version="7.3.0", tag_name="v7.3.0")["status"] == "aligned"
 
 
 def test_promote_release_from_ralph_blocks_watch_level_promotion_gate(tmp_path: Path):
     root = tmp_path / "repo"
     (root / "registry" / "releases").mkdir(parents=True)
-    (root / "internal" / "ProductOS-Next" / "artifacts").mkdir(parents=True)
+    (root / "fixtures" / "workspace" / "artifacts").mkdir(parents=True)
 
     _write_json(
         root / "registry" / "releases" / "release_4_7_0.json",
@@ -347,7 +333,7 @@ def test_promote_release_from_ralph_blocks_watch_level_promotion_gate(tmp_path: 
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+        root / "fixtures" / "workspace" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
         {
             "schema_version": "1.0.0",
             "ralph_loop_state_id": "ralph_loop_state_ws_productos_v2_v4_8_foundation",
@@ -371,7 +357,7 @@ def test_promote_release_from_ralph_blocks_watch_level_promotion_gate(tmp_path: 
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
+        root / "fixtures" / "workspace" / "artifacts" / "eval_run_report.json",
         {
             "schema_version": "1.0.0",
             "eval_run_report_id": "eval_run_report_ws_productos_v2_v4_8",
@@ -394,7 +380,7 @@ def test_promote_release_from_ralph_blocks_watch_level_promotion_gate(tmp_path: 
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
+        root / "fixtures" / "workspace" / "artifacts" / "feature_portfolio_review.json",
         {
             "schema_version": "1.0.0",
             "feature_portfolio_review_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
@@ -420,17 +406,17 @@ def test_promote_release_from_ralph_blocks_watch_level_promotion_gate(tmp_path: 
     with pytest.raises(ValueError, match="Promotion gate is blocked"):
         promote_release_from_ralph(
             root,
-            root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+            root / "fixtures" / "workspace" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
             released_at="2026-03-26T08:10:00Z",
-            eval_run_report_path=root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
-            feature_portfolio_review_path=root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
+            eval_run_report_path=root / "fixtures" / "workspace" / "artifacts" / "eval_run_report.json",
+            feature_portfolio_review_path=root / "fixtures" / "workspace" / "artifacts" / "feature_portfolio_review.json",
         )
 
 
 def test_promote_release_from_ralph_blocks_unresolved_external_research_review(tmp_path: Path):
     root = tmp_path / "repo"
     (root / "registry" / "releases").mkdir(parents=True)
-    (root / "internal" / "ProductOS-Next" / "artifacts").mkdir(parents=True)
+    (root / "fixtures" / "workspace" / "artifacts").mkdir(parents=True)
 
     _write_json(
         root / "registry" / "releases" / "release_4_7_0.json",
@@ -449,7 +435,7 @@ def test_promote_release_from_ralph_blocks_unresolved_external_research_review(t
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+        root / "fixtures" / "workspace" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
         {
             "schema_version": "1.0.0",
             "ralph_loop_state_id": "ralph_loop_state_ws_productos_v2_v4_8_foundation",
@@ -473,7 +459,7 @@ def test_promote_release_from_ralph_blocks_unresolved_external_research_review(t
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
+        root / "fixtures" / "workspace" / "artifacts" / "eval_run_report.json",
         {
             "schema_version": "1.0.0",
             "eval_run_report_id": "eval_run_report_ws_productos_v2_v4_8",
@@ -496,7 +482,7 @@ def test_promote_release_from_ralph_blocks_unresolved_external_research_review(t
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
+        root / "fixtures" / "workspace" / "artifacts" / "feature_portfolio_review.json",
         {
             "schema_version": "1.0.0",
             "feature_portfolio_review_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
@@ -530,7 +516,7 @@ def test_promote_release_from_ralph_blocks_unresolved_external_research_review(t
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_review.json",
+        root / "fixtures" / "workspace" / "artifacts" / "external_research_review.json",
         {
             "schema_version": "1.0.0",
             "external_research_review_id": "external_research_review_ws_productos_v2",
@@ -558,18 +544,18 @@ def test_promote_release_from_ralph_blocks_unresolved_external_research_review(t
     with pytest.raises(ValueError, match="external research"):
         promote_release_from_ralph(
             root,
-            root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+            root / "fixtures" / "workspace" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
             released_at="2026-03-26T08:10:00Z",
-            eval_run_report_path=root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
-            feature_portfolio_review_path=root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
-            external_research_review_path=root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_review.json",
+            eval_run_report_path=root / "fixtures" / "workspace" / "artifacts" / "eval_run_report.json",
+            feature_portfolio_review_path=root / "fixtures" / "workspace" / "artifacts" / "feature_portfolio_review.json",
+            external_research_review_path=root / "fixtures" / "workspace" / "artifacts" / "external_research_review.json",
         )
 
 
 def test_promote_release_from_ralph_blocks_planned_research_without_discovery(tmp_path: Path):
     root = tmp_path / "repo"
     (root / "registry" / "releases").mkdir(parents=True)
-    (root / "internal" / "ProductOS-Next" / "artifacts").mkdir(parents=True)
+    (root / "fixtures" / "workspace" / "artifacts").mkdir(parents=True)
 
     _write_json(
         root / "registry" / "releases" / "release_4_7_0.json",
@@ -588,7 +574,7 @@ def test_promote_release_from_ralph_blocks_planned_research_without_discovery(tm
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+        root / "fixtures" / "workspace" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
         {
             "schema_version": "1.0.0",
             "ralph_loop_state_id": "ralph_loop_state_ws_productos_v2_v4_8_foundation",
@@ -612,7 +598,7 @@ def test_promote_release_from_ralph_blocks_planned_research_without_discovery(tm
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
+        root / "fixtures" / "workspace" / "artifacts" / "eval_run_report.json",
         {
             "schema_version": "1.0.0",
             "eval_run_report_id": "eval_run_report_ws_productos_v2_v4_8",
@@ -635,7 +621,7 @@ def test_promote_release_from_ralph_blocks_planned_research_without_discovery(tm
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
+        root / "fixtures" / "workspace" / "artifacts" / "feature_portfolio_review.json",
         {
             "schema_version": "1.0.0",
             "feature_portfolio_review_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
@@ -669,7 +655,7 @@ def test_promote_release_from_ralph_blocks_planned_research_without_discovery(tm
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "research_brief.json",
+        root / "fixtures" / "workspace" / "artifacts" / "research_brief.json",
         {
             "schema_version": "1.0.0",
             "research_brief_id": "research_brief_ws_productos_v2",
@@ -691,7 +677,7 @@ def test_promote_release_from_ralph_blocks_planned_research_without_discovery(tm
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_plan.json",
+        root / "fixtures" / "workspace" / "artifacts" / "external_research_plan.json",
         {
             "schema_version": "1.0.0",
             "external_research_plan_id": "external_research_plan_ws_productos_v2",
@@ -722,20 +708,20 @@ def test_promote_release_from_ralph_blocks_planned_research_without_discovery(tm
     with pytest.raises(ValueError, match="source discovery has not been persisted"):
         promote_release_from_ralph(
             root,
-            root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+            root / "fixtures" / "workspace" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
             released_at="2026-03-26T08:10:00Z",
-            eval_run_report_path=root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
-            feature_portfolio_review_path=root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
-            research_brief_path=root / "internal" / "ProductOS-Next" / "artifacts" / "research_brief.json",
-            external_research_plan_path=root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_plan.json",
+            eval_run_report_path=root / "fixtures" / "workspace" / "artifacts" / "eval_run_report.json",
+            feature_portfolio_review_path=root / "fixtures" / "workspace" / "artifacts" / "feature_portfolio_review.json",
+            research_brief_path=root / "fixtures" / "workspace" / "artifacts" / "research_brief.json",
+            external_research_plan_path=root / "fixtures" / "workspace" / "artifacts" / "external_research_plan.json",
         )
 
 
 def test_promote_release_from_ralph_blocks_degraded_external_research_feed_registry(tmp_path: Path):
     root = tmp_path / "repo"
     (root / "registry" / "releases").mkdir(parents=True)
-    (root / "internal" / "ProductOS-Next" / "artifacts").mkdir(parents=True)
-    (root / "internal" / "ProductOS-Next" / "outputs" / "research").mkdir(parents=True)
+    (root / "fixtures" / "workspace" / "artifacts").mkdir(parents=True)
+    (root / "fixtures" / "workspace" / "outputs" / "research").mkdir(parents=True)
 
     _write_json(
         root / "registry" / "releases" / "release_4_7_0.json",
@@ -754,7 +740,7 @@ def test_promote_release_from_ralph_blocks_degraded_external_research_feed_regis
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+        root / "fixtures" / "workspace" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
         {
             "schema_version": "1.0.0",
             "ralph_loop_state_id": "ralph_loop_state_ws_productos_v2_v4_8_foundation",
@@ -778,7 +764,7 @@ def test_promote_release_from_ralph_blocks_degraded_external_research_feed_regis
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
+        root / "fixtures" / "workspace" / "artifacts" / "eval_run_report.json",
         {
             "schema_version": "1.0.0",
             "eval_run_report_id": "eval_run_report_ws_productos_v2_v4_8",
@@ -801,7 +787,7 @@ def test_promote_release_from_ralph_blocks_degraded_external_research_feed_regis
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
+        root / "fixtures" / "workspace" / "artifacts" / "feature_portfolio_review.json",
         {
             "schema_version": "1.0.0",
             "feature_portfolio_review_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
@@ -824,7 +810,7 @@ def test_promote_release_from_ralph_blocks_degraded_external_research_feed_regis
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "research_brief.json",
+        root / "fixtures" / "workspace" / "artifacts" / "research_brief.json",
         {
             "schema_version": "1.0.0",
             "research_brief_id": "research_brief_ws_productos_v2",
@@ -846,7 +832,7 @@ def test_promote_release_from_ralph_blocks_degraded_external_research_feed_regis
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_plan.json",
+        root / "fixtures" / "workspace" / "artifacts" / "external_research_plan.json",
         {
             "schema_version": "1.0.0",
             "external_research_plan_id": "external_research_plan_ws_productos_v2",
@@ -861,7 +847,7 @@ def test_promote_release_from_ralph_blocks_degraded_external_research_feed_regis
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_source_discovery.json",
+        root / "fixtures" / "workspace" / "artifacts" / "external_research_source_discovery.json",
         {
             "schema_version": "1.0.0",
             "external_research_source_discovery_id": "external_research_source_discovery_ws_productos_v2",
@@ -873,7 +859,7 @@ def test_promote_release_from_ralph_blocks_degraded_external_research_feed_regis
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_feed_registry.json",
+        root / "fixtures" / "workspace" / "artifacts" / "external_research_feed_registry.json",
         {
             "schema_version": "1.0.0",
             "external_research_feed_registry_id": "external_research_feed_registry_ws_productos_v2",
@@ -896,7 +882,7 @@ def test_promote_release_from_ralph_blocks_degraded_external_research_feed_regis
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "outputs" / "research" / "external-research-manifest.selected.json",
+        root / "fixtures" / "workspace" / "outputs" / "research" / "external-research-manifest.selected.json",
         {
             "sources": [
                 {
@@ -907,7 +893,7 @@ def test_promote_release_from_ralph_blocks_degraded_external_research_feed_regis
         },
     )
     _write_json(
-        root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_review.json",
+        root / "fixtures" / "workspace" / "artifacts" / "external_research_review.json",
         {
             "schema_version": "1.0.0",
             "external_research_review_id": "external_research_review_ws_productos_v2",
@@ -924,14 +910,14 @@ def test_promote_release_from_ralph_blocks_degraded_external_research_feed_regis
     with pytest.raises(ValueError, match="feed registry"):
         promote_release_from_ralph(
             root,
-            root / "internal" / "ProductOS-Next" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
+            root / "fixtures" / "workspace" / "artifacts" / "ralph_loop_state_next_version_completion.example.json",
             released_at="2026-03-26T08:10:00Z",
-            eval_run_report_path=root / "internal" / "ProductOS-Next" / "artifacts" / "eval_run_report.json",
-            feature_portfolio_review_path=root / "internal" / "ProductOS-Next" / "artifacts" / "feature_portfolio_review.json",
-            research_brief_path=root / "internal" / "ProductOS-Next" / "artifacts" / "research_brief.json",
-            external_research_plan_path=root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_plan.json",
-            external_research_source_discovery_path=root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_source_discovery.json",
-            external_research_feed_registry_path=root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_feed_registry.json",
-            selected_manifest_path=root / "internal" / "ProductOS-Next" / "outputs" / "research" / "external-research-manifest.selected.json",
-            external_research_review_path=root / "internal" / "ProductOS-Next" / "artifacts" / "external_research_review.json",
+            eval_run_report_path=root / "fixtures" / "workspace" / "artifacts" / "eval_run_report.json",
+            feature_portfolio_review_path=root / "fixtures" / "workspace" / "artifacts" / "feature_portfolio_review.json",
+            research_brief_path=root / "fixtures" / "workspace" / "artifacts" / "research_brief.json",
+            external_research_plan_path=root / "fixtures" / "workspace" / "artifacts" / "external_research_plan.json",
+            external_research_source_discovery_path=root / "fixtures" / "workspace" / "artifacts" / "external_research_source_discovery.json",
+            external_research_feed_registry_path=root / "fixtures" / "workspace" / "artifacts" / "external_research_feed_registry.json",
+            selected_manifest_path=root / "fixtures" / "workspace" / "outputs" / "research" / "external-research-manifest.selected.json",
+            external_research_review_path=root / "fixtures" / "workspace" / "artifacts" / "external_research_review.json",
         )

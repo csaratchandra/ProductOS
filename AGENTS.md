@@ -10,7 +10,7 @@ ProductOS is a repo-first operating system for PM work and AI-assisted execution
 - `core/schemas/`: artifact and entity contracts
 - `core/examples/`: valid example payloads for schema-backed work
 - `scripts/productos.py`: canonical CLI surface
-- `internal/ProductOS-Next/`: self-hosting workspace for dogfooding the next bounded slice
+- `tests/fixtures/workspaces/productos-sample/`: bundled workspace fixture for CLI and runtime regression coverage
 
 ## Expected Flow
 

@@ -5,7 +5,7 @@ Purpose: Explain how to use the ProductOS starter template for a normal product 
 ## Choose The Right Workspace
 
 - use `templates/` when you want a clean starting point for another product workspace
-- treat ProductOS self-hosting work as internal-only and separate from PM product workspaces
+- keep ProductOS sample fixtures and release records separate from PM product workspaces
 
 ## Starter Workspace Contents
 
@@ -41,7 +41,7 @@ PMs should reuse:
 
 PMs should not reuse:
 
-- ProductOS self-hosting backlog history
+- ProductOS sample-workspace backlog history
 - ProductOS release records
 - ProductOS internal feedback logs
 - ProductOS-specific discovery claims as if they were their own product evidence
@@ -70,8 +70,8 @@ Use the lower-level commands only when you need more explicit control:
 
 If this repo is published for PM use, the starter workspace should be positioned as the download surface.
 
-Do not mix internal ProductOS self-hosting work with a PM product workspace.
+Do not mix ProductOS sample fixtures or release records with a PM product workspace.
 
 ## Rule
 
-Do not repurpose internal ProductOS self-hosting artifacts for unrelated products. Use the starter template so ProductOS-as-a-product records do not mix with another product's history.
+Do not repurpose ProductOS sample-fixture artifacts for unrelated products. Use the starter template so ProductOS-as-a-product records do not mix with another product's history.

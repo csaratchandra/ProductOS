@@ -755,7 +755,7 @@ def _build_live_discover_bundle(
         )
     if not raw_note_path.exists() or not transcript_path.exists():
         raise FileNotFoundError(
-            "Discover fallback inputs are missing. Provide the self-hosting discover inputs or a mission_brief artifact."
+            "Discover fallback inputs are missing. Provide the bundled discover inputs or a mission_brief artifact."
         )
 
     raw_note_lines = raw_note_path.read_text(encoding="utf-8").strip().splitlines()
@@ -1048,7 +1048,7 @@ def _build_live_discover_bundle(
         ),
         "posture_alignment": "challenger",
         "why_this_problem_now": (
-            "The next version must prove a concrete discover wedge inside the self-hosting workspace before broader "
+            "The next version must prove a concrete discover wedge inside the current workspace under review before broader "
             "strategy claims are credible."
         ),
         "why_this_problem_for_this_segment": (
@@ -1133,7 +1133,7 @@ def _build_live_discover_bundle(
             "Same-day messy-input-to-PRD conversion is the sharpest believable challenger wedge for the next-version discover path."
         ),
         "why_now": (
-            "The next version is only believable if ProductOS proves its strongest loop inside the current self-hosting workspace."
+            "The next version is only believable if ProductOS proves its strongest loop inside the current workspace under review."
         ),
         "why_us": (
             "ProductOS already has structured artifacts, validation lanes, readable docs, and a thin adapter contract inside the repo."
@@ -1235,7 +1235,7 @@ def _build_live_discover_bundle(
             ),
             reviewer_handoff=(
                 "Design and engineering should review scope boundaries before ProductOS treats the "
-                "discover packet as the default self-hosting workflow."
+                "discover packet as the default repo-first workflow."
             ),
         ),
         "scope_boundaries": [
@@ -2814,7 +2814,7 @@ def build_next_version_bundle_from_workspace(
             {
                 "dimension_key": "output_quality",
                 "score": 5,
-                "rationale": "The current docs are readable, traceable, and strong enough to act as the standard aligned package for the self-hosting workspace.",
+                "rationale": "The current docs are readable, traceable, and strong enough to act as the standard aligned package for the current workspace.",
                 "evidence_refs": [
                     "manual_validation_record_ws_productos_v2_live_docs",
                     live_doc_sync_state["document_sync_state_id"],
@@ -2934,7 +2934,7 @@ def build_next_version_bundle_from_workspace(
             {
                 "dimension_key": "output_quality",
                 "score": 5,
-                "rationale": "The story, render spec, and audience policy now act as the promoted next-version deck path for the self-hosting workspace.",
+                "rationale": "The story, render spec, and audience policy now act as the promoted next-version deck path for the current workspace.",
                 "evidence_refs": [
                     foundation_bundle["presentation_pattern_review"]["presentation_pattern_review_id"],
                     completion_manual_record["manual_validation_record_id"],
@@ -4027,7 +4027,7 @@ def build_next_version_bundle_from_workspace(
         "schema_version": "1.0.0",
         "feature_portfolio_review_id": f"feature_portfolio_review_{workspace_id}_next_version_baseline",
         "workspace_id": workspace_id,
-        "review_scope": "Bounded baseline review across the current ProductOS self-hosting workspace, scored with explicit provenance and frozen eval inputs.",
+        "review_scope": "Bounded baseline review across the current ProductOS workspace, scored with explicit provenance and frozen eval inputs.",
         "benchmark_ref": foundation_bundle["pm_superpower_benchmark"]["pm_superpower_benchmark_id"],
         "adapter_registry_ref": runtime_adapter_registry["runtime_adapter_registry_id"],
         "truthfulness_status": truthfulness_status,
@@ -4715,7 +4715,7 @@ def build_next_version_bundle_from_workspace(
         "schema_version": "1.0.0",
         "orchestration_state_id": orchestration_state_id,
         "workspace_id": workspace_id,
-        "goal": "Operate the next-version ProductOS superpower build from one repo CLI surface while staying grounded in the current self-hosting workspace.",
+        "goal": "Operate the next-version ProductOS superpower build from one repo CLI surface while staying grounded in the current workspace.",
         "status": "completed" if next_version_baseline_promoted else "awaiting_review",
         "coordination_summary": (
             "The discover, align, operate, and improve slices are now promoted as one repo-native next-version baseline, and every named current superpower slice now clears the 5 out of 5 bar."

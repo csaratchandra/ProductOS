@@ -49,7 +49,7 @@ def _load_archived_v6_surfaces(
     workspace_dir: Path | str,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
     root_dir = _root_dir_from_workspace(workspace_dir)
-    archive_dir = root_dir / "internal" / "ProductOS-Next" / "archive" / "historical-artifacts" / "v6_lifecycle_traceability"
+    archive_dir = root_dir / "tests" / "fixtures" / "workspaces" / "productos-sample" / "archive" / "historical-artifacts" / "v6_lifecycle_traceability"
     if archive_dir.exists():
         return (
             _load_json(archive_dir / "internal" / "item_lifecycle_state_pm_lifecycle_visibility.example.json"),
@@ -183,7 +183,7 @@ def build_v6_lifecycle_bundle_from_workspace(
         "candidate_version": target_version,
         "status": overall_status,
         "summary": (
-            "The selected V6 bundle proves item-first lifecycle traceability through release_readiness in the self-hosting and starter workspaces, fixes the advertised trace focus-area coverage, and keeps launch and outcome stages explicitly deferred."
+            "The selected V6 bundle proves item-first lifecycle traceability through release_readiness in the reference and starter workspaces, fixes the advertised trace focus-area coverage, and keeps launch and outcome stages explicitly deferred."
             if overall_status == "passed"
             else "The selected V6 lifecycle-traceability bundle is partially proven, but one or more release-readiness, parity, trace-surface, or scope-boundary checks still need review."
         ),
@@ -305,7 +305,7 @@ def build_v6_lifecycle_bundle_from_workspace(
             "status": tester_status,
             "tester_role": "AI Tester",
             "checks_run": [
-                "Validated self-hosting lifecycle state through release_readiness.",
+                "Validated reference-workspace lifecycle state through release_readiness.",
                 "Validated starter-workspace lifecycle state parity through release_readiness.",
                 "Validated discovery, delivery, launch, outcomes, and full_lifecycle snapshot coverage.",
                 "Validated explicit post-release_readiness boundary across both workspaces.",
@@ -378,7 +378,7 @@ def build_v6_lifecycle_bundle_from_workspace(
         "workspace_id": workspace_item["workspace_id"],
         "feature_id": "feature_v6_lifecycle_traceability_release_readiness",
         "status": release_readiness_status,
-        "decision_summary": "The V6 slice is ready when self-hosting and starter traces both reach release_readiness and the post-release boundary remains explicit.",
+        "decision_summary": "The V6 slice is ready when reference and starter traces both reach release_readiness and the post-release boundary remains explicit.",
         "launch_roles": [
             {
                 "role_name": "Release owner",
@@ -419,7 +419,7 @@ def build_v6_lifecycle_bundle_from_workspace(
             {
                 "name": "Self-hosting lifecycle trace reaches release_readiness",
                 "status": "passed" if self_hosting_ready else "failed",
-                "notes": "The self-hosting workspace exposes one item-first lifecycle trace from discovery through delivery planning and release_readiness.",
+                "notes": "The reference workspace exposes one item-first lifecycle trace from discovery through delivery planning and release_readiness.",
             },
             {
                 "name": "Starter-workspace adoption parity through release_readiness",
@@ -450,7 +450,7 @@ def build_v6_lifecycle_bundle_from_workspace(
         "runtime_scenario_report_ref": runtime_scenario_report["runtime_scenario_report_id"],
         "release_readiness_ref": release_readiness["release_readiness_id"],
         "rationale": (
-            "The selected V6 bundle proves item-first lifecycle traceability through release_readiness in both the self-hosting and starter workspaces, closes the trace focus-area control-surface gap, and keeps later launch and outcome work explicitly deferred."
+            "The selected V6 bundle proves item-first lifecycle traceability through release_readiness in both the reference and starter workspaces, closes the trace focus-area control-surface gap, and keeps later launch and outcome work explicitly deferred."
             if overall_status == "passed"
             else "The selected V6 lifecycle-traceability bundle still has unresolved proof gaps, so stable promotion should wait for those checks to pass."
         ),
@@ -494,7 +494,7 @@ def build_v6_lifecycle_bundle_from_workspace(
                 "stage_key": "inspect",
                 "status": "passed" if self_hosting_ready else "blocked",
                 "owner": "AI Librarian",
-                "findings_summary": "The self-hosting and starter-workspace lifecycle traces were inspected as one bounded V6 release claim through release_readiness.",
+                "findings_summary": "The reference and starter-workspace lifecycle traces were inspected as one bounded V6 release claim through release_readiness.",
                 "evidence_refs": [
                     workspace_item["item_lifecycle_state_id"],
                     starter_item["item_lifecycle_state_id"],
@@ -520,7 +520,7 @@ def build_v6_lifecycle_bundle_from_workspace(
                     runtime_scenario_report["runtime_scenario_report_id"],
                     validation_lane_report["validation_lane_report_id"],
                 ],
-                "exit_condition": "Automated parity, focus-area, and scope-boundary proof passes for both the self-hosting and starter workspaces.",
+                "exit_condition": "Automated parity, focus-area, and scope-boundary proof passes for both the reference and starter workspaces.",
             },
             {
                 "stage_key": "implement",
@@ -593,7 +593,7 @@ def summarize_v6_lifecycle_bundle(
             f"V6 Bundle: {V6_BUNDLE_NAME}",
             f"Target Release: {report['candidate_version']}",
             f"Scenario Status: {report['status']}",
-            f"Self-Hosting Stage: {workspace_item['current_stage']}",
+            f"Reference Stage: {workspace_item['current_stage']}",
             f"Starter Stage: {starter_item['current_stage']}",
             f"Release Readiness: {readiness['status']}",
             f"Release Decision: {decision['decision']}",

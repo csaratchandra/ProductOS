@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "prd_boundary_report_id": "pbr_ws_example_001",
+  "workspace_id": "ws_example_product",
+  "prd_ref": "artifacts/prd.json",
+  "score": 8,
+  "specificity_score": 8,
+  "coverage_score": 7,
+  "alignment_score": 9,
+  "flagged_boundaries": [
+    {
+      "boundary_text": "Other features not in scope",
+      "flag_reason": "Vague language — builder cannot determine what is excluded",
+      "severity": "critical",
+      "suggested_replacement": "Mobile native apps (iOS/Android), enterprise SSO integration, real-time collaboration, admin dashboard, API rate limiting"
+    }
+  ],
+  "suggested_fixes": [
+    "Replace 'Other features not in scope' with specific feature exclusions",
+    "Add segment exclusions (e.g., 'Enterprise customers >500 seats')",
+    "Add platform exclusions (e.g., 'Native mobile apps — web-only for v1')"
+  ],
+  "approval_status": "approved",
+  "maturity_band": "one_to_ten",
+  "generated_at": "2026-05-06T12:00:00Z"
+}

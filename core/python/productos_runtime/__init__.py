@@ -82,6 +82,20 @@ from .v9 import (
     inspect_v9_lifecycle_enrichment_state,
     summarize_v9_lifecycle_bundle,
 )
+from .living_system import (
+    build_regeneration_queue,
+    classify_impact,
+    detect_circular_dependencies,
+    generate_delta_preview,
+    process_regeneration_item,
+)
+from .markdown_renderer import (
+    load_template,
+    preserve_annotations,
+    render_living_document,
+    resolve_source_artifacts,
+)
+from .export_pipeline import export_artifact
 
 __all__ = [
     "build_foundation_bundle_from_workspace",
@@ -159,4 +173,14 @@ __all__ = [
     "research_workspace_from_manifest",
     "RESEARCH_RUNTIME_ARTIFACT_SCHEMAS",
     "sync_canonical_discovery_operations_artifacts",
+    "build_regeneration_queue",
+    "classify_impact",
+    "detect_circular_dependencies",
+    "generate_delta_preview",
+    "process_regeneration_item",
+    "load_template",
+    "preserve_annotations",
+    "render_living_document",
+    "resolve_source_artifacts",
+    "export_artifact",
 ]

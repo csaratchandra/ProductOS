@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-PUBLIC_RELEASE_BLOCKED_PREFIXES = ("internal/", "workspaces/")
+PUBLIC_RELEASE_BLOCKED_PREFIXES = ("workspaces/",)
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -159,7 +159,7 @@ def _build_release_metadata(
         "upgrade_actions": [
             f"Adopt the promoted {pretty_slice_label} in the current ProductOS operating flow.",
             "Use the automatic Ralph-gated release promotion command for future successful slices.",
-            "Keep private self-hosting work outside PM product workspaces and promote only reusable repo surfaces.",
+            "Keep product-specific work outside shared repo surfaces and promote only reusable repo assets.",
         ],
     }
 
@@ -794,8 +794,6 @@ def promote_release_from_ralph(
     workspace_registration_path = workspace_registration_path or root_dir / "registry" / "workspaces" / "ws_productos_v2.registration.json"
     suite_registration_path = suite_registration_path or root_dir / "registry" / "suites" / "suite_productos.registration.json"
     readme_path = readme_path or root_dir / "README.md"
-    product_overview_path = product_overview_path or root_dir / "internal" / "ProductOS-Next" / "docs" / "product" / "product-overview.md"
-
     workspace_payload = _update_registration(
         _load_json(workspace_registration_path),
         target_version,
@@ -816,7 +814,7 @@ def promote_release_from_ralph(
     updated_readme = _update_readme(readme_path.read_text(encoding="utf-8"), target_version)
     readme_path.write_text(updated_readme, encoding="utf-8")
 
-    if product_overview_path.exists():
+    if product_overview_path is not None and product_overview_path.exists():
         updated_overview = _update_product_overview(
             product_overview_path.read_text(encoding="utf-8"),
             target_version,

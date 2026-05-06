@@ -52,7 +52,7 @@
   },
   "steering_context": {
     "steering_refs": [
-      "internal/ProductOS-Next/docs/planning/steering-context.md",
+      "tests/fixtures/workspaces/productos-sample/docs/planning/steering-context.md",
       "core/docs/vendor-neutral-agent-harness-standard.md",
       "core/docs/ralph-loop-model.md"
     ],
@@ -97,8 +97,8 @@
     "../../core/workflows/mastery/bounded-improvement-workflow.md"
   ],
   "source_refs": [
-    "internal/ProductOS-Next/workspace_manifest.yaml",
-    "internal/ProductOS-Next/artifacts/problem_brief.json"
+    "tests/fixtures/workspaces/productos-sample/workspace_manifest.yaml",
+    "tests/fixtures/workspaces/productos-sample/artifacts/problem_brief.json"
   ],
   "stage_goals": {
     "discovery": "Create a reviewable mission-first discovery packet with explicit evidence posture.",

@@ -49,7 +49,7 @@
       "evidence_refs": [
         "research_feature_recommendation_brief_pm_market_intelligence"
       ],
-      "exit_condition": "The planned slice is implemented in core and the self-hosting workspace."
+      "exit_condition": "The planned slice is implemented in core and the reference workspace."
     },
     {
       "stage_key": "fix",

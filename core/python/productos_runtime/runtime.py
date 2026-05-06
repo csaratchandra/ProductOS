@@ -250,7 +250,7 @@ def build_runtime_bundle_from_workspace(
         "session_name": "V3 runtime proof execution session",
         "session_type": "worker_session",
         "status": "completed",
-        "objective": "Build and validate the V3 runtime bundle from the self-hosting workspace.",
+        "objective": "Build and validate the V3 runtime bundle from the reference workspace.",
         "owner_agent": "workflow",
         "capability_adapter_id": "adapter_git_execution",
         "host_session_ref": "local_runtime_bundle_session",

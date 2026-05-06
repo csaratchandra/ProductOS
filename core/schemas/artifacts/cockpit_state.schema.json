@@ -199,6 +199,13 @@
       },
       "default": []
     },
+    "living_updates_queue": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/livingUpdateItem"
+      },
+      "default": []
+    },
     "missing_context_questions": {
       "type": "array",
       "items": {
@@ -580,6 +587,57 @@
         "assumption_note": {
           "type": "string",
           "minLength": 3
+        }
+      }
+    },
+    "livingUpdateItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "update_id",
+        "regeneration_queue_item_ref",
+        "source_change",
+        "target_artifact",
+        "delta_summary",
+        "impact_classification",
+        "pm_action"
+      ],
+      "properties": {
+        "update_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "regeneration_queue_item_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_change": {
+          "type": "string",
+          "minLength": 3
+        },
+        "target_artifact": {
+          "type": "string",
+          "minLength": 1
+        },
+        "delta_summary": {
+          "type": "string",
+          "minLength": 3
+        },
+        "impact_classification": {
+          "type": "string",
+          "enum": ["mechanical", "content_deep", "structural"]
+        },
+        "pm_action": {
+          "type": "string",
+          "enum": ["pending", "approved", "rejected", "modified"]
+        },
+        "pm_note": {
+          "type": "string",
+          "default": ""
+        },
+        "reviewed_at": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     }

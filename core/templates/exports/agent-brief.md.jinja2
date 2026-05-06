@@ -1,0 +1,44 @@
+# Agent Brief: {{ title }}
+
+*Generated: {{ generated_at }}*  
+*Source: {{ doc_key }}.json | Template: agent-brief.md.jinja2 v1.0.0*
+
+---
+
+## 1. Intent & Boundaries
+
+### Problem Summary
+{{ problem_statement }}
+
+### Outcome Summary
+{{ outcome_summary }}
+
+### EXPLICIT OUT_OF_SCOPE
+{{ out_of_scope }}
+
+## 2. User Journey as State Machine
+
+| Step | Trigger | User Action | System Response | Error Recovery | States Required |
+{{ journey_steps }}
+
+## 3. Executable Acceptance Criteria
+
+| ID | Criterion | Test Method | Priority | Notes |
+{{ acceptance_criteria }}
+
+## 4. Design & Quality Constraints
+
+- Device targets: {{ device_targets }}
+- Accessibility: {{ accessibility_requirements }}
+- Required states: {{ required_states }}
+- Data realism: {{ data_realism_notes }}
+
+## 5. Evidence & Context
+
+- Why this matters: {{ evidence_quotes }}
+- Competitor context: {{ competitor_context }}
+
+---
+
+*This is an agent-optimized brief. Human PM reviewed this before sending to agent.*
+*Source artifact: {{ doc_key }}*

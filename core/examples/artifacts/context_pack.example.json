@@ -28,7 +28,7 @@
   },
   "steering_context": {
     "steering_refs": [
-      "internal/ProductOS-Next/docs/planning/steering-context.md",
+      "tests/fixtures/workspaces/productos-sample/docs/planning/steering-context.md",
       "core/docs/vendor-neutral-agent-harness-standard.md",
       "core/docs/ralph-loop-model.md"
     ],

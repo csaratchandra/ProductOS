@@ -19,7 +19,7 @@ Purpose: Define the minimum fixture set that should stay stable as V4 presentati
 - `components/presentation/examples/artifacts/publish_check.example.json`
 - `components/presentation/examples/artifacts/ppt_export_plan.example.json`
 
-Private self-hosting fixtures may supplement these, but the public regression baseline should not depend on a private `internal/ProductOS-Next/` checkout.
+Private local fixtures may supplement these, but the public regression baseline should not depend on a private workspace checkout.
 
 ## Regression Rules
 

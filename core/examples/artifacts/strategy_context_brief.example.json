@@ -46,7 +46,7 @@
     {
       "constraint": "Favor repo-native, reviewable standards over prompt-only behavior.",
       "constraint_type": "technical",
-      "consequence": "Strategy logic needs explicit contracts, workflow rules, and self-hosting artifacts."
+      "consequence": "Strategy logic needs explicit contracts, workflow rules, and reference artifacts."
     }
   ],
   "linked_artifact_ids": [

@@ -1,10 +1,10 @@
 # Next Version Superpower Ops Workflow
 
-Purpose: Run the next-version ProductOS build from one repo control surface while dogfooding every major loop inside the current self-hosting workspace.
+Purpose: Run the next-version ProductOS build from one repo control surface while dogfooding every major loop inside the current workspace under review.
 
 ## Inputs
 
-- the current self-hosting workspace
+- the current workspace under review
 - inbox notes, transcripts, documents, and support exports
 - current decision artifacts such as `problem_brief`, `concept_brief`, and `prd`
 - current runtime state such as `cockpit_state`, `orchestration_state`, and `runtime_adapter_registry`

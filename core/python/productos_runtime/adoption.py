@@ -4398,9 +4398,9 @@ def _append_manifest_artifact_path(manifest_path: Path, relative_path: str) -> N
 
 
 def _support_artifacts_dir(root: Path) -> Path | None:
-    internal_artifacts = root / "internal" / "ProductOS-Next" / "artifacts"
-    if internal_artifacts.exists():
-        return internal_artifacts
+    bundled_artifacts = root / "tests" / "fixtures" / "workspaces" / "productos-sample" / "artifacts"
+    if bundled_artifacts.exists():
+        return bundled_artifacts
     return None
 
 

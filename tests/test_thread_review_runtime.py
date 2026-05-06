@@ -15,9 +15,9 @@ def _section(bundle: dict, section_id: str) -> dict:
     return next(section for section in bundle["sections"] if section["section_id"] == section_id)
 
 
-def test_self_hosting_thread_review_bundle_uses_artifact_backing(self_hosting_workspace_dir: Path):
+def test_self_hosting_thread_review_bundle_uses_artifact_backing(bundled_workspace_dir: Path):
     bundle = build_thread_review_bundle_from_workspace(
-        self_hosting_workspace_dir,
+        bundled_workspace_dir,
         item_id="opp_pm_lifecycle_traceability",
         generated_at="2026-04-09T10:00:00Z",
     )
@@ -54,11 +54,11 @@ def test_adoption_thread_review_bundle_marks_fallback_and_deferred_sections(root
 
 
 def test_thread_review_package_writes_markdown_and_presentation_outputs(
-    self_hosting_workspace_dir: Path,
+    bundled_workspace_dir: Path,
     tmp_path: Path,
 ):
     bundle = build_thread_review_bundle_from_workspace(
-        self_hosting_workspace_dir,
+        bundled_workspace_dir,
         item_id="opp_pm_lifecycle_traceability",
         generated_at="2026-04-09T10:00:00Z",
     )
@@ -83,11 +83,11 @@ def test_thread_review_package_writes_markdown_and_presentation_outputs(
 
 
 def test_thread_review_index_site_generates_item_pages(
-    self_hosting_workspace_dir: Path,
+    bundled_workspace_dir: Path,
     tmp_path: Path,
 ):
     workspace_copy = tmp_path / "workspace-copy"
-    shutil.copytree(self_hosting_workspace_dir, workspace_copy)
+    shutil.copytree(bundled_workspace_dir, workspace_copy)
     artifacts_dir = workspace_copy / "artifacts"
     source_path = artifacts_dir / "item_lifecycle_state_pm_lifecycle_visibility.example.json"
     payload = json.loads(source_path.read_text(encoding="utf-8"))
@@ -113,11 +113,11 @@ def test_thread_review_index_site_generates_item_pages(
 
 
 def test_thread_review_release_bundle_stays_bounded_for_external_claim(
-    self_hosting_workspace_dir: Path,
+    bundled_workspace_dir: Path,
     tmp_path: Path,
 ):
     result = build_thread_review_release_bundle_from_workspace(
-        self_hosting_workspace_dir,
+        bundled_workspace_dir,
         item_id="opp_pm_lifecycle_traceability",
         generated_at="2026-04-09T10:00:00Z",
         output_dir=tmp_path / "thread-release-check",

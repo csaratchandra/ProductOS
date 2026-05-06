@@ -16,11 +16,11 @@ def test_feature_scoring_docs_exist(root_dir: Path):
     assert not missing, f"Missing feature-scoring docs/workflow: {missing}"
 
 
-def test_feature_scorecard_examples_validate(root_dir: Path, self_hosting_workspace_dir: Path):
+def test_feature_scorecard_examples_validate(root_dir: Path, bundled_workspace_dir: Path):
     validator = validator_for("feature_scorecard.schema.json")
 
     core_payload = load_json(root_dir / "core" / "examples" / "artifacts" / "feature_scorecard.example.json")
-    workspace_payload = load_json(self_hosting_workspace_dir / "artifacts" / "feature_scorecard.example.json")
+    workspace_payload = load_json(bundled_workspace_dir / "artifacts" / "feature_scorecard.example.json")
 
     for name, payload in {
         "core": core_payload,
@@ -40,8 +40,8 @@ def test_feature_scorecard_invalid_fixture_fails(root_dir: Path):
     assert "feedback_items" in error_paths or "<root>" in error_paths
 
 
-def test_workspace_manifest_wires_feature_scoring(self_hosting_workspace_dir: Path):
-    manifest_path = self_hosting_workspace_dir / "workspace_manifest.yaml"
+def test_workspace_manifest_wires_feature_scoring(bundled_workspace_dir: Path):
+    manifest_path = bundled_workspace_dir / "workspace_manifest.yaml"
     with manifest_path.open("r", encoding="utf-8") as handle:
         manifest = yaml.safe_load(handle)
 
@@ -49,9 +49,9 @@ def test_workspace_manifest_wires_feature_scoring(self_hosting_workspace_dir: Pa
     assert "../../core/workflows/mastery/feature-scoring-and-dogfood-review-workflow.md" in manifest["workflow_paths"]
 
 
-def test_improvement_loop_tracks_feature_scorecard(self_hosting_workspace_dir: Path):
+def test_improvement_loop_tracks_feature_scorecard(bundled_workspace_dir: Path):
     validator = validator_for("improvement_loop_state.schema.json")
-    payload = load_json(self_hosting_workspace_dir / "artifacts" / "improvement_loop_state.example.json")
+    payload = load_json(bundled_workspace_dir / "artifacts" / "improvement_loop_state.example.json")
     errors = sorted(validator.iter_errors(payload), key=lambda item: list(item.path))
 
     assert not errors, f"workspace improvement loop failed validation: {[error.message for error in errors]}"
@@ -62,9 +62,9 @@ def test_improvement_loop_tracks_feature_scorecard(self_hosting_workspace_dir: P
     ]
 
 
-def test_bounded_foundation_bundle_includes_feature_scorecard(self_hosting_workspace_dir: Path):
+def test_bounded_foundation_bundle_includes_feature_scorecard(bundled_workspace_dir: Path):
     bundle = build_foundation_bundle_from_workspace(
-        self_hosting_workspace_dir,
+        bundled_workspace_dir,
         generated_at="2026-03-21T23:55:00Z",
     )
 

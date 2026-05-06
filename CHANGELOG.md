@@ -1,5 +1,65 @@
 # Changelog
 
+## Upcoming V11.0.0
+
+ProductOS V11 transforms static artifacts into a Living Product System: auto-propagating changes, self-rendering readable documents, PM delta review lanes, and format-agnostic exports.
+
+### Added
+
+- **Auto-Propagation Engine** (`core/python/productos_runtime/living_system.py`)
+  - `build_regeneration_queue()`: Builds regeneration queues from trigger events
+  - `classify_impact()`: Classifies changes as mechanical / content_deep / structural
+  - `process_regeneration_item()`: Auto-executes mechanical changes, queues content-deep for PM review
+  - `detect_circular_dependencies()`: Detects and blocks circular dependencies in artifact graphs
+  - `generate_delta_preview()`: Human-readable delta descriptions for every queued item
+- **Living Markdown Renderer** (`core/python/productos_runtime/markdown_renderer.py`)
+  - `render_living_document()`: Renders readable docs from structured artifacts + Jinja2 templates
+  - `preserve_annotations()`: Preserves PM manual annotations across re-renders
+  - `resolve_source_artifacts()`: Loads all source artifacts referenced by a document
+  - Templates: `prd.md.jinja2`, `problem-brief.md.jinja2`, `strategy-brief.md.jinja2`, `user-journey.md.jinja2`
+- **Export Pipeline** (`core/python/productos_runtime/export_pipeline.py`)
+  - `export_artifact()`: Renders artifacts to any format: markdown, deck, agent_brief, stakeholder_update, battle_card, one_pager
+  - Agent-optimized briefs with explicit out_of_scope and executable acceptance criteria
+  - Stakeholder update format for executive summaries
+- **New Schemas**
+  - `regeneration_queue.schema.json`: Orchestrates artifact regeneration with queued items, dependency sequences, and PM approval tracking
+  - `pm_note_delta_proposal.schema.json`: Structured delta proposals from unstructured PM inputs
+- **Extended Schemas**
+  - `document_sync_state.schema.json`: Added `auto_render_enabled`, `template_ref`, `last_rendered_at`, `render_trigger`
+  - `cockpit_state.schema.json`: Added `living_updates_queue` panel for PM delta review
+- **New Skills** (V10 12-element standard)
+  - `regeneration_queue_management`: Orchestrates artifact regeneration after source changes
+  - `living_document_rendering`: Renders narrative-first, evidence-backed living documents
+  - `pm_note_ingestion`: Transforms PM notes into structured delta proposals
+  - `export_pipeline`: Renders artifacts to any format on demand
+- **Enhanced Skills**
+  - `prd_scope_boundary_check`: Completed to full 12-element contract with boundary scoring (1-10), gold standard criteria, and maturity band variations
+  - `drift_and_impact_propagation`: Added `regeneration_mode` classification (mechanical/content_deep/structural) with auto-execution and PM review hooks
+- **V11 CLI Commands**
+  - `./productos queue build --source-artifact ... --change-summary ...`: Build regeneration queue from trigger event
+  - `./productos queue review --item-id ... --action approve|reject|modify`: Process queued regeneration items
+  - `./productos render doc --doc-key prd|problem-brief|strategy-brief|user-journey`: Render living document
+  - `./productos review-delta --update-id ... --action approve|reject|modify --pm-note ...`: PM delta review lane
+- **Tests**
+  - `tests/test_v11_living_system.py`: Comprehensive tests for regeneration queue, markdown renderer, export pipeline, and schema validation
+
+### Changed
+
+- V11 implementation slice added without changing the current stable release line
+- Readable documents (`docs/*.md`) are now render targets, not manually edited files
+- Mechanical artifact changes auto-execute without PM intervention
+- Content-deep changes always require explicit PM approval via delta review lane
+- All artifact updates are traceable through `regeneration_queue` and `document_sync_state` logs
+
+### Validation
+
+- `python3 scripts/productos.py queue build --help`
+- `python3 scripts/productos.py render doc --help`
+- `pytest tests/test_v11_living_system.py`
+- `./productos --workspace-dir /path/to/workspace queue build --source-artifact artifacts/prd.json`
+
+---
+
 ## Upcoming V10.1.0
 
 ProductOS V10.1.0 narrows the Day-1 PM experience around a simpler startup path instead of a flag-heavy CLI contract.
@@ -74,8 +134,8 @@ ProductOS V7.0.0 promotes lifecycle traceability through `outcome_review`.
 
 - the stable ProductOS line is now `V7.0.0`
 - the promoted lifecycle claim now extends from `release_readiness` through `launch_preparation` and `outcome_review`
-- public examples and runtime evidence refs now use generic workspace-relative paths instead of assuming a tracked `internal/ProductOS-Next/` checkout
-- self-hosting-only CLI commands now require `--workspace-dir` when no private default workspace is present
+- public examples and runtime evidence refs now use generic workspace-relative paths instead of assuming a tracked private workspace checkout
+- workspace-bound CLI commands now require `--workspace-dir` when no explicit workspace is selected
 
 ### Validation
 
@@ -85,5 +145,5 @@ ProductOS V7.0.0 promotes lifecycle traceability through `outcome_review`.
 ### Upgrade Notes
 
 - use `templates/` as the supported public adoption surface
-- keep private self-hosting work outside product workspaces and promote only reusable repo surfaces
-- pass `--workspace-dir` explicitly when running self-hosting-only CLI commands from a checkout without a private internal workspace
+- keep product-specific work outside shared repo surfaces and promote only reusable repo assets
+- pass `--workspace-dir` explicitly when running workspace-bound CLI commands from a checkout without a selected workspace
