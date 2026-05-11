@@ -53,6 +53,12 @@ from .lifecycle import (
     load_lifecycle_stage_snapshot_from_workspace,
 )
 from .mission import init_mission_in_workspace, load_mission_brief_from_workspace, sync_canonical_discover_artifacts
+from .memory_registers import (
+    collect_memory_review_items,
+    load_competitor_registry,
+    load_problem_register,
+    sync_memory_registers,
+)
 from .next_version import build_next_version_bundle_from_workspace
 from .pm_superpowers import (
     build_cockpit_bundle_from_workspace,
@@ -184,6 +190,10 @@ __all__ = [
     "summarize_strategy_refresh_posture",
     "seed_pm_superpower_artifacts",
     "sync_canonical_discover_artifacts",
+    "sync_memory_registers",
+    "load_problem_register",
+    "load_competitor_registry",
+    "collect_memory_review_items",
     "write_phase_packet_for_workspace",
     "latest_release_metadata",
     "latest_release_path",

@@ -9,6 +9,7 @@ import yaml
 
 from .governed_docs import render_governed_markdown
 from .lifecycle import DISCOVERY_STAGE_ORDER, LIFECYCLE_STAGE_ORDER
+from .memory_registers import sync_memory_registers
 from .pm_superpowers import seed_pm_superpower_artifacts
 
 
@@ -1425,6 +1426,13 @@ def sync_canonical_discover_artifacts(
         _write_json(target_path, payload)
         synced_files.append(filename)
         _append_manifest_artifact_path(workspace_path, f"artifacts/{filename}")
+    if "problem_brief.json" in synced_files:
+        sync_memory_registers(
+            workspace_path,
+            generated_at=generated_at,
+            problem_brief=discover_bundle["problem_brief"],
+        )
+        _append_manifest_artifact_path(workspace_path, "artifacts/problem_register.json")
     return synced_files
 
 

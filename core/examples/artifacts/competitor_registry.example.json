@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0.0",
+  "competitor_registry_id": "competitor_registry_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "registry_summary": "PM operating systems that compete to reduce coordination overhead and become the trusted layer around recurring product work.",
+  "competitors": [
+    {
+      "competitor_entry_id": "competitor_entry_jira_product_discovery_jira",
+      "name": "Jira Product Discovery + Jira",
+      "status": "tracked",
+      "summary": "Provides structured product discovery and delivery tracking inside a connected Atlassian workflow.",
+      "source_artifact_ids": [
+        "competitor_dossier_pm_ops_space",
+        "research_notebook_pm_day1",
+        "landscape_matrix_pm_tools"
+      ],
+      "evidence_refs": [
+        "source_note_card_app_review_jpd"
+      ],
+      "related_problem_ids": [
+        "problem_pm_reporting_bottleneck"
+      ],
+      "current_competitor_dossier_id": "competitor_dossier_pm_ops_space",
+      "freshness_status": "fresh",
+      "tags": [
+        "direct",
+        "atlassian"
+      ],
+      "last_updated_at": "2026-03-20T12:30:00Z"
+    },
+    {
+      "competitor_entry_id": "competitor_entry_internal_pm_documents_and_trackers",
+      "name": "Internal PM documents and trackers",
+      "status": "tracked",
+      "summary": "The team keeps patching spreadsheets, docs, and trackers instead of adopting a governed PM operating layer.",
+      "source_artifact_ids": [
+        "competitor_dossier_pm_ops_space",
+        "research_notebook_pm_day1",
+        "landscape_matrix_pm_tools"
+      ],
+      "evidence_refs": [
+        "source_note_card_app_review_jpd",
+        "research_brief_pm_operating_rhythm"
+      ],
+      "related_problem_ids": [
+        "problem_pm_reporting_bottleneck"
+      ],
+      "current_competitor_dossier_id": "competitor_dossier_pm_ops_space",
+      "freshness_status": "fresh",
+      "tags": [
+        "in_house",
+        "status_quo"
+      ],
+      "last_updated_at": "2026-03-20T12:30:00Z"
+    }
+  ],
+  "created_at": "2026-03-20T12:30:00Z",
+  "updated_at": "2026-03-20T12:30:00Z"
+}

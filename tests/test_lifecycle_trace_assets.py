@@ -82,6 +82,8 @@ def test_starter_workspace_seeds_traceable_lifecycle_bundle(root_dir: Path):
         starter / "docs" / "delivery" / "release-readiness-review.md",
         starter / "artifacts" / "research_notebook.json",
         starter / "artifacts" / "framework_registry.json",
+        starter / "artifacts" / "problem_register.json",
+        starter / "artifacts" / "competitor_registry.json",
         starter / "artifacts" / "segment_map.json",
         starter / "artifacts" / "persona_pack.json",
         starter / "artifacts" / "competitor_dossier.json",
@@ -124,6 +126,8 @@ def test_starter_workspace_seeds_traceable_lifecycle_bundle(root_dir: Path):
     assert "artifacts/ux_design_review.json" in manifest["artifact_paths"]
     assert "artifacts/story_pack.json" in manifest["artifact_paths"]
     assert "artifacts/framework_registry.json" in manifest["artifact_paths"]
+    assert "artifacts/problem_register.json" in manifest["artifact_paths"]
+    assert "artifacts/competitor_registry.json" in manifest["artifact_paths"]
     assert "artifacts/opportunity_portfolio_view.json" in manifest["artifact_paths"]
     assert "artifacts/release_readiness.json" in manifest["artifact_paths"]
     assert "artifacts/release_note.json" in manifest["artifact_paths"]

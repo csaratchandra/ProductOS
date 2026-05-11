@@ -36,6 +36,13 @@
       },
       "minItems": 1
     },
+    "memory_candidates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/memoryCandidate"
+      },
+      "default": []
+    },
     "generated_at": {
       "type": "string",
       "format": "date-time"
@@ -96,6 +103,52 @@
         "regeneration_queue_item_id": {
           "type": "string",
           "minLength": 1
+        }
+      }
+    },
+    "memoryCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "candidate_type",
+        "action",
+        "label",
+        "summary",
+        "confidence"
+      ],
+      "properties": {
+        "candidate_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_type": {
+          "type": "string",
+          "enum": ["problem", "competitor"]
+        },
+        "action": {
+          "type": "string",
+          "enum": ["attach_evidence", "refresh_existing", "create_candidate"]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 3
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 3
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low", "needs_pm_clarification"]
+        },
+        "linked_entry_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
         }
       }
     }

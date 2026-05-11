@@ -8,7 +8,7 @@ import re
 import shutil
 import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from jsonschema import Draft202012Validator
@@ -78,8 +78,11 @@ from core.python.productos_runtime import (
     load_item_lifecycle_state_from_workspace,
     load_lifecycle_stage_snapshot_from_workspace,
     discover_external_research_sources_from_workspace,
+    collect_memory_review_items,
     load_phase_packet_from_workspace,
+    load_competitor_registry,
     load_product_record_from_workspace,
+    load_problem_register,
     research_workspace_from_manifest,
     render_cockpit_html,
     render_all_living_documents,
@@ -93,6 +96,7 @@ from core.python.productos_runtime import (
     summarize_v9_lifecycle_bundle,
     init_mission_in_workspace,
     load_mission_brief_from_workspace,
+    sync_memory_registers,
     sync_canonical_discover_artifacts,
     write_phase_packet_for_workspace,
     write_prd_boundary_report,
@@ -374,6 +378,59 @@ def _write_json_payload(path: Path, payload: dict) -> None:
     with path.open("w", encoding="utf-8") as handle:
         json.dump(payload, handle, indent=2)
         handle.write("\n")
+
+
+def _iter_note_inputs(workspace_dir: Path) -> list[Path]:
+    candidates: list[Path] = []
+    for folder in (workspace_dir / "inbox" / "raw-notes", workspace_dir / "feedback"):
+        if not folder.exists():
+            continue
+        for path in sorted(folder.iterdir()):
+            if not path.is_file() or path.name.startswith(".") or path.name == "README.md":
+                continue
+            candidates.append(path)
+    return candidates
+
+
+def _memory_review_output_dir(workspace_dir: Path) -> Path:
+    return workspace_dir / "outputs" / "operate"
+
+
+def _collect_note_memory_proposals(workspace_dir: Path, generated_at: str) -> list[tuple[Path, dict[str, object]]]:
+    proposals: list[tuple[Path, dict[str, object]]] = []
+    for note_path in _iter_note_inputs(workspace_dir):
+        proposal = ingest_pm_note(workspace_dir, note_path, generated_at=generated_at)
+        if not proposal.get("proposed_deltas") and not proposal.get("memory_candidates"):
+            continue
+        proposals.append((note_path, proposal))
+    return proposals
+
+
+def _persist_note_memory_proposals(workspace_dir: Path, generated_at: str, output_dir: Path | None = None) -> list[Path]:
+    proposals = _collect_note_memory_proposals(workspace_dir, generated_at)
+    persisted_paths: list[Path] = []
+    target_dir = output_dir or _memory_review_output_dir(workspace_dir)
+    for note_path, proposal in proposals:
+        proposal_path = target_dir / f"{note_path.stem}.pm_note_delta_proposal.json"
+        _write_json_payload(proposal_path, proposal)
+        persisted_paths.append(proposal_path)
+    return persisted_paths
+
+
+def _memory_freshness_label(register: dict[str, object] | None) -> str:
+    if register is None:
+        return "missing"
+    timestamp = register.get("updated_at") if isinstance(register, dict) else None
+    if not isinstance(timestamp, str):
+        return "usable_with_review"
+    normalized = timestamp.replace("Z", "+00:00")
+    try:
+        updated_at = datetime.fromisoformat(normalized)
+    except ValueError:
+        return "usable_with_review"
+    if datetime.now(timezone.utc) - updated_at.astimezone(timezone.utc) <= timedelta(days=90):
+        return "healthy"
+    return "stale"
 
 
 def _validate_payload_against_schema(payload: dict, schema_name: str) -> list[str]:
@@ -1592,6 +1649,25 @@ def cmd_status(args: argparse.Namespace) -> int:
         print(f"Lifecycle Phase: {product_record['lifecycle_stage']}")
     if phase_packet is not None:
         print(f"Active Phase Packet: {phase_packet['phase_packet_id']}")
+    problem_register = load_problem_register(workspace_dir, generated_at=args.generated_at, persist=False)
+    competitor_registry = load_competitor_registry(workspace_dir, generated_at=args.generated_at, persist=False)
+    if problem_register is not None:
+        active_problem_count = sum(1 for item in problem_register["problems"] if item.get("status") == "active")
+        print(
+            f"Problem Register: {active_problem_count} active / {len(problem_register['problems'])} total "
+            f"({_memory_freshness_label(problem_register)})"
+        )
+    if competitor_registry is not None:
+        tracked_competitor_count = sum(1 for item in competitor_registry["competitors"] if item.get("status") == "tracked")
+        print(
+            f"Competitor Registry: {tracked_competitor_count} tracked / {len(competitor_registry['competitors'])} total "
+            f"({_memory_freshness_label(competitor_registry)})"
+        )
+    memory_review = collect_memory_review_items(workspace_dir)
+    print(
+        f"Pending Memory Review: {memory_review['pending_items']} "
+        f"(problems: {memory_review['problem_candidates']}, competitors: {memory_review['competitor_candidates']})"
+    )
     _print_v9_program_summary(program_state)
     if bundle is not None:
         gate = _promotion_gate(bundle)
@@ -1618,14 +1694,35 @@ def cmd_status(args: argparse.Namespace) -> int:
 
 
 def cmd_ingest(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
     bundle = _build_bundle(args)
     intake = bundle["intake_routing_state"]
     print(f"Ingestion Mode: {intake['ingestion_mode']}")
     print(f"Intake Items: {len(intake['intake_items'])}")
     for item in intake["intake_items"]:
         print(f"- {item['item_id']}: {item['input_type']} -> {', '.join(item['recommended_workflow_ids'])}")
+    persisted_paths = _persist_note_memory_proposals(
+        workspace_dir,
+        args.generated_at,
+        output_dir=args.output_dir,
+    )
+    persisted_proposals = [_load_json(path) for path in persisted_paths]
+    memory_candidates = [
+        candidate
+        for proposal in persisted_proposals
+        for candidate in proposal.get("memory_candidates", [])
+    ]
+    print(
+        f"Memory Candidates: {len(memory_candidates)} "
+        f"(problems: {sum(1 for item in memory_candidates if item.get('candidate_type') == 'problem')}, "
+        f"competitors: {sum(1 for item in memory_candidates if item.get('candidate_type') == 'competitor')})"
+    )
+    for candidate in memory_candidates[:5]:
+        print(f"- {candidate['candidate_type']}: {candidate['action']} -> {candidate['label']}")
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, ["intake_routing_state"])
+    elif persisted_paths:
+        print(f"Memory Proposal Files: {len(persisted_paths)}")
     return 0
 
 
@@ -1683,6 +1780,12 @@ def cmd_run(args: argparse.Namespace) -> int:
                     "source_note_cards": bundle.get("discover_source_note_cards"),
                     "selected_research_manifest": bundle.get("discover_selected_research_manifest"),
                 },
+            )
+            sync_memory_registers(
+                workspace_dir,
+                generated_at=args.generated_at,
+                problem_brief=bundle.get("discover_problem_brief"),
+                competitor_dossier=bundle.get("discover_competitor_dossier"),
             )
             # Slice 2: auto-synthesize customer journey map if persona/problem data exists
             cjm_path = workspace_dir / "artifacts" / "customer_journey_map.json"
@@ -2925,6 +3028,12 @@ def cmd_new(args: argparse.Namespace) -> int:
         concept_brief=generated_artifacts["concept_brief"],
         prd=generated_artifacts["prd"],
     )
+    sync_memory_registers(
+        dest,
+        generated_at=args.generated_at,
+        problem_brief=generated_artifacts["problem_brief"],
+        competitor_dossier=generated_artifacts["competitor_dossier"],
+    )
 
     runtime_adapter_registry = build_runtime_adapter_registry(dest, generated_at=args.generated_at)
     _write_json_payload(dest / "artifacts" / "runtime_adapter_registry.json", runtime_adapter_registry)
@@ -2951,7 +3060,7 @@ def cmd_new(args: argparse.Namespace) -> int:
     print(f"Created workspace: {dest}")
     print(f"Workspace ID: {workspace_id}")
     print(f"Mission: {mission_brief['title']}")
-    print("Artifacts: mission_brief, problem_brief, concept_brief, prd, competitor_dossier, persona_pack, market_analysis_brief, cockpit_state")
+    print("Artifacts: mission_brief, problem_brief, problem_register, concept_brief, prd, competitor_dossier, competitor_registry, persona_pack, market_analysis_brief, cockpit_state")
     print(f"Cockpit HTML: {dest / 'outputs' / 'cockpit' / 'cockpit.html'}")
     print(f"Quality Snapshot: {dest / 'outputs' / 'cockpit' / 'quality_snapshot.json'}")
     print(f"Next: ./productos --workspace-dir {dest} run discover")

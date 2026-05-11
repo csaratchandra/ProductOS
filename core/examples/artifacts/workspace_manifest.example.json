@@ -23,6 +23,8 @@
     "artifacts/intake_routing_state.example.json",
     "artifacts/memory_retrieval_state.example.json",
     "artifacts/feedback_cluster_state.example.json",
+    "artifacts/problem_register.example.json",
+    "artifacts/competitor_registry.example.json",
     "artifacts/autonomous_pm_swarm_plan.example.json",
     "artifacts/feature_scorecard.example.json",
     "artifacts/feature_portfolio_review.example.json",

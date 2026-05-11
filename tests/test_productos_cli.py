@@ -245,6 +245,9 @@ def test_productos_status_command(root_dir: Path, bundled_workspace_dir: Path):
     assert "Maturity Band:" in result.stdout
     assert "Lifecycle Phase:" in result.stdout
     assert "Active Phase Packet:" in result.stdout
+    assert "Problem Register:" in result.stdout
+    assert "Competitor Registry:" in result.stdout
+    assert "Pending Memory Review:" in result.stdout
     assert "Lifecycle Tracks: P0=passed, P1=watch, P2=passed" in result.stdout
     assert "Workspace Coherence: artifact_backed" in result.stdout
     assert "Governed Docs: artifact_backed" in result.stdout

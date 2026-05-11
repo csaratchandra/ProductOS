@@ -8,6 +8,8 @@ artifact_paths:
   - "artifacts/README.md"
   - "artifacts/research_notebook.json"
   - "artifacts/framework_registry.json"
+  - "artifacts/problem_register.json"
+  - "artifacts/competitor_registry.json"
   - "artifacts/segment_map.json"
   - "artifacts/persona_pack.json"
   - "artifacts/competitor_dossier.json"

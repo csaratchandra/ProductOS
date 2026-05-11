@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "problem_register_id": "problem_register_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "current_problem_entry_id": "problem_pm_reporting_bottleneck",
+  "problem_summary": "Product managers lose high-value time because recurring status and coordination outputs must be manually reconstructed across fragmented sources.",
+  "problems": [
+    {
+      "problem_entry_id": "problem_pm_reporting_bottleneck",
+      "title": "Problem Brief: PM operating rhythm automation",
+      "problem_summary": "Product managers on B2B product teams lose high-value time because recurring status and coordination outputs must be manually reconstructed across fragmented sources.",
+      "status": "active",
+      "source_artifact_ids": [
+        "problem_brief_pm_operating_rhythm",
+        "concept_brief_pm_operating_rhythm",
+        "research_brief_pm_operating_rhythm",
+        "prototype_record_status_mail_draft"
+      ],
+      "evidence_refs": [
+        {
+          "source_type": "meeting_record",
+          "source_id": "meeting_2026_03_19_leadership_review",
+          "justification": "Leadership review highlighted repeated PM overhead around status reconstruction."
+        },
+        {
+          "source_type": "research",
+          "source_id": "prototype_record_status_mail_draft",
+          "justification": "Prototype showed a viable path when state quality is sufficient."
+        }
+      ],
+      "related_competitor_ids": [
+        "competitor_entry_jira_product_discovery_jira",
+        "competitor_entry_internal_pm_documents_and_trackers"
+      ],
+      "current_problem_brief_id": "problem_brief_pm_operating_rhythm",
+      "current_derivative_artifact_ids": [
+        "concept_brief_pm_operating_rhythm",
+        "prd_pm_operating_rhythm"
+      ],
+      "freshness_status": "fresh",
+      "tags": [
+        "pm_ops",
+        "traceability"
+      ],
+      "last_updated_at": "2026-03-20T12:30:00Z"
+    }
+  ],
+  "created_at": "2026-03-20T12:30:00Z",
+  "updated_at": "2026-03-20T12:30:00Z"
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "competitor_registry_id": "competitor_registry_ws_product_starter",
+  "workspace_id": "ws_product_starter",
+  "registry_summary": "Tools and templates a new team might compare against when deciding whether ProductOS offers a more useful operating model than a generic starter.",
+  "competitors": [
+    {
+      "competitor_entry_id": "competitor_entry_jira_product_discovery",
+      "name": "Jira Product Discovery",
+      "status": "tracked",
+      "summary": "Provides discovery capture, prioritization, and roadmap linkage to delivery.",
+      "source_artifact_ids": [
+        "competitor_dossier_starter_trace_demo",
+        "research_notebook_starter_trace_demo"
+      ],
+      "evidence_refs": [
+        "starter_trace_jpd_evidence"
+      ],
+      "related_problem_ids": [
+        "problem_starter_trace_demo"
+      ],
+      "current_competitor_dossier_id": "competitor_dossier_starter_trace_demo",
+      "freshness_status": "fresh",
+      "tags": [
+        "direct",
+        "starter"
+      ],
+      "last_updated_at": "2026-03-23T11:06:00Z"
+    },
+    {
+      "competitor_entry_id": "competitor_entry_linear",
+      "name": "Linear",
+      "status": "tracked",
+      "summary": "Unified product development workflow from roadmap to release.",
+      "source_artifact_ids": [
+        "competitor_dossier_starter_trace_demo",
+        "research_notebook_starter_trace_demo"
+      ],
+      "evidence_refs": [
+        "starter_trace_linear_evidence"
+      ],
+      "related_problem_ids": [
+        "problem_starter_trace_demo"
+      ],
+      "current_competitor_dossier_id": "competitor_dossier_starter_trace_demo",
+      "freshness_status": "fresh",
+      "tags": [
+        "direct",
+        "execution"
+      ],
+      "last_updated_at": "2026-03-23T11:06:00Z"
+    }
+  ],
+  "created_at": "2026-03-23T11:06:00Z",
+  "updated_at": "2026-03-23T11:06:00Z"
+}

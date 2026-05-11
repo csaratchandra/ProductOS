@@ -35,15 +35,21 @@ class TestProductosNew:
         assert result.returncode == 0, result.stderr
         assert dest.exists()
         assert (dest / "artifacts" / "problem_brief.json").exists()
+        assert (dest / "artifacts" / "problem_register.json").exists()
         assert (dest / "artifacts" / "concept_brief.json").exists()
         assert (dest / "artifacts" / "prd.json").exists()
         assert (dest / "artifacts" / "competitor_dossier.json").exists()
+        assert (dest / "artifacts" / "competitor_registry.json").exists()
         assert (dest / "artifacts" / "persona_pack.json").exists()
         assert (dest / "artifacts" / "market_analysis_brief.json").exists()
         assert (dest / "outputs" / "cockpit" / "cockpit_bundle.json").exists()
         assert (dest / "outputs" / "cockpit" / "cockpit.html").exists()
         assert (dest / "outputs" / "cockpit" / "quality_snapshot.json").exists()
         assert (dest / "workspace_manifest.yaml").exists()
+        problem_register = json.loads((dest / "artifacts" / "problem_register.json").read_text(encoding="utf-8"))
+        competitor_registry = json.loads((dest / "artifacts" / "competitor_registry.json").read_text(encoding="utf-8"))
+        assert problem_register["workspace_id"] == "ws_ai_powered_inventory_forecasting_for_smb_retailers"
+        assert {item["name"] for item in competitor_registry["competitors"]} == {"Static Docs Stack"}
 
     def test_new_seeds_problem_statement(self, root_dir: Path, tmp_path: Path):
         dest = tmp_path / "new-workspace"

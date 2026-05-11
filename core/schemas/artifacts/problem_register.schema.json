@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/problem_register.schema.json",
+  "title": "ProductOS Problem Register",
+  "description": "Workspace-scoped durable memory of evolving product problems and their current decision-ready projections.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "problem_register_id",
+    "workspace_id",
+    "current_problem_entry_id",
+    "problem_summary",
+    "problems",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "problem_register_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "current_problem_entry_id": { "type": "string", "minLength": 1 },
+    "problem_summary": { "type": "string", "minLength": 10 },
+    "problems": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/problemEntry" },
+      "minItems": 1
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "problemEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "problem_entry_id",
+        "title",
+        "problem_summary",
+        "status",
+        "source_artifact_ids",
+        "evidence_refs",
+        "related_competitor_ids",
+        "current_problem_brief_id",
+        "current_derivative_artifact_ids",
+        "freshness_status",
+        "tags",
+        "last_updated_at"
+      ],
+      "properties": {
+        "problem_entry_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "problem_summary": { "type": "string", "minLength": 10 },
+        "status": {
+          "type": "string",
+          "enum": ["candidate", "active", "parked", "closed"]
+        },
+        "source_artifact_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/evidenceRef" },
+          "minItems": 1
+        },
+        "related_competitor_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "current_problem_brief_id": { "type": "string", "minLength": 1 },
+        "current_derivative_artifact_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "freshness_status": {
+          "type": "string",
+          "enum": ["fresh", "usable_with_review", "stale"]
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 },
+          "default": []
+        },
+        "last_updated_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "evidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_type", "source_id", "justification"],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": ["meeting_record", "change_event", "status_mail", "issue_log", "transcript", "decision_log", "research", "other"]
+        },
+        "source_id": { "type": "string", "minLength": 1 },
+        "justification": { "type": "string", "minLength": 5 }
+      }
+    }
+  }
+}

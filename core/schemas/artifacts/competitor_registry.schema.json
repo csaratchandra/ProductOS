@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/competitor_registry.schema.json",
+  "title": "ProductOS Competitor Registry",
+  "description": "Workspace-scoped durable memory of tracked competitors and their current dossier projections.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "competitor_registry_id",
+    "workspace_id",
+    "registry_summary",
+    "competitors",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "competitor_registry_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "registry_summary": { "type": "string", "minLength": 10 },
+    "competitors": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/competitorEntry" },
+      "minItems": 1
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "competitorEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "competitor_entry_id",
+        "name",
+        "status",
+        "summary",
+        "source_artifact_ids",
+        "evidence_refs",
+        "related_problem_ids",
+        "current_competitor_dossier_id",
+        "freshness_status",
+        "tags",
+        "last_updated_at"
+      ],
+      "properties": {
+        "competitor_entry_id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 2 },
+        "status": {
+          "type": "string",
+          "enum": ["candidate", "tracked", "watch", "archived"]
+        },
+        "summary": { "type": "string", "minLength": 10 },
+        "source_artifact_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "related_problem_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "default": []
+        },
+        "current_competitor_dossier_id": { "type": "string", "minLength": 1 },
+        "freshness_status": {
+          "type": "string",
+          "enum": ["fresh", "usable_with_review", "stale"]
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 2 },
+          "default": []
+        },
+        "last_updated_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

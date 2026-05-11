@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "problem_register_id": "problem_register_ws_product_starter",
+  "workspace_id": "ws_product_starter",
+  "current_problem_entry_id": "problem_starter_trace_demo",
+  "problem_summary": "Teams adopting ProductOS need a concrete example of what good lifecycle traceability looks like before they can apply the standard to their own product work.",
+  "problems": [
+    {
+      "problem_entry_id": "problem_starter_trace_demo",
+      "title": "Problem brief: starter discovery trace demo",
+      "problem_summary": "Teams adopting ProductOS need a concrete example of what good lifecycle traceability looks like before they can apply the standard to their own product work.",
+      "status": "active",
+      "source_artifact_ids": [
+        "problem_brief_starter_trace_demo",
+        "research_notebook_starter_trace_demo",
+        "strategy_context_brief_starter_trace_demo",
+        "product_vision_brief_starter_trace_demo",
+        "segment_map_starter_trace_demo",
+        "persona_pack_starter_trace_demo",
+        "market_strategy_brief_starter_trace_demo"
+      ],
+      "evidence_refs": [
+        {
+          "source_type": "research",
+          "source_id": "research_notebook_starter_trace_demo",
+          "justification": "The notebook explains why the starter needs a concrete lifecycle trace example."
+        }
+      ],
+      "related_competitor_ids": [
+        "competitor_entry_jira_product_discovery",
+        "competitor_entry_linear"
+      ],
+      "current_problem_brief_id": "problem_brief_starter_trace_demo",
+      "current_derivative_artifact_ids": [
+        "concept_brief_starter_trace_demo",
+        "prd_starter_trace_demo"
+      ],
+      "freshness_status": "fresh",
+      "tags": [
+        "starter",
+        "traceability"
+      ],
+      "last_updated_at": "2026-03-23T11:12:00Z"
+    }
+  ],
+  "created_at": "2026-03-23T11:12:00Z",
+  "updated_at": "2026-03-23T11:12:00Z"
+}
