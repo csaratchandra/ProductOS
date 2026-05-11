@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0.0",
+  "visual_product_atlas_id": "visual_product_atlas_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "title": "Visual Product Atlas: ProductOS PM Takeover",
+  "visual_evidence_records": [
+    {
+      "visual_record_id": "vr_cockpit_dashboard",
+      "source_path": "inbox/screenshots/cockpit-dashboard.png",
+      "source_type": "screenshot",
+      "screen_purpose": "Main PM cockpit dashboard showing workspace status, mission info, phase tasks, and research posture.",
+      "probable_workflow_stage": "monitoring",
+      "linked_artifact_refs": ["cockpit_bundle_ws_productos_v2"],
+      "provenance": {
+        "source": "ProductOS demo workspace fixture",
+        "confidence": "inferred"
+      },
+      "captured_at": "2026-05-12T08:00:00Z"
+    },
+    {
+      "visual_record_id": "vr_journey_map",
+      "source_path": "inbox/screenshots/journey-map-render.png",
+      "source_type": "screenshot",
+      "screen_purpose": "HTML-rendered customer journey map with emotion curve, stages, and moments of truth.",
+      "probable_workflow_stage": "discovery",
+      "linked_artifact_refs": ["customer_journey_map_ws_productos_v2"],
+      "provenance": {
+        "source": "ProductOS demo workspace fixture",
+        "confidence": "inferred"
+      },
+      "captured_at": "2026-05-12T08:00:00Z"
+    },
+    {
+      "visual_record_id": "vr_screen_flow",
+      "source_path": "inbox/screenshots/screen-flow.png",
+      "source_type": "screenshot",
+      "screen_purpose": "Screen flow visualization showing user navigation paths through key product workflows.",
+      "probable_workflow_stage": "design",
+      "linked_artifact_refs": ["user_journey_map_ws_productos_v2"],
+      "provenance": {
+        "source": "ProductOS demo workspace fixture",
+        "confidence": "inferred"
+      },
+      "captured_at": "2026-05-12T08:00:00Z"
+    }
+  ],
+  "journey_stage_links": [
+    {
+      "stage_id": "stage_monitoring",
+      "stage_name": "Monitoring",
+      "visual_record_ids": ["vr_cockpit_dashboard"]
+    },
+    {
+      "stage_id": "stage_discovery",
+      "stage_name": "Discovery",
+      "visual_record_ids": ["vr_journey_map"]
+    },
+    {
+      "stage_id": "stage_design",
+      "stage_name": "Design",
+      "visual_record_ids": ["vr_screen_flow"]
+    }
+  ],
+  "screen_flow_nodes": [
+    {
+      "node_id": "node_cockpit",
+      "node_name": "PM Cockpit",
+      "screen_purpose": "Central hub for workspace overview, mission progress, and next actions.",
+      "workflow_stage": "monitoring",
+      "visual_record_ids": ["vr_cockpit_dashboard"],
+      "linked_artifact_refs": ["cockpit_bundle_ws_productos_v2"]
+    },
+    {
+      "node_id": "node_journey_view",
+      "node_name": "Journey Map View",
+      "screen_purpose": "Visual customer journey map with stage descriptions, emotion curve, and moments of truth.",
+      "workflow_stage": "discovery",
+      "visual_record_ids": ["vr_journey_map"],
+      "linked_artifact_refs": ["customer_journey_map_ws_productos_v2"]
+    }
+  ],
+  "generated_at": "2026-05-12T08:00:00Z"
+}

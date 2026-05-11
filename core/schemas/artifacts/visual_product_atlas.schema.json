@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/visual_product_atlas.schema.json",
+  "title": "ProductOS Visual Product Atlas",
+  "description": "Normalized visual index for screenshots, UI evidence, journey stages, screen-flow nodes, and linked product workflows.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "visual_product_atlas_id",
+    "workspace_id",
+    "title",
+    "visual_evidence_records",
+    "journey_stage_links",
+    "screen_flow_nodes",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "visual_product_atlas_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "visual_evidence_records": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/visualEvidenceRecord" }
+    },
+    "journey_stage_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stage_id", "stage_name", "visual_record_ids"],
+        "properties": {
+          "stage_id": { "type": "string", "minLength": 1 },
+          "stage_name": { "type": "string", "minLength": 1 },
+          "visual_record_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "screen_flow_nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["node_id", "node_name", "screen_purpose", "workflow_stage", "linked_artifact_refs"],
+        "properties": {
+          "node_id": { "type": "string", "minLength": 1 },
+          "node_name": { "type": "string", "minLength": 1 },
+          "screen_purpose": { "type": "string", "minLength": 10 },
+          "workflow_stage": { "type": "string", "minLength": 1 },
+          "visual_record_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "linked_artifact_refs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "visualEvidenceRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "visual_record_id",
+        "source_path",
+        "source_type",
+        "screen_purpose",
+        "probable_workflow_stage",
+        "provenance",
+        "captured_at"
+      ],
+      "properties": {
+        "visual_record_id": { "type": "string", "minLength": 1 },
+        "source_path": { "type": "string", "minLength": 1 },
+        "source_type": {
+          "type": "string",
+          "enum": ["screenshot", "image", "ui_export", "mockup", "whiteboard"]
+        },
+        "screen_purpose": { "type": "string", "minLength": 10 },
+        "probable_workflow_stage": { "type": "string", "minLength": 1 },
+        "linked_artifact_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source", "confidence"],
+          "properties": {
+            "source": { "type": "string", "minLength": 1 },
+            "confidence": {
+              "type": "string",
+              "enum": ["inferred", "observed", "confirmed"]
+            }
+          }
+        },
+        "captured_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

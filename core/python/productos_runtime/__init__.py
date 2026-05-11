@@ -132,6 +132,18 @@ from .markdown_renderer import (
     render_all_living_documents,
     resolve_source_artifacts,
 )
+from .takeover import (
+    TAKEOVER_ARTIFACT_SCHEMAS,
+    build_takeover_bundle,
+    build_takeover_brief,
+    build_problem_space_map,
+    build_roadmap_recovery_brief,
+    build_visual_product_atlas,
+    build_takeover_feature_scorecard,
+    build_takeover_cockpit_section,
+    render_takeover_atlas_html,
+    ingest_screenshots,
+)
 from .export_pipeline import export_artifact
 
 __all__ = [
@@ -252,5 +264,15 @@ __all__ = [
     "render_living_document",
     "render_all_living_documents",
     "resolve_source_artifacts",
+    "TAKEOVER_ARTIFACT_SCHEMAS",
+    "build_takeover_bundle",
+    "build_takeover_brief",
+    "build_problem_space_map",
+    "build_roadmap_recovery_brief",
+    "build_visual_product_atlas",
+    "build_takeover_feature_scorecard",
+    "build_takeover_cockpit_section",
+    "render_takeover_atlas_html",
+    "ingest_screenshots",
     "export_artifact",
 ]

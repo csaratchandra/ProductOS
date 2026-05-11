@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0.0",
+  "problem_space_map_id": "problem_space_map_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "title": "Problem Space Map: ProductOS PM Takeover",
+  "problems": [
+    {
+      "problem_id": "problem_context_reconstruction",
+      "title": "PM context reconstruction cost",
+      "summary": "PMs spend significant time reconstructing product context, decisions, and evidence across scattered tools and artifacts when inheriting or re-engaging with a product.",
+      "severity": "high",
+      "source_artifact_ids": ["problem_brief_ws_productos_v2"]
+    },
+    {
+      "problem_id": "problem_evidence_scatter",
+      "title": "Evidence scattered across sources",
+      "summary": "Customer evidence, competitive intelligence, and market research live in separate systems with no unified view or traceability back to product decisions.",
+      "severity": "high",
+      "source_artifact_ids": ["problem_brief_ws_productos_v2"]
+    },
+    {
+      "problem_id": "problem_roadmap_opacity",
+      "title": "Roadmap reasoning is opaque",
+      "summary": "New PMs cannot easily understand why certain bets were prioritized, what evidence supported them, and what tradeoffs were made.",
+      "severity": "medium",
+      "source_artifact_ids": ["program_increment_state_ws_productos_v2"]
+    },
+    {
+      "problem_id": "problem_visual_gap",
+      "title": "Visual product understanding is fragmented",
+      "summary": "Screenshots, mockups, and UI evidence are stored without structured provenance, making it hard to connect visual artifacts to journey stages and workflows.",
+      "severity": "medium",
+      "source_artifact_ids": ["visual_product_atlas_ws_productos_v2"]
+    }
+  ],
+  "segment_links": [
+    {
+      "source_id": "problem_context_reconstruction",
+      "target_id": "segment_b2b_product_teams",
+      "relationship": "impacts"
+    },
+    {
+      "source_id": "problem_evidence_scatter",
+      "target_id": "segment_b2b_product_teams",
+      "relationship": "impacts"
+    }
+  ],
+  "persona_links": [
+    {
+      "source_id": "problem_context_reconstruction",
+      "target_id": "persona_product_manager",
+      "relationship": "primary_pain"
+    },
+    {
+      "source_id": "problem_roadmap_opacity",
+      "target_id": "persona_product_manager",
+      "relationship": "secondary_pain"
+    }
+  ],
+  "workflow_links": [
+    {
+      "workflow_id": "wf_product_discovery",
+      "workflow_name": "Product discovery workflow",
+      "problem_ids": ["problem_context_reconstruction", "problem_evidence_scatter"],
+      "journey_stage": "research"
+    },
+    {
+      "workflow_id": "wf_roadmap_planning",
+      "workflow_name": "Roadmap planning workflow",
+      "problem_ids": ["problem_roadmap_opacity"],
+      "journey_stage": "planning"
+    }
+  ],
+  "evidence_links": [
+    {
+      "evidence_id": "evidence_pm_context_survey",
+      "source_type": "research",
+      "summary": "PM survey data indicates 40% of PM time is spent on context reconstruction rather than judgment work.",
+      "problem_ids": ["problem_context_reconstruction"],
+      "confidence": "moderate"
+    },
+    {
+      "evidence_id": "evidence_tool_fragmentation",
+      "source_type": "meeting_record",
+      "summary": "Customer interviews reveal 5+ tools used per PM workflow with no single source of truth.",
+      "problem_ids": ["problem_evidence_scatter"],
+      "confidence": "high"
+    }
+  ],
+  "competitor_links": [
+    {
+      "competitor_name": "Jira",
+      "problem_ids": ["problem_context_reconstruction", "problem_roadmap_opacity"],
+      "threat_level": "medium"
+    },
+    {
+      "competitor_name": "Linear",
+      "problem_ids": ["problem_roadmap_opacity"],
+      "threat_level": "low"
+    }
+  ],
+  "product_bet_links": [
+    {
+      "bet_id": "bet_takeover_command_center",
+      "bet_name": "PM Takeover Command Center",
+      "problem_ids": ["problem_context_reconstruction", "problem_evidence_scatter", "problem_roadmap_opacity", "problem_visual_gap"],
+      "status": "active",
+      "confidence": "high"
+    }
+  ],
+  "orphan_nodes": [],
+  "generated_at": "2026-05-12T08:00:00Z"
+}

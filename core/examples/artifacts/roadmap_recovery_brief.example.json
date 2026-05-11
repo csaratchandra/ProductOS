@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "roadmap_recovery_brief_id": "roadmap_recovery_brief_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "title": "Roadmap Recovery Brief: ProductOS PM Takeover",
+  "now_items": [
+    {
+      "item_id": "item_takeover_orchestration",
+      "title": "Takeover orchestration flow",
+      "summary": "Build and validate the end-to-end takeover pipeline that imports an existing product workspace and produces all takeover artifacts.",
+      "confidence": "high",
+      "dependencies": [],
+      "artifact_refs": ["takeover_brief_ws_productos_v2"]
+    },
+    {
+      "item_id": "item_takeover_schemas",
+      "title": "Takeover artifact schemas and examples",
+      "summary": "Define and validate the four new takeover artifact schemas with example payloads.",
+      "confidence": "high",
+      "dependencies": [],
+      "artifact_refs": ["takeover_brief_ws_productos_v2", "problem_space_map_ws_productos_v2"]
+    }
+  ],
+  "next_items": [
+    {
+      "item_id": "item_live_research",
+      "title": "Live external research integration",
+      "summary": "Wire live research refresh into the takeover flow so competitor and market artifacts are updated from external sources automatically.",
+      "confidence": "moderate",
+      "dependencies": ["item_takeover_orchestration"],
+      "artifact_refs": ["competitor_dossier_ws_productos_v2", "market_analysis_brief_ws_productos_v2"]
+    },
+    {
+      "item_id": "item_visual_atlas_validation",
+      "title": "Visual atlas validation",
+      "summary": "Validate the visual product atlas against real-world screenshot ingestion and ensure proper linking to journey stages.",
+      "confidence": "moderate",
+      "dependencies": ["item_takeover_schemas"],
+      "artifact_refs": ["visual_product_atlas_ws_productos_v2"]
+    }
+  ],
+  "later_items": [
+    {
+      "item_id": "item_autonomous_refresh",
+      "title": "Autonomous evidence refresh loop",
+      "summary": "Enable the living system to autonomously detect stale evidence and queue refresh tasks without PM intervention.",
+      "confidence": "low",
+      "dependencies": ["item_live_research"],
+      "artifact_refs": ["improvement_loop_state_ws_productos_v2"]
+    },
+    {
+      "item_id": "item_multi_workspace_takeover",
+      "title": "Multi-workspace portfolio takeover",
+      "summary": "Extend the takeover flow to support importing and analyzing multiple product workspaces in a single portfolio view.",
+      "confidence": "low",
+      "dependencies": ["item_takeover_orchestration", "item_visual_atlas_validation"],
+      "artifact_refs": ["portfolio_state_ws_productos_v2"]
+    }
+  ],
+  "open_decisions": [
+    {
+      "decision_id": "decision_live_research_provider",
+      "question": "Which external research provider should be the default for live competitor and market refresh?",
+      "impact": "Determines the quality and freshness of competitive intelligence in takeover outputs.",
+      "deadline": "2026-06-15",
+      "decision_log_ref": "decision_log_ws_productos_v2"
+    },
+    {
+      "decision_id": "decision_visual_storage",
+      "question": "Should screenshots and visual evidence be stored in the repo or referenced from external storage?",
+      "impact": "Impacts workspace size, portability, and collaboration model.",
+      "deadline": "2026-06-01",
+      "decision_log_ref": "decision_log_ws_productos_v2"
+    }
+  ],
+  "unresolved_evidence_gaps": [
+    {
+      "gap_id": "gap_live_research_proof",
+      "description": "Live research refresh has not been validated end-to-end with a real external search provider.",
+      "blocking_items": ["item_live_research"]
+    },
+    {
+      "gap_id": "gap_screenshot_provenance",
+      "description": "Screenshot ingestion produces structured records but provenance confidence is inferred, not confirmed by PM review.",
+      "blocking_items": ["item_visual_atlas_validation"]
+    }
+  ],
+  "confidence_assessment": {
+    "overall_confidence": "moderate",
+    "biggest_risk": "Live research integration depends on external provider availability and may introduce latency or quality variance.",
+    "recommended_focus": "Complete the core takeover orchestration and schema validation before expanding into live research."
+  },
+  "source_artifact_refs": [
+    "increment_plan_ws_productos_v2",
+    "program_increment_state_ws_productos_v2",
+    "decision_queue_ws_productos_v2",
+    "prd_ws_productos_v2"
+  ],
+  "generated_at": "2026-05-12T08:00:00Z"
+}

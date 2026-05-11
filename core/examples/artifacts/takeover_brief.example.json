@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "takeover_brief_id": "takeover_brief_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "title": "Takeover Brief: ProductOS PM Command Center",
+  "product_summary": "ProductOS is a repo-first operating system for PM work and AI-assisted execution that helps PMs move from messy inputs to structured artifacts, decisions, and delivery plans through a governed artifact model.",
+  "old_problem_framing": "PMs spend too much time reconstructing context across tools, notes, and scattered artifacts instead of focusing on judgment, strategy, and stakeholder alignment. ProductOS was built to solve this by making the repository the system of record.",
+  "change_over_time": [
+    {
+      "period": "initial",
+      "summary": "Built as a CLI-driven artifact system with mission, problem, and PRD artifacts at the core."
+    },
+    {
+      "period": "v4-v7",
+      "summary": "Added lifecycle stages, research planning, visual rendering, and governed docs to expand the PM workflow surface."
+    },
+    {
+      "period": "v9-v11",
+      "summary": "Introduced living system regeneration, cockpit bundle, feature scorecards, and improvement loops."
+    }
+  ],
+  "target_segment_summary": "B2B product teams that already feel recurring planning, discovery, and delivery reconstruction costs and want a PM-specific operating layer.",
+  "target_segment_refs": [
+    { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
+  ],
+  "target_persona_summary": "Product managers who own product discovery, strategy, and delivery coordination and need a governed way to manage evidence, decisions, and handoffs.",
+  "target_persona_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" }
+  ],
+  "competitor_summary": "ProductOS faces competition from broad PM platforms (Jira, Linear, Asana), AI-assisted research tools (Perplexity, Gemini Deep Research), and the status quo of manual document and spreadsheet assembly.",
+  "competitor_dossier_ref": "competitor_dossier_ws_productos_v2",
+  "customer_journey_summary": "The PM journey spans 11 stages from unawareness of structured PM operating systems through advocacy, with key pain points around context reconstruction, tool fragmentation, and decision traceability.",
+  "customer_journey_ref": "customer_journey_map_ws_productos_v2",
+  "roadmap_summary": "The current roadmap focus is on the PM Takeover Command Center superpower: making ProductOS the first thing a new PM reaching an existing product runs to understand the full picture. Near-term bets include the takeover orchestration flow, visual atlas, and live research refresh.",
+  "roadmap_recovery_ref": "roadmap_recovery_brief_ws_productos_v2",
+  "evidence_gaps": [
+    {
+      "gap_id": "gap_takeover_live_research",
+      "description": "Live external research integration is planned but not yet fully wired. Competitor and market intelligence relies on seeded or manually provided sources.",
+      "severity": "medium",
+      "related_artifact_refs": ["competitor_dossier_ws_productos_v2", "market_analysis_brief_ws_productos_v2"]
+    },
+    {
+      "gap_id": "gap_visual_evidence_provenance",
+      "description": "Screenshot and UI evidence ingestion is structured but not yet validated against real-world messy product workspaces.",
+      "severity": "medium",
+      "related_artifact_refs": ["visual_product_atlas_ws_productos_v2"]
+    },
+    {
+      "gap_id": "gap_roadmap_confidence",
+      "description": "Roadmap recovery confidence is moderate because decision queue and increment plan artifacts may be stale or incomplete.",
+      "severity": "high",
+      "related_artifact_refs": ["roadmap_recovery_brief_ws_productos_v2", "increment_plan_ws_productos_v2"]
+    }
+  ],
+  "first_pm_actions": {
+    "first_30_days": [
+      "Review the takeover brief and problem space map to understand the product landscape and evidence gaps.",
+      "Validate the competitor dossier and market analysis with current market intelligence.",
+      "Walk through the customer journey map and visual product atlas to understand the end-to-end user experience.",
+      "Assess the roadmap recovery brief and prioritize the highest-confidence now/next items."
+    ],
+    "first_60_days": [
+      "Fill the highest-severity evidence gaps with primary or secondary research.",
+      "Update the segment map and persona pack based on fresh customer evidence.",
+      "Review and refine the PRD scope boundaries with the delivery team.",
+      "Establish a regular rhythm for research refresh and living system updates."
+    ],
+    "first_90_days": [
+      "Validate the first 30/60 day assumptions with stakeholder interviews and customer calls.",
+      "Drive the now/next roadmap items toward delivery milestones.",
+      "Evaluate the takeover superpower scorecard and route improvement feedback.",
+      "Prepare the next increment plan with confidence-backed scope and evidence."
+    ]
+  },
+  "source_workspace_ref": "ws_productos_v2",
+  "problem_space_map_ref": "problem_space_map_ws_productos_v2",
+  "visual_product_atlas_ref": "visual_product_atlas_ws_productos_v2",
+  "takeover_feature_scorecard_ref": "takeover_feature_scorecard_ws_productos_v2",
+  "generated_at": "2026-05-12T08:00:00Z"
+}

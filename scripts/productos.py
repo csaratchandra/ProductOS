@@ -131,6 +131,16 @@ from core.python.productos_runtime.living_system import (
     process_regeneration_item,
 )
 from core.python.productos_runtime.markdown_renderer import render_living_document
+from core.python.productos_runtime.takeover import (
+    TAKEOVER_ARTIFACT_SCHEMAS,
+    build_takeover_bundle,
+    build_takeover_brief,
+    build_problem_space_map,
+    build_roadmap_recovery_brief,
+    build_visual_product_atlas,
+    build_takeover_feature_scorecard,
+    render_takeover_atlas_html,
+)
 from core.python.productos_runtime.export_pipeline import export_artifact
 from core.python.productos_runtime.llm import default_provider
 from components.prototype.python.prototype_engine import write_prototype_bundle
@@ -3286,6 +3296,64 @@ def cmd_adopt_workspace(args: argparse.Namespace) -> int:
     )
 
 
+def cmd_takeover(args: argparse.Namespace) -> int:
+    workspace_id = args.workspace_id
+    bundle = build_takeover_bundle(
+        ROOT,
+        source_dir=args.source,
+        dest=args.dest,
+        workspace_id=workspace_id,
+        name=args.name,
+        mode=args.mode,
+        generated_at=args.generated_at,
+    )
+
+    failures = _validate_named_bundle(bundle, TAKEOVER_ARTIFACT_SCHEMAS)
+    if failures:
+        for failure in failures:
+            print(f"FAIL: {failure}")
+        return 1
+
+    output_dir = args.output_dir or (Path(args.dest) / "outputs" / "takeover")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    _write_artifacts(output_dir, bundle, {"takeover_brief": "takeover_brief.json", "problem_space_map": "problem_space_map.json", "roadmap_recovery_brief": "roadmap_recovery_brief.json", "visual_product_atlas": "visual_product_atlas.json", "takeover_feature_scorecard": "takeover_feature_scorecard.json"})
+
+    takeover_brief = bundle["takeover_brief"]
+    print(f"Takeover Brief: {takeover_brief['takeover_brief_id']}")
+    print(f"Problems: {len(bundle['problem_space_map']['problems'])}")
+    print(f"Evidence Gaps: {len(takeover_brief['evidence_gaps'])}")
+    print(f"Visual Records: {len(bundle['visual_product_atlas']['visual_evidence_records'])}")
+    print(f"Scorecard: {bundle['takeover_feature_scorecard']['overall_score']}/5")
+    print(f"Destination: {args.dest}")
+
+    if args.live_research:
+        print("Live research flag not yet implemented: use `run-research-loop` separately.")
+    return 0
+
+
+def cmd_render_takeover_atlas(args: argparse.Namespace) -> int:
+    workspace_dir = args.workspace_dir.resolve() if args.workspace_dir else _workspace_dir(args)
+    ws_id = workspace_dir.name
+    with open(workspace_dir / "workspace_manifest.yaml", "r") as f:
+        import yaml
+        manifest = yaml.safe_load(f)
+        ws_id = manifest.get("workspace_id", ws_id)
+
+    takeover_brief = _load_json(workspace_dir / "artifacts" / f"takeover_brief_{ws_id}.json")
+    problem_space_map = _load_json(workspace_dir / "artifacts" / f"problem_space_map_{ws_id}.json")
+    roadmap_recovery = _load_json(workspace_dir / "artifacts" / f"roadmap_recovery_brief_{ws_id}.json")
+    visual_atlas = _load_json(workspace_dir / "artifacts" / f"visual_product_atlas_{ws_id}.json")
+    scorecard_path = workspace_dir / "artifacts" / f"takeover_feature_scorecard_{ws_id}.json"
+    scorecard = _load_json(scorecard_path) if scorecard_path.exists() else None
+
+    html = render_takeover_atlas_html(takeover_brief, problem_space_map, roadmap_recovery, visual_atlas, takeover_feature_scorecard=scorecard)
+    output_path = args.output_path or (workspace_dir / "outputs" / "takeover" / "takeover_atlas.html")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(html, encoding="utf-8")
+    print(f"Takeover Atlas HTML: {output_path}")
+    return 0
+
+
 def cmd_research_workspace(args: argparse.Namespace) -> int:
     bundle = research_workspace_from_manifest(
         ROOT,
@@ -3702,6 +3770,15 @@ def parse_args() -> argparse.Namespace:
     portfolio_build_parser.add_argument("--suite-id")
     portfolio_build_parser.add_argument("--output-dir", type=Path)
 
+    takeover_parser = subparsers.add_parser("takeover")
+    takeover_parser.add_argument("--source", type=Path, required=True)
+    takeover_parser.add_argument("--dest", type=Path, required=True)
+    takeover_parser.add_argument("--workspace-id", required=True)
+    takeover_parser.add_argument("--name", required=True)
+    takeover_parser.add_argument("--mode", required=True)
+    takeover_parser.add_argument("--live-research", action="store_true", help="Run live external research refresh as part of the takeover flow.")
+    takeover_parser.add_argument("--output-dir", type=Path)
+
     adopt_parser = subparsers.add_parser("import", aliases=["adopt-workspace"])
     adopt_parser.add_argument("--source", type=Path, required=True)
     adopt_parser.add_argument("--dest", type=Path, required=True)
@@ -3804,6 +3881,10 @@ def parse_args() -> argparse.Namespace:
     render_prototype_parser = render_subparsers.add_parser("prototype")
     render_prototype_parser.add_argument("--workspace-dir", type=Path, required=True)
 
+    render_takeover_atlas_parser = render_subparsers.add_parser("takeover-atlas")
+    render_takeover_atlas_parser.add_argument("--workspace-dir", type=Path, required=True)
+    render_takeover_atlas_parser.add_argument("--output-path", type=Path)
+
     review_parser = subparsers.add_parser("review-delta")
     review_parser.add_argument("--update-id", required=True)
     review_parser.add_argument("--action", choices=["approve", "reject", "modify"], required=True)
@@ -3869,6 +3950,8 @@ def _dispatch_command(args: argparse.Namespace) -> int:
         return cmd_validate_workspace(args)
     if args.command in {"import", "adopt-workspace"}:
         return cmd_adopt_workspace(args)
+    if args.command == "takeover":
+        return cmd_takeover(args)
     if args.command == "thread-review":
         return cmd_thread_review(args)
     if args.command == "thread-review-index":
@@ -3913,6 +3996,8 @@ def _dispatch_command(args: argparse.Namespace) -> int:
             return cmd_render_screen_flow(args)
         if args.render_command == "prototype":
             return cmd_render_prototype(args)
+        if args.render_command == "takeover-atlas":
+            return cmd_render_takeover_atlas(args)
     if args.command == "review-delta":
         return cmd_review_delta(args)
     if args.command == "new":

@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/problem_space_map.schema.json",
+  "title": "ProductOS Problem Space Map",
+  "description": "A linked graph from problems to segments, personas, workflows, evidence, competitors, and current product bets so historical reasoning is visible instead of scattered across artifacts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "problem_space_map_id",
+    "workspace_id",
+    "title",
+    "problems",
+    "segment_links",
+    "persona_links",
+    "workflow_links",
+    "evidence_links",
+    "competitor_links",
+    "product_bet_links",
+    "orphan_nodes",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "problem_space_map_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "problems": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/problemNode" },
+      "minItems": 1
+    },
+    "segment_links": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/link" }
+    },
+    "persona_links": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/link" }
+    },
+    "workflow_links": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/workflowLink" }
+    },
+    "evidence_links": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceLink" }
+    },
+    "competitor_links": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/competitorLink" }
+    },
+    "product_bet_links": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/productBetLink" }
+    },
+    "orphan_nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["node_type", "node_id", "reason"],
+        "properties": {
+          "node_type": { "type": "string", "minLength": 1 },
+          "node_id": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 10 }
+        }
+      }
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "problemNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["problem_id", "title", "summary", "severity", "source_artifact_ids"],
+      "properties": {
+        "problem_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "summary": { "type": "string", "minLength": 10 },
+        "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+        "source_artifact_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "target_id", "relationship"],
+      "properties": {
+        "source_id": { "type": "string", "minLength": 1 },
+        "target_id": { "type": "string", "minLength": 1 },
+        "relationship": { "type": "string", "minLength": 3 }
+      }
+    },
+    "workflowLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workflow_id", "workflow_name", "problem_ids", "journey_stage"],
+      "properties": {
+        "workflow_id": { "type": "string", "minLength": 1 },
+        "workflow_name": { "type": "string", "minLength": 3 },
+        "problem_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "journey_stage": { "type": "string", "minLength": 1 }
+      }
+    },
+    "evidenceLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_id", "source_type", "summary", "problem_ids", "confidence"],
+      "properties": {
+        "evidence_id": { "type": "string", "minLength": 1 },
+        "source_type": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 10 },
+        "problem_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        }
+      }
+    },
+    "competitorLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["competitor_name", "problem_ids", "threat_level"],
+      "properties": {
+        "competitor_name": { "type": "string", "minLength": 1 },
+        "problem_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "threat_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        }
+      }
+    },
+    "productBetLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bet_id", "bet_name", "problem_ids", "status", "confidence"],
+      "properties": {
+        "bet_id": { "type": "string", "minLength": 1 },
+        "bet_name": { "type": "string", "minLength": 3 },
+        "problem_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "paused", "completed", "cancelled"]
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"]
+        }
+      }
+    }
+  }
+}

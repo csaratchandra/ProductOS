@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/takeover_brief.schema.json",
+  "title": "ProductOS Takeover Brief",
+  "description": "Executive synthesis for a PM inheriting an existing product: what the product is, who it serves, why it exists, what changed over time, where the evidence is weak, and first 30/60/90 day actions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "takeover_brief_id",
+    "workspace_id",
+    "title",
+    "product_summary",
+    "old_problem_framing",
+    "target_segment_summary",
+    "target_persona_summary",
+    "competitor_summary",
+    "customer_journey_summary",
+    "roadmap_summary",
+    "evidence_gaps",
+    "first_pm_actions",
+    "source_workspace_ref",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "takeover_brief_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "product_summary": { "type": "string", "minLength": 10 },
+    "old_problem_framing": { "type": "string", "minLength": 10 },
+    "change_over_time": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["period", "summary"],
+        "properties": {
+          "period": { "type": "string", "minLength": 1 },
+          "summary": { "type": "string", "minLength": 10 }
+        }
+      }
+    },
+    "target_segment_summary": { "type": "string", "minLength": 10 },
+    "target_segment_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" }
+    },
+    "target_persona_summary": { "type": "string", "minLength": 10 },
+    "target_persona_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityRef" }
+    },
+    "competitor_summary": { "type": "string", "minLength": 10 },
+    "competitor_dossier_ref": { "type": "string", "minLength": 1 },
+    "customer_journey_summary": { "type": "string", "minLength": 10 },
+    "customer_journey_ref": { "type": "string", "minLength": 1 },
+    "roadmap_summary": { "type": "string", "minLength": 10 },
+    "roadmap_recovery_ref": { "type": "string", "minLength": 1 },
+    "evidence_gaps": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceGap" },
+      "minItems": 1
+    },
+    "first_pm_actions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["first_30_days", "first_60_days", "first_90_days"],
+      "properties": {
+        "first_30_days": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10 },
+          "minItems": 1
+        },
+        "first_60_days": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10 },
+          "minItems": 1
+        },
+        "first_90_days": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10 },
+          "minItems": 1
+        }
+      }
+    },
+    "source_workspace_ref": { "type": "string", "minLength": 1 },
+    "problem_space_map_ref": { "type": "string", "minLength": 1 },
+    "visual_product_atlas_ref": { "type": "string", "minLength": 1 },
+    "takeover_feature_scorecard_ref": { "type": "string", "minLength": 1 },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "entityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id"],
+      "properties": {
+        "entity_type": {
+          "type": "string",
+          "enum": ["segment", "persona", "problem", "outcome", "opportunity", "feature", "metric", "decision"]
+        },
+        "entity_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "evidenceGap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gap_id", "description", "severity", "related_artifact_refs"],
+      "properties": {
+        "gap_id": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 10 },
+        "severity": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"]
+        },
+        "related_artifact_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}
