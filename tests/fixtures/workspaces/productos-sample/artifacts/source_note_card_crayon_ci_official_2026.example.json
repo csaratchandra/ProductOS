@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_crayon_ci_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://www.crayon.co/product/organize",
+  "title": "Crayon packages continuous CI monitoring with AI deliverables",
+  "claim": "Crayon combines automated analysis, competitive call mining, saved searches, and AI-generated deliverables to structure intelligence and keep it accessible in seller workflows.",
+  "source_snippet": "Automated analysis, call mining, saved searches, and AI-generated competitive deliverables.",
+  "implication": "ProductOS research should support saved searches, repeatable competitor templates, and scheduled refreshes instead of only ad hoc scans.",
+  "confidence": "high",
+  "followup_questions": [
+    "Which recurring watchlists should ProductOS refresh on a schedule versus on demand?"
+  ],
+  "source_metadata": {
+    "source_url": "https://www.crayon.co/product/organize",
+    "retrieved_at": "2026-03-21T09:15:00Z",
+    "source_slice_ref": "organize-product",
+    "dedupe_key": "crayon-organize-product",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "crayon-organize-product",
+  "tags": ["research", "ci", "crayon", "monitoring"],
+  "created_at": "2026-03-21T09:16:00Z"
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "improvement_loop_state_id": "improvement_loop_state_productos_v4_next_version_baseline",
+  "workspace_id": "ws_productos_v2",
+  "status": "completed",
+  "loop_goal": "Keep rescoring the fully promoted next-version baseline and route the next bounded expansion slice through the same governed portfolio loop.",
+  "source_feedback_ids": [
+    "pfb_006",
+    "pfb_007",
+    "pfb_010"
+  ],
+  "routed_problem_ids": [
+    "problem_brief_pm_operating_rhythm",
+    "problem_productos_next_version_proof_gap"
+  ],
+  "routed_idea_ids": [
+    "idea_record_pm_status_automation"
+  ],
+  "feature_scorecard_refs": [
+    "feature_scorecard_ws_productos_v2_docs_alignment_superpower",
+    "feature_scorecard_ws_productos_v2_weekly_pm_autopilot",
+    "feature_scorecard_ws_productos_v2_market_intelligence_superpower"
+  ],
+  "active_workers": [
+    {
+      "worker_name": "feedback_collector",
+      "status": "completed",
+      "current_task": "Collected repeated feedback on market-intelligence distribution needs and proved the leadership-digest path without weakening the existing guardrails."
+    },
+    {
+      "worker_name": "discovery_router",
+      "status": "completed",
+      "current_task": "Routed the prior sub-5 market-intelligence gap into a bounded distribution hardening path and closed it."
+    },
+    {
+      "worker_name": "improvement_planner",
+      "status": "completed",
+      "current_task": "Prepare the next bounded expansion choice now that the current named baseline is fully promoted."
+    }
+  ],
+  "review_gate": {
+    "status": "passed",
+    "owner": "critic",
+    "exit_condition": "The proposed fix must directly address the observed PM communication and planning pain."
+  },
+  "validation_gate": {
+    "status": "passed",
+    "owner": "validation",
+    "exit_condition": "The fix must reduce manual rewrite and planning translation work relative to the prior baseline."
+  },
+  "pm_decision_gate": {
+    "status": "passed",
+    "owner": "ProductOS PM",
+    "exit_condition": "The PM must accept the completed hardening cycle and route the next bounded expansion choice through the same governed loop."
+  },
+  "next_recommended_action": "Refresh the portfolio after the next dogfood window and use it to choose the next bounded expansion slice.",
+  "generated_at": "2026-03-22T16:15:00Z"
+}

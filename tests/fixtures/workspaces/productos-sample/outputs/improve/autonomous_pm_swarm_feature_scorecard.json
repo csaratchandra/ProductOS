@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0.0",
+  "feature_scorecard_id": "feature_scorecard_ws_productos_v2_autonomous_pm_swarm",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "autonomous_pm_swarm",
+  "feature_name": "Governed autonomous PM swarm",
+  "loop_id": "cross_cutting",
+  "status": "reviewed",
+  "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "validation_tier": "tier_2",
+  "scenarios": [
+    {
+      "scenario_id": "scn_swarm_plan_definition",
+      "title": "Define the governed swarm plan from current runtime contracts",
+      "scenario_type": "workflow_run",
+      "result": "passed",
+      "summary": "ProductOS can now express the broader swarm as one internal governed plan with routes, review triggers, and anti-loop controls instead of prompt-only intent.",
+      "evidence_refs": [
+        "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+        "context_pack_ws_productos_v2_bounded_baseline"
+      ]
+    },
+    {
+      "scenario_id": "scn_swarm_claim_boundary_review",
+      "title": "Hold the external claim boundary while expanding internal swarm coverage",
+      "scenario_type": "manual_review",
+      "result": "passed",
+      "summary": "The broader swarm is visible and actionable internally, but the release boundary still keeps autonomous PM replacement claims out of the external promise set.",
+      "evidence_refs": [
+        "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+        "core/docs/v7-1-scope-brief.md"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+    "context_pack_ws_productos_v2_bounded_baseline",
+    "eval_run_report_ws_productos_v2_bounded_baseline",
+    "improvement_loop_state_productos_v4_next_version_baseline",
+    "cockpit_state_ws_productos_v2_next_version",
+    "orchestration_state_ws_productos_v2_next_version"
+  ],
+  "provenance_classification": "real",
+  "score_basis": [
+    "autonomous_pm_swarm_plan",
+    "runtime_control_surface",
+    "ralph_iteration_target"
+  ],
+  "truthfulness_summary": "ProductOS now has a governed internal swarm plan and runtime surfacing for broader autonomous PM work, but the capability remains explicitly internal-only until repeated outcome proof exists.",
+  "context_pack_ref": "context_pack_ws_productos_v2_bounded_baseline",
+  "eval_run_ref": "eval_run_report_ws_productos_v2_bounded_baseline",
+  "dimension_scores": [
+    {
+      "dimension_key": "pm_leverage",
+      "score": 4,
+      "rationale": "The PM can supervise one bounded swarm mission without reconstructing the route plan or reviewer stack from scratch.",
+      "evidence_refs": [
+        "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+        "context_pack_ws_productos_v2_bounded_baseline"
+      ]
+    },
+    {
+      "dimension_key": "output_quality",
+      "score": 4,
+      "rationale": "The swarm plan makes route ownership, review triggers, and exit conditions explicit enough to be reviewable and reusable.",
+      "evidence_refs": [
+        "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+        "core/docs/autonomous-pm-swarm-model.md"
+      ]
+    },
+    {
+      "dimension_key": "reliability",
+      "score": 4,
+      "rationale": "Anti-loop controls, PM gates, and Ralph stage requirements are now encoded before broader execution begins.",
+      "evidence_refs": [
+        "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+        "eval_run_report_ws_productos_v2_bounded_baseline"
+      ]
+    },
+    {
+      "dimension_key": "autonomy_quality",
+      "score": 4,
+      "rationale": "The plan expands autonomous coverage while keeping review-gated behavior and blocked-state handling explicit.",
+      "evidence_refs": [
+        "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+        "orchestration_state_ws_productos_v2_next_version"
+      ]
+    },
+    {
+      "dimension_key": "repeatability",
+      "score": 4,
+      "rationale": "The swarm now has a repo-native plan artifact that can be scored, re-run, and hardened through the same improve phase on future iterations.",
+      "evidence_refs": [
+        "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+        "improvement_loop_state_productos_v4_next_version_baseline"
+      ]
+    }
+  ],
+  "overall_score": 4,
+  "adoption_recommendation": "keep_in_internal_use",
+  "reviewer_verdict": {
+    "status": "pass",
+    "summary": "The swarm plan is bounded, legible, and keeps PM approval and contradiction escalation explicit.",
+    "evidence_refs": [
+      "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+      "context_pack_ws_productos_v2_bounded_baseline"
+    ]
+  },
+  "tester_verdict": {
+    "status": "pass",
+    "summary": "The new swarm artifact validates structurally and now lives in the same runtime surface as the rest of the next-version bundle.",
+    "evidence_refs": [
+      "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+      "context_pack_ws_productos_v2_bounded_baseline"
+    ]
+  },
+  "manual_verdict": {
+    "status": "accept",
+    "summary": "Keep the broader swarm in internal use while one bounded mission proves outcome movement before any release-scope change.",
+    "evidence_refs": [
+      "cockpit_state_ws_productos_v2_next_version",
+      "orchestration_state_ws_productos_v2_next_version"
+    ]
+  },
+  "blocked_by": [
+    "External autonomous PM replacement and open-ended swarm claims remain deferred until repeated real runs prove outcome movement."
+  ],
+  "feedback_items": [
+    {
+      "feedback_id": "score_feedback_swarm_outcome_proof",
+      "summary": "Run one bounded internal swarm mission and score its actual outcome movement before broadening the claim set.",
+      "impact_level": "high",
+      "recommended_action": "Route the next broader autonomous PM slice through the governed swarm plan, capture outcome review evidence, and rescore readiness.",
+      "route_targets": [
+        "improvement_loop_state",
+        "feedback_cluster_state"
+      ],
+      "linked_dimension_keys": [
+        "pm_leverage",
+        "repeatability"
+      ],
+      "linked_artifact_refs": [
+        "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+        "improvement_loop_state_productos_v4_next_version_baseline"
+      ]
+    }
+  ],
+  "next_action": "Keep the swarm internal, run one bounded mission through outcome review, and rescore only after repeatable evidence exists.",
+  "generated_at": "2026-03-22T08:00:00Z"
+}

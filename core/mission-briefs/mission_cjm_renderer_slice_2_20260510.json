@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0.0",
+  "mission_brief_id": "mission_cjm_renderer_slice_2_20260510",
+  "workspace_id": "ws_productos_v2",
+  "portfolio_id": "portfolio_productos_v12",
+  "title": "Customer Journey Map — Slice 2 (Synthesis + Living System + Screen Flow Integration)",
+  "mission_summary": "Build the synthesis runtime that auto-generates customer_journey_map.json from persona, problem brief, and research artifacts. Wire it into the living system so persona changes trigger journey map regeneration. Link journey stages to user journey screen flows (Mermaid diagrams) and prototype variants, creating the connected pipeline: persona change → journey re-renders → screen flow updates → prototype regenerates.",
+  "target_user": "Product Manager using ProductOS to map and communicate customer journeys",
+  "customer_problem": "PMs manually author customer_journey_map.json or rely on external tools. There is no automated path from research and persona artifacts to a validated journey map, and no living system propagation that keeps the journey map current when upstream personas or problem briefs change.",
+  "business_goal": "Close the full loop: research artifacts → synthesized journey map → interactive visual → linked screen flows → clickable prototype. When a PM changes a persona pain point, the entire downstream chain regenerates or queues for review.",
+  "maturity_band": "one_to_ten",
+  "primary_outcomes": [
+    "Synthesis runtime: persona.json + problem_brief.json + source_note_cards → validated customer_journey_map.json",
+    "Living system integration: persona change triggers regeneration queue entry for customer_journey_map",
+    "User journey screen flow runtime: Mermaid diagrams linking journey stages to prototype screen variants",
+    "Connected pipeline: change persona → journey re-renders → screen flow updates → prototype regenerates"
+  ],
+  "primary_kpis": [
+    "Synthesis completes in <30 seconds for a well-formed workspace",
+    "Journey map schema validation passes on first run ≥90% of the time",
+    "Living system propagation latency <5 seconds from persona change to queue entry",
+    "Screen flow Mermaid diagram renders all journey stages with prototype links"
+  ],
+  "review_gate_owner": "ProductOS PM",
+  "success_metrics": [
+    "./productos run discover generates customer_journey_map.json from persona + problem brief + research artifacts",
+    "./productos queue build detects persona.json change and queues customer_journey_map.json for regeneration",
+    "./productos render journey-map still produces valid HTML from auto-generated JSON",
+    "Screen flow diagram (Mermaid/SVG) links each journey stage to its prototype variant",
+    "Changing a persona pain point triggers: (a) journey map queued, (b) user journey screen flow updated, (c) prototype.html regenerated with new screens",
+    "pytest tests/test_customer_journey_synthesis.py passes",
+    "pytest tests/test_customer_journey_living_system.py passes",
+    "pytest tests/test_user_journey_screen_flow.py passes",
+    "pytest (full suite) stays green"
+  ],
+  "constraints": [
+    "Reuse existing customer_journey_map.schema.json — no schema changes unless backward-compatible",
+    "Reuse Slice 1 renderer components/journey_engine/python/journey_visual_renderer.py",
+    "Follow living_system.py patterns for impact classification and delta previews",
+    "Use existing prototype engine patterns from components/prototype/ for screen linking",
+    "No external API dependencies for synthesis (local LLM support required, API optional)"
+  ],
+  "audience": [
+    "PM",
+    "design",
+    "leadership",
+    "customer success",
+    "engineering"
+  ],
+  "operating_mode": "discover_to_align",
+  "mission_router": {
+    "entry_phase": "discover",
+    "phase_sequence": [
+      "discover",
+      "align"
+    ],
+    "primary_reviewer_lane": "pm_builder",
+    "routing_rationale": "Synthesis-first: generate structured JSON from research artifacts, validate against schema, render to visual. Living system integration keeps artifacts current. Align phase validates end-to-end pipeline.",
+    "stop_conditions": [
+      "Stop if synthesis runtime produces invalid JSON >10% of the time",
+      "Stop if living system integration creates circular dependency loops",
+      "Stop if screen flow diagrams require external Mermaid runtime (must be embedded SVG)",
+      "Stop if prototype regeneration breaks existing PM annotations"
+    ]
+  },
+  "steering_context": {
+    "steering_refs": [
+      "core/docs/v12-agent-native-execution-plan.md",
+      "core/docs/visual-style-system.md",
+      "core/schemas/artifacts/customer_journey_map.schema.json",
+      "core/schemas/artifacts/persona.schema.json",
+      "core/schemas/artifacts/problem_brief.schema.json",
+      "core/schemas/artifacts/user_journey_map.schema.json",
+      "core/examples/artifacts/customer_journey_map.example.json",
+      "core/mission-briefs/mission_cjm_renderer_slice_1_20260509.json"
+    ],
+    "operating_norms": [
+      "Treat the repository as the system of record",
+      "Keep PM approval explicit for decision-driving scope and release movement",
+      "Prefer the smallest coherent slice that can be reviewed and validated end to end",
+      "Reuse Slice 1 renderer — do not rebuild the visual layer"
+    ],
+    "memory_priority_order": [
+      "decisions",
+      "evidence",
+      "prior_artifacts",
+      "repeated_issues",
+      "strategic_memory"
+    ],
+    "default_artifact_focus": [
+      "customer_journey_map",
+      "persona",
+      "problem_brief",
+      "user_journey_map",
+      "prototype_record",
+      "regeneration_queue",
+      "impact_propagation_map"
+    ]
+  },
+  "primary_workflow_refs": [
+    "core/skills/customer_journey_synthesis/SKILL.md",
+    "core/skills/user_journey_screen_flow/SKILL.md",
+    "core/docs/v12-agent-native-execution-plan.md"
+  ],
+  "source_refs": [
+    "core/examples/artifacts/customer_journey_map.example.json",
+    "core/examples/artifacts/persona_archetype_pack.example.json",
+    "core/examples/artifacts/problem_brief.example.json",
+    "core/examples/artifacts/user_journey_map.example.json",
+    "components/journey_engine/python/journey_visual_renderer.py",
+    "core/python/productos_runtime/living_system.py"
+  ],
+  "stage_goals": {
+    "discovery": "Build synthesis runtime that reads persona, problem brief, and research artifacts and produces schema-valid customer_journey_map.json. Integrate with living system for auto-propagation.",
+    "align": "Wire screen flow linkage (Mermaid/SVG) from journey stages to prototype variants. Validate the connected pipeline end-to-end: persona change → journey map → screen flow → prototype."
+  },
+  "known_risks": [
+    "Synthesis quality depends on upstream artifact quality — garbage-in-garbage-out",
+    "Living system circular dependency: journey map references persona, persona references journey research — need explicit DAG ordering",
+    "Screen flow Mermaid runtime may be heavy — plan for embedded SVG fallback",
+    "Prototype regeneration must preserve PM annotations (`<!-- PM NOTE: ... -->`)"
+  ],
+  "next_action": "Create core/python/productos_runtime/journey_synthesis.py, implement synthesis runtime, wire living system propagation, build user_journey_screen_flow.py Mermaid renderer, connect to prototype engine",
+  "created_at": "2026-05-10T08:00:00Z",
+  "updated_at": "2026-05-10T08:00:00Z"
+}

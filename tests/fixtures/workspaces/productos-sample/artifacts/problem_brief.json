@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.1.0",
+  "problem_brief_id": "problem_brief_pm_operating_rhythm",
+  "workspace_id": "ws_productos_v2",
+  "title": "Problem Brief: PM operating rhythm automation",
+  "problem_summary": "Product managers on B2B product teams lose high-value time because recurring status and coordination outputs must be manually reconstructed across fragmented sources.",
+  "strategic_fit_summary": "This problem fits a challenger posture because it lets ProductOS win on trusted PM workflow continuity rather than broad platform breadth.",
+  "posture_alignment": "challenger",
+  "why_this_problem_now": "AI is accelerating drafting, which makes the remaining reconstruction and trust gap more visible and expensive.",
+  "why_this_problem_for_this_segment": "B2B product teams feel recurring coordination drag often enough to adopt a PM-specific operating layer before considering broader workflow replacement.",
+  "problem_severity": {
+    "customer_pain": "high",
+    "workflow_frequency": "high",
+    "evidence_strength": "moderate",
+    "severity_rationale": "The PM operating-rhythm pain is frequent, high-value, and already visible in the current evidence packet."
+  },
+  "target_segment_refs": [
+    { "entity_type": "segment", "entity_id": "segment_b2b_product_teams" }
+  ],
+  "target_persona_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" }
+  ],
+  "linked_entity_refs": [
+    { "entity_type": "problem", "entity_id": "problem_pm_reporting_bottleneck" },
+    { "entity_type": "outcome", "entity_id": "outcome_reduce_pm_reporting_time" },
+    { "entity_type": "opportunity", "entity_id": "opp_pm_operating_rhythm_automation" },
+    { "entity_type": "feature", "entity_id": "feature_biweekly_status_mail_automation" }
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "meeting_record",
+      "source_id": "meeting_2026_03_19_leadership_review",
+      "justification": "Leadership review highlighted repeated PM overhead around status reconstruction."
+    },
+    {
+      "source_type": "research",
+      "source_id": "prototype_record_status_mail_draft",
+      "justification": "Prototype showed a viable path when state quality is sufficient."
+    }
+  ],
+  "upstream_artifact_ids": [
+    "idea_record_pm_status_automation",
+    "concept_brief_pm_operating_rhythm",
+    "research_brief_pm_operating_rhythm",
+    "prototype_record_status_mail_draft"
+  ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_b2b_pm",
+  "artifact_trace_map_id": "artifact_trace_map_problem_brief_pm_operating_rhythm",
+  "ralph_status": "decision_ready",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 91,
+    "confidence": "high",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "This is the clearest near-term PM problem that can prove better artifact quality, safer automation, and stronger handoff quality.",
+    "reviewer_handoff": "PM should confirm the problem is complete enough that downstream PRD and story work do not need to reopen the raw evidence packet."
+  },
+  "handoff_readiness_summary": "The problem brief now carries explicit evidence, persona truth, and upstream context strongly enough for bounded downstream work.",
+  "recommended_next_step": "prd",
+  "created_at": "2026-03-20T11:00:00Z"
+}

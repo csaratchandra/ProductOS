@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "product_vision_brief_id": "product_vision_brief_productos_next_version_discover",
+  "workspace_id": "ws_productos_v2",
+  "title": "Product vision brief: PM judgment amplifier",
+  "strategy_context_ref": "strategy_context_brief_productos_next_version_discover",
+  "durable_vision": "ProductOS becomes the repo-native operating system that helps a PM see what matters, explain the bet, and move from evidence to action without rebuilding context by hand.",
+  "near_term_product_goal": "Make the next-version discovery flow strategy-ready before it becomes deeper or more autonomous.",
+  "problem_space_summary": "ProductOS can already structure PM work, but it is weaker at turning evidence into coherent strategy, product vision, and the right next bet.",
+  "solution_direction_summary": "Add a strategy spine ahead of market posture, concept, and PRD work so discover outputs carry explicit vision, value, and north-star logic.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "priority_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "customer_value_statement": "PMs spend less time reconstructing strategic intent and more time deciding what to believe, prioritize, and test next.",
+  "business_value_statement": "A sharper strategy spine makes ProductOS easier to buy, trust, and extend without widening the claim surface prematurely.",
+  "differentiation_statement": "ProductOS links mission, evidence, market posture, and downstream product decisions in repo-native contracts instead of relying on loose docs or hidden prompt behavior.",
+  "north_star_metric": "time_to_strategy_ready_discovery_packet_hours",
+  "north_star_definition": "Elapsed time from mission intake to a reviewable strategy and problem-framing packet that a PM can use to choose the next bet.",
+  "input_guardrail_metrics": [
+    {
+      "metric_name": "mission_to_strategy_trace_completeness",
+      "metric_type": "input",
+      "definition": "Percent of discovery packets with explicit mission, strategy, and market references.",
+      "target": "100%"
+    },
+    {
+      "metric_name": "unsupported_strategy_claim_incidents",
+      "metric_type": "guardrail",
+      "definition": "Count of strategy recommendations that cannot be traced to mission, research, or market evidence.",
+      "target": "0"
+    }
+  ],
+  "next_bets": [
+    "Add reusable strategy context before expanding discovery depth.",
+    "Preserve the new strategy refs through problem and PRD outputs."
+  ],
+  "open_questions": [
+    "How much of the weekly operating loop can reuse this discover control surface without adding review noise?"
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "strategy_context",
+      "source_id": "strategy_context_brief_productos_next_version_discover",
+      "justification": "The strategy context defines the portfolio fit, business outcomes, and constraints for the near-term goal."
+    },
+    {
+      "source_type": "market_strategy",
+      "source_id": "market_strategy_brief_productos_next_version_discover",
+      "justification": "The market posture keeps the vision tied to a challenger wedge instead of generic drafting automation."
+    }
+  ],
+  "created_at": "2026-04-21T10:00:00Z"
+}

@@ -1,0 +1,222 @@
+{
+  "schema_version": "1.0.0",
+  "runtime_adapter_registry_id": "runtime_adapter_registry_ws_productos_v2_next_version",
+  "workspace_id": "ws_productos_v2",
+  "status": "healthy",
+  "default_adapter_id": "adapter_codex_thin",
+  "adapters": [
+    {
+      "adapter_id": "adapter_codex_thin",
+      "name": "Codex Thin Adapter",
+      "capability_type": "custom",
+      "availability_status": "available",
+      "supported_actions": [
+        "inspect_repo",
+        "run_superpower_loop",
+        "capture_review_findings",
+        "run_validation",
+        "export_artifacts"
+      ],
+      "requires_host_support": true,
+      "verification_status": "verified",
+      "used_by_default": true,
+      "supported_mission_stages": [
+        "discover",
+        "align",
+        "operate",
+        "improve"
+      ],
+      "prompt_pattern_capabilities": {
+        "mission_routing": "repo_managed",
+        "task_boundary_visibility": "repo_managed",
+        "research_freshness": "repo_managed",
+        "validation_enforcement": "repo_managed",
+        "delegation_support": "limited",
+        "approval_gating": "native",
+        "memory_steering": "repo_managed",
+        "artifact_export": "repo_managed"
+      },
+      "host_constraints": [
+        "Uses the repo contract and local validation commands."
+      ],
+      "notes": "Reference thin adapter for the current ProductOS workspace."
+    },
+    {
+      "adapter_id": "adapter_claude_style_thin",
+      "name": "Claude-Style Thin Adapter",
+      "capability_type": "custom",
+      "availability_status": "available",
+      "supported_actions": [
+        "inspect_repo",
+        "run_superpower_loop",
+        "capture_review_findings",
+        "run_validation",
+        "export_artifacts"
+      ],
+      "requires_host_support": true,
+      "verification_status": "verified",
+      "used_by_default": false,
+      "supported_mission_stages": [
+        "discover",
+        "align",
+        "operate",
+        "improve"
+      ],
+      "prompt_pattern_capabilities": {
+        "mission_routing": "repo_managed",
+        "task_boundary_visibility": "repo_managed",
+        "research_freshness": "repo_managed",
+        "validation_enforcement": "repo_managed",
+        "delegation_support": "limited",
+        "approval_gating": "native",
+        "memory_steering": "repo_managed",
+        "artifact_export": "repo_managed"
+      },
+      "host_constraints": [
+        "Verified against the shared repo contract through parity-report evidence; direct host-native execution should keep using the same bounded actions."
+      ],
+      "notes": "Repo-contract parity is now verified for Claude-style coding agents."
+    },
+    {
+      "adapter_id": "adapter_windsurf_thin",
+      "name": "Windsurf Thin Adapter",
+      "capability_type": "custom",
+      "availability_status": "available",
+      "supported_actions": [
+        "inspect_repo",
+        "run_superpower_loop",
+        "capture_review_findings",
+        "run_validation",
+        "export_artifacts"
+      ],
+      "requires_host_support": true,
+      "verification_status": "verified",
+      "used_by_default": false,
+      "supported_mission_stages": [
+        "discover",
+        "align",
+        "operate",
+        "improve"
+      ],
+      "prompt_pattern_capabilities": {
+        "mission_routing": "repo_managed",
+        "task_boundary_visibility": "repo_managed",
+        "research_freshness": "repo_managed",
+        "validation_enforcement": "repo_managed",
+        "delegation_support": "limited",
+        "approval_gating": "native",
+        "memory_steering": "repo_managed",
+        "artifact_export": "repo_managed"
+      },
+      "host_constraints": [
+        "Verified against the shared repo contract through parity-report evidence; direct host-native execution should keep using the same bounded actions."
+      ],
+      "notes": "Repo-contract parity is now verified for Windsurf."
+    },
+    {
+      "adapter_id": "adapter_antigravity_thin",
+      "name": "Antigravity Thin Adapter",
+      "capability_type": "custom",
+      "availability_status": "available",
+      "supported_actions": [
+        "inspect_repo",
+        "run_superpower_loop",
+        "capture_review_findings",
+        "run_validation",
+        "export_artifacts"
+      ],
+      "requires_host_support": true,
+      "verification_status": "verified",
+      "used_by_default": false,
+      "supported_mission_stages": [
+        "discover",
+        "align",
+        "operate",
+        "improve"
+      ],
+      "prompt_pattern_capabilities": {
+        "mission_routing": "repo_managed",
+        "task_boundary_visibility": "repo_managed",
+        "research_freshness": "repo_managed",
+        "validation_enforcement": "repo_managed",
+        "delegation_support": "limited",
+        "approval_gating": "native",
+        "memory_steering": "repo_managed",
+        "artifact_export": "repo_managed"
+      },
+      "host_constraints": [
+        "Verified against the shared repo contract through parity-report evidence; direct host-native execution should keep using the same bounded actions."
+      ],
+      "notes": "Repo-contract parity is now verified for Antigravity."
+    },
+    {
+      "adapter_id": "adapter_repo_filesystem",
+      "name": "Repo Filesystem Adapter",
+      "capability_type": "filesystem_access",
+      "availability_status": "available",
+      "supported_actions": [
+        "read_workspace_state",
+        "write_export_bundle",
+        "inspect_inbox_files"
+      ],
+      "requires_host_support": true,
+      "verification_status": "verified",
+      "used_by_default": true,
+      "supported_mission_stages": [
+        "discover",
+        "align",
+        "operate",
+        "improve"
+      ],
+      "prompt_pattern_capabilities": {
+        "mission_routing": "repo_managed",
+        "task_boundary_visibility": "unsupported",
+        "research_freshness": "unsupported",
+        "validation_enforcement": "limited",
+        "delegation_support": "unsupported",
+        "approval_gating": "unsupported",
+        "memory_steering": "limited",
+        "artifact_export": "native"
+      },
+      "host_constraints": [
+        "Requires writable workspace access."
+      ],
+      "notes": "Canonical repo-backed control surface for the next-version CLI."
+    },
+    {
+      "adapter_id": "adapter_local_validation_runner",
+      "name": "Local Validation Runner",
+      "capability_type": "validation_runner",
+      "availability_status": "available",
+      "supported_actions": [
+        "run_schema_validation",
+        "run_pytest",
+        "validate_export_bundle"
+      ],
+      "requires_host_support": true,
+      "verification_status": "verified",
+      "used_by_default": true,
+      "supported_mission_stages": [
+        "discover",
+        "align",
+        "operate",
+        "improve"
+      ],
+      "prompt_pattern_capabilities": {
+        "mission_routing": "unsupported",
+        "task_boundary_visibility": "unsupported",
+        "research_freshness": "unsupported",
+        "validation_enforcement": "native",
+        "delegation_support": "unsupported",
+        "approval_gating": "unsupported",
+        "memory_steering": "unsupported",
+        "artifact_export": "unsupported"
+      },
+      "host_constraints": [
+        "Requires local Python and pytest execution."
+      ],
+      "notes": "Common validation surface shared by every thin adapter."
+    }
+  ],
+  "evaluated_at": "2026-03-22T08:00:00Z"
+}

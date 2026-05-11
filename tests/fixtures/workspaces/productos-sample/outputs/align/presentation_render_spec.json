@@ -1,0 +1,342 @@
+{
+  "schema_version": "1.0.0",
+  "render_spec_id": "render_spec_presentation_brief_ws_productos_v2_v4_comm",
+  "presentation_story_id": "presentation_story_presentation_brief_ws_productos_v2_v4_comm",
+  "presentation_brief_id": "presentation_brief_ws_productos_v2_v4_comm",
+  "workspace_id": "ws_productos_v2",
+  "presentation_mode": "async",
+  "theme": {
+    "preset": "atlas",
+    "font_family": "'Space Grotesk', 'Avenir Next', sans-serif",
+    "background": "linear-gradient(135deg, #f7f2e8 0%, #d7e6f5 100%)",
+    "accent": "#1e5aa8"
+  },
+  "aspect_ratio": "16:9",
+  "slides": [
+    {
+      "slide_id": "slide_cover",
+      "title": "Why V4 Needs Presentation Packaging",
+      "composition_type": "hero_statement",
+      "headline": "Readable docs solved traceability, but leadership alignment still needs a governed...",
+      "core_message": "Readable docs solved traceability, but leadership alignment still needs a governed narrative and rendering layer.",
+      "composition_payload": {
+        "primary_claim": "ProductOS should approve a governed presentation layer so readable docs can become leadership-ready communication without manual...",
+        "evidence_items": [
+          {
+            "evidence_id": "slide_cover_evidence_1",
+            "label": "State the decision clearly",
+            "evidence_type": "recommendation",
+            "value": "The workspace now has a readable discovery, strategy, prototype, roadmap, and PRD document bundle.",
+            "source_ref": "document_sync_state_ws_prod...",
+            "annotation": "What decision should leadership make now that the..."
+          },
+          {
+            "evidence_id": "slide_cover_evidence_2",
+            "label": "Show that the readable-doc system is...",
+            "evidence_type": "recommendation",
+            "value": "The doc bundle is usable but still carries targeted review and publishing-metadata follow-up work.",
+            "source_ref": "document_sync_state_ws_prod...",
+            "annotation": "What decision should leadership make now that the..."
+          },
+          {
+            "evidence_id": "slide_cover_evidence_3",
+            "label": "Show that the readable-doc system is...",
+            "evidence_type": "recommendation",
+            "value": "PMs still need a single repo-native way to declare the mission, capture the first few high-signal...",
+            "source_ref": "mission_brief_ws_productos_...",
+            "annotation": "What decision should leadership make now that the..."
+          },
+          {
+            "evidence_id": "slide_cover_evidence_4",
+            "label": "Show that the readable-doc system is...",
+            "evidence_type": "recommendation",
+            "value": "PMs still need a single repo-native way to declare the mission, capture the first few high-signal...",
+            "source_ref": "mission_brief_ws_productos_...",
+            "annotation": "What decision should leadership make now that the..."
+          }
+        ],
+        "summary": "Readable docs solved traceability, but leadership alignment still needs a governed narrative and rendering...",
+        "risk_items": [],
+        "timeline_events": [],
+        "comparison_rows": []
+      },
+      "layout_variant": "hero_with_recommendation_strip",
+      "density_mode": "balanced",
+      "visual_tokens": {
+        "theme_preset": "atlas",
+        "accent": "#1e5aa8",
+        "surface_style": "layered_panel",
+        "emphasis_style": "message_first"
+      },
+      "visibility_rules": {
+        "show_sources": true,
+        "show_confidence": true,
+        "show_appendix_link": true,
+        "customer_safe": false,
+        "redaction_policy": "leadership_safe"
+      },
+      "annotation_rules": {
+        "show_confidence_badge": true,
+        "show_owner_labels": false,
+        "show_risk_labels": false,
+        "show_source_tags": true
+      },
+      "html_render_hints": {
+        "prefer_native_shapes": true,
+        "fallback_layout": "standard",
+        "target_profile": "dual_target",
+        "emphasize_claim": true,
+        "show_evidence_as_cards": false,
+        "max_visible_evidence": 4
+      },
+      "ppt_render_hints": {
+        "prefer_native_shapes": true,
+        "fallback_layout": "standard",
+        "target_profile": "dual_target",
+        "max_visible_evidence": 4
+      },
+      "source_refs": [
+        "document_sync_state_ws_prod...",
+        "document_sync_state_ws_prod...",
+        "mission_brief_ws_productos_...",
+        "mission_brief_ws_productos_..."
+      ],
+      "speaker_notes": "Open with the decision and make clear that this is a communication-system upgrade, not a styling request. Claim posture: observed facts support the current narrative. Validation next: Taken directly from the canonical...",
+      "visual_direction": "Hero statement with recommendation strip.",
+      "confidence_state": "medium",
+      "variant_rules": {
+        "live": "Favor the headline and keep most support in notes.",
+        "async": "Keep supporting evidence visible with source labels.",
+        "memo": "Expand the message into short explanatory prose."
+      }
+    },
+    {
+      "slide_id": "slide_evidence",
+      "title": "What Improved And What Did Not",
+      "composition_type": "summary_cards",
+      "headline": "The system is now reviewable, but not yet fully optimized for stakeholder alignment...",
+      "core_message": "The system is now reviewable, but not yet fully optimized for stakeholder alignment speed.",
+      "composition_payload": {
+        "primary_claim": "The readable-doc bundle reduced raw JSON dependence, but alignment still slows down when leadership-ready packaging is missing.",
+        "evidence_items": [
+          {
+            "evidence_id": "slide_evidence_evidence_1",
+            "label": "Show the current doc bundle is usable",
+            "evidence_type": "fact",
+            "value": "Outcome review says the readable-doc bundle improved internal reviewability but still...",
+            "source_ref": "outcome_review_ws_productos...",
+            "annotation": "What changed after the readable-doc slice, and where is..."
+          },
+          {
+            "evidence_id": "slide_evidence_evidence_2",
+            "label": "Show the outcome review still calls...",
+            "evidence_type": "fact",
+            "value": "The workspace now has a readable discovery, strategy, prototype, roadmap, and PRD document...",
+            "source_ref": "document_sync_state_ws_prod...",
+            "annotation": "What changed after the readable-doc slice, and where is..."
+          },
+          {
+            "evidence_id": "slide_evidence_evidence_3",
+            "label": "Show the outcome review still calls...",
+            "evidence_type": "fact",
+            "value": "The doc bundle is usable but still carries targeted review and publishing-metadata...",
+            "source_ref": "document_sync_state_ws_prod...",
+            "annotation": "What changed after the readable-doc slice, and where is..."
+          },
+          {
+            "evidence_id": "slide_evidence_evidence_4",
+            "label": "Show the outcome review still calls...",
+            "evidence_type": "fact",
+            "value": "PMs still need a single repo-native way to declare the mission, capture the first few...",
+            "source_ref": "mission_brief_ws_productos_...",
+            "annotation": "What changed after the readable-doc slice, and where is..."
+          }
+        ],
+        "summary": "The system is now reviewable, but not yet fully optimized for stakeholder alignment speed.",
+        "risk_items": [],
+        "timeline_events": [],
+        "comparison_rows": []
+      },
+      "layout_variant": "standard_story_panel",
+      "density_mode": "balanced",
+      "visual_tokens": {
+        "theme_preset": "atlas",
+        "accent": "#1e5aa8",
+        "surface_style": "layered_panel",
+        "emphasis_style": "evidence_support"
+      },
+      "visibility_rules": {
+        "show_sources": true,
+        "show_confidence": true,
+        "show_appendix_link": true,
+        "customer_safe": false,
+        "redaction_policy": "leadership_safe"
+      },
+      "annotation_rules": {
+        "show_confidence_badge": true,
+        "show_owner_labels": false,
+        "show_risk_labels": false,
+        "show_source_tags": true
+      },
+      "html_render_hints": {
+        "prefer_native_shapes": true,
+        "fallback_layout": "standard",
+        "target_profile": "dual_target",
+        "emphasize_claim": true,
+        "show_evidence_as_cards": true,
+        "max_visible_evidence": 4
+      },
+      "ppt_render_hints": {
+        "prefer_native_shapes": true,
+        "fallback_layout": "standard",
+        "target_profile": "dual_target",
+        "max_visible_evidence": 4
+      },
+      "source_refs": [
+        "outcome_review_ws_productos...",
+        "document_sync_state_ws_prod...",
+        "document_sync_state_ws_prod...",
+        "mission_brief_ws_productos_..."
+      ],
+      "speaker_notes": "Show both the gain and the remaining gap so the recommendation stays grounded. Claim posture: observed facts support the current narrative. Validation next: Taken directly from the canonical mission brief. Keep these...",
+      "visual_direction": "Evidence grid with source labels.",
+      "confidence_state": "medium",
+      "variant_rules": {
+        "live": "Favor the headline and keep most support in notes.",
+        "async": "Keep supporting evidence visible with source labels.",
+        "memo": "Expand the message into short explanatory prose."
+      }
+    },
+    {
+      "slide_id": "slide_risks",
+      "title": "What Keeps This Safe",
+      "composition_type": "risk_matrix",
+      "headline": "Narrative power must stay subordinate to evidence, validation, and manual approval.",
+      "core_message": "Narrative power must stay subordinate to evidence, validation, and manual approval.",
+      "composition_payload": {
+        "primary_claim": "Presentation packaging is acceptable only if audience policy, pattern review, publish checks, and manual validation stay explicit.",
+        "summary": "Narrative power must stay subordinate to evidence, validation, and manual approval.",
+        "risk_items": [
+          {
+            "risk_id": "slide_risks_risk_1",
+            "label": "Internal adoption was allowed only because the unresolved publishing and...",
+            "likelihood": "medium",
+            "impact": "high",
+            "owner": "PM / presentation-system owner",
+            "mitigation": "Show the required control layers; Show which gaps remain blocked until pattern governance..."
+          },
+          {
+            "risk_id": "slide_risks_risk_2",
+            "label": "The doc bundle is usable but still carries targeted review and...",
+            "likelihood": "medium",
+            "impact": "high",
+            "owner": "PM / presentation-system owner",
+            "mitigation": "Show the required control layers; Show which gaps remain blocked until pattern governance..."
+          },
+          {
+            "risk_id": "slide_risks_risk_3",
+            "label": "The workspace now has a readable discovery, strategy, prototype, roadmap...",
+            "likelihood": "medium",
+            "impact": "high",
+            "owner": "PM / presentation-system owner",
+            "mitigation": "Show the required control layers; Show which gaps remain blocked until pattern governance..."
+          },
+          {
+            "risk_id": "slide_risks_risk_4",
+            "label": "Outcome review says the readable-doc bundle improved internal reviewability...",
+            "likelihood": "medium",
+            "impact": "high",
+            "owner": "PM / presentation-system owner",
+            "mitigation": "Show the required control layers; Show which gaps remain blocked until pattern governance..."
+          }
+        ],
+        "evidence_items": [
+          {
+            "evidence_id": "slide_risks_evidence_1",
+            "label": "Show the required control layers",
+            "evidence_type": "risk",
+            "value": "Internal adoption was allowed only because the unresolved publishing and...",
+            "source_ref": "referee_decision_record_ws_...",
+            "annotation": "How do we prevent a stronger presentation system from..."
+          },
+          {
+            "evidence_id": "slide_risks_evidence_2",
+            "label": "Show which gaps remain blocked until...",
+            "evidence_type": "risk",
+            "value": "The doc bundle is usable but still carries targeted review and publishing-metadata...",
+            "source_ref": "document_sync_state_ws_prod...",
+            "annotation": "How do we prevent a stronger presentation system from..."
+          },
+          {
+            "evidence_id": "slide_risks_evidence_3",
+            "label": "Show which gaps remain blocked until...",
+            "evidence_type": "risk",
+            "value": "The workspace now has a readable discovery, strategy, prototype, roadmap, and PRD document...",
+            "source_ref": "document_sync_state_ws_prod...",
+            "annotation": "How do we prevent a stronger presentation system from..."
+          },
+          {
+            "evidence_id": "slide_risks_evidence_4",
+            "label": "Show which gaps remain blocked until...",
+            "evidence_type": "risk",
+            "value": "Outcome review says the readable-doc bundle improved internal reviewability but still...",
+            "source_ref": "outcome_review_ws_productos...",
+            "annotation": "How do we prevent a stronger presentation system from..."
+          }
+        ],
+        "timeline_events": [],
+        "comparison_rows": []
+      },
+      "layout_variant": "matrix_with_mitigation_panel",
+      "density_mode": "balanced",
+      "visual_tokens": {
+        "theme_preset": "atlas",
+        "accent": "#1e5aa8",
+        "surface_style": "layered_panel",
+        "emphasis_style": "evidence_support"
+      },
+      "visibility_rules": {
+        "show_sources": true,
+        "show_confidence": true,
+        "show_appendix_link": true,
+        "customer_safe": false,
+        "redaction_policy": "leadership_safe"
+      },
+      "annotation_rules": {
+        "show_confidence_badge": true,
+        "show_owner_labels": true,
+        "show_risk_labels": true,
+        "show_source_tags": true
+      },
+      "html_render_hints": {
+        "prefer_native_shapes": true,
+        "fallback_layout": "standard",
+        "target_profile": "dual_target",
+        "emphasize_claim": true,
+        "show_evidence_as_cards": false,
+        "max_visible_evidence": 4
+      },
+      "ppt_render_hints": {
+        "prefer_native_shapes": true,
+        "fallback_layout": "standard",
+        "target_profile": "dual_target",
+        "max_visible_evidence": 4
+      },
+      "source_refs": [
+        "referee_decision_record_ws_...",
+        "document_sync_state_ws_prod...",
+        "document_sync_state_ws_prod...",
+        "outcome_review_ws_productos..."
+      ],
+      "speaker_notes": "Close by showing that the proposal is disciplined and supervised. Claim posture: observed facts support the current narrative. Keep these proof gaps visible: Keep the mission 'PM superpower recovery mission' visible...",
+      "visual_direction": "Risk matrix with visible control labels.",
+      "confidence_state": "medium",
+      "variant_rules": {
+        "live": "Favor the headline and keep most support in notes.",
+        "async": "Keep supporting evidence visible with source labels.",
+        "memo": "Expand the message into short explanatory prose."
+      }
+    }
+  ],
+  "generated_at": "2026-04-21T06:16:15Z"
+}

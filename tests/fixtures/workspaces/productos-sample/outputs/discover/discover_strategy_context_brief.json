@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "strategy_context_brief_id": "strategy_context_brief_productos_next_version_discover",
+  "workspace_id": "ws_productos_v2",
+  "title": "Strategy context brief: ProductOS next-version discover proof",
+  "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+  "context_summary": "ProductOS needs a reusable strategy spine before expanding discover depth so the next-version loop improves PM judgment rather than just drafting speed.",
+  "enterprise_goal_links": [
+    {
+      "goal_name": "First impatient customer credibility",
+      "goal_type": "growth",
+      "linkage_summary": "The next version should prove a strategy-ready discover wedge that a buyer can understand quickly.",
+      "success_signal": "time_to_strategy_ready_discovery_packet_hours"
+    }
+  ],
+  "portfolio_bets": [
+    {
+      "bet_name": "PM judgment amplifier",
+      "fit": "core",
+      "rationale": "The repo already has governed downstream structure, so the main gap is clearer strategic framing before problem and PRD work."
+    }
+  ],
+  "business_model_outcomes": [
+    {
+      "outcome_name": "Improve buyer confidence",
+      "outcome_type": "adoption",
+      "linkage_summary": "A sharper strategy packet should make ProductOS easier to explain, trust, and evaluate."
+    }
+  ],
+  "strategic_constraints": [
+    {
+      "constraint": "Keep the stable line and external claim boundary unchanged.",
+      "constraint_type": "governance",
+      "consequence": "The strategy slice must stay internal-first and should improve clarity without broadening claims."
+    },
+    {
+      "constraint": "Favor repo-native, reviewable standards over prompt-only behavior.",
+      "constraint_type": "technical",
+      "consequence": "Strategy logic needs explicit artifacts and traceable downstream references."
+    }
+  ],
+  "linked_artifact_ids": [
+    "idea_record_pm_status_automation"
+  ],
+  "open_questions": [
+    "Which strategy signals should be visible by default in the first PM-facing packet?"
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "other",
+      "source_id": "tests/fixtures/workspaces/productos-sample/inbox/raw-notes/2026-03-22-next-version-superpowers.md",
+      "justification": "The raw notes lock the must-win discover wedge and repo-first constraint: # Next Version Superpowers"
+    },
+    {
+      "source_type": "other",
+      "source_id": "tests/fixtures/workspaces/productos-sample/inbox/transcripts/2026-03-22-dogfood-next-version-session.txt",
+      "justification": "The transcript makes the release bar explicit: Speaker 2: The next version is only believable if the repo can turn messy notes and transcripts into a decision-ready package."
+    }
+  ],
+  "recommendation": "proceed_to_product_vision",
+  "created_at": "2026-04-21T10:00:00Z"
+}

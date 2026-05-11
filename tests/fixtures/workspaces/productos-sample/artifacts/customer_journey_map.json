@@ -1,0 +1,511 @@
+{
+  "schema_version": "1.0.0",
+  "customer_journey_map_id": "cjm_pm_operating_rhythm_automation_20260511",
+  "workspace_id": "ws_productos_v2",
+  "title": "B2B Product Teams \u2014 Customer Journey: PM operating rhythm automation Adoption",
+  "target_segment_ref": "segment_b2b_product_teams",
+  "target_persona_refs": [
+    "persona_product_manager"
+  ],
+  "journey_stages": [
+    {
+      "stage_id": "stage_unaware",
+      "stage_name": "unaware",
+      "stage_order": 1,
+      "emotion_score": 4,
+      "emotion_label": "neutral",
+      "drop_off_risk": "low",
+      "time_spent": "months to years",
+      "description": "Customer does not realize they have a problem that PM operating rhythm automation solves. They accept manual workarounds as normal.",
+      "persona_actions": [
+        "Continues existing manual workflow",
+        "Unaware of automation possibilities"
+      ],
+      "persona_thoughts": "This is just how work is done. Everyone I know operates this way.",
+      "touchpoints": [
+        "Peer conversations",
+        "Industry forums"
+      ],
+      "channels": [
+        "chat",
+        "social_media"
+      ],
+      "pain_points": [
+        "No awareness that PM operating rhythm automation can reduce manual overhead"
+      ],
+      "persons_involved": [
+        "Product Manager"
+      ]
+    },
+    {
+      "stage_id": "stage_aware",
+      "stage_name": "aware",
+      "stage_order": 2,
+      "emotion_score": 5,
+      "emotion_label": "neutral",
+      "drop_off_risk": "medium",
+      "time_spent": "2 to 3 days",
+      "description": "Customer sees a peer using PM operating rhythm automation and realizes their current workflow is inefficient. Initial curiosity triggered.",
+      "persona_actions": [
+        "Searches for {product} online",
+        "Asks peers for tool recommendations",
+        "Joins relevant communities"
+      ],
+      "persona_thoughts": "Wait, others solved this with PM operating rhythm automation? What am I missing?",
+      "touchpoints": [
+        "Peer shared link",
+        "Search results",
+        "Community post"
+      ],
+      "channels": [
+        "website",
+        "social_media",
+        "chat"
+      ],
+      "pain_points": [
+        "Hard to distinguish real capability from hype",
+        "No trusted source for comparison"
+      ],
+      "persons_involved": [
+        "Product Manager"
+      ]
+    },
+    {
+      "stage_id": "stage_research",
+      "stage_name": "research",
+      "stage_order": 3,
+      "emotion_score": 6,
+      "emotion_label": "satisfied",
+      "drop_off_risk": "high",
+      "time_spent": "1 to 2 weeks",
+      "description": "Customer actively evaluates 2-4 options including PM operating rhythm automation. Reads reviews, watches demos, asks for honest feedback.",
+      "persona_actions": [
+        "Reads review sites",
+        "Watches demo videos",
+        "Creates comparison spreadsheet",
+        "Asks peers for feedback"
+      ],
+      "persona_thoughts": "I need something that actually saves time \u2014 not another tool that adds overhead. The real test is output quality.",
+      "touchpoints": [
+        "Review sites",
+        "Demo videos",
+        "Peer feedback"
+      ],
+      "channels": [
+        "review_site",
+        "website",
+        "chat"
+      ],
+      "pain_points": [
+        "Inconsistent review quality",
+        "Demo videos show happy path only"
+      ],
+      "persons_involved": [
+        "Product Manager"
+      ]
+    },
+    {
+      "stage_id": "stage_consideration",
+      "stage_name": "consideration",
+      "stage_order": 4,
+      "emotion_score": 7,
+      "emotion_label": "satisfied",
+      "drop_off_risk": "high",
+      "time_spent": "1 to 2 weeks",
+      "description": "Customer narrows to 2 options including PM operating rhythm automation. Signs up for trial. Compares output quality against manual work.",
+      "persona_actions": [
+        "Signs up for trial",
+        "Generates first output",
+        "Compares side-by-side with manual work"
+      ],
+      "persona_thoughts": "This is the real test. If PM operating rhythm automation output is 80% as good as my manual work, I will recommend it. If below 60%, I will abandon.",
+      "touchpoints": [
+        "Trial workspace",
+        "Sample output comparison"
+      ],
+      "channels": [
+        "website",
+        "app"
+      ],
+      "pain_points": [
+        "Trial period too short to test full workflow",
+        "Output quality comparison is manual and subjective"
+      ],
+      "persons_involved": [
+        "Product Manager"
+      ]
+    },
+    {
+      "stage_id": "stage_decision",
+      "stage_name": "decision",
+      "stage_order": 5,
+      "emotion_score": 8,
+      "emotion_label": "satisfied",
+      "drop_off_risk": "medium",
+      "time_spent": "1 week",
+      "description": "Customer selects PM operating rhythm automation based on integration depth and evidence traceability. Prepares business case for approval.",
+      "persona_actions": [
+        "Drafts business case",
+        "Quantifies ROI",
+        "Presents recommendation to leadership",
+        "Requests security review"
+      ],
+      "persona_thoughts": "I am confident PM operating rhythm automation will save significant time. But I need to prove it with numbers leadership will believe.",
+      "touchpoints": [
+        "Business case document",
+        "Leadership meeting"
+      ],
+      "channels": [
+        "email",
+        "chat"
+      ],
+      "pain_points": [
+        "Need to quantify ROI for approval",
+        "Stakeholder-specific messaging requires separate documents"
+      ],
+      "persons_involved": [
+        "Product Manager"
+      ]
+    },
+    {
+      "stage_id": "stage_purchase",
+      "stage_name": "purchase",
+      "stage_order": 6,
+      "emotion_score": 5,
+      "emotion_label": "frustrated",
+      "drop_off_risk": "medium",
+      "time_spent": "3 to 4 weeks",
+      "description": "Procurement process begins: legal review, security questionnaire, compliance verification. Multiple processes in parallel.",
+      "persona_actions": [
+        "Submits purchase request",
+        "Fills security questionnaire",
+        "Coordinates legal review",
+        "Follows up on stuck steps"
+      ],
+      "persona_thoughts": "Why is this taking so long? The security questionnaire is extensive and vendor docs do not have pre-filled answers.",
+      "touchpoints": [
+        "Procurement system",
+        "Security questionnaire",
+        "Compliance documentation"
+      ],
+      "channels": [
+        "email",
+        "chat"
+      ],
+      "pain_points": [
+        "Security questionnaire is extensive \u2014 answers pulled manually from vendor docs",
+        "Legal review finds gaps in compliance documentation"
+      ],
+      "persons_involved": [
+        "Product Manager"
+      ]
+    },
+    {
+      "stage_id": "stage_onboarding",
+      "stage_name": "onboarding",
+      "stage_order": 7,
+      "emotion_score": 7,
+      "emotion_label": "satisfied",
+      "drop_off_risk": "high",
+      "time_spent": "1 to 2 weeks",
+      "description": "Customer sets up PM operating rhythm automation workspace. Ingests first documents. First output is promising but needs refinement.",
+      "persona_actions": [
+        "Configures workspace from template",
+        "Uploads first research files",
+        "Runs first generation",
+        "Reviews and edits first outputs"
+      ],
+      "persona_thoughts": "The first output is promising but not production-ready. I still need to rewrite about 30%. But the structure is there.",
+      "touchpoints": [
+        "Workspace setup wizard",
+        "First generated output",
+        "Support documentation"
+      ],
+      "channels": [
+        "app",
+        "chat",
+        "knowledge_base"
+      ],
+      "pain_points": [
+        "Learning curve steeper than expected",
+        "First output is too shallow \u2014 need to configure depth settings"
+      ],
+      "persons_involved": [
+        "Product Manager"
+      ]
+    },
+    {
+      "stage_id": "stage_adoption",
+      "stage_name": "adoption",
+      "stage_order": 8,
+      "emotion_score": 8,
+      "emotion_label": "delighted",
+      "drop_off_risk": "low",
+      "time_spent": "ongoing usage",
+      "description": "Customer integrates PM operating rhythm automation into weekly workflow. Auto-generated outputs save hours. Becomes dependent on the tool.",
+      "persona_actions": [
+        "Runs weekly auto-generation",
+        "Uses {product} for draft outputs",
+        "Configures monitoring for automated updates",
+        "Reviews and approves AI-generated outputs"
+      ],
+      "persona_thoughts": "I just saved 3 hours this week on routine tasks alone. The first draft was 70% there \u2014 I spent 2 hours refining instead of 10 building from scratch.",
+      "touchpoints": [
+        "Weekly auto-generated output",
+        "Draft documents",
+        "Monitoring alerts"
+      ],
+      "channels": [
+        "app",
+        "email"
+      ],
+      "pain_points": [
+        "Occasional output that feels AI-generated \u2014 needs rewriting",
+        "Still some manual cleanup needed for stakeholder-facing outputs"
+      ],
+      "persons_involved": [
+        "Product Manager"
+      ]
+    },
+    {
+      "stage_id": "stage_expansion",
+      "stage_name": "expansion",
+      "stage_order": 9,
+      "emotion_score": 9,
+      "emotion_label": "delighted",
+      "drop_off_risk": "low",
+      "time_spent": "ongoing expansion",
+      "description": "Customer brings teammates onto PM operating rhythm automation. Creates shared workspace. Team velocity improves \u2014 outputs now have consistent quality.",
+      "persona_actions": [
+        "Invites teammates to workspace",
+        "Configures team permissions",
+        "Trains team on workflow",
+        "Integrates into team planning"
+      ],
+      "persona_thoughts": "My team is getting up to speed faster. Outputs are less ambiguous. This is actually working at team scale.",
+      "touchpoints": [
+        "Team workspace",
+        "Shared artifacts",
+        "Knowledge base"
+      ],
+      "channels": [
+        "app",
+        "email"
+      ],
+      "pain_points": [
+        "Permission model needs work \u2014 teammates can accidentally modify canonical artifacts",
+        "Would like approval workflow for team contributions"
+      ],
+      "persons_involved": [
+        "Product Manager"
+      ]
+    },
+    {
+      "stage_id": "stage_advocacy",
+      "stage_name": "advocacy",
+      "stage_order": 10,
+      "emotion_score": 9,
+      "emotion_label": "delighted",
+      "drop_off_risk": "low",
+      "time_spent": "ongoing advocacy",
+      "description": "Customer recommends PM operating rhythm automation in professional communities. Writes reviews. Presents case studies internally. Becomes reference customer.",
+      "persona_actions": [
+        "Writes reviews on G2 and Capterra",
+        "Recommends in professional communities",
+        "Presents case study internally",
+        "Agrees to be a reference customer"
+      ],
+      "persona_thoughts": "I genuinely believe this makes teams better. I want others to experience the same leverage. Plus, bringing this to the team is good for my career.",
+      "touchpoints": [
+        "G2 review page",
+        "Professional communities",
+        "Internal presentation"
+      ],
+      "channels": [
+        "review_site",
+        "social_media",
+        "in_product"
+      ],
+      "pain_points": [
+        "No referral program or incentive for advocacy",
+        "No built-in case study template"
+      ],
+      "persons_involved": [
+        "Product Manager"
+      ]
+    },
+    {
+      "stage_id": "stage_renewal_or_churn",
+      "stage_name": "renewal_or_churn",
+      "stage_order": 11,
+      "emotion_score": 7,
+      "emotion_label": "neutral",
+      "drop_off_risk": "medium",
+      "time_spent": "1 to 2 weeks",
+      "description": "Annual renewal approaches. Customer evaluates if value delivered matches price. Reviews output quality trend and competitor landscape.",
+      "persona_actions": [
+        "Reviews annual usage metrics",
+        "Compares current output quality to baseline",
+        "Checks competitor landscape for alternatives",
+        "Makes renewal recommendation to leadership"
+      ],
+      "persona_thoughts": "PM operating rhythm automation saved me significant time this year. But a competitor just launched a similar tool at half the price. If promised features ship, I will renew. If not, I will evaluate alternatives.",
+      "touchpoints": [
+        "Usage analytics",
+        "Renewal pricing page",
+        "Competitor comparison"
+      ],
+      "channels": [
+        "email",
+        "app"
+      ],
+      "pain_points": [
+        "ROI quantification is manual \u2014 would like auto-generated value delivered report",
+        "Feature roadmap delivery is key renewal driver but visibility is limited"
+      ],
+      "persons_involved": [
+        "Product Manager"
+      ]
+    }
+  ],
+  "overall_emotion_curve": {
+    "overall_trend": "u_shaped",
+    "peak_emotion_stage": "expansion",
+    "valley_emotion_stage": "unaware",
+    "curve_description": "U-shaped journey: high satisfaction during evaluation and adoption, deep valley during procurement, recovery during onboarding and adoption."
+  },
+  "moments_of_truth": [
+    {
+      "moment_id": "mot_001",
+      "stage_id": "stage_consideration",
+      "description": "First generated output \u2014 customer compares quality against their manual work. If output is >80% parity, they proceed. If <60%, they abandon.",
+      "importance": "critical",
+      "current_performance": "adequate",
+      "improvement_needed": true
+    },
+    {
+      "moment_id": "mot_002",
+      "stage_id": "stage_purchase",
+      "description": "Security review questionnaire \u2014 if documentation is incomplete or compliance gaps exist, deal stalls for 2-4 weeks. Enterprise buyers may walk if gaps are material.",
+      "importance": "critical",
+      "current_performance": "weak",
+      "improvement_needed": true
+    },
+    {
+      "moment_id": "mot_003",
+      "stage_id": "stage_onboarding",
+      "description": "First 7 days of usage \u2014 customer needs to reach time-to-first-value within 1 week or adoption stalls.",
+      "importance": "high",
+      "current_performance": "adequate",
+      "improvement_needed": true
+    }
+  ],
+  "gap_analysis": {
+    "current_vs_ideal_summary": "Current journey: strong evaluation and long-term adoption, but procurement creates a valley that loses deals. Ideal journey: automated compliance packs reduce purchase stage friction.",
+    "critical_gaps": [
+      {
+        "gap_id": "gap_001",
+        "stage_id": "stage_purchase",
+        "description": "Security review documentation insufficient \u2014 enterprise buyers blocked on incomplete compliance information",
+        "impact_on_customer": "4-week delay in deployment. 15% drop-off during security review stage.",
+        "priority": "must_now"
+      },
+      {
+        "gap_id": "gap_002",
+        "stage_id": "stage_onboarding",
+        "description": "First output quality below customer expectation \u2014 requires significant manual rewriting before usable",
+        "impact_on_customer": "30% of trial users abandon after first output because rewrite effort exceeds expected time savings",
+        "priority": "next"
+      }
+    ],
+    "unmet_expectations": [
+      "Customer expected 'one-click deployment' after procurement \u2014 actual setup requires workspace configuration"
+    ]
+  },
+  "opportunities": [
+    {
+      "opportunity_id": "opp_001",
+      "title": "Auto-Generated Security Documentation",
+      "stage_id": "stage_purchase",
+      "description": "Generate compliance pack, security questionnaire answers, and architecture diagram automatically from product artifacts",
+      "potential_impact": "transformative",
+      "effort_estimate": "medium",
+      "linked_feature_concept": "compliance_automation"
+    },
+    {
+      "opportunity_id": "opp_002",
+      "title": "7-Day Onboarding Accelerator",
+      "stage_id": "stage_onboarding",
+      "description": "Pre-configured workspace template with guided workflow that produces first usable output by day 3",
+      "potential_impact": "significant",
+      "effort_estimate": "medium",
+      "linked_feature_concept": "onboarding_accelerator"
+    },
+    {
+      "opportunity_id": "opp_003",
+      "title": "ROI Value Report",
+      "stage_id": "stage_renewal_or_churn",
+      "description": "Auto-generated quarterly value report: hours saved, artifacts generated, leverage increase since adoption",
+      "potential_impact": "significant",
+      "effort_estimate": "low",
+      "linked_feature_concept": "roi_value_report"
+    }
+  ],
+  "competitive_journey_comparison": {
+    "competitor_id": "comp_default",
+    "competitor_name": "Generic Competitor",
+    "stages_compared": [
+      "research",
+      "consideration",
+      "purchase",
+      "onboarding"
+    ],
+    "our_advantage_stages": [
+      "research",
+      "consideration"
+    ],
+    "our_disadvantage_stages": [
+      "purchase",
+      "onboarding"
+    ],
+    "summary": "We lead in evaluation depth and output quality but lag in procurement friction and onboarding time-to-value."
+  },
+  "visual_map_spec": {
+    "title": "B2B Product Teams \u2014 Customer Journey: PM operating rhythm automation",
+    "stages_visible": 11,
+    "emotion_curve_visible": true,
+    "touchpoint_overlay": true,
+    "rendering_mode": "dashboard"
+  },
+  "source_evidence_refs": [
+    "source_note_card_app_review_jpd",
+    "source_note_card_jpd_ai_official_2026",
+    "source_note_card_semrush_eyeon_official_2026",
+    "source_note_card_asana_official_pm_visibility_2026",
+    "source_note_card_aha_knowledge_ai_official_2026",
+    "source_note_card_glean_agentic_engine_official_2026",
+    "source_note_card_openai_deep_research_official_2026",
+    "source_note_card_discover_market_validation_candidate_1",
+    "source_note_card_discover_competitor_research_candidate_2",
+    "source_note_card_linear_official_pm_visibility_2026",
+    "source_note_card_klue_compete_agent_official_2026",
+    "source_note_card_discover_customer_evidence_candidate_3",
+    "source_note_card_coda_ai_official_2026",
+    "source_note_card_aha_official_pm_visibility_2026",
+    "source_note_card_perplexity_deep_research_official_2026",
+    "source_note_card_linear_asks_official_2026",
+    "source_note_card_gemini_deep_research_official_2026",
+    "source_note_card_crayon_ci_official_2026",
+    "source_note_card_asana_ai_teammates_official_2026",
+    "source_note_card_consultant_ai_pm",
+    "source_note_card_monday_dev_official_pm_visibility_2026",
+    "source_note_card_notion_mcp_official_2026",
+    "source_note_card_clickup_official_pm_visibility_2026",
+    "source_note_card_jira_official_pm_visibility_2026",
+    "source_note_card_productboard_spark_official_pm_visibility_2026",
+    "source_note_card_productboard_spark_official_2026",
+    "source_note_card_problem_brief_productos_next_version_discover",
+    "source_note_card_jpd_official_pm_visibility_2026"
+  ],
+  "generated_at": "2026-05-11T11:15:39Z"
+}

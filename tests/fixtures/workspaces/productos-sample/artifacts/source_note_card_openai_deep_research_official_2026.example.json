@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_openai_deep_research_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://openai.com/index/deep-research/",
+  "title": "OpenAI Deep Research normalizes reviewable plans and citation-backed reports",
+  "claim": "OpenAI Deep Research is framed as a way to plan, research, and synthesize complex questions into documented reports with controllable sources, progress visibility, and citations.",
+  "source_snippet": "Describe the outcome, choose sources, review the plan, follow progress, and get a cited report.",
+  "implication": "ProductOS auto-research should expose source controls, plan previews, progress state, and evidence-linked output rather than opaque prompt execution.",
+  "confidence": "high",
+  "followup_questions": [
+    "Which ProductOS research modes need a plan preview versus a lightweight refresh path?"
+  ],
+  "source_metadata": {
+    "source_url": "https://openai.com/index/deep-research/",
+    "retrieved_at": "2026-03-21T09:03:00Z",
+    "source_slice_ref": "deep-research-overview",
+    "dedupe_key": "openai-deep-research-overview",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "openai-deep-research-overview",
+  "tags": ["research", "agentic", "openai", "deep-research"],
+  "created_at": "2026-03-21T09:04:00Z"
+}

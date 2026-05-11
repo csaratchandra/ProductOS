@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "regeneration_queue_id": "rq_productos-sample_20260322",
+  "workspace_id": "productos-sample",
+  "trigger_event": {
+    "event_type": "artifact_updated",
+    "source_artifact_ref": "artifacts/prd.json",
+    "change_summary": "test change"
+  },
+  "queued_items": [],
+  "dependency_sequence": [],
+  "status": "completed",
+  "pm_review_required": false,
+  "auto_executed_count": 0,
+  "pm_review_count": 0,
+  "generated_at": "2026-03-22T08:00:00Z"
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "customer_pulse_id": "customer_pulse_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "cadence": "monthly",
+  "reporting_period": {
+    "start_date": "2026-04-21",
+    "end_date": "2026-04-21"
+  },
+  "top_pain_points": [
+    {
+      "description": "PMs and operators still spend hours every week reconstructing what changed, what evidence matters, and what should happen next.",
+      "severity": "medium",
+      "frequency": "weekly",
+      "affected_segment": "segment b2b product teams",
+      "corroboration_status": "single_source_raw"
+    }
+  ],
+  "emerging_signals": [
+    "External customer evidence is now being normalized into governed research artifacts."
+  ],
+  "segment_health": [
+    {
+      "segment_name": "segment b2b product teams",
+      "health": "amber",
+      "trend": "stable"
+    }
+  ],
+  "signal_source_mix": [
+    {
+      "source_type": "research",
+      "signal_count": 1,
+      "confidence": "raw"
+    }
+  ],
+  "voice_of_customer_quotes": [
+    {
+      "quote": "PMs and operators still spend hours every week reconstructing what changed, what evidence matters, and what should happen next.",
+      "source": "Customer Signal",
+      "sentiment": "neutral"
+    }
+  ],
+  "source_artifact_ids": [
+    "research_notebook_ws_productos_v2",
+    "research_brief_ws_productos_v2_discover_seed",
+    "source_note_card_discover_customer_evidence_candidate_3"
+  ],
+  "generated_at": "2026-04-21T10:00:00Z"
+}

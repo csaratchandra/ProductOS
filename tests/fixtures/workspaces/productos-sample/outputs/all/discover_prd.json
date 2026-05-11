@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "prd_id": "prd_productos_next_version_discover",
+  "workspace_id": "ws_productos_v2",
+  "title": "PRD: ProductOS next-version discover superpower",
+  "problem_summary": "ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD package with minimal PM reconstruction.",
+  "outcome_summary": "Enable one PM to move from messy notes and transcripts to a same-day, reviewable PRD package with at most one material rewrite.",
+  "scope_summary": "Ingest live notes and transcripts, generate the next-version strategy context brief, product vision brief, market strategy brief, problem brief, concept brief, and PRD through the `productos` CLI, then score the slice and route the next priority into the improvement loop.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_productos_next_version_proof_gap"
+    },
+    {
+      "entity_type": "outcome",
+      "entity_id": "outcome_productos_same_day_prd_package"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opportunity_productos_discover_superpower"
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_productos_repo_first_discover_cli"
+    }
+  ],
+  "upstream_artifact_ids": [
+    "strategy_context_brief_productos_next_version_discover",
+    "product_vision_brief_productos_next_version_discover",
+    "market_strategy_brief_productos_next_version_discover",
+    "problem_brief_productos_next_version_discover",
+    "concept_brief_productos_next_version_discover"
+  ],
+  "generated_at": "2026-04-21T10:00:00Z"
+}

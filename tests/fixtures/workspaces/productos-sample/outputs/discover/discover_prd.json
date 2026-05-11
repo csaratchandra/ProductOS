@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.1.0",
+  "prd_id": "prd_productos_next_version_discover",
+  "workspace_id": "ws_productos_v2",
+  "title": "PRD: ProductOS next-version discover superpower",
+  "problem_summary": "ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD package with minimal PM reconstruction.",
+  "outcome_summary": "Enable one PM to move from messy notes and transcripts to a same-day, reviewable PRD package with at most one material rewrite.",
+  "scope_summary": "Ingest live notes and transcripts, generate the next-version strategy context brief, product vision brief, market strategy brief, problem brief, concept brief, and PRD through the `productos` CLI, then score the slice and route the next priority into the improvement loop.",
+  "strategic_context_summary": "The PRD should preserve the repo-first discover posture: prove same-day bounded artifact quality before ProductOS claims a broader autonomous PM surface.",
+  "value_hypothesis": "If ProductOS keeps the messy-input discover loop governed and traceable, one PM should be able to review the resulting package with far less reconstruction work.",
+  "target_outcomes": [
+    "Produce a same-day reviewable PRD package from messy notes and transcripts.",
+    "Keep the next-version discover claim bounded to repo-first artifact quality and PM trust."
+  ],
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_productos_next_version_proof_gap"
+    },
+    {
+      "entity_type": "outcome",
+      "entity_id": "outcome_productos_same_day_prd_package"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opportunity_productos_discover_superpower"
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_productos_repo_first_discover_cli"
+    }
+  ],
+  "upstream_artifact_ids": [
+    "strategy_context_brief_productos_next_version_discover",
+    "product_vision_brief_productos_next_version_discover",
+    "market_strategy_brief_productos_next_version_discover",
+    "problem_brief_productos_next_version_discover",
+    "concept_brief_productos_next_version_discover"
+  ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_productos_next_version_discover",
+  "artifact_trace_map_id": "artifact_trace_map_prd_productos_next_version_discover",
+  "ralph_status": "review_needed",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 87,
+    "confidence": "moderate",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "The PRD is the execution handoff that proves the next-version discover slice can become a repeatable repo-first control surface.",
+    "reviewer_handoff": "Design and engineering should review scope boundaries before ProductOS treats the discover packet as the default reference workflow."
+  },
+  "scope_boundaries": [
+    "Stay focused on same-day messy-input-to-PRD conversion through the repo-native CLI.",
+    "Do not broaden the slice into later lifecycle automation or unsupported autonomy claims."
+  ],
+  "out_of_scope": [
+    "Broad PM workflow automation beyond the discover packet.",
+    "Replacing incumbent PM systems as part of the next-version discover slice."
+  ],
+  "open_questions": [
+    "What minimum evidence and source freshness threshold should block package generation entirely?"
+  ],
+  "handoff_risks": [
+    "The slice will over-claim if downstream teams treat the PRD as proof of broader autonomous PM capability.",
+    "Story and scoring quality will drift if the repo-first traceability boundary is dropped from handoff."
+  ],
+  "generated_at": "2026-04-21T10:00:00Z"
+}

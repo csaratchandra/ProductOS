@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "strategy_context_brief_id": "strategy_context_brief_pm_superpower_recovery",
+  "workspace_id": "ws_productos_v2",
+  "title": "Strategy context brief: PM superpower recovery",
+  "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+  "context_summary": "ProductOS needs a sharper strategy spine before expanding discovery depth so the next-version work improves PM judgment rather than just adding more research outputs.",
+  "enterprise_goal_links": [
+    {
+      "goal_name": "First impatient customer credibility",
+      "goal_type": "growth",
+      "linkage_summary": "The next version should make ProductOS feel strategically coherent enough that a buyer can understand the product bet quickly.",
+      "success_signal": "Shorter time from mission intake to strategy-ready discovery packet."
+    }
+  ],
+  "portfolio_bets": [
+    {
+      "bet_name": "PM judgment amplifier",
+      "fit": "core",
+      "rationale": "The repo is already strong on governed execution, so the highest-leverage next bet is better framing and strategy quality upstream."
+    },
+    {
+      "bet_name": "Repo-native strategy memory",
+      "fit": "adjacent",
+      "rationale": "Capturing strategic context in-repo compounds discovery quality without broadening external claims."
+    }
+  ],
+  "business_model_outcomes": [
+    {
+      "outcome_name": "Improve ProductOS buyer confidence",
+      "outcome_type": "adoption",
+      "linkage_summary": "A clearer strategy spine should make ProductOS easier to explain, evaluate, and trust."
+    },
+    {
+      "outcome_name": "Preserve evidence-backed positioning",
+      "outcome_type": "strategic_position",
+      "linkage_summary": "The product should claim sharper PM judgment, not broader autonomy than the repo can prove."
+    }
+  ],
+  "strategic_constraints": [
+    {
+      "constraint": "Keep the stable line and external claim boundary unchanged.",
+      "constraint_type": "governance",
+      "consequence": "The slice must stay internal-first and should not depend on a new external product surface."
+    },
+    {
+      "constraint": "Favor repo-native, reviewable standards over prompt-only behavior.",
+      "constraint_type": "technical",
+      "consequence": "Strategy logic needs explicit contracts, workflow rules, and reference artifacts."
+    }
+  ],
+  "linked_artifact_ids": [
+    "mission_brief_ws_productos_v2_pm_superpower_recovery",
+    "market_analysis_brief_pm_ops",
+    "market_strategy_brief_pm_ops_challenger"
+  ],
+  "open_questions": [
+    "How much of the next customer buying signal depends on strategy clarity versus execution proof?"
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "mission",
+      "source_id": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+      "justification": "The mission defines the PM-facing problem and business goal for the next slice."
+    },
+    {
+      "source_type": "research",
+      "source_id": "market_analysis_brief_pm_ops",
+      "justification": "Market dynamics show that trusted judgment and traceability matter more than generic drafting acceleration alone."
+    }
+  ],
+  "recommendation": "proceed_to_product_vision",
+  "created_at": "2026-04-21T08:00:00Z"
+}

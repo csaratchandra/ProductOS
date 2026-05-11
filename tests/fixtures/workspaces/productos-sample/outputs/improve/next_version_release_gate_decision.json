@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "release_gate_decision_id": "release_gate_decision_ws_productos_v2_next_version",
+  "workspace_id": "ws_productos_v2",
+  "target_release": "v7_1_0",
+  "decision": "go",
+  "pm_benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "runtime_scenario_report_ref": "runtime_scenario_report_ws_productos_v2_adapter_parity",
+  "release_readiness_ref": "validation_lane_report_ws_productos_v2_next_version_completion",
+  "rationale": "The bounded next-version baseline now clears the eval and truthfulness gate, so the release hardening slice is ready to act as the supervised external-release core.",
+  "next_action": "Keep the current baseline stable and use this gate artifact as the persisted scoring reference for future improve runs.",
+  "known_gaps": [
+    "No bounded-baseline gate blockers remain; keep future expansion scoped and evidence-backed."
+  ],
+  "blocker_categories": {
+    "feed_governance_blockers": [],
+    "governed_research_blockers": [],
+    "other_blockers": []
+  },
+  "deferred_items": [
+    "External autonomous PM and swarm claims remain out of scope for V7.1, even while the internal governed swarm plan continues to harden.",
+    "External publishing and generalized market-intelligence expansion stay deferred until after the PM superpower core is proven."
+  ],
+  "generated_at": "2026-03-22T08:00:00Z"
+}

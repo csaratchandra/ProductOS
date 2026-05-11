@@ -1,0 +1,6 @@
+workspace_id: ws_platform_modernization
+name: Platform Modernization
+mode: enterprise
+active_increment_id: pi_platform_modernization_01
+artifact_paths: []
+feedback_paths: []

@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "productos"
+version = "12.0.0"
+description = "Repo-native PM operating system with agent-friendly CLI surfaces."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "ProductOS" }
+]
+dependencies = [
+  "Jinja2>=3.1",
+  "jsonschema>=4.0",
+  "PyYAML>=6.0",
+]
+
+[project.scripts]
+productos = "scripts.productos:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["core*", "components*", "scripts*"]
+
+[tool.setuptools.package-data]
+"*" = [
+  "*.json",
+  "*.yaml",
+  "*.yml",
+  "*.md",
+  "*.jinja2",
+  "*.html",
+  "*.txt"
+]

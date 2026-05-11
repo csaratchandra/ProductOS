@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "market_strategy_brief_id": "market_strategy_brief_pm_superpower_recovery",
+  "workspace_id": "ws_productos_v2",
+  "title": "Market strategy brief: PM strategy and discovery challenger posture",
+  "strategy_question": "How should ProductOS win in AI-assisted PM operating systems while improving strategy judgment before expanding broader automation?",
+  "category_definition": "AI-assisted PM operating systems that help teams move from evidence and decisions to strategy-ready execution with less reconstruction.",
+  "category_maturity": "growing",
+  "strategic_posture": "challenger",
+  "market_role_goal": "Beat broad work platforms on traceability, decision quality, and PM-specific strategy framing rather than on generic workspace breadth.",
+  "target_market_scope": "B2B product teams that already feel recurring planning, discovery, and delivery reconstruction costs and want a PM-specific operating layer.",
+  "beachhead_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "priority_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "buyer_archetype_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "operator_archetype_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "competitive_reference_set": [
+    "Broad PM platforms",
+    "Execution suites",
+    "Internal PM templates and docs",
+    "Status quo manual reconstruction"
+  ],
+  "offering_definition": "A strategy and workflow layer that turns fragmented PM state into traceable, reviewable operating outputs and decision packets.",
+  "offering_type": "decision_layer",
+  "positioning_statement": "For PM teams that already have tools but still rebuild context by hand, ProductOS is the PM operating layer that makes strategy, evidence, and downstream artifacts traceable enough to trust.",
+  "value_wedge": "PM-specific traceability and strategy-ready workflow memory.",
+  "right_to_win": "ProductOS already combines structured artifacts, validation, and workflow state in a way broad work suites do not center.",
+  "proof_requirements": [
+    "PMs can move from mission to strategy-ready problem framing without reopening raw source notes",
+    "The system preserves explicit evidence links when strategy is carried into downstream problem framing",
+    "The strategy spine sharpens judgment without broadening autonomous PM claims"
+  ],
+  "pricing_packaging_hypothesis": "Team-based SaaS pricing with a premium tier for governance, validation, and cross-workspace strategy support.",
+  "gtm_motion": "Land with PM leaders or product ops teams that already feel recurring coordination and strategy reconstruction drag.",
+  "expansion_path": "Start with strategy-ready discovery and PM operating rhythm, then expand into richer validation, memory, and delivery planning.",
+  "key_risks": [
+    "Buyers may still overweight visible output automation over strategic coherence",
+    "Broad work suites may copy the visible strategy packet without the same traceability depth"
+  ],
+  "linked_artifact_ids": [
+    "strategy_context_brief_pm_superpower_recovery",
+    "product_vision_brief_pm_superpower_recovery",
+    "market_analysis_brief_pm_lifecycle_visibility"
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "research",
+      "source_id": "market_analysis_brief_pm_lifecycle_visibility",
+      "justification": "The existing market analysis shows an opening for trusted PM operating systems rather than generic drafting acceleration."
+    },
+    {
+      "source_type": "other",
+      "source_id": "product_vision_brief_pm_superpower_recovery",
+      "justification": "The product vision clarifies the near-term goal, differentiation, and north-star logic that the challenger posture must support."
+    }
+  ],
+  "open_questions": [
+    "Which part of the wedge should be most visible in the first PM-facing strategy packet?"
+  ],
+  "recommendation": "commit_posture",
+  "created_at": "2026-04-21T08:30:00Z"
+}

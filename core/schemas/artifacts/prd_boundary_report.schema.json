@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://productos.dev/schemas/artifacts/prd_boundary_report.schema.json",
   "title": "ProductOS PRD Boundary Report",
-  "description": "Reports on PRD scope boundary quality with scoring, flagged items, and suggested fixes.",
+  "description": "Deterministic report validating whether PRD out-of-scope boundaries are explicit enough for downstream execution.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -11,93 +11,49 @@
     "workspace_id",
     "prd_ref",
     "score",
-    "specificity_score",
-    "coverage_score",
-    "alignment_score",
+    "score_breakdown",
     "flagged_boundaries",
     "suggested_fixes",
     "approval_status",
     "generated_at"
   ],
   "properties": {
-    "schema_version": {
-      "type": "string",
-      "const": "1.0.0"
-    },
-    "prd_boundary_report_id": {
-      "type": "string",
-      "minLength": 1
-    },
-    "workspace_id": {
-      "type": "string",
-      "minLength": 1
-    },
-    "prd_ref": {
-      "type": "string",
-      "minLength": 1
-    },
-    "score": {
-      "type": "integer",
-      "minimum": 1,
-      "maximum": 10
-    },
-    "specificity_score": {
-      "type": "integer",
-      "minimum": 1,
-      "maximum": 10
-    },
-    "coverage_score": {
-      "type": "integer",
-      "minimum": 1,
-      "maximum": 10
-    },
-    "alignment_score": {
-      "type": "integer",
-      "minimum": 1,
-      "maximum": 10
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "prd_boundary_report_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "prd_ref": { "type": "string", "minLength": 1 },
+    "score": { "type": "number", "minimum": 0, "maximum": 10 },
+    "score_breakdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["specificity", "coverage", "alignment"],
+      "properties": {
+        "specificity": { "type": "number", "minimum": 0, "maximum": 10 },
+        "coverage": { "type": "number", "minimum": 0, "maximum": 10 },
+        "alignment": { "type": "number", "minimum": 0, "maximum": 10 }
+      }
     },
     "flagged_boundaries": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["boundary_text", "flag_reason", "severity"],
+        "additionalProperties": false,
+        "required": ["boundary", "issue", "suggested_fix"],
         "properties": {
-          "boundary_text": {
-            "type": "string",
-            "minLength": 1
-          },
-          "flag_reason": {
-            "type": "string",
-            "minLength": 3
-          },
-          "severity": {
-            "type": "string",
-            "enum": ["minor", "moderate", "critical"]
-          },
-          "suggested_replacement": {
-            "type": "string"
-          }
+          "boundary": { "type": "string", "minLength": 1 },
+          "issue": { "type": "string", "minLength": 1 },
+          "suggested_fix": { "type": "string", "minLength": 1 }
         }
       }
     },
     "suggested_fixes": {
       "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 3
-      }
+      "items": { "type": "string", "minLength": 1 }
     },
     "approval_status": {
       "type": "string",
       "enum": ["approved", "needs_revision", "blocked"]
     },
-    "maturity_band": {
-      "type": "string",
-      "enum": ["zero_to_one", "one_to_ten", "ten_to_hundred", "hundred_to_thousand_plus"]
-    },
-    "generated_at": {
-      "type": "string",
-      "format": "date-time"
-    }
+    "generated_at": { "type": "string", "format": "date-time" }
   }
 }

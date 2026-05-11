@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "meeting_record_id": "meeting_2026_03_19_leadership_review",
+  "workspace_id": "ws_productos_v2",
+  "meeting_type": "leadership_update",
+  "title": "Leadership review on ProductOS PM workflow scope",
+  "scheduled_at": "2026-03-19T15:30:00Z",
+  "transcript_reference": "transcript_2026_03_19_leadership_review",
+  "agenda_items": [
+    "Review ProductOS blueprint changes",
+    "Confirm current increment scope",
+    "Discuss PM status automation priorities"
+  ],
+  "summary": "Leadership aligned on focusing the next increment on PM operating rhythm automation and requested bi-weekly status mail support.",
+  "decisions": [
+    "Make bi-weekly status mail a first-class ProductOS output.",
+    "Prioritize issue logs and transcript-derived next steps ahead of broader meeting automation."
+  ],
+  "action_items": [
+    {
+      "description": "Add status mail, issue log, and meeting record schemas.",
+      "owner": "ProductOS PM",
+      "due_date": "2026-03-20"
+    }
+  ],
+  "open_questions": [
+    "What minimum PM input is required when system records are incomplete?"
+  ],
+  "issues_raised": [
+    "PMs risk becoming manual communication routers when status cadence is not automated."
+  ]
+}

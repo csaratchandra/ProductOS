@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "research_notebook_id": "research_notebook_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "Research notebook: PM lifecycle visibility and traceability",
+  "research_question": "How should ProductOS help a PM inspect one opportunity across discovery stages, gates, artifacts, and downstream readiness better than current PM and execution tools?",
+  "source_note_card_ids": [
+    "source_note_card_productboard_spark_official_pm_visibility_2026",
+    "source_note_card_jpd_official_pm_visibility_2026",
+    "source_note_card_linear_official_pm_visibility_2026",
+    "source_note_card_aha_official_pm_visibility_2026",
+    "source_note_card_jira_official_pm_visibility_2026",
+    "source_note_card_asana_official_pm_visibility_2026",
+    "source_note_card_monday_dev_official_pm_visibility_2026",
+    "source_note_card_clickup_official_pm_visibility_2026"
+  ],
+  "synthesis_hypothesis": "The winning V5 wedge is not another PM drafting assistant. It is an item-first lifecycle trace that preserves what happened, why it passed, and what is ready next.",
+  "ordered_sections": [
+    "pm lifecycle tool patterns",
+    "execution system baselines",
+    "traceability gaps",
+    "v5 implication"
+  ],
+  "open_questions": [
+    "How much delivery-stage structure should be standardized in V5.1 versus left flexible for workspace-specific adoption?"
+  ],
+  "created_at": "2026-03-23T09:35:00Z"
+}

@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.2.0",
+  "story_pack_id": "story_pack_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "Story Pack: lifecycle traceability delivery slice",
+  "feature_id": "feature_item_lifecycle_traceability",
+  "source_prd_id": "prd_pm_lifecycle_visibility",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_product_led_scaleups"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    }
+  ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_pm_lifecycle_visibility",
+  "artifact_trace_map_id": "artifact_trace_map_story_pack_pm_lifecycle_visibility",
+  "ralph_status": "review_needed",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 80,
+    "confidence": "moderate",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "The story pack is the bounded delivery handoff that proves the lifecycle slice can move past PRD handoff without losing its traceability discipline.",
+    "reviewer_handoff": "Engineering and QA should confirm the stories are specific enough to implement without inventing post-release scope."
+  },
+  "delivery_burden_summary": "The slice is bounded to story planning, acceptance readiness, and release readiness, but it still depends on clean linked artifacts and explicit deferred-stage messaging.",
+  "ambiguity_notes": [
+    "The delivery trace should remain item-first and not expand into a broad multi-item planning model.",
+    "Launch preparation and outcome review must stay visibly deferred."
+  ],
+  "stories": [
+    {
+      "story_id": "story_extend_item_trace_into_delivery",
+      "title": "Extend the item trace into delivery and release readiness",
+      "narrative": "As a PM, I want ProductOS to keep one canonical item trace through story planning, acceptance readiness, and release readiness so I can inspect downstream readiness without rebuilding the story manually.",
+      "story_type": "user_story",
+      "priority": "must",
+      "testability_notes": [
+        "The trace should preserve the originating PRD, linked opportunity, and lifecycle snapshots.",
+        "The delivery slice should explicitly show what is deferred beyond release readiness."
+      ],
+      "implementation_context_refs": [
+        {
+          "context_type": "markdown",
+          "title": "Lifecycle Trace Delivery Handoff",
+          "path": "tests/fixtures/workspaces/productos-sample/docs/delivery/lifecycle-release-readiness-review.md",
+          "summary": "Delivery-boundary notes and release-readiness expectations for the bounded V6 lifecycle slice."
+        }
+      ],
+      "linked_entity_refs": [
+        {
+          "entity_type": "persona",
+          "entity_id": "persona_pm_operator"
+        },
+        {
+          "entity_type": "feature",
+          "entity_id": "feature_item_lifecycle_traceability"
+        },
+        {
+          "entity_type": "outcome",
+          "entity_id": "outcome_pm_end_to_end_traceability"
+        },
+        {
+          "entity_type": "opportunity",
+          "entity_id": "opp_pm_lifecycle_traceability"
+        }
+      ]
+    }
+  ]
+}

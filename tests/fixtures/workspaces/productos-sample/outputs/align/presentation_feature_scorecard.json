@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0.0",
+  "feature_scorecard_id": "feature_scorecard_ws_productos_v2_presentation_superpower",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "presentation_superpower",
+  "feature_name": "PRD to deck and executive story",
+  "loop_id": "decision_to_stakeholder_alignment",
+  "status": "reviewed",
+  "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "validation_tier": "tier_3",
+  "scenarios": [
+    {
+      "scenario_id": "scn_presentation_bundle_generation",
+      "title": "Generate the promoted docs-and-deck package from the repo baseline",
+      "scenario_type": "dogfood_run",
+      "result": "passed",
+      "summary": "The presentation package now reuses persisted story, render, and publish outputs as the governed docs-and-deck path from PRD to stakeholder-ready communication.",
+      "evidence_refs": [
+        "presentation_brief_ws_productos_v2_v4_comm",
+        "validation_lane_report_ws_productos_v2_next_version_completion"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "presentation_brief_ws_productos_v2_v4_comm",
+    "presentation_story_presentation_brief_ws_productos_v2_v4_comm",
+    "render_spec_presentation_brief_ws_productos_v2_v4_comm",
+    "publish_check_presentation_brief_ws_productos_v2_v4_comm_html",
+    "presentation_pattern_review_ws_productos_v2_v4_comm_atlas",
+    "validation_lane_report_ws_productos_v2_next_version_completion",
+    "manual_validation_record_ws_productos_v2_next_version_completion",
+    "eval_run_report_ws_productos_v2_bounded_baseline"
+  ],
+  "provenance_classification": "real",
+  "score_basis": [
+    "persisted_presentation_outputs",
+    "presentation_bundle",
+    "manual_validation",
+    "frozen_eval_suite"
+  ],
+  "truthfulness_summary": "The presentation slice now scores from persisted story, render, and publish artifacts, so stakeholder communication can be treated as a real governed output rather than a bundle-local narration.",
+  "context_pack_ref": "context_pack_ws_productos_v2_bounded_baseline",
+  "eval_run_ref": "eval_run_report_ws_productos_v2_bounded_baseline",
+  "dimension_scores": [
+    {
+      "dimension_key": "pm_leverage",
+      "score": 5,
+      "rationale": "The repo now packages the approved PRD and doc bundle into a stakeholder-ready deck without a separate PM slide-building pass.",
+      "evidence_refs": [
+        "presentation_story_presentation_brief_ws_productos_v2_v4_comm",
+        "render_spec_presentation_brief_ws_productos_v2_v4_comm"
+      ]
+    },
+    {
+      "dimension_key": "output_quality",
+      "score": 5,
+      "rationale": "The story, render spec, and audience policy now act as the promoted next-version deck path for the reference workspace.",
+      "evidence_refs": [
+        "presentation_pattern_review_ws_productos_v2_v4_comm_atlas",
+        "manual_validation_record_ws_productos_v2_next_version_completion"
+      ]
+    },
+    {
+      "dimension_key": "reliability",
+      "score": 5,
+      "rationale": "Publish checks, export planning, and the bounded completion gate now all agree the deck path is stable for the promoted baseline.",
+      "evidence_refs": [
+        "publish_check_presentation_brief_ws_productos_v2_v4_comm_html",
+        "validation_lane_report_ws_productos_v2_next_version_completion"
+      ]
+    },
+    {
+      "dimension_key": "autonomy_quality",
+      "score": 5,
+      "rationale": "The aligned path keeps the right manual approval boundary while still behaving like a real PM superpower inside the repo.",
+      "evidence_refs": [
+        "presentation_sample_record_ws_productos_v2_v4_comm_atlas",
+        "manual_validation_record_ws_productos_v2_next_version_completion"
+      ]
+    },
+    {
+      "dimension_key": "repeatability",
+      "score": 5,
+      "rationale": "The same governed docs-and-deck path now ships as part of the repeatable next-version baseline rather than a one-off communication proof.",
+      "evidence_refs": [
+        "presentation_pattern_review_ws_productos_v2_v4_comm_atlas",
+        "ppt_export_plan_render_spec_presentation_brief_ws_productos_v2_v4_comm"
+      ]
+    }
+  ],
+  "overall_score": 5,
+  "adoption_recommendation": "promote_as_standard",
+  "reviewer_verdict": {
+    "status": "pass",
+    "summary": "The presentation package is now backed by persisted story, render, and publish artifacts and can count as the governed communication standard for the bounded baseline.",
+    "evidence_refs": [
+      "presentation_brief_ws_productos_v2_v4_comm",
+      "presentation_story_presentation_brief_ws_productos_v2_v4_comm"
+    ]
+  },
+  "tester_verdict": {
+    "status": "pass",
+    "summary": "Generation and publish checks now validate against persisted presentation artifacts, so the docs-and-deck path clears the bounded proof bar.",
+    "evidence_refs": [
+      "presentation_brief_ws_productos_v2_v4_comm",
+      "presentation_story_presentation_brief_ws_productos_v2_v4_comm"
+    ]
+  },
+  "manual_verdict": {
+    "status": "accept",
+    "summary": "Keep using the persisted story, render, and publish artifacts as the standard communication proof path.",
+    "evidence_refs": [
+      "manual_validation_record_ws_productos_v2_next_version_completion",
+      "eval_run_report_ws_productos_v2_bounded_baseline"
+    ]
+  },
+  "blocked_by": [],
+  "feedback_items": [],
+  "next_action": "Keep the persisted docs-and-deck outputs as the standard communication proof path and refresh them after meaningful product changes.",
+  "generated_at": "2026-03-22T08:00:00Z"
+}

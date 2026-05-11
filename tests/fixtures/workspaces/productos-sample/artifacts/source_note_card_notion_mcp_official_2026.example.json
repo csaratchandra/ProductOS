@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_notion_mcp_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://www.notion.com/help/notion-mcp",
+  "title": "Notion MCP exposes a real-time context bridge for external AI tools",
+  "claim": "Notion MCP is framed as a direct bridge that lets AI tools read and write workspace pages in real time, with context-aware access designed for agents.",
+  "source_snippet": "MCP connects external AI tools directly to the Notion workspace in real time.",
+  "implication": "ProductOS should think beyond native prompts and support explicit tool-facing context access with strong source boundaries.",
+  "confidence": "high",
+  "followup_questions": [
+    "Should ProductOS expose a retrieval-only mode before it exposes write access to external agents?"
+  ],
+  "source_metadata": {
+    "source_url": "https://www.notion.com/help/notion-mcp",
+    "retrieved_at": "2026-03-21T08:53:00Z",
+    "source_slice_ref": "mcp-overview",
+    "dedupe_key": "notion-mcp-overview",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "notion-mcp-overview",
+  "tags": ["research", "indirect", "notion", "mcp"],
+  "created_at": "2026-03-21T08:54:00Z"
+}

@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0.0",
+  "market_strategy_brief_id": "market_strategy_brief_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "Market strategy brief: PM lifecycle visibility challenger posture",
+  "strategy_question": "How should ProductOS win in PM lifecycle visibility without trying to out-feature the broadest PM or execution platforms?",
+  "category_definition": "PM lifecycle visibility systems that connect discovery, decision, delivery, and readiness artifacts into a readable item narrative.",
+  "category_maturity": "growing",
+  "strategic_posture": "challenger",
+  "market_role_goal": "Challenge incumbent PM and execution tools by owning lifecycle explanation and evidence continuity rather than generic project breadth.",
+  "target_market_scope": "Product-led scaleups and enterprise PM organizations that already have tools but still cannot explain what happened to an item end to end.",
+  "strategy_context_ref": "strategy_context_brief_pm_lifecycle_visibility",
+  "product_vision_ref": "product_vision_brief_pm_lifecycle_visibility",
+  "market_analysis_ref": "market_analysis_brief_pm_lifecycle_visibility",
+  "competitor_dossier_ref": "competitor_dossier_pm_lifecycle_visibility",
+  "strategy_option_set_ref": "strategy_option_set_pm_lifecycle_visibility",
+  "beachhead_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_product_led_scaleups"
+    }
+  ],
+  "priority_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_ops_lead"
+    }
+  ],
+  "buyer_archetype_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_ops_lead"
+    }
+  ],
+  "operator_archetype_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    }
+  ],
+  "competitive_reference_set": [
+    "PM discovery platforms",
+    "Execution systems of record",
+    "General work management tools",
+    "Status quo multi-tool reconstruction"
+  ],
+  "offering_definition": "An item-first lifecycle trace layer that explains stage progress, evidence, and handoffs across the PM workflow.",
+  "offering_type": "decision_layer",
+  "positioning_statement": "For PM teams that can see activity but not the full story, ProductOS is the lifecycle visibility layer that makes one item explainable from discovery through readiness.",
+  "value_wedge": "Item-first traceability and stage-gate evidence continuity.",
+  "right_to_win": "ProductOS already structures artifacts, validation, and lifecycle state as first-class primitives instead of optional conventions.",
+  "critical_assumptions": [
+    "Teams will value explanation quality enough to add a lifecycle layer alongside incumbent execution systems",
+    "Lifecycle traceability can be demonstrated before broader PM platform breadth becomes a buying requirement"
+  ],
+  "proof_requirements": [
+    "PMs can understand the current item story faster than in incumbent tools",
+    "Lifecycle state stays believable when linked artifacts and validation are visible together",
+    "The system can sit alongside existing execution tools"
+  ],
+  "proof_plan": [
+    {
+      "claim": "Lifecycle explanation is the right wedge",
+      "proof_requirement": "PMs can explain an item's current state faster than in incumbent tools",
+      "validation_signal": "User review confirms lower reconstruction effort in side-by-side workflow tests",
+      "owner": "PM"
+    },
+    {
+      "claim": "The lifecycle layer can coexist with execution systems",
+      "proof_requirement": "ProductOS can link to existing delivery tools without requiring platform replacement",
+      "validation_signal": "Teams keep current execution systems while using ProductOS for lifecycle explanation",
+      "owner": "PM + Engineering"
+    }
+  ],
+  "pricing_packaging_hypothesis": "Premium PM operating layer priced above simple doc tooling but below full platform replacement.",
+  "gtm_motion": "Land with PM leaders and product ops teams that need audit-ready lifecycle visibility, then expand into adjacent operating workflows.",
+  "expansion_path": "Start with discovery and PRD traceability, then grow into delivery, release, and portfolio intelligence.",
+  "key_risks": [
+    "Incumbents can imitate surface-level timelines quickly",
+    "Buyers may still default to familiar execution tools unless the explanatory advantage is obvious"
+  ],
+  "rejected_paths": [
+    {
+      "path_name": "Compete as the broadest all-in-one PM suite",
+      "rejection_reason": "The current advantage is in explanation quality and lifecycle discipline, not broad workspace breadth."
+    }
+  ],
+  "decision_readiness": "decision_ready",
+  "claim_confidence": "high",
+  "review_status": "commit_ready",
+  "linked_artifact_ids": [
+    "strategy_context_brief_pm_lifecycle_visibility",
+    "product_vision_brief_pm_lifecycle_visibility",
+    "strategy_option_set_pm_lifecycle_visibility",
+    "segment_map_pm_lifecycle_visibility",
+    "competitor_dossier_pm_lifecycle_visibility",
+    "market_analysis_brief_pm_lifecycle_visibility"
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "research",
+      "source_id": "competitor_dossier_pm_lifecycle_visibility",
+      "justification": "The competitor set shows strong planning and execution surfaces but weaker end-to-end lifecycle explanation."
+    },
+    {
+      "source_type": "research",
+      "source_id": "market_analysis_brief_pm_lifecycle_visibility",
+      "justification": "Market dynamics show trust and explainability rising as AI accelerates output generation."
+    }
+  ],
+  "open_questions": [
+    "Which buyer feels the explanatory pain first: PM leader, PM operator, or product ops lead?"
+  ],
+  "recommendation": "commit_posture",
+  "created_at": "2026-03-23T10:00:00Z"
+}

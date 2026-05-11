@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.1.0",
+  "problem_brief_id": "problem_brief_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "Problem brief: PM lifecycle visibility gap",
+  "problem_summary": "PMs can see pieces of discovery and delivery in existing tools, but they still lack a single item narrative that explains stages passed, artifacts created, personas served, and downstream readiness.",
+  "strategic_fit_summary": "This problem supports a challenger posture because it attacks a real gap in incumbent PM and execution tools without requiring ProductOS to out-bundle them on every workflow.",
+  "posture_alignment": "challenger",
+  "why_this_problem_now": "AI-assisted artifact creation is making explanation and trust gaps more visible as output speed rises.",
+  "why_this_problem_for_this_segment": "Scaleups and enterprise PM organizations feel the cost of fragmented lifecycle explanation because reviews, planning, and governance already span multiple tools and teams.",
+  "problem_severity": {
+    "customer_pain": "high",
+    "workflow_frequency": "high",
+    "evidence_strength": "high",
+    "severity_rationale": "The lifecycle explanation gap shows up repeatedly in reviews, planning, and delivery handoffs, and the current evidence spine is already strong."
+  },
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_product_led_scaleups"
+    },
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_enterprise_platform_pm_orgs"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_group_pm"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_ops_lead"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_pm_discovery_visibility_gap"
+    },
+    {
+      "entity_type": "outcome",
+      "entity_id": "outcome_pm_end_to_end_traceability"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opp_pm_lifecycle_traceability"
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_item_lifecycle_traceability"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "research",
+      "source_id": "research_notebook_pm_lifecycle_visibility",
+      "justification": "The notebook shows that current tools either centralize work or accelerate output, but do not make the full item story auditable."
+    },
+    {
+      "source_type": "research",
+      "source_id": "competitor_dossier_pm_lifecycle_visibility",
+      "justification": "The mixed competitor set confirms that lifecycle explanation is weaker than planning or execution visibility."
+    },
+    {
+      "source_type": "research",
+      "source_id": "market_analysis_brief_pm_lifecycle_visibility",
+      "justification": "Market dynamics show trust and explainability becoming more important as AI output accelerates."
+    }
+  ],
+  "upstream_artifact_ids": [
+    "research_notebook_pm_lifecycle_visibility",
+    "segment_map_pm_lifecycle_visibility",
+    "persona_pack_pm_lifecycle_visibility",
+    "market_strategy_brief_pm_lifecycle_visibility"
+  ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_pm_lifecycle_visibility",
+  "artifact_trace_map_id": "trace_map_problem_brief_pm_lifecycle_visibility",
+  "ralph_status": "decision_ready",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 92,
+    "confidence": "high",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "This is the core problem that unlocks the lifecycle-traceability slice and should block downstream delivery claims until it is explicit.",
+    "reviewer_handoff": "PM should confirm the problem framing is strong enough to unlock PRD and story planning without reopening the research packet."
+  },
+  "handoff_readiness_summary": "The problem brief carries the current segment, persona, evidence, and opportunity truth strongly enough for bounded downstream execution.",
+  "recommended_next_step": "prd",
+  "created_at": "2026-03-23T10:05:00Z"
+}

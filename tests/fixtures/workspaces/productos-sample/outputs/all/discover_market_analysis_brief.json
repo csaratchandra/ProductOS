@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "market_analysis_brief_id": "market_analysis_brief_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "title": "Market analysis brief: Research Brief: ProductOS next-version discover proof",
+  "market_name": "segment b2b product teams",
+  "research_scope": "Bounded external market refresh from explicitly selected sources.",
+  "category_structure": [
+    "Incumbent workflow and revenue-cycle tools compete through familiar category language.",
+    "Governed workflow-control positioning requires sharper proof and launch-lane specificity than generic platform narratives."
+  ],
+  "category_summary": "Workflow Proof Market Note Buyers increasingly expect measurable rollout proof, explicit workflow controls, and visible approval boundaries before they trust AI-assisted PM systems. RivalFlow Competitor Overview Rival...",
+  "trend_summary": "RivalFlow Competitor Overview RivalFlow emphasizes automation breadth and all-in-one workflow coverage for PM teams. They want clearer queue ownership, fewer manual follow-up loops, and evidence they can reuse instead...",
+  "market_dynamics": [
+    "Workflow Proof Market Note Buyers increasingly expect measurable rollout proof, explicit workflow controls, and visible approval boundaries before they trust...",
+    "RivalFlow Competitor Overview RivalFlow emphasizes automation breadth and all-in-one workflow coverage for PM teams."
+  ],
+  "power_centers": [
+    "PMs, operators, and workflow owners control whether the wedge feels specific enough to trust."
+  ],
+  "adoption_barriers": [
+    "External buyer evidence is still needed to validate the current strategy-to-problem chain.",
+    "Reusable source note cards do not yet exist for this discover packet."
+  ],
+  "switching_costs": [
+    "Incumbent workflow habits and vendor familiarity create real switching friction."
+  ],
+  "market_role_implications": [
+    "ProductOS should lead with a governed launch lane and explicit evidence posture rather than a broad platform promise."
+  ],
+  "key_uncertainties": [
+    "External buyer evidence is still needed to validate the current strategy-to-problem chain.",
+    "Reusable source note cards do not yet exist for this discover packet."
+  ],
+  "source_artifact_ids": [
+    "research_notebook_ws_productos_v2",
+    "research_brief_ws_productos_v2_discover_seed",
+    "source_note_card_discover_market_validation_candidate_1",
+    "source_note_card_discover_competitor_research_candidate_2"
+  ],
+  "last_refreshed_at": "2026-04-21T10:00:00Z",
+  "created_at": "2026-04-21T10:00:00Z"
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0.0",
+  "feature_scorecard_id": "feature_scorecard_ws_productos_v2_self_improvement_loop",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "self_improvement_loop",
+  "feature_name": "Self-improvement and scoring loop",
+  "loop_id": "feedback_to_accepted_improvement",
+  "status": "reviewed",
+  "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "validation_tier": "tier_2",
+  "scenarios": [
+    {
+      "scenario_id": "scn_sub_five_features_route_to_improvement",
+      "title": "Route sub-5 features into the improvement loop",
+      "scenario_type": "dogfood_run",
+      "result": "passed",
+      "summary": "Feature scoring now reuses a persisted improve-review snapshot and explicit release-gate decision, so the compounding-improvement loop is no longer grading only the same fresh bundle it just assembled.",
+      "evidence_refs": [
+        "improvement_loop_state_productos_v4_next_version_baseline",
+        "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+        "validation_lane_report_ws_productos_v2_next_version_completion"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "improvement_loop_state_productos_v4_next_version_baseline",
+    "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+    "decision_log_productos_core",
+    "strategic_memory_record_traceability",
+    "validation_lane_report_ws_productos_v2_next_version_completion",
+    "manual_validation_record_ws_productos_v2_next_version_completion",
+    "release_gate_decision_ws_productos_v2_next_version",
+    "feature_scorecard_ws_productos_v2_readable_doc_bundle_v4_0",
+    "release_4_1_0",
+    "release_4_2_0",
+    "release_4_3_0",
+    "eval_run_report_ws_productos_v2_bounded_baseline"
+  ],
+  "provenance_classification": "real",
+  "score_basis": [
+    "persisted_improve_review",
+    "release_gate_decision",
+    "decision_memory",
+    "independent_validation",
+    "frozen_eval_suite"
+  ],
+  "truthfulness_summary": "The improvement loop now reuses a persisted improve-review snapshot and explicit release-gate decision, so promotion judgment is no longer tied only to the same fresh bundle assembly pass.",
+  "context_pack_ref": "context_pack_ws_productos_v2_bounded_baseline",
+  "eval_run_ref": "eval_run_report_ws_productos_v2_bounded_baseline",
+  "dimension_scores": [
+    {
+      "dimension_key": "pm_leverage",
+      "score": 5,
+      "rationale": "The repo now converts sub-5 features into named bounded slices and releases instead of vague future work.",
+      "evidence_refs": [
+        "improvement_loop_state_productos_v4_next_version_baseline",
+        "feature_portfolio_review_ws_productos_v2_next_version_baseline"
+      ]
+    },
+    {
+      "dimension_key": "output_quality",
+      "score": 5,
+      "rationale": "The scoring, portfolio review, and release-gate artifacts now form one coherent improvement accounting system.",
+      "evidence_refs": [
+        "feature_scorecard_ws_productos_v2_readable_doc_bundle_v4_0",
+        "feature_portfolio_review_ws_productos_v2_next_version_baseline"
+      ]
+    },
+    {
+      "dimension_key": "reliability",
+      "score": 5,
+      "rationale": "The loop now cites a persisted improve-review snapshot and explicit release-gate decision, which makes the release judgment path materially more independent from the current bundle assembly pass.",
+      "evidence_refs": [
+        "improvement_loop_state_productos_v4_next_version_baseline",
+        "validation_lane_report_ws_productos_v2_next_version_completion",
+        "release_gate_decision_ws_productos_v2_next_version",
+        "release_4_2_0",
+        "release_4_3_0"
+      ]
+    },
+    {
+      "dimension_key": "autonomy_quality",
+      "score": 5,
+      "rationale": "The loop stays supervised, but it now depends on a prior persisted review snapshot and explicit gate artifact instead of relying only on self-narration from the same run.",
+      "evidence_refs": [
+        "improvement_loop_state_productos_v4_next_version_baseline",
+        "manual_validation_record_ws_productos_v2_next_version_completion",
+        "decision_log_productos_core",
+        "release_gate_decision_ws_productos_v2_next_version"
+      ]
+    },
+    {
+      "dimension_key": "repeatability",
+      "score": 5,
+      "rationale": "Persisted improve reviews and explicit gate artifacts now make the loop repeatable across runs without depending on a single fresh narrator pass.",
+      "evidence_refs": [
+        "release_4_1_0",
+        "release_4_2_0",
+        "release_4_3_0"
+      ]
+    }
+  ],
+  "overall_score": 5,
+  "adoption_recommendation": "promote_as_standard",
+  "reviewer_verdict": {
+    "status": "pass",
+    "summary": "The improvement loop now has a persisted improve-review and release-gate proof path, so it can count as the bounded scoring standard for this baseline.",
+    "evidence_refs": [
+      "improvement_loop_state_productos_v4_next_version_baseline",
+      "feature_portfolio_review_ws_productos_v2_next_version_baseline"
+    ]
+  },
+  "tester_verdict": {
+    "status": "pass",
+    "summary": "Cross-run persisted review evidence and the explicit release-gate artifact now give the scoring loop enough separation to clear the bounded proof bar.",
+    "evidence_refs": [
+      "improvement_loop_state_productos_v4_next_version_baseline",
+      "feature_portfolio_review_ws_productos_v2_next_version_baseline"
+    ]
+  },
+  "manual_verdict": {
+    "status": "accept",
+    "summary": "Keep using the persisted improve-review and release-gate path as the scoring standard for the bounded baseline.",
+    "evidence_refs": [
+      "release_4_3_0",
+      "eval_run_report_ws_productos_v2_bounded_baseline"
+    ]
+  },
+  "blocked_by": [],
+  "feedback_items": [],
+  "next_action": "Keep the persisted improve-review snapshot and release-gate decision as the scoring standard for future baseline refreshes.",
+  "generated_at": "2026-03-22T08:00:00Z"
+}

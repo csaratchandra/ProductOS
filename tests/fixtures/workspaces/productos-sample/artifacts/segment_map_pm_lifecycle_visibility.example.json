@@ -1,0 +1,180 @@
+{
+  "schema_version": "1.1.0",
+  "segment_map_id": "segment_map_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "Segment map: teams needing lifecycle traceability",
+  "market_name": "PM lifecycle visibility systems",
+  "market_scope_summary": "PM lifecycle visibility systems for teams that already have planning and execution tools but still cannot explain one item's full story.",
+  "segmentation_lens": "workflow_maturity",
+  "segmentation_logic": "Segments are separated by how governance pressure, team scale, and workflow fragmentation change the need for explicit lifecycle traceability.",
+  "prioritization_basis": {
+    "lane": "must_now",
+    "scoring_method": "weighted lifecycle-friction and proof-path scoring",
+    "selection_rationale": "Prioritize segments that can prove item-level lifecycle explanation value before ProductOS broadens into heavier governance or platform claims.",
+    "decision_owner": "ProductOS PM"
+  },
+  "segments": [
+    {
+      "segment_id": "segment_product_led_scaleups",
+      "name": "Product-led scaleups",
+      "definition": "Scaleup product teams that already have several disconnected discovery and delivery tools but weak decision traceability.",
+      "qualifying_traits": [
+        "multiple PMs",
+        "rapid roadmap changes",
+        "stakeholder review overhead"
+      ],
+      "core_job": "Explain what happened to a product item from discovery through delivery without reconstructing the story manually.",
+      "struggle_moments": [
+        "PMs need to explain stage status quickly during roadmap and stakeholder reviews",
+        "Artifacts and decisions are scattered across tools and docs"
+      ],
+      "primary_value_drivers": [
+        "Faster item-level explanation",
+        "More believable discovery-to-delivery continuity"
+      ],
+      "buying_context": "Usually bought by PM leaders who already feel tool sprawl but are not ready to replace execution systems.",
+      "adoption_constraints": [
+        "Must integrate with existing tools",
+        "Needs visible trust benefits quickly"
+      ],
+      "posture_fit": [
+        {
+          "posture": "challenger",
+          "fit": "strong",
+          "rationale": "This segment will adopt a sharper lifecycle explanation wedge without demanding the broadest platform coverage first."
+        },
+        {
+          "posture": "leader",
+          "fit": "weak",
+          "rationale": "The segment is not asking one vendor to own the full category yet."
+        }
+      ],
+      "best_fit_posture": "challenger",
+      "solution_entry_points": [
+        "Item timeline",
+        "Stage gate traceability",
+        "Linked artifact visibility"
+      ],
+      "confidence": "high",
+      "attractiveness": "high",
+      "urgency": "high",
+      "priority_score": 95,
+      "priority_rationale": "This segment feels the lifecycle explanation pain most often and can validate the bounded item-trace wedge without requiring a broad platform claim.",
+      "agentic_delivery_fit": "strong",
+      "evidence_refs": [
+        "source_note_card_jpd_official_pm_visibility_2026",
+        "source_note_card_linear_official_pm_visibility_2026"
+      ]
+    },
+    {
+      "segment_id": "segment_enterprise_platform_pm_orgs",
+      "name": "Enterprise platform PM organizations",
+      "definition": "Larger PM groups that need auditability, reusable gates, and clear handoffs across research, design, and delivery.",
+      "qualifying_traits": [
+        "governance-heavy",
+        "multi-team planning",
+        "audit requests"
+      ],
+      "core_job": "Provide governance-ready lifecycle visibility across multiple PM teams and downstream delivery functions.",
+      "struggle_moments": [
+        "Leadership wants a durable record of how a decision progressed",
+        "Teams need one auditable view across research, delivery, and readiness"
+      ],
+      "primary_value_drivers": [
+        "Governance-ready auditability",
+        "Reduced cross-team handoff ambiguity"
+      ],
+      "buying_context": "Usually influenced by PM leadership and product ops because governance, standards, and audit requests shape adoption.",
+      "adoption_constraints": [
+        "Needs durable workflow standards",
+        "Coexistence with incumbent execution and planning tools is mandatory"
+      ],
+      "posture_fit": [
+        {
+          "posture": "niche",
+          "fit": "strong",
+          "rationale": "A specialist governance wedge is credible here before a broader platform claim."
+        },
+        {
+          "posture": "challenger",
+          "fit": "viable",
+          "rationale": "The segment is attractive if ProductOS proves traceability and integration discipline."
+        }
+      ],
+      "best_fit_posture": "niche",
+      "solution_entry_points": [
+        "Lifecycle snapshots",
+        "Trace maps",
+        "Validation-aware handoffs"
+      ],
+      "confidence": "moderate",
+      "attractiveness": "high",
+      "urgency": "medium",
+      "priority_score": 81,
+      "priority_rationale": "This segment is attractive, but the governance burden means ProductOS should enter it after the simpler scaleup proof path is established.",
+      "agentic_delivery_fit": "viable",
+      "evidence_refs": [
+        "source_note_card_jira_official_pm_visibility_2026",
+        "source_note_card_aha_official_pm_visibility_2026"
+      ]
+    },
+    {
+      "segment_id": "segment_product_ops_enabled_mid_market",
+      "name": "Product ops enabled mid-market teams",
+      "definition": "Mid-market teams that have enough process to care about standards but still struggle to keep discovery and launch history coherent.",
+      "qualifying_traits": [
+        "product ops support",
+        "cross-functional reviews",
+        "high manual note-taking"
+      ],
+      "core_job": "Keep lifecycle history coherent enough that cross-functional teams can reuse it without adding heavy process overhead.",
+      "struggle_moments": [
+        "Cross-functional reviews require manual storytelling",
+        "Standards exist but are inconsistently followed"
+      ],
+      "primary_value_drivers": [
+        "Cleaner operating discipline",
+        "Less manual reconciliation before reviews"
+      ],
+      "buying_context": "Often an operator-driven adoption where product ops wants stronger standards without enterprise-grade platform replacement.",
+      "adoption_constraints": [
+        "Cannot require too much process overhead",
+        "Must feel lighter than a governance-heavy enterprise rollout"
+      ],
+      "posture_fit": [
+        {
+          "posture": "niche",
+          "fit": "viable",
+          "rationale": "The segment values coherence but may need a lighter-weight entry than enterprise governance buyers."
+        },
+        {
+          "posture": "follower",
+          "fit": "weak",
+          "rationale": "Copying broad suite patterns would not solve the specific coherence problem well enough."
+        }
+      ],
+      "best_fit_posture": "niche",
+      "solution_entry_points": [
+        "Readable lifecycle bundle",
+        "Discovery review and handoff clarity"
+      ],
+      "confidence": "moderate",
+      "attractiveness": "medium",
+      "urgency": "high",
+      "priority_score": 69,
+      "priority_rationale": "This segment benefits from coherence, but it is a second move after the clearer scaleup and enterprise proof paths are established.",
+      "agentic_delivery_fit": "viable",
+      "evidence_refs": [
+        "source_note_card_asana_official_pm_visibility_2026",
+        "source_note_card_clickup_official_pm_visibility_2026"
+      ]
+    }
+  ],
+  "recommended_beachhead_segment_id": "segment_product_led_scaleups",
+  "recommended_beachhead_rationale": "Product-led scaleups are the fastest path to proving item-first lifecycle explanation value with believable integration and review boundaries.",
+  "source_artifact_ids": [
+    "market_analysis_brief_pm_lifecycle_visibility",
+    "competitor_dossier_pm_lifecycle_visibility"
+  ],
+  "created_at": "2026-03-23T09:40:00Z"
+}

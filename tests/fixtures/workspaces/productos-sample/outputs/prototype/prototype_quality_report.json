@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "prototype_quality_report_id": "prototype_quality_report_productos-sample",
+  "workspace_id": "productos-sample",
+  "title": "Prototype Quality Report",
+  "scores": {
+    "interaction_depth": 8,
+    "visual_consistency": 8,
+    "accessibility": 7,
+    "data_realism": 7,
+    "narrative_alignment": 8,
+    "responsive_behavior": 7,
+    "performance": 8
+  },
+  "next_actions": [
+    "Validate at least one end-to-end scenario with PM review comments.",
+    "Refine any screen that lacks evidence-backed copy or CTA hierarchy."
+  ],
+  "generated_at": "2026-03-22T08:00:00Z"
+}

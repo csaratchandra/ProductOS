@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "prd_id": "prd_pm_superpower_recovery",
+  "workspace_id": "ws_productos_v2",
+  "title": "PRD: PM strategy-ready discovery packet",
+  "problem_summary": "PMs still lose time and judgment quality because strategy context is reconstructed too late from scattered discovery artifacts.",
+  "outcome_summary": "ProductOS produces one reviewable strategy-ready discovery packet that links mission, vision, market posture, and problem framing so a PM can choose the next bet faster.",
+  "scope_summary": "Add strategy-spine artifacts, preserve them through discovery routing, keep one synced Product Strategy / Vision doc, and emit downstream concept and problem framing with explicit strategy traceability.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_strategy_reconstruction_drag"
+    },
+    {
+      "entity_type": "outcome",
+      "entity_id": "outcome_reduce_time_to_strategy_ready_packet"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opp_strategy_spine_for_discovery"
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_strategy_ready_discovery_packet"
+    }
+  ],
+  "upstream_artifact_ids": [
+    "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    "strategy_context_brief_pm_superpower_recovery",
+    "product_vision_brief_pm_superpower_recovery",
+    "market_strategy_brief_pm_superpower_recovery",
+    "problem_brief_pm_superpower_recovery",
+    "concept_brief_pm_superpower_recovery"
+  ],
+  "generated_at": "2026-04-21T09:15:00Z"
+}

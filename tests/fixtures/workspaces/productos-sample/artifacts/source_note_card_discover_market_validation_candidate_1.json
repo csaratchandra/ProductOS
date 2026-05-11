@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_discover_market_validation_candidate_1",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "market_report",
+  "source_ref": "discover_market_validation_candidate_1",
+  "title": "Workflow Proof Market Note",
+  "claim": "Workflow Proof Market Note Buyers increasingly expect measurable rollout proof, explicit workflow controls, and visible approval boundaries before they trust AI-assisted PM systems.",
+  "source_snippet": "Workflow Proof Market Note Buyers increasingly expect measurable rollout proof, explicit workflow controls, and visible approval boundaries before they trust AI-assisted PM systems. Teams evaluating ProductOS-like wor...",
+  "implication": "Teams evaluating ProductOS-like workflows still want a narrow launch lane with clear evidence rather than a broad automation promise.",
+  "confidence": "moderate",
+  "freshness_status": "usable_with_review",
+  "unknowns": [
+    "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+    "How do current alternatives frame this workflow problem and where are their proof boundaries weaker?"
+  ],
+  "followup_questions": [
+    "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+    "How do current alternatives frame this workflow problem and where are their proof boundaries weaker?",
+    "What direct PM or operator evidence quantifies the manual reconstruction burden in this workflow?"
+  ],
+  "source_metadata": {
+    "source_url": "file:///Users/sarat/Documents/code/ProductOS/tests/fixtures/workspaces/productos-sample/fixtures/research-sources/market-proof.html",
+    "published_at": "",
+    "retrieved_at": "2026-04-21T10:00:00Z",
+    "source_slice_ref": "discover_market_validation",
+    "dedupe_key": "file_users_sarat_documents_code_productos_internal_productos_next_fixtures_research_sources_market_proof_html",
+    "credibility_tier": "secondary"
+  },
+  "dedupe_key": "file_users_sarat_documents_code_productos_internal_productos_next_fixtures_research_sources_market_proof_html",
+  "linked_entity_refs": [
+    {
+      "entity_id": "segment_b2b_product_teams",
+      "entity_type": "segment"
+    },
+    {
+      "entity_id": "persona_product_manager",
+      "entity_type": "persona"
+    },
+    {
+      "entity_id": "problem_productos_next_version_proof_gap",
+      "entity_type": "problem"
+    },
+    {
+      "entity_id": "outcome_productos_same_day_prd_package",
+      "entity_type": "outcome"
+    },
+    {
+      "entity_id": "opportunity_productos_discover_superpower",
+      "entity_type": "opportunity"
+    },
+    {
+      "entity_id": "feature_productos_repo_first_discover_cli",
+      "entity_type": "feature"
+    }
+  ],
+  "tags": [
+    "market_validation",
+    "usable_with_review",
+    "discover_market_validation",
+    "segment_b2b_product_teams",
+    "persona_product_manager"
+  ],
+  "created_at": "2026-04-21T10:00:00Z"
+}

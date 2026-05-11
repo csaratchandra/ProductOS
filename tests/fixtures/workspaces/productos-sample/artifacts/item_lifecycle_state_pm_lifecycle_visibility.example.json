@@ -1,0 +1,262 @@
+{
+  "schema_version": "1.0.0",
+  "item_lifecycle_state_id": "item_lifecycle_state_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "Lifecycle traceability and stage visibility for PM work",
+  "item_ref": {
+    "entity_type": "opportunity",
+    "entity_id": "opp_pm_lifecycle_traceability"
+  },
+  "current_stage": "outcome_review",
+  "overall_status": "completed",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_product_led_scaleups"
+    },
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_enterprise_platform_pm_orgs"
+    },
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_product_ops_enabled_mid_market"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_group_pm"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_ops_lead"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_pm_discovery_visibility_gap"
+    },
+    {
+      "entity_type": "outcome",
+      "entity_id": "outcome_pm_end_to_end_traceability"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opp_pm_lifecycle_traceability"
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_item_lifecycle_traceability"
+    }
+  ],
+  "lifecycle_stages": [
+    {
+      "stage_key": "signal_intake",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "intake_routing_state_ws_productos_v2_discovery_traceability"
+      ],
+      "summary": "The opportunity was normalized from intake into the discovery workflow."
+    },
+    {
+      "stage_key": "research_synthesis",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "research_notebook_pm_lifecycle_visibility",
+        "competitor_dossier_pm_lifecycle_visibility",
+        "market_analysis_brief_pm_lifecycle_visibility"
+      ],
+      "summary": "Mixed competitor research and market analysis are complete."
+    },
+    {
+      "stage_key": "segmentation_and_personas",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "segment_map_pm_lifecycle_visibility",
+        "persona_pack_pm_lifecycle_visibility"
+      ],
+      "summary": "Segments and personas are fixed and linked to the item."
+    },
+    {
+      "stage_key": "problem_framing",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "problem_brief_pm_lifecycle_visibility",
+        "trace_map_problem_brief_pm_lifecycle_visibility"
+      ],
+      "summary": "The core visibility gap is framed as a decision-ready problem."
+    },
+    {
+      "stage_key": "concept_shaping",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "idea_record_pm_lifecycle_visibility",
+        "concept_brief_pm_lifecycle_visibility",
+        "trace_map_concept_brief_pm_lifecycle_visibility"
+      ],
+      "summary": "The selected concept centers on an item-first trace surface."
+    },
+    {
+      "stage_key": "prototype_validation",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "prototype_record_pm_item_timeline",
+        "ux_design_review_pm_lifecycle_visibility",
+        "visual_reasoning_state_pm_lifecycle_visibility",
+        "trace_map_prototype_record_pm_item_timeline"
+      ],
+      "summary": "Prototype review confirmed the timeline and snapshot model are understandable."
+    },
+    {
+      "stage_key": "prd_handoff",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "prd_pm_lifecycle_visibility",
+        "validation_lane_report_pm_lifecycle_visibility",
+        "manual_validation_record_pm_lifecycle_visibility",
+        "trace_map_prd_pm_lifecycle_visibility"
+      ],
+      "summary": "The discovery package passed validation and is ready for delivery planning."
+    },
+    {
+      "stage_key": "story_planning",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "story_pack_pm_lifecycle_visibility",
+        "inc_plan_2026_q2_01"
+      ],
+      "summary": "The validated PRD is decomposed into one bounded delivery story and linked to the active increment plan."
+    },
+    {
+      "stage_key": "acceptance_ready",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "acceptance_criteria_set_pm_lifecycle_visibility"
+      ],
+      "summary": "Acceptance-ready criteria make the bounded delivery slice testable without hidden scope."
+    },
+    {
+      "stage_key": "release_readiness",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "release_readiness_ws_productos_v2_v6_lifecycle_traceability",
+        "release_gate_decision_ws_productos_v2_v6_lifecycle_traceability"
+      ],
+      "summary": "The bounded lifecycle slice clears release-readiness review while keeping later launch and outcome work explicit."
+    },
+    {
+      "stage_key": "launch_preparation",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "release_note_pm_lifecycle_visibility"
+      ],
+      "summary": "Launch preparation now includes governed release communication tied to the same canonical lifecycle item."
+    },
+    {
+      "stage_key": "outcome_review",
+      "status": "completed",
+      "gate_status": "passed",
+      "artifact_ids": [
+        "outcome_review_pm_lifecycle_visibility"
+      ],
+      "summary": "Outcome review now closes the lifecycle with post-release learning on the same canonical item trace."
+    }
+  ],
+  "pending_questions": [
+    "Which external publication adapter should consume the promoted lifecycle trace first?"
+  ],
+  "blocked_reasons": [],
+  "audit_log": [
+    {
+      "timestamp": "2026-03-23T08:00:00Z",
+      "actor": "PM Builder",
+      "event_type": "artifact_created",
+      "summary": "The opportunity entered the lifecycle trace workflow."
+    },
+    {
+      "timestamp": "2026-03-23T09:35:00Z",
+      "actor": "Research Lead",
+      "event_type": "gate_passed",
+      "summary": "Research synthesis passed with current primary-source competitor coverage."
+    },
+    {
+      "timestamp": "2026-03-23T09:45:00Z",
+      "actor": "PM Builder",
+      "event_type": "gate_passed",
+      "summary": "Segment and persona mapping passed review."
+    },
+    {
+      "timestamp": "2026-03-23T10:05:00Z",
+      "actor": "PM Builder",
+      "event_type": "status_changed",
+      "summary": "The item advanced from research into problem framing."
+    },
+    {
+      "timestamp": "2026-03-23T10:20:00Z",
+      "actor": "UX Reviewer",
+      "event_type": "gate_passed",
+      "summary": "Prototype validation passed for clarity, trust, and workflow fit."
+    },
+    {
+      "timestamp": "2026-03-23T10:40:00Z",
+      "actor": "AI Reviewer",
+      "event_type": "gate_passed",
+      "summary": "Validation lanes approved PRD handoff readiness."
+    },
+    {
+      "timestamp": "2026-03-23T10:45:00Z",
+      "actor": "PM Operator",
+      "event_type": "handoff_prepared",
+      "summary": "Manual validation accepted the discovery package for delivery planning."
+    },
+    {
+      "timestamp": "2026-03-27T08:10:00Z",
+      "actor": "PM Builder",
+      "event_type": "status_changed",
+      "summary": "The item advanced from PRD handoff into bounded story planning for the V6 lifecycle slice."
+    },
+    {
+      "timestamp": "2026-03-27T08:20:00Z",
+      "actor": "AI Reviewer",
+      "event_type": "gate_passed",
+      "summary": "The story pack and acceptance criteria passed bounded-scope review."
+    },
+    {
+      "timestamp": "2026-03-27T08:30:00Z",
+      "actor": "PM Operator",
+      "event_type": "gate_passed",
+      "summary": "The lifecycle trace reached release_readiness for the bounded V6 slice."
+    },
+    {
+      "timestamp": "2026-04-07T07:15:00Z",
+      "actor": "PM Operator",
+      "event_type": "status_changed",
+      "summary": "The canonical lifecycle item advanced from release_readiness into launch preparation with one governed release note."
+    },
+    {
+      "timestamp": "2026-04-07T07:20:00Z",
+      "actor": "PM Operator",
+      "event_type": "gate_passed",
+      "summary": "The lifecycle trace reached outcome_review with one explicit post-release learning record."
+    }
+  ],
+  "created_at": "2026-03-23T08:00:00Z",
+  "updated_at": "2026-04-07T07:20:00Z"
+}

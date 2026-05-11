@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 import shutil
 import subprocess
@@ -728,6 +730,16 @@ def test_productos_portfolio_build_rolls_up_multiple_workspaces(root_dir: Path, 
 
 
 def test_case_variant_launchers_delegate_to_productos_cli(root_dir: Path):
+    # Skip if no Python 3.10+ interpreter is available (launchers enforce this)
+    has_supported_python = False
+    for candidate in ["python3.12", "python3.11", "python3.10"]:
+        if shutil.which(candidate):
+            has_supported_python = True
+            break
+    if sys.version_info >= (3, 10):
+        has_supported_python = True
+    if not has_supported_python:
+        pytest.skip("No Python 3.10+ interpreter available for launcher scripts")
     for launcher_name in ["ProductOS", "productOS", "PRODUCTOS"]:
         result = _run_launcher(root_dir, launcher_name, "--help")
         assert result.returncode == 0, result.stderr or result.stdout

@@ -1,0 +1,6 @@
+workspace_id: ws_enterprise_b2c_ops
+name: Enterprise B2C Ops
+mode: enterprise
+active_increment_id: pi_enterprise_b2c_ops_01
+artifact_paths: []
+feedback_paths: []

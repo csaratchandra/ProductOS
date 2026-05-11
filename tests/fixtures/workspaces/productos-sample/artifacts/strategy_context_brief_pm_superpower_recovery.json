@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "strategy_context_brief_id": "strategy_context_brief_pm_superpower_recovery",
+  "workspace_id": "ws_productos_v2",
+  "title": "Strategy context brief: PM superpower recovery",
+  "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+  "context_summary": "ProductOS should strengthen strategy and discovery judgment before it expands deeper research automation or broader PM autonomy.",
+  "enterprise_goal_links": [
+    {
+      "goal_name": "First impatient customer credibility",
+      "goal_type": "growth",
+      "linkage_summary": "The next version should help a buyer understand the product bet, evidence chain, and next recommendation without hidden prompt behavior.",
+      "success_signal": "Shorter time from mission intake to a strategy-ready discovery packet."
+    }
+  ],
+  "portfolio_bets": [
+    {
+      "bet_name": "PM judgment amplifier",
+      "fit": "core",
+      "rationale": "ProductOS already has governed execution patterns, so the highest-leverage next bet is stronger upstream framing and strategic coherence."
+    },
+    {
+      "bet_name": "Repo-native strategy memory",
+      "fit": "adjacent",
+      "rationale": "Explicit strategy context compounds future discovery quality without widening release claims."
+    }
+  ],
+  "business_model_outcomes": [
+    {
+      "outcome_name": "Improve ProductOS buyer confidence",
+      "outcome_type": "adoption",
+      "linkage_summary": "Clearer strategy artifacts should make ProductOS easier to explain, evaluate, and trust."
+    },
+    {
+      "outcome_name": "Preserve bounded PM claims",
+      "outcome_type": "strategic_position",
+      "linkage_summary": "The next version should improve judgment support without claiming broader autonomy than the repo can prove."
+    }
+  ],
+  "strategic_constraints": [
+    {
+      "constraint": "Keep the stable line and external claim boundary unchanged.",
+      "constraint_type": "governance",
+      "consequence": "This slice must stay repo-first, internal-first, and proof-driven."
+    },
+    {
+      "constraint": "Prefer explicit contracts over prompt-only strategy behavior.",
+      "constraint_type": "technical",
+      "consequence": "Strategy logic needs schemas, workflow rules, and reference artifacts."
+    }
+  ],
+  "linked_artifact_ids": [
+    "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    "market_analysis_brief_pm_lifecycle_visibility",
+    "market_strategy_brief_pm_superpower_recovery"
+  ],
+  "open_questions": [
+    "Which strategy signals should be visible by default in the PM-facing decision packet?"
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "mission",
+      "source_id": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+      "justification": "The mission defines the PM-facing problem and business goal for the next slice."
+    },
+    {
+      "source_type": "research",
+      "source_id": "market_analysis_brief_pm_lifecycle_visibility",
+      "justification": "The research shows that trusted operating context matters more than isolated drafting acceleration."
+    }
+  ],
+  "recommendation": "proceed_to_product_vision",
+  "created_at": "2026-04-21T08:00:00Z"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_aha_knowledge_ai_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://support.aha.io/aha-knowledge/support-articles/ai-assistant/ai-assistant-capabilities-in-aha-knowledge~7528160891809595925",
+  "title": "Aha! packages AI search and assistant controls with governance language",
+  "claim": "Aha! Knowledge emphasizes AI-powered search, translation, and account-level controls, including statements that account data is not used to train external models.",
+  "source_snippet": "AI search and translation stay current as content changes, with account-level controls.",
+  "implication": "ProductOS research features should include governance posture, workspace access controls, and freshness-aware retrieval rather than only generation.",
+  "confidence": "high",
+  "followup_questions": [
+    "Which of Aha!'s AI controls should be mirrored as ProductOS source-access constraints?"
+  ],
+  "source_metadata": {
+    "source_url": "https://support.aha.io/aha-knowledge/support-articles/ai-assistant/ai-assistant-capabilities-in-aha-knowledge~7528160891809595925",
+    "retrieved_at": "2026-03-21T08:47:00Z",
+    "source_slice_ref": "ai-capabilities",
+    "dedupe_key": "aha-knowledge-ai-capabilities",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "aha-knowledge-ai-capabilities",
+  "tags": ["research", "competitor", "aha", "governance"],
+  "created_at": "2026-03-21T08:48:00Z"
+}

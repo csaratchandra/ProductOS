@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "program_increment_id": "pi_2026_q2_01",
+  "workspace_id": "ws_productos_v2",
+  "planning_model": "safe_program_increment",
+  "name": "PI 2026 Q2 - PM Operating Rhythm",
+  "status": "planning",
+  "timebox": {
+    "start_date": "2026-04-01",
+    "end_date": "2026-06-30"
+  },
+  "objectives": [
+    {
+      "objective_id": "obj_status_mail",
+      "statement": "Automate review-ready bi-weekly status mail generation.",
+      "business_value": 9,
+      "status": "planned"
+    }
+  ],
+  "team_commitments": [
+    {
+      "team_name": "ProductOS Core",
+      "commitment_summary": "Deliver schema, workflow, and templates for PM cadence automation.",
+      "status": "on_track"
+    }
+  ],
+  "dependency_health": "watch",
+  "risk_summary": [
+    {
+      "title": "Transcript extraction quality may vary by source system.",
+      "severity": "medium",
+      "mitigation": "Preserve source references and require PM review on low-confidence notes."
+    }
+  ],
+  "inspect_adapt_actions": [
+    {
+      "description": "Review first two generated status mails for noise versus decision usefulness.",
+      "owner": "ProductOS PM",
+      "due_date": "2026-04-20"
+    }
+  ],
+  "last_updated_at": "2026-03-19T17:05:00Z"
+}

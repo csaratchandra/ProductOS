@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_app_review_jpd",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "app_review",
+  "source_ref": "appstore:jpd:review:2026-03-14-118",
+  "title": "App review note on fragmented workflow context",
+  "claim": "Users value connected delivery visibility but still feel strategy, communication, and decision context live outside the core tool.",
+  "source_snippet": "Great for tracking delivery, but we still end up stitching the broader picture together elsewhere.",
+  "implication": "ProductOS can differentiate by connecting research, decisions, and communication around delivery systems.",
+  "confidence": "moderate",
+  "unknowns": [
+    "How representative is this pain across teams not already committed to Atlassian workflows?"
+  ],
+  "followup_questions": [
+    "Does this pain appear more in leadership reporting or day-to-day PM execution?"
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_pm_reporting_bottleneck"
+    }
+  ],
+  "tags": [
+    "app-review",
+    "competitive",
+    "workflow-context"
+  ],
+  "created_at": "2026-03-20T14:05:00Z"
+}

@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.1.0",
+  "problem_brief_id": "problem_brief_productos_next_version_discover",
+  "workspace_id": "ws_productos_v2",
+  "title": "Problem Brief: ProductOS next-version discover proof",
+  "problem_summary": "ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD package with minimal PM reconstruction.",
+  "strategic_fit_summary": "This problem fits a challenger posture because ProductOS can win by proving repo-first discover quality and PM trust faster than broader PM workflow systems.",
+  "posture_alignment": "challenger",
+  "why_this_problem_now": "The next version must prove a concrete discover wedge inside the reference workspace before broader strategy claims are credible.",
+  "why_this_problem_for_this_segment": "B2B product teams feel the cost of reconstructing context across messy notes, transcripts, and recurring PM workflows often enough to value a tighter discover control surface.",
+  "problem_severity": {
+    "customer_pain": "high",
+    "workflow_frequency": "high",
+    "evidence_strength": "high",
+    "severity_rationale": "The current next-version goal is explicitly to prove same-day discover quality, so the pain and proof threshold are both immediate."
+  },
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_productos_next_version_proof_gap"
+    },
+    {
+      "entity_type": "outcome",
+      "entity_id": "outcome_productos_same_day_prd_package"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opportunity_productos_discover_superpower"
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_productos_repo_first_discover_cli"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "other",
+      "source_id": "tests/fixtures/workspaces/productos-sample/inbox/raw-notes/2026-03-22-next-version-superpowers.md",
+      "justification": "The raw notes lock the must-win discover wedge and repo-first constraint: # Next Version Superpowers"
+    },
+    {
+      "source_type": "transcript",
+      "source_id": "tests/fixtures/workspaces/productos-sample/inbox/transcripts/2026-03-22-dogfood-next-version-session.txt",
+      "justification": "The transcript makes the release bar explicit: Speaker 2: The next version is only believable if the repo can turn messy notes and transcripts into a decision-ready package."
+    }
+  ],
+  "upstream_artifact_ids": [
+    "strategy_context_brief_productos_next_version_discover",
+    "product_vision_brief_productos_next_version_discover",
+    "market_strategy_brief_productos_next_version_discover",
+    "idea_record_pm_status_automation"
+  ],
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_productos_next_version_discover",
+  "artifact_trace_map_id": "artifact_trace_map_problem_brief_productos_next_version_discover",
+  "ralph_status": "decision_ready",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 94,
+    "confidence": "high",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "This is the proof-point problem for the current next-version slice and should block broader release claims until it is explicitly solved.",
+    "reviewer_handoff": "PM should confirm the discover packet is strong enough to justify PRD and downstream scoring without reopening the raw inbox."
+  },
+  "handoff_readiness_summary": "The problem brief now carries explicit evidence, prioritization, and downstream traceability for the next-version discover proof slice.",
+  "recommended_next_step": "prd",
+  "created_at": "2026-04-21T10:00:00Z"
+}

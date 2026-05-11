@@ -1,5 +1,34 @@
 # Changelog
 
+## V12.0.0
+
+ProductOS V12 completes the repo-backed V11 Living Product System and adds the missing V12 agent-native execution surfaces: one-command workspace generation, cockpit HTML and quality snapshots, prototype generation, adapter context packs, installable packaging, demo flow, and example workspaces.
+
+### Added
+
+- `productos new` now creates 8+ starter artifacts, renders `cockpit.html`, and writes a machine-readable quality snapshot.
+- `components/prototype/` now ships a standalone prototype HTML generator, story map HTML, and `prototype_quality_report`.
+- `core/agents/adapters/shared/`, `core/agents/adapters/codex/`, and `core/agents/adapters/opencode/` now provide repo-backed adapter context definitions.
+- `productos agent-context --target codex|opencode` emits agent-optimized context packs and runtime adapter registry data.
+- `core/python/productos_runtime/skill_executor.py` and dedicated decision/content runtime entrypoints now exist for named V12 launch skills.
+- `render docs`, `render prototype`, `export artifact --artifact ... --format ...`, and `demo` CLI surfaces are now available.
+- `pyproject.toml` exposes installable `productos` packaging metadata.
+- `examples/workspaces/` now contains 10 lightweight showcase workspace starters.
+- `prd_boundary_report.schema.json`, `tests/test_v10_prd_scope_boundary_check.py`, and `tests/test_v10_drift_and_impact_propagation.py` close the missing proof gaps called out by the V11/V12 audit.
+
+### Changed
+
+- Living-system queue review now persists queue state by default, syncs cockpit living updates, writes rollback `.prev.json` backups, and records rejection feedback.
+- `run discover` now auto-synthesizes the connected journey, screen-flow, and prototype pipeline when workspace data is available.
+- `run-research-loop` now auto-builds downstream regeneration queues and cockpit notifications when refreshed research artifacts imply living-system work.
+
+### Validation
+
+- `pytest -q`
+- `pytest tests/test_v10_prd_scope_boundary_check.py tests/test_v10_drift_and_impact_propagation.py tests/test_v12_agent_native_core.py tests/test_v12_prototype_engine.py`
+
+---
+
 ## Upcoming V11.0.0
 
 ProductOS V11 transforms static artifacts into a Living Product System: auto-propagating changes, self-rendering readable documents, PM delta review lanes, and format-agnostic exports.

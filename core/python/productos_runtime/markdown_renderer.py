@@ -8,6 +8,46 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from jinja2 import BaseLoader, Environment
+
+
+DOC_CONFIGS = {
+    "prd": {
+        "template": "prd.md.jinja2",
+        "sources": [
+            "artifacts/prd.json",
+            "artifacts/problem_brief.json",
+            "artifacts/research_notebook.json",
+            "artifacts/acceptance_criteria_set.json",
+        ],
+    },
+    "problem-brief": {
+        "template": "problem-brief.md.jinja2",
+        "sources": [
+            "artifacts/problem_brief.json",
+            "artifacts/customer_pulse.json",
+            "artifacts/persona_narrative_card.json",
+        ],
+    },
+    "strategy-brief": {
+        "template": "strategy-brief.md.jinja2",
+        "sources": [
+            "artifacts/strategy_context_brief.json",
+            "artifacts/competitor_dossier.json",
+            "artifacts/landscape_matrix.json",
+        ],
+    },
+    "user-journey": {
+        "template": "user-journey.md.jinja2",
+        "sources": [
+            "artifacts/user_journey_map.json",
+            "artifacts/persona_narrative_card.json",
+            "artifacts/empathy_map.json",
+        ],
+    },
+}
+
+
 def _load_json_if_exists(path: Path) -> dict | None:
     if not path.exists():
         return None
@@ -81,52 +121,16 @@ def render_living_document(
     if generated_at is None:
         generated_at = _default_timestamp()
     
-    template_map = {
-        "prd": {
-            "template": "prd.md.jinja2",
-            "sources": [
-                "artifacts/prd.json",
-                "artifacts/problem_brief.json",
-                "artifacts/research_notebook.json",
-                "artifacts/acceptance_criteria_set.json",
-            ],
-        },
-        "problem-brief": {
-            "template": "problem-brief.md.jinja2",
-            "sources": [
-                "artifacts/problem_brief.json",
-                "artifacts/customer_pulse.json",
-                "artifacts/persona_narrative_card.json",
-            ],
-        },
-        "strategy-brief": {
-            "template": "strategy-brief.md.jinja2",
-            "sources": [
-                "artifacts/strategy_context_brief.json",
-                "artifacts/competitor_dossier.json",
-                "artifacts/landscape_matrix.json",
-            ],
-        },
-        "user-journey": {
-            "template": "user-journey.md.jinja2",
-            "sources": [
-                "artifacts/user_journey_map.json",
-                "artifacts/persona_narrative_card.json",
-                "artifacts/empathy_map.json",
-            ],
-        },
-    }
-    
-    if doc_key not in template_map:
-        raise ValueError(f"Unknown document key: {doc_key}. Available: {list(template_map.keys())}")
-    
-    config = template_map[doc_key]
+    if doc_key not in DOC_CONFIGS:
+        raise ValueError(f"Unknown document key: {doc_key}. Available: {list(DOC_CONFIGS.keys())}")
+
+    config = DOC_CONFIGS[doc_key]
     template_content = load_template(config["template"])
     sources = resolve_source_artifacts(config["sources"], workspace_dir)
     
-    missing_sources = [ref for ref, data in sources.items() if data is None]
-    if missing_sources:
-        raise ValueError(f"Missing source artifacts: {missing_sources}")
+    primary_source = config["sources"][0]
+    if sources.get(primary_source) is None:
+        raise ValueError(f"Missing source artifacts: ['{primary_source}']")
     
     rendered = _apply_template(template_content, sources, doc_key, generated_at)
     
@@ -138,41 +142,75 @@ def render_living_document(
     return rendered
 
 
+def render_all_living_documents(
+    workspace_dir: Path,
+    *,
+    generated_at: str | None = None,
+) -> dict[str, str]:
+    generated_at = generated_at or _default_timestamp()
+    rendered_docs: dict[str, str] = {}
+    for doc_key in DOC_CONFIGS:
+        try:
+            rendered_docs[doc_key] = render_living_document(
+                doc_key,
+                workspace_dir,
+                generated_at=generated_at,
+            )
+        except ValueError:
+            continue
+    return rendered_docs
+
+
 def _apply_template(
     template: str,
     sources: dict[str, Any],
     doc_key: str,
     generated_at: str,
 ) -> str:
-    """Apply a template with source data (simplified Jinja2-like rendering)."""
-    result = template
-    
+    """Apply a Jinja2 template with source data."""
+    env = Environment(loader=BaseLoader(), autoescape=False)
+    jinja_template = env.from_string(template)
+
+    # Build context: primary artifact fields at top level, plus helpers
+    context: dict[str, Any] = {
+        "generated_at": generated_at,
+        "doc_key": doc_key,
+    }
+
+    # Flatten primary source artifacts into context
     for ref, data in sources.items():
         if data is None:
             continue
-        
-        artifact_id = data.get(f"{doc_key.replace('-', '_')}_id", ref)
-        title = data.get("title", data.get("name", ref))
-        
-        result = result.replace(f"{{{{ {ref}.title }}}}", title)
-        result = result.replace(f"{{{{ {ref}.id }}}}", artifact_id)
-        
-        if "description" in data:
-            result = result.replace(f"{{{{ {ref}.description }}}}", data["description"])
-        if "summary" in data:
-            result = result.replace(f"{{{{ {ref}.summary }}}}", data["summary"])
-        if "problem_statement" in data:
-            result = result.replace(f"{{{{ {ref}.problem_statement }}}}", data["problem_statement"])
-        if "solution_approach" in data:
-            result = result.replace(f"{{{{ {ref}.solution_approach }}}}", data["solution_approach"])
-        if "out_of_scope" in data:
-            out_of_scope = "\n".join(f"- {item}" for item in data["out_of_scope"])
-            result = result.replace(f"{{{{ {ref}.out_of_scope }}}}", out_of_scope)
-        if "acceptance_criteria" in data:
-            criteria = "\n".join(f"- {item}" for item in data["acceptance_criteria"])
-            result = result.replace(f"{{{{ {ref}.acceptance_criteria }}}}", criteria)
-    
-    result = result.replace("{{ generated_at }}", generated_at)
-    result = result.replace("{{ doc_key }}", doc_key)
-    
-    return result
+        for key, value in data.items():
+            if key not in context or key in ("schema_version",):
+                # Prefer the first artifact that provides a given key
+                if key not in context:
+                    context[key] = value
+
+    # Helper: bullet-list formatter for list fields
+    def _bullet_list(items: list[str] | None) -> str:
+        if not items:
+            return ""
+        return "\n".join(f"- {item}" for item in items)
+
+    # Apply list-formatter aliases expected by templates
+    for list_key in ("out_of_scope", "acceptance_criteria", "criteria", "findings", "quotes"):
+        if list_key in context and isinstance(context[list_key], list):
+            context[list_key] = _bullet_list(context[list_key])
+
+    # Fallbacks for fields commonly referenced in templates but not always present
+    fallbacks = {
+        "title": context.get("title", "Untitled"),
+        "problem_statement": context.get("problem_statement", context.get("summary", "")),
+        "solution_approach": context.get("solution_approach", ""),
+        "evidence_quotes": context.get("evidence_quotes", context.get("quotes", "")),
+        "scope_summary": context.get("scope_summary", context.get("description", "")),
+        "timing_rationale": context.get("timing_rationale", ""),
+        "affected_segments": context.get("affected_segments", ""),
+        "desired_outcomes": context.get("desired_outcomes", ""),
+    }
+    for key, value in fallbacks.items():
+        if key not in context or not context[key]:
+            context[key] = value
+
+    return jinja_template.render(**context)

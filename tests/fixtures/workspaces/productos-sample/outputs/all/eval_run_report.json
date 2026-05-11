@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "eval_run_report_id": "eval_run_report_ws_productos_v2_bounded_baseline",
+  "workspace_id": "ws_productos_v2",
+  "eval_suite_manifest_id": "eval_suite_manifest_ws_productos_v2_bounded_baseline",
+  "baseline_version": "4.7.0",
+  "candidate_version": "4.8.0",
+  "status": "passed",
+  "run_scope": "Bounded validation run for truthful control-surface, context, traceability, and decision-memory changes.",
+  "summary": "The bounded baseline clears the frozen eval suite and can promote its claims.",
+  "total_cases": 5,
+  "passed_cases": 5,
+  "warning_cases": 0,
+  "failed_cases": 0,
+  "regression_count": 0,
+  "truthfulness_status": "healthy",
+  "case_results": [
+    {
+      "case_id": "eval_case_01",
+      "title": "Discover truthfulness",
+      "outcome": "pass",
+      "regression": false,
+      "provenance_classification": "real",
+      "notes": "Discover outputs stay strong, traceable, and explicitly bounded enough to clear the frozen internal-use truthfulness bar.",
+      "evidence_refs": [
+        "feature_scorecard_ws_productos_v2_discover_to_prd_superpower"
+      ]
+    },
+    {
+      "case_id": "eval_case_02",
+      "title": "Alignment traceability",
+      "outcome": "pass",
+      "regression": false,
+      "provenance_classification": "real",
+      "notes": "Docs and presentation preserve stakeholder-ready traceability, though the package still carries some mixed release provenance.",
+      "evidence_refs": [
+        "feature_scorecard_ws_productos_v2_docs_alignment_superpower",
+        "feature_scorecard_ws_productos_v2_presentation_superpower"
+      ]
+    },
+    {
+      "case_id": "eval_case_03",
+      "title": "Improvement honesty",
+      "outcome": "pass",
+      "regression": false,
+      "provenance_classification": "real",
+      "notes": "The scoring loop now stays grounded in frozen eval, decision-memory, validation, and release-gate evidence strongly enough to clear the internal-use honesty bar.",
+      "evidence_refs": [
+        "feature_scorecard_ws_productos_v2_self_improvement_loop"
+      ]
+    },
+    {
+      "case_id": "eval_case_04",
+      "title": "Control-surface truth",
+      "outcome": "pass",
+      "regression": false,
+      "provenance_classification": "mixed",
+      "notes": "The CLI now surfaces blocked promotion, eval pressure, and watch boundaries honestly enough to clear the frozen internal-use truth bar.",
+      "evidence_refs": [
+        "feature_scorecard_ws_productos_v2_runtime_control_surface"
+      ]
+    },
+    {
+      "case_id": "eval_case_05",
+      "title": "Decision memory retrieval",
+      "outcome": "pass",
+      "regression": false,
+      "provenance_classification": "real",
+      "notes": "Decision memory covers reversibility, rejected paths, tradeoffs, kill criteria, and follow-up dates.",
+      "evidence_refs": [
+        "decision_log_productos_core",
+        "strategic_memory_record_traceability"
+      ]
+    }
+  ],
+  "recommended_next_action": "Use the cleared bounded baseline to expand the governed research superpower and prepare the next strategy refresh.",
+  "generated_at": "2026-03-22T08:00:00Z"
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "intake_routing_state_id": "intake_routing_state_ws_productos_v2_next_version",
+  "workspace_id": "ws_productos_v2",
+  "ingestion_mode": "manual",
+  "status": "routing",
+  "routing_summary": "The next-version dogfood loop is routing real inbox notes and transcripts into the discover-to-PRD superpower path.",
+  "active_inbox_paths": [
+    "tests/fixtures/workspaces/productos-sample/inbox/raw-notes",
+    "tests/fixtures/workspaces/productos-sample/inbox/transcripts"
+  ],
+  "intake_items": [
+    {
+      "item_id": "inbox_raw_notes_2026_03_22_next_version_superpowers",
+      "inbox_path": "tests/fixtures/workspaces/productos-sample/inbox/raw-notes/2026-03-22-next-version-superpowers.md",
+      "input_type": "raw_note",
+      "captured_at": "2026-03-22T08:00:00Z",
+      "provenance_status": "complete",
+      "normalization_status": "routed",
+      "recommended_workflow_ids": [
+        "wf_inbox_to_normalized_evidence",
+        "wf_research_command_center",
+        "wf_problem_brief_to_prd"
+      ],
+      "derived_artifact_ids": [
+        "problem_brief_productos_next_version_discover",
+        "concept_brief_productos_next_version_discover"
+      ],
+      "notes": "Captured for next-version dogfood routing: # Next Version Superpowers"
+    },
+    {
+      "item_id": "inbox_transcripts_2026_03_22_dogfood_next_version_session",
+      "inbox_path": "tests/fixtures/workspaces/productos-sample/inbox/transcripts/2026-03-22-dogfood-next-version-session.txt",
+      "input_type": "transcript",
+      "captured_at": "2026-03-22T08:00:00Z",
+      "provenance_status": "complete",
+      "normalization_status": "routed",
+      "recommended_workflow_ids": [
+        "wf_transcript_to_notes",
+        "wf_research_command_center",
+        "wf_problem_brief_to_prd"
+      ],
+      "derived_artifact_ids": [
+        "concept_brief_productos_next_version_discover",
+        "prd_productos_next_version_discover"
+      ],
+      "notes": "Captured for next-version dogfood routing: Speaker 1: We should treat the current ProductOS workspace as the proving ground for the next version."
+    }
+  ],
+  "blocked_item_ids": [],
+  "created_at": "2026-03-22T08:00:00Z",
+  "updated_at": "2026-03-22T08:00:00Z"
+}

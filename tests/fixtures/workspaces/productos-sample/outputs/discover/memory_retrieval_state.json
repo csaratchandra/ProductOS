@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0.0",
+  "memory_retrieval_state_id": "memory_retrieval_state_ws_productos_v2_next_version",
+  "workspace_id": "ws_productos_v2",
+  "request_summary": "Retrieve the current ProductOS evidence, decision package, and repeated feedback needed to build the next-version superpower loops.",
+  "status": "ready",
+  "retrieval_scope": [
+    "decisions",
+    "evidence",
+    "prior_artifacts",
+    "repeated_issues",
+    "strategic_memory"
+  ],
+  "retrieval_strategy": {
+    "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    "steering_refs": [
+      "tests/fixtures/workspaces/productos-sample/docs/planning/steering-context.md",
+      "core/docs/vendor-neutral-agent-harness-standard.md",
+      "core/docs/ralph-loop-model.md"
+    ],
+    "priority_order": [
+      "decisions",
+      "evidence",
+      "prior_artifacts",
+      "repeated_issues",
+      "strategic_memory"
+    ],
+    "retrieval_policy_summary": "Retrieve mission-defining decisions and evidence first, then pull supporting artifacts, repeated issues, and strategic memory in the steering-defined order.",
+    "default_artifact_focus": [
+      "mission_brief",
+      "strategy_context_brief",
+      "product_vision_brief",
+      "market_strategy_brief",
+      "problem_brief",
+      "concept_brief",
+      "prd",
+      "document_sync_state",
+      "presentation_brief",
+      "status_mail",
+      "feature_portfolio_review"
+    ]
+  },
+  "provenance_status": "complete",
+  "retrieved_records": [
+    {
+      "record_type": "artifact",
+      "record_id": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+      "source_artifact_id": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+      "reason": "The mission brief defines the current PM-first execution goal and should stay visible across every downstream phase.",
+      "freshness_status": "fresh",
+      "confidence": 0.97,
+      "provenance_ref": "tests/fixtures/workspaces/productos-sample/artifacts/mission_brief.json"
+    },
+    {
+      "record_type": "artifact",
+      "record_id": "problem_brief_pm_superpower_recovery_mission_mission_discover",
+      "source_artifact_id": "problem_brief_pm_superpower_recovery_mission_mission_discover",
+      "reason": "The current problem framing anchors the next-version discover loop.",
+      "freshness_status": "fresh",
+      "confidence": 0.95,
+      "provenance_ref": "tests/fixtures/workspaces/productos-sample/artifacts/problem_brief.json"
+    },
+    {
+      "record_type": "artifact",
+      "record_id": "concept_brief_pm_superpower_recovery_mission_mission_discover",
+      "source_artifact_id": "concept_brief_pm_superpower_recovery_mission_mission_discover",
+      "reason": "The current concept framing remains the source of truth for next-version shaping.",
+      "freshness_status": "fresh",
+      "confidence": 0.94,
+      "provenance_ref": "tests/fixtures/workspaces/productos-sample/artifacts/concept_brief.json"
+    },
+    {
+      "record_type": "artifact",
+      "record_id": "prd_pm_superpower_recovery_mission_mission_discover",
+      "source_artifact_id": "prd_pm_superpower_recovery_mission_mission_discover",
+      "reason": "The current PRD is the downstream package the discover loop should eventually regenerate from live inputs.",
+      "freshness_status": "fresh",
+      "confidence": 0.96,
+      "provenance_ref": "tests/fixtures/workspaces/productos-sample/artifacts/prd.json"
+    },
+    {
+      "record_type": "issue",
+      "record_id": "pfb_001",
+      "source_artifact_id": "productos_feedback_log_2026_03_21",
+      "reason": "Repeated PM pain should shape what becomes a next-version superpower first.",
+      "freshness_status": "fresh",
+      "confidence": 0.91,
+      "provenance_ref": "tests/fixtures/workspaces/productos-sample/artifacts/productos_feedback_log.example.json"
+    },
+    {
+      "record_type": "artifact",
+      "record_id": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+      "source_artifact_id": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+      "reason": "The benchmark remains the release bar for every next-version loop.",
+      "freshness_status": "fresh",
+      "confidence": 0.93,
+      "provenance_ref": "generated_v4_foundation_bundle"
+    },
+    {
+      "record_type": "artifact",
+      "record_id": "prd_productos_next_version_discover",
+      "source_artifact_id": "prd_productos_next_version_discover",
+      "reason": "The promoted discover slice now proves the repo can generate a fresh next-version PRD package from live inbox inputs.",
+      "freshness_status": "fresh",
+      "confidence": 0.98,
+      "provenance_ref": "generated_next_version_bundle"
+    }
+  ],
+  "unresolved_questions": [
+    "How should the weekly PM autopilot reuse the promoted discover control surface without adding unnecessary review noise?"
+  ],
+  "provenance_warnings": [],
+  "created_at": "2026-03-22T08:00:00Z",
+  "updated_at": "2026-03-22T08:00:00Z"
+}

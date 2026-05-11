@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "manual_validation_record_id": "manual_validation_record_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "subject_ref": "prd_pm_lifecycle_visibility",
+  "subject_type": "prd",
+  "validation_tier": "tier_2",
+  "validator_role": "PM Operator",
+  "scope": "targeted",
+  "decision": "accept",
+  "fit_notes": [
+    "The item timeline makes it obvious what happened in discovery and what is ready next.",
+    "The discovery snapshot adds leadership visibility without obscuring the artifact trail."
+  ],
+  "required_follow_ups": [
+    "Extend the same gate and artifact model into story planning and acceptance readiness.",
+    "Decide how external publication adapters should consume lifecycle traces later in V5."
+  ],
+  "related_validation_report_ref": "validation_lane_report_pm_lifecycle_visibility",
+  "final_approval": true,
+  "recorded_at": "2026-03-23T10:45:00Z"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_glean_agentic_engine_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://www.glean.com/product/agentic-engine",
+  "title": "Glean leans on enterprise graph grounding for agent planning",
+  "claim": "Glean's agentic engine emphasizes adaptive planning grounded in an enterprise graph, learned relationships, and organizational context so agents can take on more complex work.",
+  "source_snippet": "Agents are grounded in the Enterprise Graph and adapt plans as new insights emerge.",
+  "implication": "ProductOS should use workspace memory and canonical-source retrieval to ground agentic research instead of letting agents improvise from stale context.",
+  "confidence": "high",
+  "followup_questions": [
+    "Which ProductOS memory surfaces should be mandatory context before a research agent can recommend scope or positioning?"
+  ],
+  "source_metadata": {
+    "source_url": "https://www.glean.com/product/agentic-engine",
+    "retrieved_at": "2026-03-21T09:12:00Z",
+    "source_slice_ref": "agentic-engine",
+    "dedupe_key": "glean-agentic-engine",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "glean-agentic-engine",
+  "tags": ["research", "agentic", "glean", "grounding"],
+  "created_at": "2026-03-21T09:13:00Z"
+}

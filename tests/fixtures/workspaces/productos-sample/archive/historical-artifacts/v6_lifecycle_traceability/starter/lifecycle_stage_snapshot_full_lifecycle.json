@@ -1,0 +1,235 @@
+{
+  "schema_version": "1.0.0",
+  "lifecycle_stage_snapshot_id": "lifecycle_stage_snapshot_full_lifecycle_starter_trace_demo",
+  "workspace_id": "ws_product_starter",
+  "focus_area": "full_lifecycle",
+  "snapshot_summary": "The starter workspace demonstrates one canonical item from intake through release_readiness, with launch and outcome stages still explicit but deferred.",
+  "item_count": 1,
+  "segment_count": 1,
+  "persona_count": 2,
+  "artifact_counts": {
+    "research_notebook": 1,
+    "segment_map": 1,
+    "persona_pack": 1,
+    "competitor_dossier": 1,
+    "market_analysis_brief": 1,
+    "idea_record": 1,
+    "problem_brief": 1,
+    "concept_brief": 1,
+    "prototype_record": 1,
+    "ux_design_review": 1,
+    "prd": 1,
+    "validation_lane_report": 1,
+    "manual_validation_record": 1,
+    "story_pack": 1,
+    "acceptance_criteria_set": 1,
+    "release_readiness": 1,
+    "item_lifecycle_state": 1
+  },
+  "active_item_ids": [
+    "opp_starter_trace_demo"
+  ],
+  "gate_counts": {
+    "passed": 10,
+    "pending": 0,
+    "blocked": 0,
+    "not_started": 2
+  },
+  "stage_summaries": [
+    {
+      "stage_key": "signal_intake",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [
+        "idea_record_starter_trace_demo"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The starter item is seeded into the lifecycle trace."
+    },
+    {
+      "stage_key": "research_synthesis",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [
+        "research_notebook_starter_trace_demo",
+        "competitor_dossier_starter_trace_demo",
+        "market_analysis_brief_starter_trace_demo"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "Research grounding is present in the seeded starter bundle."
+    },
+    {
+      "stage_key": "segmentation_and_personas",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [
+        "segment_map_starter_trace_demo",
+        "persona_pack_starter_trace_demo"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "Segment and persona context remains linked through the full bounded trace."
+    },
+    {
+      "stage_key": "problem_framing",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [
+        "problem_brief_starter_trace_demo"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The starter problem framing remains explicit."
+    },
+    {
+      "stage_key": "concept_shaping",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [
+        "concept_brief_starter_trace_demo"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The selected concept remains visible in the starter bundle."
+    },
+    {
+      "stage_key": "prototype_validation",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [
+        "prototype_record_starter_trace_demo",
+        "ux_design_review_starter_trace_demo"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "Interactive prototype validation evidence and UX review remain linked to the canonical item."
+    },
+    {
+      "stage_key": "prd_handoff",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [
+        "prd_starter_trace_demo",
+        "validation_lane_report_starter_trace_demo",
+        "manual_validation_record_starter_trace_demo"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The starter demo reaches validated PRD handoff."
+    },
+    {
+      "stage_key": "story_planning",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [
+        "story_pack_starter_trace_demo"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "One bounded delivery story extends the starter demo past PRD handoff."
+    },
+    {
+      "stage_key": "acceptance_ready",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [
+        "acceptance_criteria_set_starter_trace_demo"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The starter story is acceptance-ready and testable."
+    },
+    {
+      "stage_key": "release_readiness",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [
+        "release_readiness_starter_trace_demo"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "The starter demo reaches a bounded release-readiness checkpoint."
+    },
+    {
+      "stage_key": "launch_preparation",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [],
+      "gate_status_counts": {
+        "passed": 0,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 1
+      },
+      "summary": "Launch preparation remains intentionally deferred."
+    },
+    {
+      "stage_key": "outcome_review",
+      "item_ids": [
+        "opp_starter_trace_demo"
+      ],
+      "artifact_ids": [],
+      "gate_status_counts": {
+        "passed": 0,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 1
+      },
+      "summary": "Outcome review remains intentionally deferred."
+    }
+  ],
+  "created_at": "2026-03-27T08:30:00Z"
+}

@@ -3,7 +3,7 @@
   "registration_id": "suite_reg_productos",
   "suite_id": "suite_productos",
   "suite_name": "ProductOS Portfolio Suite",
-  "current_core_version": "10.0.0",
+  "current_core_version": "12.0.0",
   "workspace_ids": [
     "ws_productos_v2"
   ],
@@ -139,6 +139,12 @@
       "adopted_at": "2026-05-03T08:00:00Z",
       "approved_by": "ProductOS PM",
       "change_note": "Promoted the suite to ProductOS V10.0.0 after the PM superpower platform, V10 schema set, and manifest-backed verification surfaces cleared the public proof bar."
+    },
+    {
+      "core_version": "12.0.0",
+      "adopted_at": "2026-05-11T11:27:23Z",
+      "approved_by": "ProductOS PM",
+      "change_note": "Promoted the suite to ProductOS V12.0.0 after the v12 living-system and agent-native execution completion passed the public release operator."
     }
   ],
   "registered_at": "2026-03-19T18:30:00Z"

@@ -1,0 +1,224 @@
+{
+  "schema_version": "1.0.0",
+  "orchestration_state_id": "orchestration_state_ws_productos_v2_next_version",
+  "workspace_id": "ws_productos_v2",
+  "goal": "Use the cleared bounded baseline to expand the governed research superpower and keep the next strategy packet evidence-backed.",
+  "status": "completed",
+  "coordination_summary": "The bounded baseline now clears the frozen eval suite and portfolio truthfulness gate. The hardening cycle is complete, and the next step is broadening governed research across market, competitor, and customer signals.",
+  "initiating_agent": "cockpit",
+  "mission_control": {
+    "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    "mission_title": "PM superpower recovery mission",
+    "active_stage": "improve",
+    "current_route_ref": "route_score_and_improve",
+    "next_route_ref": "route_research_superpower",
+    "current_task_name": "Expand the governed research superpower",
+    "current_task_summary": "The bounded baseline gate is clear, so the next disciplined slice should broaden governed research across market, competitor, and customer signals instead of shifting to a lifecycle-only extension.",
+    "current_task_status": "ready_for_research_expansion",
+    "reviewer_lane": "pm_builder"
+  },
+  "route_budget": {
+    "max_parallel_routes": 3,
+    "active_route_count": 0,
+    "awaiting_review_count": 0,
+    "blocked_route_count": 0
+  },
+  "active_route_ids": [],
+  "blocked_route_ids": [],
+  "awaiting_review_route_ids": [],
+  "linked_workflow_state_ids": [
+    "wf_next_version_superpower_ops"
+  ],
+  "linked_execution_session_state_ids": [
+    "discover_execution_session_ws_productos_v2",
+    "align_execution_session_ws_productos_v2",
+    "operate_execution_session_ws_productos_v2",
+    "improve_execution_session_ws_productos_v2"
+  ],
+  "route_plan": [
+    {
+      "route_id": "route_discover_to_prd",
+      "agent_name": "workflow",
+      "objective": "Turn live inbox notes and transcripts into a decision-ready discovery-operations path that can become the discover standard for the next version.",
+      "rationale": "This route is now promoted as the first completed next-version superpower slice.",
+      "stage": "discover",
+      "status": "completed",
+      "reviewer_lane": "pm_builder",
+      "input_artifact_ids": [
+        "inbox_raw_notes_2026_03_22_next_version_superpowers",
+        "inbox_transcripts_2026_03_22_dogfood_next_version_session"
+      ],
+      "expected_output_artifact_ids": [
+        "strategy_context_brief_productos_next_version_discover",
+        "product_vision_brief_productos_next_version_discover",
+        "market_strategy_brief_productos_next_version_discover",
+        "problem_brief_productos_next_version_discover",
+        "handoff_discovery_to_research_ws_productos_v2",
+        "research_notebook_ws_productos_v2",
+        "research_brief_ws_productos_v2_discover_seed",
+        "external_research_plan_ws_productos_v2",
+        "external_research_source_discovery_ws_productos_v2",
+        "external_research_review_ws_productos_v2",
+        "competitor_dossier_ws_productos_v2",
+        "customer_pulse_ws_productos_v2",
+        "market_analysis_brief_ws_productos_v2",
+        "concept_brief_productos_next_version_discover",
+        "prd_productos_next_version_discover",
+        "feature_scorecard_ws_productos_v2_discover_to_prd_superpower"
+      ],
+      "execution_session_state_id": "discover_execution_session_ws_productos_v2",
+      "next_action": "Keep the discover outputs as the current standard and hand the next bounded slice to the weekly PM autopilot route."
+    },
+    {
+      "route_id": "route_docs_and_deck",
+      "agent_name": "presentation",
+      "objective": "Package current ProductOS truth into readable docs and a stakeholder-ready deck through one aligned path.",
+      "rationale": "Alignment is already one of the strongest current slices and should stay usable during the next-version build.",
+      "stage": "align",
+      "status": "completed",
+      "reviewer_lane": "ai_reviewer",
+      "depends_on_route_ids": [
+        "route_discover_to_prd"
+      ],
+      "input_artifact_ids": [
+        "prd_pm_superpower_recovery_mission_mission_discover",
+        "document_sync_state_ws_productos_v2_v4_2_live_docs",
+        "presentation_brief_ws_productos_v2_v4_comm"
+      ],
+      "expected_output_artifact_ids": [
+        "document_sync_state_ws_productos_v2_v4_2_live_docs",
+        "feature_scorecard_ws_productos_v2_docs_alignment_superpower",
+        "feature_scorecard_ws_productos_v2_presentation_superpower"
+      ],
+      "execution_session_state_id": "align_execution_session_ws_productos_v2",
+      "next_action": "Refresh the readable docs and deck from the promoted discover package whenever the mission package changes."
+    },
+    {
+      "route_id": "route_operator_autopilot",
+      "agent_name": "cockpit",
+      "objective": "Collapse current queue and release state into one supervised weekly operator path.",
+      "rationale": "The weekly PM autopilot is the next high-leverage slice after the discover loop.",
+      "stage": "operate",
+      "status": "completed",
+      "reviewer_lane": "pm_builder",
+      "input_artifact_ids": [
+        "decision_queue_productos_v4_4",
+        "follow_up_queue_productos_v4_4",
+        "status_2026_03_weekly_01",
+        "issue_log_2026_03_22_next_version"
+      ],
+      "expected_output_artifact_ids": [
+        "status_2026_03_weekly_01",
+        "issue_log_2026_03_22_next_version",
+        "feature_scorecard_ws_productos_v2_weekly_pm_autopilot",
+        "feature_scorecard_ws_productos_v2_runtime_control_surface"
+      ],
+      "execution_session_state_id": "operate_execution_session_ws_productos_v2",
+      "next_action": "Keep the supervised weekly operator bundle active as part of the promoted baseline."
+    },
+    {
+      "route_id": "route_score_and_improve",
+      "agent_name": "improvement_planner",
+      "objective": "Refresh the portfolio review and improvement loop after every major bounded slice.",
+      "rationale": "Sub-5 features should always become explicit improvement work, and the loop must stay subordinate to frozen eval and decision-memory evidence before claiming promotion.",
+      "stage": "improve",
+      "status": "completed",
+      "reviewer_lane": "ai_tester",
+      "depends_on_route_ids": [
+        "route_discover_to_prd",
+        "route_operator_autopilot"
+      ],
+      "input_artifact_ids": [
+        "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+        "improvement_loop_state_productos_v4_next_version_baseline",
+        "decision_log_productos_core",
+        "strategic_memory_record_traceability",
+        "eval_suite_manifest_ws_productos_v2_bounded_baseline",
+        "eval_run_report_ws_productos_v2_bounded_baseline"
+      ],
+      "expected_output_artifact_ids": [
+        "feature_scorecard_ws_productos_v2_self_improvement_loop",
+        "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+        "feature_scorecard_ws_productos_v2_autonomous_pm_swarm",
+        "improvement_loop_state_productos_v4_next_version_baseline",
+        "eval_suite_manifest_ws_productos_v2_bounded_baseline",
+        "eval_run_report_ws_productos_v2_bounded_baseline"
+      ],
+      "execution_session_state_id": "improve_execution_session_ws_productos_v2",
+      "next_action": "Use the cleared score-refresh loop to choose the next bounded expansion slice."
+    },
+    {
+      "route_id": "route_research_superpower",
+      "agent_name": "research",
+      "objective": "Expand ProductOS into a broad-but-governed research superpower that captures market, competitor, and customer signals before strategy and release claims broaden.",
+      "rationale": "Research is already a real PM superpower, so the next bounded expansion should deepen source coverage, signal synthesis, and reviewable evidence instead of defaulting to another lifecycle packaging slice.",
+      "stage": "discover",
+      "status": "ready",
+      "reviewer_lane": "pm_builder",
+      "depends_on_route_ids": [
+        "route_score_and_improve"
+      ],
+      "input_artifact_ids": [
+        "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+        "research_brief_ws_productos_v2_discover_seed",
+        "external_research_plan_ws_productos_v2",
+        "external_research_source_discovery_ws_productos_v2",
+        "external_research_review_ws_productos_v2",
+        "feature_scorecard_ws_productos_v2_market_intelligence_superpower"
+      ],
+      "expected_output_artifact_ids": [
+        "external_research_feed_registry_ws_productos_v2",
+        "research_brief_ws_productos_v2_discover_seed",
+        "external_research_source_discovery_ws_productos_v2",
+        "external_research_review_ws_productos_v2",
+        "competitor_dossier_ws_productos_v2",
+        "customer_pulse_ws_productos_v2",
+        "market_analysis_brief_ws_productos_v2",
+        "feature_scorecard_ws_productos_v2_market_intelligence_superpower"
+      ],
+      "execution_session_state_id": "improve_execution_session_ws_productos_v2",
+      "next_action": "Stand up broader feed coverage, rerun governed discovery, and keep freshness, contradiction review, and PM approval explicit before downstream strategy claims broaden."
+    }
+  ],
+  "queue_impacts": [
+    {
+      "queue_type": "review_queue",
+      "artifact_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+      "item_id": "market_intelligence",
+      "recommended_action": "review_now",
+      "reason": "The bounded baseline gate is clear, so the next review should expand governed research coverage and signal synthesis instead of shifting to another lifecycle-only packaging slice.",
+      "status": "recommended"
+    }
+  ],
+  "handoff_log": [
+    {
+      "timestamp": "2026-03-22T08:00:00Z",
+      "from_agent": "workflow",
+      "to_agent": "research",
+      "handoff_type": "artifact_transfer",
+      "status": "accepted",
+      "artifact_ids": [
+        "problem_brief_productos_next_version_discover",
+        "handoff_discovery_to_research_ws_productos_v2",
+        "research_notebook_ws_productos_v2",
+        "research_brief_ws_productos_v2_discover_seed"
+      ],
+      "message": "The discover route transferred the current strategy and problem framing into one reusable research packet before downstream prioritization expands."
+    },
+    {
+      "timestamp": "2026-03-22T08:00:00Z",
+      "from_agent": "cockpit",
+      "to_agent": "workflow",
+      "handoff_type": "artifact_transfer",
+      "status": "accepted",
+      "artifact_ids": [
+        "feature_portfolio_review_ws_productos_v2_next_version_baseline"
+      ],
+      "message": "The repo control surface promoted discover and handed the next bounded slice to the weekly operator route."
+    }
+  ],
+  "retry_events": [],
+  "escalations": [],
+  "created_at": "2026-03-22T08:00:00Z",
+  "updated_at": "2026-03-22T08:00:00Z"
+}

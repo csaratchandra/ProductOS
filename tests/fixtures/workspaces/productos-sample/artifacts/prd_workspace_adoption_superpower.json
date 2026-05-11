@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "prd_id": "prd_workspace_adoption_superpower",
+  "workspace_id": "ws_productos_v2",
+  "title": "PRD: Workspace adoption superpower",
+  "problem_summary": "ProductOS is still weak at converting an existing notes-first product workspace into first-class ProductOS artifacts and lifecycle state without manual restructuring.",
+  "outcome_summary": "ProductOS can adopt a workspace such as CodeSync, infer the initial artifact set, persist it into a runnable ProductOS workspace, and surface uncertainty through explicit review queues instead of leaving the work trapped in notes.",
+  "scope_summary": "Add a bounded workspace-adoption path that classifies arbitrary product files, builds intake routing, infers first-pass discovery artifacts, creates one canonical lifecycle item, persists the results, and emits an adoption report plus review queue.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_pm_teams_with_notes_first_workspaces"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_builder"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_workspace_adoption_superpower"
+    }
+  ],
+  "upstream_artifact_ids": [
+    "intake_routing_state_ws_productos_v2_discovery_traceability",
+    "research_feature_recommendation_brief_ws_productos_v2_v4_1",
+    "validation_lane_report_ws_productos_v2_v7_lifecycle_traceability"
+  ],
+  "generated_at": "2026-04-08T00:00:00Z"
+}

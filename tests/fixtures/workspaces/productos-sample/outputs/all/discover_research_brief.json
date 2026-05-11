@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0.0",
+  "research_brief_id": "research_brief_ws_productos_v2_discover_seed",
+  "workspace_id": "ws_productos_v2",
+  "title": "Research Brief: ProductOS next-version discover proof",
+  "research_question": "What evidence should ProductOS gather next to validate 'Problem Brief: ProductOS next-version discover proof' and route the next decision?",
+  "summary": "ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD package with minimal PM reconstruction.",
+  "strategic_implications": [
+    "The next version must prove a concrete discover wedge inside the reference workspace before broader strategy claims are credible.",
+    "PMs can move from mission to strategy-ready problem framing without reopening raw source notes."
+  ],
+  "source_note_card_ids": [
+    "source_note_card_discover_market_validation_candidate_1",
+    "source_note_card_discover_competitor_research_candidate_2",
+    "source_note_card_discover_customer_evidence_candidate_3"
+  ],
+  "research_notebook_ids": [
+    "research_notebook_ws_productos_v2"
+  ],
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_productos_next_version_proof_gap"
+    },
+    {
+      "entity_type": "outcome",
+      "entity_id": "outcome_productos_same_day_prd_package"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opportunity_productos_discover_superpower"
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_productos_repo_first_discover_cli"
+    }
+  ],
+  "insights": [
+    {
+      "insight_id": "discover_problem_focus",
+      "statement": "ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD package with minimal PM reconstruction.",
+      "evidence_strength": "moderate",
+      "claim_mode": "inferred",
+      "next_validation_step": "Collect fresh reusable sources that either reinforce or challenge this framing.",
+      "supporting_source_note_card_ids": [
+        "problem_brief_productos_next_version_discover"
+      ]
+    }
+  ],
+  "contradictions": [],
+  "known_gaps": [
+    "External buyer evidence is still needed to validate the current strategy-to-problem chain.",
+    "Reusable source note cards do not yet exist for this discover packet."
+  ],
+  "external_research_questions": [
+    {
+      "question_id": "discover_market_validation",
+      "question": "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+      "why_it_matters": "The opportunity and validation spine should start from current buyer urgency rather than internal narration alone.",
+      "recommended_source_type": "market_validation",
+      "priority": "high"
+    },
+    {
+      "question_id": "discover_competitor_research",
+      "question": "How do current alternatives frame this workflow problem and where are their proof boundaries weaker?",
+      "why_it_matters": "ProductOS should preserve a differentiated posture instead of collapsing into a generic workflow summary.",
+      "recommended_source_type": "competitor_research",
+      "priority": "high"
+    },
+    {
+      "question_id": "discover_customer_evidence",
+      "question": "What direct PM or operator evidence quantifies the manual reconstruction burden in this workflow?",
+      "why_it_matters": "Empathy synthesis should be grounded in reusable evidence before prioritization expands.",
+      "recommended_source_type": "customer_evidence",
+      "priority": "medium"
+    }
+  ],
+  "synthesis_provenance": [
+    "Derived from problem_brief_productos_next_version_discover to seed the integrated discovery-operations loop.",
+    "Refined with 3 external sources across competitor_research, customer_evidence, market_validation."
+  ],
+  "recommendation": "gather_more_research",
+  "created_at": "2026-04-21T10:00:00Z"
+}

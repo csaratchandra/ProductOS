@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "external_research_source_discovery_id": "external_research_source_discovery_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "generated_from_plan_id": "external_research_plan_ws_productos_v2",
+  "search_provider": "duckduckgo_html",
+  "search_status": "completed",
+  "discovered_questions": [
+    {
+      "question_id": "discover_market_validation",
+      "query": "What fresh market evidence shows this problem is urgent for the target PM buyer right now",
+      "source_type": "market_validation",
+      "candidate_count": 1,
+      "queries_attempted": 3,
+      "providers_attempted": [
+        "duckduckgo_html"
+      ]
+    },
+    {
+      "question_id": "discover_competitor_research",
+      "query": "How do current alternatives frame this workflow problem and where are their proof boundaries weaker",
+      "source_type": "competitor_research",
+      "candidate_count": 1,
+      "queries_attempted": 3,
+      "providers_attempted": [
+        "duckduckgo_html"
+      ]
+    },
+    {
+      "question_id": "discover_customer_evidence",
+      "query": "What direct PM or operator evidence quantifies the manual reconstruction burden in this workflow",
+      "source_type": "customer_evidence",
+      "candidate_count": 1,
+      "queries_attempted": 3,
+      "providers_attempted": [
+        "duckduckgo_html"
+      ]
+    }
+  ],
+  "candidate_sources": [
+    {
+      "source_id": "discover_market_validation_candidate_1",
+      "question_id": "discover_market_validation",
+      "source_type": "market_validation",
+      "title": "Market Proof",
+      "uri": "file:///Users/sarat/Documents/code/ProductOS/tests/fixtures/workspaces/productos-sample/fixtures/research-sources/market-proof.html",
+      "snippet": "The opportunity and validation spine should start from current buyer urgency rather than internal narration alone.",
+      "search_query": "What fresh market evidence shows this problem is urgent for the target PM buyer right now",
+      "selection_status": "suggested",
+      "provider": "duckduckgo_html",
+      "domain": "unknown",
+      "quality_score": 31,
+      "selection_reason": "query match: market; question match: market",
+      "freshness_expectation": "fresh",
+      "content_quality_score": 85,
+      "content_quality_status": "accepted",
+      "content_quality_reason": "Fetched content is compact but strong enough overall to support bounded refresh. Best evidence: Workflow Proof Market Note Buyers increasingly expect measurable rollout proof, explicit workflow controls, and visible approval boundaries before they trust AI-assisted PM systems.",
+      "evidence_excerpt": "Workflow Proof Market Note Buyers increasingly expect measurable rollout proof, explicit workflow controls, and visible approval boundaries before they trust AI-assisted PM systems.",
+      "detected_freshness_status": "usable_with_review",
+      "detected_title": "Workflow Proof Market Note"
+    },
+    {
+      "source_id": "discover_competitor_research_candidate_2",
+      "question_id": "discover_competitor_research",
+      "source_type": "competitor_research",
+      "title": "Competitor Brief",
+      "uri": "file:///Users/sarat/Documents/code/ProductOS/tests/fixtures/workspaces/productos-sample/fixtures/research-sources/competitor-brief.html",
+      "snippet": "ProductOS should preserve a differentiated posture instead of collapsing into a generic workflow summary.",
+      "search_query": "How do current alternatives frame this workflow problem and where are their proof boundaries weaker",
+      "selection_status": "suggested",
+      "provider": "duckduckgo_html",
+      "domain": "unknown",
+      "quality_score": 31,
+      "selection_reason": "query match: workflow; question match: workflow",
+      "freshness_expectation": "usable_with_review",
+      "content_quality_score": 75,
+      "content_quality_status": "accepted",
+      "content_quality_reason": "Fetched content is compact but strong enough overall to support bounded refresh. Best evidence: RivalFlow Competitor Overview RivalFlow emphasizes automation breadth and all-in-one workflow coverage for PM teams.",
+      "evidence_excerpt": "RivalFlow Competitor Overview RivalFlow emphasizes automation breadth and all-in-one workflow coverage for PM teams.",
+      "detected_freshness_status": "usable_with_review",
+      "detected_title": "RivalFlow Competitor Overview"
+    },
+    {
+      "source_id": "discover_customer_evidence_candidate_3",
+      "question_id": "discover_customer_evidence",
+      "source_type": "customer_evidence",
+      "title": "Customer Signal",
+      "uri": "file:///Users/sarat/Documents/code/ProductOS/tests/fixtures/workspaces/productos-sample/fixtures/research-sources/customer-signal.txt",
+      "snippet": "Empathy synthesis should be grounded in reusable evidence before prioritization expands.",
+      "search_query": "What direct PM or operator evidence quantifies the manual reconstruction burden in this workflow",
+      "selection_status": "suggested",
+      "provider": "duckduckgo_html",
+      "domain": "unknown",
+      "quality_score": 22,
+      "selection_reason": "selected as the strongest available bounded search match",
+      "freshness_expectation": "fresh",
+      "content_quality_score": 82,
+      "content_quality_status": "accepted",
+      "content_quality_reason": "Fetched content has enough substance and direct question overlap to support bounded research refresh. Best evidence: They want clearer queue ownership, fewer manual follow-up loops, and evidence they can reuse instead of restating context in every review.",
+      "evidence_excerpt": "They want clearer queue ownership, fewer manual follow-up loops, and evidence they can reuse instead of restating context in every review.",
+      "detected_freshness_status": "usable_with_review"
+    }
+  ],
+  "created_at": "2026-04-21T10:00:00Z"
+}

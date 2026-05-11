@@ -86,4 +86,5 @@ See `core/examples/artifacts/customer_journey_map.example.json`
 
 - **Schema**: `customer_journey_map.schema.json`
 - **Test**: `tests/test_v10_customer_journey.py`
+- **Test**: `tests/test_customer_journey_synthesis.py`
 - **Example**: `core/examples/artifacts/customer_journey_map.example.json`

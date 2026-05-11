@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "source_id": "discover_market_validation_candidate_1",
+      "uri": "file:///Users/sarat/Documents/code/ProductOS/tests/fixtures/workspaces/productos-sample/fixtures/research-sources/market-proof.html",
+      "source_type": "market_validation",
+      "title": "Workflow Proof Market Note",
+      "published_at": "",
+      "question_id": "discover_market_validation",
+      "rationale": "Workflow Proof Market Note Buyers increasingly expect measurable rollout proof, explicit workflow controls, and visible approval boundaries before they trust AI-assisted PM systems.",
+      "freshness_expectation": "fresh"
+    },
+    {
+      "source_id": "discover_competitor_research_candidate_2",
+      "uri": "file:///Users/sarat/Documents/code/ProductOS/tests/fixtures/workspaces/productos-sample/fixtures/research-sources/competitor-brief.html",
+      "source_type": "competitor_research",
+      "title": "RivalFlow Competitor Overview",
+      "published_at": "",
+      "question_id": "discover_competitor_research",
+      "rationale": "RivalFlow Competitor Overview RivalFlow emphasizes automation breadth and all-in-one workflow coverage for PM teams.",
+      "freshness_expectation": "usable_with_review"
+    },
+    {
+      "source_id": "discover_customer_evidence_candidate_3",
+      "uri": "file:///Users/sarat/Documents/code/ProductOS/tests/fixtures/workspaces/productos-sample/fixtures/research-sources/customer-signal.txt",
+      "source_type": "customer_evidence",
+      "title": "Customer Signal",
+      "published_at": "",
+      "question_id": "discover_customer_evidence",
+      "rationale": "They want clearer queue ownership, fewer manual follow-up loops, and evidence they can reuse instead of restating context in every review.",
+      "freshness_expectation": "fresh"
+    }
+  ]
+}

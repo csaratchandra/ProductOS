@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_discover_competitor_research_candidate_2",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "discover_competitor_research_candidate_2",
+  "title": "RivalFlow Competitor Overview",
+  "claim": "RivalFlow Competitor Overview RivalFlow emphasizes automation breadth and all-in-one workflow coverage for PM teams.",
+  "source_snippet": "RivalFlow Competitor Overview RivalFlow emphasizes automation breadth and all-in-one workflow coverage for PM teams. Its narrative keeps approval gates and evidence traceability less explicit than ProductOS should all...",
+  "implication": "Its narrative keeps approval gates and evidence traceability less explicit than ProductOS should allow for its own positioning.",
+  "confidence": "moderate",
+  "freshness_status": "usable_with_review",
+  "unknowns": [
+    "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+    "How do current alternatives frame this workflow problem and where are their proof boundaries weaker?"
+  ],
+  "followup_questions": [
+    "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+    "How do current alternatives frame this workflow problem and where are their proof boundaries weaker?",
+    "What direct PM or operator evidence quantifies the manual reconstruction burden in this workflow?"
+  ],
+  "source_metadata": {
+    "source_url": "file:///Users/sarat/Documents/code/ProductOS/tests/fixtures/workspaces/productos-sample/fixtures/research-sources/competitor-brief.html",
+    "published_at": "",
+    "retrieved_at": "2026-04-21T10:00:00Z",
+    "source_slice_ref": "discover_competitor_research",
+    "dedupe_key": "file_users_sarat_documents_code_productos_internal_productos_next_fixtures_research_sources_competitor_brief_html",
+    "credibility_tier": "secondary"
+  },
+  "dedupe_key": "file_users_sarat_documents_code_productos_internal_productos_next_fixtures_research_sources_competitor_brief_html",
+  "linked_entity_refs": [
+    {
+      "entity_id": "segment_b2b_product_teams",
+      "entity_type": "segment"
+    },
+    {
+      "entity_id": "persona_product_manager",
+      "entity_type": "persona"
+    },
+    {
+      "entity_id": "problem_productos_next_version_proof_gap",
+      "entity_type": "problem"
+    },
+    {
+      "entity_id": "outcome_productos_same_day_prd_package",
+      "entity_type": "outcome"
+    },
+    {
+      "entity_id": "opportunity_productos_discover_superpower",
+      "entity_type": "opportunity"
+    },
+    {
+      "entity_id": "feature_productos_repo_first_discover_cli",
+      "entity_type": "feature"
+    }
+  ],
+  "tags": [
+    "competitor_research",
+    "usable_with_review",
+    "discover_competitor_research",
+    "segment_b2b_product_teams",
+    "persona_product_manager"
+  ],
+  "created_at": "2026-04-21T10:00:00Z"
+}

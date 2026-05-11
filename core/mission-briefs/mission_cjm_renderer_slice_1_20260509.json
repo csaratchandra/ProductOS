@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "mission_brief_id": "mission_cjm_renderer_slice_1_20260509",
+  "workspace_id": "ws_productos_v2",
+  "portfolio_id": "portfolio_productos_v12",
+  "title": "Customer Journey Map Visual Renderer — Slice 1 (Render-First)",
+  "mission_summary": "Build an interactive, zero-dependency HTML renderer for the existing customer_journey_map.schema.json that produces a beautiful, brand-compliant journey map a PM can open in a browser, iterate on, and share. This is the render-first slice: the JSON is manually authored or pre-existing; synthesis from persona/research artifacts comes in Slice 2.",
+  "target_user": "Product Manager using ProductOS to map and communicate customer journeys",
+  "customer_problem": "PMs have journey map data in structured JSON but cannot turn it into a visual artifact they can present, iterate on, or share with stakeholders. Existing tools require manual design work or export to PowerPoint which breaks interactivity.",
+  "business_goal": "Give PMs a one-command path from structured journey data to a consultant-grade interactive visual that influences teams and stakeholders.",
+  "maturity_band": "one_to_ten",
+  "primary_outcomes": [
+    "Standalone interactive HTML journey map from customer_journey_map.json",
+    "CLI command: ./productos render journey-map --workspace-dir <dir>",
+    "Visual regression test coverage for stage count, emotion curve, pain-point badges, and interactivity"
+  ],
+  "primary_kpis": [
+    "Render completes in <2 seconds for 11-stage journey",
+    "Zero external runtime dependencies (embedded CSS + vanilla JS)",
+    "Passes pytest visual regression suite"
+  ],
+  "review_gate_owner": "ProductOS PM",
+  "success_metrics": [
+    "./productos render journey-map produces outputs/discover/customer_journey_map.html",
+    "HTML contains all 11 stages from example artifact with correct emotion color coding",
+    "SVG emotion curve renders with peak at adoption (score 9) and valley at purchase (score 5)",
+    "Clicking a stage opens detail panel with persona actions, thoughts, touchpoints, channels, pain points, drop-off risk",
+    "pytest tests/test_customer_journey_rendering.py passes"
+  ],
+  "constraints": [
+    "Use ProductOS brand tokens from design_token_set.example.json (Inter, #2563EB primary, #DC2626 error, #D97706 warning, #16A34A success)",
+    "Follow visual-style-system.md (consultant-grade, story-led, evidence-close-to-claim)",
+    "Keep the slice bounded: no synthesis runtime, no living system integration, no deck export in this slice"
+  ],
+  "audience": [
+    "PM",
+    "design",
+    "leadership",
+    "customer success"
+  ],
+  "operating_mode": "discover_to_align",
+  "mission_router": {
+    "entry_phase": "discover",
+    "phase_sequence": [
+      "discover",
+      "align"
+    ],
+    "primary_reviewer_lane": "pm_builder",
+    "routing_rationale": "Render-first slice: validate the visual language and interactivity with existing JSON data before investing in synthesis runtime. Align phase validates the output is presentation-ready.",
+    "stop_conditions": [
+      "Stop if visual output does not match ProductOS brand tokens and style system",
+      "Stop if interactivity requires external dependencies",
+      "Stop if test coverage is below the bounded claim"
+    ]
+  },
+  "steering_context": {
+    "steering_refs": [
+      "core/docs/v12-agent-native-execution-plan.md",
+      "core/docs/visual-style-system.md",
+      "core/schemas/artifacts/design_token_set.schema.json",
+      "core/schemas/artifacts/customer_journey_map.schema.json",
+      "core/examples/artifacts/customer_journey_map.example.json"
+    ],
+    "operating_norms": [
+      "Treat the repository as the system of record",
+      "Keep PM approval explicit for decision-driving scope and release movement",
+      "Prefer the smallest coherent slice that can be reviewed and validated end to end",
+      "Render-first: get the visual right, then automate the data pipeline"
+    ],
+    "memory_priority_order": [
+      "decisions",
+      "evidence",
+      "prior_artifacts",
+      "repeated_issues",
+      "strategic_memory"
+    ],
+    "default_artifact_focus": [
+      "customer_journey_map",
+      "design_token_set",
+      "visual_map_spec"
+    ]
+  },
+  "primary_workflow_refs": [
+    "core/skills/customer_journey_synthesis/SKILL.md",
+    "core/docs/v12-agent-native-execution-plan.md"
+  ],
+  "source_refs": [
+    "core/examples/artifacts/customer_journey_map.example.json",
+    "core/examples/artifacts/design_token_set.example.json",
+    "core/schemas/artifacts/customer_journey_map.schema.json"
+  ],
+  "stage_goals": {
+    "discovery": "Validate the customer_journey_map schema supports the visual features needed (11 stages, emotion scores, touchpoints, pain points, moments of truth, opportunities)",
+    "align": "Produce a standalone HTML renderer that passes visual regression tests and is ready for PM iteration and stakeholder presentation"
+  },
+  "known_risks": [
+    "11 stages may be too wide for standard browser viewport — need horizontal scroll or responsive collapse",
+    "Emotion curve SVG math must be precise to avoid visual glitches across stage widths",
+    "Slice 2 (synthesis runtime) is blocked until this render slice is validated"
+  ],
+  "next_action": "Create components/journey_engine/ directory, implement journey_visual_renderer.py, wire CLI command, add tests, validate against example artifact",
+  "created_at": "2026-05-09T08:00:00Z",
+  "updated_at": "2026-05-09T08:00:00Z"
+}

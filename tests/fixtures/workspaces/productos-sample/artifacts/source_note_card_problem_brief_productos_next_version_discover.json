@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_problem_brief_productos_next_version_discover",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "market_report",
+  "source_ref": "problem_brief_productos_next_version_discover",
+  "title": "Problem Brief: ProductOS next-version discover proof",
+  "claim": "ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD package with minimal PM reconstruction.",
+  "source_snippet": "ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD package with minimal PM reconstruction. The next version must prove a concrete disc...",
+  "implication": "The next version must prove a concrete discover wedge inside the reference workspace before broader strategy claims are credible.",
+  "confidence": "high",
+  "freshness_status": "fresh",
+  "unknowns": [
+    "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+    "How do current alternatives frame this workflow problem and where are their proof boundaries weaker?"
+  ],
+  "followup_questions": [
+    "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+    "How do current alternatives frame this workflow problem and where are their proof boundaries weaker?",
+    "What direct PM or operator evidence quantifies the manual reconstruction burden in this workflow?"
+  ],
+  "source_metadata": {
+    "source_url": "artifact://problem_brief_productos_next_version_discover",
+    "published_at": "2026-04-21T10:00:00Z",
+    "retrieved_at": "2026-04-21T10:00:00Z",
+    "source_slice_ref": "discover_market_validation",
+    "dedupe_key": "artifact_problem_brief_productos_next_version_discover",
+    "credibility_tier": "secondary"
+  },
+  "dedupe_key": "artifact_problem_brief_productos_next_version_discover",
+  "linked_entity_refs": [
+    {
+      "entity_id": "segment_b2b_product_teams",
+      "entity_type": "segment"
+    },
+    {
+      "entity_id": "persona_product_manager",
+      "entity_type": "persona"
+    },
+    {
+      "entity_id": "problem_productos_next_version_proof_gap",
+      "entity_type": "problem"
+    },
+    {
+      "entity_id": "outcome_productos_same_day_prd_package",
+      "entity_type": "outcome"
+    },
+    {
+      "entity_id": "opportunity_productos_discover_superpower",
+      "entity_type": "opportunity"
+    },
+    {
+      "entity_id": "feature_productos_repo_first_discover_cli",
+      "entity_type": "feature"
+    }
+  ],
+  "tags": [
+    "market_validation",
+    "fresh",
+    "discover_market_validation",
+    "segment_b2b_product_teams",
+    "persona_product_manager"
+  ],
+  "created_at": "2026-04-21T10:00:00Z"
+}

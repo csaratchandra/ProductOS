@@ -1,8 +1,8 @@
 # ProductOS
 
-ProductOS V10.0.0 is the current stable ProductOS Core line.
+ProductOS V12.0.0 is the current stable ProductOS Core line.
 
-> The repo includes an in-progress V11 **Living Product System** slice: auto-propagating artifact changes, living markdown documents rendered from structured truth, PM delta review lanes, and format-agnostic export pipelines. See `core/docs/v11-living-system-execution-plan.md` for the implementation architecture.
+> ProductOS V12 ships the Living Product System plus agent-native execution surfaces: auto-propagating artifact changes, living markdown documents rendered from structured truth, PM delta review lanes, format-agnostic export pipelines, prototype generation, adapter context packs, packaging, and demo-ready workspace surfaces.
 
 ProductOS is distributed under the Apache License 2.0. Forks, improvements, and
 suggestions are welcome through issues and pull requests.
@@ -21,9 +21,9 @@ For PM adoption on a new product, the canonical starting surface is [templates](
 
 ## Operating Model
 
-ProductOS V10.0.0 is organized around the PM lifecycle plus governed research, decision, and living-system loops:
+ProductOS V12.0.0 is organized around the PM lifecycle plus governed research, decision, living-system, and agent-native execution loops:
 
-The current stable line remains V10.0.0. The repo also contains the in-progress V11 Living Product System slice: auto-propagation of artifact changes through dependency graphs, living markdown documents rendered from structured truth, PM delta review lanes with approve/reject/modify actions, and format-agnostic export pipelines (agent briefs, stakeholder updates, battle cards, decks).
+The current stable line is ProductOS V12.0.0. The repo includes the shipped V11/V12 living-system and agent-native surfaces: auto-propagation of artifact changes through dependency graphs, living markdown documents rendered from structured truth, PM delta review lanes with approve/reject/modify actions, format-agnostic export pipelines, `productos new`, adapter context packs, a prototype pipeline, and installable packaging.
 
 1. current-state assessment
 2. discovery
@@ -74,12 +74,18 @@ Recommended next step:
 
 - `./productos --workspace-dir /path/to/new-workspace run discover`
 
-V11 Living System commands:
+V12 Living System and Agent-Native commands:
 
 - `./productos --workspace-dir /path/to/workspace queue build --source-artifact artifacts/prd.json --change-summary "Scope tightened"`
 - `./productos --workspace-dir /path/to/workspace queue review --item-id rq_item_001 --action approve`
 - `./productos --workspace-dir /path/to/workspace render doc --doc-key prd`
+- `./productos --workspace-dir /path/to/workspace render docs`
+- `./productos --workspace-dir /path/to/workspace render prototype --workspace-dir /path/to/workspace`
+- `./productos --workspace-dir /path/to/workspace export artifact --artifact artifacts/prd.json --format agent_brief`
+- `./productos --workspace-dir /path/to/workspace agent-context --target codex`
 - `./productos --workspace-dir /path/to/workspace review-delta --update-id lu_001 --action approve --pm-note "Looks correct"`
+- `./productos new "AI-powered inventory forecasting for SMB retailers"`
+- `./productos demo --dest /tmp/productos-demo`
 
 Advanced startup commands:
 
@@ -113,7 +119,7 @@ If you want the lower-level adoption command directly:
 
 The repo also accepts the entrypoint names `./ProductOS`, `./productOS`, and `./PRODUCTOS`.
 
-The mission, phase, cockpit, and portfolio surfaces are bounded PM control-plane helpers. They improve repo-native reviewability and coordination, but they do not broaden the public `V10.0.0` claim boundary on their own.
+The mission, phase, cockpit, adapter, prototype, and portfolio surfaces are bounded PM control-plane helpers. They improve repo-native reviewability and coordination, but they do not broaden the public `V12.0.0` claim boundary past the proof in this repo.
 
 ## Validation And Testing
 
@@ -122,6 +128,7 @@ Validation and tests are intentionally local and simple:
 - `./validate-artifacts`
 - `pytest`
 - `pytest tests/test_v11_living_system.py`
+- `pytest tests/test_v10_prd_scope_boundary_check.py tests/test_v10_drift_and_impact_propagation.py tests/test_v12_agent_native_core.py tests/test_v12_prototype_engine.py`
 - `./productos visual export deck components/presentation/examples/artifacts/presentation_brief.example.json`
 - `./productos visual export corridor core/examples/artifacts/workflow_corridor_spec.example.json`
 - `./productos visual export map core/examples/artifacts/visual_map_spec.example.json`

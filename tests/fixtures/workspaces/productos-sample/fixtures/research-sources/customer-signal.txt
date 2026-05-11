@@ -1,0 +1,2 @@
+PMs and operators still spend hours every week reconstructing what changed, what evidence matters, and what should happen next.
+They want clearer queue ownership, fewer manual follow-up loops, and evidence they can reuse instead of restating context in every review.

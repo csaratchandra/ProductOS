@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0.0",
+  "ppt_export_plan_id": "ppt_export_plan_render_spec_presentation_brief_ws_productos_v2_v4_comm",
+  "render_spec_id": "render_spec_presentation_brief_ws_productos_v2_v4_comm",
+  "workspace_id": "ws_productos_v2",
+  "engine": "pptxgenjs",
+  "status": "composition-aware",
+  "aspect_ratio": "16:9",
+  "theme_preset": "atlas",
+  "slide_count": 3,
+  "composition_counts": {
+    "hero_statement": 1,
+    "summary_cards": 1,
+    "risk_matrix": 1
+  },
+  "layout_counts": {
+    "standard": 3
+  },
+  "native_shape_counts": {
+    "hero_panel": 1,
+    "summary_cards": 1,
+    "risk_matrix": 1
+  },
+  "slide_rendering_plan": [
+    {
+      "slide_id": "slide_cover",
+      "composition_type": "hero_statement",
+      "layout_variant": "hero_with_recommendation_strip",
+      "native_shape_family": "hero_panel",
+      "fallback_layout": "standard",
+      "prefer_native_shapes": true,
+      "target_profile": "dual_target",
+      "primitives": [
+        "headline_panel",
+        "signal_rail",
+        "recommendation_strip",
+        "evidence_cards"
+      ],
+      "evidence_mode": "cards",
+      "connector_policy": "grid_alignment",
+      "source_refs": [
+        "document_sync_state_ws_prod...",
+        "document_sync_state_ws_prod...",
+        "mission_brief_ws_productos_...",
+        "mission_brief_ws_productos_..."
+      ]
+    },
+    {
+      "slide_id": "slide_evidence",
+      "composition_type": "summary_cards",
+      "layout_variant": "standard_story_panel",
+      "native_shape_family": "summary_cards",
+      "fallback_layout": "standard",
+      "prefer_native_shapes": true,
+      "target_profile": "dual_target",
+      "primitives": [
+        "headline_panel",
+        "summary_chips",
+        "evidence_cards"
+      ],
+      "evidence_mode": "cards",
+      "connector_policy": "grid_alignment",
+      "source_refs": [
+        "outcome_review_ws_productos...",
+        "document_sync_state_ws_prod...",
+        "document_sync_state_ws_prod...",
+        "mission_brief_ws_productos_..."
+      ]
+    },
+    {
+      "slide_id": "slide_risks",
+      "composition_type": "risk_matrix",
+      "layout_variant": "matrix_with_mitigation_panel",
+      "native_shape_family": "risk_matrix",
+      "fallback_layout": "standard",
+      "prefer_native_shapes": true,
+      "target_profile": "dual_target",
+      "primitives": [
+        "headline_panel",
+        "risk_heatmap",
+        "risk_cards",
+        "evidence_rail"
+      ],
+      "evidence_mode": "cards",
+      "connector_policy": "grid_alignment",
+      "source_refs": [
+        "referee_decision_record_ws_...",
+        "document_sync_state_ws_prod...",
+        "document_sync_state_ws_prod...",
+        "outcome_review_ws_productos..."
+      ]
+    }
+  ],
+  "fidelity_status": "aligned",
+  "notes": [
+    "Generate native pptx from normalized render_spec compositions.",
+    "Composition coverage: hero_statement=1, risk_matrix=1, summary_cards=1.",
+    "Layout coverage: standard=3.",
+    "Native shape families: hero_panel=1, risk_matrix=1, summary_cards=1.",
+    "Target profiles: dual_target=3."
+  ],
+  "generated_at": "2026-04-21T06:16:15Z"
+}

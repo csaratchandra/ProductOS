@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_semrush_eyeon_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://www.semrush.com/kb/1206-eyeon",
+  "title": "Semrush EyeOn turns competitor activity changes into a lightweight feed",
+  "claim": "Semrush EyeOn watches competitor blog posts, ads, social posts, and new web pages, then summarizes those changes as a trackable feed.",
+  "source_snippet": "EyeOn tracks competitor activity across posts, ads, pages, and social updates.",
+  "implication": "ProductOS should add lightweight delta tracking and not force every competitor review to start from a blank slate.",
+  "confidence": "high",
+  "followup_questions": [
+    "What minimum delta model should ProductOS track before it attempts deeper synthesis?"
+  ],
+  "source_metadata": {
+    "source_url": "https://www.semrush.com/kb/1206-eyeon",
+    "retrieved_at": "2026-03-21T09:21:00Z",
+    "source_slice_ref": "eyeon-overview",
+    "dedupe_key": "semrush-eyeon-overview",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "semrush-eyeon-overview",
+  "tags": ["research", "ci", "semrush", "delta-tracking"],
+  "created_at": "2026-03-21T09:22:00Z"
+}

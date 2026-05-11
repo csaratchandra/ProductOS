@@ -1,0 +1,215 @@
+{
+  "schema_version": "1.0.0",
+  "propagation_map_id": "ipm_productos-sample_20260510",
+  "workspace_id": "productos-sample",
+  "dependencies": {
+    "artifacts/competitor_dossier_pm_lifecycle_visibility.example.json": [
+      "artifacts/market_analysis_brief_pm_lifecycle_visibility.example.json",
+      "artifacts/prd_pm_lifecycle_visibility.json",
+      "artifacts/problem_brief_pm_lifecycle_visibility.trace_map.json",
+      "artifacts/segment_map_pm_lifecycle_visibility.example.json"
+    ],
+    "artifacts/market_analysis_brief_pm_lifecycle_visibility.example.json": [
+      "artifacts/prd_pm_lifecycle_visibility.json",
+      "artifacts/problem_brief_pm_lifecycle_visibility.trace_map.json",
+      "artifacts/segment_map_pm_lifecycle_visibility.example.json"
+    ],
+    "artifacts/concept_brief_pm_lifecycle_visibility.json": [
+      "artifacts/prd_pm_lifecycle_visibility.json",
+      "artifacts/prd_pm_lifecycle_visibility.trace_map.json",
+      "artifacts/prototype_record_pm_item_timeline.trace_map.json",
+      "artifacts/ux_design_review_pm_lifecycle_visibility.example.json"
+    ],
+    "artifacts/persona_pack_pm_lifecycle_visibility.example.json": [
+      "artifacts/prd_pm_lifecycle_visibility.json",
+      "artifacts/problem_brief_pm_lifecycle_visibility.json"
+    ],
+    "artifacts/problem_brief_pm_lifecycle_visibility.json": [
+      "artifacts/concept_brief_pm_lifecycle_visibility.trace_map.json",
+      "artifacts/prd_pm_lifecycle_visibility.json",
+      "artifacts/prd_pm_lifecycle_visibility.trace_map.json"
+    ],
+    "artifacts/prototype_record_pm_item_timeline.json": [
+      "artifacts/prd_pm_lifecycle_visibility.json",
+      "artifacts/prd_pm_lifecycle_visibility.trace_map.json",
+      "artifacts/ux_design_review_pm_lifecycle_visibility.example.json"
+    ],
+    "artifacts/research_notebook_pm_lifecycle_visibility.example.json": [
+      "artifacts/competitor_dossier_pm_lifecycle_visibility.example.json",
+      "artifacts/market_analysis_brief_pm_lifecycle_visibility.example.json",
+      "artifacts/persona_pack_pm_lifecycle_visibility.example.json",
+      "artifacts/prd_pm_lifecycle_visibility.json",
+      "artifacts/problem_brief_pm_lifecycle_visibility.json",
+      "artifacts/problem_brief_pm_lifecycle_visibility.trace_map.json"
+    ],
+    "artifacts/segment_map_pm_lifecycle_visibility.example.json": [
+      "artifacts/persona_pack_pm_lifecycle_visibility.example.json",
+      "artifacts/prd_pm_lifecycle_visibility.json",
+      "artifacts/problem_brief_pm_lifecycle_visibility.json"
+    ],
+    "artifacts/ux_design_review_pm_lifecycle_visibility.example.json": [
+      "artifacts/prd_pm_lifecycle_visibility.json",
+      "artifacts/prototype_record_pm_item_timeline.trace_map.json"
+    ],
+    "artifacts/visual_reasoning_state_pm_lifecycle_visibility.example.json": [
+      "artifacts/prd_pm_lifecycle_visibility.json",
+      "artifacts/prototype_record_pm_item_timeline.trace_map.json"
+    ],
+    "artifacts/": [
+      "artifacts/concept_brief_pm_lifecycle_visibility.trace_map.json",
+      "artifacts/market_strategy_brief.json",
+      "artifacts/market_strategy_brief_pm_lifecycle_visibility.example.json",
+      "artifacts/market_strategy_brief_pm_superpower_recovery.json",
+      "artifacts/prd_pm_lifecycle_visibility.trace_map.json",
+      "artifacts/problem_brief.json",
+      "artifacts/problem_brief_pm_lifecycle_visibility.json",
+      "artifacts/problem_brief_pm_lifecycle_visibility.trace_map.json",
+      "artifacts/problem_brief_pm_superpower_recovery.json",
+      "artifacts/product_vision_brief.json",
+      "artifacts/product_vision_brief_pm_superpower_recovery.json",
+      "artifacts/prototype_record_pm_item_timeline.trace_map.json",
+      "artifacts/strategy_context_brief.json",
+      "artifacts/strategy_context_brief_pm_superpower_recovery.json"
+    ],
+    "artifacts/competitor_dossier_agentic_market_intelligence.example.json": [
+      "artifacts/market_analysis_brief_agentic_market_intelligence.example.json",
+      "artifacts/research_feature_recommendation_brief.example.json"
+    ],
+    "artifacts/landscape_matrix_agentic_market_intelligence.example.json": [
+      "artifacts/competitor_dossier_agentic_market_intelligence.example.json",
+      "artifacts/market_analysis_brief_agentic_market_intelligence.example.json",
+      "artifacts/research_feature_recommendation_brief.example.json"
+    ],
+    "artifacts/market_analysis_brief_agentic_market_intelligence.example.json": [
+      "artifacts/research_feature_recommendation_brief.example.json"
+    ],
+    "artifacts/research_notebook_agentic_market_intelligence.example.json": [
+      "artifacts/competitor_dossier_agentic_market_intelligence.example.json",
+      "artifacts/landscape_matrix_agentic_market_intelligence.example.json",
+      "artifacts/market_analysis_brief_agentic_market_intelligence.example.json",
+      "artifacts/research_feature_recommendation_brief.example.json"
+    ],
+    "artifacts/concept_brief_pm_superpower_recovery.json": [
+      "artifacts/prd_pm_superpower_recovery.json"
+    ],
+    "artifacts/market_strategy_brief_pm_superpower_recovery.json": [
+      "artifacts/prd_pm_superpower_recovery.json",
+      "artifacts/problem_brief_pm_superpower_recovery.json"
+    ],
+    "artifacts/problem_brief_pm_superpower_recovery.json": [
+      "artifacts/prd_pm_superpower_recovery.json"
+    ],
+    "artifacts/product_vision_brief_pm_superpower_recovery.json": [
+      "artifacts/prd_pm_superpower_recovery.json",
+      "artifacts/problem_brief_pm_superpower_recovery.json"
+    ],
+    "artifacts/strategy_context_brief_pm_superpower_recovery.json": [
+      "artifacts/prd_pm_superpower_recovery.json",
+      "artifacts/problem_brief_pm_superpower_recovery.json"
+    ],
+    "artifacts/source_note_card_aha_knowledge_ai_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_aha_official_pm_visibility_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_app_review_jpd.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_asana_ai_teammates_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_asana_official_pm_visibility_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_clickup_official_pm_visibility_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_coda_ai_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_crayon_ci_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_discover_competitor_research_candidate_2.json": [
+      "artifacts/competitor_dossier.json",
+      "artifacts/customer_journey_map.json",
+      "artifacts/market_analysis_brief.json"
+    ],
+    "artifacts/source_note_card_discover_customer_evidence_candidate_3.json": [
+      "artifacts/customer_journey_map.json",
+      "artifacts/customer_pulse.json"
+    ],
+    "artifacts/source_note_card_discover_market_validation_candidate_1.json": [
+      "artifacts/customer_journey_map.json",
+      "artifacts/market_analysis_brief.json"
+    ],
+    "artifacts/source_note_card_gemini_deep_research_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_glean_agentic_engine_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_jira_official_pm_visibility_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_jpd_ai_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_jpd_official_pm_visibility_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_klue_compete_agent_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_linear_asks_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_linear_official_pm_visibility_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_monday_dev_official_pm_visibility_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_notion_mcp_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_openai_deep_research_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_perplexity_deep_research_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_problem_brief_productos_next_version_discover.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_productboard_spark_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_productboard_spark_official_pm_visibility_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/source_note_card_semrush_eyeon_official_2026.example.json": [
+      "artifacts/customer_journey_map.json"
+    ],
+    "artifacts/item_lifecycle_state_pm_lifecycle_visibility.example.json": [
+      "artifacts/outcome_review_pm_lifecycle_visibility.json"
+    ],
+    "artifacts/release_note_pm_lifecycle_visibility.json": [
+      "artifacts/outcome_review_pm_lifecycle_visibility.json"
+    ],
+    "artifacts/intake_routing_state_ws_productos_v2_discovery_traceability.example.json": [
+      "artifacts/prd_workspace_adoption_superpower.json"
+    ],
+    "artifacts/idea_record_pm_lifecycle_visibility.json": [
+      "artifacts/concept_brief_pm_lifecycle_visibility.trace_map.json"
+    ],
+    "artifacts/market_strategy_brief_pm_lifecycle_visibility.example.json": [
+      "artifacts/problem_brief_pm_lifecycle_visibility.json"
+    ],
+    "artifacts/persona_pack.example.json": [
+      "artifacts/customer_journey_map.json"
+    ]
+  },
+  "generated_at": "2026-05-10T16:02:45Z"
+}

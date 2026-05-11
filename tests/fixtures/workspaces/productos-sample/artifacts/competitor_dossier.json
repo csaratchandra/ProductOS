@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "competitor_dossier_id": "competitor_dossier_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "title": "Competitor dossier: Research Brief: ProductOS next-version discover proof",
+  "competitive_frame": "ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD package with minimal PM reconstruction.",
+  "comparison_basis": "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+  "research_scope": "Bounded external competitor refresh from explicitly selected sources.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_productos_next_version_proof_gap"
+    },
+    {
+      "entity_type": "outcome",
+      "entity_id": "outcome_productos_same_day_prd_package"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opportunity_productos_discover_superpower"
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_productos_repo_first_discover_cli"
+    }
+  ],
+  "source_artifact_ids": [
+    "research_notebook_ws_productos_v2",
+    "research_brief_ws_productos_v2_discover_seed",
+    "source_note_card_discover_competitor_research_candidate_2"
+  ],
+  "status_quo_alternatives": [
+    "Manual coordination across notes, spreadsheets, and incumbent workflow tools",
+    "Incumbent RCM or workflow vendors with partial control layers"
+  ],
+  "internal_build_risk": "medium",
+  "where_we_win": [
+    "Explicit claim discipline and proof-gap visibility",
+    "Governed workflow control positioned through a narrow launch lane first"
+  ],
+  "where_we_lose": [
+    "External buyer evidence is still needed to validate the current strategy-to-problem chain.",
+    "Reusable source note cards do not yet exist for this discover packet."
+  ],
+  "credible_wedge_for_posture": "ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD package with minimal PM reconstruction.",
+  "required_proof_to_displace": [
+    "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+    "How do current alternatives frame this workflow problem and where are their proof boundaries weaker?",
+    "What direct PM or operator evidence quantifies the manual reconstruction burden in this workflow?"
+  ],
+  "recommended_positioning_angle": "Lead with governed workflow control, bounded launch-lane proof, and visible evidence posture.",
+  "competitors": [
+    {
+      "name": "RivalFlow Competitor Overview",
+      "competitor_type": "vendor",
+      "target_customer": "ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD package with minimal PM reconstruction.",
+      "positioning_summary": "RivalFlow Competitor Overview RivalFlow emphasizes automation breadth and all-in-one workflow coverage for PM teams.",
+      "go_to_market_motion": "External research source indicates active market positioning, but PM review should normalize the exact motion.",
+      "pricing_signal": "Needs explicit pricing normalization from source review.",
+      "positioning_gap": "The competitor narrative is visible, but ProductOS can differentiate through governed workflow control and explicit evidence posture.",
+      "strengths": [
+        "RivalFlow Competitor Overview RivalFlow emphasizes automation breadth and all-in-one workflow coverage for PM teams."
+      ],
+      "weaknesses": [
+        "External buyer evidence is still needed to validate the current strategy-to-problem chain."
+      ],
+      "where_they_win": [
+        "When buyers prefer a familiar vendor narrative over an evidence-governed workflow posture."
+      ],
+      "where_they_lose": [
+        "When explicit proof gaps, control boundaries, and launch-lane clarity matter to the PM buyer."
+      ],
+      "displacement_barriers": [
+        "Existing vendor familiarity and proof expectations."
+      ],
+      "implications": [
+        "Use RivalFlow Competitor Overview as a bounded comparison input, not as the source of truth for ProductOS positioning."
+      ]
+    }
+  ],
+  "last_refreshed_at": "2026-04-21T10:00:00Z",
+  "created_at": "2026-04-21T10:00:00Z"
+}

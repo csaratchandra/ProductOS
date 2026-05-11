@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_jpd_ai_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://support.atlassian.com/organization-administration/docs/atlassian-intelligence-features-in-jira-product-discovery/",
+  "title": "Jira Product Discovery AI adds in-product summarization and drafting",
+  "claim": "Atlassian Intelligence in Jira Product Discovery focuses on summarizing and generating content inside ideas, comments, and pages, reinforcing discovery work inside the broader Atlassian operating system.",
+  "source_snippet": "Generate new content and summarize content in idea descriptions and comments.",
+  "implication": "ProductOS needs stronger multi-source synthesis and traceability than embedded drafting assistance alone if it wants to stand above connected PM workflow tools.",
+  "confidence": "high",
+  "followup_questions": [
+    "How often do PMs need workflow continuity outside the Atlassian footprint?"
+  ],
+  "source_metadata": {
+    "source_url": "https://support.atlassian.com/organization-administration/docs/atlassian-intelligence-features-in-jira-product-discovery/",
+    "retrieved_at": "2026-03-21T08:44:00Z",
+    "source_slice_ref": "ai-features-overview",
+    "dedupe_key": "jpd-ai-features-overview",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "jpd-ai-features-overview",
+  "linked_entity_refs": [
+    { "entity_type": "persona", "entity_id": "persona_product_manager" },
+    { "entity_type": "problem", "entity_id": "problem_pm_reporting_bottleneck" }
+  ],
+  "tags": ["research", "competitor", "atlassian", "jpd"],
+  "created_at": "2026-03-21T08:45:00Z"
+}

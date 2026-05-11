@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "gap_cluster_state_id": "gap_cluster_state_post_v3_1_productos",
+  "workspace_id": "ws_productos_v2",
+  "evaluation_scope": "post_v3_1",
+  "status": "ready_for_decision",
+  "clusters": [
+    {
+      "cluster_id": "cluster_deeper_visual_reasoning",
+      "label": "Deeper visual reasoning and explanation",
+      "feedback_ids": [
+        "pfb_006"
+      ],
+      "impact_level": "medium",
+      "recommended_release": "v3_2",
+      "rationale": "If repeated after V3.1, deeper visual reasoning still belongs in V3 rather than V4."
+    },
+    {
+      "cluster_id": "cluster_pm_communication_docs",
+      "label": "PM communication and readable product documents",
+      "feedback_ids": [
+        "pfb_006",
+        "pfb_007"
+      ],
+      "impact_level": "high",
+      "recommended_release": "v4",
+      "rationale": "Readable docs and auto-improvement loops form a broader communication and operating-system upgrade better suited to V4."
+    }
+  ],
+  "generated_at": "2026-03-21T23:48:00Z"
+}

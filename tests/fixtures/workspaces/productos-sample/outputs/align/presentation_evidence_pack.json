@@ -1,0 +1,329 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_pack_id": "evidence_pack_presentation_brief_ws_productos_v2_v4_comm",
+  "workspace_id": "ws_productos_v2",
+  "presentation_brief_id": "presentation_brief_ws_productos_v2_v4_comm",
+  "source_artifact_ids": [
+    "pm_superpower_benchmark_ws_productos_v2_v4_0",
+    "document_sync_state_ws_productos_v2_v4_readable_docs",
+    "manual_validation_record_ws_productos_v2_doc_bundle_v4_0",
+    "referee_decision_record_ws_productos_v2_doc_bundle_v4_0",
+    "outcome_review_ws_productos_v2_v4_readable_docs",
+    "ai_agent_benchmark_ws_productos_v2_v4_0",
+    "mission_brief_ws_productos_v2_pm_superpower_recovery",
+    "mission_brief_ws_productos_v2_pm_superpower_recovery_mission"
+  ],
+  "evidence_units": [
+    {
+      "evidence_id": "slide_cover_evidence_1",
+      "slide_id": "slide_cover",
+      "claim": "ProductOS should approve a governed presentation layer so readable docs can become leadership-ready communication without manual PM rewriting.",
+      "evidence_type": "recommendation",
+      "value": "The workspace now has a readable discovery, strategy, prototype, roadmap, and PRD document bundle.",
+      "source_ref": "document_sync_state_ws_productos_v2_v4_readable_docs",
+      "confidence_state": "medium",
+      "confidence_reason": "Confidence is derived from the number, type, and claim posture of normalized source facts available for this claim. Claim posture: observed facts support the current narrative.",
+      "claim_mode": "observed",
+      "freshness": "current_quarter",
+      "materiality": "primary",
+      "proof_requirement": "State the decision clearly",
+      "counterevidence": []
+    },
+    {
+      "evidence_id": "slide_cover_evidence_2",
+      "slide_id": "slide_cover",
+      "claim": "ProductOS should approve a governed presentation layer so readable docs can become leadership-ready communication without manual PM rewriting.",
+      "evidence_type": "recommendation",
+      "value": "The doc bundle is usable but still carries targeted review and publishing-metadata follow-up work.",
+      "source_ref": "document_sync_state_ws_productos_v2_v4_readable_docs",
+      "confidence_state": "medium",
+      "confidence_reason": "Confidence is derived from the number, type, and claim posture of normalized source facts available for this claim. Claim posture: observed facts support the current narrative.",
+      "claim_mode": "observed",
+      "freshness": "current_quarter",
+      "materiality": "supporting",
+      "proof_requirement": "Show that the readable-doc system is real but not yet enough for executive alignment",
+      "counterevidence": []
+    },
+    {
+      "evidence_id": "slide_cover_evidence_3",
+      "slide_id": "slide_cover",
+      "claim": "ProductOS should approve a governed presentation layer so readable docs can become leadership-ready communication without manual PM rewriting.",
+      "evidence_type": "recommendation",
+      "value": "PMs still need a single repo-native way to declare the mission, capture the first few high-signal questions, and steer ProductOS through the full PM loop.",
+      "source_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+      "confidence_state": "medium",
+      "confidence_reason": "Confidence is derived from the number, type, and claim posture of normalized source facts available for this claim. Claim posture: observed facts support the current narrative.",
+      "claim_mode": "observed",
+      "freshness": "current_quarter",
+      "materiality": "supporting",
+      "proof_requirement": "Show that the readable-doc system is real but not yet enough for executive alignment",
+      "counterevidence": [],
+      "validation_note": "Taken directly from the canonical mission brief."
+    },
+    {
+      "evidence_id": "slide_cover_evidence_4",
+      "slide_id": "slide_cover",
+      "claim": "ProductOS should approve a governed presentation layer so readable docs can become leadership-ready communication without manual PM rewriting.",
+      "evidence_type": "recommendation",
+      "value": "PMs still need a single repo-native way to declare the mission, capture the first few high-signal questions, and steer ProductOS through the full PM loop.",
+      "source_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+      "confidence_state": "medium",
+      "confidence_reason": "Confidence is derived from the number, type, and claim posture of normalized source facts available for this claim. Claim posture: observed facts support the current narrative.",
+      "claim_mode": "observed",
+      "freshness": "current_quarter",
+      "materiality": "supporting",
+      "proof_requirement": "Show that the readable-doc system is real but not yet enough for executive alignment",
+      "counterevidence": [],
+      "validation_note": "Taken directly from the canonical mission brief."
+    },
+    {
+      "evidence_id": "slide_evidence_evidence_1",
+      "slide_id": "slide_evidence",
+      "claim": "The readable-doc bundle reduced raw JSON dependence, but alignment still slows down when leadership-ready packaging is missing.",
+      "evidence_type": "fact",
+      "value": "Outcome review says the readable-doc bundle improved internal reviewability but still needs another iteration for external-ready communication.",
+      "source_ref": "outcome_review_ws_productos_v2_v4_readable_docs",
+      "confidence_state": "medium",
+      "confidence_reason": "Confidence is derived from the number, type, and claim posture of normalized source facts available for this claim. Claim posture: observed facts support the current narrative.",
+      "claim_mode": "observed",
+      "freshness": "current_quarter",
+      "materiality": "primary",
+      "proof_requirement": "Show the current doc bundle is usable",
+      "counterevidence": []
+    },
+    {
+      "evidence_id": "slide_evidence_evidence_2",
+      "slide_id": "slide_evidence",
+      "claim": "The readable-doc bundle reduced raw JSON dependence, but alignment still slows down when leadership-ready packaging is missing.",
+      "evidence_type": "fact",
+      "value": "The workspace now has a readable discovery, strategy, prototype, roadmap, and PRD document bundle.",
+      "source_ref": "document_sync_state_ws_productos_v2_v4_readable_docs",
+      "confidence_state": "medium",
+      "confidence_reason": "Confidence is derived from the number, type, and claim posture of normalized source facts available for this claim. Claim posture: observed facts support the current narrative.",
+      "claim_mode": "observed",
+      "freshness": "current_quarter",
+      "materiality": "supporting",
+      "proof_requirement": "Show the outcome review still calls for another iteration",
+      "counterevidence": []
+    },
+    {
+      "evidence_id": "slide_evidence_evidence_3",
+      "slide_id": "slide_evidence",
+      "claim": "The readable-doc bundle reduced raw JSON dependence, but alignment still slows down when leadership-ready packaging is missing.",
+      "evidence_type": "fact",
+      "value": "The doc bundle is usable but still carries targeted review and publishing-metadata follow-up work.",
+      "source_ref": "document_sync_state_ws_productos_v2_v4_readable_docs",
+      "confidence_state": "medium",
+      "confidence_reason": "Confidence is derived from the number, type, and claim posture of normalized source facts available for this claim. Claim posture: observed facts support the current narrative.",
+      "claim_mode": "observed",
+      "freshness": "current_quarter",
+      "materiality": "supporting",
+      "proof_requirement": "Show the outcome review still calls for another iteration",
+      "counterevidence": []
+    },
+    {
+      "evidence_id": "slide_evidence_evidence_4",
+      "slide_id": "slide_evidence",
+      "claim": "The readable-doc bundle reduced raw JSON dependence, but alignment still slows down when leadership-ready packaging is missing.",
+      "evidence_type": "fact",
+      "value": "PMs still need a single repo-native way to declare the mission, capture the first few high-signal questions, and steer ProductOS through the full PM loop.",
+      "source_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery",
+      "confidence_state": "medium",
+      "confidence_reason": "Confidence is derived from the number, type, and claim posture of normalized source facts available for this claim. Claim posture: observed facts support the current narrative.",
+      "claim_mode": "observed",
+      "freshness": "current_quarter",
+      "materiality": "supporting",
+      "proof_requirement": "Show the outcome review still calls for another iteration",
+      "counterevidence": [],
+      "validation_note": "Taken directly from the canonical mission brief."
+    },
+    {
+      "evidence_id": "slide_risks_evidence_1",
+      "slide_id": "slide_risks",
+      "claim": "Presentation packaging is acceptable only if audience policy, pattern review, publish checks, and manual validation stay explicit.",
+      "evidence_type": "risk",
+      "value": "Internal adoption was allowed only because the unresolved publishing and pattern-governance questions stayed explicit.",
+      "source_ref": "referee_decision_record_ws_productos_v2_doc_bundle_v4_0",
+      "confidence_state": "medium",
+      "confidence_reason": "Confidence is derived from the number, type, and claim posture of normalized source facts available for this claim. Claim posture: observed facts support the current narrative.",
+      "claim_mode": "observed",
+      "freshness": "current_quarter",
+      "materiality": "primary",
+      "proof_requirement": "Show the required control layers",
+      "counterevidence": []
+    },
+    {
+      "evidence_id": "slide_risks_evidence_2",
+      "slide_id": "slide_risks",
+      "claim": "Presentation packaging is acceptable only if audience policy, pattern review, publish checks, and manual validation stay explicit.",
+      "evidence_type": "risk",
+      "value": "The doc bundle is usable but still carries targeted review and publishing-metadata follow-up work.",
+      "source_ref": "document_sync_state_ws_productos_v2_v4_readable_docs",
+      "confidence_state": "medium",
+      "confidence_reason": "Confidence is derived from the number, type, and claim posture of normalized source facts available for this claim. Claim posture: observed facts support the current narrative.",
+      "claim_mode": "observed",
+      "freshness": "current_quarter",
+      "materiality": "supporting",
+      "proof_requirement": "Show which gaps remain blocked until pattern governance is in place",
+      "counterevidence": []
+    },
+    {
+      "evidence_id": "slide_risks_evidence_3",
+      "slide_id": "slide_risks",
+      "claim": "Presentation packaging is acceptable only if audience policy, pattern review, publish checks, and manual validation stay explicit.",
+      "evidence_type": "risk",
+      "value": "The workspace now has a readable discovery, strategy, prototype, roadmap, and PRD document bundle.",
+      "source_ref": "document_sync_state_ws_productos_v2_v4_readable_docs",
+      "confidence_state": "medium",
+      "confidence_reason": "Confidence is derived from the number, type, and claim posture of normalized source facts available for this claim. Claim posture: observed facts support the current narrative.",
+      "claim_mode": "observed",
+      "freshness": "current_quarter",
+      "materiality": "supporting",
+      "proof_requirement": "Show which gaps remain blocked until pattern governance is in place",
+      "counterevidence": []
+    },
+    {
+      "evidence_id": "slide_risks_evidence_4",
+      "slide_id": "slide_risks",
+      "claim": "Presentation packaging is acceptable only if audience policy, pattern review, publish checks, and manual validation stay explicit.",
+      "evidence_type": "risk",
+      "value": "Outcome review says the readable-doc bundle improved internal reviewability but still needs another iteration for external-ready communication.",
+      "source_ref": "outcome_review_ws_productos_v2_v4_readable_docs",
+      "confidence_state": "medium",
+      "confidence_reason": "Confidence is derived from the number, type, and claim posture of normalized source facts available for this claim. Claim posture: observed facts support the current narrative.",
+      "claim_mode": "observed",
+      "freshness": "current_quarter",
+      "materiality": "supporting",
+      "proof_requirement": "Show which gaps remain blocked until pattern governance is in place",
+      "counterevidence": []
+    }
+  ],
+  "priority_evidence": [
+    {
+      "slide_id": "slide_cover",
+      "claim": "ProductOS should approve a governed presentation layer so readable docs can become leadership-ready communication without manual PM rewriting.",
+      "proof_points": [
+        "The workspace now has a readable discovery, strategy, prototype, roadmap, and PRD document bundle.",
+        "The doc bundle is usable but still carries targeted review and publishing-metadata follow-up work."
+      ]
+    },
+    {
+      "slide_id": "slide_evidence",
+      "claim": "The readable-doc bundle reduced raw JSON dependence, but alignment still slows down when leadership-ready packaging is missing.",
+      "proof_points": [
+        "Outcome review says the readable-doc bundle improved internal reviewability but still needs another iteration for external-ready communication.",
+        "The workspace now has a readable discovery, strategy, prototype, roadmap, and PRD document bundle."
+      ]
+    },
+    {
+      "slide_id": "slide_risks",
+      "claim": "Presentation packaging is acceptable only if audience policy, pattern review, publish checks, and manual validation stay explicit.",
+      "proof_points": [
+        "Internal adoption was allowed only because the unresolved publishing and pattern-governance questions stayed explicit.",
+        "The doc bundle is usable but still carries targeted review and publishing-metadata follow-up work."
+      ]
+    }
+  ],
+  "deferred_evidence": [
+    {
+      "slide_id": "slide_cover",
+      "reason": "Validation notes that should remain visible in appendix or speaker guidance.",
+      "deferred_points": [
+        "Validation next: Taken directly from the canonical mission brief. Taken directly from the canonical mission brief."
+      ]
+    },
+    {
+      "slide_id": "slide_cover",
+      "reason": "Appendix candidate or deeper proof that should not dilute the primary narrative.",
+      "deferred_points": [
+        "PMs still need a single repo-native way to declare the mission, capture the first few high-signal questions, and steer ProductOS through the full PM loop.",
+        "PMs still need a single repo-native way to declare the mission, capture the first few high-signal questions, and steer ProductOS through the full PM loop."
+      ]
+    },
+    {
+      "slide_id": "slide_evidence",
+      "reason": "Validation notes that should remain visible in appendix or speaker guidance.",
+      "deferred_points": [
+        "Validation next: Taken directly from the canonical mission brief."
+      ]
+    },
+    {
+      "slide_id": "slide_evidence",
+      "reason": "Appendix candidate or deeper proof that should not dilute the primary narrative.",
+      "deferred_points": [
+        "The doc bundle is usable but still carries targeted review and publishing-metadata follow-up work.",
+        "PMs still need a single repo-native way to declare the mission, capture the first few high-signal questions, and steer ProductOS through the full PM loop."
+      ]
+    },
+    {
+      "slide_id": "slide_risks",
+      "reason": "Appendix candidate or deeper proof that should not dilute the primary narrative.",
+      "deferred_points": [
+        "The workspace now has a readable discovery, strategy, prototype, roadmap, and PRD document bundle.",
+        "Outcome review says the readable-doc bundle improved internal reviewability but still needs another iteration for external-ready communication."
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "metric_name": "slide_count",
+      "value": 3,
+      "unit": "slides"
+    }
+  ],
+  "confidence_flags": [
+    "Publishing output must preserve explicit source references.",
+    "Confidence is now source-fact aware, but contradiction detection still needs deeper artifact-level reasoning.",
+    "Conflicted external evidence should be made explicit in the narrative and decision framing."
+  ],
+  "contradictions": [
+    {
+      "summary": "Facts tagged 'cover' mix status and constraint signals; presentation should avoid overstating certainty.",
+      "severity": "low"
+    },
+    {
+      "summary": "Facts tagged 'summary' mix status and constraint signals; presentation should avoid overstating certainty.",
+      "severity": "low"
+    }
+  ],
+  "gaps": [
+    "Keep the mission 'PM superpower recovery mission' visible across docs and deck so PM intent does not get flattened into generic release narration."
+  ],
+  "risk_items": [
+    {
+      "risk_id": "slide_risks_risk_1",
+      "label": "Internal adoption was allowed only because the unresolved publishing and pattern-governance questions stayed explicit.",
+      "impact": "high",
+      "likelihood": "medium",
+      "owner": "PM / presentation-system owner",
+      "source_ref": "referee_decision_record_ws_productos_v2_doc_bundle_v4_0"
+    },
+    {
+      "risk_id": "slide_risks_risk_2",
+      "label": "The doc bundle is usable but still carries targeted review and publishing-metadata follow-up work.",
+      "impact": "high",
+      "likelihood": "medium",
+      "owner": "PM / presentation-system owner",
+      "source_ref": "ai_agent_benchmark_ws_productos_v2_v4_0"
+    },
+    {
+      "risk_id": "slide_risks_risk_3",
+      "label": "The workspace now has a readable discovery, strategy, prototype, roadmap, and PRD document bundle.",
+      "impact": "high",
+      "likelihood": "medium",
+      "owner": "PM / presentation-system owner",
+      "source_ref": "ai_agent_benchmark_ws_productos_v2_v4_0"
+    },
+    {
+      "risk_id": "slide_risks_risk_4",
+      "label": "Outcome review says the readable-doc bundle improved internal reviewability but still needs another iteration for external-ready communication.",
+      "impact": "high",
+      "likelihood": "medium",
+      "owner": "PM / presentation-system owner",
+      "source_ref": "ai_agent_benchmark_ws_productos_v2_v4_0"
+    }
+  ],
+  "timeline_events": [],
+  "decision_options": [],
+  "generated_at": "2026-04-21T06:16:15Z"
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "presentation_pattern_review_id": "presentation_pattern_review_ws_productos_v2_v4_comm_atlas",
+  "workspace_id": "ws_productos_v2",
+  "presentation_sample_record_ref": "presentation_sample_record_ws_productos_v2_v4_comm_atlas",
+  "pattern_name": "answer_first_atlas_leadership_pattern",
+  "pattern_scope": "presentation_system",
+  "validation_tier": "tier_3",
+  "adoption_decision": "trial",
+  "rationale": "The pattern improves executive readability and evidence placement, but it should stay in governed trial mode until manual leadership review confirms the communication benefits in real ProductOS work.",
+  "extracted_rules": [
+    "Open with the recommendation before historical context.",
+    "Keep source-linked evidence visible on every material claim slide.",
+    "Reserve typography-first hero treatments for Tier 3 leadership and strategy communication."
+  ],
+  "risk_controls": [
+    "Do not allow the pattern to hide blockers, confidence limits, or unresolved questions.",
+    "Keep manual validation mandatory before wider internal adoption.",
+    "Require publish checks for both HTML and PPT export targets."
+  ],
+  "regression_fixture_refs": [
+    "components/presentation/examples/artifacts/presentation_brief.example.json",
+    "tests/fixtures/workspaces/productos-sample/artifacts/presentation_brief.example.json"
+  ],
+  "manual_validation_required": true,
+  "manual_validation_status": "pending",
+  "publish_constraints": [
+    "Internal-only until leadership review confirms the pattern does not overstate certainty.",
+    "Do not use for customer-safe communication without a dedicated customer audience pass."
+  ],
+  "reviewed_at": "2026-03-21T23:55:00Z"
+}

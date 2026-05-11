@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0.0",
+  "autonomous_pm_swarm_plan_id": "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+  "workspace_id": "ws_productos_v2",
+  "status": "planned",
+  "plan_scope": "Internal governed swarm expansion for broader autonomous PM coverage behind the repo control surface.",
+  "mission_summary": "Coordinate specialist personas across discovery, research, shaping, review, and validation so ProductOS can run broader autonomous PM missions without dropping PM gates or Ralph-loop discipline.",
+  "release_boundary": "deferred_external_claim",
+  "operating_mode": "review_gated_autonomy",
+  "active_persona_keys": [
+    "ai_orchestrator",
+    "ai_discoverer",
+    "ai_researcher",
+    "ai_product_shaper",
+    "ai_reviewer",
+    "ai_tester",
+    "pm_builder"
+  ],
+  "success_metrics": [
+    "time_from_signal_to_pm_reviewable_package",
+    "blocked_loop_recovery_rate",
+    "duplicate_route_prevention_rate"
+  ],
+  "swarm_routes": [
+    {
+      "route_id": "route_signal_triage",
+      "persona_key": "ai_discoverer",
+      "objective": "Route repeated or high-signal inputs into one bounded mission queue before downstream work starts.",
+      "stage_refs": [
+        "inspect",
+        "refine",
+        "validate"
+      ],
+      "max_retries": 2,
+      "exit_condition": "Only non-duplicate, explainable, and high-signal work reaches the active swarm mission queue."
+    },
+    {
+      "route_id": "route_problem_to_plan",
+      "persona_key": "ai_product_shaper",
+      "objective": "Turn validated evidence into a PM-reviewable recommendation pack with explicit unresolved questions.",
+      "stage_refs": [
+        "implement",
+        "refine",
+        "validate",
+        "fix",
+        "revalidate"
+      ],
+      "max_retries": 2,
+      "exit_condition": "The PM receives one reviewable package with clear evidence, recommendation, risks, and next action."
+    }
+  ],
+  "review_stack": [
+    {
+      "reviewer_role": "AI Reviewer",
+      "trigger_condition": "Any route that changes problem framing, recommendation posture, or release implication.",
+      "decision_scope": "Logic, traceability, and contradiction handling."
+    },
+    {
+      "reviewer_role": "AI Tester",
+      "trigger_condition": "Any route that emits score-bearing artifacts or modifies control-surface state.",
+      "decision_scope": "Schema, workflow, and regression validation."
+    },
+    {
+      "reviewer_role": "PM Builder",
+      "trigger_condition": "Any route that requests scope commitment, stakeholder communication, or release movement.",
+      "decision_scope": "Final approval, deferral, or rejection."
+    }
+  ],
+  "anti_loop_controls": {
+    "max_parallel_routes": 3,
+    "max_retries_per_stage": 2,
+    "stale_loop_after_hours": 24,
+    "duplicate_route_policy": "Collapse duplicate work into the active route and update the shared rationale instead of opening a second mission.",
+    "contradiction_escalation": "Escalate conflicting recommendations to reviewer and PM gate before any route is allowed to advance.",
+    "blocked_state_action": "Pause the affected route, record the blocker, and emit one explicit PM-visible next action."
+  },
+  "ralph_plan": {
+    "required_iteration_count": 7,
+    "current_iteration_count": 7,
+    "last_completed_stage": "refine",
+    "next_stage": "validate"
+  },
+  "evidence_refs": [
+    "core/docs/autonomous-pm-swarm-model.md",
+    "core/docs/ai-agent-persona-operating-model.md",
+    "context_pack_ws_productos_v2_bounded_baseline",
+    "eval_run_report_ws_productos_v2_bounded_baseline",
+    "cockpit_state_ws_productos_v2_next_version",
+    "orchestration_state_ws_productos_v2_next_version"
+  ],
+  "source_artifact_ids": [
+    "context_pack_ws_productos_v2_bounded_baseline",
+    "eval_run_report_ws_productos_v2_bounded_baseline",
+    "improvement_loop_state_productos_v4_next_version_baseline",
+    "decision_log_productos_core"
+  ],
+  "next_action": "Keep the swarm internal, validate the route plan against the next-version runtime, and only broaden the claim after repeated outcome-review proof exists.",
+  "generated_at": "2026-03-22T08:00:00Z"
+}

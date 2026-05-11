@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "handoff_id": "handoff_discovery_to_research_2026_03_20",
+  "workspace_id": "ws_productos_v2",
+  "source_workflow_id": "wf_weak_signal_to_hypothesis",
+  "target_workflow_id": "wf_research_command_center",
+  "handoff_type": "workflow_to_workflow",
+  "status": "ready",
+  "artifact_refs": [
+    {
+      "artifact_id": "signal_hypothesis_brief_ai_workflow_trust",
+      "artifact_type": "signal_hypothesis_brief",
+      "path": "artifacts/signal_hypothesis_brief.example.json"
+    },
+    {
+      "artifact_id": "customer_pulse_ws_productos_v2_2026_03",
+      "artifact_type": "customer_pulse",
+      "path": "artifacts/customer_pulse.example.json"
+    },
+    {
+      "artifact_id": "concept_brief_pm_operating_rhythm",
+      "artifact_type": "concept_brief",
+      "path": "artifacts/concept_brief.example.json"
+    }
+  ],
+  "summary": "Discovery signals suggest ProductOS should research trust and provenance requirements before expanding automation scope.",
+  "key_points": [
+    "Customer pain on manual status work is corroborated across research, app reviews, and leadership conversations.",
+    "Trust and explainability are emerging as adoption gates for AI-generated PM outputs.",
+    "Research should clarify which segments need explicit evidence traceability on day one."
+  ],
+  "pending_questions": [
+    "Which buyer segments require inspectable provenance before adopting automation?",
+    "What level of source coverage is sufficient for PMs to trust generated outputs?"
+  ],
+  "created_at": "2026-03-20T14:30:00Z"
+}

@@ -4,15 +4,16 @@
   "workspace_id": "ws_example_product",
   "prd_ref": "artifacts/prd.json",
   "score": 8,
-  "specificity_score": 8,
-  "coverage_score": 7,
-  "alignment_score": 9,
+  "score_breakdown": {
+    "specificity": 8,
+    "coverage": 7,
+    "alignment": 9
+  },
   "flagged_boundaries": [
     {
-      "boundary_text": "Other features not in scope",
-      "flag_reason": "Vague language — builder cannot determine what is excluded",
-      "severity": "critical",
-      "suggested_replacement": "Mobile native apps (iOS/Android), enterprise SSO integration, real-time collaboration, admin dashboard, API rate limiting"
+      "boundary": "Other features not in scope",
+      "issue": "vague_language",
+      "suggested_fix": "Replace with explicit exclusions such as mobile native apps, enterprise SSO, real-time collaboration, admin dashboard, and API rate limiting."
     }
   ],
   "suggested_fixes": [
@@ -21,6 +22,5 @@
     "Add platform exclusions (e.g., 'Native mobile apps — web-only for v1')"
   ],
   "approval_status": "approved",
-  "maturity_band": "one_to_ten",
   "generated_at": "2026-05-06T12:00:00Z"
 }

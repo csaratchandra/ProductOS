@@ -1,0 +1,6 @@
+workspace_id: ws_agentic_startup_b2b
+name: Agentic Startup B2B
+mode: startup
+active_increment_id: pi_agentic_startup_b2b_01
+artifact_paths: []
+feedback_paths: []

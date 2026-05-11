@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "issue_log_id": "issue_log_2026_03_22_next_version",
+  "workspace_id": "ws_productos_v2",
+  "period_label": "2026-03-22 weekly operator cycle for PM superpower recovery mission for PM superpower recovery mission",
+  "issues": [
+    {
+      "issue_id": "issue_non_codex_adapter_parity",
+      "title": "Named non-Codex adapter parity is now verified against the promoted repo contract",
+      "category": "quality",
+      "severity": "low",
+      "owner": "ProductOS PM",
+      "status": "resolved",
+      "mitigation": "Keep future host additions behind the same repo-contract parity proof before broadening the portability claim.",
+      "due_date": "2026-03-24"
+    },
+    {
+      "issue_id": "issue_market_distribution_posture",
+      "title": "The internal leadership-distribution path is now verified for the market-intelligence slice",
+      "category": "product",
+      "severity": "low",
+      "owner": "ProductOS PM",
+      "status": "resolved",
+      "mitigation": "Keep external publication adapters as a separate future proof cycle instead of reopening the completed internal distribution path.",
+      "due_date": "2026-03-26"
+    },
+    {
+      "issue_id": "issue_external_publication_adapter",
+      "title": "External publication adapters are still not directly verified against the promoted research distribution contract",
+      "category": "delivery",
+      "severity": "medium",
+      "owner": "ProductOS PM",
+      "status": "watch",
+      "mitigation": "Choose one external adapter and reuse the same evidence, freshness, and claim-boundary rules before broadening the publication surface.",
+      "due_date": "2026-03-30"
+    },
+    {
+      "issue_id": "issue_pm_superpower_recovery_mission_mission_traceability",
+      "title": "Mission traceability for 'PM superpower recovery mission' must stay explicit across aligned docs and operating outputs",
+      "category": "product",
+      "severity": "medium",
+      "owner": "ProductOS PM",
+      "status": "watch",
+      "mitigation": "Keep the mission brief in the source chain for docs, deck, status, and issue routing until downstream traceability is routine.",
+      "due_date": "2026-03-22"
+    }
+  ],
+  "updated_at": "2026-03-22T16:10:00Z"
+}

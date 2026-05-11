@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "runtime_adapter_registry_id": "runtime_adapter_registry_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "status": "partial",
+  "default_adapter_id": "adapter_git_execution",
+  "adapters": [
+    {
+      "adapter_id": "adapter_worker_session",
+      "name": "Context-Isolated Worker Session Adapter",
+      "capability_type": "worker_session",
+      "availability_status": "available",
+      "supported_actions": [
+        "create_context_isolated_work_session",
+        "capture_session_output",
+        "close_session"
+      ],
+      "requires_host_support": true,
+      "verification_status": "verified",
+      "used_by_default": true,
+      "supported_mission_stages": [
+        "discover",
+        "align",
+        "operate",
+        "improve"
+      ],
+      "prompt_pattern_capabilities": {
+        "mission_routing": "repo_managed",
+        "task_boundary_visibility": "limited",
+        "research_freshness": "unsupported",
+        "validation_enforcement": "limited",
+        "delegation_support": "native",
+        "approval_gating": "native",
+        "memory_steering": "limited",
+        "artifact_export": "unsupported"
+      },
+      "host_constraints": [
+        "Requires host support for bounded worker sessions."
+      ],
+      "notes": "Primary adapter for runtime proof work."
+    },
+    {
+      "adapter_id": "adapter_git_execution",
+      "name": "Git-Backed Execution Adapter",
+      "capability_type": "git_execution",
+      "availability_status": "available",
+      "supported_actions": [
+        "read_repository_state",
+        "apply_patch",
+        "run_local_validation"
+      ],
+      "requires_host_support": true,
+      "verification_status": "verified",
+      "used_by_default": true,
+      "supported_mission_stages": [
+        "discover",
+        "align",
+        "operate",
+        "improve"
+      ],
+      "prompt_pattern_capabilities": {
+        "mission_routing": "repo_managed",
+        "task_boundary_visibility": "limited",
+        "research_freshness": "unsupported",
+        "validation_enforcement": "repo_managed",
+        "delegation_support": "unsupported",
+        "approval_gating": "native",
+        "memory_steering": "repo_managed",
+        "artifact_export": "repo_managed"
+      },
+      "host_constraints": [
+        "Requires writable workspace access."
+      ],
+      "notes": "Used for local runtime generation and validation."
+    }
+  ],
+  "evaluated_at": "2026-03-21T23:30:00Z"
+}

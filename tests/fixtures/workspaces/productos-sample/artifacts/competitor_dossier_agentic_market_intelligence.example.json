@@ -1,0 +1,368 @@
+{
+  "schema_version": "1.0.0",
+  "competitor_dossier_id": "competitor_dossier_agentic_market_intelligence",
+  "workspace_id": "ws_productos_v2",
+  "title": "Competitor Dossier: agentic market intelligence",
+  "research_scope": "Direct PM competitors plus adjacent agentic and CI products that shape expectations for ProductOS research and auto-research.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opp_pm_operating_rhythm_automation"
+    }
+  ],
+  "source_artifact_ids": [
+    "research_notebook_agentic_market_intelligence",
+    "landscape_matrix_agentic_market_intelligence"
+  ],
+  "feature_taxonomy": [
+    "source-ingestion",
+    "research-planning",
+    "market-synthesis",
+    "competitor-monitoring",
+    "citations-and-provenance",
+    "human-controls",
+    "memory-and-reuse",
+    "loophole-capture"
+  ],
+  "competitors": [
+    {
+      "name": "Productboard Spark",
+      "category": "direct_pm_platform",
+      "competitor_type": "direct",
+      "target_customer": "Product managers and product leadership teams",
+      "positioning_summary": "AI platform for product managers that spans idea framing, strategic context, and delivery readiness.",
+      "go_to_market_motion": "PM team expansion and leadership adoption",
+      "pricing_signal": "Enterprise SaaS with beta AI add-on expansion",
+      "icp_overlap": "high",
+      "substitution_risk": "high",
+      "ecosystem_role": "PM-native system for strategy, feedback, and prioritization context.",
+      "agentic_features": [
+        "Competitor and persona context loading",
+        "Strategic-document ingestion",
+        "Feedback-note workflows"
+      ],
+      "governance_features": [
+        "Context setup before execution"
+      ],
+      "capability_gaps": [
+        "Less explicit tri-gate validation",
+        "Limited loophole memory"
+      ],
+      "strengths": [
+        "PM-native strategic framing",
+        "Visible product-context loading"
+      ],
+      "weaknesses": [
+        "Beta maturity",
+        "Unknown depth of structured validation"
+      ],
+      "implications": [
+        "ProductOS needs PM-native market intelligence instead of generic research tooling.",
+        "Validation and loophole memory can remain a differentiator."
+      ],
+      "evidence_refs": [
+        "source_note_card_productboard_spark_official_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-21T09:46:00Z"
+    },
+    {
+      "name": "Jira Product Discovery",
+      "category": "direct_pm_platform",
+      "competitor_type": "direct",
+      "target_customer": "B2B product teams already operating in Atlassian",
+      "positioning_summary": "Discovery tooling tightly connected to Jira delivery workflows with embedded AI assistance.",
+      "go_to_market_motion": "Existing Atlassian account expansion",
+      "pricing_signal": "Bundled and seat-based expansion",
+      "icp_overlap": "high",
+      "substitution_risk": "high",
+      "ecosystem_role": "Discovery and planning workflow extension inside Atlassian.",
+      "agentic_features": [
+        "Summarization in discovery artifacts",
+        "Embedded content generation"
+      ],
+      "governance_features": [
+        "Admin-controlled AI activation"
+      ],
+      "capability_gaps": [
+        "Less multi-source market synthesis",
+        "Weaker standalone PM operating narrative"
+      ],
+      "strengths": [
+        "Connected workflow context",
+        "Low-friction discovery drafting"
+      ],
+      "weaknesses": [
+        "Strategy and market intelligence still look narrower",
+        "Value depends on ecosystem fit"
+      ],
+      "implications": [
+        "ProductOS should differentiate above embedded drafting and issue linkage.",
+        "Manual fallback outside one ecosystem remains valuable."
+      ],
+      "evidence_refs": [
+        "source_note_card_jpd_ai_official_2026",
+        "source_note_card_app_review_jpd"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-21T09:47:00Z"
+    },
+    {
+      "name": "Linear",
+      "category": "indirect_pm_platform",
+      "competitor_type": "indirect",
+      "target_customer": "Product and engineering teams centered on issue flow and support intake",
+      "positioning_summary": "Issue-centric workflow with structured asks, customer linkage, and support-driven input capture.",
+      "go_to_market_motion": "Bottom-up team standardization",
+      "pricing_signal": "Seat-based workflow tooling",
+      "icp_overlap": "medium",
+      "substitution_risk": "medium",
+      "ecosystem_role": "Operational intake and execution surface rather than full market-intelligence system.",
+      "agentic_features": [
+        "Ask capture from Slack and support flows"
+      ],
+      "governance_features": [
+        "Customer association and attribution"
+      ],
+      "capability_gaps": [
+        "Less strategic synthesis",
+        "Limited explicit market-analysis surface"
+      ],
+      "strengths": [
+        "Fast ask capture",
+        "Operational clarity"
+      ],
+      "weaknesses": [
+        "Not a deep market-research product",
+        "Less explicit evidence packaging"
+      ],
+      "implications": [
+        "ProductOS should ingest asks and keep provenance intact when routing them into research.",
+        "The market expects tighter ask-to-research continuity."
+      ],
+      "evidence_refs": [
+        "source_note_card_linear_asks_official_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-21T09:48:00Z"
+    },
+    {
+      "name": "Notion MCP",
+      "category": "adjacent_work_platform",
+      "competitor_type": "tech_platform",
+      "target_customer": "Teams that want external AI tools to operate directly on workspace knowledge",
+      "positioning_summary": "Context bridge between workspace knowledge and external AI tools.",
+      "go_to_market_motion": "Platform expansion through agent integrations",
+      "pricing_signal": "Workspace platform upsell",
+      "icp_overlap": "medium",
+      "substitution_risk": "medium",
+      "ecosystem_role": "Agent-friendly knowledge layer that can sit beneath many workflows.",
+      "agentic_features": [
+        "Real-time read and write access for external agents"
+      ],
+      "governance_features": [
+        "Explicit connection model for AI tools"
+      ],
+      "capability_gaps": [
+        "Generic knowledge layer",
+        "Less PM-specific validation"
+      ],
+      "strengths": [
+        "Fast external-agent compatibility",
+        "Strong context bridge framing"
+      ],
+      "weaknesses": [
+        "Potential write-safety concerns",
+        "Weaker product-decision governance"
+      ],
+      "implications": [
+        "ProductOS should offer retrieval-first agent interfaces before broader write paths.",
+        "PM-native state and validation remain the differentiation."
+      ],
+      "evidence_refs": [
+        "source_note_card_notion_mcp_official_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-21T09:49:00Z"
+    },
+    {
+      "name": "OpenAI Deep Research",
+      "category": "agentic_research_tool",
+      "competitor_type": "vendor",
+      "target_customer": "Knowledge workers who need multi-step research across web, files, and apps",
+      "positioning_summary": "Deep research workflow with plan preview, source controls, and cited output.",
+      "go_to_market_motion": "General-purpose AI feature expansion",
+      "pricing_signal": "Plan-limited premium feature",
+      "icp_overlap": "high",
+      "substitution_risk": "medium",
+      "ecosystem_role": "General-purpose research benchmark that changes user expectations.",
+      "agentic_features": [
+        "Research planning",
+        "Source selection",
+        "Progress tracking",
+        "Citation-backed reporting"
+      ],
+      "governance_features": [
+        "Source controls before execution"
+      ],
+      "capability_gaps": [
+        "Not PM-specific by default",
+        "Less built-in PM artifact continuity"
+      ],
+      "strengths": [
+        "Strong research-loop shape",
+        "Cited output"
+      ],
+      "weaknesses": [
+        "Needs product context from outside the tool",
+        "May still overgeneralize without PM-specific structure"
+      ],
+      "implications": [
+        "ProductOS should match the research-loop ergonomics while staying PM-native.",
+        "Traceability and decision packaging should be tighter than general-purpose AI research."
+      ],
+      "evidence_refs": [
+        "source_note_card_openai_deep_research_official_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-21T09:50:00Z"
+    },
+    {
+      "name": "Glean Agentic Engine",
+      "category": "agentic_research_tool",
+      "competitor_type": "vendor",
+      "target_customer": "Enterprises that need grounded internal agents",
+      "positioning_summary": "Enterprise-grounded agent platform with adaptive planning based on organizational context.",
+      "go_to_market_motion": "Enterprise platform sale",
+      "pricing_signal": "Enterprise software pricing",
+      "icp_overlap": "medium",
+      "substitution_risk": "medium",
+      "ecosystem_role": "Grounded enterprise-agent benchmark.",
+      "agentic_features": [
+        "Adaptive planning",
+        "Enterprise graph grounding",
+        "Learned organizational context"
+      ],
+      "governance_features": [
+        "Grounded-context narrative"
+      ],
+      "capability_gaps": [
+        "Not PM-native",
+        "Less explicit product decision packaging"
+      ],
+      "strengths": [
+        "Grounded enterprise context",
+        "Strong planning narrative"
+      ],
+      "weaknesses": [
+        "Requires internal graph depth",
+        "Not specialized to PM operating artifacts"
+      ],
+      "implications": [
+        "ProductOS should ground research in workspace memory before recommending decisions.",
+        "Canonical-source retrieval needs to precede auto-research."
+      ],
+      "evidence_refs": [
+        "source_note_card_glean_agentic_engine_official_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-21T09:51:00Z"
+    },
+    {
+      "name": "Crayon",
+      "category": "competitive_intelligence_tool",
+      "competitor_type": "vendor",
+      "target_customer": "PMM, CI, and revenue teams that need ongoing competitor coverage",
+      "positioning_summary": "Organized competitive intel with automated analysis and reusable deliverables.",
+      "go_to_market_motion": "Revenue-team and PMM expansion",
+      "pricing_signal": "B2B enablement platform pricing",
+      "icp_overlap": "medium",
+      "substitution_risk": "medium",
+      "ecosystem_role": "Continuous competitor monitoring and intel packaging system.",
+      "agentic_features": [
+        "Automated analysis",
+        "Scheduled deliverables",
+        "Saved searches"
+      ],
+      "governance_features": [
+        "Template-based recurring workflows"
+      ],
+      "capability_gaps": [
+        "Less PM operating continuity",
+        "Weaker link to product-decision artifacts"
+      ],
+      "strengths": [
+        "Continuous market watch",
+        "Reusable analysis patterns"
+      ],
+      "weaknesses": [
+        "Not PM artifact-native",
+        "Less explicit decision traceability"
+      ],
+      "implications": [
+        "ProductOS should add saved-search and watchlist behavior.",
+        "Competitor deltas should feed PM decisions instead of remaining isolated intel."
+      ],
+      "evidence_refs": [
+        "source_note_card_crayon_ci_official_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-21T09:52:00Z"
+    },
+    {
+      "name": "Klue",
+      "category": "competitive_intelligence_tool",
+      "competitor_type": "vendor",
+      "target_customer": "B2B teams needing verified competitive insights across mixed sources",
+      "positioning_summary": "Competitive enablement platform that mixes internal and public sources into verified intel.",
+      "go_to_market_motion": "Competitive enablement and deal support",
+      "pricing_signal": "B2B SaaS pricing",
+      "icp_overlap": "medium",
+      "substitution_risk": "medium",
+      "ecosystem_role": "Mixed-source CI and deal-support system.",
+      "agentic_features": [
+        "Research mode",
+        "Auto insights",
+        "Mixed-source analysis"
+      ],
+      "governance_features": [
+        "Verified-insight framing"
+      ],
+      "capability_gaps": [
+        "Less PM-specific product shaping",
+        "Less explicit artifact traceability"
+      ],
+      "strengths": [
+        "Verified mixed-source synthesis",
+        "Continuous intel refresh"
+      ],
+      "weaknesses": [
+        "Revenue orientation",
+        "Less PM workflow integration"
+      ],
+      "implications": [
+        "ProductOS should support mixed-source verification instead of a public-web-only view.",
+        "Public and internal evidence need separate freshness and trust handling."
+      ],
+      "evidence_refs": [
+        "source_note_card_klue_compete_agent_official_2026"
+      ],
+      "confidence": "moderate",
+      "last_checked_at": "2026-03-21T09:53:00Z"
+    }
+  ],
+  "last_refreshed_at": "2026-03-21T09:54:00Z",
+  "created_at": "2026-03-21T09:54:00Z"
+}

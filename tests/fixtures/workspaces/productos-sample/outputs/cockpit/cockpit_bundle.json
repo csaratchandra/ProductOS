@@ -1,0 +1,2528 @@
+{
+  "schema_version": "1.0.0",
+  "cockpit_bundle_id": "cockpit_bundle_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "portfolio_id": "ws_productos_v2",
+  "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+  "product_record_ref": "product_record_ws_productos_v2",
+  "bundle_status": "completed",
+  "ralph_stage": "inspect",
+  "mission_brief": {
+    "schema_version": "1.0.0",
+    "mission_brief_id": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    "workspace_id": "ws_productos_v2",
+    "title": "PM superpower recovery mission",
+    "mission_summary": "ProductOS Reference Workspace should help Product manager using ProductOS with Codex, Claude, Windsurf, or Antigravity style agents solve PMs still need one repo-native way to carry mission, research, prioritization, delivery, and review context through the full lifecycle without rebuilding the decision chain by hand.",
+    "target_user": "Product manager using ProductOS with Codex, Claude, Windsurf, or Antigravity style agents",
+    "customer_problem": "PMs still need a single repo-native way to move from mission and evidence through prioritization, delivery, review, and bounded communication outputs without rebuilding the story or losing provenance by hand.",
+    "business_goal": "Make ProductOS credible for the first impatient customer by proving a coherent lifecycle-enrichment spine with governed research, prioritization, delivery traceability, and bounded visual outputs.",
+    "success_metrics": [
+      "time from intake to reviewable PRD",
+      "time from PRD to aligned docs and deck",
+      "weekly PM autopilot quality",
+      "time from aligned artifact set to publish-ready deck or corridor"
+    ],
+    "constraints": [
+      "Keep PM approval explicit for decision-driving scope and release movement.",
+      "Preserve observed versus inferred claims when evidence is incomplete.",
+      "Do not broaden autonomous PM claims past the current evidence-backed release boundary."
+    ],
+    "audience": [
+      "PM",
+      "engineering",
+      "design",
+      "leadership"
+    ],
+    "operating_mode": "full_loop",
+    "mission_router": {
+      "entry_phase": "discover",
+      "phase_sequence": [
+        "discover",
+        "align",
+        "operate",
+        "improve"
+      ],
+      "primary_reviewer_lane": "pm_builder",
+      "routing_rationale": "Run the full PM loop from a mission-first discover start while keeping PM approval explicit at every decision-driving boundary.",
+      "stop_conditions": [
+        "Stop if any phase loses provenance, reviewability, or PM approval visibility.",
+        "Stop if downstream phases outrun the accepted mission package.",
+        "Stop if release-facing claims exceed the current evidence-backed boundary."
+      ]
+    },
+    "steering_context": {
+      "steering_refs": [
+        "tests/fixtures/workspaces/productos-sample/docs/planning/steering-context.md",
+        "core/docs/vendor-neutral-agent-harness-standard.md",
+        "core/docs/ralph-loop-model.md"
+      ],
+      "operating_norms": [
+        "Treat the repository as the system of record.",
+        "Keep PM approval explicit for decision-driving scope, stakeholder-facing output, and release movement.",
+        "Preserve observed versus inferred claims when evidence is incomplete.",
+        "Prefer the smallest coherent slice that can be reviewed and validated end to end."
+      ],
+      "memory_priority_order": [
+        "decisions",
+        "evidence",
+        "prior_artifacts",
+        "repeated_issues",
+        "strategic_memory"
+      ],
+      "default_artifact_focus": [
+        "mission_brief",
+        "strategy_context_brief",
+        "product_vision_brief",
+        "market_strategy_brief",
+        "problem_brief",
+        "concept_brief",
+        "prd",
+        "document_sync_state",
+        "presentation_brief",
+        "status_mail",
+        "feature_portfolio_review"
+      ]
+    },
+    "primary_workflow_refs": [
+      "../../core/workflows/workspace-ingestion/inbox-to-normalized-evidence-workflow.md",
+      "../../core/workflows/decision-intelligence/mission-to-strategy-spine-workflow.md",
+      "../../core/workflows/decision-intelligence/market-strategy-definition-workflow.md",
+      "../../core/workflows/discovery/idea-to-concept-workflow.md",
+      "../../core/workflows/research/research-command-center-workflow.md",
+      "../../core/workflows/delivery/problem-brief-to-prd-workflow.md",
+      "../../core/workflows/delivery/prd-to-stories-workflow.md",
+      "../../core/workflows/delivery/stories-to-acceptance-workflow.md",
+      "../../core/workflows/launch/release-readiness-workflow.md",
+      "../../core/workflows/mastery/post-release-outcome-review-workflow.md",
+      "../../core/workflows/mastery/bounded-improvement-workflow.md"
+    ],
+    "source_refs": [
+      "tests/fixtures/workspaces/productos-sample/workspace_manifest.yaml",
+      "tests/fixtures/workspaces/productos-sample/artifacts/strategy_context_brief_pm_superpower_recovery.json",
+      "tests/fixtures/workspaces/productos-sample/artifacts/product_vision_brief_pm_superpower_recovery.json",
+      "tests/fixtures/workspaces/productos-sample/artifacts/problem_brief_pm_superpower_recovery.json"
+    ],
+    "next_action": "Keep the mission routed through the strategy spine and complete P0/P1/P2 lifecycle-enrichment reconciliation before broadening any release claim; treat visual surfaces as one aligned output lane inside that governed lifecycle.",
+    "created_at": "2026-03-22T08:00:00Z",
+    "updated_at": "2026-04-27T08:00:00Z"
+  },
+  "product_record": {
+    "schema_version": "1.0.0",
+    "product_record_id": "product_record_ws_productos_v2",
+    "workspace_id": "ws_productos_v2",
+    "portfolio_id": "ws_productos_v2",
+    "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    "product_name": "ProductOS Reference Workspace",
+    "lifecycle_stage": "discovery",
+    "maturity_band": "zero_to_one",
+    "status": "on_track",
+    "owner": "ProductOS PM",
+    "review_gate_owner": "ProductOS PM",
+    "primary_outcomes": [
+      "Make ProductOS credible for the first impatient customer by proving a coherent lifecycle-enrichment spine with governed research, prioritization, delivery traceability, and bounded visual outputs."
+    ],
+    "primary_kpis": [
+      "time from intake to reviewable PRD",
+      "time from PRD to aligned docs and deck",
+      "weekly PM autopilot quality",
+      "time from aligned artifact set to publish-ready deck or corridor"
+    ],
+    "target_release_or_increment": "pi_2026_q2_01",
+    "feature_record_ids": [
+      "feature_record_pm_superpower_recovery_mission_primary"
+    ],
+    "dependency_ids": [],
+    "risk_summary": [
+      "Discovery assumptions still require product-specific evidence."
+    ],
+    "linked_artifact_ids": [
+      "mission_brief_ws_productos_v2_pm_superpower_recovery_mission"
+    ],
+    "linked_decision_ids": [],
+    "approvals": {
+      "pm": "pending",
+      "leadership": "not_needed",
+      "customer_commitment": "not_needed",
+      "compliance": "not_needed"
+    },
+    "last_updated_at": "2026-03-22T08:00:00Z"
+  },
+  "portfolio_state": {
+    "schema_version": "1.0.0",
+    "portfolio_state_id": "portfolio_state_ws_productos_v2",
+    "suite_id": "ws_productos_v2",
+    "review_gate_owner": "ProductOS PM",
+    "primary_outcomes": [
+      "Make ProductOS credible for the first impatient customer by proving a coherent lifecycle-enrichment spine with governed research, prioritization, delivery traceability, and bounded visual outputs."
+    ],
+    "primary_kpis": [
+      "time from intake to reviewable PRD",
+      "time from PRD to aligned docs and deck",
+      "weekly PM autopilot quality",
+      "time from aligned artifact set to publish-ready deck or corridor"
+    ],
+    "summary": "The portfolio currently tracks 1 workspace(s) through one mission-first PM control plane.",
+    "product_summaries": [
+      {
+        "product_record_id": "product_record_ws_productos_v2",
+        "workspace_id": "ws_productos_v2",
+        "product_name": "ProductOS Reference Workspace",
+        "lifecycle_stage": "discovery",
+        "maturity_band": "zero_to_one",
+        "status": "on_track",
+        "owner": "ProductOS PM",
+        "review_gate_owner": "ProductOS PM",
+        "target_release_or_increment": "pi_2026_q2_01",
+        "feature_count": 1,
+        "primary_outcomes": [
+          "Make ProductOS credible for the first impatient customer by proving a coherent lifecycle-enrichment spine with governed research, prioritization, delivery traceability, and bounded visual outputs."
+        ],
+        "primary_kpis": [
+          "time from intake to reviewable PRD",
+          "time from PRD to aligned docs and deck",
+          "weekly PM autopilot quality",
+          "time from aligned artifact set to publish-ready deck or corridor"
+        ],
+        "top_mission_title": "PM superpower recovery mission",
+        "next_approval_needed": "discovery PM review"
+      }
+    ],
+    "opportunity_portfolio_summary": [],
+    "cross_product_dependencies": [],
+    "portfolio_risks": [],
+    "generated_at": "2026-03-22T08:00:00Z"
+  },
+  "workspace_tree_state": {
+    "schema_version": "1.0.0",
+    "workspace_tree_state_id": "workspace_tree_state_ws_productos_v2",
+    "workspace_id": "ws_productos_v2",
+    "portfolio_id": "ws_productos_v2",
+    "root": {
+      "node_id": "tree_node_portfolio_ws_productos_v2",
+      "node_type": "portfolio",
+      "label": "ws_productos_v2",
+      "children": [
+        {
+          "node_id": "tree_node_workspace_ws_productos_v2",
+          "node_type": "workspace",
+          "label": "ProductOS Reference Workspace",
+          "ref": "tests/fixtures/workspaces/productos-sample",
+          "children": [
+            {
+              "node_id": "tree_node_mission_ws_productos_v2",
+              "node_type": "mission",
+              "label": "PM superpower recovery mission",
+              "ref": "artifacts/mission_brief.json",
+              "children": []
+            },
+            {
+              "node_id": "tree_node_docs_ws_productos_v2",
+              "node_type": "collection",
+              "label": "Docs",
+              "ref": "tests/fixtures/workspaces/productos-sample/docs",
+              "children": [
+                {
+                  "node_id": "tree_node_doc_docs_readme_md",
+                  "node_type": "document",
+                  "label": "docs/README.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/README.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_delivery_lifecycle_launch_outcome_review_md",
+                  "node_type": "document",
+                  "label": "docs/delivery/lifecycle-launch-outcome-review.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/delivery/lifecycle-launch-outcome-review.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_delivery_lifecycle_release_readiness_review_md",
+                  "node_type": "document",
+                  "label": "docs/delivery/lifecycle-release-readiness-review.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/delivery/lifecycle-release-readiness-review.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_discovery_discovery_summary_md",
+                  "node_type": "document",
+                  "label": "docs/discovery/discovery-summary.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/discovery/discovery-summary.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_discovery_external_research_plan_md",
+                  "node_type": "document",
+                  "label": "docs/discovery/external-research-plan.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/discovery/external-research-plan.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_discovery_lifecycle_traceability_review_md",
+                  "node_type": "document",
+                  "label": "docs/discovery/lifecycle-traceability-review.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/discovery/lifecycle-traceability-review.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_discovery_problem_brief_md",
+                  "node_type": "document",
+                  "label": "docs/discovery/problem-brief.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/discovery/problem-brief.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_discovery_research_operations_md",
+                  "node_type": "document",
+                  "label": "docs/discovery/research-operations.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/discovery/research-operations.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_marketing_messaging_house_md",
+                  "node_type": "document",
+                  "label": "docs/marketing/messaging-house.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/marketing/messaging-house.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_marketing_positioning_md",
+                  "node_type": "document",
+                  "label": "docs/marketing/positioning.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/marketing/positioning.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_marketing_ralph_loop_audit_md",
+                  "node_type": "document",
+                  "label": "docs/marketing/ralph-loop-audit.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/marketing/ralph-loop-audit.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_current_plan_md",
+                  "node_type": "document",
+                  "label": "docs/planning/current-plan.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/current-plan.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_mission_brief_md",
+                  "node_type": "document",
+                  "label": "docs/planning/mission-brief.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/mission-brief.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_next_version_mission_control_plan_md",
+                  "node_type": "document",
+                  "label": "docs/planning/next-version-mission-control-plan.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/next-version-mission-control-plan.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_next_version_release_review_md",
+                  "node_type": "document",
+                  "label": "docs/planning/next-version-release-review.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/next-version-release-review.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_pm_superpower_recovery_plan_md",
+                  "node_type": "document",
+                  "label": "docs/planning/pm-superpower-recovery-plan.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/pm-superpower-recovery-plan.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_prd_md",
+                  "node_type": "document",
+                  "label": "docs/planning/prd.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/prd.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_research_superpower_plan_md",
+                  "node_type": "document",
+                  "label": "docs/planning/research-superpower-plan.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/research-superpower-plan.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_roadmap_md",
+                  "node_type": "document",
+                  "label": "docs/planning/roadmap.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/roadmap.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_steering_context_md",
+                  "node_type": "document",
+                  "label": "docs/planning/steering-context.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/steering-context.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_strategy_discovery_superpower_plan_md",
+                  "node_type": "document",
+                  "label": "docs/planning/strategy-discovery-superpower-plan.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/strategy-discovery-superpower-plan.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_v10_1_pm_startup_simplification_note_md",
+                  "node_type": "document",
+                  "label": "docs/planning/v10-1-pm-startup-simplification-note.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/v10-1-pm-startup-simplification-note.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_v6_candidate_note_md",
+                  "node_type": "document",
+                  "label": "docs/planning/v6-candidate-note.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/v6-candidate-note.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_v6_cleanup_audit_md",
+                  "node_type": "document",
+                  "label": "docs/planning/v6-cleanup-audit.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/v6-cleanup-audit.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_v6_cutover_plan_md",
+                  "node_type": "document",
+                  "label": "docs/planning/v6-cutover-plan.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/v6-cutover-plan.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_v6_distribution_checklist_md",
+                  "node_type": "document",
+                  "label": "docs/planning/v6-distribution-checklist.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/v6-distribution-checklist.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_v6_public_distribution_manifest_md",
+                  "node_type": "document",
+                  "label": "docs/planning/v6-public-distribution-manifest.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/v6-public-distribution-manifest.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_v7_candidate_note_md",
+                  "node_type": "document",
+                  "label": "docs/planning/v7-candidate-note.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/v7-candidate-note.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_v7_cutover_plan_md",
+                  "node_type": "document",
+                  "label": "docs/planning/v7-cutover-plan.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/v7-cutover-plan.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_v8_thread_review_mapping_inventory_md",
+                  "node_type": "document",
+                  "label": "docs/planning/v8-thread-review-mapping-inventory.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/v8-thread-review-mapping-inventory.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_v8_thread_review_upgrade_plan_md",
+                  "node_type": "document",
+                  "label": "docs/planning/v8-thread-review-upgrade-plan.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/v8-thread-review-upgrade-plan.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_planning_v8_workspace_adoption_prd_md",
+                  "node_type": "document",
+                  "label": "docs/planning/v8-workspace-adoption-prd.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/planning/v8-workspace-adoption-prd.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_product_getting_started_md",
+                  "node_type": "document",
+                  "label": "docs/product/getting-started.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/product/getting-started.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_product_product_overview_md",
+                  "node_type": "document",
+                  "label": "docs/product/product-overview.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/product/product-overview.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_prototype_prototype_review_md",
+                  "node_type": "document",
+                  "label": "docs/prototype/prototype-review.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/prototype/prototype-review.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_research_market_intelligence_leadership_digest_md",
+                  "node_type": "document",
+                  "label": "docs/research/market-intelligence-leadership-digest.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/research/market-intelligence-leadership-digest.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_research_market_intelligence_review_md",
+                  "node_type": "document",
+                  "label": "docs/research/market-intelligence-review.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/research/market-intelligence-review.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_research_productos_next_version_system_prompt_review_md",
+                  "node_type": "document",
+                  "label": "docs/research/productos-next-version-system-prompt-review.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/research/productos-next-version-system-prompt-review.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_research_ralph_loop_audit_md",
+                  "node_type": "document",
+                  "label": "docs/research/ralph-loop-audit.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/research/ralph-loop-audit.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_research_research_feature_recommendations_md",
+                  "node_type": "document",
+                  "label": "docs/research/research-feature-recommendations.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/research/research-feature-recommendations.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_strategy_concept_brief_md",
+                  "node_type": "document",
+                  "label": "docs/strategy/concept-brief.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/strategy/concept-brief.md",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_doc_docs_strategy_product_strategy_vision_md",
+                  "node_type": "document",
+                  "label": "docs/strategy/product-strategy-vision.md",
+                  "ref": "tests/fixtures/workspaces/productos-sample/docs/strategy/product-strategy-vision.md",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "node_id": "tree_node_artifacts_ws_productos_v2",
+              "node_type": "collection",
+              "label": "Artifacts",
+              "ref": "tests/fixtures/workspaces/productos-sample/artifacts",
+              "children": [
+                {
+                  "node_id": "tree_node_artifact_acceptance_criteria_set_pm_lifecycle_visibility",
+                  "node_type": "artifact",
+                  "label": "acceptance_criteria_set_pm_lifecycle_visibility.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/acceptance_criteria_set_pm_lifecycle_visibility.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_adapter_parity_report",
+                  "node_type": "artifact",
+                  "label": "adapter_parity_report.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/adapter_parity_report.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_ai_agent_benchmark.example",
+                  "node_type": "artifact",
+                  "label": "ai_agent_benchmark.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/ai_agent_benchmark.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_change_event.example",
+                  "node_type": "artifact",
+                  "label": "change_event.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/change_event.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_change_impact_assessment.example",
+                  "node_type": "artifact",
+                  "label": "change_impact_assessment.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/change_impact_assessment.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_cockpit_state.example",
+                  "node_type": "artifact",
+                  "label": "cockpit_state.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/cockpit_state.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_competitor_dossier.example",
+                  "node_type": "artifact",
+                  "label": "competitor_dossier.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/competitor_dossier.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_competitor_dossier",
+                  "node_type": "artifact",
+                  "label": "competitor_dossier.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/competitor_dossier.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_competitor_dossier_agentic_market_intelligence.example",
+                  "node_type": "artifact",
+                  "label": "competitor_dossier_agentic_market_intelligence.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/competitor_dossier_agentic_market_intelligence.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_competitor_dossier_pm_lifecycle_visibility.example",
+                  "node_type": "artifact",
+                  "label": "competitor_dossier_pm_lifecycle_visibility.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/competitor_dossier_pm_lifecycle_visibility.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_concept_brief.example",
+                  "node_type": "artifact",
+                  "label": "concept_brief.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/concept_brief.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_concept_brief",
+                  "node_type": "artifact",
+                  "label": "concept_brief.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/concept_brief.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_concept_brief_pm_lifecycle_visibility",
+                  "node_type": "artifact",
+                  "label": "concept_brief_pm_lifecycle_visibility.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/concept_brief_pm_lifecycle_visibility.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_concept_brief_pm_lifecycle_visibility.trace_map",
+                  "node_type": "artifact",
+                  "label": "concept_brief_pm_lifecycle_visibility.trace_map.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/concept_brief_pm_lifecycle_visibility.trace_map.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_concept_brief_pm_superpower_recovery",
+                  "node_type": "artifact",
+                  "label": "concept_brief_pm_superpower_recovery.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/concept_brief_pm_superpower_recovery.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_current_state_assessment.example",
+                  "node_type": "artifact",
+                  "label": "current_state_assessment.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/current_state_assessment.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_customer_journey_map",
+                  "node_type": "artifact",
+                  "label": "customer_journey_map.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/customer_journey_map.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_customer_pulse.example",
+                  "node_type": "artifact",
+                  "label": "customer_pulse.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/customer_pulse.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_customer_pulse",
+                  "node_type": "artifact",
+                  "label": "customer_pulse.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/customer_pulse.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_decision_log.example",
+                  "node_type": "artifact",
+                  "label": "decision_log.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/decision_log.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_decision_queue.example",
+                  "node_type": "artifact",
+                  "label": "decision_queue.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/decision_queue.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_document_sync_state.example",
+                  "node_type": "artifact",
+                  "label": "document_sync_state.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/document_sync_state.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_document_sync_state_live_docs.example",
+                  "node_type": "artifact",
+                  "label": "document_sync_state_live_docs.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/document_sync_state_live_docs.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_execution_session_state.example",
+                  "node_type": "artifact",
+                  "label": "execution_session_state.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/execution_session_state.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_external_research_plan",
+                  "node_type": "artifact",
+                  "label": "external_research_plan.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/external_research_plan.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_external_research_review",
+                  "node_type": "artifact",
+                  "label": "external_research_review.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/external_research_review.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_external_research_source_discovery",
+                  "node_type": "artifact",
+                  "label": "external_research_source_discovery.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/external_research_source_discovery.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_feature_portfolio_review.example",
+                  "node_type": "artifact",
+                  "label": "feature_portfolio_review.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/feature_portfolio_review.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_feature_scorecard.example",
+                  "node_type": "artifact",
+                  "label": "feature_scorecard.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/feature_scorecard.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_feedback_cluster_state.example",
+                  "node_type": "artifact",
+                  "label": "feedback_cluster_state.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/feedback_cluster_state.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_follow_up_queue.example",
+                  "node_type": "artifact",
+                  "label": "follow_up_queue.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/follow_up_queue.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_gap_cluster_state.example",
+                  "node_type": "artifact",
+                  "label": "gap_cluster_state.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/gap_cluster_state.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_handoff_discovery_to_research",
+                  "node_type": "artifact",
+                  "label": "handoff_discovery_to_research.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/handoff_discovery_to_research.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_idea_record.example",
+                  "node_type": "artifact",
+                  "label": "idea_record.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/idea_record.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_idea_record",
+                  "node_type": "artifact",
+                  "label": "idea_record.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/idea_record.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_idea_record_pm_lifecycle_visibility",
+                  "node_type": "artifact",
+                  "label": "idea_record_pm_lifecycle_visibility.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/idea_record_pm_lifecycle_visibility.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_impact_propagation_map",
+                  "node_type": "artifact",
+                  "label": "impact_propagation_map.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/impact_propagation_map.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_improvement_loop_state.example",
+                  "node_type": "artifact",
+                  "label": "improvement_loop_state.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/improvement_loop_state.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_increment_plan.example",
+                  "node_type": "artifact",
+                  "label": "increment_plan.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/increment_plan.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_increment_plan",
+                  "node_type": "artifact",
+                  "label": "increment_plan.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/increment_plan.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_intake_routing_state.example",
+                  "node_type": "artifact",
+                  "label": "intake_routing_state.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/intake_routing_state.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_intake_routing_state_ws_productos_v2_discovery_traceability.example",
+                  "node_type": "artifact",
+                  "label": "intake_routing_state_ws_productos_v2_discovery_traceability.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/intake_routing_state_ws_productos_v2_discovery_traceability.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_issue_log.example",
+                  "node_type": "artifact",
+                  "label": "issue_log.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/issue_log.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_item_lifecycle_state_pm_lifecycle_visibility.example",
+                  "node_type": "artifact",
+                  "label": "item_lifecycle_state_pm_lifecycle_visibility.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/item_lifecycle_state_pm_lifecycle_visibility.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_landscape_matrix.example",
+                  "node_type": "artifact",
+                  "label": "landscape_matrix.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/landscape_matrix.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_landscape_matrix_agentic_market_intelligence.example",
+                  "node_type": "artifact",
+                  "label": "landscape_matrix_agentic_market_intelligence.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/landscape_matrix_agentic_market_intelligence.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_leadership_review_market_intelligence_distribution.example",
+                  "node_type": "artifact",
+                  "label": "leadership_review_market_intelligence_distribution.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/leadership_review_market_intelligence_distribution.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_lifecycle_stage_snapshot_delivery.example",
+                  "node_type": "artifact",
+                  "label": "lifecycle_stage_snapshot_delivery.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/lifecycle_stage_snapshot_delivery.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_lifecycle_stage_snapshot_discovery.example",
+                  "node_type": "artifact",
+                  "label": "lifecycle_stage_snapshot_discovery.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/lifecycle_stage_snapshot_discovery.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_lifecycle_stage_snapshot_full_lifecycle.example",
+                  "node_type": "artifact",
+                  "label": "lifecycle_stage_snapshot_full_lifecycle.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/lifecycle_stage_snapshot_full_lifecycle.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_lifecycle_stage_snapshot_launch.example",
+                  "node_type": "artifact",
+                  "label": "lifecycle_stage_snapshot_launch.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/lifecycle_stage_snapshot_launch.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_lifecycle_stage_snapshot_outcomes.example",
+                  "node_type": "artifact",
+                  "label": "lifecycle_stage_snapshot_outcomes.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/lifecycle_stage_snapshot_outcomes.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_manual_validation_record.example",
+                  "node_type": "artifact",
+                  "label": "manual_validation_record.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/manual_validation_record.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_manual_validation_record_live_docs.example",
+                  "node_type": "artifact",
+                  "label": "manual_validation_record_live_docs.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/manual_validation_record_live_docs.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_manual_validation_record_market_intelligence.example",
+                  "node_type": "artifact",
+                  "label": "manual_validation_record_market_intelligence.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/manual_validation_record_market_intelligence.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_manual_validation_record_next_version_completion.example",
+                  "node_type": "artifact",
+                  "label": "manual_validation_record_next_version_completion.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/manual_validation_record_next_version_completion.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_manual_validation_record_pm_lifecycle_visibility.example",
+                  "node_type": "artifact",
+                  "label": "manual_validation_record_pm_lifecycle_visibility.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/manual_validation_record_pm_lifecycle_visibility.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_manual_validation_record_v6_lifecycle_traceability",
+                  "node_type": "artifact",
+                  "label": "manual_validation_record_v6_lifecycle_traceability.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/manual_validation_record_v6_lifecycle_traceability.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_manual_validation_record_v7_lifecycle_traceability",
+                  "node_type": "artifact",
+                  "label": "manual_validation_record_v7_lifecycle_traceability.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/manual_validation_record_v7_lifecycle_traceability.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_market_analysis_brief",
+                  "node_type": "artifact",
+                  "label": "market_analysis_brief.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/market_analysis_brief.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_market_analysis_brief_agentic_market_intelligence.example",
+                  "node_type": "artifact",
+                  "label": "market_analysis_brief_agentic_market_intelligence.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/market_analysis_brief_agentic_market_intelligence.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_market_analysis_brief_pm_lifecycle_visibility.example",
+                  "node_type": "artifact",
+                  "label": "market_analysis_brief_pm_lifecycle_visibility.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/market_analysis_brief_pm_lifecycle_visibility.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_market_refresh_report",
+                  "node_type": "artifact",
+                  "label": "market_refresh_report.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/market_refresh_report.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_market_strategy_brief",
+                  "node_type": "artifact",
+                  "label": "market_strategy_brief.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/market_strategy_brief.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_market_strategy_brief_pm_lifecycle_visibility.example",
+                  "node_type": "artifact",
+                  "label": "market_strategy_brief_pm_lifecycle_visibility.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/market_strategy_brief_pm_lifecycle_visibility.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_market_strategy_brief_pm_superpower_recovery",
+                  "node_type": "artifact",
+                  "label": "market_strategy_brief_pm_superpower_recovery.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/market_strategy_brief_pm_superpower_recovery.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_meeting_record.example",
+                  "node_type": "artifact",
+                  "label": "meeting_record.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/meeting_record.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_memory_retrieval_state.example",
+                  "node_type": "artifact",
+                  "label": "memory_retrieval_state.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/memory_retrieval_state.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_mission_brief",
+                  "node_type": "artifact",
+                  "label": "mission_brief.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/mission_brief.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_orchestration_state.example",
+                  "node_type": "artifact",
+                  "label": "orchestration_state.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/orchestration_state.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_outcome_review.example",
+                  "node_type": "artifact",
+                  "label": "outcome_review.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/outcome_review.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_outcome_review_pm_lifecycle_visibility",
+                  "node_type": "artifact",
+                  "label": "outcome_review_pm_lifecycle_visibility.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/outcome_review_pm_lifecycle_visibility.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_persona_operating_profile.example",
+                  "node_type": "artifact",
+                  "label": "persona_operating_profile.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/persona_operating_profile.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_persona_pack.example",
+                  "node_type": "artifact",
+                  "label": "persona_pack.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/persona_pack.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_persona_pack_pm_lifecycle_visibility.example",
+                  "node_type": "artifact",
+                  "label": "persona_pack_pm_lifecycle_visibility.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/persona_pack_pm_lifecycle_visibility.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_pm_benchmark.example",
+                  "node_type": "artifact",
+                  "label": "pm_benchmark.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/pm_benchmark.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_pm_superpower_benchmark.example",
+                  "node_type": "artifact",
+                  "label": "pm_superpower_benchmark.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/pm_superpower_benchmark.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_portfolio_update_market_intelligence_distribution.example",
+                  "node_type": "artifact",
+                  "label": "portfolio_update_market_intelligence_distribution.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/portfolio_update_market_intelligence_distribution.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_prd",
+                  "node_type": "artifact",
+                  "label": "prd.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/prd.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_prd_pm_lifecycle_visibility",
+                  "node_type": "artifact",
+                  "label": "prd_pm_lifecycle_visibility.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/prd_pm_lifecycle_visibility.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_prd_pm_lifecycle_visibility.trace_map",
+                  "node_type": "artifact",
+                  "label": "prd_pm_lifecycle_visibility.trace_map.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/prd_pm_lifecycle_visibility.trace_map.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_prd_pm_superpower_recovery",
+                  "node_type": "artifact",
+                  "label": "prd_pm_superpower_recovery.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/prd_pm_superpower_recovery.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_prd_workspace_adoption_superpower",
+                  "node_type": "artifact",
+                  "label": "prd_workspace_adoption_superpower.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/prd_workspace_adoption_superpower.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_presentation_brief.example",
+                  "node_type": "artifact",
+                  "label": "presentation_brief.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/presentation_brief.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_presentation_pattern_review.example",
+                  "node_type": "artifact",
+                  "label": "presentation_pattern_review.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/presentation_pattern_review.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_presentation_sample_record.example",
+                  "node_type": "artifact",
+                  "label": "presentation_sample_record.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/presentation_sample_record.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_problem_brief",
+                  "node_type": "artifact",
+                  "label": "problem_brief.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/problem_brief.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_problem_brief_pm_lifecycle_visibility",
+                  "node_type": "artifact",
+                  "label": "problem_brief_pm_lifecycle_visibility.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/problem_brief_pm_lifecycle_visibility.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_problem_brief_pm_lifecycle_visibility.trace_map",
+                  "node_type": "artifact",
+                  "label": "problem_brief_pm_lifecycle_visibility.trace_map.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/problem_brief_pm_lifecycle_visibility.trace_map.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_problem_brief_pm_superpower_recovery",
+                  "node_type": "artifact",
+                  "label": "problem_brief_pm_superpower_recovery.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/problem_brief_pm_superpower_recovery.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_product_vision_brief",
+                  "node_type": "artifact",
+                  "label": "product_vision_brief.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/product_vision_brief.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_product_vision_brief_pm_superpower_recovery",
+                  "node_type": "artifact",
+                  "label": "product_vision_brief_pm_superpower_recovery.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/product_vision_brief_pm_superpower_recovery.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_productos_feedback_log.example",
+                  "node_type": "artifact",
+                  "label": "productos_feedback_log.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/productos_feedback_log.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_program_increment_state.example",
+                  "node_type": "artifact",
+                  "label": "program_increment_state.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/program_increment_state.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_program_increment_state",
+                  "node_type": "artifact",
+                  "label": "program_increment_state.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/program_increment_state.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_prototype_record",
+                  "node_type": "artifact",
+                  "label": "prototype_record.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/prototype_record.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_prototype_record_pm_item_timeline",
+                  "node_type": "artifact",
+                  "label": "prototype_record_pm_item_timeline.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/prototype_record_pm_item_timeline.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_prototype_record_pm_item_timeline.trace_map",
+                  "node_type": "artifact",
+                  "label": "prototype_record_pm_item_timeline.trace_map.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/prototype_record_pm_item_timeline.trace_map.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_ralph_loop_state.example",
+                  "node_type": "artifact",
+                  "label": "ralph_loop_state.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/ralph_loop_state.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_ralph_loop_state_live_docs.example",
+                  "node_type": "artifact",
+                  "label": "ralph_loop_state_live_docs.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/ralph_loop_state_live_docs.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_ralph_loop_state_v6_lifecycle_traceability",
+                  "node_type": "artifact",
+                  "label": "ralph_loop_state_v6_lifecycle_traceability.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/ralph_loop_state_v6_lifecycle_traceability.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_ralph_loop_state_v7_1_pm_superpower_core",
+                  "node_type": "artifact",
+                  "label": "ralph_loop_state_v7_1_pm_superpower_core.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/ralph_loop_state_v7_1_pm_superpower_core.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_ralph_loop_state_v7_2_mission_first_pm_workflow",
+                  "node_type": "artifact",
+                  "label": "ralph_loop_state_v7_2_mission_first_pm_workflow.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/ralph_loop_state_v7_2_mission_first_pm_workflow.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_ralph_loop_state_v7_lifecycle_traceability",
+                  "node_type": "artifact",
+                  "label": "ralph_loop_state_v7_lifecycle_traceability.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/ralph_loop_state_v7_lifecycle_traceability.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_referee_decision_record.example",
+                  "node_type": "artifact",
+                  "label": "referee_decision_record.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/referee_decision_record.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_rejected_path_record.example",
+                  "node_type": "artifact",
+                  "label": "rejected_path_record.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/rejected_path_record.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_rejected_path_record_live_docs.example",
+                  "node_type": "artifact",
+                  "label": "rejected_path_record_live_docs.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/rejected_path_record_live_docs.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_rejected_path_record_market_intelligence.example",
+                  "node_type": "artifact",
+                  "label": "rejected_path_record_market_intelligence.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/rejected_path_record_market_intelligence.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_release_gate_decision.example",
+                  "node_type": "artifact",
+                  "label": "release_gate_decision.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/release_gate_decision.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_release_gate_decision_next_version_completion.example",
+                  "node_type": "artifact",
+                  "label": "release_gate_decision_next_version_completion.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/release_gate_decision_next_version_completion.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_release_gate_decision_v6_lifecycle_traceability",
+                  "node_type": "artifact",
+                  "label": "release_gate_decision_v6_lifecycle_traceability.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/release_gate_decision_v6_lifecycle_traceability.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_release_gate_decision_v7_lifecycle_traceability",
+                  "node_type": "artifact",
+                  "label": "release_gate_decision_v7_lifecycle_traceability.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/release_gate_decision_v7_lifecycle_traceability.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_release_note_pm_lifecycle_visibility",
+                  "node_type": "artifact",
+                  "label": "release_note_pm_lifecycle_visibility.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/release_note_pm_lifecycle_visibility.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_release_readiness.example",
+                  "node_type": "artifact",
+                  "label": "release_readiness.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/release_readiness.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_release_readiness_v6_lifecycle_traceability",
+                  "node_type": "artifact",
+                  "label": "release_readiness_v6_lifecycle_traceability.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/release_readiness_v6_lifecycle_traceability.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_release_readiness_v7_lifecycle_traceability",
+                  "node_type": "artifact",
+                  "label": "release_readiness_v7_lifecycle_traceability.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/release_readiness_v7_lifecycle_traceability.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_release_scope_recommendation.example",
+                  "node_type": "artifact",
+                  "label": "release_scope_recommendation.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/release_scope_recommendation.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_research_brief.example",
+                  "node_type": "artifact",
+                  "label": "research_brief.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/research_brief.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_research_brief",
+                  "node_type": "artifact",
+                  "label": "research_brief.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/research_brief.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_research_feature_recommendation_brief.example",
+                  "node_type": "artifact",
+                  "label": "research_feature_recommendation_brief.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/research_feature_recommendation_brief.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_research_notebook.example",
+                  "node_type": "artifact",
+                  "label": "research_notebook.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/research_notebook.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_research_notebook",
+                  "node_type": "artifact",
+                  "label": "research_notebook.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/research_notebook.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_research_notebook_agentic_market_intelligence.example",
+                  "node_type": "artifact",
+                  "label": "research_notebook_agentic_market_intelligence.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/research_notebook_agentic_market_intelligence.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_research_notebook_pm_lifecycle_visibility.example",
+                  "node_type": "artifact",
+                  "label": "research_notebook_pm_lifecycle_visibility.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/research_notebook_pm_lifecycle_visibility.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_runtime_adapter_registry.example",
+                  "node_type": "artifact",
+                  "label": "runtime_adapter_registry.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/runtime_adapter_registry.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_runtime_scenario_report.example",
+                  "node_type": "artifact",
+                  "label": "runtime_scenario_report.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/runtime_scenario_report.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_runtime_scenario_report_adapter_parity.example",
+                  "node_type": "artifact",
+                  "label": "runtime_scenario_report_adapter_parity.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/runtime_scenario_report_adapter_parity.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_runtime_scenario_report_market_distribution.example",
+                  "node_type": "artifact",
+                  "label": "runtime_scenario_report_market_distribution.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/runtime_scenario_report_market_distribution.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_runtime_scenario_report_market_refresh.example",
+                  "node_type": "artifact",
+                  "label": "runtime_scenario_report_market_refresh.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/runtime_scenario_report_market_refresh.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_runtime_scenario_report_v6_lifecycle_traceability",
+                  "node_type": "artifact",
+                  "label": "runtime_scenario_report_v6_lifecycle_traceability.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/runtime_scenario_report_v6_lifecycle_traceability.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_runtime_scenario_report_v7_lifecycle_traceability",
+                  "node_type": "artifact",
+                  "label": "runtime_scenario_report_v7_lifecycle_traceability.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/runtime_scenario_report_v7_lifecycle_traceability.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_segment_map.example",
+                  "node_type": "artifact",
+                  "label": "segment_map.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/segment_map.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_segment_map_pm_lifecycle_visibility.example",
+                  "node_type": "artifact",
+                  "label": "segment_map_pm_lifecycle_visibility.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/segment_map_pm_lifecycle_visibility.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_signal_hypothesis_brief.example",
+                  "node_type": "artifact",
+                  "label": "signal_hypothesis_brief.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/signal_hypothesis_brief.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_aha_knowledge_ai_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_aha_knowledge_ai_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_aha_knowledge_ai_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_aha_official_pm_visibility_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_aha_official_pm_visibility_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_aha_official_pm_visibility_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_app_review_jpd.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_app_review_jpd.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_app_review_jpd.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_asana_ai_teammates_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_asana_ai_teammates_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_asana_ai_teammates_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_asana_official_pm_visibility_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_asana_official_pm_visibility_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_asana_official_pm_visibility_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_clickup_official_pm_visibility_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_clickup_official_pm_visibility_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_clickup_official_pm_visibility_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_coda_ai_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_coda_ai_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_coda_ai_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_crayon_ci_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_crayon_ci_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_crayon_ci_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_discover_competitor_research_candidate_2",
+                  "node_type": "artifact",
+                  "label": "source_note_card_discover_competitor_research_candidate_2.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_discover_competitor_research_candidate_2.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_discover_customer_evidence_candidate_3",
+                  "node_type": "artifact",
+                  "label": "source_note_card_discover_customer_evidence_candidate_3.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_discover_customer_evidence_candidate_3.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_discover_market_validation_candidate_1",
+                  "node_type": "artifact",
+                  "label": "source_note_card_discover_market_validation_candidate_1.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_discover_market_validation_candidate_1.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_gemini_deep_research_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_gemini_deep_research_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_gemini_deep_research_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_glean_agentic_engine_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_glean_agentic_engine_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_glean_agentic_engine_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_jira_official_pm_visibility_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_jira_official_pm_visibility_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_jira_official_pm_visibility_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_jpd_ai_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_jpd_ai_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_jpd_ai_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_jpd_official_pm_visibility_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_jpd_official_pm_visibility_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_jpd_official_pm_visibility_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_klue_compete_agent_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_klue_compete_agent_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_klue_compete_agent_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_linear_asks_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_linear_asks_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_linear_asks_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_linear_official_pm_visibility_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_linear_official_pm_visibility_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_linear_official_pm_visibility_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_monday_dev_official_pm_visibility_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_monday_dev_official_pm_visibility_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_monday_dev_official_pm_visibility_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_notion_mcp_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_notion_mcp_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_notion_mcp_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_openai_deep_research_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_openai_deep_research_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_openai_deep_research_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_perplexity_deep_research_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_perplexity_deep_research_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_perplexity_deep_research_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_problem_brief_productos_next_version_discover",
+                  "node_type": "artifact",
+                  "label": "source_note_card_problem_brief_productos_next_version_discover.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_problem_brief_productos_next_version_discover.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_productboard_spark_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_productboard_spark_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_productboard_spark_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_productboard_spark_official_pm_visibility_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_productboard_spark_official_pm_visibility_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_productboard_spark_official_pm_visibility_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_source_note_card_semrush_eyeon_official_2026.example",
+                  "node_type": "artifact",
+                  "label": "source_note_card_semrush_eyeon_official_2026.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/source_note_card_semrush_eyeon_official_2026.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_status_mail.example",
+                  "node_type": "artifact",
+                  "label": "status_mail.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/status_mail.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_story_pack_pm_lifecycle_visibility",
+                  "node_type": "artifact",
+                  "label": "story_pack_pm_lifecycle_visibility.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/story_pack_pm_lifecycle_visibility.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_strategy_context_brief",
+                  "node_type": "artifact",
+                  "label": "strategy_context_brief.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/strategy_context_brief.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_strategy_context_brief_pm_superpower_recovery",
+                  "node_type": "artifact",
+                  "label": "strategy_context_brief_pm_superpower_recovery.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/strategy_context_brief_pm_superpower_recovery.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_superpower_benchmark.example",
+                  "node_type": "artifact",
+                  "label": "superpower_benchmark.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/superpower_benchmark.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_ux_design_review.example",
+                  "node_type": "artifact",
+                  "label": "ux_design_review.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/ux_design_review.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_ux_design_review_pm_lifecycle_visibility.example",
+                  "node_type": "artifact",
+                  "label": "ux_design_review_pm_lifecycle_visibility.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/ux_design_review_pm_lifecycle_visibility.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_validation_lane_report.example",
+                  "node_type": "artifact",
+                  "label": "validation_lane_report.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/validation_lane_report.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_validation_lane_report_doc_bundle.example",
+                  "node_type": "artifact",
+                  "label": "validation_lane_report_doc_bundle.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/validation_lane_report_doc_bundle.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_validation_lane_report_live_docs.example",
+                  "node_type": "artifact",
+                  "label": "validation_lane_report_live_docs.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/validation_lane_report_live_docs.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_validation_lane_report_market_intelligence.example",
+                  "node_type": "artifact",
+                  "label": "validation_lane_report_market_intelligence.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/validation_lane_report_market_intelligence.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_validation_lane_report_next_version_completion.example",
+                  "node_type": "artifact",
+                  "label": "validation_lane_report_next_version_completion.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/validation_lane_report_next_version_completion.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_validation_lane_report_pm_lifecycle_visibility.example",
+                  "node_type": "artifact",
+                  "label": "validation_lane_report_pm_lifecycle_visibility.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/validation_lane_report_pm_lifecycle_visibility.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_validation_lane_report_v6_lifecycle_traceability",
+                  "node_type": "artifact",
+                  "label": "validation_lane_report_v6_lifecycle_traceability.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/validation_lane_report_v6_lifecycle_traceability.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_validation_lane_report_v7_lifecycle_traceability",
+                  "node_type": "artifact",
+                  "label": "validation_lane_report_v7_lifecycle_traceability.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/validation_lane_report_v7_lifecycle_traceability.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_visual_reasoning_state.example",
+                  "node_type": "artifact",
+                  "label": "visual_reasoning_state.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/visual_reasoning_state.example.json",
+                  "children": []
+                },
+                {
+                  "node_id": "tree_node_artifact_visual_reasoning_state_pm_lifecycle_visibility.example",
+                  "node_type": "artifact",
+                  "label": "visual_reasoning_state_pm_lifecycle_visibility.example.json",
+                  "ref": "tests/fixtures/workspaces/productos-sample/artifacts/visual_reasoning_state_pm_lifecycle_visibility.example.json",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "active_mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    "active_product_record_ref": "product_record_ws_productos_v2",
+    "generated_at": "2026-03-22T08:00:00Z"
+  },
+  "active_phase_packet": {
+    "schema_version": "1.0.0",
+    "phase_packet_id": "phase_packet_ws_productos_v2_discovery",
+    "workspace_id": "ws_productos_v2",
+    "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    "product_record_ref": "product_record_ws_productos_v2",
+    "lifecycle_phase": "discovery",
+    "maturity_band": "zero_to_one",
+    "phase_goal": "Prioritize customer pain clarity, segmentation, and hypothesis sharpness over scale optimization.",
+    "question_prompts": [
+      "What is the highest-signal decision the PM needs from discovery?",
+      "Which evidence is observed versus inferred for PM superpower recovery mission?",
+      "How should zero_to_one defaults change the discovery packet?"
+    ],
+    "task_queue": [
+      {
+        "task_id": "task_pm_superpower_recovery_mission_discovery_01",
+        "title": "Discovery task 1",
+        "summary": "Frame the problem in customer language before solution framing expands.",
+        "owner": "ProductOS PM",
+        "status": "planned",
+        "source_artifact_refs": [
+          "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+          "product_record_ws_productos_v2"
+        ]
+      },
+      {
+        "task_id": "task_pm_superpower_recovery_mission_discovery_02",
+        "title": "Discovery task 2",
+        "summary": "Capture observed evidence and keep every inferred leap explicit.",
+        "owner": "ProductOS PM",
+        "status": "planned",
+        "source_artifact_refs": [
+          "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+          "product_record_ws_productos_v2"
+        ]
+      },
+      {
+        "task_id": "task_pm_superpower_recovery_mission_discovery_03",
+        "title": "Discovery task 3",
+        "summary": "Build the first PM-visible backlog from the mission, not from generic templates.",
+        "owner": "ProductOS PM",
+        "status": "planned",
+        "source_artifact_refs": [
+          "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+          "product_record_ws_productos_v2"
+        ]
+      }
+    ],
+    "expected_artifacts": [
+      "mission_brief",
+      "strategy_context_brief",
+      "problem_brief",
+      "research_notebook"
+    ],
+    "success_metrics": [
+      {
+        "metric_name": "time from intake to reviewable PRD",
+        "target_signal": "Discovery should improve time from intake to reviewable prd without weakening reviewability.",
+        "measurement_posture": "observed"
+      },
+      {
+        "metric_name": "time from PRD to aligned docs and deck",
+        "target_signal": "Discovery should improve time from prd to aligned docs and deck without weakening reviewability.",
+        "measurement_posture": "observed"
+      },
+      {
+        "metric_name": "weekly PM autopilot quality",
+        "target_signal": "Discovery should improve weekly pm autopilot quality without weakening reviewability.",
+        "measurement_posture": "observed"
+      },
+      {
+        "metric_name": "time from aligned artifact set to publish-ready deck or corridor",
+        "target_signal": "Discovery should improve time from aligned artifact set to publish-ready deck or corridor without weakening reviewability.",
+        "measurement_posture": "observed"
+      }
+    ],
+    "approval_gates": [
+      {
+        "gate_id": "approval_gate_pm_superpower_recovery_mission_discovery",
+        "title": "Discovery PM review",
+        "owner": "ProductOS PM",
+        "status": "pending",
+        "required_artifact_refs": [
+          "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+          "product_record_ws_productos_v2"
+        ]
+      }
+    ],
+    "recommended_pm_actions": [
+      {
+        "recommendation_id": "pm_action_pm_superpower_recovery_mission_discovery",
+        "summary": "Approve the bounded discovery packet only after the evidence trail and next decision stay legible.",
+        "source_artifact_refs": [
+          "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+          "product_record_ws_productos_v2"
+        ],
+        "observed_vs_inferred": "mixed",
+        "assumption_note": "Task content is maturity-aware scaffolding until workspace-specific evidence replaces the starter defaults."
+      }
+    ],
+    "source_artifact_ids": [
+      "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+      "product_record_ws_productos_v2"
+    ],
+    "created_at": "2026-03-22T08:00:00Z",
+    "updated_at": "2026-03-22T08:00:00Z"
+  },
+  "cockpit_state": {
+    "schema_version": "1.0.0",
+    "cockpit_state_id": "cockpit_state_ws_productos_v2_next_version",
+    "workspace_id": "ws_productos_v2",
+    "mode": "status",
+    "status": "completed",
+    "coordination_status": "healthy",
+    "mission_control": {
+      "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+      "mission_title": "PM superpower recovery mission",
+      "active_stage": "improve",
+      "current_route_ref": "route_score_and_improve",
+      "next_route_ref": "route_visual_operating_system",
+      "current_task_name": "Promote the visual operating system",
+      "current_task_summary": "The bounded baseline gate is clear, so the next disciplined slice should promote deck, map, and workflow corridor outputs from one governed CLI surface instead of broadening research or distribution claims.",
+      "current_task_status": "ready_for_visual_release",
+      "reviewer_lane": "pm_builder"
+    },
+    "request_summary": "Operate the cleared bounded baseline from the repo CLI and move into the visual operating system release.",
+    "current_focus": "Promote the visual operating system across deck, map, and workflow corridor outputs while keeping PM review, proof posture, and publish safety explicit.",
+    "recommended_next_step": {
+      "action_summary": "Review the cleared bounded-baseline portfolio and begin the visual operating system release.",
+      "target_type": "pm_review",
+      "target_ref": "feature_scorecard_ws_productos_v2_presentation_superpower",
+      "rationale": "The bounded baseline is complete, so the next bounded decision is promoting the visual operating system rather than broadening governed research or publication scope."
+    },
+    "active_agents": [
+      {
+        "agent_name": "cockpit",
+        "status": "active",
+        "current_task": "Keep the repo CLI surface, portfolio review, and next actions visible."
+      },
+      {
+        "agent_name": "workflow",
+        "status": "completed",
+        "current_task": "The discover route is promoted and the weekly operator route is now the next supervised slice."
+      },
+      {
+        "agent_name": "improvement_planner",
+        "status": "completed",
+        "current_task": "Use the cleared bounded baseline to support the visual operating system release and the deferred research follow-on plan."
+      }
+    ],
+    "active_queue_refs": [
+      {
+        "queue_type": "review_queue",
+        "artifact_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+        "summary": "Review the weekly PM autopilot as the next promoted slice."
+      },
+      {
+        "queue_type": "follow_up_queue",
+        "artifact_id": "follow_up_queue_productos_v4_4",
+        "summary": "Archived the V4.6 release evidence bundle in the historical artifact archive"
+      }
+    ],
+    "queue_recommendations": [
+      {
+        "queue_type": "review_queue",
+        "artifact_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+        "item_id": "presentation_superpower",
+        "recommended_action": "review_now",
+        "urgency": "time_sensitive",
+        "why_now": "The discover and control-surface slices are promoted, so weekly PM autopilot is now the next release wedge."
+      },
+      {
+        "queue_type": "follow_up_queue",
+        "artifact_id": "follow_up_queue_productos_v4_4",
+        "item_id": "followup_archive_v4_6_release_evidence",
+        "recommended_action": "start",
+        "urgency": "routine",
+        "why_now": "The weekly operator loop should absorb the current manual follow-up rhythm."
+      }
+    ],
+    "active_orchestration_state_id": "orchestration_state_ws_productos_v2_next_version",
+    "active_execution_session_state_ids": [
+      "discover_execution_session_ws_productos_v2",
+      "align_execution_session_ws_productos_v2",
+      "operate_execution_session_ws_productos_v2",
+      "improve_execution_session_ws_productos_v2"
+    ],
+    "active_workflow_state_ids": [
+      "wf_next_version_superpower_ops",
+      "wf_problem_brief_to_prd",
+      "wf_artifact_to_readable_doc"
+    ],
+    "blocked_route_ids": [],
+    "awaiting_review_route_ids": [],
+    "pending_review_points": [
+      "Truthfulness status is `healthy` across the bounded-baseline portfolio.",
+      "The frozen eval suite now passes with no regressions.",
+      "The next decision is promoting the visual operating system and then returning to governed research from the stronger public surface."
+    ],
+    "missing_context_questions": [
+      "What is the minimum supervised weekly operator path that feels like an autopilot instead of a queue dashboard?"
+    ],
+    "blocking_reasons": [],
+    "source_artifact_ids": [
+      "workspace_tree_state_ws_productos_v2",
+      "phase_packet_ws_productos_v2_discovery",
+      "product_record_ws_productos_v2",
+      "phase_packet_ws_productos_v2_delivery",
+      "context_pack_ws_productos_v2_bounded_baseline",
+      "eval_suite_manifest_ws_productos_v2_bounded_baseline",
+      "eval_run_report_ws_productos_v2_bounded_baseline",
+      "decision_log_productos_core",
+      "strategic_memory_record_traceability",
+      "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+      "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+      "runtime_adapter_registry_ws_productos_v2_next_version",
+      "runtime_scenario_report_ws_productos_v2_adapter_parity",
+      "runtime_scenario_report_ws_productos_v2_market_refresh",
+      "runtime_scenario_report_ws_productos_v2_market_distribution",
+      "strategy_context_brief_productos_next_version_discover",
+      "product_vision_brief_productos_next_version_discover",
+      "market_strategy_brief_productos_next_version_discover",
+      "problem_brief_productos_next_version_discover",
+      "handoff_discovery_to_research_ws_productos_v2",
+      "research_notebook_ws_productos_v2",
+      "research_brief_ws_productos_v2_discover_seed",
+      "external_research_plan_ws_productos_v2",
+      "external_research_source_discovery_ws_productos_v2",
+      "external_research_review_ws_productos_v2",
+      "competitor_dossier_ws_productos_v2",
+      "customer_pulse_ws_productos_v2",
+      "market_analysis_brief_ws_productos_v2",
+      "concept_brief_productos_next_version_discover",
+      "prd_productos_next_version_discover",
+      "document_sync_state_ws_productos_v2_v4_2_live_docs",
+      "status_2026_03_weekly_01",
+      "issue_log_2026_03_22_next_version",
+      "feature_scorecard_ws_productos_v2_discover_to_prd_superpower",
+      "feature_scorecard_ws_productos_v2_docs_alignment_superpower",
+      "feature_scorecard_ws_productos_v2_presentation_superpower",
+      "feature_scorecard_ws_productos_v2_weekly_pm_autopilot",
+      "feature_scorecard_ws_productos_v2_market_intelligence_superpower",
+      "feature_scorecard_ws_productos_v2_runtime_control_surface",
+      "feature_scorecard_ws_productos_v2_agent_adapter_layer",
+      "feature_scorecard_ws_productos_v2_self_improvement_loop",
+      "feature_scorecard_ws_productos_v2_autonomous_pm_swarm"
+    ],
+    "created_at": "2026-03-22T08:00:00Z",
+    "updated_at": "2026-03-22T08:00:00Z",
+    "ralph_stage": "inspect",
+    "approval_queue": [
+      {
+        "approval_id": "approval_gate_pm_superpower_recovery_mission_discovery",
+        "title": "Discovery PM review",
+        "owner": "ProductOS PM",
+        "status": "pending",
+        "artifact_refs": [
+          "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+          "product_record_ws_productos_v2"
+        ]
+      },
+      {
+        "approval_id": "release_gate_decision_ws_productos_v2_next_version",
+        "title": "Release gate decision",
+        "owner": "ProductOS PM",
+        "status": "approved",
+        "artifact_refs": [
+          "release_gate_decision_ws_productos_v2_next_version"
+        ]
+      }
+    ],
+    "budget_status": {
+      "status": "within_threshold",
+      "visible_route_count": 5,
+      "review_threshold": 1,
+      "pause_threshold": 2,
+      "pause_reason": "No route-level budget threshold is currently breached."
+    },
+    "workspace_tree_ref": "workspace_tree_state_ws_productos_v2",
+    "context_view_refs": [
+      {
+        "view_id": "context_view_readme",
+        "label": "Readme",
+        "ref_type": "document",
+        "ref_path": "tests/fixtures/workspaces/productos-sample/README.md"
+      },
+      {
+        "view_id": "context_view_mission_brief",
+        "label": "Mission Brief",
+        "ref_type": "artifact",
+        "ref_path": "tests/fixtures/workspaces/productos-sample/artifacts/mission_brief.json"
+      },
+      {
+        "view_id": "context_view_strategy_context_brief",
+        "label": "Strategy Context Brief",
+        "ref_type": "artifact",
+        "ref_path": "tests/fixtures/workspaces/productos-sample/artifacts/strategy_context_brief.json"
+      },
+      {
+        "view_id": "context_view_prd",
+        "label": "Prd",
+        "ref_type": "artifact",
+        "ref_path": "tests/fixtures/workspaces/productos-sample/artifacts/prd.json"
+      }
+    ],
+    "recommended_pm_actions": [
+      {
+        "recommendation_id": "recommended_pm_action_discovery",
+        "summary": "Review the discovery packet and decide whether the next phase should open.",
+        "source_artifact_refs": [
+          "phase_packet_ws_productos_v2_discovery",
+          "mission_brief_ws_productos_v2_pm_superpower_recovery_mission"
+        ],
+        "observed_vs_inferred": "mixed",
+        "assumption_note": "The packet is seeded from repo-native defaults until the workspace replaces them with product-specific evidence."
+      },
+      {
+        "recommendation_id": "queue_action_presentation_superpower",
+        "summary": "The discover and control-surface slices are promoted, so weekly PM autopilot is now the next release wedge.",
+        "source_artifact_refs": [
+          "feature_portfolio_review_ws_productos_v2_next_version_baseline"
+        ],
+        "observed_vs_inferred": "observed",
+        "assumption_note": "This trace is derived directly from the current queue recommendation."
+      },
+      {
+        "recommendation_id": "queue_action_followup_archive_v4_6_release_evidence",
+        "summary": "The weekly operator loop should absorb the current manual follow-up rhythm.",
+        "source_artifact_refs": [
+          "follow_up_queue_productos_v4_4"
+        ],
+        "observed_vs_inferred": "observed",
+        "assumption_note": "This trace is derived directly from the current queue recommendation."
+      }
+    ],
+    "living_updates_queue": []
+  },
+  "orchestration_state": {
+    "schema_version": "1.0.0",
+    "orchestration_state_id": "orchestration_state_ws_productos_v2_next_version",
+    "workspace_id": "ws_productos_v2",
+    "goal": "Use the cleared bounded baseline to promote the visual operating system and keep the next public surface evidence-backed.",
+    "status": "completed",
+    "coordination_summary": "The bounded baseline now clears the frozen eval suite and portfolio truthfulness gate. The hardening cycle is complete, and the next step is promoting the visual operating system across deck, map, and workflow corridor outputs.",
+    "initiating_agent": "cockpit",
+    "mission_control": {
+      "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+      "mission_title": "PM superpower recovery mission",
+      "active_stage": "improve",
+      "current_route_ref": "route_score_and_improve",
+      "next_route_ref": "route_visual_operating_system",
+      "current_task_name": "Promote the visual operating system",
+      "current_task_summary": "The bounded baseline gate is clear, so the next disciplined slice should promote deck, map, and workflow corridor outputs from one governed CLI surface instead of broadening research or distribution claims.",
+      "current_task_status": "ready_for_visual_release",
+      "reviewer_lane": "pm_builder"
+    },
+    "route_budget": {
+      "max_parallel_routes": 3,
+      "active_route_count": 0,
+      "awaiting_review_count": 0,
+      "blocked_route_count": 0,
+      "route_review_threshold": 1,
+      "route_pause_threshold": 2,
+      "auto_pause_on_threshold": true
+    },
+    "active_route_ids": [],
+    "blocked_route_ids": [],
+    "awaiting_review_route_ids": [],
+    "linked_workflow_state_ids": [
+      "wf_next_version_superpower_ops"
+    ],
+    "linked_execution_session_state_ids": [
+      "discover_execution_session_ws_productos_v2",
+      "align_execution_session_ws_productos_v2",
+      "operate_execution_session_ws_productos_v2",
+      "improve_execution_session_ws_productos_v2"
+    ],
+    "route_plan": [
+      {
+        "route_id": "route_discover_to_prd",
+        "agent_name": "workflow",
+        "objective": "Turn live inbox notes and transcripts into a decision-ready discovery-operations path that can become the discover standard for the next version.",
+        "rationale": "This route is now promoted as the first completed next-version superpower slice.",
+        "stage": "discover",
+        "status": "completed",
+        "reviewer_lane": "pm_builder",
+        "input_artifact_ids": [
+          "inbox_raw_notes_2026_03_22_next_version_superpowers",
+          "inbox_transcripts_2026_03_22_dogfood_next_version_session"
+        ],
+        "expected_output_artifact_ids": [
+          "strategy_context_brief_productos_next_version_discover",
+          "product_vision_brief_productos_next_version_discover",
+          "market_strategy_brief_productos_next_version_discover",
+          "problem_brief_productos_next_version_discover",
+          "handoff_discovery_to_research_ws_productos_v2",
+          "research_notebook_ws_productos_v2",
+          "research_brief_ws_productos_v2_discover_seed",
+          "external_research_plan_ws_productos_v2",
+          "external_research_source_discovery_ws_productos_v2",
+          "external_research_review_ws_productos_v2",
+          "competitor_dossier_ws_productos_v2",
+          "customer_pulse_ws_productos_v2",
+          "market_analysis_brief_ws_productos_v2",
+          "concept_brief_productos_next_version_discover",
+          "prd_productos_next_version_discover",
+          "feature_scorecard_ws_productos_v2_discover_to_prd_superpower"
+        ],
+        "execution_session_state_id": "discover_execution_session_ws_productos_v2",
+        "next_action": "Keep the discover outputs as the current standard and hand the next bounded slice to the weekly PM autopilot route.",
+        "estimated_spend_points": 1,
+        "spent_points": 1,
+        "budget_status": "within_threshold",
+        "pause_reason": ""
+      },
+      {
+        "route_id": "route_docs_and_deck",
+        "agent_name": "presentation",
+        "objective": "Package current ProductOS truth into readable docs and a stakeholder-ready deck through one aligned path.",
+        "rationale": "Alignment is already one of the strongest current slices and should stay usable during the next-version build.",
+        "stage": "align",
+        "status": "completed",
+        "reviewer_lane": "ai_reviewer",
+        "depends_on_route_ids": [
+          "route_discover_to_prd"
+        ],
+        "input_artifact_ids": [
+          "prd_pm_superpower_recovery_mission_mission_discover",
+          "document_sync_state_ws_productos_v2_v4_2_live_docs",
+          "presentation_brief_ws_productos_v2_v4_comm"
+        ],
+        "expected_output_artifact_ids": [
+          "document_sync_state_ws_productos_v2_v4_2_live_docs",
+          "feature_scorecard_ws_productos_v2_docs_alignment_superpower",
+          "feature_scorecard_ws_productos_v2_presentation_superpower"
+        ],
+        "execution_session_state_id": "align_execution_session_ws_productos_v2",
+        "next_action": "Refresh the readable docs and deck from the promoted discover package whenever the mission package changes.",
+        "estimated_spend_points": 1,
+        "spent_points": 1,
+        "budget_status": "within_threshold",
+        "pause_reason": ""
+      },
+      {
+        "route_id": "route_operator_autopilot",
+        "agent_name": "cockpit",
+        "objective": "Collapse current queue and release state into one supervised weekly operator path.",
+        "rationale": "The weekly PM autopilot is the next high-leverage slice after the discover loop.",
+        "stage": "operate",
+        "status": "completed",
+        "reviewer_lane": "pm_builder",
+        "input_artifact_ids": [
+          "decision_queue_productos_v4_4",
+          "follow_up_queue_productos_v4_4",
+          "status_2026_03_weekly_01",
+          "issue_log_2026_03_22_next_version"
+        ],
+        "expected_output_artifact_ids": [
+          "status_2026_03_weekly_01",
+          "issue_log_2026_03_22_next_version",
+          "feature_scorecard_ws_productos_v2_weekly_pm_autopilot",
+          "feature_scorecard_ws_productos_v2_runtime_control_surface"
+        ],
+        "execution_session_state_id": "operate_execution_session_ws_productos_v2",
+        "next_action": "Keep the supervised weekly operator bundle active as part of the promoted baseline.",
+        "estimated_spend_points": 1,
+        "spent_points": 1,
+        "budget_status": "within_threshold",
+        "pause_reason": ""
+      },
+      {
+        "route_id": "route_score_and_improve",
+        "agent_name": "improvement_planner",
+        "objective": "Refresh the portfolio review and improvement loop after every major bounded slice.",
+        "rationale": "Sub-5 features should always become explicit improvement work, and the loop must stay subordinate to frozen eval and decision-memory evidence before claiming promotion.",
+        "stage": "improve",
+        "status": "completed",
+        "reviewer_lane": "ai_tester",
+        "depends_on_route_ids": [
+          "route_discover_to_prd",
+          "route_operator_autopilot"
+        ],
+        "input_artifact_ids": [
+          "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+          "improvement_loop_state_productos_v4_next_version_baseline",
+          "decision_log_productos_core",
+          "strategic_memory_record_traceability",
+          "eval_suite_manifest_ws_productos_v2_bounded_baseline",
+          "eval_run_report_ws_productos_v2_bounded_baseline"
+        ],
+        "expected_output_artifact_ids": [
+          "feature_scorecard_ws_productos_v2_self_improvement_loop",
+          "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+          "feature_scorecard_ws_productos_v2_autonomous_pm_swarm",
+          "improvement_loop_state_productos_v4_next_version_baseline",
+          "eval_suite_manifest_ws_productos_v2_bounded_baseline",
+          "eval_run_report_ws_productos_v2_bounded_baseline"
+        ],
+        "execution_session_state_id": "improve_execution_session_ws_productos_v2",
+        "next_action": "Use the cleared score-refresh loop to choose the next bounded expansion slice.",
+        "estimated_spend_points": 1,
+        "spent_points": 1,
+        "budget_status": "within_threshold",
+        "pause_reason": ""
+      },
+      {
+        "route_id": "route_visual_operating_system",
+        "agent_name": "visual_orchestrator",
+        "objective": "Expand ProductOS into a governed visual operating system that renders aligned PM artifacts as decks, maps, and workflow corridors before broader publication claims broaden.",
+        "rationale": "The bounded baseline is already evidence-backed, so the next disciplined slice should package that truth into reviewable visual outputs instead of broadening research or distribution scope.",
+        "stage": "discover",
+        "status": "ready",
+        "reviewer_lane": "pm_builder",
+        "depends_on_route_ids": [
+          "route_score_and_improve"
+        ],
+        "input_artifact_ids": [
+          "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+          "document_sync_state_ws_productos_v2_v4_2_live_docs",
+          "presentation_brief_ws_productos_v2_v4_comm",
+          "presentation_story_presentation_brief_ws_productos_v2_v4_comm",
+          "render_spec_presentation_brief_ws_productos_v2_v4_comm",
+          "publish_check_presentation_brief_ws_productos_v2_v4_comm_html",
+          "feature_scorecard_ws_productos_v2_presentation_superpower"
+        ],
+        "expected_output_artifact_ids": [
+          "visual_direction_plan_presentation_brief_ws_productos_v2_v4_comm",
+          "visual_quality_review_presentation_brief_ws_productos_v2_v4_comm",
+          "workflow_corridor_spec_ws_productos_v2_align",
+          "corridor_publish_check_ws_productos_v2_align",
+          "visual_direction_plan_ws_productos_v2_align",
+          "visual_quality_review_ws_productos_v2_align",
+          "feature_scorecard_ws_productos_v2_presentation_superpower"
+        ],
+        "execution_session_state_id": "improve_execution_session_ws_productos_v2",
+        "next_action": "Promote the visual lane, keep deck and corridor publish checks explicit, and defer broader research and distribution work until the bounded release is proven.",
+        "estimated_spend_points": 1,
+        "spent_points": 0,
+        "budget_status": "within_threshold",
+        "pause_reason": ""
+      }
+    ],
+    "queue_impacts": [
+      {
+        "queue_type": "review_queue",
+        "artifact_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+        "item_id": "presentation_superpower",
+        "recommended_action": "review_now",
+        "reason": "The bounded baseline gate is clear, so the next review should promote the visual operating system instead of broadening governed research or publication scope.",
+        "status": "recommended"
+      }
+    ],
+    "handoff_log": [
+      {
+        "timestamp": "2026-03-22T08:00:00Z",
+        "from_agent": "workflow",
+        "to_agent": "research",
+        "handoff_type": "artifact_transfer",
+        "status": "accepted",
+        "artifact_ids": [
+          "problem_brief_productos_next_version_discover",
+          "handoff_discovery_to_research_ws_productos_v2",
+          "research_notebook_ws_productos_v2",
+          "research_brief_ws_productos_v2_discover_seed"
+        ],
+        "message": "The discover route transferred the current strategy and problem framing into one reusable research packet before downstream prioritization expands."
+      },
+      {
+        "timestamp": "2026-03-22T08:00:00Z",
+        "from_agent": "cockpit",
+        "to_agent": "workflow",
+        "handoff_type": "artifact_transfer",
+        "status": "accepted",
+        "artifact_ids": [
+          "feature_portfolio_review_ws_productos_v2_next_version_baseline"
+        ],
+        "message": "The repo control surface promoted discover and handed the next bounded slice to the weekly operator route."
+      }
+    ],
+    "retry_events": [],
+    "escalations": [],
+    "created_at": "2026-03-22T08:00:00Z",
+    "updated_at": "2026-03-22T08:00:00Z",
+    "pause_reasons": [],
+    "approval_checkpoints": []
+  },
+  "cross_product_insight_index": {
+    "schema_version": "1.0.0",
+    "cross_product_insight_index_id": "cross_product_insight_index_ws_productos_v2",
+    "portfolio_id": "ws_productos_v2",
+    "insights": [
+      {
+        "insight_id": "insight_ws_productos_v2",
+        "workspace_id": "ws_productos_v2",
+        "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+        "title": "Reuse signals from PM superpower recovery mission",
+        "summary": "PM superpower recovery mission already captures a bounded mission, explicit KPIs, and a review owner for the current workspace.",
+        "tags": [
+          "zero_to_one",
+          "discovery",
+          "pm_superpower"
+        ],
+        "observed_vs_inferred": "observed",
+        "evidence_refs": [
+          "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+          "product_record_ws_productos_v2"
+        ],
+        "reusable_recommendation": "Reuse the mission intake, KPI framing, and approval posture before opening a parallel workspace flow."
+      }
+    ],
+    "generated_at": "2026-03-22T08:00:00Z"
+  },
+  "research_posture": {
+    "review_status": "clear",
+    "contradiction_count": 0,
+    "search_status": "completed",
+    "question_count": 3,
+    "candidate_count": 3,
+    "selected_source_count": 3,
+    "freshness_summary": "candidate sources 3 usable_with_review",
+    "recommendation": "continue with refresh"
+  },
+  "strategy_refresh_posture": {
+    "status": "ready_for_downstream_packet",
+    "available_evidence_count": 3,
+    "available_evidence_types": [
+      "market_analysis_brief",
+      "competitor_dossier",
+      "customer_pulse"
+    ],
+    "downstream_packet_status": "available",
+    "available_downstream_count": 3,
+    "missing_downstream_types": [],
+    "recommendation": "Refresh the canonical strategy packet and keep the downstream opportunity, prioritization, and feature brief packet aligned to the same governed research evidence."
+  },
+  "context_view_refs": [
+    {
+      "view_id": "context_view_readme",
+      "label": "Readme",
+      "ref_type": "document",
+      "ref_path": "tests/fixtures/workspaces/productos-sample/README.md"
+    },
+    {
+      "view_id": "context_view_mission_brief",
+      "label": "Mission Brief",
+      "ref_type": "artifact",
+      "ref_path": "tests/fixtures/workspaces/productos-sample/artifacts/mission_brief.json"
+    },
+    {
+      "view_id": "context_view_strategy_context_brief",
+      "label": "Strategy Context Brief",
+      "ref_type": "artifact",
+      "ref_path": "tests/fixtures/workspaces/productos-sample/artifacts/strategy_context_brief.json"
+    },
+    {
+      "view_id": "context_view_prd",
+      "label": "Prd",
+      "ref_type": "artifact",
+      "ref_path": "tests/fixtures/workspaces/productos-sample/artifacts/prd.json"
+    }
+  ],
+  "recommended_pm_actions": [
+    {
+      "recommendation_id": "recommended_pm_action_discovery",
+      "summary": "Review the discovery packet and decide whether the next phase should open.",
+      "source_artifact_refs": [
+        "phase_packet_ws_productos_v2_discovery",
+        "mission_brief_ws_productos_v2_pm_superpower_recovery_mission"
+      ],
+      "observed_vs_inferred": "mixed",
+      "assumption_note": "The packet is seeded from repo-native defaults until the workspace replaces them with product-specific evidence."
+    },
+    {
+      "recommendation_id": "queue_action_presentation_superpower",
+      "summary": "The discover and control-surface slices are promoted, so weekly PM autopilot is now the next release wedge.",
+      "source_artifact_refs": [
+        "feature_portfolio_review_ws_productos_v2_next_version_baseline"
+      ],
+      "observed_vs_inferred": "observed",
+      "assumption_note": "This trace is derived directly from the current queue recommendation."
+    },
+    {
+      "recommendation_id": "queue_action_followup_archive_v4_6_release_evidence",
+      "summary": "The weekly operator loop should absorb the current manual follow-up rhythm.",
+      "source_artifact_refs": [
+        "follow_up_queue_productos_v4_4"
+      ],
+      "observed_vs_inferred": "observed",
+      "assumption_note": "This trace is derived directly from the current queue recommendation."
+    }
+  ],
+  "generated_html_ref": "tests/fixtures/workspaces/productos-sample/outputs/cockpit/control-center.html",
+  "source_artifact_ids": [
+    "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    "product_record_ws_productos_v2",
+    "phase_packet_ws_productos_v2_discovery",
+    "workspace_tree_state_ws_productos_v2",
+    "phase_packet_ws_productos_v2_delivery",
+    "context_pack_ws_productos_v2_bounded_baseline",
+    "eval_suite_manifest_ws_productos_v2_bounded_baseline",
+    "eval_run_report_ws_productos_v2_bounded_baseline",
+    "decision_log_productos_core",
+    "strategic_memory_record_traceability",
+    "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+    "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+    "runtime_adapter_registry_ws_productos_v2_next_version",
+    "runtime_scenario_report_ws_productos_v2_adapter_parity",
+    "runtime_scenario_report_ws_productos_v2_market_refresh",
+    "runtime_scenario_report_ws_productos_v2_market_distribution",
+    "strategy_context_brief_productos_next_version_discover",
+    "product_vision_brief_productos_next_version_discover",
+    "market_strategy_brief_productos_next_version_discover",
+    "problem_brief_productos_next_version_discover",
+    "handoff_discovery_to_research_ws_productos_v2",
+    "research_notebook_ws_productos_v2",
+    "research_brief_ws_productos_v2_discover_seed",
+    "external_research_plan_ws_productos_v2",
+    "external_research_source_discovery_ws_productos_v2",
+    "external_research_review_ws_productos_v2",
+    "competitor_dossier_ws_productos_v2",
+    "customer_pulse_ws_productos_v2",
+    "market_analysis_brief_ws_productos_v2",
+    "concept_brief_productos_next_version_discover",
+    "prd_productos_next_version_discover",
+    "document_sync_state_ws_productos_v2_v4_2_live_docs",
+    "status_2026_03_weekly_01",
+    "issue_log_2026_03_22_next_version",
+    "feature_scorecard_ws_productos_v2_discover_to_prd_superpower",
+    "feature_scorecard_ws_productos_v2_docs_alignment_superpower",
+    "feature_scorecard_ws_productos_v2_presentation_superpower",
+    "feature_scorecard_ws_productos_v2_weekly_pm_autopilot",
+    "feature_scorecard_ws_productos_v2_market_intelligence_superpower",
+    "feature_scorecard_ws_productos_v2_runtime_control_surface",
+    "feature_scorecard_ws_productos_v2_agent_adapter_layer",
+    "feature_scorecard_ws_productos_v2_self_improvement_loop",
+    "feature_scorecard_ws_productos_v2_autonomous_pm_swarm"
+  ],
+  "generated_at": "2026-03-22T08:00:00Z"
+}

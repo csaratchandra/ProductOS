@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "publish_check_id": "publish_check_presentation_brief_ws_productos_v2_v4_comm_html",
+  "workspace_id": "ws_productos_v2",
+  "presentation_brief_id": "presentation_brief_ws_productos_v2_v4_comm",
+  "render_spec_id": "render_spec_presentation_brief_ws_productos_v2_v4_comm",
+  "target_format": "html",
+  "publish_ready": true,
+  "blocking_issues": [],
+  "evidence_coverage": "full",
+  "risk_visibility": "explicit",
+  "audience_safety_status": "safe",
+  "narrative_quality_score": 4.0,
+  "evidence_quality_score": 4.8,
+  "audience_fit_score": 4.8,
+  "visual_clarity_score": 5.0,
+  "html_fidelity_status": "aligned",
+  "ppt_fidelity_status": "aligned",
+  "redaction_status": "safe",
+  "claim_support_exceptions": [
+    "The opening slide does not surface the recommendation or decision ask strongly enough."
+  ],
+  "density_exceptions": [],
+  "missing_objections": [],
+  "fidelity_exceptions": [],
+  "generated_at": "2026-04-21T06:16:15Z"
+}

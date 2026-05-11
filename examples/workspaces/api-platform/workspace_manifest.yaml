@@ -1,0 +1,6 @@
+workspace_id: ws_api_platform
+name: API Platform
+mode: enterprise
+active_increment_id: pi_api_platform_01
+artifact_paths: []
+feedback_paths: []

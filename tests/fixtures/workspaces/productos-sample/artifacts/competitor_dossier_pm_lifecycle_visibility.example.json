@@ -1,0 +1,477 @@
+{
+  "schema_version": "1.1.0",
+  "competitor_dossier_id": "competitor_dossier_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "Competitor dossier: lifecycle visibility for PM work",
+  "competitive_frame": "Products competing to become the trusted surface for PM lifecycle understanding across discovery, planning, and delivery.",
+  "comparison_basis": "Compared on lifecycle explanation quality, item-level traceability, workflow coherence, and the ability to coexist with existing execution systems.",
+  "framework_registry_ref": "framework_registry_ws_productos_v2",
+  "selected_framework_ids": [
+    "competitive_displacement_map",
+    "signal_weighted_priority"
+  ],
+  "research_scope": "Mixed scan across PM lifecycle tools and execution systems to understand how lifecycle progress, evidence, and handoff context are represented.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_product_led_scaleups"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_pm_discovery_visibility_gap"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opp_pm_lifecycle_traceability"
+    }
+  ],
+  "source_artifact_ids": [
+    "research_notebook_pm_lifecycle_visibility"
+  ],
+  "status_quo_alternatives": [
+    "Manual reconstruction across docs, trackers, and chat",
+    "Relying on execution systems alone to explain discovery history"
+  ],
+  "internal_build_risk": "medium",
+  "competitive_landscape_status": "named_competitor_set",
+  "evidence_coverage_status": "triangulated_external",
+  "dossier_quality": "decision_ready",
+  "named_competitor_count": 8,
+  "where_we_win": [
+    "Item-first lifecycle explanation",
+    "Artifact and validation-aware traceability",
+    "PM-specific stage-gate clarity"
+  ],
+  "where_we_lose": [
+    "Breadth of incumbent workflow surfaces",
+    "Existing distribution and familiarity inside large ecosystems"
+  ],
+  "credible_wedge_for_posture": "Challenge incumbent PM and execution tools with a sharper lifecycle explanation layer rather than broader platform breadth.",
+  "required_proof_to_displace": [
+    "PMs understand an item's current state faster than in incumbent tools",
+    "ProductOS coexists cleanly with existing execution systems",
+    "Lifecycle traceability remains believable for stakeholder reviews"
+  ],
+  "prioritization_implications": [
+    "Prioritize lifecycle explanation and coexistence proof before broad workflow-platform breadth.",
+    "Use switching-barrier evidence to decide which traceability slice should go before adjacent PM workflow expansion."
+  ],
+  "recommended_positioning_angle": "Position ProductOS as the PM lifecycle explanation layer, not as a generic work-management replacement.",
+  "feature_taxonomy": [
+    "item timeline",
+    "roadmaps",
+    "delivery linkage",
+    "research capture",
+    "gate traceability"
+  ],
+  "competitors": [
+    {
+      "name": "Productboard Spark",
+      "category": "direct_pm_platform",
+      "competitor_type": "direct",
+      "target_customer": "Product teams seeking AI-assisted product management workflows.",
+      "positioning_summary": "AI product agent for moving from idea exploration to delivery-ready outputs.",
+      "go_to_market_motion": "Productboard platform expansion and beta adoption.",
+      "pricing_signal": "Platform upsell with Spark beta positioning.",
+      "positioning_gap": "Strong AI-first PM story, but weaker emphasis on stage-by-stage evidence continuity.",
+      "icp_overlap": "high",
+      "substitution_risk": "medium",
+      "ecosystem_role": "PM workflow layer with AI-assisted document generation.",
+      "agentic_features": [
+        "Conversational exploration",
+        "Document generation",
+        "Customer context synthesis"
+      ],
+      "governance_features": [
+        "Structured product workflows"
+      ],
+      "capability_gaps": [
+        "Stage-by-stage gate lineage is not the primary message.",
+        "Auditability across the full lifecycle is not the lead differentiator."
+      ],
+      "strengths": [
+        "AI-first PM positioning",
+        "Strong idea-to-doc framing"
+      ],
+      "weaknesses": [
+        "Less explicit evidence lineage at every stage",
+        "Can read as another output accelerator"
+      ],
+      "where_they_win": [
+        "Teams prioritizing AI-assisted ideation and document generation",
+        "Organizations already attracted to Productboard's PM platform story"
+      ],
+      "where_they_lose": [
+        "Teams needing lifecycle explanation and gate evidence as first-class primitives"
+      ],
+      "displacement_barriers": [
+        "Existing platform presence",
+        "AI-first PM brand familiarity"
+      ],
+      "implications": [
+        "ProductOS should keep the AI leverage but make gate explanations first-class."
+      ],
+      "evidence_refs": [
+        "source_note_card_productboard_spark_official_pm_visibility_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-23T09:15:00Z"
+    },
+    {
+      "name": "Jira Product Discovery",
+      "category": "direct_pm_platform",
+      "competitor_type": "direct",
+      "target_customer": "Product teams already using Jira or considering connected discovery and delivery.",
+      "positioning_summary": "Capture insights, prioritize ideas, build roadmaps, and connect discovery to Jira delivery.",
+      "go_to_market_motion": "Expansion inside Atlassian accounts.",
+      "pricing_signal": "Subscription SaaS aligned to the broader Atlassian suite.",
+      "positioning_gap": "Strong connected workflow positioning, but weaker item-level narrative and artifact-trace explanation.",
+      "icp_overlap": "high",
+      "substitution_risk": "high",
+      "ecosystem_role": "Discovery layer tightly connected to Jira delivery.",
+      "agentic_features": [
+        "Atlassian Intelligence support"
+      ],
+      "governance_features": [
+        "Connected workflow to Jira"
+      ],
+      "capability_gaps": [
+        "Traceability can still span separate discovery and delivery views.",
+        "Artifact-level PM audit trails are not the core interface."
+      ],
+      "strengths": [
+        "Clear discovery-to-delivery linkage",
+        "Familiar to Atlassian-heavy teams"
+      ],
+      "weaknesses": [
+        "Can fragment lifecycle understanding across linked tools",
+        "Requires stronger workspace discipline to preserve context"
+      ],
+      "where_they_win": [
+        "Atlassian-heavy accounts",
+        "Teams wanting discovery linked to Jira delivery inside one ecosystem"
+      ],
+      "where_they_lose": [
+        "Teams wanting one item story that explains stages, artifacts, and readiness in a single surface"
+      ],
+      "displacement_barriers": [
+        "Atlassian account momentum",
+        "Perceived duplication if another lifecycle layer is introduced"
+      ],
+      "implications": [
+        "ProductOS should offer the same connectedness without forcing PMs to reconstruct history from multiple surfaces."
+      ],
+      "evidence_refs": [
+        "source_note_card_jpd_official_pm_visibility_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-23T09:18:00Z"
+    },
+    {
+      "name": "Linear",
+      "category": "indirect_pm_platform",
+      "competitor_type": "direct",
+      "target_customer": "Modern product and engineering teams wanting fast planning and execution in one tool.",
+      "positioning_summary": "System for modern product development spanning roadmap, build, AI workflows, insights, and customer requests.",
+      "go_to_market_motion": "Product-led adoption with premium team expansion.",
+      "pricing_signal": "Seat-based SaaS pricing with enterprise upsell.",
+      "positioning_gap": "Very coherent product-development story, but lifecycle explanation and formal discovery lineage are not the main wedge.",
+      "icp_overlap": "high",
+      "substitution_risk": "high",
+      "ecosystem_role": "Unified product-development workspace with strong execution velocity.",
+      "agentic_features": [
+        "AI workflows",
+        "Agents",
+        "Customer requests intake"
+      ],
+      "governance_features": [
+        "Structured initiatives and cycles"
+      ],
+      "capability_gaps": [
+        "PM evidence lineage is secondary to workflow speed.",
+        "Formal discovery gates are less explicit."
+      ],
+      "strengths": [
+        "Coherent roadmap-to-release story",
+        "Clear execution ergonomics"
+      ],
+      "weaknesses": [
+        "Discovery auditability is not the center of the model",
+        "Can bias teams toward build flow over explanation flow"
+      ],
+      "where_they_win": [
+        "Teams optimizing for product-development velocity and execution coherence"
+      ],
+      "where_they_lose": [
+        "Teams needing stronger evidence lineage and PM stage explanation"
+      ],
+      "displacement_barriers": [
+        "Strong product-led adoption",
+        "Execution ergonomics that teams already like"
+      ],
+      "implications": [
+        "ProductOS should match the coherence but expose why each item is at its current stage."
+      ],
+      "evidence_refs": [
+        "source_note_card_linear_official_pm_visibility_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-23T09:20:00Z"
+    },
+    {
+      "name": "Aha! Roadmaps",
+      "category": "direct_pm_platform",
+      "competitor_type": "direct",
+      "target_customer": "PM organizations that need polished roadmap planning and communication.",
+      "positioning_summary": "Visual roadmap software tailored to multiple audiences and communication needs.",
+      "go_to_market_motion": "PM leadership tooling adoption and team rollout.",
+      "pricing_signal": "Premium PM SaaS pricing.",
+      "positioning_gap": "Excellent roadmap communication, but lifecycle evidence continuity is not the center of the narrative.",
+      "icp_overlap": "medium",
+      "substitution_risk": "medium",
+      "ecosystem_role": "Planning and roadmap communication system.",
+      "governance_features": [
+        "Audience-specific roadmap views"
+      ],
+      "capability_gaps": [
+        "Roadmap communication is strong, but audit-ready discovery lineage is less prominent."
+      ],
+      "strengths": [
+        "Excellent roadmap communication",
+        "Strong stakeholder-facing presentation value"
+      ],
+      "weaknesses": [
+        "May not resolve end-to-end artifact traceability",
+        "Can emphasize communication more than gate evidence"
+      ],
+      "where_they_win": [
+        "Teams prioritizing roadmap presentation and stakeholder communication"
+      ],
+      "where_they_lose": [
+        "Teams that need item-level discovery-to-delivery auditability"
+      ],
+      "displacement_barriers": [
+        "Strong PM leadership familiarity",
+        "High value in roadmap communication surfaces"
+      ],
+      "implications": [
+        "ProductOS should combine clear presentation with grounded artifact lineage."
+      ],
+      "evidence_refs": [
+        "source_note_card_aha_official_pm_visibility_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-23T09:22:00Z"
+    },
+    {
+      "name": "Jira Software",
+      "category": "adjacent_work_platform",
+      "competitor_type": "indirect",
+      "target_customer": "Cross-functional teams managing tracked delivery work at scale.",
+      "positioning_summary": "Issue and project tracking with AI-assisted status, risk visibility, and broad integrations.",
+      "go_to_market_motion": "Core work management expansion across engineering and enterprise teams.",
+      "pricing_signal": "Tiered SaaS pricing with premium and enterprise tiers.",
+      "positioning_gap": "Very strong execution status story, but discovery rationale and PM artifact traceability are still secondary.",
+      "icp_overlap": "high",
+      "substitution_risk": "medium",
+      "ecosystem_role": "Delivery and execution system of record.",
+      "agentic_features": [
+        "AI updates",
+        "Risk cues"
+      ],
+      "governance_features": [
+        "Issue status control",
+        "Integration breadth"
+      ],
+      "capability_gaps": [
+        "Discovery context is not native to execution issues.",
+        "Decision rationale is easy to lose before work is created."
+      ],
+      "strengths": [
+        "Strong execution status visibility",
+        "Broad ecosystem support"
+      ],
+      "weaknesses": [
+        "Not a PM discovery trace system by default",
+        "Requires add-on conventions for auditability"
+      ],
+      "where_they_win": [
+        "Teams centered on execution status and issue tracking",
+        "Organizations optimizing for engineering workflow breadth"
+      ],
+      "where_they_lose": [
+        "PM teams needing a first-class discovery and lifecycle narrative"
+      ],
+      "displacement_barriers": [
+        "Jira's role as the execution system of record",
+        "Wide ecosystem integration footprint"
+      ],
+      "implications": [
+        "ProductOS should treat Jira as a downstream system, not the PM source of truth for discovery history."
+      ],
+      "evidence_refs": [
+        "source_note_card_jira_official_pm_visibility_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-23T09:24:00Z"
+    },
+    {
+      "name": "Asana",
+      "category": "adjacent_work_platform",
+      "competitor_type": "indirect",
+      "target_customer": "Cross-functional organizations aligning goals and execution in one work management system.",
+      "positioning_summary": "Work management platform connecting company goals to execution across teams.",
+      "go_to_market_motion": "Cross-functional work platform expansion.",
+      "pricing_signal": "Seat-based SaaS pricing with enterprise tiers.",
+      "positioning_gap": "Strong cross-functional coordination, but PM lifecycle traceability is convention-driven instead of explicit.",
+      "icp_overlap": "medium",
+      "substitution_risk": "medium",
+      "ecosystem_role": "General work management and coordination platform.",
+      "governance_features": [
+        "Goal alignment",
+        "Workflow views"
+      ],
+      "capability_gaps": [
+        "Lifecycle-specific PM artifacts are convention-driven.",
+        "Traceability across discovery gates is not standardized."
+      ],
+      "strengths": [
+        "Strong cross-functional coordination",
+        "Clear execution and planning views"
+      ],
+      "weaknesses": [
+        "Generic work management posture",
+        "Discovery depth can become ad hoc"
+      ],
+      "where_they_win": [
+        "Cross-functional organizations standardizing on one general work platform"
+      ],
+      "where_they_lose": [
+        "Teams wanting PM-specific lifecycle contracts and evidence flow"
+      ],
+      "displacement_barriers": [
+        "General-purpose coordination utility",
+        "Broad organizational rollout"
+      ],
+      "implications": [
+        "ProductOS should offer stronger PM-specific structure while staying compatible with generic execution systems."
+      ],
+      "evidence_refs": [
+        "source_note_card_asana_official_pm_visibility_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-23T09:26:00Z"
+    },
+    {
+      "name": "monday dev",
+      "category": "adjacent_work_platform",
+      "competitor_type": "indirect",
+      "target_customer": "Product and engineering teams seeking one flexible system from roadmap to release.",
+      "positioning_summary": "Flexible platform for roadmaps, sprints, release plans, analytics, and product documentation with AI helpers.",
+      "go_to_market_motion": "Flexible platform adoption by product and engineering teams.",
+      "pricing_signal": "Tiered SaaS pricing with enterprise sales.",
+      "positioning_gap": "Broad lifecycle coverage, but artifact lineage and stage discipline depend heavily on local setup.",
+      "icp_overlap": "medium",
+      "substitution_risk": "medium",
+      "ecosystem_role": "Lifecycle-oriented work platform spanning planning through monitoring.",
+      "agentic_features": [
+        "AI sprint summaries",
+        "PRD summarization",
+        "Bug categorization"
+      ],
+      "governance_features": [
+        "Roadmaps",
+        "Release plans",
+        "Shared documents"
+      ],
+      "capability_gaps": [
+        "Artifact lineage depends on workspace setup.",
+        "Stage gates are not deeply standardized for PM discovery."
+      ],
+      "strengths": [
+        "Broad lifecycle coverage",
+        "Flexible shared platform model"
+      ],
+      "weaknesses": [
+        "Can become board-centric rather than evidence-centric",
+        "Auditability requires custom discipline"
+      ],
+      "where_they_win": [
+        "Teams that value flexible lifecycle breadth over strict lifecycle contracts"
+      ],
+      "where_they_lose": [
+        "Teams that need stronger default stage-gate and evidence discipline"
+      ],
+      "displacement_barriers": [
+        "Flexibility appeal",
+        "Shared platform breadth"
+      ],
+      "implications": [
+        "ProductOS should borrow the lifecycle breadth while enforcing stronger stage contracts."
+      ],
+      "evidence_refs": [
+        "source_note_card_monday_dev_official_pm_visibility_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-23T09:28:00Z"
+    },
+    {
+      "name": "ClickUp",
+      "category": "adjacent_work_platform",
+      "competitor_type": "indirect",
+      "target_customer": "Teams seeking one workspace for product management and execution.",
+      "positioning_summary": "Everything app for product management covering the full product lifecycle with templates, sprints, automations, and communication.",
+      "go_to_market_motion": "Product-led work platform adoption.",
+      "pricing_signal": "Freemium to enterprise SaaS pricing.",
+      "positioning_gap": "Very broad lifecycle coverage, but discovery gates and evidence lineage are not first-class primitives.",
+      "icp_overlap": "medium",
+      "substitution_risk": "medium",
+      "ecosystem_role": "Generalized product lifecycle workspace.",
+      "governance_features": [
+        "Templates",
+        "Custom views",
+        "Automations"
+      ],
+      "capability_gaps": [
+        "Discovery gates and evidence lineage are not first-class primitives.",
+        "Auditability usually relies on team discipline."
+      ],
+      "strengths": [
+        "Broad lifecycle messaging",
+        "Flexible workspace coverage"
+      ],
+      "weaknesses": [
+        "Risk of process sprawl",
+        "Difficult to guarantee a clean PM audit trail"
+      ],
+      "where_they_win": [
+        "Teams wanting a broad all-in-one workspace with flexible setup"
+      ],
+      "where_they_lose": [
+        "Teams that need a strongly opinionated PM lifecycle explanation model"
+      ],
+      "displacement_barriers": [
+        "All-in-one messaging",
+        "Flexible customization and freemium reach"
+      ],
+      "implications": [
+        "ProductOS should make the item timeline understandable without heavy workspace customization."
+      ],
+      "evidence_refs": [
+        "source_note_card_clickup_official_pm_visibility_2026"
+      ],
+      "confidence": "high",
+      "last_checked_at": "2026-03-23T09:30:00Z"
+    }
+  ],
+  "last_refreshed_at": "2026-03-23T09:30:00Z",
+  "created_at": "2026-03-23T09:50:00Z"
+}

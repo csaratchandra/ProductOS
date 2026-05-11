@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "problem_brief_id": "problem_brief_pm_superpower_recovery",
+  "workspace_id": "ws_productos_v2",
+  "title": "Problem Brief: strategy-ready discovery packet",
+  "problem_summary": "Product managers using AI-assisted operating tools still lose time and judgment quality because strategy context is reconstructed too late and too inconsistently from scattered discovery artifacts.",
+  "strategic_fit_summary": "This problem supports a challenger posture because it lets ProductOS win on trusted PM strategy framing and traceability rather than on generic workspace breadth.",
+  "posture_alignment": "challenger",
+  "why_this_problem_now": "AI makes drafting cheaper, which increases the relative cost of unclear strategy, weak differentiation, and missing north-star logic.",
+  "why_this_problem_for_this_segment": "B2B product teams feel recurring strategy reconstruction costs often enough to adopt a PM-specific operating layer before replacing broader workflow tools.",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_strategy_reconstruction_drag"
+    },
+    {
+      "entity_type": "outcome",
+      "entity_id": "outcome_reduce_time_to_strategy_ready_packet"
+    },
+    {
+      "entity_type": "opportunity",
+      "entity_id": "opp_strategy_spine_for_discovery"
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_strategy_ready_discovery_packet"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "source_type": "research",
+      "source_id": "market_analysis_brief_pm_lifecycle_visibility",
+      "justification": "The market work shows that trusted operating context is a durable gap in the category."
+    },
+    {
+      "source_type": "decision_log",
+      "source_id": "decision_log_next_version_scope",
+      "justification": "The next-version plan chose strategy/discovery leverage over broader distribution or autonomy expansion."
+    }
+  ],
+  "upstream_artifact_ids": [
+    "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    "strategy_context_brief_pm_superpower_recovery",
+    "product_vision_brief_pm_superpower_recovery",
+    "market_strategy_brief_pm_superpower_recovery",
+    "research_brief_pm_operating_rhythm"
+  ],
+  "recommended_next_step": "prd",
+  "created_at": "2026-04-21T08:45:00Z"
+}

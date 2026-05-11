@@ -1100,6 +1100,20 @@ def render_cockpit_html(cockpit_bundle: dict[str, Any]) -> str:
         f"<li>{task['summary']}</li>"
         for task in phase_packet["task_queue"]
     )
+    living_updates = cockpit.get("living_updates_queue", [])
+    living_update_items = "".join(
+        (
+            f"<li><strong>{item.get('target_artifact', item.get('regeneration_queue_item_ref', 'update'))}</strong>: "
+            f"{item.get('delta_summary', item.get('source_change', 'No delta summary'))} "
+            f"({item.get('pm_action', 'pending')})</li>"
+        )
+        for item in living_updates
+    ) or "<li>No living artifact updates queued.</li>"
+    today_view = cockpit.get("recommended_next_step", "")
+    if isinstance(today_view, dict):
+        today_view = today_view.get("action_summary", "")
+    elif not isinstance(today_view, str):
+        today_view = str(today_view)
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -1145,14 +1159,14 @@ def render_cockpit_html(cockpit_bundle: dict[str, Any]) -> str:
       <div>
         <div class="eyebrow">Portfolio</div>
         <p><code>{cockpit_bundle['portfolio_state']['suite_id']}</code></p>
-        <p>Maturity: <code>{mission['maturity_band']}</code></p>
+        <p>Maturity: <code>{mission.get('maturity_band', 'zero_to_one')}</code></p>
       </div>
     </aside>
     <main class="panel stack">
       <div>
         <div class="eyebrow">Mission</div>
         <h1>{mission['title']}</h1>
-        <p>{mission['mission_summary']}</p>
+        <p>{mission.get('mission_summary', mission.get('customer_problem', 'Mission summary pending.'))}</p>
       </div>
       <div class="notice">{claim_boundary_note}</div>
       <div class="metric">Ralph stage: <strong>{cockpit['ralph_stage']}</strong></div>
@@ -1160,7 +1174,7 @@ def render_cockpit_html(cockpit_bundle: dict[str, Any]) -> str:
       <div class="metric">Budget status: <strong>{cockpit['budget_status']['status']}</strong></div>
       <div>
         <h2>Today View</h2>
-        <p>{cockpit['recommended_next_step']['action_summary']}</p>
+        <p>{today_view}</p>
       </div>
       <div>
         <h2>Phase Tasks</h2>
@@ -1190,6 +1204,10 @@ def render_cockpit_html(cockpit_bundle: dict[str, Any]) -> str:
       <div>
         <h2>Context</h2>
         <ul>{context_items}</ul>
+      </div>
+      <div>
+        <h2>Living Artifact Updates</h2>
+        <ul>{living_update_items}</ul>
       </div>
     </main>
     <section class="panel stack">

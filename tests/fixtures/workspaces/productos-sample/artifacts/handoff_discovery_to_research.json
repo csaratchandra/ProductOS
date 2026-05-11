@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "handoff_id": "handoff_discovery_to_research_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "source_workflow_id": "wf_mission_to_strategy_spine",
+  "target_workflow_id": "wf_research_command_center",
+  "handoff_type": "workflow_to_workflow",
+  "status": "ready",
+  "artifact_refs": [
+    {
+      "artifact_id": "strategy_context_brief_productos_next_version_discover",
+      "artifact_type": "strategy_context_brief",
+      "path": "artifacts/strategy_context_brief.json"
+    },
+    {
+      "artifact_id": "product_vision_brief_productos_next_version_discover",
+      "artifact_type": "product_vision_brief",
+      "path": "artifacts/product_vision_brief.json"
+    },
+    {
+      "artifact_id": "market_strategy_brief_productos_next_version_discover",
+      "artifact_type": "market_strategy_brief",
+      "path": "artifacts/market_strategy_brief.json"
+    },
+    {
+      "artifact_id": "problem_brief_productos_next_version_discover",
+      "artifact_type": "problem_brief",
+      "path": "artifacts/problem_brief.json"
+    },
+    {
+      "artifact_id": "concept_brief_productos_next_version_discover",
+      "artifact_type": "concept_brief",
+      "path": "artifacts/concept_brief.json"
+    }
+  ],
+  "summary": "Discovery signals suggest ProductOS should run bounded research on 'Problem Brief: ProductOS next-version discover proof' before the next prioritization and validation move.",
+  "key_points": [
+    "ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD package with minimal PM reconstruction.",
+    "The next version must prove a concrete discover wedge inside the reference workspace before broader strategy claims are credible.",
+    "PMs can move from mission to strategy-ready problem framing without reopening raw source notes.",
+    "If ProductOS routes live notes and transcripts through one repo-native CLI path, one PM can move from messy input to a reviewable PRD package in the same working day with no more than one material rewrite."
+  ],
+  "pending_questions": [
+    "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+    "How do current alternatives frame this workflow problem and where are their proof boundaries weaker?",
+    "What direct PM or operator evidence quantifies the manual reconstruction burden in this workflow?"
+  ],
+  "created_at": "2026-04-21T10:00:00Z"
+}

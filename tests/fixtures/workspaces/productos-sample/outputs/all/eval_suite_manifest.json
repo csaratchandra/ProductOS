@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "eval_suite_manifest_id": "eval_suite_manifest_ws_productos_v2_bounded_baseline",
+  "workspace_id": "ws_productos_v2",
+  "suite_name": "ProductOS frozen bounded-release eval suite",
+  "baseline_version": "4.7.0",
+  "candidate_version": "4.8.0",
+  "locked_on": "2026-03-22",
+  "owner": "ProductOS PM",
+  "task_count": 5,
+  "eval_cases": [
+    {
+      "case_id": "eval_case_01",
+      "title": "Discover truthfulness",
+      "loop_id": "signal_to_product_decision",
+      "prompt_summary": "Check whether live discover outputs stay traceable and explicit about confidence.",
+      "success_signals": [
+        "traceable claims",
+        "visible uncertainty",
+        "fresh evidence"
+      ],
+      "required_artifact_types": [
+        "problem_brief",
+        "concept_brief",
+        "prd"
+      ],
+      "weight": 5
+    },
+    {
+      "case_id": "eval_case_02",
+      "title": "Alignment traceability",
+      "loop_id": "decision_to_stakeholder_alignment",
+      "prompt_summary": "Check whether docs and presentation outputs preserve source truth and risk framing.",
+      "success_signals": [
+        "source-linked claims",
+        "audience fit",
+        "risk visibility"
+      ],
+      "required_artifact_types": [
+        "document_sync_state",
+        "presentation_brief"
+      ],
+      "weight": 4
+    },
+    {
+      "case_id": "eval_case_03",
+      "title": "Improvement honesty",
+      "loop_id": "feedback_to_accepted_improvement",
+      "prompt_summary": "Check whether the scoring loop exposes real gaps instead of auto-promoting the baseline.",
+      "success_signals": [
+        "sub-5 visibility",
+        "bounded next action",
+        "regression accounting"
+      ],
+      "required_artifact_types": [
+        "feature_scorecard",
+        "feature_portfolio_review"
+      ],
+      "weight": 5
+    },
+    {
+      "case_id": "eval_case_04",
+      "title": "Control-surface truth",
+      "loop_id": "cross_cutting",
+      "prompt_summary": "Check whether CLI summaries reflect provenance and eval risk instead of only green status.",
+      "success_signals": [
+        "truthfulness status",
+        "eval visibility",
+        "mixed provenance warning"
+      ],
+      "required_artifact_types": [
+        "cockpit_state",
+        "orchestration_state"
+      ],
+      "weight": 5
+    },
+    {
+      "case_id": "eval_case_05",
+      "title": "Decision memory retrieval",
+      "loop_id": "cross_cutting",
+      "prompt_summary": "Check whether rejected paths, tradeoffs, and follow-up reviews are recoverable.",
+      "success_signals": [
+        "decision recall",
+        "tradeoff visibility",
+        "follow-up dates"
+      ],
+      "required_artifact_types": [
+        "decision_log",
+        "strategic_memory_record",
+        "outcome_review"
+      ],
+      "weight": 4
+    }
+  ]
+}

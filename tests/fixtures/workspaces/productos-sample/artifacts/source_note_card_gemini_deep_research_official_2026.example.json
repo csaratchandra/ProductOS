@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_gemini_deep_research_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://blog.google/technology/ai/google-ai-updates-february-2025/",
+  "title": "Google treats deep research as a mainstream AI report workflow",
+  "claim": "Google's Gemini updates position Deep Research as a feature that creates comprehensive, easy-to-read reports across broad topics and brings that behavior to mainstream app surfaces.",
+  "source_snippet": "Deep Research can generate comprehensive, easy-to-read reports on research topics.",
+  "implication": "ProductOS should assume that polished report generation is being commoditized and compete on PM-native structure, validation, and workflow continuity.",
+  "confidence": "moderate",
+  "followup_questions": [
+    "Which PM outcomes still need more than a general-purpose deep research report?"
+  ],
+  "source_metadata": {
+    "source_url": "https://blog.google/technology/ai/google-ai-updates-february-2025/",
+    "retrieved_at": "2026-03-21T09:06:00Z",
+    "source_slice_ref": "deep-research-update",
+    "dedupe_key": "gemini-deep-research-update",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "gemini-deep-research-update",
+  "tags": ["research", "agentic", "gemini", "deep-research"],
+  "created_at": "2026-03-21T09:07:00Z"
+}

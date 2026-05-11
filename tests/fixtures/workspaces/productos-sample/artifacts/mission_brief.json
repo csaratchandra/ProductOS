@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0.0",
+  "mission_brief_id": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+  "workspace_id": "ws_productos_v2",
+  "title": "PM superpower recovery mission",
+  "mission_summary": "ProductOS Reference Workspace should help Product manager using ProductOS with Codex, Claude, Windsurf, or Antigravity style agents solve PMs still need one repo-native way to carry mission, research, prioritization, delivery, and review context through the full lifecycle without rebuilding the decision chain by hand.",
+  "target_user": "Product manager using ProductOS with Codex, Claude, Windsurf, or Antigravity style agents",
+  "customer_problem": "PMs still need a single repo-native way to move from mission and evidence through prioritization, delivery, review, and bounded communication outputs without rebuilding the story or losing provenance by hand.",
+  "business_goal": "Make ProductOS credible for the first impatient customer by proving a coherent lifecycle-enrichment spine with governed research, prioritization, delivery traceability, and bounded visual outputs.",
+  "success_metrics": [
+    "time from intake to reviewable PRD",
+    "time from PRD to aligned docs and deck",
+    "weekly PM autopilot quality",
+    "time from aligned artifact set to publish-ready deck or corridor"
+  ],
+  "constraints": [
+    "Keep PM approval explicit for decision-driving scope and release movement.",
+    "Preserve observed versus inferred claims when evidence is incomplete.",
+    "Do not broaden autonomous PM claims past the current evidence-backed release boundary."
+  ],
+  "audience": [
+    "PM",
+    "engineering",
+    "design",
+    "leadership"
+  ],
+  "operating_mode": "full_loop",
+  "mission_router": {
+    "entry_phase": "discover",
+    "phase_sequence": [
+      "discover",
+      "align",
+      "operate",
+      "improve"
+    ],
+    "primary_reviewer_lane": "pm_builder",
+    "routing_rationale": "Run the full PM loop from a mission-first discover start while keeping PM approval explicit at every decision-driving boundary.",
+    "stop_conditions": [
+      "Stop if any phase loses provenance, reviewability, or PM approval visibility.",
+      "Stop if downstream phases outrun the accepted mission package.",
+      "Stop if release-facing claims exceed the current evidence-backed boundary."
+    ]
+  },
+  "steering_context": {
+    "steering_refs": [
+      "tests/fixtures/workspaces/productos-sample/docs/planning/steering-context.md",
+      "core/docs/vendor-neutral-agent-harness-standard.md",
+      "core/docs/ralph-loop-model.md"
+    ],
+    "operating_norms": [
+      "Treat the repository as the system of record.",
+      "Keep PM approval explicit for decision-driving scope, stakeholder-facing output, and release movement.",
+      "Preserve observed versus inferred claims when evidence is incomplete.",
+      "Prefer the smallest coherent slice that can be reviewed and validated end to end."
+    ],
+    "memory_priority_order": [
+      "decisions",
+      "evidence",
+      "prior_artifacts",
+      "repeated_issues",
+      "strategic_memory"
+    ],
+    "default_artifact_focus": [
+      "mission_brief",
+      "strategy_context_brief",
+      "product_vision_brief",
+      "market_strategy_brief",
+      "problem_brief",
+      "concept_brief",
+      "prd",
+      "document_sync_state",
+      "presentation_brief",
+      "status_mail",
+      "feature_portfolio_review"
+    ]
+  },
+  "primary_workflow_refs": [
+    "../../core/workflows/workspace-ingestion/inbox-to-normalized-evidence-workflow.md",
+    "../../core/workflows/decision-intelligence/mission-to-strategy-spine-workflow.md",
+    "../../core/workflows/decision-intelligence/market-strategy-definition-workflow.md",
+    "../../core/workflows/discovery/idea-to-concept-workflow.md",
+    "../../core/workflows/research/research-command-center-workflow.md",
+    "../../core/workflows/delivery/problem-brief-to-prd-workflow.md",
+    "../../core/workflows/delivery/prd-to-stories-workflow.md",
+    "../../core/workflows/delivery/stories-to-acceptance-workflow.md",
+    "../../core/workflows/launch/release-readiness-workflow.md",
+    "../../core/workflows/mastery/post-release-outcome-review-workflow.md",
+    "../../core/workflows/mastery/bounded-improvement-workflow.md"
+  ],
+  "source_refs": [
+    "tests/fixtures/workspaces/productos-sample/workspace_manifest.yaml",
+    "tests/fixtures/workspaces/productos-sample/artifacts/strategy_context_brief_pm_superpower_recovery.json",
+    "tests/fixtures/workspaces/productos-sample/artifacts/product_vision_brief_pm_superpower_recovery.json",
+    "tests/fixtures/workspaces/productos-sample/artifacts/problem_brief_pm_superpower_recovery.json"
+  ],
+  "next_action": "Keep the mission routed through the strategy spine and complete P0/P1/P2 lifecycle-enrichment reconciliation before broadening any release claim; treat visual surfaces as one aligned output lane inside that governed lifecycle.",
+  "created_at": "2026-03-22T08:00:00Z",
+  "updated_at": "2026-04-27T08:00:00Z"
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "prototype_record_id": "prototype_record_pm_item_timeline",
+  "workspace_id": "ws_productos_v2",
+  "concept_brief_id": "concept_brief_pm_lifecycle_visibility",
+  "title": "Prototype record: PM item timeline and stage snapshot",
+  "prototype_type": "clickthrough",
+  "prototype_fidelity": "high",
+  "interaction_depth": "interactive",
+  "objective": "Test whether PMs can inspect one item timeline and a discovery-stage aggregate without opening multiple disconnected artifacts first.",
+  "uncertainty_statement": "It is still unclear whether a high-detail interactive lifecycle view can feel trustworthy enough to support real PM review and handoff decisions.",
+  "primary_test_scenario": "A PM opens the item timeline, checks gate evidence, and decides whether the item is ready for PRD handoff.",
+  "experience_quality_target": "The prototype should feel detailed and credible enough for a realistic workflow walkthrough instead of a narrated mockup.",
+  "status": "validated",
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_product_led_scaleups"
+    },
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_enterprise_platform_pm_orgs"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_pm_operator"
+    },
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_group_pm"
+    }
+  ],
+  "validation_focus": [
+    "workflow_fit",
+    "trust",
+    "clarity"
+  ],
+  "tested_assumptions": [
+    "An item-first lifecycle surface reduces manual reconstruction during PM review",
+    "Visible gate outcomes and linked artifacts improve trust in the current item state"
+  ],
+  "proof_generated": [
+    "PMs want the current stage, gate outcome, and linked artifacts visible together",
+    "A stage aggregate only works when it links back to concrete item ids"
+  ],
+  "quality_reference_examples": [
+    "A multi-pane workflow surface that supports real handoff review without presenter narration"
+  ],
+  "positioning_signal": "positive",
+  "buying_signal": "mixed",
+  "workflow_adoption_signal": "positive",
+  "displacement_signal": "mixed",
+  "learnings": [
+    "PMs expect the current stage, gate outcome, and linked artifacts to be visible without extra navigation.",
+    "A stage aggregate is useful only when it can still link back to concrete item ids.",
+    "The PRD handoff feels believable when validation evidence is visible beside the timeline."
+  ],
+  "improvement_actions": [
+    "Increase interaction density around evidence previews so the PM can inspect without leaving the flow.",
+    "Strengthen visual distinction between current stage, passed gates, and deferred downstream work."
+  ],
+  "strategic_implication": "The prototype supports a challenger posture centered on lifecycle explanation and trust rather than broad workflow breadth.",
+  "recommendation": "advance_to_problem_brief",
+  "evaluated_at": "2026-03-23T10:20:00Z"
+}

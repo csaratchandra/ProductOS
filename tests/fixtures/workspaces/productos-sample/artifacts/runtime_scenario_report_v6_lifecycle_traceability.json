@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "runtime_scenario_report_id": "runtime_scenario_report_ws_productos_v2_v6_lifecycle_traceability",
+  "workspace_id": "ws_productos_v2",
+  "baseline_version": "5.0.0",
+  "candidate_version": "6.0.0",
+  "status": "passed",
+  "summary": "The selected V6 bundle proves item-first lifecycle traceability through release_readiness in the reference and starter workspaces, fixes the advertised trace focus-area coverage, and keeps launch and outcome stages explicitly deferred.",
+  "scenarios": [
+    {
+      "scenario_id": "scenario_self_hosting_traceability_to_release_readiness",
+      "name": "Self-hosting lifecycle traceability through release readiness",
+      "status": "passed",
+      "metric_deltas": [
+        {
+          "metric_name": "completed_delivery_stage_count",
+          "baseline_value": 0,
+          "candidate_value": 3,
+          "unit": "count",
+          "trend": "improved"
+        }
+      ],
+      "evidence_refs": [
+        "item_lifecycle_state_pm_lifecycle_visibility",
+        "lifecycle_stage_snapshot_delivery_pm_visibility",
+        "tests/fixtures/workspaces/productos-sample/docs/delivery/lifecycle-release-readiness-review.md"
+      ],
+      "gaps": []
+    },
+    {
+      "scenario_id": "scenario_starter_workspace_traceability_to_release_readiness",
+      "name": "Starter-workspace parity through release readiness",
+      "status": "passed",
+      "metric_deltas": [
+        {
+          "metric_name": "starter_completed_delivery_stage_count",
+          "baseline_value": 0,
+          "candidate_value": 3,
+          "unit": "count",
+          "trend": "improved"
+        }
+      ],
+      "evidence_refs": [
+        "item_lifecycle_state_starter_trace_demo",
+        "lifecycle_stage_snapshot_delivery_starter_trace_demo",
+        "templates/docs/delivery/release-readiness-review.md"
+      ],
+      "gaps": []
+    },
+    {
+      "scenario_id": "scenario_trace_focus_area_coverage",
+      "name": "Trace focus-area coverage matches the CLI contract",
+      "status": "passed",
+      "metric_deltas": [
+        {
+          "metric_name": "available_trace_focus_area_count",
+          "baseline_value": 1,
+          "candidate_value": 5,
+          "unit": "count",
+          "trend": "improved"
+        }
+      ],
+      "evidence_refs": [
+        "lifecycle_stage_snapshot_full_lifecycle_pm_visibility",
+        "lifecycle_stage_snapshot_full_lifecycle_starter_trace_demo",
+        "tests/fixtures/workspaces/productos-sample/feedback/2026-03-23-design-and-architecture-review.md"
+      ],
+      "gaps": []
+    },
+    {
+      "scenario_id": "scenario_scoped_boundary_after_release_readiness",
+      "name": "Scoped boundary after release readiness remains explicit",
+      "status": "passed",
+      "metric_deltas": [
+        {
+          "metric_name": "explicit_post_release_readiness_stage_count",
+          "baseline_value": 0,
+          "candidate_value": 2,
+          "unit": "count",
+          "trend": "improved"
+        }
+      ],
+      "evidence_refs": [
+        "item_lifecycle_state_pm_lifecycle_visibility",
+        "item_lifecycle_state_starter_trace_demo",
+        "tests/fixtures/workspaces/productos-sample/docs/planning/v6-candidate-note.md"
+      ],
+      "gaps": []
+    }
+  ],
+  "generated_at": "2026-03-27T08:30:00Z"
+}

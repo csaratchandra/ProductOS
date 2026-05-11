@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0.0",
+  "feature_scorecard_id": "feature_scorecard_ws_productos_v2_weekly_pm_autopilot",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "weekly_pm_autopilot",
+  "feature_name": "Weekly PM autopilot",
+  "loop_id": "feedback_to_accepted_improvement",
+  "status": "reviewed",
+  "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "validation_tier": "tier_2",
+  "scenarios": [
+    {
+      "scenario_id": "scn_operator_from_current_queues",
+      "title": "Operate weekly cadence from current queues and release state",
+      "scenario_type": "dogfood_run",
+      "result": "passed",
+      "summary": "The repo now turns decisions, follow-ups, issue state, and release readiness into one supervised weekly operator session with persisted operator outputs that can be reused outside the bundle.",
+      "evidence_refs": [
+        "decision_queue_productos_v4_4",
+        "follow_up_queue_productos_v4_4",
+        "status_2026_03_weekly_01",
+        "issue_log_2026_03_22_next_version"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "decision_queue_productos_v4_4",
+    "follow_up_queue_productos_v4_4",
+    "status_2026_03_weekly_01",
+    "issue_log_2026_03_22_next_version",
+    "validation_lane_report_ws_productos_v2_next_version_completion",
+    "manual_validation_record_ws_productos_v2_next_version_completion",
+    "eval_run_report_ws_productos_v2_bounded_baseline"
+  ],
+  "provenance_classification": "real",
+  "score_basis": [
+    "persisted_operate_outputs",
+    "queue_artifacts",
+    "frozen_eval_suite"
+  ],
+  "truthfulness_summary": "The weekly operator path now scores from persisted workspace outputs, so the supervised autopilot loop can be treated as a real reusable operating slice.",
+  "context_pack_ref": "context_pack_ws_productos_v2_bounded_baseline",
+  "eval_run_ref": "eval_run_report_ws_productos_v2_bounded_baseline",
+  "dimension_scores": [
+    {
+      "dimension_key": "pm_leverage",
+      "score": 5,
+      "rationale": "The weekly operator session now collapses queue review, issue review, release context, and status drafting into one supervised flow.",
+      "evidence_refs": [
+        "decision_queue_productos_v4_4",
+        "status_2026_03_weekly_01"
+      ]
+    },
+    {
+      "dimension_key": "output_quality",
+      "score": 5,
+      "rationale": "The status mail, issue log, and queue outputs are now packaged as one coherent weekly operator bundle.",
+      "evidence_refs": [
+        "status_2026_03_weekly_01",
+        "issue_log_2026_03_22_next_version",
+        "manual_validation_record_ws_productos_v2_next_version_completion"
+      ]
+    },
+    {
+      "dimension_key": "reliability",
+      "score": 5,
+      "rationale": "The weekly operator session is now explicit in the repo bundle and passes the same bounded validation and manual review path as the rest of the promoted baseline.",
+      "evidence_refs": [
+        "validation_lane_report_ws_productos_v2_next_version_completion",
+        "manual_validation_record_ws_productos_v2_next_version_completion"
+      ]
+    },
+    {
+      "dimension_key": "autonomy_quality",
+      "score": 5,
+      "rationale": "The control surface now feels like a supervised autopilot because it emits the weekly operating summary rather than only queue fragments.",
+      "evidence_refs": [
+        "status_2026_03_weekly_01",
+        "follow_up_queue_productos_v4_4"
+      ]
+    },
+    {
+      "dimension_key": "repeatability",
+      "score": 5,
+      "rationale": "The weekly operator loop is now a repeatable named session in the CLI and no longer depends on ad hoc PM synthesis outside the repo.",
+      "evidence_refs": [
+        "status_2026_03_weekly_01",
+        "validation_lane_report_ws_productos_v2_next_version_completion"
+      ]
+    }
+  ],
+  "overall_score": 5,
+  "adoption_recommendation": "promote_as_standard",
+  "reviewer_verdict": {
+    "status": "pass",
+    "summary": "The weekly operator path is now backed by persisted workspace outputs and is ready to count as the supervised weekly operating standard.",
+    "evidence_refs": [
+      "decision_queue_productos_v4_4",
+      "follow_up_queue_productos_v4_4"
+    ]
+  },
+  "tester_verdict": {
+    "status": "pass",
+    "summary": "The operator session now validates from persisted live outputs, so the weekly autopilot slice clears the bounded proof bar.",
+    "evidence_refs": [
+      "decision_queue_productos_v4_4",
+      "follow_up_queue_productos_v4_4"
+    ]
+  },
+  "manual_verdict": {
+    "status": "accept",
+    "summary": "The weekly operator session can now be reused as the customer-safe supervised autopilot baseline.",
+    "evidence_refs": [
+      "manual_validation_record_ws_productos_v2_next_version_completion",
+      "eval_run_report_ws_productos_v2_bounded_baseline"
+    ]
+  },
+  "blocked_by": [],
+  "feedback_items": [],
+  "next_action": "Keep the persisted weekly operator outputs as the standard proof path and reuse them in the release bundle.",
+  "generated_at": "2026-03-22T08:00:00Z"
+}

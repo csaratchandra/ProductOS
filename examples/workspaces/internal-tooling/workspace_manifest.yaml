@@ -1,0 +1,6 @@
+workspace_id: ws_internal_tooling
+name: Internal Tooling
+mode: enterprise
+active_increment_id: pi_internal_tooling_01
+artifact_paths: []
+feedback_paths: []

@@ -1,0 +1,145 @@
+{
+  "schema_version": "1.0.0",
+  "feature_scorecard_id": "feature_scorecard_ws_productos_v2_market_intelligence_superpower",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "market_intelligence_superpower",
+  "feature_name": "Agentic market intelligence",
+  "loop_id": "decision_to_stakeholder_alignment",
+  "status": "reviewed",
+  "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "validation_tier": "tier_2",
+  "scenarios": [
+    {
+      "scenario_id": "scn_market_intelligence_slice",
+      "title": "Run the agentic market-intelligence slice",
+      "scenario_type": "dogfood_run",
+      "result": "passed",
+      "summary": "The market-intelligence slice is strong, governed, and now distributed through a leadership-ready path with refresh and claim boundaries intact.",
+      "evidence_refs": [
+        "research_feature_recommendation_brief_ws_productos_v2_v4_1",
+        "ralph_loop_state_ws_productos_v2_v4_1",
+        "runtime_scenario_report_ws_productos_v2_market_refresh",
+        "runtime_scenario_report_ws_productos_v2_market_distribution",
+        "leadership_review_ws_productos_v2_market_intelligence_distribution"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "research_notebook_agentic_market_intelligence",
+    "landscape_matrix_agentic_market_intelligence",
+    "competitor_dossier_agentic_market_intelligence",
+    "research_feature_recommendation_brief_ws_productos_v2_v4_1",
+    "ralph_loop_state_ws_productos_v2_v4_1",
+    "runtime_scenario_report_ws_productos_v2_market_refresh",
+    "runtime_scenario_report_ws_productos_v2_market_distribution",
+    "leadership_review_ws_productos_v2_market_intelligence_distribution",
+    "portfolio_update_suite_productos_market_intelligence_distribution",
+    "eval_run_report_ws_productos_v2_bounded_baseline"
+  ],
+  "provenance_classification": "real",
+  "score_basis": [
+    "research_pack",
+    "ralph_loop_state",
+    "frozen_eval_suite"
+  ],
+  "truthfulness_summary": "The market-intelligence slice remains strong and mostly grounded in persisted evidence, but the overall control surface is still in watch mode.",
+  "context_pack_ref": "context_pack_ws_productos_v2_bounded_baseline",
+  "eval_run_ref": "eval_run_report_ws_productos_v2_bounded_baseline",
+  "dimension_scores": [
+    {
+      "dimension_key": "pm_leverage",
+      "score": 5,
+      "rationale": "The slice compresses meaningful market research into decision-useful recommendations and now packages that output for leadership consumption without extra PM reconstruction.",
+      "evidence_refs": [
+        "research_feature_recommendation_brief_ws_productos_v2_v4_1",
+        "leadership_review_ws_productos_v2_market_intelligence_distribution"
+      ]
+    },
+    {
+      "dimension_key": "output_quality",
+      "score": 5,
+      "rationale": "The research pack now supports a leadership-ready digest and portfolio-facing summary without dropping evidence or claim boundaries.",
+      "evidence_refs": [
+        "leadership_review_ws_productos_v2_market_intelligence_distribution",
+        "portfolio_update_suite_productos_market_intelligence_distribution"
+      ]
+    },
+    {
+      "dimension_key": "reliability",
+      "score": 5,
+      "rationale": "The Ralph loop, validation lanes, unattended-refresh proof, and leadership-distribution report keep the slice disciplined even as its audience expands.",
+      "evidence_refs": [
+        "ralph_loop_state_ws_productos_v2_v4_1",
+        "validation_lane_report_ws_productos_v2_market_intelligence",
+        "runtime_scenario_report_ws_productos_v2_market_refresh",
+        "runtime_scenario_report_ws_productos_v2_market_distribution"
+      ]
+    },
+    {
+      "dimension_key": "autonomy_quality",
+      "score": 5,
+      "rationale": "The slice keeps unattended-refresh thresholds, contradiction handling, escalation conditions, and leadership-review boundaries explicit before any broader claim is made.",
+      "evidence_refs": [
+        "runtime_scenario_report_ws_productos_v2_market_refresh",
+        "leadership_review_ws_productos_v2_market_intelligence_distribution"
+      ]
+    },
+    {
+      "dimension_key": "repeatability",
+      "score": 5,
+      "rationale": "Recurring refresh and leadership-ready distribution now both pass governed proof without changing the underlying research contract.",
+      "evidence_refs": [
+        "runtime_scenario_report_ws_productos_v2_market_refresh",
+        "runtime_scenario_report_ws_productos_v2_market_distribution",
+        "portfolio_update_suite_productos_market_intelligence_distribution"
+      ]
+    }
+  ],
+  "overall_score": 4,
+  "adoption_recommendation": "keep_in_internal_use",
+  "reviewer_verdict": {
+    "status": "pass",
+    "summary": "The market-intelligence slice remains one of the strongest evidence-backed paths in the repo.",
+    "evidence_refs": [
+      "research_notebook_agentic_market_intelligence",
+      "landscape_matrix_agentic_market_intelligence"
+    ]
+  },
+  "tester_verdict": {
+    "status": "pass",
+    "summary": "The slice validates cleanly and remains a strong internal-use standard while the stable release claim stays bounded.",
+    "evidence_refs": [
+      "research_notebook_agentic_market_intelligence",
+      "landscape_matrix_agentic_market_intelligence"
+    ]
+  },
+  "manual_verdict": {
+    "status": "accept",
+    "summary": "Keep using market intelligence internally while broader release claims stay gated by the remaining truthfulness work.",
+    "evidence_refs": [
+      "portfolio_update_suite_productos_market_intelligence_distribution",
+      "eval_run_report_ws_productos_v2_bounded_baseline"
+    ]
+  },
+  "blocked_by": [],
+  "feedback_items": [
+    {
+      "feedback_id": "score_feedback_market_foundation_gate",
+      "summary": "Do not let the strongest research slice create a false sense that the broader runtime is already fully promotable.",
+      "impact_level": "medium",
+      "recommended_action": "Keep market intelligence internal-use while the truthful control-surface and eval hardening slice completes.",
+      "route_targets": [
+        "improvement_loop_state"
+      ],
+      "linked_dimension_keys": [
+        "reliability"
+      ],
+      "linked_artifact_refs": [
+        "runtime_scenario_report_ws_productos_v2_market_distribution",
+        "eval_run_report_ws_productos_v2_bounded_baseline"
+      ]
+    }
+  ],
+  "next_action": "Keep the market-intelligence slice active, but do not use it to mask the weaker truthfulness state of the control surface.",
+  "generated_at": "2026-03-22T08:00:00Z"
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "manual_validation_record_id": "manual_validation_record_ws_productos_v2_market_intelligence",
+  "workspace_id": "ws_productos_v2",
+  "subject_ref": "research_feature_recommendation_brief_ws_productos_v2_v4_1",
+  "subject_type": "research_feature_recommendation_brief",
+  "validation_tier": "tier_2",
+  "validator_role": "PM Leader / Communicator",
+  "scope": "targeted",
+  "decision": "accept",
+  "fit_notes": [
+    "The output is decision-useful because it names concrete ProductOS features rather than stopping at market description.",
+    "The evidence policy is stronger than an official-source-only memo because it keeps blind spots and uncertainty visible."
+  ],
+  "required_follow_ups": [
+    "Define the unattended-refresh policy before ProductOS claims autonomous recurring market monitoring.",
+    "Add runtime-level freshness enforcement to future auto-research execution."
+  ],
+  "related_validation_report_ref": "validation_lane_report_ws_productos_v2_market_intelligence",
+  "final_approval": true,
+  "recorded_at": "2026-03-21T10:08:00Z"
+}

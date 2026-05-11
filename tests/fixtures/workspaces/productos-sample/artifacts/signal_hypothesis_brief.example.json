@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "signal_hypothesis_brief_id": "signal_hypothesis_brief_ai_workflow_trust",
+  "workspace_id": "ws_productos_v2",
+  "title": "Weak trust signals around AI-generated PM outputs",
+  "signal_cluster_summary": "Customer and stakeholder inputs suggest growing concern about whether AI-generated PM outputs remain explainable enough to trust in formal reviews.",
+  "hypothesis_statement": "Explainability expectations for AI-assisted PM work are rising and may create a new opportunity for ProductOS to differentiate on transparent decision support.",
+  "watch_status": "emerging_pattern",
+  "signals": [
+    {
+      "source_type": "customer",
+      "source_id": "customer_pulse_ws_productos_v2_2026_03",
+      "signal_summary": "Customer feedback asked for clearer provenance and rationale in generated outputs.",
+      "signal_strength": "moderate"
+    },
+    {
+      "source_type": "stakeholder",
+      "source_id": "meeting_2026_03_19_leadership_review",
+      "signal_summary": "Leadership review raised concern that AI speed without explainability will hit trust limits.",
+      "signal_strength": "moderate"
+    }
+  ],
+  "what_must_be_true": [
+    "Trust objections must recur across more than one customer or stakeholder segment.",
+    "Transparent evidence and decision traces must improve adoption or review success."
+  ],
+  "recommended_next_step": "research",
+  "created_at": "2026-03-20T11:00:00Z"
+}

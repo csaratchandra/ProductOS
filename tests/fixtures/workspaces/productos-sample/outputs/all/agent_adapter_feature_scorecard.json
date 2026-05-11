@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0.0",
+  "feature_scorecard_id": "feature_scorecard_ws_productos_v2_agent_adapter_layer",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "agent_adapter_layer",
+  "feature_name": "Thin multi-agent adapter layer",
+  "loop_id": "cross_cutting",
+  "status": "reviewed",
+  "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "validation_tier": "tier_2",
+  "scenarios": [
+    {
+      "scenario_id": "scn_thin_adapter_registry",
+      "title": "Support named agent drivers through one repo contract",
+      "scenario_type": "workflow_run",
+      "result": "passed",
+      "summary": "Thin named adapters now clear the same repo-contract parity proof for Codex, Claude-style agents, Windsurf, and Antigravity.",
+      "evidence_refs": [
+        "runtime_adapter_registry_ws_productos_v2_next_version",
+        "core/docs/thin-agent-adapter-model.md",
+        "runtime_scenario_report_ws_productos_v2_adapter_parity"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "runtime_adapter_registry_ws_productos_v2_next_version",
+    "core/docs/thin-agent-adapter-model.md",
+    "core/docs/vendor-neutral-agent-harness-standard.md",
+    "runtime_scenario_report_ws_productos_v2_adapter_parity",
+    "eval_run_report_ws_productos_v2_bounded_baseline"
+  ],
+  "provenance_classification": "real",
+  "score_basis": [
+    "adapter_registry",
+    "parity_report",
+    "frozen_eval_suite"
+  ],
+  "truthfulness_summary": "The thin adapter layer remains one of the few slices that is already backed by explicit parity evidence rather than mixed release narration.",
+  "context_pack_ref": "context_pack_ws_productos_v2_bounded_baseline",
+  "eval_run_ref": "eval_run_report_ws_productos_v2_bounded_baseline",
+  "dimension_scores": [
+    {
+      "dimension_key": "pm_leverage",
+      "score": 5,
+      "rationale": "The adapter layer prevents the PM from rewriting ProductOS for each agent tool.",
+      "evidence_refs": [
+        "runtime_adapter_registry_ws_productos_v2_next_version",
+        "core/docs/vendor-neutral-agent-harness-standard.md"
+      ]
+    },
+    {
+      "dimension_key": "output_quality",
+      "score": 5,
+      "rationale": "The repo contract is explicit, thin, and now directly parity-checked across the named adapters.",
+      "evidence_refs": [
+        "runtime_adapter_registry_ws_productos_v2_next_version",
+        "core/docs/thin-agent-adapter-model.md",
+        "runtime_scenario_report_ws_productos_v2_adapter_parity"
+      ]
+    },
+    {
+      "dimension_key": "reliability",
+      "score": 5,
+      "rationale": "The parity report verifies the same bounded contract across the supported named adapters.",
+      "evidence_refs": [
+        "runtime_adapter_registry_ws_productos_v2_next_version",
+        "runtime_scenario_report_ws_productos_v2_adapter_parity"
+      ]
+    },
+    {
+      "dimension_key": "autonomy_quality",
+      "score": 5,
+      "rationale": "The adapter layer stays thin and does not hide product logic inside tool-specific behavior.",
+      "evidence_refs": [
+        "runtime_adapter_registry_ws_productos_v2_next_version",
+        "core/docs/vendor-neutral-agent-harness-standard.md"
+      ]
+    },
+    {
+      "dimension_key": "repeatability",
+      "score": 5,
+      "rationale": "The same repo-contract proof now covers Codex, Claude-style, Windsurf, and Antigravity without changing ProductOS logic.",
+      "evidence_refs": [
+        "runtime_scenario_report_ws_productos_v2_adapter_parity",
+        "core/docs/thin-agent-adapter-model.md"
+      ]
+    }
+  ],
+  "overall_score": 5,
+  "adoption_recommendation": "promote_as_standard",
+  "reviewer_verdict": {
+    "status": "pass",
+    "summary": "The adapter layer is correctly thin, repo-owned, and now backed by parity proof.",
+    "evidence_refs": [
+      "runtime_adapter_registry_ws_productos_v2_next_version",
+      "core/docs/thin-agent-adapter-model.md"
+    ]
+  },
+  "tester_verdict": {
+    "status": "pass",
+    "summary": "The shared repo contract now verifies cleanly across the named non-Codex adapter paths.",
+    "evidence_refs": [
+      "runtime_adapter_registry_ws_productos_v2_next_version",
+      "core/docs/thin-agent-adapter-model.md"
+    ]
+  },
+  "manual_verdict": {
+    "status": "accept",
+    "summary": "Treat the thin adapter layer as verified across the named repo-contract hosts and keep adding future hosts through the same parity proof pattern.",
+    "evidence_refs": [
+      "runtime_scenario_report_ws_productos_v2_adapter_parity",
+      "eval_run_report_ws_productos_v2_bounded_baseline"
+    ]
+  },
+  "blocked_by": [],
+  "feedback_items": [],
+  "next_action": "Use the verified thin adapter layer as the standard portability contract and apply the same parity proof before adding future hosts.",
+  "generated_at": "2026-03-22T08:00:00Z"
+}

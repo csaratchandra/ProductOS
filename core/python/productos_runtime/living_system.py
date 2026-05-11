@@ -25,6 +25,14 @@ def _artifact_path(workspace_dir: Path, artifact_ref: str) -> Path:
     return workspace_dir / artifact_ref
 
 
+def _backup_path(path: Path) -> Path:
+    return path.with_suffix(".prev.json")
+
+
+def _write_json(path: Path, payload: dict[str, Any]) -> None:
+    path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+
 def classify_impact(source_change: dict[str, Any], target_artifact: dict[str, Any]) -> str:
     """Classify the impact of a source change on a target artifact.
     
@@ -199,13 +207,11 @@ def process_regeneration_item(
         # Auto-execute mechanical changes
         if target_path.exists():
             target_artifact = _load_json_if_exists(target_path) or {}
+            _write_json(_backup_path(target_path), target_artifact)
             # Update timestamp and version
             target_artifact["updated_at"] = generated_at
             target_artifact["version"] = target_artifact.get("version", 1) + 1
-            
-            with target_path.open("w", encoding="utf-8") as f:
-                json.dump(target_artifact, f, indent=2)
-                f.write("\n")
+            _write_json(target_path, target_artifact)
         
         updated_item["status"] = "auto_executed"
         updated_item["execution_log"].append(
@@ -266,3 +272,198 @@ def detect_circular_dependencies(
                 return circular
     
     return None
+
+
+def generate_impact_propagation_map(workspace_dir: Path) -> dict[str, Any]:
+    """Auto-generate an impact_propagation_map.json by scanning artifact cross-references.
+
+    Inspects all JSON artifacts in artifacts/ for fields that reference other
+    artifacts (source_artifact_ids, upstream_artifact_ids, target_persona_refs,
+    source_evidence_refs, etc.) and builds a dependency DAG.
+    """
+    artifact_dir = workspace_dir / "artifacts"
+    dependencies: dict[str, list[str]] = {}
+    artifact_ids: set[str] = set()
+
+    for path in artifact_dir.glob("*.json"):
+        data = _load_json_if_exists(path)
+        if not isinstance(data, dict):
+            continue
+        aid = data.get("artifact_id") or data.get("problem_brief_id") or data.get("persona_pack_id")
+        if aid:
+            artifact_ids.add(aid)
+        # Normalize artifact ref to relative path under artifacts/
+        ref = "artifacts/" + path.name
+
+    for path in artifact_dir.glob("*.json"):
+        data = _load_json_if_exists(path)
+        if not isinstance(data, dict):
+            continue
+        ref = "artifacts/" + path.name
+        deps: list[str] = []
+        # Common reference fields
+        for key in ("source_artifact_ids", "upstream_artifact_ids", "source_evidence_refs"):
+            for dref in data.get(key, []):
+                if isinstance(dref, str):
+                    candidate = _resolve_ref(dref, artifact_dir)
+                    if candidate:
+                        deps.append(candidate)
+        # Nested refs (e.g., persona_pack segment_refs)
+        for nested in ("segment_refs", "target_persona_refs", "linked_entity_refs", "evidence_refs"):
+            for item in data.get(nested, []):
+                if isinstance(item, dict):
+                    eid = item.get("entity_id", "")
+                    candidate = _resolve_ref(eid, artifact_dir)
+                    if candidate:
+                        deps.append(candidate)
+                elif isinstance(item, str):
+                    candidate = _resolve_ref(item, artifact_dir)
+                    if candidate:
+                        deps.append(candidate)
+        # Deduplicate and store reverse mapping (who depends on whom)
+        unique_deps = sorted(set(deps))
+        for dep in unique_deps:
+            dependencies.setdefault(dep, []).append(ref)
+
+    # Add explicit high-priority edge: persona -> customer_journey_map
+    persona_refs = ["artifacts/persona_pack.json", "artifacts/persona_pack.example.json"]
+    cjm_refs = ["artifacts/customer_journey_map.json"]
+    for pref in persona_refs:
+        p = workspace_dir / pref
+        if p.exists():
+            for cjm in cjm_refs:
+                dependencies.setdefault(pref, []).append(cjm)
+
+    # Deduplicate
+    for k, v in dependencies.items():
+        dependencies[k] = sorted(set(v))
+
+    return {
+        "schema_version": "1.0.0",
+        "propagation_map_id": f"ipm_{workspace_dir.name}_{_default_timestamp()[:10].replace('-', '')}",
+        "workspace_id": workspace_dir.name,
+        "dependencies": dependencies,
+        "generated_at": _default_timestamp(),
+    }
+
+
+def _resolve_ref(ref: str, artifact_dir: Path) -> str | None:
+    """Try to map a loose ref string to a known artifact file name."""
+    # Strip artifacts/ prefix if present for filesystem lookup
+    bare_ref = ref
+    if bare_ref.startswith("artifacts/"):
+        bare_ref = bare_ref[len("artifacts/"):]
+    # Direct file name match
+    if (artifact_dir / bare_ref).exists():
+        return "artifacts/" + bare_ref
+    # Try common patterns
+    candidates = [
+        bare_ref + ".json",
+        bare_ref.replace("_", "-") + ".json",
+        bare_ref.replace("-", "_") + ".json",
+    ]
+    for c in candidates:
+        if (artifact_dir / c).exists():
+            return "artifacts/" + c
+    # Fuzzy: any file containing the ref as substring
+    for path in artifact_dir.glob("*.json"):
+        if bare_ref in path.name:
+            return "artifacts/" + path.name
+    return None
+
+
+def process_regeneration_item(
+    item: dict[str, Any],
+    workspace_dir: Path,
+    *,
+    action: str = "approve",
+    pm_note: str = "",
+    generated_at: str | None = None,
+) -> dict[str, Any]:
+    """Process a single regeneration queue item.
+    
+    Actions: approve, reject, modify
+    For mechanical items with approve action, auto-execute the change.
+    For content_deep items, update status based on PM action and
+    actually mutate target artifact content when approved.
+    """
+    if generated_at is None:
+        generated_at = _default_timestamp()
+    
+    target_ref = item.get("target_artifact_ref", "")
+    impact = item.get("impact_classification", "content_deep")
+    target_path = _artifact_path(workspace_dir, target_ref)
+    
+    updated_item = dict(item)
+    updated_item["executed_at"] = generated_at
+    updated_item["pm_note"] = pm_note
+    
+    if action == "reject":
+        updated_item["status"] = "rejected"
+        updated_item["execution_log"].append(
+            f"[{generated_at}] Rejected by PM: {pm_note or 'No reason provided'}"
+        )
+        return updated_item
+    
+    if impact == "mechanical" and action == "approve":
+        # Auto-execute mechanical changes
+        if target_path.exists():
+            target_artifact = _load_json_if_exists(target_path) or {}
+            # Update timestamp and version
+            target_artifact["updated_at"] = generated_at
+            target_artifact["version"] = target_artifact.get("version", 1) + 1
+            
+            with target_path.open("w", encoding="utf-8") as f:
+                json.dump(target_artifact, f, indent=2)
+                f.write("\n")
+        
+        updated_item["status"] = "auto_executed"
+        updated_item["execution_log"].append(
+            f"[{generated_at}] Auto-executed mechanical update"
+        )
+        return updated_item
+    
+    if impact in ("content_deep", "structural") and action == "approve":
+        # Actually mutate content for content-deep changes
+        if "customer_journey_map" in target_ref and target_path.exists():
+            try:
+                from .journey_synthesis import synthesize_customer_journey_map
+                old_map = _load_json_if_exists(target_path) or {}
+                new_map = synthesize_customer_journey_map(
+                    workspace_dir,
+                    generated_at=generated_at,
+                )
+                _write_json(_backup_path(target_path), old_map)
+                _write_json(target_path, new_map)
+                updated_item["status"] = "content_regenerated"
+                updated_item["execution_log"].append(
+                    f"[{generated_at}] Content-deep regeneration executed: customer_journey_map.json mutated"
+                )
+                return updated_item
+            except Exception as exc:
+                updated_item["status"] = "approved"
+                updated_item["execution_log"].append(
+                    f"[{generated_at}] Approved by PM but regeneration failed: {exc}"
+                )
+                return updated_item
+        # Generic content-deep: bump version and timestamp as placeholder for future runtimes
+        if target_path.exists():
+            target_artifact = _load_json_if_exists(target_path) or {}
+            _write_json(_backup_path(target_path), target_artifact)
+            target_artifact["updated_at"] = generated_at
+            target_artifact["version"] = target_artifact.get("version", 1) + 1
+            _write_json(target_path, target_artifact)
+        updated_item["status"] = "approved"
+        updated_item["execution_log"].append(
+            f"[{generated_at}] Approved by PM: {pm_note or 'Content-deep change acknowledged, awaiting dedicated runtime'}"
+        )
+        return updated_item
+    
+    if action in ("approve", "modify"):
+        updated_item["status"] = "approved"
+        updated_item["execution_log"].append(
+            f"[{generated_at}] Approved by PM: {pm_note or 'No additional notes'}"
+        )
+        return updated_item
+    
+    return updated_item

@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "lifecycle_stage_snapshot_id": "lifecycle_stage_snapshot_outcomes_pm_visibility",
+  "workspace_id": "ws_productos_v2",
+  "focus_area": "outcomes",
+  "snapshot_summary": "Outcome-stage trace surfaces now include one explicit post-release review tied to the canonical lifecycle item.",
+  "item_count": 1,
+  "segment_count": 3,
+  "persona_count": 3,
+  "artifact_counts": {
+    "outcome_review": 1,
+    "item_lifecycle_state": 1
+  },
+  "active_item_ids": [
+    "opp_pm_lifecycle_traceability"
+  ],
+  "gate_counts": {
+    "passed": 1,
+    "pending": 0,
+    "blocked": 0,
+    "not_started": 0
+  },
+  "stage_summaries": [
+    {
+      "stage_key": "outcome_review",
+      "item_ids": [
+        "opp_pm_lifecycle_traceability"
+      ],
+      "artifact_ids": [
+        "outcome_review_pm_lifecycle_visibility"
+      ],
+      "gate_status_counts": {
+        "passed": 1,
+        "pending": 0,
+        "blocked": 0,
+        "not_started": 0
+      },
+      "summary": "Outcome review now closes the lifecycle with one explicit post-release learning record."
+    }
+  ],
+  "created_at": "2026-04-07T07:20:00Z"
+}

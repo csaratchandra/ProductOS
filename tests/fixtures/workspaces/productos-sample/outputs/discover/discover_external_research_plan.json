@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "external_research_plan_id": "external_research_plan_ws_productos_v2",
+  "workspace_id": "ws_productos_v2",
+  "title": "External research plan: ProductOS next-version discover proof",
+  "generated_from_artifact_id": "research_brief_ws_productos_v2_discover_seed",
+  "research_objective": "Close the proof gaps in ProductOS next-version discover proof with bounded external evidence before release-facing claims are made.",
+  "prioritized_questions": [
+    {
+      "question_id": "discover_market_validation",
+      "question": "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+      "why_it_matters": "The opportunity and validation spine should start from current buyer urgency rather than internal narration alone.",
+      "recommended_source_type": "market_validation",
+      "priority": "high",
+      "search_queries": [
+        "What fresh market evidence shows this problem is urgent for the target PM buyer right now",
+        "segment b2b product teams What fresh market evidence shows this problem is urgent for the target PM buyer right now",
+        "segment b2b product teams market validation ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD..."
+      ],
+      "source_requirements": [
+        "Look for current signals about buyer expectations, switching friction, and rollout proof requirements.",
+        "Use sources that help quantify whether the wedge feels urgent and credible."
+      ]
+    },
+    {
+      "question_id": "discover_competitor_research",
+      "question": "How do current alternatives frame this workflow problem and where are their proof boundaries weaker?",
+      "why_it_matters": "ProductOS should preserve a differentiated posture instead of collapsing into a generic workflow summary.",
+      "recommended_source_type": "competitor_research",
+      "priority": "high",
+      "search_queries": [
+        "How do current alternatives frame this workflow problem and where are their proof boundaries weaker",
+        "segment b2b product teams How do current alternatives frame this workflow problem and where are their proof boundaries weaker",
+        "segment b2b product teams competitor research ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready P..."
+      ],
+      "source_requirements": [
+        "Prefer sources that state the competitor narrative, target buyer, and proof or pricing posture directly.",
+        "Use a fresh source when possible so the comparison reflects the current launch narrative."
+      ]
+    },
+    {
+      "question_id": "discover_customer_evidence",
+      "question": "What direct PM or operator evidence quantifies the manual reconstruction burden in this workflow?",
+      "why_it_matters": "Empathy synthesis should be grounded in reusable evidence before prioritization expands.",
+      "recommended_source_type": "customer_evidence",
+      "priority": "medium",
+      "search_queries": [
+        "What direct PM or operator evidence quantifies the manual reconstruction burden in this workflow",
+        "segment b2b product teams What direct PM or operator evidence quantifies the manual reconstruction burden in this workflow",
+        "segment b2b product teams customer evidence ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD..."
+      ],
+      "source_requirements": [
+        "Use first-hand operator or buyer evidence where the pain point is described directly.",
+        "Prefer a source newer than 90 days when using it for an external-facing release claim."
+      ]
+    }
+  ],
+  "coverage_summary": {
+    "known_gaps": [
+      "External buyer evidence is still needed to validate the current strategy-to-problem chain.",
+      "Reusable source note cards do not yet exist for this discover packet."
+    ],
+    "claims_needing_validation": [
+      "ProductOS cannot credibly claim the next version until the repo turns messy notes and transcripts into a same-day, decision-ready PRD package with minimal PM reconstruction. (in..."
+    ],
+    "recommended_next_step": "Fill the source manifest template with concrete sources, then run research-workspace to refresh governed external artifacts."
+  },
+  "suggested_manifest_sources": [
+    {
+      "source_id": "discover_market_validation_market_validation",
+      "question_id": "discover_market_validation",
+      "source_type": "market_validation",
+      "title": "Add source for discover_market_validation",
+      "uri": "",
+      "rationale": "The opportunity and validation spine should start from current buyer urgency rather than internal narration alone.",
+      "freshness_expectation": "fresh"
+    },
+    {
+      "source_id": "discover_competitor_research_competitor_research",
+      "question_id": "discover_competitor_research",
+      "source_type": "competitor_research",
+      "title": "Add source for discover_competitor_research",
+      "uri": "",
+      "rationale": "ProductOS should preserve a differentiated posture instead of collapsing into a generic workflow summary.",
+      "freshness_expectation": "usable_with_review"
+    },
+    {
+      "source_id": "discover_customer_evidence_customer_evidence",
+      "question_id": "discover_customer_evidence",
+      "source_type": "customer_evidence",
+      "title": "Add source for discover_customer_evidence",
+      "uri": "",
+      "rationale": "Empathy synthesis should be grounded in reusable evidence before prioritization expands.",
+      "freshness_expectation": "fresh"
+    }
+  ],
+  "created_at": "2026-04-21T10:00:00Z"
+}

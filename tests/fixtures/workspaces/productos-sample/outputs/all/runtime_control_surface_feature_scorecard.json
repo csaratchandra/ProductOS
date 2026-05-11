@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0.0",
+  "feature_scorecard_id": "feature_scorecard_ws_productos_v2_runtime_control_surface",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "runtime_control_surface",
+  "feature_name": "Repo control surface and orchestration",
+  "loop_id": "cross_cutting",
+  "status": "reviewed",
+  "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "validation_tier": "tier_2",
+  "scenarios": [
+    {
+      "scenario_id": "scn_repo_cli_control_surface",
+      "title": "Run next-version loops from one repo control surface",
+      "scenario_type": "dogfood_run",
+      "result": "passed",
+      "summary": "The repo CLI is now the canonical bounded control surface for ingest, discover, review, export, and doctor flows.",
+      "evidence_refs": [
+        "cockpit_state_ws_productos_v2_next_version",
+        "orchestration_state_ws_productos_v2_next_version"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "cockpit_state_ws_productos_v2_next_version",
+    "orchestration_state_ws_productos_v2_next_version",
+    "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+    "context_pack_ws_productos_v2_bounded_baseline",
+    "eval_run_report_ws_productos_v2_bounded_baseline"
+  ],
+  "provenance_classification": "mixed",
+  "score_basis": [
+    "context_pack",
+    "frozen_eval_suite",
+    "feature_portfolio_review"
+  ],
+  "truthfulness_summary": "The repo CLI now reports blocked promotion and eval pressure honestly enough to stay in internal use, though some mixed-provenance control-surface claims still need cleanup before a stronger release story.",
+  "context_pack_ref": "context_pack_ws_productos_v2_bounded_baseline",
+  "eval_run_ref": "eval_run_report_ws_productos_v2_bounded_baseline",
+  "dimension_scores": [
+    {
+      "dimension_key": "pm_leverage",
+      "score": 5,
+      "rationale": "The CLI collapses discovery, review, export, and validation into one explicit PM-facing surface.",
+      "evidence_refs": [
+        "cockpit_state_ws_productos_v2_next_version",
+        "feature_portfolio_review_ws_productos_v2_next_version_baseline"
+      ]
+    },
+    {
+      "dimension_key": "output_quality",
+      "score": 4,
+      "rationale": "The control surface stays explainable, bounded, and aligned to the actual ProductOS loops rather than hidden host-specific behavior.",
+      "evidence_refs": [
+        "orchestration_state_ws_productos_v2_next_version",
+        "cockpit_state_ws_productos_v2_next_version"
+      ]
+    },
+    {
+      "dimension_key": "reliability",
+      "score": 4,
+      "rationale": "The CLI is repo-backed and now surfaces blocked promotion honestly; remaining mixed-provenance debt still limits broader promotion confidence.",
+      "evidence_refs": [
+        "orchestration_state_ws_productos_v2_next_version",
+        "runtime_adapter_registry_ws_productos_v2_next_version"
+      ]
+    },
+    {
+      "dimension_key": "autonomy_quality",
+      "score": 4,
+      "rationale": "The control surface keeps the PM in supervised control while still automating bounded work, and it now exposes blockers directly instead of narrating everything as healthy.",
+      "evidence_refs": [
+        "cockpit_state_ws_productos_v2_next_version",
+        "discover_execution_session_ws_productos_v2"
+      ]
+    },
+    {
+      "dimension_key": "repeatability",
+      "score": 4,
+      "rationale": "The CLI repeats the same surface across adapters, export paths, and bounded loops, though the score-bearing release story still needs more provenance cleanup.",
+      "evidence_refs": [
+        "discover_execution_session_ws_productos_v2",
+        "operate_execution_session_ws_productos_v2"
+      ]
+    }
+  ],
+  "overall_score": 4,
+  "adoption_recommendation": "keep_in_internal_use",
+  "reviewer_verdict": {
+    "status": "pass",
+    "summary": "The control surface is the right surface, and it now reports blocked promotion honestly enough to remain in internal use.",
+    "evidence_refs": [
+      "cockpit_state_ws_productos_v2_next_version",
+      "orchestration_state_ws_productos_v2_next_version"
+    ]
+  },
+  "tester_verdict": {
+    "status": "revise",
+    "summary": "Schema validation passes, and blocked promotion is now explicit; the remaining issue is watch-level provenance debt rather than a hard truthfulness failure.",
+    "evidence_refs": [
+      "cockpit_state_ws_productos_v2_next_version",
+      "orchestration_state_ws_productos_v2_next_version"
+    ]
+  },
+  "manual_verdict": {
+    "status": "accept",
+    "summary": "Keep the repo CLI as the canonical internal-use surface; it is materially better after the truthful-blocked-state hardening, but not yet a fully promoted release narrator.",
+    "evidence_refs": [
+      "context_pack_ws_productos_v2_bounded_baseline",
+      "eval_run_report_ws_productos_v2_bounded_baseline"
+    ]
+  },
+  "blocked_by": [
+    "Mixed provenance is not yet surfaced strongly enough in the current control surface."
+  ],
+  "feedback_items": [
+    {
+      "feedback_id": "score_feedback_truthful_control_surface",
+      "summary": "Make truthfulness, regressions, and mixed provenance first-class doctor/status/review outputs.",
+      "impact_level": "high",
+      "recommended_action": "Ship the truthful control-surface hardening slice before promoting any fully healthy baseline claim.",
+      "route_targets": [
+        "improvement_loop_state",
+        "feedback_cluster_state"
+      ],
+      "linked_dimension_keys": [
+        "reliability",
+        "autonomy_quality",
+        "repeatability"
+      ],
+      "linked_artifact_refs": [
+        "context_pack_ws_productos_v2_bounded_baseline",
+        "eval_run_report_ws_productos_v2_bounded_baseline"
+      ]
+    }
+  ],
+  "next_action": "Keep the truthful blocked-state control surface in place as the internal-use standard, then reduce the remaining mixed-provenance claims while self-improvement stays the main gating target.",
+  "generated_at": "2026-03-22T08:00:00Z"
+}

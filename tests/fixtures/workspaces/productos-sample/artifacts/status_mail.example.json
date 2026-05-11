@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "status_mail_id": "status_2026_03_weekly_01",
+  "workspace_id": "ws_productos_v2",
+  "cadence": "weekly",
+  "reporting_period": {
+    "start_date": "2026-03-16",
+    "end_date": "2026-03-22"
+  },
+  "audience": [
+    "leadership",
+    "engineering",
+    "design"
+  ],
+  "subject_line": "ProductOS weekly operator update: V4.6 baseline promoted",
+  "summary": "The repo-native next-version baseline is now fully promoted through V4.6: adapter parity is verified, unattended market refresh is proved, and the market-intelligence slice now clears a governed leadership-distribution path.",
+  "what_happened": [
+    "Promoted the live inbox discover route and kept the repo CLI as the canonical control surface.",
+    "Completed the aligned docs-and-deck path using the live-doc bundle and presentation package.",
+    "Cleared adapter parity against the shared repo contract and promoted the market-intelligence leadership-distribution path."
+  ],
+  "material_changes": [
+    "The next-version baseline now includes verified thin-adapter parity across the named host surfaces.",
+    "The market-intelligence slice now has explicit unattended-refresh proof and a governed leadership-ready distribution path."
+  ],
+  "open_issues": [
+    {
+      "title": "External publication adapters still need a separate governed proof cycle before the research slice broadens beyond the internal leadership path.",
+      "severity": "medium",
+      "owner": "ProductOS PM",
+      "status": "watch"
+    }
+  ],
+  "decisions": [
+    {
+      "statement": "Treat the repo-native next-version baseline as the current ProductOS operating standard after the V4.6 promotion.",
+      "status": "made"
+    },
+    {
+      "statement": "Treat the market-intelligence slice as promoted for internal leadership distribution and move the next cycle to external publication adapters.",
+      "status": "made"
+    }
+  ],
+  "next_steps": [
+    {
+      "description": "Archive the V4.6 release evidence bundle with the latest Ralph-loop promotion records.",
+      "owner": "ProductOS PM",
+      "target_date": "2026-03-24"
+    },
+    {
+      "description": "Choose the first external publication adapter after the promoted leadership-digest path.",
+      "owner": "ProductOS PM",
+      "target_date": "2026-03-30"
+    }
+  ],
+  "pm_context_requested": [
+    "Which external publication adapter should lead the next bounded expansion cycle?",
+    "What publication metadata and sync rules are required before broader external distribution is allowed?"
+  ],
+  "generated_from_artifact_ids": [
+    "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+    "runtime_scenario_report_ws_productos_v2_adapter_parity",
+    "runtime_scenario_report_ws_productos_v2_market_refresh",
+    "runtime_scenario_report_ws_productos_v2_market_distribution"
+  ],
+  "generated_at": "2026-03-22T16:12:00Z"
+}

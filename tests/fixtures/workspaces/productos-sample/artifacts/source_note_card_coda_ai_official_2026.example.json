@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_coda_ai_official_2026",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "competitor_site",
+  "source_ref": "https://coda.io/product/ai",
+  "title": "Coda AI ties connected data, summarization, and AI tasks together",
+  "claim": "Coda AI combines connected knowledge assistance, summarization, extraction, writing help, and AI task assistance over a large integration surface.",
+  "source_snippet": "Reference, summarize, extract, and automate repetitive work across connected data.",
+  "implication": "ProductOS should unify retrieval, synthesis, and task execution over workspace evidence instead of treating them as separate features.",
+  "confidence": "high",
+  "followup_questions": [
+    "Which ProductOS research tasks should be one-click templates versus free-form agent runs?"
+  ],
+  "source_metadata": {
+    "source_url": "https://coda.io/product/ai",
+    "retrieved_at": "2026-03-21T08:56:00Z",
+    "source_slice_ref": "coda-ai-overview",
+    "dedupe_key": "coda-ai-overview",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "coda-ai-overview",
+  "tags": ["research", "indirect", "coda", "connected-work"],
+  "created_at": "2026-03-21T08:57:00Z"
+}

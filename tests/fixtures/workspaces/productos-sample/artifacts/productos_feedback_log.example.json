@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0.0",
+  "feedback_log_id": "productos_feedback_log_2026_03_21",
+  "workspace_id": "ws_productos_v2",
+  "entries": [
+    {
+      "feedback_id": "pfb_001",
+      "category": "workflow_friction",
+      "summary": "PM still had to explain launch ownership manually because readiness artifacts did not name the expected launch reviewers.",
+      "impact_level": "high",
+      "status": "routed",
+      "source_type": "scenario_review",
+      "owner": "ProductOS PM",
+      "recommended_action": "Add explicit launch owner and reviewer coverage to release readiness artifacts and workflow rules.",
+      "source_refs": [
+        "core/docs/v2-scenario-validation-report.md"
+      ],
+      "linked_artifact_ids": [
+        "release_readiness_status_mail"
+      ],
+      "converted_output_refs": [
+        "registry/improvements/productos-core-improvement-2026-03-21-thread-5.json"
+      ]
+    },
+    {
+      "feedback_id": "pfb_002",
+      "category": "missing_capability",
+      "summary": "The reference workspace needed a dedicated inbox scaffold so rough PM inputs could be dropped into known locations without setup work.",
+      "impact_level": "medium",
+      "status": "closed",
+      "source_type": "benchmark_review",
+      "owner": "ProductOS PM",
+      "recommended_action": "Add inbox folders for notes, transcripts, screenshots, documents, spreadsheets, and support exports.",
+      "source_refs": [
+        "tests/fixtures/workspaces/productos-sample/inbox/README.md"
+      ],
+      "linked_artifact_ids": [
+        "ws_productos_v2"
+      ],
+      "converted_output_refs": [
+        "core/workflows/workspace-ingestion/inbox-to-normalized-evidence-workflow.md"
+      ]
+    },
+    {
+      "feedback_id": "pfb_004",
+      "category": "workflow_friction",
+      "summary": "Queue-driven cockpit recommendations now make runtime coordination legible from one control surface without manual orchestration reconstruction.",
+      "impact_level": "high",
+      "status": "closed",
+      "source_type": "workflow_run",
+      "owner": "ProductOS PM",
+      "recommended_action": "Keep queue-driven recommendations as the default PM-facing runtime surface and use them to guide V3.1 prioritization.",
+      "source_refs": [
+        "tests/fixtures/workspaces/productos-sample/artifacts/cockpit_state.example.json",
+        "tests/fixtures/workspaces/productos-sample/artifacts/orchestration_state.example.json"
+      ],
+      "linked_artifact_ids": [
+        "cockpit_state_productos_v3_runtime_2026_03_21",
+        "orch_state_v3_runtime_foundation_2026_03_21"
+      ],
+      "converted_output_refs": [
+        "tests/fixtures/workspaces/productos-sample/artifacts/release_gate_decision.example.json"
+      ]
+    },
+    {
+      "feedback_id": "pfb_005",
+      "category": "reliability_incident",
+      "summary": "Memory retrieval now stays evidence-backed because provenance handling is explicit and no longer leaves the release gate in watch status.",
+      "impact_level": "medium",
+      "status": "closed",
+      "source_type": "workflow_run",
+      "owner": "ProductOS PM",
+      "recommended_action": "Keep provenance handling explicit in runtime state while treating it as a normal ready-state control rather than a release blocker.",
+      "source_refs": [
+        "tests/fixtures/workspaces/productos-sample/artifacts/intake_routing_state.example.json",
+        "tests/fixtures/workspaces/productos-sample/artifacts/memory_retrieval_state.example.json"
+      ],
+      "linked_artifact_ids": [
+        "intake_routing_state_productos_v3_2026_03_21",
+        "memory_retrieval_state_productos_v3_2026_03_21"
+      ],
+      "converted_output_refs": [
+        "tests/fixtures/workspaces/productos-sample/artifacts/runtime_scenario_report.example.json"
+      ]
+    },
+    {
+      "feedback_id": "pfb_006",
+      "category": "missing_capability",
+      "summary": "The workspace has structured JSON artifacts, but it still lacks a complete human-readable product document system for discovery, strategy, prototype review, roadmap communication, PRDs, and external knowledge-base publishing.",
+      "impact_level": "high",
+      "status": "open",
+      "source_type": "manual_note",
+      "owner": "ProductOS PM",
+      "recommended_action": "Add standard human-readable product documents, store them in the repository beside structured artifacts, and design SharePoint and Confluence publishing and sync as a next-version upgrade.",
+      "source_refs": [
+        "tests/fixtures/workspaces/productos-sample/feedback/2026-03-21-human-readable-product-docs-gap.md",
+        "core/docs/product-document-system.md"
+      ],
+      "linked_artifact_ids": [
+        "idea_record_pm_status_automation",
+        "concept_brief_pm_operating_rhythm",
+        "problem_brief_pm_operating_rhythm",
+        "prototype_record_status_mail_draft",
+        "prd_pm_operating_rhythm",
+        "inc_plan_2026_q2_01"
+      ],
+      "converted_output_refs": [
+        "tests/fixtures/workspaces/productos-sample/docs/discovery/discovery-summary.md",
+        "tests/fixtures/workspaces/productos-sample/docs/discovery/problem-brief.md",
+        "tests/fixtures/workspaces/productos-sample/docs/strategy/concept-brief.md",
+        "tests/fixtures/workspaces/productos-sample/docs/prototype/prototype-review.md",
+        "tests/fixtures/workspaces/productos-sample/docs/planning/roadmap.md",
+        "tests/fixtures/workspaces/productos-sample/docs/planning/prd.md"
+      ]
+    },
+    {
+      "feedback_id": "pfb_007",
+      "category": "missing_capability",
+      "summary": "ProductOS still depends too heavily on manual release planning; it needs an automated improvement loop that continuously collects discovery and feedback signals, routes them into problem and idea formation, proposes fixes, and keeps review and validation running until the PM is satisfied.",
+      "impact_level": "high",
+      "status": "open",
+      "source_type": "manual_note",
+      "owner": "ProductOS PM",
+      "recommended_action": "Add a worker-driven feedback-to-discovery loop in V4 with collector, router, problem, idea, planner, reviewer, and validator roles plus an explicit PM approval gate.",
+      "source_refs": [
+        "core/docs/v3-gap-analysis-and-v4-plan.md"
+      ],
+      "linked_artifact_ids": [
+        "feedback_cluster_state_ws_productos_v2_runtime",
+        "release_scope_recommendation_ws_productos_v2_runtime",
+        "decision_queue_productos_v3",
+        "follow_up_queue_productos_v3"
+      ],
+      "converted_output_refs": [
+        "core/docs/v3-gap-analysis-and-v4-plan.md"
+      ]
+    }
+  ],
+  "generated_at": "2026-03-21T20:05:00Z"
+}

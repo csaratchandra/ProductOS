@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "concept_brief_id": "concept_brief_pm_superpower_recovery",
+  "workspace_id": "ws_productos_v2",
+  "title": "PM strategy-ready discovery packet",
+  "hypothesis": "If ProductOS carries explicit mission, strategy, and product-vision context into downstream discovery, a PM can choose the next bet faster and with less reconstruction.",
+  "positioning_hypothesis": "ProductOS should position itself as the PM operating layer that makes strategy, evidence, and downstream artifacts traceable enough to trust.",
+  "offering_hypothesis": "The offering should behave as a strategy and workflow decision layer instead of a generic all-in-one PM suite.",
+  "wedge_hypothesis": "A strategy-ready discovery packet is the sharpest entry wedge because it improves PM judgment before trying to automate everything else.",
+  "why_now": "AI-assisted drafting is raising the cost of weak strategic framing because more output can now be generated from unclear upstream intent.",
+  "why_us": "ProductOS already centers structured artifacts, validation, and workflow state, so it can preserve strategy context more credibly than prompt-only systems.",
+  "advantage_hypothesis": "Combining explicit strategy contracts with downstream traceability can make PM-facing discovery packets trusted enough for real product decisions.",
+  "status": "validated",
+  "idea_record_ids": [
+    "idea_record_pm_lifecycle_visibility"
+  ],
+  "strategy_artifact_ids": [
+    "strategy_context_brief_pm_superpower_recovery",
+    "product_vision_brief_pm_superpower_recovery",
+    "market_strategy_brief_pm_superpower_recovery"
+  ],
+  "target_segment_refs": [
+    {
+      "entity_type": "segment",
+      "entity_id": "segment_b2b_product_teams"
+    }
+  ],
+  "target_persona_refs": [
+    {
+      "entity_type": "persona",
+      "entity_id": "persona_product_manager"
+    }
+  ],
+  "linked_entity_refs": [
+    {
+      "entity_type": "problem",
+      "entity_id": "problem_strategy_reconstruction_drag"
+    },
+    {
+      "entity_type": "outcome",
+      "entity_id": "outcome_reduce_time_to_strategy_ready_packet"
+    },
+    {
+      "entity_type": "feature",
+      "entity_id": "feature_strategy_ready_discovery_packet"
+    }
+  ],
+  "must_be_true_assumptions": [
+    "PMs will trust a strategy packet more when mission, vision, and market posture are explicit and linked",
+    "The strategy spine can sharpen downstream framing without forcing a new UI or broader release claim",
+    "Strategy-ready packets can coexist with existing PM tools instead of requiring full workflow replacement first"
+  ],
+  "open_questions": [
+    "Which sections of the strategy-ready packet should be mandatory in the first PM-facing discover output?"
+  ],
+  "uncertainty_map_refs": [
+    "uncertainty_map_pm_strategy"
+  ],
+  "created_at": "2026-04-21T09:00:00Z"
+}

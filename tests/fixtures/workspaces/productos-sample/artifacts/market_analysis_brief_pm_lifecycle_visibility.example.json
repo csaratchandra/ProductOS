@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.1.0",
+  "market_analysis_brief_id": "market_analysis_brief_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "Market analysis brief: PM lifecycle visibility and traceability",
+  "market_name": "PM lifecycle visibility systems",
+  "framework_registry_ref": "framework_registry_ws_productos_v2",
+  "selected_framework_ids": [
+    "market_jobs_barriers",
+    "signal_weighted_priority"
+  ],
+  "research_scope": "Discovery-phase comparison of PM lifecycle tools and execution systems as of March 23, 2026.",
+  "category_structure": [
+    "PM platforms focus on prioritization, roadmaps, and some AI support.",
+    "Execution systems of record absorb adjacent PM workflows through integrations and generalized planning surfaces."
+  ],
+  "category_summary": "The market is converging on connected planning and execution surfaces, but most products still emphasize organization and output speed over explicit end-to-end lifecycle traceability.",
+  "trend_summary": "AI is being added across PM and execution products, while buyers increasingly expect fewer disconnected tools and more confidence in what happened at each stage.",
+  "market_dynamics": [
+    "PM lifecycle tools compete on prioritization and roadmap clarity, while execution systems compete on operational breadth and workflow flexibility.",
+    "AI has become table stakes for summarization and drafting, shifting differentiation toward trust, lineage, and explainability.",
+    "Teams with more governance needs feel the pain of fragmented discovery history earlier than startup teams."
+  ],
+  "power_centers": [
+    "PM leadership influences workflow standards and whether lifecycle visibility becomes a buying priority.",
+    "Execution system incumbents shape integration expectations and budget gravity."
+  ],
+  "adoption_barriers": [
+    "Many teams assume existing planning and execution tools are 'good enough' until the explanation gap becomes painful.",
+    "A new lifecycle layer must prove it will simplify rather than duplicate existing work."
+  ],
+  "switching_costs": [
+    "History is already fragmented across discovery, planning, and delivery systems.",
+    "Teams fear introducing a second operating surface unless it clearly improves trust."
+  ],
+  "market_role_implications": [
+    "A challenger posture is more credible than a leader claim because incumbents own broader workflow breadth.",
+    "Winning on lifecycle explanation can establish a defendable beachhead before expansion into adjacent PM workflows."
+  ],
+  "agentic_delivery_implications": [
+    "AI support is increasingly expected, but it only creates durable value when lifecycle evidence and stage lineage remain explicit.",
+    "Agentic delivery leverage should be treated as a multiplier on trustable workflow continuity, not a substitute for it."
+  ],
+  "prioritization_implications": [
+    "Favor lifecycle slices that reduce PM reconstruction work and clarify stage evidence before broadening into adjacent PM workflows.",
+    "Keep broader platform and publication claims behind a stronger traceability and coexistence wedge."
+  ],
+  "ecosystem_dependencies": [
+    "Atlassian linkage remains a strong adoption path for discovery-to-delivery workflows.",
+    "Execution systems set the baseline expectation for status tracking and cross-team coordination."
+  ],
+  "regulatory_considerations": [
+    "Enterprise buyers increasingly need explainable decisions and durable records for how work was prioritized."
+  ],
+  "moat_pressures": [
+    "Generic PM drafting and summarization features are rapidly commoditizing.",
+    "Flexible work-management suites can imitate surface-level lifecycle visibility quickly."
+  ],
+  "key_uncertainties": [
+    "How strongly PM buyers will value audit-ready traceability over a familiar execution tool they already own.",
+    "Which downstream lifecycle stages need hard standards versus lightweight linkage."
+  ],
+  "feature_shifts": [
+    "More products are unifying customer inputs, prioritization, and roadmap views.",
+    "Execution products are adding product-facing templates and AI assistants."
+  ],
+  "agentic_market_signals": [
+    "Competitors increasingly promise AI-assisted synthesis, but few make stage-gate evidence the core UX.",
+    "AI helps create artifacts faster, which increases the need for reliable trace maps and validation controls."
+  ],
+  "source_note_card_ids": [
+    "source_note_card_productboard_spark_official_pm_visibility_2026",
+    "source_note_card_jpd_official_pm_visibility_2026",
+    "source_note_card_linear_official_pm_visibility_2026",
+    "source_note_card_aha_official_pm_visibility_2026",
+    "source_note_card_jira_official_pm_visibility_2026",
+    "source_note_card_asana_official_pm_visibility_2026",
+    "source_note_card_monday_dev_official_pm_visibility_2026",
+    "source_note_card_clickup_official_pm_visibility_2026"
+  ],
+  "source_artifact_ids": [
+    "research_notebook_pm_lifecycle_visibility",
+    "competitor_dossier_pm_lifecycle_visibility"
+  ],
+  "last_refreshed_at": "2026-03-23T09:55:00Z",
+  "created_at": "2026-03-23T09:55:00Z"
+}

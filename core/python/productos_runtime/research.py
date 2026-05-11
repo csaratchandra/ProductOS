@@ -6,7 +6,7 @@ import re
 import tempfile
 import urllib.request
 import xml.etree.ElementTree as ET
-from datetime import datetime
+from datetime import datetime, timezone
 from html import unescape
 from os import getenv
 from pathlib import Path
@@ -317,12 +317,15 @@ def _parse_datetime(value: str | None) -> datetime | None:
     if not value:
         return None
     try:
-        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+        dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError:
         try:
-            return datetime.fromisoformat(f"{value}T00:00:00+00:00")
+            dt = datetime.fromisoformat(f"{value}T00:00:00+00:00")
         except ValueError:
             return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt
 
 
 def _feed_cadence_days(refresh_cadence: str | None) -> int | None:
@@ -416,11 +419,15 @@ def _extract_published_at(raw: str) -> str | None:
 
 
 def _extract_html_metadata(raw: str) -> dict[str, str | None]:
-    title = (
-        _extract_meta_content(raw, ["og:title", "twitter:title"])
-        or (_clip(_strip_html(match.group(1)), 120) if (match := re.search(r"(?is)<title>(.*?)</title>", raw)) else None)
-        or (_clip(_strip_html(match.group(1)), 120) if (match := re.search(r"(?is)<h1[^>]*>(.*?)</h1>", raw)) else None)
-    )
+    title = _extract_meta_content(raw, ["og:title", "twitter:title"])
+    if title is None:
+        match = re.search(r"(?is)<title>(.*?)</title>", raw)
+        if match:
+            title = _clip(_strip_html(match.group(1)), 120)
+    if title is None:
+        match = re.search(r"(?is)<h1[^>]*>(.*?)</h1>", raw)
+        if match:
+            title = _clip(_strip_html(match.group(1)), 120)
     summary_hint = _extract_meta_content(raw, ["description", "og:description", "twitter:description"])
     published_at = _extract_published_at(raw)
     return {
@@ -1147,7 +1154,10 @@ def _direct_result_uri(uri: str) -> str:
 
 def _domain_from_uri(uri: str) -> str:
     parsed = urlparse(uri)
-    return parsed.netloc.lower().removeprefix("www.")
+    domain = parsed.netloc.lower()
+    if domain.startswith("www."):
+        domain = domain[4:]
+    return domain
 
 
 def _candidate_keyword_tokens(text: str) -> set[str]:

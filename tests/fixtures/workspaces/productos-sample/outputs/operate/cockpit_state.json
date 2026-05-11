@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0.0",
+  "cockpit_state_id": "cockpit_state_ws_productos_v2_next_version",
+  "workspace_id": "ws_productos_v2",
+  "mode": "status",
+  "status": "completed",
+  "coordination_status": "healthy",
+  "mission_control": {
+    "mission_ref": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    "mission_title": "PM superpower recovery mission",
+    "active_stage": "improve",
+    "current_route_ref": "route_score_and_improve",
+    "next_route_ref": "route_research_superpower",
+    "current_task_name": "Expand the governed research superpower",
+    "current_task_summary": "The bounded baseline gate is clear, so the next disciplined slice should broaden governed research across market, competitor, and customer signals instead of shifting to a lifecycle-only extension.",
+    "current_task_status": "ready_for_research_expansion",
+    "reviewer_lane": "pm_builder"
+  },
+  "request_summary": "Operate the cleared bounded baseline from the repo CLI and move into the governed research superpower build.",
+  "current_focus": "Expand the governed research superpower across market, competitor, and customer signals while keeping PM review, freshness, and contradiction handling explicit.",
+  "recommended_next_step": {
+    "action_summary": "Review the cleared bounded-baseline portfolio and begin the governed research superpower build.",
+    "target_type": "pm_review",
+    "target_ref": "feature_scorecard_ws_productos_v2_market_intelligence_superpower",
+    "rationale": "The bounded baseline is complete, so the next bounded decision is expanding governed research breadth and signal synthesis rather than returning to lifecycle-only packaging."
+  },
+  "active_agents": [
+    {
+      "agent_name": "cockpit",
+      "status": "active",
+      "current_task": "Keep the repo CLI surface, portfolio review, and next actions visible."
+    },
+    {
+      "agent_name": "workflow",
+      "status": "completed",
+      "current_task": "The discover route is promoted and the weekly operator route is now the next supervised slice."
+    },
+    {
+      "agent_name": "improvement_planner",
+      "status": "completed",
+      "current_task": "Use the cleared bounded baseline to support the governed research superpower build and research-expansion planning."
+    }
+  ],
+  "active_queue_refs": [
+    {
+      "queue_type": "review_queue",
+      "artifact_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+      "summary": "Review the weekly PM autopilot as the next promoted slice."
+    },
+    {
+      "queue_type": "follow_up_queue",
+      "artifact_id": "follow_up_queue_productos_v4_4",
+      "summary": "Archived the V4.6 release evidence bundle in the historical artifact archive"
+    }
+  ],
+  "queue_recommendations": [
+    {
+      "queue_type": "review_queue",
+      "artifact_id": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+      "item_id": "market_intelligence",
+      "recommended_action": "review_now",
+      "urgency": "time_sensitive",
+      "why_now": "The discover and control-surface slices are promoted, so weekly PM autopilot is now the next release wedge."
+    },
+    {
+      "queue_type": "follow_up_queue",
+      "artifact_id": "follow_up_queue_productos_v4_4",
+      "item_id": "followup_archive_v4_6_release_evidence",
+      "recommended_action": "start",
+      "urgency": "routine",
+      "why_now": "The weekly operator loop should absorb the current manual follow-up rhythm."
+    }
+  ],
+  "active_orchestration_state_id": "orchestration_state_ws_productos_v2_next_version",
+  "active_execution_session_state_ids": [
+    "discover_execution_session_ws_productos_v2",
+    "align_execution_session_ws_productos_v2",
+    "operate_execution_session_ws_productos_v2",
+    "improve_execution_session_ws_productos_v2"
+  ],
+  "active_workflow_state_ids": [
+    "wf_next_version_superpower_ops",
+    "wf_problem_brief_to_prd",
+    "wf_artifact_to_readable_doc"
+  ],
+  "blocked_route_ids": [],
+  "awaiting_review_route_ids": [],
+  "pending_review_points": [
+    "Truthfulness status is `healthy` across the bounded-baseline portfolio.",
+    "The frozen eval suite now passes with no regressions.",
+    "The next decision is expanding the governed research superpower and refreshing the strategy packet from stronger market, competitor, and customer evidence."
+  ],
+  "missing_context_questions": [
+    "What is the minimum supervised weekly operator path that feels like an autopilot instead of a queue dashboard?"
+  ],
+  "blocking_reasons": [],
+  "source_artifact_ids": [
+    "context_pack_ws_productos_v2_bounded_baseline",
+    "eval_suite_manifest_ws_productos_v2_bounded_baseline",
+    "eval_run_report_ws_productos_v2_bounded_baseline",
+    "decision_log_productos_core",
+    "strategic_memory_record_traceability",
+    "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+    "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
+    "runtime_adapter_registry_ws_productos_v2_next_version",
+    "runtime_scenario_report_ws_productos_v2_adapter_parity",
+    "runtime_scenario_report_ws_productos_v2_market_refresh",
+    "runtime_scenario_report_ws_productos_v2_market_distribution",
+    "strategy_context_brief_productos_next_version_discover",
+    "product_vision_brief_productos_next_version_discover",
+    "market_strategy_brief_productos_next_version_discover",
+    "problem_brief_productos_next_version_discover",
+    "handoff_discovery_to_research_ws_productos_v2",
+    "research_notebook_ws_productos_v2",
+    "research_brief_ws_productos_v2_discover_seed",
+    "external_research_plan_ws_productos_v2",
+    "external_research_source_discovery_ws_productos_v2",
+    "external_research_review_ws_productos_v2",
+    "competitor_dossier_ws_productos_v2",
+    "customer_pulse_ws_productos_v2",
+    "market_analysis_brief_ws_productos_v2",
+    "concept_brief_productos_next_version_discover",
+    "prd_productos_next_version_discover",
+    "document_sync_state_ws_productos_v2_v4_2_live_docs",
+    "status_2026_03_weekly_01",
+    "issue_log_2026_03_22_next_version",
+    "feature_scorecard_ws_productos_v2_discover_to_prd_superpower",
+    "feature_scorecard_ws_productos_v2_docs_alignment_superpower",
+    "feature_scorecard_ws_productos_v2_presentation_superpower",
+    "feature_scorecard_ws_productos_v2_weekly_pm_autopilot",
+    "feature_scorecard_ws_productos_v2_market_intelligence_superpower",
+    "feature_scorecard_ws_productos_v2_runtime_control_surface",
+    "feature_scorecard_ws_productos_v2_agent_adapter_layer",
+    "feature_scorecard_ws_productos_v2_self_improvement_loop",
+    "feature_scorecard_ws_productos_v2_autonomous_pm_swarm"
+  ],
+  "created_at": "2026-03-22T08:00:00Z",
+  "updated_at": "2026-03-22T08:00:00Z"
+}

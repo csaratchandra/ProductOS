@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.1.0",
+  "acceptance_criteria_set_id": "acceptance_criteria_set_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "Acceptance Criteria: lifecycle traceability delivery slice",
+  "source_prd_id": "prd_pm_lifecycle_visibility",
+  "story_pack_id": "story_pack_pm_lifecycle_visibility",
+  "story_id": "story_extend_item_trace_into_delivery",
+  "canonical_persona_archetype_pack_id": "persona_archetype_pack_pm_lifecycle_visibility",
+  "artifact_trace_map_id": "artifact_trace_map_acceptance_criteria_set_pm_lifecycle_visibility",
+  "ralph_status": "decision_ready",
+  "prioritization": {
+    "lane": "must_now",
+    "priority_score": 78,
+    "confidence": "moderate",
+    "agentic_delivery_burden": "medium",
+    "priority_rationale": "Acceptance criteria are the final bounded guardrail that keeps the lifecycle slice implementation-ready without hiding later-stage ambiguity.",
+    "reviewer_handoff": "QA should confirm each criterion stays testable and does not imply scope beyond release readiness."
+  },
+  "criteria": [
+    {
+      "criterion_id": "ac_lifecycle_delivery_1",
+      "statement": "The canonical item trace shows the approved story-planning output linked back to the originating PRD and opportunity.",
+      "testable": true,
+      "test_method": "inspection",
+      "priority": "must"
+    },
+    {
+      "criterion_id": "ac_lifecycle_delivery_2",
+      "statement": "The trace exposes acceptance-ready criteria that remain testable without inventing downstream scope.",
+      "testable": true,
+      "test_method": "scenario",
+      "priority": "must"
+    },
+    {
+      "criterion_id": "ac_lifecycle_delivery_3",
+      "statement": "The trace reaches release readiness while keeping launch preparation and outcome review explicitly not started.",
+      "testable": true,
+      "test_method": "scenario",
+      "priority": "must"
+    }
+  ]
+}

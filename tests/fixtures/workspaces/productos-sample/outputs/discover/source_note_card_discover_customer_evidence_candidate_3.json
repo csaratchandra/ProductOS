@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "source_note_card_id": "source_note_card_discover_customer_evidence_candidate_3",
+  "workspace_id": "ws_productos_v2",
+  "source_type": "interview",
+  "source_ref": "discover_customer_evidence_candidate_3",
+  "title": "Customer Signal",
+  "claim": "PMs and operators still spend hours every week reconstructing what changed, what evidence matters, and what should happen next.",
+  "source_snippet": "PMs and operators still spend hours every week reconstructing what changed, what evidence matters, and what should happen next. They want clearer queue ownership, fewer manual follow-up loops, and evidence they can re...",
+  "implication": "They want clearer queue ownership, fewer manual follow-up loops, and evidence they can reuse instead of restating context in every review.",
+  "confidence": "moderate",
+  "freshness_status": "usable_with_review",
+  "unknowns": [
+    "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+    "How do current alternatives frame this workflow problem and where are their proof boundaries weaker?"
+  ],
+  "followup_questions": [
+    "What fresh market evidence shows this problem is urgent for the target PM buyer right now?",
+    "How do current alternatives frame this workflow problem and where are their proof boundaries weaker?",
+    "What direct PM or operator evidence quantifies the manual reconstruction burden in this workflow?"
+  ],
+  "source_metadata": {
+    "source_url": "file:///Users/sarat/Documents/code/ProductOS/tests/fixtures/workspaces/productos-sample/fixtures/research-sources/customer-signal.txt",
+    "published_at": "",
+    "retrieved_at": "2026-04-21T10:00:00Z",
+    "source_slice_ref": "discover_customer_evidence",
+    "dedupe_key": "file_users_sarat_documents_code_productos_internal_productos_next_fixtures_research_sources_customer_signal_txt",
+    "credibility_tier": "primary"
+  },
+  "dedupe_key": "file_users_sarat_documents_code_productos_internal_productos_next_fixtures_research_sources_customer_signal_txt",
+  "linked_entity_refs": [
+    {
+      "entity_id": "segment_b2b_product_teams",
+      "entity_type": "segment"
+    },
+    {
+      "entity_id": "persona_product_manager",
+      "entity_type": "persona"
+    },
+    {
+      "entity_id": "problem_productos_next_version_proof_gap",
+      "entity_type": "problem"
+    },
+    {
+      "entity_id": "outcome_productos_same_day_prd_package",
+      "entity_type": "outcome"
+    },
+    {
+      "entity_id": "opportunity_productos_discover_superpower",
+      "entity_type": "opportunity"
+    },
+    {
+      "entity_id": "feature_productos_repo_first_discover_cli",
+      "entity_type": "feature"
+    }
+  ],
+  "tags": [
+    "customer_evidence",
+    "usable_with_review",
+    "discover_customer_evidence",
+    "segment_b2b_product_teams",
+    "persona_product_manager"
+  ],
+  "created_at": "2026-04-21T10:00:00Z"
+}

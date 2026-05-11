@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "visual_reasoning_state_id": "visual_reasoning_state_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "status": "reviewed",
+  "goal": "Make the discovery lifecycle understandable enough that a PM can explain one item and the broader discovery stage in the same review.",
+  "visual_specs": [
+    {
+      "visual_map_spec_id": "visual_map_spec_pm_lifecycle_item_timeline",
+      "map_type": "workflow_map",
+      "purpose": "Explain the item journey from intake through PRD handoff.",
+      "audience": "PM and product ops",
+      "status": "approved",
+      "primary_message": "One item should remain traceable across artifacts, gates, and downstream readiness."
+    },
+    {
+      "visual_map_spec_id": "visual_map_spec_pm_lifecycle_discovery_snapshot",
+      "map_type": "capability_map",
+      "purpose": "Show what the stage aggregate view summarizes for active discovery items.",
+      "audience": "PM leadership",
+      "status": "reviewed",
+      "primary_message": "Stage counts matter only when they can be grounded in item-level evidence."
+    }
+  ],
+  "benchmark_hypotheses": [
+    "An item timeline reduces the time needed to explain what happened during discovery.",
+    "A discovery-stage snapshot helps leaders identify blocked work without losing the item context."
+  ],
+  "linked_artifact_ids": [
+    "prototype_record_pm_item_timeline",
+    "ux_design_review_pm_lifecycle_visibility",
+    "prd_pm_lifecycle_visibility"
+  ],
+  "generated_at": "2026-03-23T10:28:00Z"
+}

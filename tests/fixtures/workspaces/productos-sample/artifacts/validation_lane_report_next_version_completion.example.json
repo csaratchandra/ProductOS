@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "validation_lane_report_id": "validation_lane_report_ws_productos_v2_next_version_completion",
+  "workspace_id": "ws_productos_v2",
+  "artifact_ref": "feature_portfolio_review_ws_productos_v2_next_version_baseline",
+  "artifact_type": "feature_portfolio_review",
+  "stage_name": "v4_4_next_version_release_gate",
+  "validation_tier": "tier_2",
+  "overall_status": "passed",
+  "review_summary": "The repo-native next-version baseline now clears the bounded V4.4 release bar because discover, align, operate, and improve all behave like one supervised operating package.",
+  "ai_reviewer_lane": {
+    "status": "proceed",
+    "reviewer_role": "AI Reviewer",
+    "blocking_findings": [],
+    "non_blocking_findings": [
+      "The release claim is correctly bounded to the completed next-version baseline rather than the full future roadmap.",
+      "The aligned docs-and-deck path, weekly operator session, and repeated score-refresh loop now all connect through the same portfolio review surface."
+    ],
+    "unresolved_questions": [
+      "Which non-Codex host should lead the next parity verification cycle?"
+    ]
+  },
+  "ai_tester_lane": {
+    "status": "passed",
+    "tester_role": "AI Tester",
+    "checks_run": [
+      "next-version bundle validation",
+      "CLI command tests",
+      "phase export validation",
+      "release asset validation"
+    ],
+    "blocking_findings": [],
+    "non_blocking_findings": [
+      "The completed next-version bundle exports concrete align, operate, and improve artifacts in addition to the scorecards."
+    ],
+    "automation_gaps": [
+      "Direct non-Codex adapter parity remains deferred.",
+      "Unattended market-refresh proof remains deferred."
+    ]
+  },
+  "manual_validation_policy": {
+    "required": true,
+    "scope": "targeted",
+    "owner_role": "PM Operator",
+    "status": "passed",
+    "rationale": "The release changes the stable ProductOS operating claim, so targeted PM validation remains required even after automated checks pass."
+  },
+  "referee_trigger": {
+    "required": false,
+    "rationale": "Reviewer, tester, and manual lanes all converge on a bounded proceed decision for the completed next-version baseline.",
+    "conflicting_lanes": []
+  },
+  "governance_layer_refs": [
+    "core/docs/next-version-superpower-model.md",
+    "core/docs/feature-scoring-model.md",
+    "core/workflows/mastery/next-version-superpower-ops-workflow.md",
+    "core/docs/ralph-loop-model.md"
+  ],
+  "next_action": "Use the completion release evidence bundle to promote V4.4.0 through the Ralph-gated release path.",
+  "generated_at": "2026-03-22T16:21:00Z"
+}

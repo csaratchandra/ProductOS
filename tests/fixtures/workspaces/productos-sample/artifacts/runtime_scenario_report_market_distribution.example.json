@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "runtime_scenario_report_id": "runtime_scenario_report_ws_productos_v2_market_distribution",
+  "workspace_id": "ws_productos_v2",
+  "baseline_version": "4.5.0",
+  "candidate_version": "4.6.0",
+  "status": "passed",
+  "summary": "The market-distribution hardening slice proves the refreshed research output can be packaged into a leadership-ready digest and portfolio summary without weakening governance or freshness controls.",
+  "scenarios": [
+    {
+      "scenario_id": "scenario_market_intelligence_leadership_digest",
+      "name": "Leadership-ready market-intelligence digest",
+      "status": "passed",
+      "metric_deltas": [
+        {
+          "metric_name": "time_to_leadership_ready_market_digest_minutes",
+          "baseline_value": 90,
+          "candidate_value": 15,
+          "unit": "minutes",
+          "trend": "improved"
+        }
+      ],
+      "evidence_refs": [
+        "leadership_review_ws_productos_v2_market_intelligence_distribution",
+        "tests/fixtures/workspaces/productos-sample/docs/research/market-intelligence-leadership-digest.md"
+      ],
+      "gaps": []
+    },
+    {
+      "scenario_id": "scenario_market_intelligence_portfolio_update",
+      "name": "Portfolio-safe distribution summary",
+      "status": "passed",
+      "metric_deltas": [
+        {
+          "metric_name": "distribution_claim_boundary_violation_count",
+          "baseline_value": 1,
+          "candidate_value": 0,
+          "unit": "count",
+          "trend": "improved"
+        }
+      ],
+      "evidence_refs": [
+        "portfolio_update_suite_productos_market_intelligence_distribution",
+        "leadership_review_ws_productos_v2_market_intelligence_distribution"
+      ],
+      "gaps": []
+    },
+    {
+      "scenario_id": "scenario_market_intelligence_governed_distribution",
+      "name": "Governed distribution keeps review boundaries explicit",
+      "status": "passed",
+      "metric_deltas": [
+        {
+          "metric_name": "unsupported_market_claim_count",
+          "baseline_value": 1,
+          "candidate_value": 0,
+          "unit": "count",
+          "trend": "improved"
+        }
+      ],
+      "evidence_refs": [
+        "runtime_scenario_report_ws_productos_v2_market_refresh",
+        "validation_lane_report_ws_productos_v2_market_intelligence"
+      ],
+      "gaps": []
+    }
+  ],
+  "generated_at": "2026-03-23T09:25:00Z"
+}

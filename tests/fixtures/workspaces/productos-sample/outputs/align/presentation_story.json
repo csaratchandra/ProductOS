@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0.0",
+  "presentation_story_id": "presentation_story_presentation_brief_ws_productos_v2_v4_comm",
+  "workspace_id": "ws_productos_v2",
+  "presentation_brief_id": "presentation_brief_ws_productos_v2_v4_comm",
+  "evidence_pack_id": "evidence_pack_presentation_brief_ws_productos_v2_v4_comm",
+  "audience": "Leadership",
+  "presentation_mode": "async",
+  "primary_question": "Explain why ProductOS should move from readable docs to a governed communication and presentation system for stakeholder alignment. Keep the mission 'PM superpower recovery mission' explicit while packaging the aligned recommendation. Keep the mission 'PM superpower recovery mission' explicit while packaging the aligned recommendation.",
+  "decision_required": "Approve the V4.1 communication and presentation packaging slice.",
+  "recommendation": "Lead with the decision, show benchmarked communication gains, and keep remaining governance gaps visible. Show how the mission 'PM superpower recovery mission' ties customer pain to the current aligned recommendation. Show how the mission 'PM superpower recovery mission' ties customer pain to the current aligned recommendation.",
+  "narrative_pattern": "answer_first",
+  "audience_key_question": "Explain why ProductOS should move from readable docs to a governed communication and presentation system for stakeholder alignment. Keep the mission 'PM superpower recovery mission' explicit while packaging the aligned recommendation. Keep the mission 'PM superpower recovery mission' explicit while packaging the aligned recommendation.",
+  "opening_answer": "Lead with the decision, show benchmarked communication gains, and keep remaining governance gaps visible. Show how the mission 'PM superpower recovery mission' ties customer pain to the current aligned recommendation. Show how the mission 'PM superpower recovery mission' ties customer pain to the current aligned recommendation.",
+  "main_recommendation": "Approve the V4.1 communication and presentation packaging slice.",
+  "objections_addressed": [
+    "Why are readable docs alone not enough for leadership alignment?",
+    "How do we stop stronger presentation quality from overstating certainty?",
+    "How does this aligned package specifically advance the mission 'PM superpower recovery mission'?"
+  ],
+  "appendix_strategy": "evidence_trace",
+  "story_arc": [
+    "Start with the recommendation and decision ask.",
+    "Prove the recommendation with grounded operating facts.",
+    "Close with risks, boundaries, and the controlled path forward."
+  ],
+  "story_transitions": [
+    "Open with the answer first.",
+    "Build from Why V4 Needs Presentation Packaging into What Improved And What Did Not without breaking the recommendation thread.",
+    "Build from What Improved And What Did Not into What Keeps This Safe without breaking the recommendation thread."
+  ],
+  "slides": [
+    {
+      "slide_id": "slide_cover",
+      "title": "Why V4 Needs Presentation Packaging",
+      "story_role": "hook",
+      "headline": "Readable docs solved traceability, but leadership alignment still needs a governed narrative and rendering layer.",
+      "core_message": "Readable docs solved traceability, but leadership alignment still needs a governed narrative and rendering layer.",
+      "supporting_points": [
+        "The workspace now has a readable discovery, strategy, prototype, roadmap, and PRD document bundle.",
+        "The doc bundle is usable but still carries targeted review and publishing-metadata follow-up work.",
+        "PMs still need a single repo-native way to declare the mission, capture the first few high-signal questions, and steer ProductOS through the full PM loop.",
+        "PMs still need a single repo-native way to declare the mission, capture the first few high-signal questions, and steer ProductOS through the full PM loop."
+      ],
+      "evidence_refs": [
+        "document_sync_state_ws_productos_v2_v4_readable_docs",
+        "document_sync_state_ws_productos_v2_v4_readable_docs",
+        "mission_brief_ws_productos_v2_pm_superpower_recovery",
+        "mission_brief_ws_productos_v2_pm_superpower_recovery_mission"
+      ],
+      "speaker_notes": "Open with the decision and make clear that this is a communication-system upgrade, not a styling request. Claim posture: observed facts support the current narrative. Validation next: Taken directly from the canonical mission brief. Taken directly from the canonical mission brief. Keep these proof gaps visible: Keep the mission 'PM superpower recovery mission' visible across docs and deck so PM intent does not get flattened into generic release narration..",
+      "visual_direction": "Hero statement with recommendation strip.",
+      "confidence_state": "medium",
+      "audience_question_answered": "What decision should leadership make now that the readable-doc layer exists?",
+      "claim": "ProductOS should approve a governed presentation layer so readable docs can become leadership-ready communication without manual PM rewriting.",
+      "why_now": "Leadership should approve the next bounded communication slice and understand why it is a governance upgrade rather than cosmetic polish. The audience should also understand how this package advances the mission 'PM superpower recovery mission'. The audience should also understand how this package advances the mission 'PM superpower recovery mission'.",
+      "proof_strategy": "State the decision clearly; Show that the readable-doc system is real but not yet enough for executive alignment; Claim posture: Claim posture: observed facts support the current narrative.",
+      "transition_from_previous": "Open with the answer first.",
+      "cta": "Approve the V4.1 communication slice.",
+      "appendix_reference": "appendix_comm_scope"
+    },
+    {
+      "slide_id": "slide_evidence",
+      "title": "What Improved And What Did Not",
+      "story_role": "context",
+      "headline": "The system is now reviewable, but not yet fully optimized for stakeholder alignment speed.",
+      "core_message": "The system is now reviewable, but not yet fully optimized for stakeholder alignment speed.",
+      "supporting_points": [
+        "Outcome review says the readable-doc bundle improved internal reviewability but still needs another iteration for external-ready communication.",
+        "The workspace now has a readable discovery, strategy, prototype, roadmap, and PRD document bundle.",
+        "The doc bundle is usable but still carries targeted review and publishing-metadata follow-up work.",
+        "PMs still need a single repo-native way to declare the mission, capture the first few high-signal questions, and steer ProductOS through the full PM loop."
+      ],
+      "evidence_refs": [
+        "outcome_review_ws_productos_v2_v4_readable_docs",
+        "document_sync_state_ws_productos_v2_v4_readable_docs",
+        "document_sync_state_ws_productos_v2_v4_readable_docs",
+        "mission_brief_ws_productos_v2_pm_superpower_recovery"
+      ],
+      "speaker_notes": "Show both the gain and the remaining gap so the recommendation stays grounded. Claim posture: observed facts support the current narrative. Validation next: Taken directly from the canonical mission brief. Keep these proof gaps visible: Keep the mission 'PM superpower recovery mission' visible across docs and deck so PM intent does not get flattened into generic release narration..",
+      "visual_direction": "Evidence grid with source labels.",
+      "confidence_state": "medium",
+      "audience_question_answered": "What changed after the readable-doc slice, and where is the remaining stakeholder-alignment gap?",
+      "claim": "The readable-doc bundle reduced raw JSON dependence, but alignment still slows down when leadership-ready packaging is missing.",
+      "why_now": "Leadership should approve the next bounded communication slice and understand why it is a governance upgrade rather than cosmetic polish. The audience should also understand how this package advances the mission 'PM superpower recovery mission'. The audience should also understand how this package advances the mission 'PM superpower recovery mission'.",
+      "proof_strategy": "Show the current doc bundle is usable; Show the outcome review still calls for another iteration; Claim posture: Claim posture: observed facts support the current narrative.",
+      "transition_from_previous": "Build from Why V4 Needs Presentation Packaging into What Improved And What Did Not without breaking the recommendation thread.",
+      "cta": "Use presentation packaging to shorten stakeholder review cycles.",
+      "appendix_reference": "appendix_doc_outcomes"
+    },
+    {
+      "slide_id": "slide_risks",
+      "title": "What Keeps This Safe",
+      "story_role": "risk",
+      "headline": "Narrative power must stay subordinate to evidence, validation, and manual approval.",
+      "core_message": "Narrative power must stay subordinate to evidence, validation, and manual approval.",
+      "supporting_points": [
+        "Internal adoption was allowed only because the unresolved publishing and pattern-governance questions stayed explicit.",
+        "The doc bundle is usable but still carries targeted review and publishing-metadata follow-up work.",
+        "The workspace now has a readable discovery, strategy, prototype, roadmap, and PRD document bundle.",
+        "Outcome review says the readable-doc bundle improved internal reviewability but still needs another iteration for external-ready communication.",
+        "Keep the mission 'PM superpower recovery mission' visible across docs and deck so PM intent does not get flattened into generic release narration."
+      ],
+      "evidence_refs": [
+        "referee_decision_record_ws_productos_v2_doc_bundle_v4_0",
+        "document_sync_state_ws_productos_v2_v4_readable_docs",
+        "document_sync_state_ws_productos_v2_v4_readable_docs",
+        "outcome_review_ws_productos_v2_v4_readable_docs"
+      ],
+      "speaker_notes": "Close by showing that the proposal is disciplined and supervised. Claim posture: observed facts support the current narrative. Keep these proof gaps visible: Keep the mission 'PM superpower recovery mission' visible across docs and deck so PM intent does not get flattened into generic release narration..",
+      "visual_direction": "Risk matrix with visible control labels.",
+      "confidence_state": "medium",
+      "audience_question_answered": "How do we prevent a stronger presentation system from turning into ungoverned persuasion?",
+      "claim": "Presentation packaging is acceptable only if audience policy, pattern review, publish checks, and manual validation stay explicit.",
+      "why_now": "Leadership should approve the next bounded communication slice and understand why it is a governance upgrade rather than cosmetic polish. The audience should also understand how this package advances the mission 'PM superpower recovery mission'. The audience should also understand how this package advances the mission 'PM superpower recovery mission'.",
+      "proof_strategy": "Show the required control layers; Show which gaps remain blocked until pattern governance is in place; Claim posture: Claim posture: observed facts support the current narrative.",
+      "transition_from_previous": "Build from What Improved And What Did Not into What Keeps This Safe without breaking the recommendation thread.",
+      "cta": "Treat pattern review and publish checks as part of the implementation, not post-work.",
+      "appendix_reference": "appendix_pattern_controls"
+    }
+  ],
+  "appendix_candidates": [
+    "Detailed evidence trace for source artifacts.",
+    "Fallback PPT composition notes."
+  ],
+  "generated_at": "2026-04-21T06:16:15Z"
+}

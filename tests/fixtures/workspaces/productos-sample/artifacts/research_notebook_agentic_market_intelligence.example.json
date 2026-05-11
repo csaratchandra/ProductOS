@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "research_notebook_id": "research_notebook_agentic_market_intelligence",
+  "workspace_id": "ws_productos_v2",
+  "title": "Agentic market-intelligence notebook",
+  "research_question": "What competitor and market features should ProductOS add to research and auto-research so it can compete with direct PM tools, adjacent work platforms, agentic research products, and CI software?",
+  "source_note_card_ids": [
+    "source_note_card_productboard_spark_official_2026",
+    "source_note_card_jpd_ai_official_2026",
+    "source_note_card_aha_knowledge_ai_official_2026",
+    "source_note_card_linear_asks_official_2026",
+    "source_note_card_notion_mcp_official_2026",
+    "source_note_card_coda_ai_official_2026",
+    "source_note_card_asana_ai_teammates_official_2026",
+    "source_note_card_openai_deep_research_official_2026",
+    "source_note_card_gemini_deep_research_official_2026",
+    "source_note_card_perplexity_deep_research_official_2026",
+    "source_note_card_glean_agentic_engine_official_2026",
+    "source_note_card_crayon_ci_official_2026",
+    "source_note_card_klue_compete_agent_official_2026",
+    "source_note_card_semrush_eyeon_official_2026",
+    "source_note_card_app_review_jpd",
+    "source_note_card_consultant_ai_pm"
+  ],
+  "synthesis_hypothesis": "The market is moving from drafting assistance toward grounded agentic research, continuous intelligence refresh, and visible human control. ProductOS can differentiate by combining PM-native structure with stronger validation and loophole memory.",
+  "ordered_sections": [
+    "direct PM competitors",
+    "adjacent work platforms",
+    "agentic research software",
+    "continuous competitive intelligence",
+    "ProductOS feature implications"
+  ],
+  "open_questions": [
+    "Which research actions should remain PM-triggered and which should auto-refresh on schedule?",
+    "What minimum freshness and contradiction checks are required before ProductOS can publish a recommendation?"
+  ],
+  "created_at": "2026-03-21T09:25:00Z"
+}

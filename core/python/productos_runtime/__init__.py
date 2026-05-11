@@ -87,12 +87,43 @@ from .living_system import (
     classify_impact,
     detect_circular_dependencies,
     generate_delta_preview,
+    generate_impact_propagation_map,
     process_regeneration_item,
+)
+from .journey_synthesis import synthesize_customer_journey_map
+from .agent_context import build_agent_context, build_runtime_adapter_registry
+from .decision_runtimes import (
+    run_api_contract_generation,
+    run_battle_card_generation,
+    run_decision_tree_construction,
+    run_investor_content_generation,
+    run_premortem_analysis,
+    run_prd_scope_boundary_check,
+    run_stakeholder_management,
+    run_trade_off_analysis,
+)
+from .pm_note_ingestion import ingest_pm_note, write_pm_note_delta_proposal
+from .prd_scope_boundary import build_prd_boundary_report, write_prd_boundary_report
+from .skill_executor import execute_skill, parse_skill_contract
+from .user_journey_screen_flow import (
+    generate_screen_flow_svg,
+    generate_screen_flow_from_journey_stages,
+    write_screen_flow_html,
+    link_journey_to_screens,
+    generate_prototype_screen_variants,
+)
+from .llm import (
+    DeterministicProvider,
+    LLMProvider,
+    OllamaProvider,
+    OpenAIProvider,
+    default_provider,
 )
 from .markdown_renderer import (
     load_template,
     preserve_annotations,
     render_living_document,
+    render_all_living_documents,
     resolve_source_artifacts,
 )
 from .export_pipeline import export_artifact
@@ -177,10 +208,39 @@ __all__ = [
     "classify_impact",
     "detect_circular_dependencies",
     "generate_delta_preview",
+    "generate_impact_propagation_map",
     "process_regeneration_item",
+    "synthesize_customer_journey_map",
+    "build_agent_context",
+    "build_runtime_adapter_registry",
+    "run_api_contract_generation",
+    "run_battle_card_generation",
+    "run_decision_tree_construction",
+    "run_investor_content_generation",
+    "run_premortem_analysis",
+    "run_prd_scope_boundary_check",
+    "run_stakeholder_management",
+    "run_trade_off_analysis",
+    "ingest_pm_note",
+    "write_pm_note_delta_proposal",
+    "build_prd_boundary_report",
+    "write_prd_boundary_report",
+    "execute_skill",
+    "parse_skill_contract",
+    "generate_screen_flow_svg",
+    "generate_screen_flow_from_journey_stages",
+    "write_screen_flow_html",
+    "link_journey_to_screens",
+    "generate_prototype_screen_variants",
+    "LLMProvider",
+    "DeterministicProvider",
+    "OllamaProvider",
+    "OpenAIProvider",
+    "default_provider",
     "load_template",
     "preserve_annotations",
     "render_living_document",
+    "render_all_living_documents",
     "resolve_source_artifacts",
     "export_artifact",
 ]

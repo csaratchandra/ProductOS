@@ -1,0 +1,222 @@
+{
+  "schema_version": "1.0.0",
+  "context_pack_id": "context_pack_ws_productos_v2_bounded_baseline",
+  "workspace_id": "ws_productos_v2",
+  "request_summary": "Review the cleared bounded baseline and execute the governed research superpower expansion.",
+  "decision_to_be_made": "How should ProductOS broaden web and feed research coverage while keeping PM review, freshness, and contradiction handling explicit?",
+  "status": "ready",
+  "audience": [
+    "PM",
+    "engineering",
+    "leadership",
+    "design"
+  ],
+  "mission_router": {
+    "entry_phase": "discover",
+    "phase_sequence": [
+      "discover",
+      "align",
+      "operate",
+      "improve"
+    ],
+    "primary_reviewer_lane": "pm_builder",
+    "routing_rationale": "Run the full PM loop from a mission-first discover start while keeping PM approval explicit at every decision-driving boundary.",
+    "stop_conditions": [
+      "Stop if any phase loses provenance, reviewability, or PM approval visibility.",
+      "Stop if downstream phases outrun the accepted mission package.",
+      "Stop if release-facing claims exceed the current evidence-backed boundary."
+    ]
+  },
+  "steering_context": {
+    "steering_refs": [
+      "tests/fixtures/workspaces/productos-sample/docs/planning/steering-context.md",
+      "core/docs/vendor-neutral-agent-harness-standard.md",
+      "core/docs/ralph-loop-model.md"
+    ],
+    "operating_norms": [
+      "Treat the repository as the system of record.",
+      "Keep PM approval explicit for decision-driving scope, stakeholder-facing output, and release movement.",
+      "Preserve observed versus inferred claims when evidence is incomplete.",
+      "Prefer the smallest coherent slice that can be reviewed and validated end to end."
+    ],
+    "memory_priority_order": [
+      "decisions",
+      "evidence",
+      "prior_artifacts",
+      "repeated_issues",
+      "strategic_memory"
+    ],
+    "default_artifact_focus": [
+      "mission_brief",
+      "strategy_context_brief",
+      "product_vision_brief",
+      "market_strategy_brief",
+      "problem_brief",
+      "concept_brief",
+      "prd",
+      "document_sync_state",
+      "presentation_brief",
+      "status_mail",
+      "feature_portfolio_review"
+    ]
+  },
+  "quality_contract": {
+    "audience": [
+      "PM",
+      "engineering",
+      "leadership"
+    ],
+    "decision_needed": "Expand the governed research superpower while preserving the cleared evidence, eval, and decision-memory contracts.",
+    "evidence": [
+      "The frozen eval suite passes with zero regressions.",
+      "Portfolio truthfulness is healthy across the bounded baseline.",
+      "The current discover loop already produces a strategy-to-research packet with bounded source discovery, contradiction review, and downstream strategy handoff."
+    ],
+    "alternatives": [
+      "Broaden governed research now across market, competitor, and customer signals.",
+      "Hold on research expansion and keep the current bounded research loop stable while the baseline stays unchanged."
+    ],
+    "recommendation": "Broaden governed research now while keeping PM review, source ranking, freshness, and contradiction handling explicit.",
+    "metrics": [
+      "planned_question_count",
+      "selected_source_count",
+      "contradiction_item_count",
+      "feed_health_status"
+    ],
+    "risks": [
+      "Open-ended source breadth without visible ranking and freshness rules would dilute trust.",
+      "Letting researched signals propagate without PM review would overstate confidence and blur claim boundaries."
+    ],
+    "owner": "ProductOS PM",
+    "next_action": "Stand up the governed feed registry, expand discovery coverage, and rerun the research loop before broadening downstream strategy claims."
+  },
+  "evidence_bundle": [
+    {
+      "source_id": "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+      "source_type": "mission_brief",
+      "summary": "ProductOS Reference Workspace should help Product manager using ProductOS with Codex, Claude, Windsurf, or Antigravity style agents solve pms still need a single repo-native way to declare the mission, capture the first few high-signal questions, and steer productos through the full pm loop. while driving make productos credible for the first impatient customer by reducing setup friction and making the pm-first operating surface explicit. through a governed ProductOS loop.",
+      "confidence": 0.97,
+      "freshness_status": "fresh",
+      "claim_mode": "direct_evidence"
+    },
+    {
+      "source_id": "decision_log_productos_core",
+      "source_type": "decision_log",
+      "summary": "The decision log records the baseline release decisions with reversibility, tradeoffs, rejected options, kill criteria, and follow-up review timing.",
+      "confidence": 0.9,
+      "freshness_status": "usable_with_review",
+      "claim_mode": "direct_evidence"
+    },
+    {
+      "source_id": "strategic_memory_record_traceability",
+      "source_type": "strategic_memory",
+      "summary": "Strategic memory captures the prior thesis, later outcome, and lesson for reusable recall.",
+      "confidence": 0.84,
+      "freshness_status": "usable_with_review",
+      "claim_mode": "direct_evidence"
+    },
+    {
+      "source_id": "eval_run_report_ws_productos_v2_bounded_baseline",
+      "source_type": "eval_run_report",
+      "summary": "The frozen eval suite remains a first-class release input for the bounded baseline.",
+      "confidence": 0.95,
+      "freshness_status": "fresh",
+      "claim_mode": "direct_evidence"
+    },
+    {
+      "source_id": "strategy_context_brief_productos_next_version_discover",
+      "source_type": "strategy_context_brief",
+      "summary": "The strategy context makes enterprise linkage, portfolio fit, and constraints explicit before downstream discovery artifacts advance.",
+      "confidence": 0.92,
+      "freshness_status": "fresh",
+      "claim_mode": "direct_evidence"
+    },
+    {
+      "source_id": "product_vision_brief_productos_next_version_discover",
+      "source_type": "product_vision_brief",
+      "summary": "The product vision defines customer value, business value, differentiation, and north-star logic for the discover slice.",
+      "confidence": 0.92,
+      "freshness_status": "fresh",
+      "claim_mode": "direct_evidence"
+    },
+    {
+      "source_id": "market_strategy_brief_productos_next_version_discover",
+      "source_type": "market_strategy_brief",
+      "summary": "The market strategy locks the challenger posture and proof requirements before problem framing and PRD generation continue.",
+      "confidence": 0.91,
+      "freshness_status": "fresh",
+      "claim_mode": "direct_evidence"
+    },
+    {
+      "source_id": "handoff_discovery_to_research_ws_productos_v2",
+      "source_type": "handoff_contract",
+      "summary": "The discovery-to-research handoff keeps the research objective, pending questions, and upstream strategy context explicit.",
+      "confidence": 0.92,
+      "freshness_status": "fresh",
+      "claim_mode": "direct_evidence"
+    },
+    {
+      "source_id": "research_notebook_ws_productos_v2",
+      "source_type": "research_notebook",
+      "summary": "The research notebook turns selected sources into one reusable evidence spine before synthesis and prioritization expand.",
+      "confidence": 0.91,
+      "freshness_status": "fresh",
+      "claim_mode": "direct_evidence"
+    },
+    {
+      "source_id": "research_brief_ws_productos_v2_discover_seed",
+      "source_type": "research_brief",
+      "summary": "The research brief keeps proof gaps, contradictions, and next validation questions visible to the PM.",
+      "confidence": 0.91,
+      "freshness_status": "fresh",
+      "claim_mode": "direct_evidence"
+    },
+    {
+      "source_id": "customer_pulse_ws_productos_v2",
+      "source_type": "customer_pulse",
+      "summary": "Customer pulse provides the empathy synthesis layer for the current discovery packet.",
+      "confidence": 0.9,
+      "freshness_status": "fresh",
+      "claim_mode": "direct_evidence"
+    },
+    {
+      "source_id": "external_research_review_ws_productos_v2",
+      "source_type": "external_research_review",
+      "summary": "The external research review shows whether the selected sources are clear enough to reuse downstream without hiding review items.",
+      "confidence": 0.9,
+      "freshness_status": "fresh",
+      "claim_mode": "direct_evidence"
+    },
+    {
+      "source_id": "prd_productos_next_version_discover",
+      "source_type": "prd",
+      "summary": "The live discover route can still produce a decision-ready PRD package from the inbox.",
+      "confidence": 0.92,
+      "freshness_status": "fresh",
+      "claim_mode": "direct_evidence"
+    }
+  ],
+  "contradictions": [],
+  "open_questions": [
+    "Which source classes should be required in the first broad-but-governed research pass for market, competitor, and customer evidence?",
+    "What review threshold should govern when broadened research can update the canonical strategy packet automatically versus requiring explicit PM approval?"
+  ],
+  "source_artifact_ids": [
+    "mission_brief_ws_productos_v2_pm_superpower_recovery_mission",
+    "decision_log_productos_core",
+    "strategic_memory_record_traceability",
+    "eval_run_report_ws_productos_v2_bounded_baseline",
+    "strategy_context_brief_productos_next_version_discover",
+    "product_vision_brief_productos_next_version_discover",
+    "market_strategy_brief_productos_next_version_discover",
+    "handoff_discovery_to_research_ws_productos_v2",
+    "research_notebook_ws_productos_v2",
+    "research_brief_ws_productos_v2_discover_seed",
+    "customer_pulse_ws_productos_v2",
+    "external_research_review_ws_productos_v2",
+    "prd_productos_next_version_discover"
+  ],
+  "recommended_next_action": "Expand the governed research superpower, then refresh the canonical strategy packet from the stronger research surface.",
+  "created_at": "2026-03-22T08:00:00Z",
+  "updated_at": "2026-03-22T08:00:00Z"
+}

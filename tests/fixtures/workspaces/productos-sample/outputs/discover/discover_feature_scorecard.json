@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0.0",
+  "feature_scorecard_id": "feature_scorecard_ws_productos_v2_discover_to_prd_superpower",
+  "workspace_id": "ws_productos_v2",
+  "feature_id": "discover_to_prd_superpower",
+  "feature_name": "Messy input to PRD superpower",
+  "loop_id": "signal_to_product_decision",
+  "status": "reviewed",
+  "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
+  "validation_tier": "tier_2",
+  "scenarios": [
+    {
+      "scenario_id": "scn_discover_from_live_inbox",
+      "title": "Route live inbox inputs into the decision package",
+      "scenario_type": "dogfood_run",
+      "result": "passed",
+      "summary": "The repo ingests the live note and transcript inputs, produces a fresh strategy packet, hands discovery into reusable research operations, and keeps the route visible through the canonical CLI control surface.",
+      "evidence_refs": [
+        "intake_routing_state_ws_productos_v2_next_version",
+        "strategy_context_brief_productos_next_version_discover",
+        "product_vision_brief_productos_next_version_discover",
+        "market_strategy_brief_productos_next_version_discover",
+        "problem_brief_productos_next_version_discover",
+        "handoff_discovery_to_research_ws_productos_v2",
+        "research_notebook_ws_productos_v2",
+        "research_brief_ws_productos_v2_discover_seed",
+        "customer_pulse_ws_productos_v2",
+        "prd_productos_next_version_discover"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "intake_routing_state_ws_productos_v2_next_version",
+    "strategy_context_brief_productos_next_version_discover",
+    "product_vision_brief_productos_next_version_discover",
+    "market_strategy_brief_productos_next_version_discover",
+    "problem_brief_productos_next_version_discover",
+    "handoff_discovery_to_research_ws_productos_v2",
+    "research_notebook_ws_productos_v2",
+    "research_brief_ws_productos_v2_discover_seed",
+    "external_research_plan_ws_productos_v2",
+    "external_research_source_discovery_ws_productos_v2",
+    "external_research_review_ws_productos_v2",
+    "competitor_dossier_ws_productos_v2",
+    "customer_pulse_ws_productos_v2",
+    "market_analysis_brief_ws_productos_v2",
+    "concept_brief_productos_next_version_discover",
+    "prd_productos_next_version_discover",
+    "eval_run_report_ws_productos_v2_bounded_baseline"
+  ],
+  "provenance_classification": "real",
+  "score_basis": [
+    "persisted_discover_outputs",
+    "live_inbox_evidence",
+    "frozen_eval_suite"
+  ],
+  "truthfulness_summary": "The discover slice now scores from persisted workspace outputs rather than bundle-local narration, so the same-day decision package can be treated as a promotable source.",
+  "context_pack_ref": "context_pack_ws_productos_v2_bounded_baseline",
+  "eval_run_ref": "eval_run_report_ws_productos_v2_bounded_baseline",
+  "dimension_scores": [
+    {
+      "dimension_key": "pm_leverage",
+      "score": 5,
+      "rationale": "The PM can now move from messy inputs to a reviewable decision and research packet through one bounded repo-native path.",
+      "evidence_refs": [
+        "intake_routing_state_ws_productos_v2_next_version",
+        "research_notebook_ws_productos_v2",
+        "prd_productos_next_version_discover"
+      ]
+    },
+    {
+      "dimension_key": "output_quality",
+      "score": 5,
+      "rationale": "The live-input problem brief, reusable research packet, concept brief, and PRD package are explicit, reviewable, and traceable back to the inbox evidence.",
+      "evidence_refs": [
+        "problem_brief_productos_next_version_discover",
+        "research_brief_ws_productos_v2_discover_seed",
+        "prd_productos_next_version_discover"
+      ]
+    },
+    {
+      "dimension_key": "reliability",
+      "score": 5,
+      "rationale": "The discover path now passes as a same-day, low-rewrite, repo-backed route with explicit evidence and approval points.",
+      "evidence_refs": [
+        "intake_routing_state_ws_productos_v2_next_version",
+        "pm_superpower_benchmark_ws_productos_v2_v4_0"
+      ]
+    },
+    {
+      "dimension_key": "autonomy_quality",
+      "score": 5,
+      "rationale": "The CLI does the bounded synthesis work automatically while keeping the PM review gate explicit instead of hidden.",
+      "evidence_refs": [
+        "discover_execution_session_ws_productos_v2",
+        "concept_brief_productos_next_version_discover"
+      ]
+    },
+    {
+      "dimension_key": "repeatability",
+      "score": 5,
+      "rationale": "The bundle and CLI make the same discover path repeatable across adapter choices and export surfaces.",
+      "evidence_refs": [
+        "discover_execution_session_ws_productos_v2",
+        "pm_superpower_benchmark_ws_productos_v2_v4_0"
+      ]
+    }
+  ],
+  "overall_score": 5,
+  "adoption_recommendation": "promote_as_standard",
+  "reviewer_verdict": {
+    "status": "pass",
+    "summary": "The discover route is now backed by persisted workspace outputs and is ready to count as the discover standard for the current baseline.",
+    "evidence_refs": [
+      "intake_routing_state_ws_productos_v2_next_version",
+      "strategy_context_brief_productos_next_version_discover"
+    ]
+  },
+  "tester_verdict": {
+    "status": "pass",
+    "summary": "The discover artifacts validate structurally and the score now points to persisted workspace outputs instead of bundle-local narration.",
+    "evidence_refs": [
+      "intake_routing_state_ws_productos_v2_next_version",
+      "strategy_context_brief_productos_next_version_discover"
+    ]
+  },
+  "manual_verdict": {
+    "status": "accept",
+    "summary": "Use the persisted discover package as the promotable same-day decision baseline.",
+    "evidence_refs": [
+      "prd_productos_next_version_discover",
+      "eval_run_report_ws_productos_v2_bounded_baseline"
+    ]
+  },
+  "blocked_by": [],
+  "feedback_items": [],
+  "next_action": "Keep the persisted discover package as the standard source for same-day decision scoring and rerun the frozen eval suite after meaningful discover changes.",
+  "generated_at": "2026-03-22T08:00:00Z"
+}

@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -33,6 +34,9 @@ from components.workflow_corridor.python.productos_workflow_corridor import (
     write_corridor_html,
     write_corridor_payload,
 )
+from components.journey_engine.python.journey_visual_renderer import (
+    render_customer_journey_map_html,
+)
 from core.python.productos_runtime import (
     ADOPTION_ARTIFACT_SCHEMAS,
     RESEARCH_DISCOVERY_ARTIFACT_SCHEMAS,
@@ -46,6 +50,9 @@ from core.python.productos_runtime import (
     build_next_version_bundle_from_workspace,
     build_cockpit_bundle_from_workspace,
     build_cross_product_insight_index,
+    build_agent_context,
+    build_prd_boundary_report,
+    build_runtime_adapter_registry,
     build_portfolio_state_from_workspaces,
     build_thread_review_bundle_from_workspace,
     build_thread_review_presentation_package,
@@ -67,6 +74,7 @@ from core.python.productos_runtime import (
     format_v9_cutover_plan_markdown,
     init_workspace_from_template,
     inspect_v9_lifecycle_enrichment_state,
+    ingest_pm_note,
     load_item_lifecycle_state_from_workspace,
     load_lifecycle_stage_snapshot_from_workspace,
     discover_external_research_sources_from_workspace,
@@ -74,6 +82,7 @@ from core.python.productos_runtime import (
     load_product_record_from_workspace,
     research_workspace_from_manifest,
     render_cockpit_html,
+    render_all_living_documents,
     run_external_research_loop_from_workspace,
     summarize_research_posture,
     summarize_strategy_refresh_posture,
@@ -86,10 +95,17 @@ from core.python.productos_runtime import (
     load_mission_brief_from_workspace,
     sync_canonical_discover_artifacts,
     write_phase_packet_for_workspace,
+    write_prd_boundary_report,
+    write_pm_note_delta_proposal,
     write_thread_review_index_site,
     write_thread_review_markdown,
     write_thread_review_package,
     write_thread_review_page,
+    synthesize_customer_journey_map,
+    generate_screen_flow_svg,
+    generate_screen_flow_from_journey_stages,
+    write_screen_flow_html,
+    generate_impact_propagation_map,
 )
 from core.python.productos_runtime.validation import inspect_workspace_source_note_card_refs
 from core.python.productos_runtime.next_version import NEXT_VERSION_ARTIFACT_SCHEMAS
@@ -112,6 +128,8 @@ from core.python.productos_runtime.living_system import (
 )
 from core.python.productos_runtime.markdown_renderer import render_living_document
 from core.python.productos_runtime.export_pipeline import export_artifact
+from core.python.productos_runtime.llm import default_provider
+from components.prototype.python.prototype_engine import write_prototype_bundle
 
 SCHEMA_DIR = ROOT / "core" / "schemas" / "artifacts"
 PHASE_ARTIFACTS = {
@@ -356,6 +374,372 @@ def _write_json_payload(path: Path, payload: dict) -> None:
     with path.open("w", encoding="utf-8") as handle:
         json.dump(payload, handle, indent=2)
         handle.write("\n")
+
+
+def _validate_payload_against_schema(payload: dict, schema_name: str) -> list[str]:
+    validator = Draft202012Validator(_load_json(SCHEMA_DIR / schema_name))
+    return [error.message for error in sorted(validator.iter_errors(payload), key=lambda item: list(item.path))]
+
+
+def _entity_ref(entity_type: str, entity_id: str) -> dict[str, str]:
+    return {"entity_type": entity_type, "entity_id": entity_id}
+
+
+def _evidence_ref(source_type: str, source_id: str, justification: str) -> dict[str, str]:
+    return {
+        "source_type": source_type,
+        "source_id": source_id,
+        "justification": justification,
+    }
+
+
+def _prioritization_block(problem_statement: str) -> dict[str, object]:
+    return {
+        "lane": "must_now",
+        "priority_score": 82,
+        "confidence": "moderate",
+        "agentic_delivery_burden": "medium",
+        "priority_rationale": f"The problem is concrete enough to warrant an immediate discovery-to-PRD wedge for {problem_statement[:60]}.",
+        "reviewer_handoff": "PM should verify the segment wedge and top unknowns before broadening scope.",
+    }
+
+
+def _build_new_workspace_artifacts(
+    problem_statement: str,
+    *,
+    workspace_id: str,
+    generated_at: str,
+) -> dict[str, dict]:
+    slug = _slugify_problem(problem_statement)
+    segment_id = f"seg_{slug}"
+    persona_id = f"pers_{slug}"
+    trace_id = f"trace_{slug}"
+    framework_id = "framework_registry_default"
+    source_note_id = f"source_note_card_{slug}"
+    provider = default_provider()
+    provider.generate_structured(
+        f"Generate a bounded PM starter set for: {problem_statement}",
+        {"type": "object", "properties": {"summary": {"type": "string"}}, "required": ["summary"]},
+    )
+
+    problem_brief = {
+        "schema_version": "1.1.0",
+        "problem_brief_id": f"problem_brief_{slug}",
+        "workspace_id": workspace_id,
+        "title": f"Problem Brief: {problem_statement[:72]}",
+        "problem_summary": problem_statement,
+        "strategic_fit_summary": "A focused starter brief helps the PM turn raw demand into a repo-backed plan without spreadsheet drift.",
+        "posture_alignment": "challenger",
+        "why_this_problem_now": "Teams adopting AI-assisted PM workflows need a bounded starting point before execution expands.",
+        "why_this_problem_for_this_segment": "The target segment feels the pain frequently and benefits from structured operating rhythm improvements.",
+        "problem_severity": {
+            "customer_pain": "high",
+            "workflow_frequency": "high",
+            "evidence_strength": "moderate",
+            "severity_rationale": "The described problem blocks a recurring workflow and is concrete enough for immediate discovery.",
+        },
+        "target_segment_refs": [_entity_ref("segment", segment_id)],
+        "target_persona_refs": [_entity_ref("persona", persona_id)],
+        "linked_entity_refs": [_entity_ref("problem", f"prob_{slug}")],
+        "evidence_refs": [_evidence_ref("other", source_note_id, "Seeded from the raw problem statement supplied at workspace creation.")],
+        "upstream_artifact_ids": [f"mission_brief_{workspace_id}"],
+        "canonical_persona_archetype_pack_id": f"persona_archetype_pack_{slug}",
+        "artifact_trace_map_id": trace_id,
+        "ralph_status": "review_needed",
+        "prioritization": _prioritization_block(problem_statement),
+        "handoff_readiness_summary": "Ready for guided discovery, initial competitor framing, and first-pass PRD drafting.",
+        "recommended_next_step": "research",
+        "created_at": generated_at,
+    }
+    concept_brief = {
+        "schema_version": "1.1.0",
+        "concept_brief_id": f"concept_brief_{slug}",
+        "workspace_id": workspace_id,
+        "title": f"Concept Brief: {problem_statement[:72]}",
+        "hypothesis": f"If we solve '{problem_statement}', teams will reach a reviewable PM package faster with less manual reconciliation.",
+        "positioning_hypothesis": "Position ProductOS as the repo-native control plane for this workflow instead of another document wrapper.",
+        "offering_hypothesis": "Start with one narrow workflow slice that compounds into living docs, queue review, and execution context.",
+        "wedge_hypothesis": "A tightly scoped starter workspace gives immediate value without requiring a full platform rollout.",
+        "why_now": "AI-native product work is moving from drafting to managed execution, which raises the value of bounded repo truth.",
+        "why_us": "The repo already contains structured artifacts, CLI surfaces, and validation loops that can express this concept cleanly.",
+        "advantage_hypothesis": "Structured artifacts plus machine-readable CLI output create leverage that document-centric competitors cannot match.",
+        "status": "candidate",
+        "idea_record_ids": [f"idea_record_{slug}"],
+        "strategy_artifact_ids": [f"problem_brief_{slug}"],
+        "target_segment_refs": [_entity_ref("segment", segment_id)],
+        "target_persona_refs": [_entity_ref("persona", persona_id)],
+        "canonical_persona_archetype_pack_id": f"persona_archetype_pack_{slug}",
+        "artifact_trace_map_id": trace_id,
+        "ralph_status": "review_needed",
+        "prioritization": _prioritization_block(problem_statement),
+        "must_be_true_assumptions": [
+            "The target PM workflow happens often enough to justify a dedicated operating system wedge.",
+            "Structured artifact generation reduces review time more than ad hoc note-taking.",
+        ],
+        "risk_summary": [
+            "The initial brief may overfit the first phrasing of the problem.",
+            "Downstream artifacts need PM review before being treated as decision-ready.",
+        ],
+        "handoff_readiness_summary": "Ready for competitor framing, persona validation, and a bounded PRD draft.",
+        "created_at": generated_at,
+    }
+    prd = {
+        "schema_version": "1.1.0",
+        "prd_id": f"prd_{slug}",
+        "workspace_id": workspace_id,
+        "title": f"PRD: {problem_statement[:72]}",
+        "problem_summary": problem_statement,
+        "outcome_summary": "Produce a reviewable first release slice that compresses PM synthesis and decision latency.",
+        "scope_summary": "Cover the smallest coherent workflow wedge that makes the problem materially easier for the target PM.",
+        "strategic_context_summary": "This PRD should stay bounded to a starter wedge and avoid broad platform claims.",
+        "value_hypothesis": "A living, artifact-backed PM workflow will outperform static docs for this job to be done.",
+        "target_outcomes": [
+            "Generate a reviewable PM package in one session.",
+            "Expose boundaries clearly enough that an agent or builder knows what not to build.",
+        ],
+        "target_segment_refs": [_entity_ref("segment", segment_id)],
+        "target_persona_refs": [_entity_ref("persona", persona_id)],
+        "linked_entity_refs": [_entity_ref("feature", f"feature_{slug}_starter")],
+        "upstream_artifact_ids": [problem_brief["problem_brief_id"], concept_brief["concept_brief_id"]],
+        "canonical_persona_archetype_pack_id": f"persona_archetype_pack_{slug}",
+        "artifact_trace_map_id": trace_id,
+        "ralph_status": "review_needed",
+        "prioritization": _prioritization_block(problem_statement),
+        "scope_boundaries": [
+            "Web-first workflow only for the initial slice.",
+            "Single PM persona and one high-value workflow.",
+            "Repo-backed artifacts remain the only system of record.",
+        ],
+        "out_of_scope": [
+            "Native iOS or Android applications in v1.",
+            "Enterprise SSO and admin governance workflows in v1.",
+            "General-purpose project management beyond the target PM wedge.",
+        ],
+        "open_questions": [
+            "Which persona pain should be validated first?",
+            "What proof most clearly differentiates this wedge from static docs?",
+        ],
+        "handoff_risks": [
+            "Unchecked assumptions may create false confidence if discovery is skipped.",
+            "Prototype screens can look complete before the underlying decision logic is proven.",
+        ],
+        "generated_at": generated_at,
+    }
+    competitor_dossier = {
+        "schema_version": "1.1.0",
+        "competitor_dossier_id": f"competitor_dossier_{slug}",
+        "workspace_id": workspace_id,
+        "title": f"Competitor Dossier: {problem_statement[:64]}",
+        "competitive_frame": "Alternatives include static document stacks, project management suites, and AI drafting tools with weak system-of-record posture.",
+        "comparison_basis": "Compare against tools used to capture PM context, route work, and hand off execution safely.",
+        "framework_registry_ref": framework_id,
+        "selected_framework_ids": ["competitive_frame", "wedge_comparison"],
+        "target_segment_refs": [_entity_ref("segment", segment_id)],
+        "target_persona_refs": [_entity_ref("persona", persona_id)],
+        "source_artifact_ids": [problem_brief["problem_brief_id"], concept_brief["concept_brief_id"]],
+        "status_quo_alternatives": ["Spreadsheets", "Notion or Confluence", "General AI chat tools"],
+        "internal_build_risk": "medium",
+        "competitive_landscape_status": "named_competitor_set",
+        "evidence_coverage_status": "internal_only",
+        "dossier_quality": "draft",
+        "named_competitor_count": 2,
+        "where_we_win": [
+            "Repo-native truth instead of screenshot or copy-paste workflows.",
+            "Machine-readable CLI surfaces for agent execution loops.",
+        ],
+        "where_we_lose": [
+            "Category awareness compared with broader project tools.",
+        ],
+        "credible_wedge_for_posture": "Win by making one PM workflow fully living, reviewable, and exportable instead of broadly average.",
+        "required_proof_to_displace": [
+            "Show faster review cycles than static document workflows.",
+            "Show cleaner agent handoff than generic AI drafting tools.",
+        ],
+        "prioritization_implications": [
+            "Prioritize living-system proof and review-lane clarity before broadening packaging claims.",
+        ],
+        "competitors": [
+            {
+                "name": "Static Docs Stack",
+                "competitor_type": "direct",
+                "target_customer": "PM teams coordinating work across docs and tickets",
+                "positioning_summary": "Flexible documentation but weak structured execution continuity.",
+                "go_to_market_motion": "Bottom-up workspace adoption",
+                "pricing_signal": "Seat-based SaaS plus wiki sprawl cost",
+                "positioning_gap": "Weak machine-readable execution context and bounded review gates.",
+                "strengths": ["Low friction collaboration", "Familiar workflows"],
+                "weaknesses": ["Version drift", "Manual handoff overhead"],
+                "where_they_win": ["Broad awareness", "Lightweight collaboration"],
+                "where_they_lose": ["Structured execution continuity", "Living artifact propagation"],
+                "displacement_barriers": ["Habit inertia", "Existing documentation volume"],
+                "implications": ["Lead with proof of living-system leverage."],
+                "evidence_refs": [source_note_id],
+                "confidence": "medium",
+                "last_checked_at": generated_at,
+            }
+        ],
+        "created_at": generated_at,
+    }
+    persona_pack = {
+        "schema_version": "1.0.0",
+        "persona_pack_id": f"persona_pack_{slug}",
+        "workspace_id": workspace_id,
+        "title": f"Persona Pack: {problem_statement[:64]}",
+        "segment_refs": [_entity_ref("segment", segment_id)],
+        "personas": [
+            {
+                "persona_ref": _entity_ref("persona", persona_id),
+                "role": "Product manager",
+                "goals": [
+                    "Get from raw signals to a reviewable brief quickly.",
+                    "Keep downstream artifact drift visible and fixable.",
+                ],
+                "pains": [
+                    "Manual synthesis across fragmented tools.",
+                    "Weak scope boundaries that create execution sprawl.",
+                ],
+                "behavior_notes": [
+                    "Prefers tools that produce reviewable artifacts and explicit next steps.",
+                ],
+            }
+        ],
+        "source_artifact_ids": [problem_brief["problem_brief_id"]],
+        "created_at": generated_at,
+    }
+    market_analysis = {
+        "schema_version": "1.1.0",
+        "market_analysis_brief_id": f"market_analysis_brief_{slug}",
+        "workspace_id": workspace_id,
+        "title": f"Market Analysis Brief: {problem_statement[:60]}",
+        "market_name": "AI-native PM tooling",
+        "framework_registry_ref": framework_id,
+        "selected_framework_ids": ["market_dynamics", "category_pressure"],
+        "category_structure": [
+            "Static document systems",
+            "Task and workflow management tools",
+            "AI drafting and agent execution surfaces",
+        ],
+        "category_summary": "The market is shifting from drafting assistance toward managed execution with traceable evidence and bounded automation.",
+        "trend_summary": "Teams increasingly expect AI help, but trust and reviewability remain blockers for decision-driving work.",
+        "market_dynamics": [
+            "Execution tools are adding AI while AI tools are moving closer to system-of-record expectations.",
+        ],
+        "power_centers": [
+            "Existing documentation suites and ticketing systems still own default workflow gravity.",
+        ],
+        "adoption_barriers": [
+            "Teams do not trust generated output without validation and clear release boundaries.",
+        ],
+        "switching_costs": [
+            "Process retraining and artifact migration make partial adoption easier than full rip-and-replace.",
+        ],
+        "market_role_implications": [
+            "Lead with one narrow workflow that compounds into adjacent PM jobs.",
+        ],
+        "agentic_delivery_implications": [
+            "Machine-readable CLI output is a prerequisite for agent-native operation.",
+        ],
+        "prioritization_implications": [
+            "Prioritize proof of living execution over breadth of templates.",
+        ],
+        "source_artifact_ids": [problem_brief["problem_brief_id"], competitor_dossier["competitor_dossier_id"]],
+        "created_at": generated_at,
+    }
+    return {
+        "problem_brief": problem_brief,
+        "concept_brief": concept_brief,
+        "prd": prd,
+        "competitor_dossier": competitor_dossier,
+        "persona_pack": persona_pack,
+        "market_analysis_brief": market_analysis,
+    }
+
+
+def _build_quality_snapshot(workspace_dir: Path, artifact_payloads: dict[str, dict]) -> dict[str, object]:
+    schema_map = {
+        "problem_brief": "problem_brief.schema.json",
+        "concept_brief": "concept_brief.schema.json",
+        "prd": "prd.schema.json",
+        "competitor_dossier": "competitor_dossier.schema.json",
+        "persona_pack": "persona_pack.schema.json",
+        "market_analysis_brief": "market_analysis_brief.schema.json",
+    }
+    checks: dict[str, dict[str, object]] = {}
+    validation_pass_count = 0
+    for artifact_name, payload in artifact_payloads.items():
+        schema_name = schema_map.get(artifact_name)
+        errors = _validate_payload_against_schema(payload, schema_name) if schema_name else []
+        populated_fields = [
+            key
+            for key, value in payload.items()
+            if value not in (None, "", [], {})
+        ]
+        total_fields = max(len(payload), 1)
+        if not errors:
+            validation_pass_count += 1
+        checks[artifact_name] = {
+            "validation_status": "pass" if not errors else "fail",
+            "error_count": len(errors),
+            "errors": errors[:5],
+            "completeness_score": round(len(populated_fields) / total_fields, 2),
+        }
+    contradiction_items = []
+    prd = artifact_payloads.get("prd", {})
+    competitor = artifact_payloads.get("competitor_dossier", {})
+    if "repo-native" not in " ".join(competitor.get("where_we_win", [])).lower():
+        contradiction_items.append("Competitor dossier does not reinforce the repo-native wedge used in the PRD.")
+    return {
+        "schema_version": "1.0.0",
+        "quality_snapshot_id": f"quality_snapshot_{workspace_dir.name}",
+        "workspace_id": workspace_dir.name,
+        "validation_pass_count": validation_pass_count,
+        "artifact_count": len(schema_map),
+        "overall_status": "green" if validation_pass_count == len(schema_map) and not contradiction_items else "yellow",
+        "artifact_checks": checks,
+        "contradiction_items": contradiction_items,
+        "generated_at": _default_timestamp(),
+    }
+
+
+def _queue_path(workspace_dir: Path) -> Path:
+    return workspace_dir / "outputs" / "operate" / "regeneration_queue.json"
+
+
+def _load_or_create_cockpit_bundle(workspace_dir: Path, generated_at: str, adapter: str = "codex") -> dict:
+    cockpit_path = workspace_dir / "outputs" / "cockpit" / "cockpit_bundle.json"
+    if cockpit_path.exists():
+        return _load_json(cockpit_path)
+    bundle = build_cockpit_bundle_from_workspace(workspace_dir, generated_at=generated_at, adapter_name=adapter)
+    _write_json_payload(cockpit_path, bundle)
+    return bundle
+
+
+def _sync_cockpit_living_updates(workspace_dir: Path, queue: dict, *, generated_at: str) -> Path:
+    cockpit_bundle = _load_or_create_cockpit_bundle(workspace_dir, generated_at)
+    cockpit_state = cockpit_bundle.setdefault("cockpit_state", {})
+    updates = []
+    for item in queue.get("queued_items", []):
+        updates.append(
+            {
+                "update_id": f"lu_{item['item_id']}",
+                "regeneration_queue_item_ref": item["item_id"],
+                "source_change": queue.get("trigger_event", {}).get("change_summary", "Artifact change"),
+                "target_artifact": item["target_artifact_ref"],
+                "delta_summary": item["delta_preview"],
+                "impact_classification": item["impact_classification"],
+                "pm_action": item.get("status", "pending"),
+                "pm_note": item.get("pm_note", ""),
+                "reviewed_at": generated_at if item.get("status") not in {"pending", "active"} else "",
+            }
+        )
+    cockpit_state["living_updates_queue"] = updates
+    cockpit_state["updated_at"] = generated_at
+    cockpit_path = workspace_dir / "outputs" / "cockpit" / "cockpit_bundle.json"
+    _write_json_payload(cockpit_path, cockpit_bundle)
+    if {"mission_brief", "active_phase_packet", "product_record", "workspace_tree_state", "portfolio_state"} <= set(cockpit_bundle.keys()):
+        html_path = workspace_dir / "outputs" / "cockpit" / "cockpit.html"
+        html_path.write_text(render_cockpit_html(cockpit_bundle), encoding="utf-8")
+    return cockpit_path
 
 
 def _product_context_for_cli(
@@ -1300,6 +1684,26 @@ def cmd_run(args: argparse.Namespace) -> int:
                     "selected_research_manifest": bundle.get("discover_selected_research_manifest"),
                 },
             )
+            # Slice 2: auto-synthesize customer journey map if persona/problem data exists
+            cjm_path = workspace_dir / "artifacts" / "customer_journey_map.json"
+            if not cjm_path.exists():
+                try:
+                    synthesized = synthesize_customer_journey_map(workspace_dir, generated_at=args.generated_at)
+                    cjm_path.parent.mkdir(parents=True, exist_ok=True)
+                    with cjm_path.open("w", encoding="utf-8") as f:
+                        json.dump(synthesized, f, indent=2)
+                        f.write("\n")
+                    print(f"Synthesized: artifacts/customer_journey_map.json")
+                except Exception as exc:
+                    print(f"Synthesis skipped: {exc}")
+            try:
+                journey_args = argparse.Namespace(workspace_dir=workspace_dir, generated_at=args.generated_at)
+                cmd_render_journey_map(journey_args)
+                cmd_render_screen_flow(journey_args)
+                bundle_paths = write_prototype_bundle(workspace_dir, generated_at=args.generated_at)
+                print(f"Prototype generated: {bundle_paths['prototype_html']}")
+            except Exception as exc:
+                print(f"Prototype pipeline skipped: {exc}")
         if args.phase in {"improve", "all"}:
             _write_release_review_markdown(output_dir, bundle)
             _write_workspace_release_review_markdown(workspace_dir, bundle)
@@ -1373,6 +1777,23 @@ def cmd_review(args: argparse.Namespace) -> int:
 
 
 def cmd_export(args: argparse.Namespace) -> int:
+    if getattr(args, "export_command", None) == "artifact":
+        workspace_dir = _workspace_dir(args)
+        result = export_artifact(
+            args.artifact,
+            args.format,
+            workspace_dir,
+            generated_at=args.generated_at,
+        )
+        output_path = args.output_path or (workspace_dir / "outputs" / "export" / f"{Path(args.artifact).stem}.{args.format}.json")
+        _write_json_payload(output_path, result)
+        print(f"Export Artifact: {args.artifact}")
+        print(f"Format: {args.format}")
+        print(f"Output: {output_path}")
+        return 0
+
+    if args.output_dir is None:
+        raise SystemExit("`productos export` requires --output-dir unless using `export artifact`.")
     bundle = _build_bundle(args)
     _write_artifacts(args.output_dir, bundle, list(bundle.keys()))
     _write_release_review_markdown(args.output_dir, bundle)
@@ -2020,6 +2441,16 @@ def cmd_queue_build(args: argparse.Namespace) -> int:
         "source_artifact_ref": args.source_artifact,
         "change_summary": args.change_summary or "Manual queue build via CLI",
     }
+
+    # Auto-generate impact propagation map if missing
+    impact_map_path = workspace_dir / "artifacts" / "impact_propagation_map.json"
+    if not impact_map_path.exists():
+        impact_map = generate_impact_propagation_map(workspace_dir)
+        with impact_map_path.open("w", encoding="utf-8") as f:
+            json.dump(impact_map, f, indent=2)
+            f.write("\n")
+        print(f"Auto-generated: artifacts/impact_propagation_map.json")
+
     queue = build_regeneration_queue(trigger, workspace_dir, generated_at=args.generated_at)
     
     # Check for circular dependencies
@@ -2030,9 +2461,10 @@ def cmd_queue_build(args: argparse.Namespace) -> int:
             print(f"  - {ref}")
         return 1
     
-    if args.output_dir:
-        _write_json_payload(args.output_dir / "regeneration_queue.json", queue)
-        print(f"Regeneration Queue: {args.output_dir / 'regeneration_queue.json'}")
+    queue_output_path = (args.output_dir / "regeneration_queue.json") if args.output_dir else _queue_path(workspace_dir)
+    _write_json_payload(queue_output_path, queue)
+    _sync_cockpit_living_updates(workspace_dir, queue, generated_at=args.generated_at)
+    print(f"Regeneration Queue: {queue_output_path}")
     
     print(f"Queue ID: {queue['regeneration_queue_id']}")
     print(f"Status: {queue['status']}")
@@ -2078,6 +2510,7 @@ def cmd_queue_review(args: argparse.Namespace) -> int:
     
     # Write back
     _write_json_payload(queue_path, queue)
+    _sync_cockpit_living_updates(workspace_dir, queue, generated_at=args.generated_at)
     
     print(f"Item {args.item_id}: {processed['status']}")
     print(f"Action: {args.action}")
@@ -2113,6 +2546,108 @@ def cmd_render_doc(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_render_docs(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
+    rendered_docs = render_all_living_documents(
+        workspace_dir,
+        generated_at=args.generated_at,
+    )
+    if not rendered_docs:
+        raise SystemExit("No renderable living documents found for the current workspace.")
+    for doc_key, rendered in rendered_docs.items():
+        output_path = workspace_dir / "docs" / f"{doc_key}.md"
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(rendered, encoding="utf-8")
+        print(f"Rendered: {output_path}")
+    print(f"Rendered Documents: {len(rendered_docs)}")
+    return 0
+
+
+def cmd_render_journey_map(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
+    
+    journey_map_path = workspace_dir / "artifacts" / "customer_journey_map.json"
+    if not journey_map_path.exists():
+        raise SystemExit(f"No customer_journey_map.json found in {journey_map_path}")
+    
+    with journey_map_path.open("r", encoding="utf-8") as handle:
+        journey_map = json.load(handle)
+    
+    design_tokens = None
+    design_tokens_path = workspace_dir / "artifacts" / "design_token_set.json"
+    if design_tokens_path.exists():
+        with design_tokens_path.open("r", encoding="utf-8") as handle:
+            design_tokens = json.load(handle)
+    
+    html = render_customer_journey_map_html(journey_map, design_tokens)
+    
+    output_path = workspace_dir / "outputs" / "discover" / "customer_journey_map.html"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", encoding="utf-8") as handle:
+        handle.write(html)
+    
+    print(json.dumps({"status": "ok", "output_path": str(output_path)}))
+    return 0
+
+
+def cmd_render_screen_flow(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
+
+    # Prefer user_journey_map.json, fall back to customer_journey_map.json
+    ujm_path = workspace_dir / "artifacts" / "user_journey_map.json"
+    cjm_path = workspace_dir / "artifacts" / "customer_journey_map.json"
+
+    design_tokens = None
+    design_tokens_path = workspace_dir / "artifacts" / "design_token_set.json"
+    if design_tokens_path.exists():
+        with design_tokens_path.open("r", encoding="utf-8") as handle:
+            design_tokens = json.load(handle)
+
+    if ujm_path.exists():
+        with ujm_path.open("r", encoding="utf-8") as handle:
+            user_journey_map = json.load(handle)
+        svg = generate_screen_flow_svg(user_journey_map, design_tokens)
+    elif cjm_path.exists():
+        with cjm_path.open("r", encoding="utf-8") as handle:
+            journey_map = json.load(handle)
+        svg = generate_screen_flow_from_journey_stages(journey_map, design_tokens)
+    else:
+        raise SystemExit(f"No user_journey_map.json or customer_journey_map.json found in {workspace_dir / 'artifacts'}")
+
+    output_path = workspace_dir / "outputs" / "discover" / "screen_flow.html"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    html = _wrap_svg_in_html(svg, user_journey_map.get("title", "Screen Flow") if ujm_path.exists() else journey_map.get("title", "Screen Flow"))
+    with output_path.open("w", encoding="utf-8") as handle:
+        handle.write(html)
+
+    print(json.dumps({"status": "ok", "output_path": str(output_path)}))
+    return 0
+
+
+def cmd_render_prototype(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
+    bundle_paths = write_prototype_bundle(workspace_dir, generated_at=args.generated_at)
+    print(f"Prototype HTML: {bundle_paths['prototype_html']}")
+    print(f"Story Map HTML: {bundle_paths['story_map_html']}")
+    print(f"Prototype Quality Report: {bundle_paths['prototype_quality_report']}")
+    return 0
+
+
+def _wrap_svg_in_html(svg: str, title: str) -> str:
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <style>body {{ margin: 0; padding: 24px; background: #F8FAFC; font-family: Inter, system-ui, sans-serif; }}</style>
+</head>
+<body>
+  {svg}
+</body>
+</html>"""
+
+
 def cmd_review_delta(args: argparse.Namespace) -> int:
     workspace_dir = _workspace_dir(args)
     
@@ -2132,22 +2667,62 @@ def cmd_review_delta(args: argparse.Namespace) -> int:
     if args.pm_note:
         update["pm_note"] = args.pm_note
     update["reviewed_at"] = args.generated_at
-    
-    # Write back cockpit state
-    if cockpit_path.exists():
-        _write_json_payload(cockpit_path, cockpit)
-    
+
     print(f"Update {args.update_id}: {args.action}")
     print(f"Target: {update['target_artifact']}")
     print(f"Classification: {update['impact_classification']}")
     if args.pm_note:
         print(f"PM Note: {args.pm_note}")
-    
-    # If approved, trigger regeneration queue processing
-    if args.action == "approve":
+
+    queue_path = _queue_path(workspace_dir)
+    if queue_path.exists():
+        queue = _load_json(queue_path)
+        queue_item = next(
+            (item for item in queue.get("queued_items", []) if item["item_id"] == update["regeneration_queue_item_ref"]),
+            None,
+        )
+        if queue_item is not None:
+            processed = process_regeneration_item(
+                queue_item,
+                workspace_dir,
+                action=args.action,
+                pm_note=args.pm_note or "",
+                generated_at=args.generated_at,
+            )
+            for index, item in enumerate(queue["queued_items"]):
+                if item["item_id"] == processed["item_id"]:
+                    queue["queued_items"][index] = processed
+                    break
+            _write_json_payload(queue_path, queue)
+            update["pm_action"] = processed["status"]
+            update["pm_note"] = processed.get("pm_note", update.get("pm_note", ""))
+            if processed["execution_log"]:
+                print(f"Log: {processed['execution_log'][-1]}")
+        elif args.action == "approve":
+            print(f"Approved. Downstream regeneration queued for {update['target_artifact']}")
+    elif args.action == "approve":
         print(f"Approved. Downstream regeneration queued for {update['target_artifact']}")
-    elif args.action == "reject":
+    if args.action == "reject":
+        feedback_path = workspace_dir / "outputs" / "operate" / "living_system_rejection_feedback.json"
+        feedback = _load_json(feedback_path) if feedback_path.exists() else {"items": []}
+        feedback["items"].append(
+            {
+                "update_id": args.update_id,
+                "target_artifact": update["target_artifact"],
+                "reason": args.pm_note or "No reason provided",
+                "reviewed_at": args.generated_at,
+            }
+        )
+        _write_json_payload(feedback_path, feedback)
         print(f"Rejected. Downstream propagation blocked for {update['target_artifact']}")
+
+    if cockpit_path.exists():
+        _write_json_payload(cockpit_path, cockpit)
+        if {"mission_brief", "active_phase_packet", "product_record", "workspace_tree_state", "portfolio_state"} <= set(cockpit.keys()):
+            (workspace_dir / "outputs" / "cockpit" / "cockpit.html").write_text(
+                render_cockpit_html(cockpit),
+                encoding="utf-8",
+            )
     
     return 0
 
@@ -2271,6 +2846,149 @@ def cmd_init_mission(args: argparse.Namespace) -> int:
     print(f"Maturity Band: {mission_brief['maturity_band']}")
     print(f"Primary Workflows: {len(mission_brief['primary_workflow_refs'])}")
     print(f"Next Action: {mission_brief['next_action']}")
+    return 0
+
+
+def _slugify_problem(problem: str) -> str:
+    """Convert a problem statement into a workspace-friendly slug."""
+    cleaned = problem.lower().strip().rstrip(".")
+    for char in " -/\\:":
+        cleaned = cleaned.replace(char, "_")
+    for char in "!?,'\"()":
+        cleaned = cleaned.replace(char, "")
+    while "__" in cleaned:
+        cleaned = cleaned.replace("__", "_")
+    return cleaned[:60]
+
+
+def cmd_new(args: argparse.Namespace) -> int:
+    """V12: One-command workspace creation from a raw problem statement."""
+    problem_statement = args.problem_statement
+    if not problem_statement:
+        raise SystemExit("Usage: productos new 'Problem statement here'")
+
+    slug = _slugify_problem(problem_statement)
+    workspace_id = f"ws_{slug}"
+    name = problem_statement[:80]
+    dest = Path(args.dest or workspace_id).resolve()
+
+    if dest.exists():
+        raise SystemExit(f"Destination already exists: {dest}")
+
+    mode = args.mode or "startup"
+    title = problem_statement[:120]
+    customer_problem = problem_statement
+    business_goal = f"Solve: {problem_statement}"
+    success_metrics = [f"Ship MVP that addresses {slug}"]
+    primary_kpis = success_metrics
+    primary_outcomes = [f"Create reviewable PRD and prototype plan for {slug}"]
+
+    init_workspace_from_template(
+        ROOT,
+        template_name="templates",
+        dest=dest,
+        workspace_id=workspace_id,
+        name=name,
+        mode=mode,
+    )
+
+    mission_brief = init_mission_in_workspace(
+        dest,
+        title=title,
+        target_user="Product manager",
+        customer_problem=customer_problem,
+        business_goal=business_goal,
+        success_metrics=success_metrics,
+        constraints=[],
+        audience=[],
+        operating_mode="discover_to_align",
+        generated_at=args.generated_at,
+        maturity_band="zero_to_one",
+        primary_outcomes=primary_outcomes,
+        primary_kpis=primary_kpis,
+        review_gate_owner="ProductOS PM",
+        portfolio_id=None,
+    )
+    generated_artifacts = _build_new_workspace_artifacts(
+        problem_statement,
+        workspace_id=workspace_id,
+        generated_at=args.generated_at,
+    )
+    for artifact_name, payload in generated_artifacts.items():
+        _write_json_payload(dest / "artifacts" / f"{artifact_name}.json", payload)
+
+    sync_canonical_discover_artifacts(
+        dest,
+        mission_brief=mission_brief,
+        generated_at=args.generated_at,
+        problem_brief=generated_artifacts["problem_brief"],
+        concept_brief=generated_artifacts["concept_brief"],
+        prd=generated_artifacts["prd"],
+    )
+
+    runtime_adapter_registry = build_runtime_adapter_registry(dest, generated_at=args.generated_at)
+    _write_json_payload(dest / "artifacts" / "runtime_adapter_registry.json", runtime_adapter_registry)
+
+    cockpit_bundle = build_cockpit_bundle_from_workspace(dest, generated_at=args.generated_at, adapter_name=args.adapter)
+    cockpit_bundle["cockpit_state"]["mode"] = "plan"
+    cockpit_bundle["cockpit_state"]["status"] = "active"
+    cockpit_bundle["cockpit_state"]["current_focus"] = "Discovery phase initialization"
+    cockpit_bundle["cockpit_state"].setdefault("living_updates_queue", [])
+    cockpit_bundle["cockpit_state"].setdefault("mission_control", {})
+    cockpit_bundle["cockpit_state"]["mission_control"]["active_stage"] = "discover"
+    cockpit_bundle["cockpit_state"]["recommended_next_step"] = {
+        "action_summary": f"Run ./productos --workspace-dir {dest} run discover"
+    }
+    _write_json_payload(dest / "outputs" / "cockpit" / "cockpit_bundle.json", cockpit_bundle)
+    (dest / "outputs" / "cockpit" / "cockpit.html").write_text(
+        render_cockpit_html(cockpit_bundle),
+        encoding="utf-8",
+    )
+
+    quality_snapshot = _build_quality_snapshot(dest, generated_artifacts)
+    _write_json_payload(dest / "outputs" / "cockpit" / "quality_snapshot.json", quality_snapshot)
+
+    print(f"Created workspace: {dest}")
+    print(f"Workspace ID: {workspace_id}")
+    print(f"Mission: {mission_brief['title']}")
+    print("Artifacts: mission_brief, problem_brief, concept_brief, prd, competitor_dossier, persona_pack, market_analysis_brief, cockpit_state")
+    print(f"Cockpit HTML: {dest / 'outputs' / 'cockpit' / 'cockpit.html'}")
+    print(f"Quality Snapshot: {dest / 'outputs' / 'cockpit' / 'quality_snapshot.json'}")
+    print(f"Next: ./productos --workspace-dir {dest} run discover")
+    return 0
+
+
+def cmd_agent_context(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
+    payload = build_agent_context(
+        workspace_dir,
+        target=args.target,
+        generated_at=args.generated_at,
+    )
+    if args.output_path:
+        _write_json_payload(args.output_path, payload)
+        print(f"Agent Context: {args.output_path}")
+    else:
+        print(json.dumps(payload, indent=2))
+    return 0
+
+
+def cmd_demo(args: argparse.Namespace) -> int:
+    source_dir = ROOT / "tests" / "fixtures" / "workspaces" / "productos-sample"
+    if not source_dir.exists():
+        raise SystemExit("No bundled demo workspace available.")
+    dest = (args.dest or (ROOT / "tmp" / "productos-demo")).resolve()
+    if dest.exists():
+        shutil.rmtree(dest)
+    shutil.copytree(source_dir, dest)
+    print(f"Demo Workspace: {dest}")
+    print(f"Run: ./productos --workspace-dir {dest} status")
+    cockpit_html = dest / "outputs" / "cockpit" / "cockpit.html"
+    if not cockpit_html.exists():
+        cockpit_bundle = build_cockpit_bundle_from_workspace(dest, generated_at=args.generated_at, adapter_name=args.adapter)
+        _write_json_payload(dest / "outputs" / "cockpit" / "cockpit_bundle.json", cockpit_bundle)
+        cockpit_html.write_text(render_cockpit_html(cockpit_bundle), encoding="utf-8")
+    print(f"Cockpit HTML: {cockpit_html}")
     return 0
 
 
@@ -2598,6 +3316,29 @@ def cmd_run_research_loop(args: argparse.Namespace) -> int:
     print(f"Review Required: {len(summary['review_items'])}")
     for item in summary["review_items"]:
         print(f"- {item}")
+    if summary["refresh_status"] == "completed":
+        candidate_source = None
+        for ref in (
+            "artifacts/competitor_dossier.json",
+            "artifacts/customer_pulse.json",
+            "artifacts/market_analysis_brief.json",
+        ):
+            if (_workspace_dir(args) / ref).exists():
+                candidate_source = ref
+                break
+        if candidate_source is not None:
+            trigger = {
+                "event_type": "research_fresh",
+                "source_artifact_ref": candidate_source,
+                "change_summary": "Research loop refreshed source artifacts and may require downstream living updates.",
+            }
+            impact_map_path = _workspace_dir(args) / "artifacts" / "impact_propagation_map.json"
+            if not impact_map_path.exists():
+                _write_json_payload(impact_map_path, generate_impact_propagation_map(_workspace_dir(args)))
+            queue = build_regeneration_queue(trigger, _workspace_dir(args), generated_at=args.generated_at)
+            _write_json_payload(_queue_path(_workspace_dir(args)), queue)
+            _sync_cockpit_living_updates(_workspace_dir(args), queue, generated_at=args.generated_at)
+            print(f"Auto-Cascade Queue Items: {len(queue['queued_items'])}")
     return 0
 
 
@@ -2610,11 +3351,30 @@ def parse_args() -> argparse.Namespace:
         default="codex",
         choices=["codex", "claude", "windsurf", "antigravity", "opencode"],
     )
+    parser.add_argument(
+        "--format",
+        dest="output_format",
+        default="text",
+        choices=["text", "json"],
+        help="Output format: text (human-readable) or json (machine-readable).",
+    )
 
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     subparsers.add_parser("status")
     subparsers.add_parser("review")
+    agent_context_parser = subparsers.add_parser("agent-context")
+    agent_context_parser.add_argument("--target", choices=["codex", "opencode"], required=True)
+    agent_context_parser.add_argument("--output-path", type=Path)
+
+    demo_parser = subparsers.add_parser("demo")
+    demo_parser.add_argument("--dest", type=Path, help="Destination directory for the copied demo workspace")
+
+    new_parser = subparsers.add_parser("new")
+    new_parser.add_argument("problem_statement", nargs="?", default="", help="Problem statement for the new product")
+    new_parser.add_argument("--dest", type=Path, help="Destination directory for the workspace")
+    new_parser.add_argument("--mode", choices=["startup", "enterprise"], default="startup")
+
     ingest = subparsers.add_parser("ingest")
     ingest.add_argument("--output-dir", type=Path)
 
@@ -2624,7 +3384,12 @@ def parse_args() -> argparse.Namespace:
     run_parser.add_argument("--persist", action="store_true")
 
     export_parser = subparsers.add_parser("export")
-    export_parser.add_argument("--output-dir", type=Path, required=True)
+    export_parser.add_argument("--output-dir", type=Path)
+    export_subparsers = export_parser.add_subparsers(dest="export_command")
+    export_artifact_parser = export_subparsers.add_parser("artifact")
+    export_artifact_parser.add_argument("--artifact", required=True)
+    export_artifact_parser.add_argument("--format", dest="format", choices=["markdown", "deck", "agent_brief", "stakeholder_update", "battle_card", "one_pager"], required=True)
+    export_artifact_parser.add_argument("--output-path", type=Path)
 
     visual_parser = subparsers.add_parser("visual")
     visual_subparsers = visual_parser.add_subparsers(dest="visual_command", required=True)
@@ -2891,6 +3656,16 @@ def parse_args() -> argparse.Namespace:
     render_doc_parser = render_subparsers.add_parser("doc")
     render_doc_parser.add_argument("--doc-key", choices=["prd", "problem-brief", "strategy-brief", "user-journey"], required=True)
     render_doc_parser.add_argument("--output-path", type=Path)
+    render_docs_parser = render_subparsers.add_parser("docs")
+
+    render_journey_parser = render_subparsers.add_parser("journey-map")
+    render_journey_parser.add_argument("--workspace-dir", type=Path, required=True)
+
+    render_screen_flow_parser = render_subparsers.add_parser("screen-flow")
+    render_screen_flow_parser.add_argument("--workspace-dir", type=Path, required=True)
+
+    render_prototype_parser = render_subparsers.add_parser("prototype")
+    render_prototype_parser.add_argument("--workspace-dir", type=Path, required=True)
 
     review_parser = subparsers.add_parser("review-delta")
     review_parser.add_argument("--update-id", required=True)
@@ -2900,8 +3675,8 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def main() -> int:
-    args = parse_args()
+def _dispatch_command(args: argparse.Namespace) -> int:
+    """Dispatch to the concrete command handler."""
     if args.command == "status":
         return cmd_status(args)
     if args.command == "ingest":
@@ -2910,6 +3685,10 @@ def main() -> int:
         return cmd_run(args)
     if args.command == "review":
         return cmd_review(args)
+    if args.command == "agent-context":
+        return cmd_agent_context(args)
+    if args.command == "demo":
+        return cmd_demo(args)
     if args.command == "export":
         return cmd_export(args)
     if args.command == "visual":
@@ -2989,9 +3768,51 @@ def main() -> int:
     if args.command == "render":
         if args.render_command == "doc":
             return cmd_render_doc(args)
+        if args.render_command == "docs":
+            return cmd_render_docs(args)
+        if args.render_command == "journey-map":
+            return cmd_render_journey_map(args)
+        if args.render_command == "screen-flow":
+            return cmd_render_screen_flow(args)
+        if args.render_command == "prototype":
+            return cmd_render_prototype(args)
     if args.command == "review-delta":
         return cmd_review_delta(args)
+    if args.command == "new":
+        return cmd_new(args)
     raise AssertionError(f"Unsupported command: {args.command}")
+
+
+def main() -> int:
+    args = parse_args()
+    if args.output_format == "json":
+        import io
+        import sys
+        old_stdout = sys.stdout
+        sys.stdout = captured = io.StringIO()
+        try:
+            code = _dispatch_command(args)
+        except SystemExit as exc:
+            code = exc.code if isinstance(exc.code, int) else 1
+        except Exception as exc:
+            sys.stdout = old_stdout
+            result = {
+                "status": "error",
+                "code": type(exc).__name__,
+                "message": str(exc),
+            }
+            print(json.dumps(result, indent=2))
+            return 1
+        sys.stdout = old_stdout
+        output = captured.getvalue()
+        result = {
+            "status": "ok" if code == 0 else "error",
+            "returncode": code,
+            "stdout": output,
+        }
+        print(json.dumps(result, indent=2))
+        return code
+    return _dispatch_command(args)
 
 
 if __name__ == "__main__":

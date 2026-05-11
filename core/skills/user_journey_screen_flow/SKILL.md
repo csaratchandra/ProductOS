@@ -85,4 +85,5 @@ See `core/examples/artifacts/user_journey_map.example.json`
 
 - **Schema**: `user_journey_map.schema.json`
 - **Test**: `tests/test_v10_user_journey.py`
+- **Test**: `tests/test_user_journey_screen_flow.py`
 - **Example**: `core/examples/artifacts/user_journey_map.example.json`

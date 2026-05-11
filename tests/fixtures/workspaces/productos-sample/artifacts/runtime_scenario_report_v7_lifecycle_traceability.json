@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0.0",
+  "runtime_scenario_report_id": "runtime_scenario_report_ws_productos_v2_v7_lifecycle_traceability",
+  "workspace_id": "ws_productos_v2",
+  "baseline_version": "6.0.0",
+  "candidate_version": "7.0.0",
+  "status": "passed",
+  "summary": "The selected V7 bundle proves one canonical lifecycle trace through launch preparation and post-release outcome review in both the reference and starter workspaces.",
+  "scenarios": [
+    {
+      "scenario_id": "scenario_self_hosting_traceability_to_outcome_review",
+      "name": "Self-hosting lifecycle traceability through outcome review",
+      "status": "passed",
+      "metric_deltas": [
+        {
+          "metric_name": "completed_launch_and_outcome_stage_count",
+          "baseline_value": 0,
+          "candidate_value": 2,
+          "unit": "count",
+          "trend": "improved"
+        }
+      ],
+      "evidence_refs": [
+        "item_lifecycle_state_pm_lifecycle_visibility",
+        "lifecycle_stage_snapshot_launch_pm_visibility",
+        "lifecycle_stage_snapshot_outcomes_pm_visibility",
+        "tests/fixtures/workspaces/productos-sample/docs/delivery/lifecycle-launch-outcome-review.md"
+      ],
+      "gaps": []
+    },
+    {
+      "scenario_id": "scenario_starter_workspace_traceability_to_outcome_review",
+      "name": "Starter-workspace parity through outcome review",
+      "status": "passed",
+      "metric_deltas": [
+        {
+          "metric_name": "starter_completed_launch_and_outcome_stage_count",
+          "baseline_value": 0,
+          "candidate_value": 2,
+          "unit": "count",
+          "trend": "improved"
+        }
+      ],
+      "evidence_refs": [
+        "item_lifecycle_state_starter_trace_demo",
+        "lifecycle_stage_snapshot_launch_starter_trace_demo",
+        "lifecycle_stage_snapshot_outcomes_starter_trace_demo",
+        "templates/docs/delivery/launch-outcome-review.md"
+      ],
+      "gaps": []
+    },
+    {
+      "scenario_id": "scenario_trace_focus_area_coverage",
+      "name": "Trace focus-area coverage remains aligned with the CLI contract",
+      "status": "passed",
+      "metric_deltas": [
+        {
+          "metric_name": "available_trace_focus_area_count",
+          "baseline_value": 5,
+          "candidate_value": 5,
+          "unit": "count",
+          "trend": "flat"
+        }
+      ],
+      "evidence_refs": [
+        "lifecycle_stage_snapshot_full_lifecycle_pm_visibility",
+        "lifecycle_stage_snapshot_full_lifecycle_starter_trace_demo",
+        "tests/fixtures/workspaces/productos-sample/docs/planning/current-plan.md"
+      ],
+      "gaps": []
+    },
+    {
+      "scenario_id": "scenario_full_lifecycle_completion",
+      "name": "Launch and outcome stages are no longer deferred",
+      "status": "passed",
+      "metric_deltas": [
+        {
+          "metric_name": "not_started_stage_count_after_release_readiness",
+          "baseline_value": 2,
+          "candidate_value": 0,
+          "unit": "count",
+          "trend": "improved"
+        }
+      ],
+      "evidence_refs": [
+        "item_lifecycle_state_pm_lifecycle_visibility",
+        "item_lifecycle_state_starter_trace_demo",
+        "tests/fixtures/workspaces/productos-sample/docs/planning/v7-candidate-note.md"
+      ],
+      "gaps": []
+    }
+  ],
+  "generated_at": "2026-03-22T08:00:00Z"
+}

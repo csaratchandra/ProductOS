@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.1.0",
+  "release_note_id": "release_note_pm_lifecycle_visibility",
+  "workspace_id": "ws_productos_v2",
+  "title": "Release Note: Lifecycle Traceability Through Outcome Review",
+  "summary": "This release extends the canonical ProductOS lifecycle trace through launch preparation, governed release communication, and post-release outcome review.",
+  "feature_ids": [
+    "feature_item_lifecycle_traceability"
+  ],
+  "audience": "leadership",
+  "change_classification": "major_product_change",
+  "version_impact": "major",
+  "customer_visible": true,
+  "claims": [
+    {
+      "claim": "This release extends the canonical ProductOS lifecycle trace through launch preparation, governed release communication, and post-release outcome review.",
+      "evidence_refs": [
+        "release_readiness_ws_productos_v2_v7_lifecycle_traceability",
+        "item_lifecycle_state_pm_lifecycle_visibility"
+      ],
+      "evidence_status": "verified",
+      "audience_scope": "customer_safe"
+    }
+  ],
+  "classification_rationale": "The release expands the stable ProductOS lifecycle claim from bounded release readiness to full launch and outcome traceability.",
+  "known_limitations": [
+    "External publication adapters still remain a later bounded extension beyond the core lifecycle trace claim."
+  ],
+  "followup_support_path": "Use the lifecycle trace review docs and validation records before broadening external publication claims.",
+  "generated_at": "2026-04-07T07:15:00Z"
+}
