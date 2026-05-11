@@ -728,8 +728,41 @@ def test_productos_portfolio_build_rolls_up_multiple_workspaces(root_dir: Path, 
     assert portfolio_state["suite_id"] == "suite_pm_superpowers"
     assert len(portfolio_state["product_summaries"]) == 2
     assert portfolio_state["product_summaries"][0]["review_gate_owner"] == "ProductOS PM"
+    assert any("Jira Product Discovery" in item["title"] for item in portfolio_state["opportunity_portfolio_summary"])
     assert cross_product_insight_index["portfolio_id"] == "suite_pm_superpowers"
     assert len(cross_product_insight_index["insights"]) == 2
+    assert any("tracked competitor" in item["summary"].lower() for item in cross_product_insight_index["insights"])
+
+
+def test_init_feed_registry_sets_competitor_monitoring_watch_status(root_dir: Path, tmp_path: Path):
+    workspace_dir = tmp_path / "feed-registry-workspace"
+    start_result = _run_cli(
+        root_dir,
+        "start",
+        "--dest",
+        str(workspace_dir),
+        "--workspace-id",
+        "ws_feed_registry",
+        "--name",
+        "Feed Registry Workspace",
+        "--mode",
+        "startup",
+        "--title",
+        "Feed registry mission",
+        "--customer-problem",
+        "The PM needs recurring competitor monitoring.",
+        "--business-goal",
+        "Keep competitor tracking fresh without manual reconstruction.",
+    )
+    assert start_result.returncode == 0, start_result.stderr or start_result.stdout
+
+    registry_result = _run_workspace_cli(root_dir, workspace_dir, "init-feed-registry")
+    assert registry_result.returncode == 0, registry_result.stderr or registry_result.stdout
+
+    competitor_registry = json.loads((workspace_dir / "artifacts" / "competitor_registry.json").read_text(encoding="utf-8"))
+    assert competitor_registry["competitors"]
+    assert all(item["status"] == "watch" for item in competitor_registry["competitors"])
+    assert all(item["monitoring"]["health_status"] == "unconfigured" for item in competitor_registry["competitors"])
 
 
 def test_case_variant_launchers_delegate_to_productos_cli(root_dir: Path):

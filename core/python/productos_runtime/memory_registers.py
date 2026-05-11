@@ -77,6 +77,39 @@ def _is_starter_seed(*values: str) -> bool:
     return any("starter_trace_demo" in value or "ws_product_starter" in value for value in values if isinstance(value, str))
 
 
+def _monitoring_summary(feed_registry: dict[str, Any] | None) -> dict[str, Any] | None:
+    if not isinstance(feed_registry, dict):
+        return None
+    competitor_feeds = [
+        feed
+        for feed in feed_registry.get("feeds", [])
+        if isinstance(feed, dict) and feed.get("source_type") == "competitor_research"
+    ]
+    if not competitor_feeds:
+        return None
+    health_rank = {"healthy": 0, "empty": 1, "unconfigured": 2, "error": 3}
+    cadence_rank = {"current": 0, "manual": 1, "due": 2, "unknown": 3, "stale": 4}
+    health_status = max(
+        (str(feed.get("health_status", "unconfigured")) for feed in competitor_feeds),
+        key=lambda item: health_rank.get(item, 2),
+        default="unconfigured",
+    )
+    cadence_status = max(
+        (str(feed.get("cadence_status", "unknown")) for feed in competitor_feeds),
+        key=lambda item: cadence_rank.get(item, 3),
+        default="unknown",
+    )
+    checked_at = [str(feed.get("last_checked_at", "")) for feed in competitor_feeds if feed.get("last_checked_at")]
+    success_at = [str(feed.get("last_success_at", "")) for feed in competitor_feeds if feed.get("last_success_at")]
+    return {
+        "feed_ids": _clean_strings([str(feed.get("feed_id", "")) for feed in competitor_feeds]),
+        "health_status": health_status,
+        "cadence_status": cadence_status,
+        "last_checked_at": max(checked_at, default=""),
+        "last_success_at": max(success_at, default=""),
+    }
+
+
 def _problem_entry_from_brief(
     problem_brief: dict[str, Any],
     *,
@@ -174,6 +207,7 @@ def _competitor_entry_from_item(
     competitor_dossier: dict[str, Any],
     related_problem_ids: list[str],
     existing_entry: dict[str, Any] | None = None,
+    monitoring: dict[str, Any] | None = None,
     generated_at: str,
 ) -> dict[str, Any]:
     existing_entry = existing_entry or {}
@@ -193,10 +227,16 @@ def _competitor_entry_from_item(
             *(competitor.get("evidence_refs") or []),
         ]
     )
+    status = existing_entry.get("status", "tracked")
+    if monitoring is not None and (
+        monitoring.get("health_status") in {"empty", "unconfigured", "error"}
+        or monitoring.get("cadence_status") in {"due", "stale", "unknown"}
+    ):
+        status = "watch"
     return {
         "competitor_entry_id": competitor_entry_id,
         "name": name,
-        "status": existing_entry.get("status", "tracked"),
+        "status": status,
         "summary": summary,
         "source_artifact_ids": source_artifact_ids,
         "evidence_refs": evidence_refs,
@@ -210,6 +250,7 @@ def _competitor_entry_from_item(
         ),
         "tags": _clean_strings(existing_entry.get("tags", [])),
         "last_updated_at": generated_at,
+        **({"monitoring": monitoring} if monitoring is not None else {}),
     }
 
 
@@ -219,6 +260,7 @@ def build_competitor_registry(
     *,
     generated_at: str | None = None,
     existing_registry: dict[str, Any] | None = None,
+    feed_registry: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     generated_at = generated_at or _now_iso()
     existing_registry = existing_registry or {}
@@ -242,6 +284,7 @@ def build_competitor_registry(
         for ref in competitor_dossier.get("linked_entity_refs", [])
         if ref.get("entity_type") == "problem" and isinstance(ref.get("entity_id"), str)
     ]
+    monitoring = _monitoring_summary(feed_registry)
     competitor_entries: list[dict[str, Any]] = []
     seen_ids: set[str] = set()
     for competitor in competitor_dossier.get("competitors", []):
@@ -252,6 +295,7 @@ def build_competitor_registry(
             competitor_dossier=competitor_dossier,
             related_problem_ids=related_problem_ids,
             existing_entry=existing_entry,
+            monitoring=monitoring,
             generated_at=generated_at,
         )
         competitor_entries.append(entry)
@@ -261,6 +305,10 @@ def build_competitor_registry(
             continue
         competitor_entries.append(entry)
     summary = competitor_dossier.get("competitive_frame", "Competitor tracking state")
+    if monitoring is not None:
+        summary = (
+            f"{summary} Monitoring: {monitoring['health_status']} / {monitoring['cadence_status']}."
+        )[:160]
     return {
         "schema_version": "1.0.0",
         "competitor_registry_id": existing_registry.get("competitor_registry_id", f"competitor_registry_{workspace_id}"),
@@ -305,16 +353,32 @@ def load_competitor_registry(
 ) -> dict[str, Any] | None:
     workspace_path = Path(workspace_dir).resolve()
     register_path = workspace_path / "artifacts" / "competitor_registry.json"
-    if register_path.exists():
-        return _load_json(register_path)
     dossier_path = workspace_path / "artifacts" / "competitor_dossier.json"
+    feed_registry_path = workspace_path / "artifacts" / "external_research_feed_registry.json"
+    if register_path.exists():
+        existing = _load_json(register_path)
+        if dossier_path.exists() and feed_registry_path.exists():
+            payload = build_competitor_registry(
+                existing.get("workspace_id", workspace_path.name),
+                _load_json(dossier_path),
+                generated_at=generated_at,
+                existing_registry=existing,
+                feed_registry=_load_json(feed_registry_path),
+            )
+            if persist:
+                _write_json(register_path, payload)
+                _append_manifest_artifact_path(workspace_path, "artifacts/competitor_registry.json")
+            return payload
+        return existing
     if not dossier_path.exists():
         return None
     dossier = _load_json(dossier_path)
+    feed_registry = _load_json(feed_registry_path) if feed_registry_path.exists() else None
     payload = build_competitor_registry(
         dossier.get("workspace_id", workspace_path.name),
         dossier,
         generated_at=generated_at,
+        feed_registry=feed_registry,
     )
     if persist:
         _write_json(register_path, payload)
@@ -328,6 +392,7 @@ def sync_memory_registers(
     generated_at: str,
     problem_brief: dict[str, Any] | None = None,
     competitor_dossier: dict[str, Any] | None = None,
+    feed_registry: dict[str, Any] | None = None,
 ) -> list[str]:
     workspace_path = Path(workspace_dir).resolve()
     artifacts_dir = workspace_path / "artifacts"
@@ -353,6 +418,7 @@ def sync_memory_registers(
             competitor_dossier,
             generated_at=generated_at,
             existing_registry=existing,
+            feed_registry=feed_registry,
         )
         _write_json(register_path, payload)
         _append_manifest_artifact_path(workspace_path, "artifacts/competitor_registry.json")

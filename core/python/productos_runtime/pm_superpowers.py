@@ -8,6 +8,8 @@ from typing import Any
 
 import yaml
 
+from .memory_registers import load_competitor_registry, load_problem_register
+
 
 ROOT = Path(__file__).resolve().parents[3]
 LIFECYCLE_PHASES = [
@@ -118,6 +120,17 @@ DEFAULT_RALPH_STAGE_BY_PHASE = {
 
 def _slug(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
+
+
+def _portfolio_opportunity_from_competitor(name: str, workspace_ids: list[str], watch_count: int) -> dict[str, Any]:
+    return {
+        "opportunity_id": f"opp_compete_{_slug(name)}",
+        "title": f"Respond to {name} across {len(workspace_ids)} workspace(s)",
+        "value_at_stake": "transformational" if len(workspace_ids) >= 3 else "high",
+        "confidence": "high" if len(workspace_ids) >= 2 else "moderate",
+        "time_sensitivity": "high" if watch_count > 0 else "moderate",
+        "learning_priority": "accelerate" if len(workspace_ids) >= 2 else "explore",
+    }
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -791,6 +804,8 @@ def build_cross_product_insight_index(
     for workspace_path in resolved_paths:
         mission_path = workspace_path / "artifacts" / "mission_brief.json"
         product_path = workspace_path / "artifacts" / "product_record.json"
+        problem_register = load_problem_register(workspace_path, generated_at=generated_at, persist=False) or {}
+        competitor_registry = load_competitor_registry(workspace_path, generated_at=generated_at, persist=False) or {}
         if not mission_path.exists():
             continue
         mission_brief = _load_json(mission_path)
@@ -800,22 +815,41 @@ def build_cross_product_insight_index(
             else build_product_record(workspace_path, mission_brief=mission_brief, generated_at=generated_at)
         )
         inferred_portfolio_id = inferred_portfolio_id or mission_brief.get("portfolio_id") or product_record.get("portfolio_id")
+        active_problem_count = sum(1 for item in problem_register.get("problems", []) if item.get("status") == "active")
+        tracked_competitor_count = sum(1 for item in competitor_registry.get("competitors", []) if item.get("status") == "tracked")
+        watch_competitor_count = sum(1 for item in competitor_registry.get("competitors", []) if item.get("status") == "watch")
         insight_tags = [
             mission_brief.get("maturity_band", "zero_to_one"),
             product_record.get("lifecycle_stage", "discovery"),
             "pm_superpower",
+            f"active_problems_{active_problem_count}",
+            f"tracked_competitors_{tracked_competitor_count}",
         ]
+        summary = (
+            f"{mission_brief['title']} currently carries {active_problem_count} active problem(s) and "
+            f"{tracked_competitor_count} tracked competitor(s) in persistent workspace memory."
+        )
+        recommendation = (
+            "Reuse the workspace memory layer before opening a parallel product thread."
+            if watch_competitor_count == 0
+            else "Competitor monitoring is degraded or due; refresh the governed competitor feed before broadening product claims."
+        )
         insights.append(
             {
                 "insight_id": f"insight_{product_record['workspace_id']}",
                 "workspace_id": product_record["workspace_id"],
                 "mission_ref": mission_brief["mission_brief_id"],
                 "title": f"Reuse signals from {mission_brief['title']}",
-                "summary": f"{mission_brief['title']} already captures a bounded mission, explicit KPIs, and a review owner for the current workspace.",
+                "summary": summary,
                 "tags": insight_tags,
                 "observed_vs_inferred": "observed",
-                "evidence_refs": [mission_brief["mission_brief_id"], product_record["product_record_id"]],
-                "reusable_recommendation": "Reuse the mission intake, KPI framing, and approval posture before opening a parallel workspace flow.",
+                "evidence_refs": [
+                    mission_brief["mission_brief_id"],
+                    product_record["product_record_id"],
+                    *([problem_register.get("problem_register_id")] if problem_register.get("problem_register_id") else []),
+                    *([competitor_registry.get("competitor_registry_id")] if competitor_registry.get("competitor_registry_id") else []),
+                ],
+                "reusable_recommendation": recommendation,
             }
         )
     return {
@@ -849,11 +883,16 @@ def build_portfolio_state_from_workspaces(
     primary_outcomes: list[str] = []
     primary_kpis: list[str] = []
     portfolio_risks: list[str] = []
+    opportunity_portfolio_summary: list[dict[str, Any]] = []
     review_gate_owner = "Portfolio PM"
     resolved_paths = [Path(path).resolve() for path in workspace_dirs]
+    competitor_workspace_index: dict[str, list[str]] = {}
+    competitor_watch_index: dict[str, int] = {}
     for workspace_path in resolved_paths:
         mission_path = workspace_path / "artifacts" / "mission_brief.json"
         product_path = workspace_path / "artifacts" / "product_record.json"
+        problem_register = load_problem_register(workspace_path, generated_at=generated_at, persist=False) or {}
+        competitor_registry = load_competitor_registry(workspace_path, generated_at=generated_at, persist=False) or {}
         if not mission_path.exists():
             portfolio_risks.append(f"Workspace '{workspace_path.name}' is missing mission or product state.")
             continue
@@ -884,7 +923,44 @@ def build_portfolio_state_from_workspaces(
         primary_outcomes.extend(product_record.get("primary_outcomes", []))
         primary_kpis.extend(product_record.get("primary_kpis", []))
         review_gate_owner = product_record.get("review_gate_owner", review_gate_owner)
+        current_problem_id = problem_register.get("current_problem_entry_id")
+        active_problem = next(
+            (item for item in problem_register.get("problems", []) if item.get("problem_entry_id") == current_problem_id),
+            None,
+        )
+        if active_problem is not None:
+            opportunity_portfolio_summary.append(
+                {
+                    "opportunity_id": f"opp_{product_record['workspace_id']}_{active_problem['problem_entry_id']}",
+                    "title": active_problem["title"],
+                    "value_at_stake": "high" if active_problem.get("status") == "active" else "moderate",
+                    "confidence": "high" if active_problem.get("freshness_status") == "fresh" else "moderate",
+                    "time_sensitivity": "high" if active_problem.get("freshness_status") == "stale" else "moderate",
+                    "learning_priority": "accelerate" if active_problem.get("status") == "active" else "explore",
+                }
+            )
+        for competitor in competitor_registry.get("competitors", []):
+            name = competitor.get("name")
+            if not isinstance(name, str) or not name.strip():
+                continue
+            competitor_workspace_index.setdefault(name, []).append(product_record["workspace_id"])
+            if competitor.get("status") == "watch":
+                competitor_watch_index[name] = competitor_watch_index.get(name, 0) + 1
+        if any(item.get("status") == "watch" for item in competitor_registry.get("competitors", [])):
+            portfolio_risks.append(
+                f"Workspace '{product_record['workspace_id']}' has competitor monitoring entries in watch status."
+            )
     normalized_suite_id = suite_id or (product_summaries[0]["workspace_id"] if product_summaries else "workspace_portfolio")
+    for competitor_name, workspace_ids in sorted(competitor_workspace_index.items()):
+        if len(set(workspace_ids)) < 2:
+            continue
+        opportunity_portfolio_summary.append(
+            _portfolio_opportunity_from_competitor(
+                competitor_name,
+                sorted(set(workspace_ids)),
+                competitor_watch_index.get(competitor_name, 0),
+            )
+        )
     summary = (
         f"The portfolio currently tracks {len(product_summaries)} workspace(s) through one mission-first PM control plane."
         if product_summaries
@@ -916,7 +992,7 @@ def build_portfolio_state_from_workspaces(
                 "next_approval_needed": "Initialize workspace state",
             }
         ],
-        "opportunity_portfolio_summary": [],
+        "opportunity_portfolio_summary": opportunity_portfolio_summary,
         "cross_product_dependencies": [],
         "portfolio_risks": list(dict.fromkeys(portfolio_risks)),
         "generated_at": generated_at,

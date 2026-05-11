@@ -26,7 +26,16 @@
         "direct",
         "atlassian"
       ],
-      "last_updated_at": "2026-03-20T12:30:00Z"
+      "last_updated_at": "2026-03-20T12:30:00Z",
+      "monitoring": {
+        "feed_ids": [
+          "feed_competitor_research"
+        ],
+        "health_status": "healthy",
+        "cadence_status": "current",
+        "last_checked_at": "2026-03-20T12:30:00Z",
+        "last_success_at": "2026-03-20T12:30:00Z"
+      }
     },
     {
       "competitor_entry_id": "competitor_entry_internal_pm_documents_and_trackers",
@@ -51,7 +60,16 @@
         "in_house",
         "status_quo"
       ],
-      "last_updated_at": "2026-03-20T12:30:00Z"
+      "last_updated_at": "2026-03-20T12:30:00Z",
+      "monitoring": {
+        "feed_ids": [
+          "feed_competitor_research"
+        ],
+        "health_status": "healthy",
+        "cadence_status": "current",
+        "last_checked_at": "2026-03-20T12:30:00Z",
+        "last_success_at": "2026-03-20T12:30:00Z"
+      }
     }
   ],
   "created_at": "2026-03-20T12:30:00Z",

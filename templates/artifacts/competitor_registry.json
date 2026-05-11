@@ -25,7 +25,16 @@
         "direct",
         "starter"
       ],
-      "last_updated_at": "2026-03-23T11:06:00Z"
+      "last_updated_at": "2026-03-23T11:06:00Z",
+      "monitoring": {
+        "feed_ids": [
+          "feed_competitor_research"
+        ],
+        "health_status": "unconfigured",
+        "cadence_status": "due",
+        "last_checked_at": "",
+        "last_success_at": ""
+      }
     },
     {
       "competitor_entry_id": "competitor_entry_linear",
@@ -48,7 +57,16 @@
         "direct",
         "execution"
       ],
-      "last_updated_at": "2026-03-23T11:06:00Z"
+      "last_updated_at": "2026-03-23T11:06:00Z",
+      "monitoring": {
+        "feed_ids": [
+          "feed_competitor_research"
+        ],
+        "health_status": "unconfigured",
+        "cadence_status": "due",
+        "last_checked_at": "",
+        "last_success_at": ""
+      }
     }
   ],
   "created_at": "2026-03-23T11:06:00Z",

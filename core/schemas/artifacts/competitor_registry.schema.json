@@ -78,6 +78,37 @@
           "default": []
         },
         "last_updated_at": { "type": "string", "format": "date-time" }
+        ,
+        "monitoring": { "$ref": "#/$defs/monitoring" }
+      }
+    }
+    ,
+    "monitoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "feed_ids",
+        "health_status",
+        "cadence_status",
+        "last_checked_at",
+        "last_success_at"
+      ],
+      "properties": {
+        "feed_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "health_status": {
+          "type": "string",
+          "enum": ["healthy", "empty", "error", "unconfigured"]
+        },
+        "cadence_status": {
+          "type": "string",
+          "enum": ["current", "due", "stale", "manual", "unknown"]
+        },
+        "last_checked_at": { "type": "string" },
+        "last_success_at": { "type": "string" }
       }
     }
   }

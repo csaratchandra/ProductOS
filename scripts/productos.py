@@ -1786,6 +1786,7 @@ def cmd_run(args: argparse.Namespace) -> int:
                 generated_at=args.generated_at,
                 problem_brief=bundle.get("discover_problem_brief"),
                 competitor_dossier=bundle.get("discover_competitor_dossier"),
+                feed_registry=bundle.get("external_research_feed_registry"),
             )
             # Slice 2: auto-synthesize customer journey map if persona/problem data exists
             cjm_path = workspace_dir / "artifacts" / "customer_journey_map.json"
@@ -3337,9 +3338,10 @@ def cmd_plan_research(args: argparse.Namespace) -> int:
 
 
 def cmd_init_feed_registry(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
     bundle = build_external_research_feed_registry_from_workspace(
         ROOT,
-        workspace_dir=_workspace_dir(args),
+        workspace_dir=workspace_dir,
         generated_at=args.generated_at,
         persist=not args.no_persist,
     )
@@ -3350,6 +3352,14 @@ def cmd_init_feed_registry(args: argparse.Namespace) -> int:
         return 1
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, RESEARCH_FEED_REGISTRY_ARTIFACTS)
+    competitor_dossier_path = workspace_dir / "artifacts" / "competitor_dossier.json"
+    if competitor_dossier_path.exists() and not args.no_persist:
+        sync_memory_registers(
+            workspace_dir,
+            generated_at=args.generated_at,
+            competitor_dossier=_load_json(competitor_dossier_path),
+            feed_registry=bundle["external_research_feed_registry"],
+        )
     registry = bundle["external_research_feed_registry"]
     print(f"Feed Registry: {registry['external_research_feed_registry_id']}")
     print(f"Registered Feeds: {len(registry['feeds'])}")
@@ -3357,9 +3367,10 @@ def cmd_init_feed_registry(args: argparse.Namespace) -> int:
 
 
 def cmd_discover_research_sources(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
     bundle = discover_external_research_sources_from_workspace(
         ROOT,
-        workspace_dir=_workspace_dir(args),
+        workspace_dir=workspace_dir,
         generated_at=args.generated_at,
         persist=not args.no_persist,
         search_result_limit=args.search_result_limit,
@@ -3372,6 +3383,15 @@ def cmd_discover_research_sources(args: argparse.Namespace) -> int:
         for failure in failures:
             print(f"FAIL: {failure}")
         return 1
+    competitor_dossier_path = workspace_dir / "artifacts" / "competitor_dossier.json"
+    registry_path = workspace_dir / "artifacts" / "external_research_feed_registry.json"
+    if competitor_dossier_path.exists() and registry_path.exists() and not args.no_persist:
+        sync_memory_registers(
+            workspace_dir,
+            generated_at=args.generated_at,
+            competitor_dossier=_load_json(competitor_dossier_path),
+            feed_registry=_load_json(registry_path),
+        )
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, RESEARCH_DISCOVERY_ARTIFACTS)
     discovery = bundle["external_research_source_discovery"]
@@ -3387,9 +3407,10 @@ def cmd_discover_research_sources(args: argparse.Namespace) -> int:
 
 
 def cmd_run_research_loop(args: argparse.Namespace) -> int:
+    workspace_dir = _workspace_dir(args)
     bundle, summary = run_external_research_loop_from_workspace(
         ROOT,
-        workspace_dir=_workspace_dir(args),
+        workspace_dir=workspace_dir,
         generated_at=args.generated_at,
         persist=not args.no_persist,
         search_result_limit=args.search_result_limit,
@@ -3410,6 +3431,13 @@ def cmd_run_research_loop(args: argparse.Namespace) -> int:
     output_names = list(RESEARCH_PLANNING_ARTIFACTS) + list(RESEARCH_DISCOVERY_ARTIFACTS)
     if summary["refresh_status"] == "completed":
         output_names.extend(RESEARCH_RUNTIME_ARTIFACTS)
+    if not args.no_persist and bundle.get("competitor_dossier") is not None:
+        sync_memory_registers(
+            workspace_dir,
+            generated_at=args.generated_at,
+            competitor_dossier=bundle.get("competitor_dossier"),
+            feed_registry=bundle.get("external_research_feed_registry"),
+        )
     if args.output_dir:
         _write_artifacts(args.output_dir, bundle, output_names)
         _write_source_note_cards(args.output_dir, bundle)
