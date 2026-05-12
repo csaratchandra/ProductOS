@@ -81,7 +81,7 @@
     "next_stage": "validate"
   },
   "evidence_refs": [
-    "core/docs/autonomous-pm-swarm-model.md",
+    "core/docs/runtime-state-model.md",
     "core/docs/ai-agent-persona-operating-model.md",
     "context_pack_ws_productos_v2_bounded_baseline",
     "eval_run_report_ws_productos_v2_bounded_baseline",

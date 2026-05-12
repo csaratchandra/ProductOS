@@ -105,7 +105,7 @@ def build_v7_lifecycle_bundle_from_workspace(
     workspace_completion_count = _completed_stage_count(workspace_item, V7_COMPLETION_STAGE_ORDER)
     starter_completion_count = _completed_stage_count(starter_item, V7_COMPLETION_STAGE_ORDER)
 
-    self_hosting_ready = (
+    reference_workspace_ready = (
         workspace_item["current_stage"] == "outcome_review"
         and workspace_item["overall_status"] == "completed"
         and workspace_completion_count == len(V7_COMPLETION_STAGE_ORDER)
@@ -130,7 +130,7 @@ def build_v7_lifecycle_bundle_from_workspace(
     )
 
     scenario_statuses = [
-        self_hosting_ready,
+        reference_workspace_ready,
         starter_ready,
         focus_area_coverage_ready,
         full_lifecycle_completion_ready,
@@ -151,9 +151,9 @@ def build_v7_lifecycle_bundle_from_workspace(
         ),
         "scenarios": [
             {
-                "scenario_id": "scenario_self_hosting_traceability_to_outcome_review",
-                "name": "Self-hosting lifecycle traceability through outcome review",
-                "status": "passed" if self_hosting_ready else "failed",
+                "scenario_id": "scenario_reference_workspace_traceability_to_outcome_review",
+                "name": "Reference workspace lifecycle traceability through outcome review",
+                "status": "passed" if reference_workspace_ready else "failed",
                 "metric_deltas": [
                     {
                         "metric_name": "completed_launch_and_outcome_stage_count",
@@ -169,7 +169,7 @@ def build_v7_lifecycle_bundle_from_workspace(
                     workspace_outcomes_snapshot["lifecycle_stage_snapshot_id"],
                     "templates/docs/delivery/launch-outcome-review.md",
                 ],
-                "gaps": [] if self_hosting_ready else ["Self-hosting lifecycle evidence does not yet cleanly reach launch preparation and outcome review."],
+                "gaps": [] if reference_workspace_ready else ["Reference workspace lifecycle evidence does not yet cleanly reach launch preparation and outcome review."],
             },
             {
                 "scenario_id": "scenario_starter_workspace_traceability_to_outcome_review",
@@ -371,7 +371,7 @@ def build_v7_lifecycle_bundle_from_workspace(
         "claim_readiness": [
             {
                 "claim": "The V7 bundle proves lifecycle traceability through launch preparation and outcome review in both adoption surfaces.",
-                "status": "verified" if self_hosting_ready and starter_ready else "blocked",
+                "status": "verified" if reference_workspace_ready and starter_ready else "blocked",
                 "evidence_refs": [runtime_scenario_report["runtime_scenario_report_id"], manual_validation_record["manual_validation_record_id"]],
             },
             {
@@ -383,8 +383,8 @@ def build_v7_lifecycle_bundle_from_workspace(
         "blocking_evidence_refs": [runtime_scenario_report["runtime_scenario_report_id"]],
         "checks": [
             {
-                "name": "Self-hosting lifecycle trace reaches outcome_review",
-                "status": "passed" if self_hosting_ready else "failed",
+                "name": "Reference workspace lifecycle trace reaches outcome_review",
+                "status": "passed" if reference_workspace_ready else "failed",
                 "notes": "The reference workspace exposes one item-first lifecycle trace from discovery through launch preparation and outcome review.",
             },
             {
@@ -460,7 +460,7 @@ def build_v7_lifecycle_bundle_from_workspace(
         "stages": [
             {
                 "stage_key": "inspect",
-                "status": "passed" if self_hosting_ready else "blocked",
+                "status": "passed" if reference_workspace_ready else "blocked",
                 "owner": "AI Librarian",
                 "findings_summary": "The reference and starter-workspace lifecycle traces were inspected as one bounded V7 release claim through launch preparation and outcome review.",
                 "evidence_refs": [

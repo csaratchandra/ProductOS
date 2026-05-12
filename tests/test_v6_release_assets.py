@@ -31,12 +31,8 @@ def test_v6_archive_preserves_original_lifecycle_state(bundled_workspace_dir: Pa
 
 def test_v7_2_release_surfaces_are_current(root_dir: Path, bundled_workspace_dir: Path):
     release = latest_release(root_dir)
-    workspace_registration = load_json(root_dir / "registry" / "workspaces" / "ws_productos_v2.registration.json")
-    suite_registration = load_json(root_dir / "registry" / "suites" / "suite_productos.registration.json")
     readme = (root_dir / "README.md").read_text(encoding="utf-8")
     version = release["core_version"]
 
-    assert workspace_registration["current_core_version"] == version
-    assert suite_registration["current_core_version"] == version
     assert f"ProductOS V{version} is the current stable ProductOS Core line." in readme
     assert release["summary"].startswith(f"ProductOS V{version} is the stable release for ")

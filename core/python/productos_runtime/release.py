@@ -8,7 +8,20 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-PUBLIC_RELEASE_BLOCKED_PREFIXES = ("workspaces/",)
+PUBLIC_RELEASE_MANIFEST_PATH = Path("core/constitution/public_release_manifest.json")
+PUBLIC_RELEASE_BLOCKED_PREFIXES = (
+    "workspaces/",
+    "internal/",
+    ".agents/",
+    ".codex-plugins/",
+)
+PUBLIC_RELEASE_BLOCKED_PATTERNS = (
+    re.compile(r"^core/docs/.*execution-plan.*\.md$"),
+    re.compile(r"^core/docs/.*release-plan.*\.md$"),
+    re.compile(r"^core/docs/.*scope-brief.*\.md$"),
+    re.compile(r"^core/docs/.*stop-ship.*\.md$"),
+    re.compile(r"^core/docs/.*superpower-plan.*\.md$"),
+)
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -20,6 +33,71 @@ def _write_json(path: Path, payload: dict[str, Any]) -> None:
     with path.open("w", encoding="utf-8") as handle:
         json.dump(payload, handle, indent=2)
         handle.write("\n")
+
+
+def _resolve_optional_public_surface_path(
+    root_dir: Path,
+    path: Path | None,
+) -> Path | None:
+    if path is not None:
+        return path if path.is_absolute() else root_dir / path
+    return None
+
+
+def _load_public_release_manifest(root_dir: Path) -> dict[str, Any]:
+    manifest_path = root_dir / PUBLIC_RELEASE_MANIFEST_PATH
+    if not manifest_path.exists():
+        raise FileNotFoundError(f"Missing public release manifest: {manifest_path}")
+    payload = _load_json(manifest_path)
+    payload.setdefault("exact_paths", [])
+    payload.setdefault("path_prefixes", [])
+    return payload
+
+
+def _public_release_path_allowed(
+    path: str,
+    *,
+    exact_paths: set[str],
+    path_prefixes: tuple[str, ...],
+) -> bool:
+    return path in exact_paths or any(path == prefix.rstrip("/") or path.startswith(prefix) for prefix in path_prefixes)
+
+
+def _public_release_pathspecs(root_dir: Path) -> list[str]:
+    manifest = _load_public_release_manifest(root_dir)
+    pathspecs: list[str] = []
+    for rel_path in manifest["exact_paths"]:
+        if (root_dir / rel_path).exists():
+            pathspecs.append(rel_path)
+    for rel_path in manifest["path_prefixes"]:
+        candidate = root_dir / rel_path.rstrip("/")
+        if candidate.exists():
+            pathspecs.append(rel_path.rstrip("/"))
+    if not pathspecs:
+        raise ValueError("Public release manifest resolved to no existing pathspecs.")
+    return pathspecs
+
+
+def _public_release_outside_allowlist(root_dir: Path, paths: list[str]) -> list[str]:
+    manifest = _load_public_release_manifest(root_dir)
+    exact_paths = set(manifest["exact_paths"])
+    path_prefixes = tuple(manifest["path_prefixes"])
+    return [
+        path
+        for path in paths
+        if not _public_release_path_allowed(path, exact_paths=exact_paths, path_prefixes=path_prefixes)
+    ]
+
+
+def _untracked_public_release_paths(root_dir: Path, *, allowed_untracked: set[str] | None = None) -> list[str]:
+    pathspecs = _public_release_pathspecs(root_dir)
+    output = _run_git(root_dir, "ls-files", "--others", "--exclude-standard", "--", *pathspecs)
+    allowed_untracked = allowed_untracked or set()
+    return [
+        line.strip()
+        for line in output.splitlines()
+        if line.strip() and line.strip() not in allowed_untracked
+    ]
 
 
 def parse_semver(version: str) -> tuple[int, int, int]:
@@ -278,7 +356,10 @@ def _blocked_public_release_paths(paths: list[str]) -> list[str]:
     return [
         path
         for path in paths
-        if any(path == prefix[:-1] or path.startswith(prefix) for prefix in PUBLIC_RELEASE_BLOCKED_PREFIXES)
+        if (
+            any(path == prefix[:-1] or path.startswith(prefix) for prefix in PUBLIC_RELEASE_BLOCKED_PREFIXES)
+            or any(pattern.match(path) for pattern in PUBLIC_RELEASE_BLOCKED_PATTERNS)
+        )
     ]
 
 
@@ -292,8 +373,14 @@ def verify_public_release_alignment(
     readme_path: Path | None = None,
 ) -> dict[str, Any]:
     root_dir = root_dir.resolve()
-    workspace_registration_path = workspace_registration_path or root_dir / "registry" / "workspaces" / "ws_productos_v2.registration.json"
-    suite_registration_path = suite_registration_path or root_dir / "registry" / "suites" / "suite_productos.registration.json"
+    workspace_registration_path = _resolve_optional_public_surface_path(
+        root_dir,
+        workspace_registration_path,
+    )
+    suite_registration_path = _resolve_optional_public_surface_path(
+        root_dir,
+        suite_registration_path,
+    )
     readme_path = readme_path or root_dir / "README.md"
 
     mismatches: list[str] = []
@@ -303,17 +390,19 @@ def verify_public_release_alignment(
             f"Latest release metadata is {latest_release['core_version']} instead of {target_version}."
         )
 
-    workspace_payload = _load_json(workspace_registration_path)
-    if workspace_payload["current_core_version"] != target_version:
-        mismatches.append(
-            f"Workspace registration is {workspace_payload['current_core_version']} instead of {target_version}."
-        )
+    if workspace_registration_path is not None:
+        workspace_payload = _load_json(workspace_registration_path)
+        if workspace_payload["current_core_version"] != target_version:
+            mismatches.append(
+                f"Workspace registration is {workspace_payload['current_core_version']} instead of {target_version}."
+            )
 
-    suite_payload = _load_json(suite_registration_path)
-    if suite_payload["current_core_version"] != target_version:
-        mismatches.append(
-            f"Suite registration is {suite_payload['current_core_version']} instead of {target_version}."
-        )
+    if suite_registration_path is not None:
+        suite_payload = _load_json(suite_registration_path)
+        if suite_payload["current_core_version"] != target_version:
+            mismatches.append(
+                f"Suite registration is {suite_payload['current_core_version']} instead of {target_version}."
+            )
 
     readme_text = readme_path.read_text(encoding="utf-8")
     stable_line = f"ProductOS V{target_version} is the current stable ProductOS Core line."
@@ -362,32 +451,46 @@ def promote_public_release(
     release_path = root_dir / "registry" / "releases" / f"{release_payload['release_id']}.json"
     _write_json(release_path, release_payload)
 
-    workspace_registration_path = workspace_registration_path or root_dir / "registry" / "workspaces" / "ws_productos_v2.registration.json"
-    suite_registration_path = suite_registration_path or root_dir / "registry" / "suites" / "suite_productos.registration.json"
+    workspace_registration_path = _resolve_optional_public_surface_path(
+        root_dir,
+        workspace_registration_path,
+    )
+    suite_registration_path = _resolve_optional_public_surface_path(
+        root_dir,
+        suite_registration_path,
+    )
     readme_path = readme_path or root_dir / "README.md"
 
-    workspace_note = (
-        f"Adopted ProductOS V{target_version} after promoting the {slice_label} through the public release operator."
-    )
-    suite_note = (
-        f"Promoted the suite to ProductOS V{target_version} after the {slice_label} passed the public release operator."
-    )
-    workspace_payload = _update_registration(
-        _load_json(workspace_registration_path),
-        target_version,
-        normalized_released_at,
-        approved_by,
-        workspace_note,
-    )
-    suite_payload = _update_registration(
-        _load_json(suite_registration_path),
-        target_version,
-        normalized_released_at,
-        approved_by,
-        suite_note,
-    )
-    _write_json(workspace_registration_path, workspace_payload)
-    _write_json(suite_registration_path, suite_payload)
+    changed_paths = [
+        readme_path.relative_to(root_dir).as_posix(),
+        release_path.relative_to(root_dir).as_posix(),
+    ]
+    if workspace_registration_path is not None:
+        workspace_note = (
+            f"Adopted ProductOS V{target_version} after promoting the {slice_label} through the public release operator."
+        )
+        workspace_payload = _update_registration(
+            _load_json(workspace_registration_path),
+            target_version,
+            normalized_released_at,
+            approved_by,
+            workspace_note,
+        )
+        _write_json(workspace_registration_path, workspace_payload)
+        changed_paths.append(workspace_registration_path.relative_to(root_dir).as_posix())
+    if suite_registration_path is not None:
+        suite_note = (
+            f"Promoted the suite to ProductOS V{target_version} after the {slice_label} passed the public release operator."
+        )
+        suite_payload = _update_registration(
+            _load_json(suite_registration_path),
+            target_version,
+            normalized_released_at,
+            approved_by,
+            suite_note,
+        )
+        _write_json(suite_registration_path, suite_payload)
+        changed_paths.append(suite_registration_path.relative_to(root_dir).as_posix())
 
     updated_readme = _update_readme(readme_path.read_text(encoding="utf-8"), target_version)
     readme_path.write_text(updated_readme, encoding="utf-8")
@@ -399,12 +502,7 @@ def promote_public_release(
         "workspace_registration_path": workspace_registration_path,
         "suite_registration_path": suite_registration_path,
         "readme_path": readme_path,
-        "changed_paths": [
-            readme_path.relative_to(root_dir).as_posix(),
-            release_path.relative_to(root_dir).as_posix(),
-            workspace_registration_path.relative_to(root_dir).as_posix(),
-            suite_registration_path.relative_to(root_dir).as_posix(),
-        ],
+        "changed_paths": changed_paths,
     }
 
 
@@ -432,7 +530,18 @@ def run_public_release(
         bump=bump,
     )
 
-    _run_git(root_dir, "add", "--all", ".")
+    untracked_paths = _untracked_public_release_paths(
+        root_dir,
+        allowed_untracked=set(promotion["changed_paths"]),
+    )
+    if untracked_paths:
+        raise ValueError(
+            "Public release found untracked public files. Stage or remove them explicitly before release: "
+            + ", ".join(sorted(untracked_paths))
+        )
+
+    _run_git(root_dir, "add", "--update", "--", *_public_release_pathspecs(root_dir))
+    _run_git(root_dir, "add", "--", *promotion["changed_paths"])
     staged_paths = [
         line.strip()
         for line in _run_git(root_dir, "diff", "--cached", "--name-only").splitlines()
@@ -445,6 +554,12 @@ def run_public_release(
     if blocked_paths:
         raise ValueError(
             "Public release attempted to stage blocked paths: " + ", ".join(sorted(blocked_paths))
+        )
+    outside_allowlist = _public_release_outside_allowlist(root_dir, staged_paths)
+    if outside_allowlist:
+        raise ValueError(
+            "Public release attempted to stage paths outside the public allowlist: "
+            + ", ".join(sorted(outside_allowlist))
         )
 
     target_version = promotion["target_version"]
@@ -791,25 +906,33 @@ def promote_release_from_ralph(
         f"Promoted the suite to ProductOS V{target_version} after the {slice_label} passed automatic Ralph-gated release promotion."
     )
 
-    workspace_registration_path = workspace_registration_path or root_dir / "registry" / "workspaces" / "ws_productos_v2.registration.json"
-    suite_registration_path = suite_registration_path or root_dir / "registry" / "suites" / "suite_productos.registration.json"
+    workspace_registration_path = _resolve_optional_public_surface_path(
+        root_dir,
+        workspace_registration_path,
+    )
+    suite_registration_path = _resolve_optional_public_surface_path(
+        root_dir,
+        suite_registration_path,
+    )
     readme_path = readme_path or root_dir / "README.md"
-    workspace_payload = _update_registration(
-        _load_json(workspace_registration_path),
-        target_version,
-        normalized_released_at,
-        approved_by,
-        workspace_note,
-    )
-    suite_payload = _update_registration(
-        _load_json(suite_registration_path),
-        target_version,
-        normalized_released_at,
-        approved_by,
-        suite_note,
-    )
-    _write_json(workspace_registration_path, workspace_payload)
-    _write_json(suite_registration_path, suite_payload)
+    if workspace_registration_path is not None:
+        workspace_payload = _update_registration(
+            _load_json(workspace_registration_path),
+            target_version,
+            normalized_released_at,
+            approved_by,
+            workspace_note,
+        )
+        _write_json(workspace_registration_path, workspace_payload)
+    if suite_registration_path is not None:
+        suite_payload = _update_registration(
+            _load_json(suite_registration_path),
+            target_version,
+            normalized_released_at,
+            approved_by,
+            suite_note,
+        )
+        _write_json(suite_registration_path, suite_payload)
 
     updated_readme = _update_readme(readme_path.read_text(encoding="utf-8"), target_version)
     readme_path.write_text(updated_readme, encoding="utf-8")

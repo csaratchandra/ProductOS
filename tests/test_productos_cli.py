@@ -274,6 +274,23 @@ def test_productos_doctor_command(root_dir: Path, bundled_workspace_dir: Path):
     assert "Top Priority Feature: presentation_superpower" in result.stdout
 
 
+def test_productos_doctor_reports_private_boundary_warnings(root_dir: Path, bundled_workspace_dir: Path):
+    warning_path = root_dir / "core" / "docs" / "v13_1_private_boundary_execution-plan.md"
+    warning_path.write_text(
+        "# V13.1 Private Boundary Test\n\nKeep the workspace out of the shared repo.\n",
+        encoding="utf-8",
+    )
+    try:
+        result = _run_workspace_cli(root_dir, bundled_workspace_dir, "doctor")
+    finally:
+        if warning_path.exists():
+            warning_path.unlink()
+
+    assert result.returncode == 0, result.stderr or result.stdout
+    assert "Private Boundary Warnings:" in result.stdout
+    assert "core/docs/v13_1_private_boundary_execution-plan.md is a tracked public version-plan surface." in result.stdout
+
+
 def test_productos_init_mission_command(root_dir: Path, bundled_workspace_dir: Path, tmp_path: Path):
     workspace_copy = tmp_path / "workspace-copy"
     shutil.copytree(bundled_workspace_dir, workspace_copy)
@@ -803,8 +820,8 @@ def test_productos_run_discover_can_fall_back_to_mission_brief(root_dir: Path, b
         "outputs/discover/discover_problem_brief.json",
         "outputs/discover/discover_concept_brief.json",
         "outputs/discover/discover_prd.json",
-        "inbox/raw-notes/2026-03-22-next-version-superpowers.md",
-        "inbox/transcripts/2026-03-22-dogfood-next-version-session.txt",
+        "inbox/raw-notes/2026-03-22-discovery-coordination-notes.md",
+        "inbox/transcripts/2026-03-22-discovery-session.txt",
     ]:
         path = workspace_copy / relative_path
         if path.exists():
@@ -1012,8 +1029,8 @@ def test_productos_run_discover_persist_syncs_canonical_discover_artifacts_from_
         "outputs/discover/discover_problem_brief.json",
         "outputs/discover/discover_concept_brief.json",
         "outputs/discover/discover_prd.json",
-        "inbox/raw-notes/2026-03-22-next-version-superpowers.md",
-        "inbox/transcripts/2026-03-22-dogfood-next-version-session.txt",
+        "inbox/raw-notes/2026-03-22-discovery-coordination-notes.md",
+        "inbox/transcripts/2026-03-22-discovery-session.txt",
     ]:
         path = workspace_copy / relative_path
         if path.exists():

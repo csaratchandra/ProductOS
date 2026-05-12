@@ -220,7 +220,7 @@ def build_v4_foundation_bundle_from_workspace(
         "validation_tier": "tier_2",
         "benchmark_ref": pm_superpower_benchmark["pm_superpower_benchmark_id"],
         "governance_refs": [
-            "core/docs/v4-execution-plan.md",
+            "core/docs/ralph-loop-model.md",
             "core/docs/v4-artifact-workflow-matrix.md",
             "core/docs/ai-agent-persona-operating-model.md",
         ],
@@ -282,7 +282,7 @@ def build_v4_foundation_bundle_from_workspace(
                 ],
                 "source_refs": [
                     "core/agents/orchestrator/CONTRACT.md",
-                    "core/docs/v4-execution-plan.md",
+                    "core/docs/ralph-loop-model.md",
                 ],
             },
             {
@@ -522,7 +522,7 @@ def build_v4_foundation_bundle_from_workspace(
                 ],
                 "source_refs": [
                     "core/agents/critic/CONTRACT.md",
-                    "core/docs/v4-execution-plan.md",
+                    "core/docs/ralph-loop-model.md",
                 ],
             },
             {
@@ -755,7 +755,7 @@ def build_v4_foundation_bundle_from_workspace(
                     "core/skills/decision_packet_synthesis/SKILL.md",
                 ],
                 "source_refs": [
-                    "core/docs/v4-execution-plan.md",
+                    "core/docs/ralph-loop-model.md",
                     "core/docs/v4-artifact-workflow-matrix.md",
                 ],
             },
@@ -870,7 +870,7 @@ def build_v4_foundation_bundle_from_workspace(
                     "core/skills/publish_safe_summarization/SKILL.md",
                 ],
                 "source_refs": [
-                    "core/docs/v4-execution-plan.md",
+                    "core/docs/ralph-loop-model.md",
                     "components/presentation/docs/presentation-system.md",
                 ],
             },
@@ -929,7 +929,7 @@ def build_v4_foundation_bundle_from_workspace(
         },
         "governance_layer_refs": [
             "core/docs/validation-tier-policy.md",
-            "core/docs/v4-execution-plan.md",
+            "core/docs/ralph-loop-model.md",
             "core/docs/governance-review-model.md",
         ],
         "next_action": "Run targeted PM manual validation on the persona operating profile before adopting it as the default Tier 2 governance control.",
@@ -1409,7 +1409,7 @@ def build_v4_foundation_bundle_from_workspace(
         "validation_tier": "tier_2",
         "scenarios": [
             {
-                "scenario_id": "scn_readable_docs_self_hosted_bundle",
+                "scenario_id": "scn_readable_docs_reference_bundle",
                 "title": "Self-hosted readable doc bundle generation",
                 "scenario_type": "dogfood_run",
                 "result": "partial",
@@ -1545,7 +1545,7 @@ def build_v4_foundation_bundle_from_workspace(
                 "feedback_id": "score_feedback_doc_freshness",
                 "summary": "Automate doc freshness refresh so the PM does not need targeted follow-up to keep discovery, roadmap, and PRD docs current.",
                 "impact_level": "medium",
-                "recommended_action": "Add doc-freshness checks and rescore once the next self-hosted bundle proves lower PM intervention.",
+                "recommended_action": "Add doc-freshness checks and rescore once the next validation bundle proves lower PM intervention.",
                 "route_targets": [
                     "productos_feedback_log",
                     "feedback_cluster_state",

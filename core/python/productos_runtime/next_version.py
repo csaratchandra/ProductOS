@@ -731,7 +731,7 @@ def _collect_inbox_items(workspace_path: Path, generated_at: str) -> list[dict[s
                     "normalization_status": "routed",
                     "recommended_workflow_ids": workflow_ids,
                     "derived_artifact_ids": derived_ids,
-                    "notes": f"Captured for next-version dogfood routing: {excerpt}",
+                    "notes": f"Captured for discovery routing: {excerpt}",
                 }
             )
     return intake_items
@@ -744,8 +744,8 @@ def _build_live_discover_bundle(
     generated_at: str,
     mission_brief: dict[str, Any] | None = None,
 ) -> dict[str, dict[str, Any]]:
-    raw_note_path = workspace_path / "inbox" / "raw-notes" / "2026-03-22-next-version-superpowers.md"
-    transcript_path = workspace_path / "inbox" / "transcripts" / "2026-03-22-dogfood-next-version-session.txt"
+    raw_note_path = workspace_path / "inbox" / "raw-notes" / "2026-03-22-discovery-coordination-notes.md"
+    transcript_path = workspace_path / "inbox" / "transcripts" / "2026-03-22-discovery-session.txt"
 
     if (not raw_note_path.exists() or not transcript_path.exists()) and mission_brief is not None:
         return _build_mission_discover_bundle(
@@ -760,7 +760,7 @@ def _build_live_discover_bundle(
 
     raw_note_lines = raw_note_path.read_text(encoding="utf-8").strip().splitlines()
     transcript_lines = transcript_path.read_text(encoding="utf-8").strip().splitlines()
-    raw_note_headline = raw_note_lines[0] if raw_note_lines else "Next Version Superpowers"
+    raw_note_headline = raw_note_lines[0] if raw_note_lines else "Discovery Coordination Notes"
     transcript_excerpt = transcript_lines[1] if len(transcript_lines) > 1 else transcript_lines[0]
     segment_refs = [{"entity_type": "segment", "entity_id": "segment_b2b_product_teams"}]
     persona_refs = [{"entity_type": "persona", "entity_id": "persona_product_manager"}]
@@ -985,7 +985,7 @@ def _build_live_discover_bundle(
             {
                 "claim": "Strategy-ready discovery is the right wedge.",
                 "proof_requirement": "The next-version packet helps a PM choose the next bet without reopening raw notes and transcripts.",
-                "validation_signal": "Self-hosting review confirms the packet is same-day and decision-ready.",
+                "validation_signal": "Reference workspace review confirms the packet is same-day and decision-ready.",
                 "owner": "PM",
             },
             {
@@ -3804,7 +3804,7 @@ def build_next_version_bundle_from_workspace(
             "next_stage": "validate",
         },
         "evidence_refs": [
-            "core/docs/autonomous-pm-swarm-model.md",
+            "core/docs/runtime-state-model.md",
             "core/docs/ai-agent-persona-operating-model.md",
             context_pack["context_pack_id"],
             eval_run_report["eval_run_report_id"],
@@ -3848,7 +3848,7 @@ def build_next_version_bundle_from_workspace(
                 "summary": "The broader swarm is visible and actionable internally, but the release boundary still keeps autonomous PM replacement claims out of the external promise set.",
                 "evidence_refs": [
                     autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
-                    "core/docs/v7-1-scope-brief.md",
+                    "core/docs/product-workspace-starter-guide.md",
                 ],
             },
         ],
@@ -3881,7 +3881,7 @@ def build_next_version_bundle_from_workspace(
                 "rationale": "The swarm plan makes route ownership, review triggers, and exit conditions explicit enough to be reviewable and reusable.",
                 "evidence_refs": [
                     autonomous_pm_swarm_plan["autonomous_pm_swarm_plan_id"],
-                    "core/docs/autonomous-pm-swarm-model.md",
+                    "core/docs/runtime-state-model.md",
                 ],
             },
             {
@@ -4340,7 +4340,7 @@ def build_next_version_bundle_from_workspace(
         "workspace_id": workspace_id,
         "ingestion_mode": "manual",
         "status": "routing",
-        "routing_summary": "The next-version dogfood loop is routing real inbox notes and transcripts into the discover-to-PRD superpower path.",
+        "routing_summary": "The discovery loop is routing real inbox notes and transcripts into the discover-to-PRD path.",
         "active_inbox_paths": [
             _relative_path(workspace_path / "inbox" / "raw-notes"),
             _relative_path(workspace_path / "inbox" / "transcripts"),

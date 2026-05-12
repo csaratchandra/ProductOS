@@ -7,7 +7,7 @@
   "validation_tier": "tier_2",
   "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
   "governance_refs": [
-    "core/docs/v4-execution-plan.md"
+    "core/docs/ralph-loop-model.md"
   ],
   "review_policy_summary": "This fixture intentionally omits review_path in the first persona profile.",
   "profiles": [
@@ -89,7 +89,7 @@
         "core/skills/strategy_refresh/SKILL.md"
       ],
       "source_refs": [
-        "core/docs/v4-execution-plan.md"
+        "core/docs/ralph-loop-model.md"
       ]
     },
     {

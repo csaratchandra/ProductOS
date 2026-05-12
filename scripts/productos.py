@@ -141,11 +141,48 @@ from core.python.productos_runtime.takeover import (
     build_takeover_feature_scorecard,
     render_takeover_atlas_html,
 )
+from core.python.productos_runtime.atlas_synthesis import grade_atlas_quality
+from core.python.productos_runtime.spec_pipeline import (
+    synthesize_multi_journey,
+    build_full_spec_chain,
+)
+from core.python.productos_runtime.spec_export import (
+    export_agent_native_json,
+    export_agent_tools_json,
+    export_github_issues,
+)
+from core.python.productos_runtime.portfolio_atlas import (
+    build_portfolio_atlas,
+    build_portfolio_gap_analysis,
+)
+from core.python.productos_runtime.ecosystem_map import (
+    build_ecosystem_map,
+    render_ecosystem_html,
+    render_portfolio_atlas_html,
+)
 from core.python.productos_runtime.export_pipeline import export_artifact
 from core.python.productos_runtime.llm import default_provider
 from components.prototype.python.prototype_engine import write_prototype_bundle
 
 SCHEMA_DIR = ROOT / "core" / "schemas" / "artifacts"
+TRACKED_SELF_HOST_DOC_MARKERS = (
+    "private dogfood workspace",
+    "private local dogfood workspace",
+    "keep the workspace out of the shared repo",
+    "productos was used to manage itself",
+)
+PUBLIC_PLAN_FILENAME_MARKERS = (
+    "execution-plan",
+    "release-plan",
+    "scope-brief",
+    "stop-ship",
+    "superpower-plan",
+)
+PRIVATE_INTERNAL_REFERENCE_MARKERS = (
+    "internal/plans/",
+    "internal/proof/",
+    "internal/experiments/",
+)
 PHASE_ARTIFACTS = {
     "discover": [
         "cockpit_state",
@@ -296,6 +333,12 @@ def _default_timestamp() -> str:
 def _load_json(path: Path) -> dict:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def _resolve_destination_path(path: Path | None, *, default: Path) -> Path:
+    if path is None:
+        return default.resolve()
+    return path.resolve()
 
 
 def _workspace_dir(args: argparse.Namespace) -> Path:
@@ -970,6 +1013,54 @@ def _default_start_destination(workspace_name: str) -> Path:
     return ROOT / "workspaces" / _slug(workspace_name)
 
 
+def _default_new_destination(workspace_id: str) -> Path:
+    return Path(workspace_id)
+
+
+def _private_boundary_warnings(root_dir: Path) -> list[str]:
+    warnings: list[str] = []
+
+    docs_dir = root_dir / "core" / "docs"
+    if docs_dir.exists():
+        for path in sorted(docs_dir.glob("*.md")):
+            if any(marker in path.name for marker in PUBLIC_PLAN_FILENAME_MARKERS):
+                warnings.append(
+                    f"{path.relative_to(root_dir).as_posix()} is a tracked public version-plan surface. "
+                    "Move ProductOS plans under internal/plans/."
+                )
+            try:
+                lowered = path.read_text(encoding="utf-8").lower()
+            except OSError:
+                continue
+            if any(marker in lowered for marker in TRACKED_SELF_HOST_DOC_MARKERS):
+                warnings.append(
+                    f"{path.relative_to(root_dir).as_posix()} contains private internal operating instructions "
+                    "on a tracked public docs path."
+                )
+            if any(marker in lowered for marker in PRIVATE_INTERNAL_REFERENCE_MARKERS):
+                warnings.append(
+                    f"{path.relative_to(root_dir).as_posix()} references private internal paths "
+                    "from a tracked public docs file."
+                )
+
+    workspaces_dir = root_dir / "workspaces"
+    if workspaces_dir.exists():
+        local_entries = [
+            entry.name
+            for entry in sorted(workspaces_dir.iterdir())
+            if entry.name != ".gitkeep" and not entry.name.startswith(".")
+        ]
+        if local_entries:
+            preview = ", ".join(local_entries[:3])
+            suffix = "..." if len(local_entries) > 3 else ""
+            warnings.append(
+                f"workspaces/ contains local workspace material ({preview}{suffix}); "
+                "remove it from tracked public surfaces before release."
+            )
+
+    return warnings
+
+
 def _guided_first_win_choice(args: argparse.Namespace) -> dict[str, str]:
     prompt = "What should ProductOS help you create first?"
     choice_value = _prompt_choice(prompt, START_FIRST_WIN_CHOICES)
@@ -1056,7 +1147,6 @@ def _run_workspace_adoption(
     review_threshold: str,
     emit_report: bool = False,
     emit_thread_page: bool = False,
-    include_runtime_support_assets: bool = False,
     dry_run: bool = False,
     output_dir: Path | None = None,
     guided: bool = False,
@@ -1103,7 +1193,6 @@ def _run_workspace_adoption(
         review_threshold=review_threshold,
         emit_report=emit_report,
         emit_thread_page=emit_thread_page,
-        include_runtime_support_assets=include_runtime_support_assets,
     )
     print("Adoption Status: completed")
     print(f"Destination: {destination}")
@@ -2400,6 +2489,11 @@ def cmd_doctor(args: argparse.Namespace) -> int:
         else "healthy" if review["truthfulness_status"] == "healthy" and eval_report["status"] == "passed" else "watch"
     )
     print(f"Bundle Status: {status_label} ({len(bundle)} artifacts validated)")
+    private_boundary_warnings = _private_boundary_warnings(ROOT)
+    if private_boundary_warnings:
+        print("Private Boundary Warnings:")
+        for warning in private_boundary_warnings:
+            print(f"- {warning}")
     _print_mission_summary(workspace_dir)
     print(f"Governed Research: {_governed_research_status(bundle)}")
     print(f"Feed Governance: {_feed_governance_status(bundle)}")
@@ -2874,15 +2968,21 @@ def cmd_start(args: argparse.Namespace) -> int:
         mode = _normalized_text(args.mode)
         if mode not in START_MODE_TO_MATURITY_BAND:
             raise SystemExit("`start --kind import` requires --mode startup or --mode enterprise.")
-        if args.source is None or args.dest is None:
-            raise SystemExit("`start --kind import --non-interactive` requires --source and --dest.")
+        if args.source is None:
+            raise SystemExit("`start --kind import --non-interactive` requires --source.")
         workspace_id = _normalized_text(args.workspace_id)
         name = _normalized_text(args.name)
         if workspace_id is None or name is None:
             raise SystemExit("`start --kind import --non-interactive` requires --workspace-id and --name.")
+        if args.dest is None:
+            raise SystemExit("`start --kind import --non-interactive` requires --dest.")
+        dest = _resolve_destination_path(
+            args.dest,
+            default=_default_start_destination(name),
+        )
         return _run_workspace_adoption(
             source=args.source,
-            dest=args.dest,
+            dest=dest,
             workspace_id=workspace_id,
             name=name,
             mode=mode,
@@ -2906,8 +3006,12 @@ def cmd_start(args: argparse.Namespace) -> int:
     success_metrics = args.success_metric or ["time to reviewable PM package"]
     primary_kpis = args.primary_kpi or success_metrics
     primary_outcomes = args.primary_outcome or ["Create one reviewable PM package"]
+    dest = _resolve_destination_path(
+        args.dest,
+        default=_default_start_destination(name),
+    )
     return _run_start_new(
-        dest=args.dest,
+        dest=dest,
         workspace_id=workspace_id,
         name=name,
         mode=mode,
@@ -2984,7 +3088,10 @@ def cmd_new(args: argparse.Namespace) -> int:
     slug = _slugify_problem(problem_statement)
     workspace_id = f"ws_{slug}"
     name = problem_statement[:80]
-    dest = Path(args.dest or workspace_id).resolve()
+    dest = _resolve_destination_path(
+        args.dest,
+        default=_default_new_destination(workspace_id),
+    )
 
     if dest.exists():
         raise SystemExit(f"Destination already exists: {dest}")
@@ -3279,9 +3386,15 @@ def cmd_thread_review_release_check(args: argparse.Namespace) -> int:
 
 
 def cmd_adopt_workspace(args: argparse.Namespace) -> int:
+    if args.dest is None:
+        raise SystemExit("`import` requires --dest.")
+    dest = _resolve_destination_path(
+        args.dest,
+        default=_default_start_destination(args.name),
+    )
     return _run_workspace_adoption(
         source=args.source,
-        dest=args.dest,
+        dest=dest,
         workspace_id=args.workspace_id,
         name=args.name,
         mode=args.mode,
@@ -3289,7 +3402,6 @@ def cmd_adopt_workspace(args: argparse.Namespace) -> int:
         review_threshold=args.review_threshold,
         emit_report=args.emit_report,
         emit_thread_page=args.emit_thread_page,
-        include_runtime_support_assets=args.include_runtime_support_assets,
         dry_run=args.dry_run,
         output_dir=args.output_dir,
         guided=False,
@@ -3790,11 +3902,6 @@ def parse_args() -> argparse.Namespace:
     adopt_parser.add_argument("--dry-run", action="store_true")
     adopt_parser.add_argument("--emit-report", action="store_true")
     adopt_parser.add_argument("--emit-thread-page", action="store_true")
-    adopt_parser.add_argument(
-        "--include-runtime-support-assets",
-        action="store_true",
-        help="Seed internal runtime/example support artifacts for dogfood use instead of creating a customer-clean workspace.",
-    )
 
     research_parser = subparsers.add_parser("research-workspace")
     research_parser.add_argument("--input-manifest", type=Path, required=True)

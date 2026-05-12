@@ -8,7 +8,7 @@ Source Artifacts: `current_state_assessment`, `source_note_card`, `research_brie
 
 ## Context And Trigger
 
-ProductOS is being self-hosted to reduce PM coordination, reporting, and follow-through overhead while improving trust and operating clarity.
+A product team is using ProductOS to reduce PM coordination, reporting, and follow-through overhead while improving trust and operating clarity.
 
 ## Evidence Summary
 

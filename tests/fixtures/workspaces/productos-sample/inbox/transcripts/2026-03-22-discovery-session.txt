@@ -1,4 +1,4 @@
-Speaker 1: We should treat the current ProductOS workspace as the proving ground for the next version.
+Speaker 1: We should treat the current workspace as the proving ground for the next improvement slice.
 Speaker 2: The next version is only believable if the repo can turn messy notes and transcripts into a decision-ready package.
 Speaker 1: We also need a thin adapter model so the repo works with Codex, Claude-style agents, Windsurf, and Antigravity.
 Speaker 2: If a feature is not five out of five, it should become explicit feedback and route into the improvement loop.

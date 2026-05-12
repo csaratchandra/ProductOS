@@ -28,7 +28,7 @@
       "summary": "The broader swarm is visible and actionable internally, but the release boundary still keeps autonomous PM replacement claims out of the external promise set.",
       "evidence_refs": [
         "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
-        "core/docs/v7-1-scope-brief.md"
+        "core/docs/product-workspace-starter-guide.md"
       ]
     }
   ],
@@ -65,7 +65,7 @@
       "rationale": "The swarm plan makes route ownership, review triggers, and exit conditions explicit enough to be reviewable and reusable.",
       "evidence_refs": [
         "autonomous_pm_swarm_plan_ws_productos_v2_internal_governed",
-        "core/docs/autonomous-pm-swarm-model.md"
+        "core/docs/runtime-state-model.md"
       ]
     },
     {

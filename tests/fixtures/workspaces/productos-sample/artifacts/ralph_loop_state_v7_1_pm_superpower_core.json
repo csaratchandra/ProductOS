@@ -9,9 +9,9 @@
     "feature_portfolio_review_ws_productos_v2_next_version_baseline",
     "eval_run_report_ws_productos_v2_bounded_baseline",
     "release_gate_decision_ws_productos_v2_next_version",
-    "core/docs/v7-1-scope-brief.md",
-    "core/docs/v7-1-release-plan.md",
-    "core/docs/v7-1-stop-ship-checklist.md"
+    "core/docs/product-workspace-starter-guide.md",
+    "core/docs/versioning-and-change-classification-model.md",
+    "core/docs/testing-strategy.md"
   ],
   "stages": [
     {
@@ -21,7 +21,7 @@
       "findings_summary": "The bounded PM superpower baseline, claim boundaries, and release evidence were inspected before promotion.",
       "evidence_refs": [
         "feature_portfolio_review_ws_productos_v2_next_version_baseline",
-        "core/docs/v7-1-scope-brief.md"
+        "core/docs/product-workspace-starter-guide.md"
       ],
       "exit_condition": "The promoted claim is bounded clearly enough to distinguish shipped capability from deferred autonomy and swarm headlines."
     },
@@ -31,8 +31,8 @@
       "owner": "AI Reviewer",
       "findings_summary": "The release narrative now stays anchored to the governed PM superpower core and keeps broader autonomous PM and swarm claims out of scope.",
       "evidence_refs": [
-        "core/docs/v7-1-release-plan.md",
-        "core/docs/v7-1-stop-ship-checklist.md"
+        "core/docs/versioning-and-change-classification-model.md",
+        "core/docs/testing-strategy.md"
       ],
       "exit_condition": "Customer-facing claims do not exceed what the measured artifact evidence supports."
     },
@@ -65,7 +65,7 @@
       "findings_summary": "Release surfaces now record the PM superpower non-goals explicitly so broader autonomous PM and swarm claims do not leak back into the stable line.",
       "evidence_refs": [
         "release_gate_decision_ws_productos_v2_next_version",
-        "core/docs/v7-1-scope-brief.md"
+        "core/docs/product-workspace-starter-guide.md"
       ],
       "exit_condition": "Deferred work remains explicit and bounded instead of being implied as already shipped."
     },

@@ -4,8 +4,8 @@ Purpose: Define and refresh `persona_operating_profile` so ProductOS has explici
 
 ## Inputs
 
-- [v4-execution-plan.md](/Users/sarat/Documents/code/ProductOS/core/docs/archive/version-history/v4-execution-plan.md)
-- [ai-agent-persona-operating-model.md](/Users/sarat/Documents/code/ProductOS/core/docs/ai-agent-persona-operating-model.md)
+- [versioning-and-change-classification-model.md](/Users/sarat/Documents/code/ProductOS/core/docs/versioning-and-change-classification-model.md)
+- [runtime-state-model.md](/Users/sarat/Documents/code/ProductOS/core/docs/runtime-state-model.md)
 - relevant agent contracts and PM operating policies
 - `pm_superpower_benchmark`
 - validation-tier policy and current workflow matrix

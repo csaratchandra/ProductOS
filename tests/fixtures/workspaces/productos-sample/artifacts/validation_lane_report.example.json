@@ -49,7 +49,7 @@
   },
   "governance_layer_refs": [
     "core/docs/validation-tier-policy.md",
-    "core/docs/v4-execution-plan.md",
+    "core/docs/ralph-loop-model.md",
     "core/docs/governance-review-model.md"
   ],
   "next_action": "Run targeted PM manual validation on the persona operating profile before adopting it as the default Tier 2 governance control.",

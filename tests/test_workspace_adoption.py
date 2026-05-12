@@ -131,8 +131,6 @@ def test_import_command_alias_persists_traceable_workspace(root_dir: Path, adopt
     assert "Adoption Status: completed" in result.stdout
     assert destination.exists()
     assert (destination / "artifacts" / "workspace_adoption_report.json").exists()
-
-
 def test_adopt_workspace_persists_traceable_workspace(root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path):
     destination = tmp_path / "adoption_workspace-adopted"
     result = _run_cli(
@@ -200,8 +198,8 @@ def test_adopt_workspace_persists_traceable_workspace(root_dir: Path, adoption_w
 
     assert (destination / "docs" / "planning" / "workspace-adoption-report.md").exists()
     assert (destination / "docs" / "review" / "thread-review.html").exists()
-    assert not (destination / "inbox" / "raw-notes" / "2026-03-22-next-version-superpowers.md").exists()
-    assert not (destination / "inbox" / "transcripts" / "2026-03-22-dogfood-next-version-session.txt").exists()
+    assert not (destination / "inbox" / "raw-notes" / "2026-03-22-discovery-coordination-notes.md").exists()
+    assert not (destination / "inbox" / "transcripts" / "2026-03-22-discovery-session.txt").exists()
 
 
 def test_adopted_workspace_supports_trace_command(root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path):
@@ -234,115 +232,6 @@ def test_adopted_workspace_supports_trace_command(root_dir: Path, adoption_works
     assert trace_result.returncode == 0, trace_result.stderr or trace_result.stdout
     assert "Focus Area: discovery" in trace_result.stdout
     assert "- prd_handoff: items=1, gate_passed=0, gate_pending=1" in trace_result.stdout
-
-
-def test_adopted_workspace_supports_ingest_discover_and_validate(root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path):
-    destination = tmp_path / "adoption_workspace-adopted"
-    adopt_result = _run_cli(
-        root_dir,
-        "adopt-workspace",
-        "--source",
-        str(adoption_workspace_dir),
-        "--dest",
-        str(destination),
-        "--workspace-id",
-        "ws_adoption_workspace",
-        "--name",
-        "Adoption Workspace",
-        "--mode",
-        "research",
-        "--include-runtime-support-assets",
-    )
-    assert adopt_result.returncode == 0, adopt_result.stderr or adopt_result.stdout
-
-    ingest_result = _run_cli(
-        root_dir,
-        "--workspace-dir",
-        str(destination),
-        "ingest",
-    )
-    assert ingest_result.returncode == 0, ingest_result.stderr or ingest_result.stdout
-    assert "Ingestion Mode: manual" in ingest_result.stdout
-    assert "Intake Items:" in ingest_result.stdout
-
-    discover_output = tmp_path / "discover-output"
-    discover_result = _run_cli(
-        root_dir,
-        "--workspace-dir",
-        str(destination),
-        "run",
-        "discover",
-        "--output-dir",
-        str(discover_output),
-    )
-    assert discover_result.returncode == 0, discover_result.stderr or discover_result.stdout
-    assert "Phase: discover" in discover_result.stdout
-    assert "Context Pack: context_pack_ws_adoption_workspace_bounded_baseline" in discover_result.stdout
-    assert (discover_output / "discover_problem_brief.json").exists()
-    assert (discover_output / "discover_concept_brief.json").exists()
-    assert (discover_output / "discover_prd.json").exists()
-
-    align_output = tmp_path / "align-output"
-    align_result = _run_cli(
-        root_dir,
-        "--workspace-dir",
-        str(destination),
-        "run",
-        "align",
-        "--output-dir",
-        str(align_output),
-    )
-    assert align_result.returncode == 0, align_result.stderr or align_result.stdout
-    presentation_brief = json.loads((align_output / "presentation_brief.json").read_text(encoding="utf-8"))
-    assert presentation_brief["known_gaps"]
-    assert presentation_brief["external_research_questions"]
-    assert presentation_brief["contradiction_summaries"]
-    assert any(
-        snapshot["artifact_id"] == "research_brief_adoption_workspace"
-        for snapshot in presentation_brief["source_material_snapshots"]
-    )
-    presentation_story = json.loads((align_output / "presentation_story.json").read_text(encoding="utf-8"))
-    corridor_spec = json.loads((align_output / "workflow_corridor_spec.json").read_text(encoding="utf-8"))
-    corridor_publish_check = json.loads((align_output / "corridor_publish_check.json").read_text(encoding="utf-8"))
-    assert any(slide["slide_id"] == "slide_conflicted_evidence" for slide in presentation_story["slides"])
-    assert corridor_spec["publication_mode"] == "publishable_external"
-    assert corridor_spec["customer_safe"] is True
-    assert corridor_publish_check["corridor_publish_check_id"].startswith("corridor_publish_check_")
-
-    validate_result = _run_cli(
-        root_dir,
-        "--workspace-dir",
-        str(destination),
-        "validate-workspace",
-    )
-    assert validate_result.returncode == 0, validate_result.stderr or validate_result.stdout
-    assert "Workspace validation passed:" in validate_result.stdout
-    assert "source note cards indexed." in validate_result.stdout
-
-
-def test_adopt_workspace_runtime_support_assets_are_opt_in(root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path):
-    destination = tmp_path / "adoption_workspace-adopted-with-runtime"
-    result = _run_cli(
-        root_dir,
-        "adopt-workspace",
-        "--source",
-        str(adoption_workspace_dir),
-        "--dest",
-        str(destination),
-        "--workspace-id",
-        "ws_adoption_workspace",
-        "--name",
-        "Adoption Workspace",
-        "--mode",
-        "research",
-        "--include-runtime-support-assets",
-    )
-
-    assert result.returncode == 0, result.stderr or result.stdout
-    assert (destination / "artifacts" / "decision_queue.example.json").exists()
-    assert (destination / "artifacts" / "runtime_adapter_registry.example.json").exists()
-    assert (destination / "inbox" / "raw-notes" / "2026-03-22-next-version-superpowers.md").exists()
-    assert (destination / "inbox" / "transcripts" / "2026-03-22-dogfood-next-version-session.txt").exists()
 
 
 def test_research_workspace_refreshes_external_research_artifacts(root_dir: Path, adoption_workspace_dir: Path, tmp_path: Path):

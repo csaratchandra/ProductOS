@@ -8,8 +8,8 @@
   "summary": "The selected V7 bundle proves one canonical lifecycle trace through launch preparation and post-release outcome review in both the reference and starter workspaces.",
   "scenarios": [
     {
-      "scenario_id": "scenario_self_hosting_traceability_to_outcome_review",
-      "name": "Self-hosting lifecycle traceability through outcome review",
+      "scenario_id": "scenario_reference_workspace_traceability_to_outcome_review",
+      "name": "Reference workspace lifecycle traceability through outcome review",
       "status": "passed",
       "metric_deltas": [
         {

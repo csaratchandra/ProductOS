@@ -36,7 +36,7 @@ Recommended next-version moves, in priority order:
 Specific repo surfaces that should absorb these lessons:
 
 - `core/docs/thin-agent-adapter-model.md`: extend from “thin adapter” principle to an explicit adapter capability matrix covering planning, tool orchestration, citation/freshness, validation, delegation, and approval controls.
-- `core/docs/autonomous-pm-swarm-model.md`: add a sharper route-budget and reviewer-stack policy informed by the bounded parallelism patterns seen in Codex CLI, Antigravity, and Qoder.
+- `core/docs/runtime-state-model.md`: add a sharper route-budget and reviewer-stack policy informed by the bounded parallelism patterns seen in Codex CLI, Antigravity, and Qoder.
 - `core/docs/continuous-intake-and-memory-model.md`: add a named steering/context layer for reusable workspace instructions, stable norms, and retrieved memory with provenance.
 - `core/docs/live-doc-and-messaging-model.md`: add formatting and evidence rules for leadership- and customer-facing outputs so messaging stays traceable to artifacts.
 - `core/docs/research-command-center-model.md` and related research artifacts: incorporate search-first freshness and citation expectations similar to Perplexity and Notion AI.

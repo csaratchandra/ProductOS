@@ -145,7 +145,7 @@ def build_v6_lifecycle_bundle_from_workspace(
     workspace_deferred_count = _explicit_deferred_stage_count(workspace_item)
     starter_deferred_count = _explicit_deferred_stage_count(starter_item)
 
-    self_hosting_ready = (
+    reference_workspace_ready = (
         workspace_item["current_stage"] == "release_readiness"
         and workspace_item["overall_status"] == "completed"
         and workspace_delivery_count == len(V6_DELIVERY_STAGE_ORDER)
@@ -168,7 +168,7 @@ def build_v6_lifecycle_bundle_from_workspace(
     )
 
     scenario_statuses = [
-        self_hosting_ready,
+        reference_workspace_ready,
         starter_ready,
         focus_area_coverage_ready,
         scoped_boundary_ready,
@@ -189,9 +189,9 @@ def build_v6_lifecycle_bundle_from_workspace(
         ),
         "scenarios": [
             {
-                "scenario_id": "scenario_self_hosting_traceability_to_release_readiness",
-                "name": "Self-hosting lifecycle traceability through release readiness",
-                "status": "passed" if self_hosting_ready else "failed",
+                "scenario_id": "scenario_reference_workspace_traceability_to_release_readiness",
+                "name": "Reference workspace lifecycle traceability through release readiness",
+                "status": "passed" if reference_workspace_ready else "failed",
                 "metric_deltas": [
                     {
                         "metric_name": "completed_delivery_stage_count",
@@ -206,7 +206,7 @@ def build_v6_lifecycle_bundle_from_workspace(
                     workspace_delivery_snapshot["lifecycle_stage_snapshot_id"],
                     "templates/docs/delivery/release-readiness-review.md",
                 ],
-                "gaps": [] if self_hosting_ready else ["Self-hosting lifecycle evidence does not yet cleanly reach release_readiness."],
+                "gaps": [] if reference_workspace_ready else ["Reference workspace lifecycle evidence does not yet cleanly reach release_readiness."],
             },
             {
                 "scenario_id": "scenario_starter_workspace_traceability_to_release_readiness",
@@ -405,7 +405,7 @@ def build_v6_lifecycle_bundle_from_workspace(
         "claim_readiness": [
             {
                 "claim": "The V6 bundle proves lifecycle traceability through release_readiness in both adoption surfaces.",
-                "status": "verified" if self_hosting_ready and starter_ready else "blocked",
+                "status": "verified" if reference_workspace_ready and starter_ready else "blocked",
                 "evidence_refs": [runtime_scenario_report["runtime_scenario_report_id"], manual_validation_record["manual_validation_record_id"]],
             },
             {
@@ -417,8 +417,8 @@ def build_v6_lifecycle_bundle_from_workspace(
         "blocking_evidence_refs": [runtime_scenario_report["runtime_scenario_report_id"]],
         "checks": [
             {
-                "name": "Self-hosting lifecycle trace reaches release_readiness",
-                "status": "passed" if self_hosting_ready else "failed",
+                "name": "Reference workspace lifecycle trace reaches release_readiness",
+                "status": "passed" if reference_workspace_ready else "failed",
                 "notes": "The reference workspace exposes one item-first lifecycle trace from discovery through delivery planning and release_readiness.",
             },
             {
@@ -492,7 +492,7 @@ def build_v6_lifecycle_bundle_from_workspace(
         "stages": [
             {
                 "stage_key": "inspect",
-                "status": "passed" if self_hosting_ready else "blocked",
+                "status": "passed" if reference_workspace_ready else "blocked",
                 "owner": "AI Librarian",
                 "findings_summary": "The reference and starter-workspace lifecycle traces were inspected as one bounded V6 release claim through release_readiness.",
                 "evidence_refs": [

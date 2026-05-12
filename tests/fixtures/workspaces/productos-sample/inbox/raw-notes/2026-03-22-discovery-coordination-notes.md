@@ -1,4 +1,4 @@
-# Next Version Superpowers
+# Discovery Coordination Notes
 
 - ProductOS should use the current ProductOS workspace to build the next version.
 - The first must-win superpower is messy input to PRD with much less PM reconstruction work.

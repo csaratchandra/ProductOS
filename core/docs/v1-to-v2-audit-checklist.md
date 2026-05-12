@@ -46,7 +46,7 @@ Audit:
 
 Look for drift into internal system language or AI-agent jargon.
 
-### 3. Self-hosting capability
+### 3. Reference workspace capability
 
 Check whether V2 can operate ProductOS itself as a product more cleanly than V1.
 

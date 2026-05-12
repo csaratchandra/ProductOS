@@ -11,7 +11,7 @@ Decision: V2 is genuinely better than V1 and is ready to be treated as the stabl
 | PM lifecycle coverage | materially improved | V2 now covers current-state assessment through launch, support, and ProductOS improvement with a clearer lifecycle spine. |
 | PM terminology and usability | improved | Queue, handoff, launch, and validation language now uses more standard PM wording and less internal AI jargon. |
 | Explicit-workspace capability | materially improved | A dedicated workspace, plus release, improvement, and workspace registration records, make ProductOS operate as its own product. |
-| Note capture and raw-input intake | materially improved | Self-hosting workspace now includes a scaffolded `inbox/` plus the inbox normalization workflow. |
+| Note capture and raw-input intake | materially improved | Reference workspace now includes a scaffolded `inbox/` plus the inbox normalization workflow. |
 | ProductOS feedback logging | materially improved | Dedicated `productos_feedback_log` artifact and triage workflow now separate ProductOS feedback from general workspace artifacts. |
 | Discovery quality | improved | Current-state, weak-signal, customer pulse, note-card, research, and problem-framing paths are now explicit and traceable. |
 | Prioritization and decision quality | improved | Decision queue, strategy option, decision premortem, and uncertainty framing are first-class V2 assets. |

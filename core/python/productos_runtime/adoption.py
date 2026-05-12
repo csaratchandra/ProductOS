@@ -75,47 +75,6 @@ _FOCUS_STAGE_KEYS = {
     "full_lifecycle": LIFECYCLE_STAGE_ORDER,
 }
 
-_RUNTIME_SUPPORT_ARTIFACTS = [
-    "increment_plan.json",
-    "decision_queue.example.json",
-    "decision_log.example.json",
-    "follow_up_queue.example.json",
-    "status_mail.example.json",
-    "issue_log.example.json",
-    "release_readiness.example.json",
-    "release_gate_decision.example.json",
-    "runtime_adapter_registry.example.json",
-    "execution_session_state.example.json",
-    "productos_feedback_log.example.json",
-    "presentation_brief.example.json",
-    "presentation_sample_record.example.json",
-    "presentation_pattern_review.example.json",
-    "feedback_cluster_state.example.json",
-    "gap_cluster_state.example.json",
-    "improvement_loop_state.example.json",
-    "pm_benchmark.example.json",
-    "superpower_benchmark.example.json",
-    "research_notebook_agentic_market_intelligence.example.json",
-    "landscape_matrix_agentic_market_intelligence.example.json",
-    "competitor_dossier_agentic_market_intelligence.example.json",
-    "market_analysis_brief_agentic_market_intelligence.example.json",
-    "research_feature_recommendation_brief.example.json",
-    "ralph_loop_state.example.json",
-    "validation_lane_report_market_intelligence.example.json",
-    "manual_validation_record_market_intelligence.example.json",
-    "rejected_path_record_market_intelligence.example.json",
-    "leadership_review_market_intelligence_distribution.example.json",
-    "portfolio_update_market_intelligence_distribution.example.json",
-    "runtime_scenario_report_market_distribution.example.json",
-    "document_sync_state_live_docs.example.json",
-    "runtime_scenario_report_adapter_parity.example.json",
-    "runtime_scenario_report_market_refresh.example.json",
-    "validation_lane_report_next_version_completion.example.json",
-    "manual_validation_record_next_version_completion.example.json",
-    "release_gate_decision_next_version_completion.example.json",
-]
-
-
 def _priority_profile(
     *,
     lane: str,
@@ -4397,64 +4356,7 @@ def _append_manifest_artifact_path(manifest_path: Path, relative_path: str) -> N
         yaml.safe_dump(manifest, handle, sort_keys=False)
 
 
-def _support_artifacts_dir(root: Path) -> Path | None:
-    bundled_artifacts = root / "tests" / "fixtures" / "workspaces" / "productos-sample" / "artifacts"
-    if bundled_artifacts.exists():
-        return bundled_artifacts
-    return None
-
-
-def _support_artifact_source(root: Path, filename: str) -> Path | None:
-    internal_dir = _support_artifacts_dir(root)
-    if internal_dir is not None:
-        candidate = internal_dir / filename
-        if candidate.exists():
-            return candidate
-    core_candidate = root / "core" / "examples" / "artifacts" / filename
-    if core_candidate.exists():
-        return core_candidate
-    return None
-
-
-def _seed_runtime_support_assets(root: Path, destination: Path, workspace_id: str) -> None:
-    support_dir = _support_artifacts_dir(root)
-    if support_dir is None:
-        return
-
-    artifacts_dir = destination / "artifacts"
-    manifest_path = destination / "workspace_manifest.yaml"
-    for filename in _RUNTIME_SUPPORT_ARTIFACTS:
-        source_path = _support_artifact_source(root, filename)
-        if source_path is None:
-            continue
-        payload = _rewrite_workspace_ids(_load_json(source_path), workspace_id)
-        _write_json(artifacts_dir / filename, payload)
-        _append_manifest_artifact_path(manifest_path, f"artifacts/{filename}")
-
-    existing_source_note_card_ids: set[str] = set()
-    for existing_path in sorted(artifacts_dir.glob("source_note_card*.json")):
-        payload = _load_json(existing_path)
-        source_note_card_id = payload.get("source_note_card_id")
-        if isinstance(source_note_card_id, str) and source_note_card_id:
-            existing_source_note_card_ids.add(source_note_card_id)
-
-    for source_path in sorted(support_dir.glob("source_note_card*.json")):
-        payload = _rewrite_workspace_ids(_load_json(source_path), workspace_id)
-        source_note_card_id = payload.get("source_note_card_id")
-        if isinstance(source_note_card_id, str) and source_note_card_id in existing_source_note_card_ids:
-            continue
-        _write_json(artifacts_dir / source_path.name, payload)
-        _append_manifest_artifact_path(manifest_path, f"artifacts/{source_path.name}")
-        if isinstance(source_note_card_id, str) and source_note_card_id:
-            existing_source_note_card_ids.add(source_note_card_id)
-
-
-def _copy_source_into_inbox(
-    source_dir: Path,
-    destination: Path,
-    *,
-    include_internal_dogfood_inputs: bool,
-) -> None:
+def _copy_source_into_inbox(source_dir: Path, destination: Path) -> None:
     inbox_root = destination / "inbox"
     visible_files = [_classify_file(source_dir, path) for path in _visible_files(source_dir)]
     for item in visible_files:
@@ -4465,19 +4367,6 @@ def _copy_source_into_inbox(
         if target_path.exists():
             target_path = target_dir / f"{_slug(item['relative_path'])}{item['path'].suffix.lower()}"
         shutil.copy2(item["path"], target_path)
-
-    if not include_internal_dogfood_inputs:
-        return
-
-    executive_brief = source_dir / "Notes" / "research" / "01-executive-brief.md"
-    if executive_brief.exists():
-        (inbox_root / "raw-notes").mkdir(parents=True, exist_ok=True)
-        shutil.copy2(executive_brief, inbox_root / "raw-notes" / "2026-03-22-next-version-superpowers.md")
-
-    pilot = source_dir / "Notes" / "research" / "16-customer-pilot-proposal.md"
-    if pilot.exists():
-        (inbox_root / "transcripts").mkdir(parents=True, exist_ok=True)
-        shutil.copy2(pilot, inbox_root / "transcripts" / "2026-03-22-dogfood-next-version-session.txt")
 
 
 def _write_adoption_docs(
@@ -4680,7 +4569,6 @@ def adopt_workspace_from_source(
     review_threshold: str = "medium",
     emit_report: bool = False,
     emit_thread_page: bool = False,
-    include_runtime_support_assets: bool = False,
 ) -> tuple[Path, dict[str, dict[str, Any]]]:
     root = Path(root_dir).resolve()
     source = Path(source_dir).resolve()
@@ -4706,13 +4594,7 @@ def adopt_workspace_from_source(
         _write_json(artifacts_dir / f"{name_key}.json", payload)
         _append_manifest_artifact_path(destination / "workspace_manifest.yaml", f"artifacts/{name_key}.json")
 
-    if include_runtime_support_assets:
-        _seed_runtime_support_assets(root, destination, workspace_id)
-    _copy_source_into_inbox(
-        source,
-        destination,
-        include_internal_dogfood_inputs=include_runtime_support_assets,
-    )
+    _copy_source_into_inbox(source, destination)
     thread_page_path: Path | None = None
     if emit_thread_page:
         thread_page_path = write_thread_review_page(

@@ -6,7 +6,6 @@ Date baseline: March 21, 2026
 
 Dependencies:
 
-- [v4-execution-plan.md](/Users/sarat/Documents/code/ProductOS/core/docs/archive/version-history/v4-execution-plan.md)
 - [v4-artifact-workflow-matrix.md](/Users/sarat/Documents/code/ProductOS/core/docs/archive/version-history/v4-artifact-workflow-matrix.md)
 - [governance-review-model.md](/Users/sarat/Documents/code/ProductOS/core/docs/governance-review-model.md)
 - [testing-strategy.md](/Users/sarat/Documents/code/ProductOS/core/docs/testing-strategy.md)

@@ -105,7 +105,7 @@ def build_v5_lifecycle_bundle_from_workspace(
     workspace_post_prd_count = _explicit_post_prd_stage_count(workspace_item)
     starter_post_prd_count = _explicit_post_prd_stage_count(starter_item)
 
-    self_hosting_ready = (
+    reference_workspace_ready = (
         workspace_item["current_stage"] == "prd_handoff"
         and workspace_item["overall_status"] == "ready_for_handoff"
         and workspace_discovery_count == len(DISCOVERY_STAGE_ORDER)
@@ -123,7 +123,7 @@ def build_v5_lifecycle_bundle_from_workspace(
         and starter_post_prd_count == len(LIFECYCLE_STAGE_ORDER) - len(DISCOVERY_STAGE_ORDER)
     )
 
-    scenario_statuses = [self_hosting_ready, starter_ready, scoped_boundary_ready]
+    scenario_statuses = [reference_workspace_ready, starter_ready, scoped_boundary_ready]
     overall_status = "passed" if all(scenario_statuses) else ("watch" if any(scenario_statuses) else "failed")
 
     runtime_scenario_report = {
@@ -140,9 +140,9 @@ def build_v5_lifecycle_bundle_from_workspace(
         ),
         "scenarios": [
             {
-                "scenario_id": "scenario_self_hosting_traceability_to_prd_handoff",
-                "name": "Self-hosting lifecycle traceability through PRD handoff",
-                "status": "passed" if self_hosting_ready else "failed",
+                "scenario_id": "scenario_reference_workspace_traceability_to_prd_handoff",
+                "name": "Reference workspace lifecycle traceability through PRD handoff",
+                "status": "passed" if reference_workspace_ready else "failed",
                 "metric_deltas": [
                     {
                         "metric_name": "completed_discovery_stage_count",
@@ -157,7 +157,7 @@ def build_v5_lifecycle_bundle_from_workspace(
                     workspace_snapshot["lifecycle_stage_snapshot_id"],
                     "templates/docs/discovery/discovery-review.md",
                 ],
-                "gaps": [] if self_hosting_ready else ["Self-hosting lifecycle evidence does not yet cleanly reach prd_handoff."],
+                "gaps": [] if reference_workspace_ready else ["Reference workspace lifecycle evidence does not yet cleanly reach prd_handoff."],
             },
             {
                 "scenario_id": "scenario_starter_workspace_traceability_parity",
@@ -333,7 +333,7 @@ def build_v5_lifecycle_bundle_from_workspace(
         "claim_readiness": [
             {
                 "claim": "The V5 bundle proves lifecycle traceability through PRD handoff in both adoption surfaces.",
-                "status": "verified" if self_hosting_ready and starter_ready else "blocked",
+                "status": "verified" if reference_workspace_ready and starter_ready else "blocked",
                 "evidence_refs": [runtime_scenario_report["runtime_scenario_report_id"], manual_validation_record["manual_validation_record_id"]],
             },
             {
@@ -345,8 +345,8 @@ def build_v5_lifecycle_bundle_from_workspace(
         "blocking_evidence_refs": [runtime_scenario_report["runtime_scenario_report_id"]],
         "checks": [
             {
-                "name": "Self-hosting lifecycle trace reaches prd_handoff",
-                "status": "passed" if self_hosting_ready else "failed",
+                "name": "Reference workspace lifecycle trace reaches prd_handoff",
+                "status": "passed" if reference_workspace_ready else "failed",
                 "notes": "The reference workspace exposes one item-first lifecycle trace through the complete discovery path into PRD handoff.",
             },
             {
@@ -413,7 +413,7 @@ def build_v5_lifecycle_bundle_from_workspace(
         "stages": [
             {
                 "stage_key": "inspect",
-                "status": "passed" if self_hosting_ready else "blocked",
+                "status": "passed" if reference_workspace_ready else "blocked",
                 "owner": "AI Librarian",
                 "findings_summary": "The reference and starter-workspace lifecycle traces were inspected as one bounded V5 release claim.",
                 "evidence_refs": [

@@ -15,7 +15,7 @@ def _section(bundle: dict, section_id: str) -> dict:
     return next(section for section in bundle["sections"] if section["section_id"] == section_id)
 
 
-def test_self_hosting_thread_review_bundle_uses_artifact_backing(bundled_workspace_dir: Path):
+def test_thread_review_bundle_uses_artifact_backing(bundled_workspace_dir: Path):
     bundle = build_thread_review_bundle_from_workspace(
         bundled_workspace_dir,
         item_id="opp_pm_lifecycle_traceability",

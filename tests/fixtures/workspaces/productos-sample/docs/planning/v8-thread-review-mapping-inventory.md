@@ -130,7 +130,7 @@ Each section must declare:
   - `problem`, `segments_personas`, `market_context`, `concept`, `prd` as `artifact_backed`
   - `prototype` as `lifecycle_fallback`
   - `delivery`, `release_readiness`, `launch`, `outcome_review` as `deferred`
-- Self-hosting V7.3 lifecycle threads should render most downstream sections as `artifact_backed`
+- Reference workspace V7.3 lifecycle threads should render most downstream sections as `artifact_backed`
 
 ## Next Hardening Target
 

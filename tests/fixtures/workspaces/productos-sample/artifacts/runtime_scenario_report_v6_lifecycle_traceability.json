@@ -8,8 +8,8 @@
   "summary": "The selected V6 bundle proves item-first lifecycle traceability through release_readiness in the reference and starter workspaces, fixes the advertised trace focus-area coverage, and keeps launch and outcome stages explicitly deferred.",
   "scenarios": [
     {
-      "scenario_id": "scenario_self_hosting_traceability_to_release_readiness",
-      "name": "Self-hosting lifecycle traceability through release readiness",
+      "scenario_id": "scenario_reference_workspace_traceability_to_release_readiness",
+      "name": "Reference workspace lifecycle traceability through release readiness",
       "status": "passed",
       "metric_deltas": [
         {

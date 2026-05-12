@@ -123,7 +123,7 @@
       "owner": "ProductOS PM",
       "recommended_action": "Add a worker-driven feedback-to-discovery loop in V4 with collector, router, problem, idea, planner, reviewer, and validator roles plus an explicit PM approval gate.",
       "source_refs": [
-        "core/docs/v3-gap-analysis-and-v4-plan.md"
+        "core/docs/versioning-and-change-classification-model.md"
       ],
       "linked_artifact_ids": [
         "feedback_cluster_state_ws_productos_v2_runtime",
@@ -132,7 +132,7 @@
         "follow_up_queue_productos_v3"
       ],
       "converted_output_refs": [
-        "core/docs/v3-gap-analysis-and-v4-plan.md"
+        "core/docs/versioning-and-change-classification-model.md"
       ]
     }
   ],

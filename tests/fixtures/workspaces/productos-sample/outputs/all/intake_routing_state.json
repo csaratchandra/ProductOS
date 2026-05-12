@@ -4,7 +4,7 @@
   "workspace_id": "ws_productos_v2",
   "ingestion_mode": "manual",
   "status": "routing",
-  "routing_summary": "The next-version dogfood loop is routing real inbox notes and transcripts into the discover-to-PRD superpower path.",
+  "routing_summary": "The discovery loop is routing real inbox notes and transcripts into the discover-to-PRD path.",
   "active_inbox_paths": [
     "tests/fixtures/workspaces/productos-sample/inbox/raw-notes",
     "tests/fixtures/workspaces/productos-sample/inbox/transcripts"
@@ -12,7 +12,7 @@
   "intake_items": [
     {
       "item_id": "inbox_raw_notes_2026_03_22_next_version_superpowers",
-      "inbox_path": "tests/fixtures/workspaces/productos-sample/inbox/raw-notes/2026-03-22-next-version-superpowers.md",
+      "inbox_path": "tests/fixtures/workspaces/productos-sample/inbox/raw-notes/2026-03-22-discovery-coordination-notes.md",
       "input_type": "raw_note",
       "captured_at": "2026-03-22T08:00:00Z",
       "provenance_status": "complete",
@@ -26,11 +26,11 @@
         "problem_brief_productos_next_version_discover",
         "concept_brief_productos_next_version_discover"
       ],
-      "notes": "Captured for next-version dogfood routing: # Next Version Superpowers"
+      "notes": "Captured for discovery routing: # Discovery Coordination Notes"
     },
     {
       "item_id": "inbox_transcripts_2026_03_22_dogfood_next_version_session",
-      "inbox_path": "tests/fixtures/workspaces/productos-sample/inbox/transcripts/2026-03-22-dogfood-next-version-session.txt",
+      "inbox_path": "tests/fixtures/workspaces/productos-sample/inbox/transcripts/2026-03-22-discovery-session.txt",
       "input_type": "transcript",
       "captured_at": "2026-03-22T08:00:00Z",
       "provenance_status": "complete",
@@ -44,7 +44,7 @@
         "concept_brief_productos_next_version_discover",
         "prd_productos_next_version_discover"
       ],
-      "notes": "Captured for next-version dogfood routing: Speaker 1: We should treat the current ProductOS workspace as the proving ground for the next version."
+      "notes": "Captured for discovery routing: Speaker 1: We should treat the current workspace as the proving ground for the next improvement slice."
     }
   ],
   "blocked_item_ids": [],

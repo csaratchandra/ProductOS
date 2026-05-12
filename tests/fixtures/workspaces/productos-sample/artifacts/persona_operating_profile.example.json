@@ -7,7 +7,7 @@
   "validation_tier": "tier_2",
   "benchmark_ref": "pm_superpower_benchmark_ws_productos_v2_v4_0",
   "governance_refs": [
-    "core/docs/v4-execution-plan.md",
+    "core/docs/ralph-loop-model.md",
     "core/docs/v4-artifact-workflow-matrix.md",
     "core/docs/ai-agent-persona-operating-model.md"
   ],
@@ -69,7 +69,7 @@
       ],
       "source_refs": [
         "core/agents/orchestrator/CONTRACT.md",
-        "core/docs/v4-execution-plan.md"
+        "core/docs/ralph-loop-model.md"
       ]
     },
     {
@@ -309,7 +309,7 @@
       ],
       "source_refs": [
         "core/agents/critic/CONTRACT.md",
-        "core/docs/v4-execution-plan.md"
+        "core/docs/ralph-loop-model.md"
       ]
     },
     {
@@ -542,7 +542,7 @@
         "core/skills/decision_packet_synthesis/SKILL.md"
       ],
       "source_refs": [
-        "core/docs/v4-execution-plan.md",
+        "core/docs/ralph-loop-model.md",
         "core/docs/v4-artifact-workflow-matrix.md"
       ]
     },
@@ -657,7 +657,7 @@
         "core/skills/publish_safe_summarization/SKILL.md"
       ],
       "source_refs": [
-        "core/docs/v4-execution-plan.md",
+        "core/docs/ralph-loop-model.md",
         "components/presentation/docs/presentation-system.md"
       ]
     }

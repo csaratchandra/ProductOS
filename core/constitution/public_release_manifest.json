@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "exact_paths": [
+    ".gitignore",
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    "README.md",
+    "package-lock.json",
+    "package.json",
+    "productos",
+    "promote-release",
+    "pyproject.toml",
+    "pytest.ini",
+    "validate-artifacts"
+  ],
+  "path_prefixes": [
+    "components/",
+    "core/agents/",
+    "core/constitution/",
+    "core/docs/",
+    "core/examples/",
+    "core/packs/",
+    "core/python/",
+    "core/rubrics/",
+    "core/schemas/",
+    "core/skills/",
+    "core/templates/",
+    "core/workflows/",
+    "registry/releases/",
+    "scripts/",
+    "templates/",
+    "tests/"
+  ]
+}

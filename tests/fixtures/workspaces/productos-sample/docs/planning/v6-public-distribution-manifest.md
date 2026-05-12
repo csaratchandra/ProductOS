@@ -63,8 +63,7 @@ Publish the repository root with these paths included:
 ### Registry
 
 - `registry/releases/release_6_0_0.json`
-- `registry/workspaces/ws_productos_v2.registration.json`
-- `registry/suites/suite_productos.registration.json`
+- `registry/releases/`
 
 ### Starter Workspace
 

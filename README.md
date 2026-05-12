@@ -14,7 +14,7 @@ This repository contains:
 - `components/presentation/`: deck lane for internal/executive HTML presentations and PPT export
 - `templates/`: the starter surface for creating a new product workspace
 - `tests/fixtures/`: bundled regression fixtures, including the sample workspace used by CLI and runtime tests
-- `registry/`: release, workspace, suite, and improvement records
+- `registry/releases/`: stable release metadata
 - `workspaces/`: reserved for real product workspaces and intentionally empty in the shared repo
 
 For PM adoption on a new product, the canonical starting surface is [templates](/Users/sarat/Documents/code/ProductOS/templates).
@@ -40,7 +40,7 @@ The separation between ProductOS assets and PM workspaces is strict:
 - product workspaces define product-specific reality
 - core upgrades do not silently rewrite workspace artifacts
 
-See [vendor-neutral-agent-harness-standard.md](core/docs/vendor-neutral-agent-harness-standard.md) for the tool-agnostic agent operating standard, [ralph-loop-model.md](core/docs/ralph-loop-model.md) for the inspect, implement, refine, validate, fix, and revalidate quality loop, and [autonomous-pm-swarm-model.md](core/docs/autonomous-pm-swarm-model.md) for the internal governed swarm extension path.
+See [vendor-neutral-agent-harness-standard.md](core/docs/vendor-neutral-agent-harness-standard.md) for the tool-agnostic agent operating standard and [ralph-loop-model.md](core/docs/ralph-loop-model.md) for the inspect, implement, refine, validate, fix, and revalidate quality loop.
 
 ## PM Adoption
 
@@ -153,7 +153,7 @@ Use the public release operator when a bounded feature slice is ready to become 
 
 `./productos release --slice-label "public release operator slice" --push`
 
-This flow updates tracked public release surfaces, commits them, tags the release commit, and pushes branch plus tag in order. It intentionally excludes `workspaces/` from the release commit.
+This flow stages only the tracked public release surface, updates stable release metadata, commits the bounded release set, tags the release commit, and pushes branch plus tag in order.
 
 For approved agent tools, start with [AGENTS.md](/Users/sarat/Documents/code/ProductOS/AGENTS.md) before deeper repo docs.
 

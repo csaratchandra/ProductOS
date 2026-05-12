@@ -50,7 +50,7 @@
   ],
   "checks": [
     {
-      "name": "Self-hosting lifecycle trace reaches release_readiness",
+      "name": "Reference workspace lifecycle trace reaches release_readiness",
       "status": "passed",
       "notes": "The reference workspace exposes one item-first lifecycle trace from discovery through delivery planning and release_readiness."
     },

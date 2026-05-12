@@ -1,4 +1,5 @@
 import json
+import re
 import subprocess
 from pathlib import Path
 
@@ -31,12 +32,11 @@ def _run_git(root: Path, *args: str) -> str:
 
 def _seed_public_release_repo(root: Path, *, version: str = "7.2.0") -> None:
     (root / "registry" / "releases").mkdir(parents=True)
-    (root / "registry" / "workspaces").mkdir(parents=True)
-    (root / "registry" / "suites").mkdir(parents=True)
+    (root / "core" / "constitution").mkdir(parents=True)
     (root / "docs").mkdir(parents=True)
 
     (root / ".gitignore").write_text(
-        ".DS_Store\n.pytest_cache/\n__pycache__/\nworkspaces/*\n!workspaces/.gitkeep\n",
+        ".DS_Store\n.pytest_cache/\n__pycache__/\n.agents/\n.codex-plugins/\nworkspaces/*\n!workspaces/.gitkeep\ninternal/\n",
         encoding="utf-8",
     )
     (root / "README.md").write_text(
@@ -47,6 +47,14 @@ def _seed_public_release_repo(root: Path, *, version: str = "7.2.0") -> None:
         encoding="utf-8",
     )
     (root / "docs" / "public-note.md").write_text("Tracked public release note.\n", encoding="utf-8")
+    _write_json(
+        root / "core" / "constitution" / "public_release_manifest.json",
+        {
+            "schema_version": "1.0.0",
+            "exact_paths": [".gitignore", "README.md"],
+            "path_prefixes": ["core/constitution/", "docs/", "registry/releases/"],
+        },
+    )
     _write_json(
         root / "registry" / "releases" / f"release_{version.replace('.', '_')}.json",
         {
@@ -63,52 +71,11 @@ def _seed_public_release_repo(root: Path, *, version: str = "7.2.0") -> None:
             "upgrade_actions": ["Keep using the stable release."],
         },
     )
-    _write_json(
-        root / "registry" / "workspaces" / "ws_productos_v2.registration.json",
-        {
-            "schema_version": "1.0.0",
-            "registration_id": "ws_reg_productos_v2",
-            "workspace_id": "ws_productos_v2",
-            "workspace_name": "ProductOS Reference Workspace",
-            "current_core_version": version,
-            "upgrade_history": [
-                {
-                    "core_version": version,
-                    "adopted_at": "2026-04-09T12:10:00Z",
-                    "approved_by": "ProductOS PM",
-                    "change_note": "Previous stable release.",
-                }
-            ],
-            "registered_at": "2026-03-21T00:00:00Z",
-        },
-    )
-    _write_json(
-        root / "registry" / "suites" / "suite_productos.registration.json",
-        {
-            "schema_version": "1.0.0",
-            "registration_id": "suite_reg_productos",
-            "suite_id": "suite_productos",
-            "suite_name": "ProductOS Portfolio Suite",
-            "current_core_version": version,
-            "workspace_ids": ["ws_productos_v2"],
-            "upgrade_history": [
-                {
-                    "core_version": version,
-                    "adopted_at": "2026-04-09T12:10:00Z",
-                    "approved_by": "ProductOS PM",
-                    "change_note": "Previous stable release.",
-                }
-            ],
-            "registered_at": "2026-03-19T18:30:00Z",
-        },
-    )
 
 
 def test_promote_release_from_ralph_updates_current_release_surfaces(tmp_path: Path):
     root = tmp_path / "repo"
     (root / "registry" / "releases").mkdir(parents=True)
-    (root / "registry" / "workspaces").mkdir(parents=True)
-    (root / "registry" / "suites").mkdir(parents=True)
 
     (root / "README.md").write_text(
         "# ProductOS\n\n"
@@ -132,45 +99,6 @@ def test_promote_release_from_ralph_updates_current_release_surfaces(tmp_path: P
             "summary": "Existing stable release.",
             "breaking_changes": [],
             "upgrade_actions": ["Keep using the stable release."],
-        },
-    )
-    _write_json(
-        root / "registry" / "workspaces" / "ws_productos_v2.registration.json",
-        {
-            "schema_version": "1.0.0",
-            "registration_id": "ws_reg_productos_v2",
-            "workspace_id": "ws_productos_v2",
-            "workspace_name": "ProductOS Reference Workspace",
-            "current_core_version": "4.1.0",
-            "upgrade_history": [
-                {
-                    "core_version": "4.1.0",
-                    "adopted_at": "2026-03-21T22:45:00Z",
-                    "approved_by": "ProductOS PM",
-                    "change_note": "Previous release.",
-                }
-            ],
-            "registered_at": "2026-03-21T00:00:00Z",
-        },
-    )
-    _write_json(
-        root / "registry" / "suites" / "suite_productos.registration.json",
-        {
-            "schema_version": "1.0.0",
-            "registration_id": "suite_reg_productos",
-            "suite_id": "suite_productos",
-            "suite_name": "ProductOS Portfolio Suite",
-            "current_core_version": "4.1.0",
-            "workspace_ids": ["ws_productos_v2"],
-            "upgrade_history": [
-                {
-                    "core_version": "4.1.0",
-                    "adopted_at": "2026-03-21T22:45:00Z",
-                    "approved_by": "ProductOS PM",
-                    "change_note": "Previous release.",
-                }
-            ],
-            "registered_at": "2026-03-21T00:00:00Z",
         },
     )
     _write_json(
@@ -206,30 +134,18 @@ def test_promote_release_from_ralph_updates_current_release_surfaces(tmp_path: P
 
     assert result["target_version"] == "4.2.0"
     assert (root / "registry" / "releases" / "release_4_2_0.json").exists()
-
-    workspace = json.loads((root / "registry" / "workspaces" / "ws_productos_v2.registration.json").read_text(encoding="utf-8"))
-    suite = json.loads((root / "registry" / "suites" / "suite_productos.registration.json").read_text(encoding="utf-8"))
     readme = (root / "README.md").read_text(encoding="utf-8")
 
-    assert workspace["current_core_version"] == "4.2.0"
-    assert suite["current_core_version"] == "4.2.0"
-    assert workspace["upgrade_history"][-1]["core_version"] == "4.2.0"
-    assert suite["upgrade_history"][-1]["core_version"] == "4.2.0"
-    assert workspace["upgrade_history"][-1]["adopted_at"] == "2026-03-21T22:45:01Z"
-    assert suite["upgrade_history"][-1]["adopted_at"] == "2026-03-21T22:45:01Z"
     assert "ProductOS V4.2.0 is the current stable ProductOS Core line." in readme
     assert "ProductOS V4.2.0 is the current stable ProductOS Core line." in readme
     assert "latest stable release assets remain present" in readme
 
-    promote_release_from_ralph(
+    second_result = promote_release_from_ralph(
         root,
         root / "fixtures" / "workspace" / "artifacts" / "ralph_loop_state_live_docs.example.json",
         released_at="2026-03-21T10:10:00Z",
     )
-    workspace_after_second_run = json.loads(
-        (root / "registry" / "workspaces" / "ws_productos_v2.registration.json").read_text(encoding="utf-8")
-    )
-    assert len(workspace_after_second_run["upgrade_history"]) == 2
+    assert second_result["target_version"] == "4.2.0"
 
 
 def test_promote_public_release_updates_only_tracked_public_surfaces(tmp_path: Path):
@@ -243,17 +159,17 @@ def test_promote_public_release_updates_only_tracked_public_surfaces(tmp_path: P
     )
 
     release = json.loads((root / "registry" / "releases" / "release_7_3_0.json").read_text(encoding="utf-8"))
-    workspace = json.loads((root / "registry" / "workspaces" / "ws_productos_v2.registration.json").read_text(encoding="utf-8"))
-    suite = json.loads((root / "registry" / "suites" / "suite_productos.registration.json").read_text(encoding="utf-8"))
     readme = (root / "README.md").read_text(encoding="utf-8")
 
     assert result["target_version"] == "7.3.0"
     assert result["tag_name"] == "v7.3.0"
     assert release["core_version"] == "7.3.0"
     assert "public release operator slice" in release["summary"]
-    assert workspace["current_core_version"] == "7.3.0"
-    assert suite["current_core_version"] == "7.3.0"
     assert "ProductOS V7.3.0 is the current stable ProductOS Core line." in readme
+    assert result["changed_paths"] == [
+        "README.md",
+        "registry/releases/release_7_3_0.json",
+    ]
 
 
 def test_promote_public_release_can_promote_to_v9_after_manual_gate_clear(tmp_path: Path):
@@ -268,14 +184,10 @@ def test_promote_public_release_can_promote_to_v9_after_manual_gate_clear(tmp_pa
     )
 
     release = json.loads((root / "registry" / "releases" / "release_9_0_0.json").read_text(encoding="utf-8"))
-    workspace = json.loads((root / "registry" / "workspaces" / "ws_productos_v2.registration.json").read_text(encoding="utf-8"))
-    suite = json.loads((root / "registry" / "suites" / "suite_productos.registration.json").read_text(encoding="utf-8"))
     readme = (root / "README.md").read_text(encoding="utf-8")
 
     assert result["target_version"] == "9.0.0"
     assert release["core_version"] == "9.0.0"
-    assert workspace["current_core_version"] == "9.0.0"
-    assert suite["current_core_version"] == "9.0.0"
     assert "ProductOS V9.0.0 is the current stable ProductOS Core line." in readme
 
 
@@ -289,6 +201,7 @@ def test_run_public_release_commits_tags_and_blocks_ignored_boundaries(tmp_path:
     _run_git(root, "commit", "-m", "Initial state")
 
     (root / "docs" / "queued-feature.md").write_text("Release the queued public feature.\n", encoding="utf-8")
+    _run_git(root, "add", "docs/queued-feature.md")
     (root / "workspaces" / "local-only").mkdir(parents=True, exist_ok=True)
     (root / "workspaces" / "local-only" / "ignored-proof.json").write_text(
         "{\"status\": \"local-only\"}\n",
@@ -307,8 +220,84 @@ def test_run_public_release_commits_tags_and_blocks_ignored_boundaries(tmp_path:
     assert _run_git(root, "describe", "--tags", "--exact-match") == "v7.3.0"
     assert "docs/queued-feature.md" in committed_paths
     assert "registry/releases/release_7_3_0.json" in committed_paths
+    assert "core/constitution/public_release_manifest.json" not in committed_paths
     assert all(not path.startswith("workspaces/") for path in committed_paths)
     assert verify_public_release_alignment(root, target_version="7.3.0", tag_name="v7.3.0")["status"] == "aligned"
+
+
+@pytest.mark.parametrize(
+    "blocked_path",
+    [
+        "internal/leaked-plan.md",
+        ".agents/plugins/marketplace.json",
+        ".codex-plugins/caveman/.codex-plugin/plugin.json",
+        "core/docs/v99-internal-release-plan.md",
+    ],
+)
+def test_run_public_release_blocks_private_local_prefixes(tmp_path: Path, blocked_path: str):
+    root = tmp_path / "repo"
+    _seed_public_release_repo(root)
+    _run_git(root, "init")
+    _run_git(root, "config", "user.name", "ProductOS Test")
+    _run_git(root, "config", "user.email", "test@example.com")
+    _run_git(root, "add", ".")
+    _run_git(root, "commit", "-m", "Initial state")
+
+    blocked_file = root / blocked_path
+    blocked_file.parent.mkdir(parents=True, exist_ok=True)
+    blocked_file.write_text("private local proof\n", encoding="utf-8")
+    _run_git(root, "add", "-f", blocked_path)
+
+    with pytest.raises(ValueError, match=re.escape(blocked_path)):
+        run_public_release(
+            root,
+            slice_label="public release operator slice",
+            released_at="2026-04-09T12:20:00Z",
+            push=False,
+        )
+
+
+def test_run_public_release_blocks_paths_outside_public_allowlist(tmp_path: Path):
+    root = tmp_path / "repo"
+    _seed_public_release_repo(root)
+    _run_git(root, "init")
+    _run_git(root, "config", "user.name", "ProductOS Test")
+    _run_git(root, "config", "user.email", "test@example.com")
+    _run_git(root, "add", ".")
+    _run_git(root, "commit", "-m", "Initial state")
+
+    blocked_file = root / "registry" / "scorecards" / "private-proof.json"
+    blocked_file.parent.mkdir(parents=True, exist_ok=True)
+    blocked_file.write_text("{\"status\": \"private\"}\n", encoding="utf-8")
+    _run_git(root, "add", "-f", "registry/scorecards/private-proof.json")
+
+    with pytest.raises(ValueError, match="outside the public allowlist"):
+        run_public_release(
+            root,
+            slice_label="public release operator slice",
+            released_at="2026-04-09T12:20:00Z",
+            push=False,
+        )
+
+
+def test_run_public_release_fails_on_untracked_allowlisted_files(tmp_path: Path):
+    root = tmp_path / "repo"
+    _seed_public_release_repo(root)
+    _run_git(root, "init")
+    _run_git(root, "config", "user.name", "ProductOS Test")
+    _run_git(root, "config", "user.email", "test@example.com")
+    _run_git(root, "add", ".")
+    _run_git(root, "commit", "-m", "Initial state")
+
+    (root / "docs" / "new-public-note.md").write_text("Needs explicit staging.\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="untracked public files"):
+        run_public_release(
+            root,
+            slice_label="public release operator slice",
+            released_at="2026-04-09T12:20:00Z",
+            push=False,
+        )
 
 
 def test_promote_release_from_ralph_blocks_watch_level_promotion_gate(tmp_path: Path):

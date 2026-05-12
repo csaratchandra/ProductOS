@@ -10,7 +10,7 @@
   "validation_tier": "tier_2",
   "scenarios": [
     {
-      "scenario_id": "scn_readable_docs_self_hosted_bundle",
+      "scenario_id": "scn_readable_docs_reference_bundle",
       "title": "Self-hosted readable doc bundle generation",
       "scenario_type": "dogfood_run",
       "result": "partial",
@@ -148,7 +148,7 @@
       "feedback_id": "score_feedback_doc_freshness",
       "summary": "Automate doc freshness refresh so the PM does not need targeted follow-up to keep discovery, roadmap, and PRD docs current.",
       "impact_level": "medium",
-      "recommended_action": "Add doc-freshness checks and rescore once the next self-hosted bundle proves lower PM intervention.",
+      "recommended_action": "Add doc-freshness checks and rescore once the next validation bundle proves lower PM intervention.",
       "route_targets": [
         "productos_feedback_log",
         "feedback_cluster_state"
