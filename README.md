@@ -21,9 +21,9 @@ For PM adoption on a new product, the canonical starting surface is [templates](
 
 ## Operating Model
 
-ProductOS V13.0.0 is organized around the PM lifecycle plus governed research, decision, living-system, inheritance, and agent-native execution loops:
+ProductOS V14.0.0 is organized around the PM lifecycle plus governed research, decision, living-system, inheritance, agent-native execution, and intent-driven architecture loops:
 
-The current stable line is ProductOS `V13.0.0`. The repo includes the shipped V11/V12 living-system and agent-native execution surfaces plus the V13 inheritance, atlas, spec-pipeline, and portfolio-intelligence surfaces.
+The current stable line is ProductOS `V14.0.0`. The repo includes the shipped V11/V12 living-system and agent-native execution surfaces, the V13 inheritance and atlas surfaces, and the V14.0 intent-driven architecture pipeline.
 
 1. current-state assessment
 2. discovery
@@ -74,14 +74,14 @@ Recommended next step:
 
 - `./productos --workspace-dir /path/to/new-workspace run discover`
 
-## V14 Candidate: Intent-Driven Architecture
+## V14 Intent-Driven Architecture
 
-ProductOS includes an in-repo V14 candidate surface for **intent-driven architecture**. It is implemented and test-backed in the repo, but it is not the current promoted stable line until the V14 release proof is cut.
+ProductOS V14.0 transforms the PM experience from **tool-operator** to **intent-driven architect**. A PM can state a product intent in natural language and generate a cross-validated architecture bundle, simulation outputs, compliance coverage, and a PM briefing from one top-level command.
 
 ### `productos architect` Command
 
 ```bash
-# Full pipeline (candidate auto mode)
+# Full pipeline (default auto mode)
 ./productos architect --intent "A HIPAA-compliant prior authorization platform for US providers and payers with AI-assisted review"
 
 # Dry-run: decomposition only, no artifact generation

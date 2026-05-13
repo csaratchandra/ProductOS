@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming V14.0.0
+## V14.0.0
 
 ProductOS V14.0 introduces the intent-driven architecture runtime: one natural-language command that decomposes intent, synthesizes a cross-linked architecture, validates consistency, analyzes gaps, simulates bottlenecks, applies domain intelligence, and exports a PM-ready output bundle.
 
@@ -16,7 +16,7 @@ ProductOS V14.0 introduces the intent-driven architecture runtime: one natural-l
 
 - architecture synthesis now builds the independent artifact groups concurrently
 - cross-layer links now stay within the registered artifact graph used by consistency and gap analysis
-- README and bounded-claim surfaces now separate the promoted stable line from the in-repo V14 candidate posture until release
+- README and bounded-claim surfaces now align the promoted stable line with the shipped V14.0 architecture runtime
 
 ### Validation
 
@@ -25,7 +25,7 @@ ProductOS V14.0 introduces the intent-driven architecture runtime: one natural-l
 
 ---
 
-## Upcoming V13.0.0
+## V13.0.0
 
 ProductOS V13 makes product inheritance a first-class PM flow through multi-modal takeover understanding, visual atlas synthesis, agent-native spec exports, and portfolio intelligence.
 
