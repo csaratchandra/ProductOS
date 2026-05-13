@@ -1,6 +1,6 @@
 # ProductOS
 
-ProductOS V12.0.0 is the current stable ProductOS Core line.
+ProductOS V13.0.0 is the current stable ProductOS Core line.
 
 > ProductOS V12 ships the Living Product System plus agent-native execution surfaces: auto-propagating artifact changes, living markdown documents rendered from structured truth, PM delta review lanes, format-agnostic export pipelines, prototype generation, adapter context packs, packaging, and demo-ready workspace surfaces.
 
