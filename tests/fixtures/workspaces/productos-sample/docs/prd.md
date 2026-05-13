@@ -52,3 +52,15 @@ Automate bi-weekly status mail, issue log maintenance, meeting records, and next
 <!-- PM NOTE: Manual PM annotations go here and survive re-rendering -->
 
 <!-- PM NOTE: Manual PM annotations go here and survive re-rendering -->
+
+<!-- PM NOTE: Manual PM annotations go here and survive re-rendering -->
+
+<!-- PM NOTE: Manual PM annotations go here and survive re-rendering -->
+
+<!-- PM NOTE: Manual PM annotations go here and survive re-rendering -->
+
+<!-- PM NOTE: Manual PM annotations go here and survive re-rendering -->
+
+<!-- PM NOTE: Manual PM annotations go here and survive re-rendering -->
+
+<!-- PM NOTE: Manual PM annotations go here and survive re-rendering -->

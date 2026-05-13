@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/what_if_scenario.schema.json",
+  "title": "ProductOS What-If Scenario",
+  "description": "Auto-generated what-if scenarios based on forecast data, with parameter changes, predicted outcomes, confidence, and implementation effort.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "what_if_set_id",
+    "forecast_ref",
+    "scenarios",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "what_if_set_id": { "type": "string", "minLength": 1 },
+    "forecast_ref": { "type": "string", "minLength": 1 },
+    "scenarios": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/scenario" },
+      "minItems": 1
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenario_id",
+        "scenario_name",
+        "parameter_changes",
+        "predicted_outcomes",
+        "confidence",
+        "implementation_effort"
+      ],
+      "properties": {
+        "scenario_id": { "type": "string", "minLength": 1 },
+        "scenario_name": { "type": "string", "minLength": 5 },
+        "description": { "type": "string", "minLength": 10 },
+        "parameter_changes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/parameterChange" },
+          "minItems": 1
+        },
+        "predicted_outcomes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/predictedOutcome" },
+          "minItems": 1
+        },
+        "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "implementation_effort": {
+          "type": "object",
+          "required": ["size", "rationale"],
+          "properties": {
+            "size": { "type": "string", "enum": ["S", "M", "L", "XL"] },
+            "rationale": { "type": "string", "minLength": 10 }
+          }
+        }
+      }
+    },
+    "parameterChange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parameter", "before", "after"],
+      "properties": {
+        "parameter": { "type": "string", "minLength": 3 },
+        "before": {},
+        "after": {}
+      }
+    },
+    "predictedOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "delta", "description"],
+      "properties": {
+        "metric": { "type": "string", "minLength": 3 },
+        "delta": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 10 }
+      }
+    }
+  }
+}

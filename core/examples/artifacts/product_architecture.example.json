@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "product_architecture_id": "arch_example_001",
+  "workspace_id": "ws_example",
+  "decomposition_ref": "id_example_001",
+  "artifacts": [
+    {"uuid": "mprd_001", "type": "master_prd", "version": "1.0.0", "generation_timestamp": "2026-05-13T08:00:00Z", "confidence_metadata": {"overall_confidence": 0.85, "method": "deterministic"}},
+    {"uuid": "pap_001", "type": "persona_archetype_pack", "version": "1.0.0", "generation_timestamp": "2026-05-13T08:00:00Z", "confidence_metadata": {"overall_confidence": 0.82, "method": "deterministic"}}
+  ],
+  "cross_links": [
+    {"source_artifact_uuid": "mprd_001", "target_artifact_uuid": "pap_001", "link_type": "references", "confidence": 0.9}
+  ],
+  "generation_metadata": {"mode": "standard", "duration_ms": 1200, "decomposition_uuid": "id_example_001"},
+  "created_at": "2026-05-13T08:00:00Z"
+}

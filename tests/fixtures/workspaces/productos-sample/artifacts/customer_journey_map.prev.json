@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "customer_journey_map_id": "cjm_pm_operating_rhythm_automation_20260511",
+  "customer_journey_map_id": "cjm_pm_operating_rhythm_automation_20260513",
   "workspace_id": "ws_productos_v2",
   "title": "B2B Product Teams \u2014 Customer Journey: PM operating rhythm automation Adoption",
   "target_segment_ref": "segment_b2b_product_teams",
@@ -507,5 +507,5 @@
     "source_note_card_problem_brief_productos_next_version_discover",
     "source_note_card_jpd_official_pm_visibility_2026"
   ],
-  "generated_at": "2026-05-11T11:14:18Z"
+  "generated_at": "2026-05-13T19:55:25Z"
 }

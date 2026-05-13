@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/simulation_forecast.schema.json",
+  "title": "ProductOS Simulation Forecast",
+  "description": "Monte Carlo simulation forecast with percentile distributions, bottleneck rankings, SLA violation predictions, resource contention warnings, and sensitivity analysis.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "simulation_forecast_id",
+    "architecture_ref",
+    "scenario",
+    "baseline_forecast",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "simulation_forecast_id": { "type": "string", "minLength": 1 },
+    "architecture_ref": { "type": "string", "minLength": 1 },
+    "scenario": {
+      "type": "string",
+      "enum": ["baseline", "optimistic", "pessimistic", "sensitivity"]
+    },
+    "baseline_forecast": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["p50_completion_seconds", "p90_completion_seconds", "p95_completion_seconds", "total_handoffs", "simulation_runs"],
+      "properties": {
+        "p50_completion_seconds": { "type": "number", "minimum": 0 },
+        "p90_completion_seconds": { "type": "number", "minimum": 0 },
+        "p95_completion_seconds": { "type": "number", "minimum": 0 },
+        "total_handoffs": { "type": "integer", "minimum": 0 },
+        "simulation_runs": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "bottleneck_rankings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/bottleneck" },
+      "default": []
+    },
+    "sla_violation_predictions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/slaViolation" },
+      "default": []
+    },
+    "resource_contention_warnings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/resourceContention" },
+      "default": []
+    },
+    "cascade_failure_predictions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/cascadeFailure" },
+      "default": []
+    },
+    "sensitivity_analysis": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/sensitivityEntry" },
+      "default": []
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "bottleneck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rank", "handoff_id", "predicted_wait_time_seconds", "queue_depth", "impact_description"],
+      "properties": {
+        "rank": { "type": "integer", "minimum": 1 },
+        "handoff_id": { "type": "string", "minLength": 1 },
+        "predicted_wait_time_seconds": { "type": "number", "minimum": 0 },
+        "queue_depth": { "type": "number", "minimum": 0 },
+        "impact_description": { "type": "string", "minLength": 10 }
+      }
+    },
+    "slaViolation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["handoff_id", "sla_target_seconds", "predicted_p50", "predicted_p90", "violation_probability", "risk_level"],
+      "properties": {
+        "handoff_id": { "type": "string", "minLength": 1 },
+        "sla_target_seconds": { "type": "number", "minimum": 0 },
+        "predicted_p50": { "type": "number", "minimum": 0 },
+        "predicted_p90": { "type": "number", "minimum": 0 },
+        "violation_probability": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "risk_level": { "type": "string", "enum": ["low", "medium", "high", "critical"] }
+      }
+    },
+    "resourceContention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["persona_ref", "predicted_overload_week", "contention_reason", "suggested_action"],
+      "properties": {
+        "persona_ref": { "type": "string", "minLength": 1 },
+        "predicted_overload_week": { "type": "integer", "minimum": 1 },
+        "contention_reason": { "type": "string", "minLength": 10 },
+        "suggested_action": { "type": "string", "minLength": 10 }
+      }
+    },
+    "cascadeFailure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary_bottleneck_id", "secondary_bottleneck_id", "cascade_probability", "explanation"],
+      "properties": {
+        "primary_bottleneck_id": { "type": "string", "minLength": 1 },
+        "secondary_bottleneck_id": { "type": "string", "minLength": 1 },
+        "cascade_probability": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "explanation": { "type": "string", "minLength": 10 }
+      }
+    },
+    "sensitivityEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parameter", "impact_description", "sensitivity_score"],
+      "properties": {
+        "parameter": { "type": "string", "minLength": 3 },
+        "impact_description": { "type": "string", "minLength": 10 },
+        "sensitivity_score": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+      }
+    }
+  }
+}

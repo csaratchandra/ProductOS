@@ -1,0 +1,11 @@
+{
+  "workflow": "trade_execution",
+  "domain": "finance",
+  "protocol": "FIX 4.4",
+  "handoffs": [
+    {"from": "trader", "to": "order_management", "artifact": "order_request", "protocol": "FIX 4.4"},
+    {"from": "order_management", "to": "execution_venue", "artifact": "execution_order", "protocol": "FIX 4.4"},
+    {"from": "execution_venue", "to": "settlement", "artifact": "trade_confirmation", "protocol": "FIX 5.0"}
+  ],
+  "description": "FIX protocol trade execution workflow from order origination through execution to settlement."
+}

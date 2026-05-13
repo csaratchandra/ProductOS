@@ -1,0 +1,12 @@
+{
+  "workflow": "account_opening",
+  "domain": "finance",
+  "regulation": "KYC/CDD/EDD",
+  "handoffs": [
+    {"from": "applicant", "to": "onboarding_team", "artifact": "account_application"},
+    {"from": "onboarding_team", "to": "compliance", "artifact": "kyc_package"},
+    {"from": "compliance", "to": "onboarding_team", "artifact": "kyc_decision"},
+    {"from": "onboarding_team", "to": "applicant", "artifact": "account_approval"}
+  ],
+  "description": "Account opening workflow with KYC/CDD/EDD compliance checks and identity verification. Includes enhanced due diligence for high-risk applicants."
+}

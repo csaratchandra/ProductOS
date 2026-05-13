@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "events": [
+    {"regulation": "EU AI Act", "region": "eu", "expected_date": "2026-03-01", "impact": "High-risk AI systems require conformity assessment"},
+    {"regulation": "HIPAA", "region": "us", "expected_date": "2025-01-01", "impact": "Ongoing enforcement of privacy and security rules"}
+  ],
+  "note": "Static knowledge base — refresh from regulatory sources planned for future versions."
+}

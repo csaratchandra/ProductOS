@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/product_architecture.schema.json",
+  "title": "ProductOS Product Architecture",
+  "description": "Container schema referencing all generated architecture artifacts with cross-layer UUID links and generation metadata.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "product_architecture_id",
+    "artifacts",
+    "cross_links",
+    "generation_metadata",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "product_architecture_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "decomposition_ref": { "type": "string", "minLength": 1 },
+    "artifacts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/artifactRef" },
+      "minItems": 1
+    },
+    "cross_links": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/crossLink" },
+      "default": []
+    },
+    "generation_metadata": { "$ref": "#/$defs/generationMetadata" },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uuid", "type", "version", "generation_timestamp", "confidence_metadata"],
+      "properties": {
+        "uuid": { "type": "string", "minLength": 1 },
+        "type": {
+          "type": "string",
+          "enum": [
+            "master_prd",
+            "persona_archetype_pack",
+            "workflow_orchestration_map",
+            "component_prd",
+            "customer_journey_map",
+            "api_contract_hypothesis",
+            "zoom_navigation_map"
+          ]
+        },
+        "version": { "type": "string", "minLength": 1 },
+        "generation_timestamp": { "type": "string", "format": "date-time" },
+        "confidence_metadata": {
+          "type": "object",
+          "properties": {
+            "overall_confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+            "method": { "type": "string", "enum": ["deterministic", "llm_assisted", "hybrid"] }
+          },
+          "required": ["overall_confidence", "method"]
+        }
+      }
+    },
+    "crossLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_artifact_uuid", "target_artifact_uuid", "link_type"],
+      "properties": {
+        "source_artifact_uuid": { "type": "string", "minLength": 1 },
+        "target_artifact_uuid": { "type": "string", "minLength": 1 },
+        "link_type": {
+          "type": "string",
+          "enum": ["depends_on", "references", "implements", "traces_to", "validates", "handoff_pair"]
+        },
+        "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+      }
+    },
+    "generationMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "duration_ms", "decomposition_uuid"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["standard", "quick", "full"]
+        },
+        "duration_ms": { "type": "integer", "minimum": 0 },
+        "decomposition_uuid": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

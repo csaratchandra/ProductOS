@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "products": [
+    {"name": "Example Healthcare Platform", "domain": "healthcare", "features": ["prior_auth", "claims", "eligibility"], "launch_date": "2024-01-01"},
+    {"name": "Example Finance Platform", "domain": "finance", "features": ["trading", "risk", "compliance"], "launch_date": "2024-06-01"}
+  ],
+  "note": "Static knowledge base — external API integration planned for future versions."
+}

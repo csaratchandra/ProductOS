@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/intent_decomposition.schema.json",
+  "title": "ProductOS Intent Decomposition",
+  "description": "Structured decomposition of a PM's natural language product intent into extracted problem, personas, outcomes, constraints, and domain match with confidence scoring.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "intent_decomposition_id",
+    "raw_text",
+    "extracted_problem",
+    "extracted_outcomes",
+    "inferred_personas",
+    "domain_match",
+    "confidence_scores",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "intent_decomposition_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "raw_text": { "type": "string", "minLength": 1 },
+    "extracted_problem": { "type": "string", "minLength": 10 },
+    "extracted_outcomes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/outcomeTarget" },
+      "minItems": 1
+    },
+    "inferred_personas": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/personaInference" },
+      "minItems": 1
+    },
+    "implied_constraints": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/constraint" },
+      "default": []
+    },
+    "domain_match": { "$ref": "#/$defs/domainMatch" },
+    "archetype_gaps": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "ambiguity_flags": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ambiguityFlag" },
+      "default": []
+    },
+    "suggested_clarifications": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "confidence_scores": { "$ref": "#/$defs/confidenceScores" },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "outcomeTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcome_id", "description", "measurement", "confidence"],
+      "properties": {
+        "outcome_id": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 10 },
+        "measurement": { "type": "string", "minLength": 5 },
+        "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+      }
+    },
+    "personaInference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["persona_id", "label", "role_description", "confidence", "archetype_type"],
+      "properties": {
+        "persona_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 2 },
+        "role_description": { "type": "string", "minLength": 10 },
+        "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "archetype_type": {
+          "type": "string",
+          "enum": ["buyer", "user", "champion", "blocker", "operator", "executive", "influencer", "unknown"]
+        }
+      }
+    },
+    "constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "description"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["compliance", "scale", "geographic", "technical", "timeline", "budget"]
+        },
+        "description": { "type": "string", "minLength": 5 },
+        "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+      }
+    },
+    "domainMatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["domain", "confidence"],
+      "properties": {
+        "domain": { "type": "string", "minLength": 2 },
+        "sub_domains": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "regions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+      }
+    },
+    "ambiguityFlag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statement", "reason", "suggested_clarification"],
+      "properties": {
+        "statement": { "type": "string", "minLength": 3 },
+        "reason": { "type": "string", "minLength": 5 },
+        "suggested_clarification": { "type": "string", "minLength": 5 }
+      }
+    },
+    "confidenceScores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["overall", "problem", "personas", "domain"],
+      "properties": {
+        "overall": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "problem": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "personas": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "domain": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "outcomes": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "constraints": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+      }
+    }
+  }
+}

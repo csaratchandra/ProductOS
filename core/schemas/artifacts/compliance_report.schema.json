@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/compliance_report.schema.json",
+  "title": "ProductOS Compliance Report",
+  "description": "Per-regulation compliance coverage report with gaps, required actions, and coverage scoring.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "compliance_report_id",
+    "architecture_ref",
+    "regulations",
+    "overall_coverage_score",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "compliance_report_id": { "type": "string", "minLength": 1 },
+    "architecture_ref": { "type": "string", "minLength": 1 },
+    "regulations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/regulationCoverage" },
+      "minItems": 1
+    },
+    "overall_coverage_score": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+    "critical_gaps": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/complianceGap" },
+      "default": []
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "regulationCoverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["regulation", "coverage_score", "gates_present", "gates_required", "status"],
+      "properties": {
+        "regulation": { "type": "string", "minLength": 2 },
+        "coverage_score": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "gates_present": { "type": "integer", "minimum": 0 },
+        "gates_required": { "type": "integer", "minimum": 0 },
+        "status": {
+          "type": "string",
+          "enum": ["compliant", "partial", "non_compliant", "not_applicable"]
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "complianceGap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["regulation", "description", "required_action", "severity"],
+      "properties": {
+        "regulation": { "type": "string", "minLength": 2 },
+        "description": { "type": "string", "minLength": 10 },
+        "required_action": { "type": "string", "minLength": 10 },
+        "severity": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low"]
+        }
+      }
+    }
+  }
+}

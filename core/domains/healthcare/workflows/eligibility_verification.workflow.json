@@ -1,0 +1,13 @@
+{
+  "workflow": "eligibility_verification",
+  "domain": "healthcare",
+  "sla_hours": 24,
+  "regulation": "CMS",
+  "handoffs": [
+    {"from": "provider", "to": "clearinghouse", "artifact": "eligibility_request", "sla_seconds": 3600},
+    {"from": "clearinghouse", "to": "payer", "artifact": "benefits_verification_request", "sla_seconds": 7200},
+    {"from": "payer", "to": "provider", "artifact": "eligibility_response", "sla_seconds": 86400}
+  ],
+  "x12_refs": ["270", "271"],
+  "description": "CMS-regulated eligibility verification workflow with 24-hour SLA from request to response. Uses X12 270/271 transaction sets for real-time benefits checking."
+}

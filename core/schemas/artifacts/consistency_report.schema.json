@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/consistency_report.schema.json",
+  "title": "ProductOS Consistency Report",
+  "description": "Cross-layer validation report checking artifact consistency, orphan detection, circular dependencies, and broken traceability links.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "consistency_report_id",
+    "architecture_ref",
+    "checks_passed",
+    "checks_failed",
+    "overall_status",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "consistency_report_id": { "type": "string", "minLength": 1 },
+    "architecture_ref": { "type": "string", "minLength": 1 },
+    "checks_passed": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "checks_failed": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/checkFailure" },
+      "default": []
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "auto_fixes_applied": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/autoFix" },
+      "default": []
+    },
+    "requires_pm_review": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "overall_status": {
+      "type": "string",
+      "enum": ["passed", "failed", "warning"]
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "checkFailure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["check_name", "severity", "description"],
+      "properties": {
+        "check_name": { "type": "string", "minLength": 3 },
+        "severity": {
+          "type": "string",
+          "enum": ["critical", "warning", "info"]
+        },
+        "description": { "type": "string", "minLength": 10 }
+      }
+    },
+    "autoFix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description", "before", "after"],
+      "properties": {
+        "description": { "type": "string", "minLength": 5 },
+        "before": { "type": "string" },
+        "after": { "type": "string" }
+      }
+    }
+  }
+}

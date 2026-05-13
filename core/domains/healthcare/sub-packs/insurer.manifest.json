@@ -1,0 +1,7 @@
+{
+  "sub_pack": "insurer",
+  "domain": "healthcare",
+  "version": "1.0.0",
+  "refs": ["policy_administration", "risk_underwriting", "premium_billing", "member_management", "actuarial_analysis"],
+  "description": "Insurer sub-pack for healthcare domain: policy administration, risk and underwriting, premium billing, member management."
+}

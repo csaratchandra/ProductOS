@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "compliance_report_id": "cr_example_001",
+  "architecture_ref": "arch_example_001",
+  "regulations": [
+    {"regulation": "HIPAA", "coverage_score": 0.75, "gates_present": 3, "gates_required": 4, "status": "partial", "notes": "Audit logs present, breach notification missing"}
+  ],
+  "overall_coverage_score": 0.75,
+  "critical_gaps": [
+    {"regulation": "HIPAA", "description": "Missing breach notification workflow", "required_action": "Add breach notification compliance gate", "severity": "high"}
+  ],
+  "created_at": "2026-05-13T08:00:00Z"
+}

@@ -1,0 +1,6 @@
+{
+  "domain": "finance",
+  "version": "1.0.0",
+  "base_refs": ["ISO 20022", "LEI", "risk_terminology", "audit_patterns"],
+  "description": "Base finance domain overlay: ISO 20022 messaging, legal entity identifiers, risk terminology."
+}

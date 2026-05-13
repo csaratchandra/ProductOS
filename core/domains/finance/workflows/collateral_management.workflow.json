@@ -1,0 +1,12 @@
+{
+  "workflow": "collateral_management",
+  "domain": "finance",
+  "protocol": "FIX 5.0",
+  "handoffs": [
+    {"from": "risk_manager", "to": "collateral_team", "artifact": "margin_call", "protocol": "FIX 5.0"},
+    {"from": "collateral_team", "to": "counterparty", "artifact": "collateral_request", "protocol": "FIX 5.0"},
+    {"from": "counterparty", "to": "custodian", "artifact": "collateral_transfer", "protocol": "SWIFT MT527"},
+    {"from": "custodian", "to": "risk_manager", "artifact": "collateral_confirmation", "protocol": "FIX 5.0"}
+  ],
+  "description": "Collateral management workflow from margin call through collateral transfer to confirmation. Supports initial margin, variation margin, and collateral substitution."
+}

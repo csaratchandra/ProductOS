@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "gap_analysis_id": "ga_example_001",
+  "architecture_ref": "arch_example_001",
+  "gaps": [
+    {
+      "gap_id": "gap_example_001",
+      "gap_type": "missing_handoff",
+      "severity": "critical",
+      "description": "Provider persona has no handoff to Payer persona",
+      "impact": "Without this handoff, the authorization workflow dead-ends at Provider completion",
+      "suggestion": "Add handoff from Provider to Payer with shared artifact prior_auth_request",
+      "auto_fix_available": false,
+      "confidence": 0.92,
+      "affected_artifact_uuids": ["pers_provider", "pers_payer"]
+    }
+  ],
+  "summary": {"total_gaps": 1, "critical_count": 1, "warning_count": 0, "info_count": 0, "auto_fixable_count": 0},
+  "created_at": "2026-05-13T08:00:00Z"
+}

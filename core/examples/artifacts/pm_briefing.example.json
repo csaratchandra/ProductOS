@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "pm_briefing_id": "pmb_example_001",
+  "architecture_ref": "arch_example_001",
+  "intent_summary": "A HIPAA-compliant prior authorization platform for US providers and payers with AI-assisted review",
+  "artifact_inventory": [
+    {"artifact_type": "master_prd", "count": 1, "format": "json"},
+    {"artifact_type": "persona_archetype_pack", "count": 1, "format": "json"},
+    {"artifact_type": "component_prd", "count": 3, "format": "json"},
+    {"artifact_type": "customer_journey_map", "count": 2, "format": "json"}
+  ],
+  "top_gaps": [
+    {"gap_id": "gap_example_001", "severity": "critical", "description": "Provider persona has no handoff to Payer persona"}
+  ],
+  "top_bottlenecks": [
+    {"handoff_id": "ho_002", "impact_description": "Handoff from Provider to Payer is bottleneck in 62% of runs"}
+  ],
+  "intelligence_suggestions": ["Consider adding compliance gate for HIPAA audit logs"],
+  "next_actions": ["Review gaps and accept or dismiss suggestions", "Confirm domain activation"],
+  "confidence_report": [
+    {"claim": "Domain classification", "confidence": 0.95, "provenance": "observed"},
+    {"claim": "Persona identification", "confidence": 0.85, "provenance": "inferred"},
+    {"claim": "Bottleneck prediction", "confidence": 0.7, "provenance": "simulated"}
+  ],
+  "requires_confirmation": [{"claim": "AI-assisted review automation level", "reason": "Low confidence in automation approach"}],
+  "created_at": "2026-05-13T08:00:00Z"
+}

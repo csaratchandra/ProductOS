@@ -190,6 +190,12 @@ from .ecosystem_map import (
     render_ecosystem_html,
     render_portfolio_atlas_html,
 )
+from .intent_engine import IntentEngine
+from .architecture_synthesis import ArchitectureSynthesis
+from .gap_intelligence import GapIntelligence
+from .predictive_simulation import PredictiveSimulation
+from .domain_intelligence import DomainIntelligence
+from .architecture_exporter import ArchitectureExporter
 
 __all__ = [
     "build_foundation_bundle_from_workspace",
@@ -349,4 +355,10 @@ __all__ = [
     "build_ecosystem_map",
     "render_ecosystem_html",
     "render_portfolio_atlas_html",
+    "IntentEngine",
+    "ArchitectureSynthesis",
+    "GapIntelligence",
+    "PredictiveSimulation",
+    "DomainIntelligence",
+    "ArchitectureExporter",
 ]

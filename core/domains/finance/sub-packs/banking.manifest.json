@@ -1,0 +1,7 @@
+{
+  "sub_pack": "banking",
+  "domain": "finance",
+  "version": "1.0.0",
+  "refs": ["PCI-DSS", "SWIFT", "AML/KYC", "lending", "credit_risk"],
+  "description": "Banking sub-pack: PCI-DSS compliance, SWIFT messaging, AML/KYC, lending workflows."
+}

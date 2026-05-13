@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "ai_layer_plan_id": "ai_example_001",
+  "architecture_ref": "arch_example_001",
+  "automation_candidates": [
+    {"workflow_stage": "ho_001", "automation_approach": "AI-assisted document classification", "estimated_roi": "60% reduction in processing time", "confidence": 0.75}
+  ],
+  "human_in_the_loop_checkpoints": [],
+  "per_persona_ai_features": [],
+  "failure_modes": [],
+  "regulatory_alignment": [],
+  "created_at": "2026-05-13T08:00:00Z"
+}

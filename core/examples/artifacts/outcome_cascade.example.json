@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "outcome_cascade_id": "oc_example",
+  "architecture_ref": "pa_example",
+  "cascade": [
+    {
+      "level": "Business Outcome",
+      "entries": [
+        {
+          "id": "bo_001",
+          "description": "Reduce prior authorization denial rate by 40%",
+          "confidence": "inferred",
+          "measurement_gap": true
+        }
+      ]
+    },
+    {
+      "level": "Product Outcome",
+      "entries": [
+        {
+          "id": "po_001",
+          "description": "AI review accuracy >= 95%",
+          "confidence": "inferred",
+          "linked_business_outcome": "bo_001"
+        }
+      ]
+    },
+    {
+      "level": "Feature Metric",
+      "entries": [
+        {
+          "id": "fm_001",
+          "description": "Model precision on authorization requests",
+          "measurement": "precision@k",
+          "data_source": "AI model evaluation pipeline"
+        }
+      ]
+    },
+    {
+      "level": "User Action",
+      "entries": [
+        {
+          "id": "ua_001",
+          "description": "Provider submits complete prior authorization request",
+          "linked_feature_metric": "fm_001"
+        }
+      ]
+    },
+    {
+      "level": "Data Source",
+      "entries": [
+        {
+          "id": "ds_001",
+          "description": "EHR integration and payer adjudication API"
+        }
+      ]
+    }
+  ],
+  "measurement_gaps": [
+    {
+      "outcome_ref": "bo_001",
+      "gap": "No data source identified for business outcome measurement"
+    }
+  ],
+  "created_at": "2026-05-14T00:00:00Z"
+}

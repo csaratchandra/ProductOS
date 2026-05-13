@@ -1,0 +1,13 @@
+{
+  "region": "eu",
+  "domain": "finance",
+  "version": "1.0.0",
+  "regulations": ["MiFID II", "EMIR", "ECB", "EBA"],
+  "compliance_requirements": [
+    "transaction_reporting",
+    "trade_transparency",
+    "clearing_obligation",
+    "prudential_reporting"
+  ],
+  "description": "EU regional overlay for finance: MiFID II trading transparency, EMIR derivatives clearing."
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "analytics_plan_id": "ap_example_001",
+  "architecture_ref": "arch_example_001",
+  "event_taxonomy": [
+    {"event_name": "handoff_ho_001_initiated", "trigger": "Provider submits prior_auth_request", "persona_ref": "pers_provider", "properties": ["handoff_id", "timestamp"], "privacy_classification": "behavioral"},
+    {"event_name": "handoff_ho_001_completed", "trigger": "Payer receives prior_auth_request", "persona_ref": "pers_payer", "properties": ["handoff_id", "duration_ms"], "privacy_classification": "behavioral"}
+  ],
+  "metric_definitions": [
+    {"metric_name": "handoff_completion_time", "formula": "p50 of handoff duration", "data_sources": ["handoff_completed_events"], "aggregation": "percentile", "alert_threshold": "p95 > SLA"}
+  ],
+  "predicted_funnel_dropoffs": [],
+  "ab_test_candidates": [],
+  "privacy_risk_assessment": [],
+  "dashboard_specs": [{"audience": "PM", "widgets": ["handoff_completion_times", "bottleneck_heatmap"]}],
+  "created_at": "2026-05-13T08:00:00Z"
+}

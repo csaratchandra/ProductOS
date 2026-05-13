@@ -1,0 +1,7 @@
+{
+  "sub_pack": "capital_markets",
+  "domain": "finance",
+  "version": "1.0.0",
+  "refs": ["FIX protocol", "OMS", "derivatives", "clearing", "settlement"],
+  "description": "Capital markets sub-pack: FIX protocol, order management systems, derivatives, clearing."
+}

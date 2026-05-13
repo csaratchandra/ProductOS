@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/pm_briefing.schema.json",
+  "title": "ProductOS PM Briefing",
+  "description": "PM-facing structured summary with intent summary, artifact inventory, top gaps, bottlenecks, intelligence suggestions, next actions, and confidence report.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pm_briefing_id",
+    "architecture_ref",
+    "intent_summary",
+    "artifact_inventory",
+    "next_actions",
+    "confidence_report",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "pm_briefing_id": { "type": "string", "minLength": 1 },
+    "architecture_ref": { "type": "string", "minLength": 1 },
+    "intent_summary": { "type": "string", "minLength": 10 },
+    "artifact_inventory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_type", "count", "format"],
+        "properties": {
+          "artifact_type": { "type": "string", "minLength": 2 },
+          "count": { "type": "integer", "minimum": 0 },
+          "format": { "type": "string", "minLength": 2 }
+        }
+      }
+    },
+    "top_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "gap_id": { "type": "string" },
+          "severity": { "type": "string", "enum": ["critical", "warning", "info"] },
+          "description": { "type": "string" }
+        }
+      },
+      "default": []
+    },
+    "top_bottlenecks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "handoff_id": { "type": "string" },
+          "impact_description": { "type": "string" }
+        }
+      },
+      "default": []
+    },
+    "intelligence_suggestions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "next_actions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1
+    },
+    "confidence_report": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim", "confidence", "provenance"],
+        "properties": {
+          "claim": { "type": "string", "minLength": 5 },
+          "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+          "provenance": {
+            "type": "string",
+            "enum": ["observed", "inferred", "assumed", "simulated"]
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "requires_confirmation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claim": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      },
+      "default": []
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "workflow": "claims_submission",
+  "domain": "healthcare",
+  "sla_hours": 48,
+  "regulation": "HIPAA",
+  "handoffs": [
+    {"from": "provider", "to": "clearinghouse", "artifact": "claim_submission", "sla_seconds": 7200},
+    {"from": "clearinghouse", "to": "payer", "artifact": "cleaned_claim", "sla_seconds": 14400},
+    {"from": "payer", "to": "provider", "artifact": "claim_acknowledgment", "sla_seconds": 86400},
+    {"from": "payer", "to": "provider", "artifact": "remittance_advice", "sla_seconds": 172800}
+  ],
+  "x12_refs": ["837", "835", "277"],
+  "description": "HIPAA-regulated claims submission workflow from provider submission through clearinghouse to payer adjudication. Uses X12 837 (claim), 835 (payment), and 277 (claim status) transaction sets."
+}

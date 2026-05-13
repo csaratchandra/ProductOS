@@ -74,6 +74,38 @@ Recommended next step:
 
 - `./productos --workspace-dir /path/to/new-workspace run discover`
 
+## V14 Candidate: Intent-Driven Architecture
+
+ProductOS includes an in-repo V14 candidate surface for **intent-driven architecture**. It is implemented and test-backed in the repo, but it is not the current promoted stable line until the V14 release proof is cut.
+
+### `productos architect` Command
+
+```bash
+# Full pipeline (candidate auto mode)
+./productos architect --intent "A HIPAA-compliant prior authorization platform for US providers and payers with AI-assisted review"
+
+# Dry-run: decomposition only, no artifact generation
+./productos architect --intent "..." --dry-run
+
+# Wizard mode: step-by-step with confirmation points
+./productos architect --intent "..." --wizard
+
+# Specify output directory
+./productos architect --intent "..." --output-dir /path/to/outputs
+```
+
+### Pipeline Phases
+
+1. **Intent Decomposition** → extracts problem, personas, outcomes, domain, constraints with confidence scores
+2. **Architecture Synthesis** → 6 parallel engines generate persona packs, workflows, components, journey maps, API contracts, and zoom navigation
+3. **Gap Intelligence** → cross-layer gap detection with narrative impact explanations and fix suggestions
+4. **Predictive Simulation** → Monte Carlo simulation with bottleneck ranking and what-if scenarios
+5. **Output Bundle** → all 12 formats including JSON artifacts, Markdown PRDs, interactive HTML atlas, PM Briefing
+
+### 12 Output Formats
+
+JSON artifacts | Markdown PRDs | Interactive HTML atlas | Adaptive prototype | Simulation dashboard | Executive summary | Mermaid diagrams | Analytics spec | Outcome cascade | AI layer plan | Experience plan | PM Briefing with confidence
+
 V12 Living System and Agent-Native commands:
 
 - `./productos --workspace-dir /path/to/workspace queue build --source-artifact artifacts/prd.json --change-summary "Scope tightened"`

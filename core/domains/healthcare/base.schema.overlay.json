@@ -1,0 +1,7 @@
+{
+  "domain": "healthcare",
+  "version": "1.0.0",
+  "base_refs": ["FHIR R4", "clinical_coding", "ICD-10", "CPT", "HCPCS"],
+  "core_resources": ["Patient", "Coverage", "Claim", "Encounter", "Practitioner", "Organization", "MedicationRequest"],
+  "description": "Base healthcare domain overlay mapping FHIR R4 core resources and clinical coding systems."
+}

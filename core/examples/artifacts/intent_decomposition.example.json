@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "intent_decomposition_id": "id_example_001",
+  "workspace_id": "ws_example",
+  "raw_text": "A HIPAA-compliant prior authorization platform for US providers and payers with AI-assisted review",
+  "extracted_problem": "US healthcare providers and payers struggle with slow, manual prior authorization processes that delay patient care",
+  "extracted_outcomes": [
+    {"outcome_id": "out_001", "description": "Reduce prior authorization processing time from days to under 24 hours", "measurement": "Average processing time per request", "confidence": 0.85}
+  ],
+  "inferred_personas": [
+    {"persona_id": "pers_provider", "label": "Healthcare Provider", "role_description": "Submits prior authorization requests", "confidence": 0.92, "archetype_type": "user"},
+    {"persona_id": "pers_payer", "label": "Payer Reviewer", "role_description": "Reviews and adjudicates requests", "confidence": 0.88, "archetype_type": "operator"}
+  ],
+  "implied_constraints": [
+    {"type": "compliance", "description": "HIPAA regulatory requirements", "confidence": 0.85}
+  ],
+  "domain_match": {"domain": "healthcare", "sub_domains": ["prior_authorization"], "regions": ["us"], "confidence": 0.95},
+  "archetype_gaps": [],
+  "ambiguity_flags": [
+    {"statement": "AI-assisted review", "reason": "AI role in review process is not specific", "suggested_clarification": "Should AI fully automate review or assist human reviewers?"}
+  ],
+  "suggested_clarifications": ["Should AI fully automate review or assist human reviewers?"],
+  "confidence_scores": {"overall": 0.85, "problem": 0.9, "personas": 0.85, "domain": 0.95, "outcomes": 0.7, "constraints": 0.8},
+  "created_at": "2026-05-13T08:00:00Z"
+}

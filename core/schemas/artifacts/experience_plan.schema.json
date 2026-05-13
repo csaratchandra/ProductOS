@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/experience_plan.schema.json",
+  "title": "ProductOS Experience Plan",
+  "description": "Predictive experience plan with device context prediction, progressive enhancement rules, accessibility mapping, cognitive load analysis, and performance targets.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experience_plan_id", "architecture_ref", "per_persona_device_context", "created_at"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "experience_plan_id": { "type": "string", "minLength": 1 },
+    "architecture_ref": { "type": "string", "minLength": 1 },
+    "per_persona_device_context": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["persona", "predicted_primary_device"],
+        "properties": {
+          "persona": { "type": "string" },
+          "predicted_primary_device": { "type": "string" },
+          "predicted_secondary_device": { "type": "string" },
+          "offline_capability": { "type": "boolean" },
+          "accessibility_requirements": { "type": "string" }
+        }
+      }
+    },
+    "performance_targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "metric": { "type": "string" },
+          "target": { "type": "string" }
+        }
+      }
+    },
+    "cognitive_load_analysis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "persona": { "type": "string" },
+          "decision_points": { "type": "integer" },
+          "suggested_simplifications": { "type": "string" }
+        }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

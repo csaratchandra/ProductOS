@@ -1,0 +1,12 @@
+{
+  "workflow": "post_trade_processing",
+  "domain": "finance",
+  "protocol": "FIX 5.0",
+  "handoffs": [
+    {"from": "execution_venue", "to": "clearing_house", "artifact": "trade_confirmation", "protocol": "FIX 5.0"},
+    {"from": "clearing_house", "to": "settlement_agent", "artifact": "cleared_trade", "protocol": "FIX 5.0"},
+    {"from": "settlement_agent", "to": "custodian", "artifact": "settlement_instruction", "protocol": "SWIFT MT540"},
+    {"from": "custodian", "to": "investment_manager", "artifact": "settlement_confirmation", "protocol": "SWIFT MT542"}
+  ],
+  "description": "Post-trade processing workflow from trade confirmation through clearing and settlement to custody. Uses FIX 5.0 for pre-settlement and SWIFT for settlement instructions."
+}

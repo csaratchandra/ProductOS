@@ -1,0 +1,11 @@
+{
+  "workflow": "prior_authorization",
+  "domain": "healthcare",
+  "sla_hours": 72,
+  "regulation": "CMS",
+  "handoffs": [
+    {"from": "provider", "to": "payer", "artifact": "prior_auth_request", "sla_seconds": 259200},
+    {"from": "payer", "to": "provider", "artifact": "authorization_decision", "sla_seconds": 259200}
+  ],
+  "description": "CMS-regulated prior authorization workflow with 72-hour SLA from provider submission to payer decision."
+}

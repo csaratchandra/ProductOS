@@ -1,0 +1,13 @@
+{
+  "region": "us",
+  "domain": "finance",
+  "version": "1.0.0",
+  "regulations": ["SEC", "FINRA", "CFTC", "OCC", "Federal Reserve"],
+  "compliance_requirements": [
+    "audit_log_at_trade_execution",
+    "transaction_reporting",
+    "best_execution_records",
+    "capital_adequacy_reporting"
+  ],
+  "description": "US regional overlay for finance: SEC reporting, FINRA brokerage compliance, CFTC derivatives."
+}

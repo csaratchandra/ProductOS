@@ -1,0 +1,7 @@
+{
+  "sub_pack": "payer",
+  "domain": "healthcare",
+  "version": "1.0.0",
+  "refs": ["adjudication", "benefits_management", "authorization", "claims_processing", "utilization_management"],
+  "description": "Payer sub-pack for healthcare domain: claims adjudication, benefits administration, utilization review."
+}

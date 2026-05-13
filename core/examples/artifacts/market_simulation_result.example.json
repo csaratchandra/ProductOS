@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "market_simulation_id": "ms_example",
+  "architecture_ref": "pa_example",
+  "competitive_response": [
+    {
+      "scenario": "Competitor launches similar AI review feature in 3 months",
+      "adoption_impact": "-22%",
+      "confidence": 0.6
+    }
+  ],
+  "regulatory_timing": [
+    {
+      "regulation": "EU AI Act",
+      "expected_date": "2026-03-01",
+      "impact": "AI-assisted review features may require compliance update"
+    }
+  ],
+  "economic_sensitivity": [
+    {
+      "factor": "Interest rates",
+      "impact": "Higher rates increase user acquisition cost for fintech products",
+      "confidence": 0.5
+    }
+  ],
+  "risk_adjusted_roadmap": [
+    {
+      "recommendation": "Launch core prior auth in Q1, AI features in Q3 after regulatory clarity",
+      "rationale": "EU AI Act expected Q1 2026 — delaying AI features avoids rework"
+    }
+  ],
+  "created_at": "2026-05-14T00:00:00Z"
+}

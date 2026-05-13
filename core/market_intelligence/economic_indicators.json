@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "indicators": [
+    {"name": "Interest Rate", "region": "us", "current": "5.25%", "trend": "stable", "impact": "Fintech user acquisition cost sensitive to rate changes"},
+    {"name": "Healthcare Spending", "region": "us", "current": "High", "trend": "growing", "impact": "Sustained demand for healthcare IT solutions"}
+  ],
+  "note": "Static knowledge base — refresh from economic data sources planned for future versions."
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/enrichment_report.schema.json",
+  "title": "ProductOS Enrichment Report",
+  "description": "Report of what domain intelligence was added to the architecture, why, and with what confidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "enrichment_report_id",
+    "architecture_ref",
+    "domain_activation_ref",
+    "additions",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "enrichment_report_id": { "type": "string", "minLength": 1 },
+    "architecture_ref": { "type": "string", "minLength": 1 },
+    "domain_activation_ref": { "type": "string", "minLength": 1 },
+    "additions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/addition" },
+      "default": []
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "total_additions": { "type": "integer", "minimum": 0 },
+        "compliance_gates_added": { "type": "integer", "minimum": 0 },
+        "data_model_refs_added": { "type": "integer", "minimum": 0 },
+        "sla_constraints_added": { "type": "integer", "minimum": 0 },
+        "audit_trail_requirements_added": { "type": "integer", "minimum": 0 }
+      },
+      "required": ["total_additions"]
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "addition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["addition_type", "description", "rationale", "confidence"],
+      "properties": {
+        "addition_type": {
+          "type": "string",
+          "enum": ["compliance_gate", "data_model_ref", "sla_constraint", "audit_trail_requirement", "domain_field"]
+        },
+        "target_location": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 10 },
+        "rationale": { "type": "string", "minLength": 10 },
+        "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+      }
+    }
+  }
+}

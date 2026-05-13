@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "what_if_set_id": "wis_example_001",
+  "forecast_ref": "sf_example_001",
+  "scenarios": [
+    {
+      "scenario_id": "ws_example_001",
+      "scenario_name": "Add parallel reviewer at bottleneck ho_002",
+      "description": "Add a parallel reviewer persona to reduce wait time",
+      "parameter_changes": [
+        {"parameter": "handoff.ho_002.parallel_workers", "before": 1, "after": 2}
+      ],
+      "predicted_outcomes": [
+        {"metric": "wait_time", "delta": "-1680s", "description": "Reduce wait time by ~40%"}
+      ],
+      "confidence": 0.7,
+      "implementation_effort": {"size": "M", "rationale": "Requires workflow configuration changes"}
+    }
+  ],
+  "created_at": "2026-05-13T08:00:00Z"
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/ai_layer_plan.schema.json",
+  "title": "ProductOS AI Layer Plan",
+  "description": "AI-native architecture plan with automation candidates, human-in-the-loop checkpoints, per-persona AI features, trust indicators, consent flows, data privacy guards, failure modes, and regulatory alignment.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "ai_layer_plan_id", "architecture_ref", "automation_candidates", "created_at"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "ai_layer_plan_id": { "type": "string", "minLength": 1 },
+    "architecture_ref": { "type": "string", "minLength": 1 },
+    "automation_candidates": {
+      "type": "array", "items": {
+        "type": "object",
+        "required": ["workflow_stage", "automation_approach", "estimated_roi", "confidence"],
+        "properties": {
+          "workflow_stage": { "type": "string" },
+          "automation_approach": { "type": "string" },
+          "estimated_roi": { "type": "string" },
+          "confidence": { "type": "number" }
+        }
+      }
+    },
+    "human_in_the_loop_checkpoints": { "type": "array", "items": { "type": "object" } },
+    "per_persona_ai_features": { "type": "array", "items": { "type": "object" } },
+    "failure_modes": { "type": "array", "items": { "type": "object" } },
+    "regulatory_alignment": { "type": "array", "items": { "type": "object" } },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

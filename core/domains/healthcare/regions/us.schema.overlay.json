@@ -1,0 +1,19 @@
+{
+  "region": "us",
+  "domain": "healthcare",
+  "version": "1.0.0",
+  "regulations": ["HIPAA", "HITECH", "CMS"],
+  "compliance_requirements": [
+    "audit_log_at_phi_handoffs",
+    "consent_record_at_data_access",
+    "breach_notification_workflow",
+    "data_minimization",
+    "phi_encryption_at_rest",
+    "phi_encryption_in_transit"
+  ],
+  "sla_constraints": [
+    {"regulation": "CMS", "handoff_type": "prior_authorization", "sla_hours": 72}
+  ],
+  "x12_transactions": ["278", "837", "835"],
+  "description": "US regional overlay for healthcare: HIPAA, CMS, HITECH, X12 transaction awareness."
+}

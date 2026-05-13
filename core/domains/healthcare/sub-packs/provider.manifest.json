@@ -1,0 +1,7 @@
+{
+  "sub_pack": "provider",
+  "domain": "healthcare",
+  "version": "1.0.0",
+  "refs": ["EMR integration", "clinical_documentation", "ePrescribing", "lab_ordering"],
+  "description": "Provider sub-pack for healthcare domain: clinical workflow tools, EMR integration patterns."
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "consistency_report_id": "cr_example_001",
+  "architecture_ref": "arch_example_001",
+  "checks_passed": ["All personas appear in orchestration map", "No orphan artifacts"],
+  "checks_failed": [],
+  "warnings": [],
+  "auto_fixes_applied": [],
+  "requires_pm_review": [],
+  "overall_status": "passed",
+  "created_at": "2026-05-13T08:00:00Z"
+}

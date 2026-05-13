@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "experience_plan_id": "ep_example_001",
+  "architecture_ref": "arch_example_001",
+  "per_persona_device_context": [
+    {"persona": "pers_provider", "predicted_primary_device": "desktop", "predicted_secondary_device": "tablet", "offline_capability": true, "accessibility_requirements": "WCAG 2.1 AA"}
+  ],
+  "performance_targets": [
+    {"metric": "load_time_seconds", "target": "< 3.0"}
+  ],
+  "cognitive_load_analysis": [
+    {"persona": "pers_provider", "decision_points": 8, "suggested_simplifications": "Consider guided step-by-step workflow"}
+  ],
+  "created_at": "2026-05-13T08:00:00Z"
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "enrichment_report_id": "er_example_001",
+  "architecture_ref": "arch_example_001",
+  "domain_activation_ref": "da_example_001",
+  "additions": [
+    {"addition_type": "compliance_gate", "target_location": "workflow_orchestration_map.us", "description": "audit log at phi handoffs", "rationale": "Required by HIPAA", "confidence": 0.85},
+    {"addition_type": "sla_constraint", "target_location": "workflow_orchestration_map.compliance_gates", "description": "CMS 72h SLA for prior authorization", "rationale": "Regulatory requirement from CMS", "confidence": 0.9}
+  ],
+  "summary": {"total_additions": 2, "compliance_gates_added": 1, "data_model_refs_added": 0, "sla_constraints_added": 1, "audit_trail_requirements_added": 0},
+  "created_at": "2026-05-13T08:00:00Z"
+}

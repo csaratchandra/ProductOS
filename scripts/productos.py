@@ -4016,6 +4016,16 @@ def parse_args() -> argparse.Namespace:
     v7_parser.add_argument("--output-dir", type=Path)
     v9_parser = subparsers.add_parser("v9")
     v9_parser.add_argument("--output-dir", type=Path)
+
+    # V14 Architect Command
+    architect_parser = subparsers.add_parser("architect")
+    architect_parser.add_argument("--intent", required=True, help="Natural language product intent (1-3 sentences)")
+    architect_parser.add_argument("--mode", choices=["auto", "wizard", "dry_run"], default="auto",
+                                  help="Execution mode: auto (full pipeline), wizard (step-by-step), dry_run (decomposition only)")
+    architect_parser.add_argument("--dry-run", action="store_true", help="Decompose the intent without generating artifacts")
+    architect_parser.add_argument("--wizard", action="store_true", help="Use step-by-step mode with confirmation points")
+    architect_parser.add_argument("--auto", action="store_true", help="Run the full architecture pipeline without confirmations")
+    architect_parser.add_argument("--output-dir", type=Path, help="Output directory for generated artifacts")
     cutover_parser = subparsers.add_parser("cutover")
     cutover_parser.add_argument("--target-version", default="7.0.0")
     cutover_parser.add_argument("--output-path", type=Path)
@@ -4072,6 +4082,213 @@ def parse_args() -> argparse.Namespace:
     review_parser.add_argument("--pm-note")
 
     return parser.parse_args()
+
+
+# ---------------------------------------------------------------------------
+# V14 Architect Command Handler
+# ---------------------------------------------------------------------------
+
+
+def _resolve_architect_mode(args: argparse.Namespace) -> str:
+    explicit_modes = sum(
+        1 for enabled in (args.dry_run, args.wizard, args.auto) if enabled
+    )
+    if explicit_modes > 1:
+        raise SystemExit("Use only one of --dry-run, --wizard, or --auto.")
+
+    if args.dry_run:
+        return "dry_run"
+    if args.wizard:
+        return "wizard"
+    if args.auto:
+        return "auto"
+    return args.mode
+
+
+def _confirm_architect_step(prompt: str) -> bool:
+    try:
+        response = input(f"{prompt} [Y/n]: ").strip().lower()
+    except EOFError:
+        return True
+    return response in ("", "y", "yes")
+
+
+def cmd_architect(args: argparse.Namespace) -> int:
+    """Run the V14 intent-driven architecture pipeline."""
+    from core.python.productos_runtime.intent_engine import IntentEngine
+    from core.python.productos_runtime.architecture_synthesis import ArchitectureSynthesis
+    from core.python.productos_runtime.gap_intelligence import GapIntelligence
+    from core.python.productos_runtime.predictive_simulation import PredictiveSimulation
+    from core.python.productos_runtime.domain_intelligence import DomainIntelligence
+    from core.python.productos_runtime.architecture_exporter import ArchitectureExporter
+
+    intent_text = args.intent
+    mode = _resolve_architect_mode(args)
+    output_dir = args.output_dir or Path.cwd() / "outputs" / "architecture"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    print(f"ProductOS Architect — Mode: {mode}")
+    print(f"Intent: {intent_text[:100]}{'...' if len(intent_text) > 100 else ''}")
+    print()
+
+    # Phase 1: Intent Decomposition
+    print("[1/5] Decomposing intent...")
+    intent_engine = IntentEngine()
+    decomposition = intent_engine.decompose(intent_text)
+    print(f"  → Problem: {decomposition['extracted_problem'][:80]}...")
+    print(f"  → Personas: {len(decomposition['inferred_personas'])} inferred")
+    print(f"  → Domain: {decomposition['domain_match']['domain']} ({decomposition['domain_match']['confidence']:.0%})")
+    print(f"  → Confidence: {decomposition['confidence_scores']['overall']:.0%}")
+    if decomposition['ambiguity_flags']:
+        print(f"  → ⚠️  {len(decomposition['ambiguity_flags'])} ambiguity flags")
+    print()
+
+    if mode == "dry_run":
+        print("Dry-run complete. Use --auto or --wizard to generate full architecture.")
+        return 0
+
+    if mode == "wizard":
+        print("Wizard Checkpoint 1")
+        print("  Review the inferred problem, personas, domain, and ambiguity flags before continuing.")
+        if not _confirm_architect_step("Continue with architecture synthesis?"):
+            print("Architecture generation cancelled at checkpoint 1.")
+            return 1
+        print()
+
+    master_prd = intent_engine.generate_master_prd(decomposition)
+    (output_dir / "master_prd.json").write_text(
+        __import__("json").dumps(master_prd, indent=2) + "\n", encoding="utf-8"
+    )
+
+    # Phase 2: Architecture Synthesis
+    print("[2/5] Synthesizing architecture...")
+    arch_engine = ArchitectureSynthesis()
+    architecture = arch_engine.synthesize(master_prd)
+    print(f"  → {len(architecture['artifacts'])} artifacts generated")
+    print(f"  → {len(architecture['cross_links'])} cross-layer links")
+    print(f"  → Duration: {architecture['generation_metadata']['duration_ms']}ms")
+    print()
+
+    consistency = arch_engine.validate_cross_consistency(architecture)
+    print(f"  Consistency: {consistency['overall_status'].upper()}")
+    if consistency['checks_failed']:
+        for f in consistency['checks_failed'][:3]:
+            print(f"    ⚠️  [{f['severity']}] {f['check_name']}")
+    print()
+
+    # Phase 3: Gap Detection
+    print("[3/5] Analyzing gaps...")
+    gap_engine = GapIntelligence()
+    gaps = gap_engine.analyze(architecture)
+    print(f"  → {gaps['summary']['total_gaps']} gaps found")
+    print(f"     Critical: {gaps['summary']['critical_count']}, Warning: {gaps['summary']['warning_count']}, Info: {gaps['summary']['info_count']}")
+    if gaps['gaps']:
+        for g in gaps['gaps'][:3]:
+            print(f"    [{g['severity'].upper()}] {g['description'][:80]}")
+    print()
+
+    suggestion_set = gap_engine.suggest_fixes(gaps['gaps'])
+    print(f"  → {suggestion_set['auto_fix_count']} auto-fixes available")
+    print()
+
+    # Phase 4: Predictive Simulation & Domain Intelligence
+    print("[4/5] Running simulation and domain intelligence...")
+    sim_engine = PredictiveSimulation()
+    forecast = sim_engine.forecast(architecture, scenario="baseline")
+    print(f"  → Simulation: {forecast['baseline_forecast']['simulation_runs']} runs")
+    print(f"  → Bottlenecks: {len(forecast['bottleneck_rankings'])} identified")
+    if forecast['bottleneck_rankings']:
+        for b in forecast['bottleneck_rankings'][:2]:
+            print(f"    #{b['rank']}: {b['impact_description'][:80]}")
+    print()
+
+    what_if = sim_engine.generate_what_if_scenarios(forecast)
+    print(f"  → {len(what_if)} what-if scenarios generated")
+    print()
+
+    domain_engine = DomainIntelligence()
+    activation = domain_engine.auto_activate(decomposition)
+    print(f"  → Domain: {activation['domain']}")
+    if activation.get('regions'):
+        print(f"  → Regions: {', '.join(activation['regions'])}")
+    print()
+
+    enrichment = domain_engine.enrich_architecture(architecture, activation)
+    enriched_architecture = enrichment.get("enriched_architecture", architecture)
+    print(f"  → Enrichment additions: {enrichment['summary']['total_additions']}")
+    print()
+
+    compliance = domain_engine.validate_compliance_coverage(enriched_architecture, activation)
+    print(f"  → Compliance coverage: {compliance['overall_coverage_score']:.0%}")
+    if compliance["critical_gaps"]:
+        print(f"  → Compliance gaps: {len(compliance['critical_gaps'])}")
+    print()
+
+    if mode == "wizard":
+        print("Wizard Checkpoint 2")
+        print("  Review the gap, simulation, and compliance summary before output generation.")
+        if not _confirm_architect_step("Generate the final output bundle?"):
+            print("Architecture generation cancelled at checkpoint 2.")
+            return 1
+        print()
+
+    # Phase 5: Export
+    print("[5/5] Generating output bundle...")
+    exporter = ArchitectureExporter()
+    bundle = exporter.export_all(
+        enriched_architecture,
+        gaps=gaps["gaps"],
+        forecast=forecast,
+        domain_activation=activation,
+    )
+    print(f"  → 12 output formats generated")
+
+    for fmt_name, content in bundle.items():
+        ext = "html" if fmt_name.startswith("html") else "md" if fmt_name in ("markdown_prds", "pm_briefing") else "json" if fmt_name in ("json_artifacts", "analytics_spec", "outcome_cascade", "ai_layer_plan", "experience_plan") else "mmd" if fmt_name == "mermaid_diagram" else "pdf" if fmt_name == "executive_summary_pdf" else "txt"
+        fname = f"{fmt_name}.{ext}"
+        (output_dir / fname).write_text(content, encoding="utf-8")
+
+    (output_dir / "intent_decomposition.json").write_text(
+        json.dumps(decomposition, indent=2) + "\n", encoding="utf-8"
+    )
+    (output_dir / "product_architecture.json").write_text(
+        json.dumps(enriched_architecture, indent=2) + "\n", encoding="utf-8"
+    )
+    (output_dir / "consistency_report.json").write_text(
+        json.dumps(consistency, indent=2) + "\n", encoding="utf-8"
+    )
+    (output_dir / "gap_analysis.json").write_text(
+        json.dumps(gaps, indent=2) + "\n", encoding="utf-8"
+    )
+    (output_dir / "suggestion_set.json").write_text(
+        json.dumps(suggestion_set, indent=2) + "\n", encoding="utf-8"
+    )
+    (output_dir / "simulation_forecast.json").write_text(
+        json.dumps(forecast, indent=2) + "\n", encoding="utf-8"
+    )
+    (output_dir / "what_if_scenarios.json").write_text(
+        json.dumps(what_if, indent=2) + "\n", encoding="utf-8"
+    )
+    (output_dir / "domain_activation.json").write_text(
+        json.dumps(activation, indent=2) + "\n", encoding="utf-8"
+    )
+    (output_dir / "enrichment_report.json").write_text(
+        json.dumps(enrichment, indent=2) + "\n", encoding="utf-8"
+    )
+    (output_dir / "compliance_report.json").write_text(
+        json.dumps(compliance, indent=2) + "\n", encoding="utf-8"
+    )
+
+    briefing = bundle["pm_briefing"]
+    (output_dir / "pm_briefing.md").write_text(briefing, encoding="utf-8")
+
+    print()
+    print(f"✅ Architecture complete — all outputs in: {output_dir}")
+    print()
+    print("PM Briefing Highlights:")
+    print(briefing.split("## What We Found")[1].split("##")[0].strip() if "## What We Found" in briefing else "")
+
+    return 0
 
 
 # ---------------------------------------------------------------------------
@@ -4437,6 +4654,8 @@ def _dispatch_command(args: argparse.Namespace) -> int:
         return cmd_review_delta(args)
     if args.command == "new":
         return cmd_new(args)
+    if args.command == "architect":
+        return cmd_architect(args)
     raise AssertionError(f"Unsupported command: {args.command}")
 
 

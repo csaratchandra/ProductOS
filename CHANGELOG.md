@@ -1,5 +1,44 @@
 # Changelog
 
+## Upcoming V14.0.0
+
+ProductOS V14.0 introduces the intent-driven architecture runtime: one natural-language command that decomposes intent, synthesizes a cross-linked architecture, validates consistency, analyzes gaps, simulates bottlenecks, applies domain intelligence, and exports a PM-ready output bundle.
+
+### Added
+
+- `productos architect` with `--dry-run`, `--wizard`, and `--auto` execution modes
+- V14 intent, architecture, gap, simulation, domain, and exporter runtimes
+- V14 artifact schemas, examples, skills, and dedicated test coverage
+- domain activation, enrichment, and compliance reporting in the architect pipeline
+- PDF executive summary output plus explicit architecture-sidecar JSON outputs
+
+### Changed
+
+- architecture synthesis now builds the independent artifact groups concurrently
+- cross-layer links now stay within the registered artifact graph used by consistency and gap analysis
+- README and bounded-claim surfaces now separate the promoted stable line from the in-repo V14 candidate posture until release
+
+### Validation
+
+- `pytest tests/test_v14_*.py`
+- `pytest -q`
+
+---
+
+## Upcoming V13.0.0
+
+ProductOS V13 makes product inheritance a first-class PM flow through multi-modal takeover understanding, visual atlas synthesis, agent-native spec exports, and portfolio intelligence.
+
+### Added
+
+- V13 takeover, atlas, ingestion, spec-chain, export, and portfolio intelligence surfaces
+- V13 bounded claim and release-note documentation
+
+### Validation
+
+- `pytest tests/test_v13_*.py`
+- `pytest -q`
+
 ## V12.0.0
 
 ProductOS V12 completes the repo-backed V11 Living Product System and adds the missing V12 agent-native execution surfaces: one-command workspace generation, cockpit HTML and quality snapshots, prototype generation, adapter context packs, installable packaging, demo flow, and example workspaces.
