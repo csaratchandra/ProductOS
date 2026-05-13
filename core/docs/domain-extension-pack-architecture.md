@@ -421,7 +421,7 @@ Recommended action:
 
 ## Reference
 
-- Execution Plan: `internal/plans/version-history/v14-orchestration-superpowers-execution-plan.md`
+- Execution plan references are intentionally kept out of public release surfaces.
 - Bounded Claim: `core/docs/v14-bounded-claim.md`
 - Orchestration Model: `core/docs/v14-orchestration-model.md`
 - Core Schema Directory: `core/schemas/artifacts/`

@@ -338,8 +338,7 @@ PM Intent (1-3 sentences)
 
 ## Reference
 
-- Execution Plan: `internal/plans/version-history/v14-100x-rich-execution-plan.md`
-- Execution Plan (Legacy): `internal/plans/version-history/v14-orchestration-superpowers-execution-plan.md`
+- Execution-plan references are intentionally omitted from public release surfaces.
 - V14.0 Bounded Claim: `core/docs/v14-0-bounded-claim.md`
 - V14 Master Bounded Claim: `core/docs/v14-master-bounded-claim.md`
 - Domain Extension Pack Architecture: `core/docs/domain-extension-pack-architecture.md`
