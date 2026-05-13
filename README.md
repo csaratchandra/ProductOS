@@ -21,9 +21,9 @@ For PM adoption on a new product, the canonical starting surface is [templates](
 
 ## Operating Model
 
-ProductOS V12.0.0 is organized around the PM lifecycle plus governed research, decision, living-system, and agent-native execution loops:
+ProductOS V13.0.0 is organized around the PM lifecycle plus governed research, decision, living-system, inheritance, and agent-native execution loops:
 
-The current stable line is ProductOS V12.0.0. The repo includes the shipped V11/V12 living-system and agent-native surfaces: auto-propagation of artifact changes through dependency graphs, living markdown documents rendered from structured truth, PM delta review lanes with approve/reject/modify actions, format-agnostic export pipelines, `productos new`, adapter context packs, a prototype pipeline, and installable packaging.
+The current stable line is ProductOS `V13.0.0`. The repo includes the shipped V11/V12 living-system and agent-native execution surfaces plus the V13 inheritance, atlas, spec-pipeline, and portfolio-intelligence surfaces.
 
 1. current-state assessment
 2. discovery
