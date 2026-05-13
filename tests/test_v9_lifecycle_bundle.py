@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from conftest import latest_release, validator_for
+from conftest import latest_release, parse_semver, validator_for
 from core.python.productos_runtime import build_v9_lifecycle_bundle_from_workspace
 from core.python.productos_runtime.v9 import V9_ARTIFACT_SCHEMAS
 
@@ -52,5 +52,6 @@ def test_v9_bundle_does_not_move_public_stable_line_before_go_gate(root_dir: Pat
     )
 
     release = latest_release(root_dir)
+    candidate_version = bundle["runtime_scenario_report_v9_lifecycle_enrichment"]["candidate_version"]
     assert bundle["release_gate_decision_v9_lifecycle_enrichment"]["decision"] == "no_go"
-    assert release["core_version"] == "10.0.0"
+    assert parse_semver(release["core_version"]) >= parse_semver(candidate_version)

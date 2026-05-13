@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "ecosystem_map_id": "em_example",
+  "source_suite_ids": ["suite_our", "suite_partner"],
+  "title": "Ecosystem Map: Example",
+  "entities": [
+    {
+      "entity_id": "ent_our_product",
+      "entity_name": "Our Product",
+      "suite_id": "suite_our",
+      "entity_type": "our_product",
+      "key_differentiators": ["AI-powered analytics"],
+      "features_summary": ["Dashboard", "Reports"],
+      "target_personas": ["Analyst", "Manager"],
+      "description": "Our core analytics product"
+    },
+    {
+      "entity_id": "ent_partner_product",
+      "entity_name": "Partner Product",
+      "suite_id": "suite_partner",
+      "entity_type": "partner_product",
+      "key_differentiators": ["Data collection"],
+      "features_summary": ["Data ingestion", "API"],
+      "target_personas": ["Developer"],
+      "description": "Partner data platform"
+    }
+  ],
+  "relationships": [
+    {
+      "source_entity_id": "ent_our_product",
+      "target_entity_id": "ent_partner_product",
+      "relationship_type": "integrates_with",
+      "confidence": "observed",
+      "description": "Our product ingests data from partner platform"
+    }
+  ],
+  "competitive_overlaps": [
+    {
+      "overlap_id": "co_dashboard",
+      "our_entity_id": "ent_our_product",
+      "competitor_entity_id": "ent_partner_product",
+      "feature": "Dashboard",
+      "overlap_score": 50,
+      "persona_overlap": ["Analyst"]
+    }
+  ],
+  "synergy_opportunities": [
+    {
+      "opportunity_id": "syn_deeper_integration",
+      "opportunity_type": "partnership",
+      "entities_involved": ["ent_our_product", "ent_partner_product"],
+      "description": "Deeper API integration could unlock joint go-to-market",
+      "potential_value": "$2M ARR",
+      "confidence": "medium"
+    }
+  ],
+  "generated_at": "2026-03-22T08:00:00Z"
+}

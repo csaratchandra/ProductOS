@@ -8,6 +8,9 @@ from html import escape
 from pathlib import Path
 from typing import Any
 
+from .doc_ingestion import classify_file_content_aware
+from .llm import default_provider
+
 from . import yaml_compat as yaml
 
 from .lifecycle import (
@@ -149,6 +152,20 @@ def _visible_files(source_dir: Path) -> list[Path]:
 
 
 def _classify_file(source_dir: Path, path: Path) -> dict[str, Any]:
+    """Classify a file using AI content-aware classification, with heuristic fallback.
+
+    V13 upgrade: Uses LLM for content-aware classification instead of purely suffix/name matching.
+    Falls back to heuristic classification when no LLM is available.
+    """
+    try:
+        provider = default_provider()
+        result = classify_file_content_aware(path, source_dir, llm=provider)
+        if result.get("confidence") != "uncertain":
+            result["path"] = path
+            return result
+    except Exception:
+        pass
+
     relative = path.relative_to(source_dir)
     suffix = path.suffix.lower()
     name = path.name.lower()

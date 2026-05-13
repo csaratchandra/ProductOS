@@ -1,0 +1,52 @@
+# {{ title }}
+
+**Generated:** {{ generated_at }}
+
+## Problem Space
+
+{% if problems %}
+{% for problem in problems %}
+### {{ problem.title }}
+
+**Severity:** {{ problem.severity }}
+
+{{ problem.summary }}
+
+{% if problem.linked_feature_ids %}
+**Linked Features:** {{ problem.linked_feature_ids | join(', ') }}
+{% endif %}
+
+{% endfor %}
+{% else %}
+No problems documented in the problem space map.
+{% endif %}
+
+{% if orphan_nodes %}
+## Orphan Nodes
+
+The following problem nodes are orphans — they are not linked to any product feature:
+
+{% for node in orphan_nodes %}
+- **{{ node.node_type }}** ({{ node.node_id }}): {{ node.reason }}
+{% endfor %}
+{% endif %}
+
+## Segment Links
+
+{% if segment_links %}
+{% for link in segment_links %}
+- {{ link.source_id }} → {{ link.target_id }} ({{ link.relationship }})
+{% endfor %}
+{% else %}
+No segment links defined.
+{% endif %}
+
+## Evidence Links
+
+{% if evidence_links %}
+{% for link in evidence_links %}
+- [{{ link.confidence }}] {{ link.summary }} (Source: {{ link.source_type }})
+{% endfor %}
+{% else %}
+No evidence links documented.
+{% endif %}

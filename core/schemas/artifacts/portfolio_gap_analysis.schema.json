@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/portfolio_gap_analysis.schema.json",
+  "title": "ProductOS Portfolio Gap Analysis",
+  "description": "Cross-product gap detection results with severity scores, heat map data, and recommended resource allocation shifts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gap_analysis_id",
+    "suite_id",
+    "gaps",
+    "heat_map",
+    "portfolio_update",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "gap_analysis_id": { "type": "string", "minLength": 1 },
+    "suite_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "gaps": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/portfolioGap" },
+      "minItems": 1
+    },
+    "heat_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["personas", "journey_stages", "cells"],
+      "properties": {
+        "personas": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "journey_stages": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "cells": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["persona", "journey_stage", "coverage_status", "covering_products"],
+            "properties": {
+              "persona": { "type": "string", "minLength": 1 },
+              "journey_stage": { "type": "string", "minLength": 1 },
+              "coverage_status": {
+                "type": "string",
+                "enum": ["covered", "partial", "gap"]
+              },
+              "covering_products": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "gap_detail": { "type": "string" },
+              "effort_estimate": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "portfolio_update": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["top_gaps", "recommended_allocations", "risk_watchlist"],
+      "properties": {
+        "top_gaps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["gap_id", "title", "business_implication", "severity"],
+            "properties": {
+              "gap_id": { "type": "string", "minLength": 1 },
+              "title": { "type": "string", "minLength": 3 },
+              "business_implication": { "type": "string", "minLength": 10 },
+              "severity": {
+                "type": "string",
+                "enum": ["low", "medium", "high", "critical"]
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "recommended_allocations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["from_product", "to_product", "rationale"],
+            "properties": {
+              "from_product": { "type": "string", "minLength": 1 },
+              "to_product": { "type": "string", "minLength": 1 },
+              "rationale": { "type": "string", "minLength": 10 }
+            }
+          }
+        },
+        "risk_watchlist": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["risk_id", "description", "affected_products", "severity"],
+            "properties": {
+              "risk_id": { "type": "string", "minLength": 1 },
+              "description": { "type": "string", "minLength": 10 },
+              "affected_products": {
+                "type": "array",
+                "items": { "type": "string", "minLength": 1 }
+              },
+              "severity": {
+                "type": "string",
+                "enum": ["low", "medium", "high", "critical"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "portfolioGap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gap_id", "gap_type", "description", "severity", "affected_persona_count"],
+      "properties": {
+        "gap_id": { "type": "string", "minLength": 1 },
+        "gap_type": {
+          "type": "string",
+          "enum": ["underserved_persona", "orphan_problem", "journey_stage_gap", "integration_gap", "duplicate_investment"]
+        },
+        "description": { "type": "string", "minLength": 10 },
+        "severity": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"]
+        },
+        "affected_persona_count": { "type": "integer", "minimum": 0 },
+        "revenue_implication": { "type": "string" },
+        "affected_workspace_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "recommendation": { "type": "string", "minLength": 10 }
+      }
+    }
+  }
+}

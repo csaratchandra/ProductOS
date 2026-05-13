@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/ecosystem_map.schema.json",
+  "title": "ProductOS Ecosystem Map",
+  "description": "Multi-suite ecosystem with entities, relationships, competitive overlaps, and synergy opportunities for M&A and partnership analysis.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "ecosystem_map_id",
+    "source_suite_ids",
+    "entities",
+    "relationships",
+    "competitive_overlaps",
+    "synergy_opportunities",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "ecosystem_map_id": { "type": "string", "minLength": 1 },
+    "source_suite_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "title": { "type": "string", "minLength": 3 },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["entity_id", "entity_name", "suite_id", "entity_type", "key_differentiators"],
+        "properties": {
+          "entity_id": { "type": "string", "minLength": 1 },
+          "entity_name": { "type": "string", "minLength": 1 },
+          "suite_id": { "type": "string", "minLength": 1 },
+          "entity_type": {
+            "type": "string",
+            "enum": ["our_product", "partner_product", "competitor_product", "platform", "service"]
+          },
+          "key_differentiators": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "features_summary": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "target_personas": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "description": { "type": "string", "minLength": 10 }
+        }
+      },
+      "minItems": 1
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_entity_id", "target_entity_id", "relationship_type", "confidence"],
+        "properties": {
+          "source_entity_id": { "type": "string", "minLength": 1 },
+          "target_entity_id": { "type": "string", "minLength": 1 },
+          "relationship_type": {
+            "type": "string",
+            "enum": ["integrates_with", "competes_with", "partners_with", "bundles_with", "replaces", "depends_on"]
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["observed", "inferred", "uncertain"]
+          },
+          "description": { "type": "string", "minLength": 10 }
+        }
+      }
+    },
+    "competitive_overlaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["overlap_id", "our_entity_id", "competitor_entity_id", "feature", "overlap_score"],
+        "properties": {
+          "overlap_id": { "type": "string", "minLength": 1 },
+          "our_entity_id": { "type": "string", "minLength": 1 },
+          "competitor_entity_id": { "type": "string", "minLength": 1 },
+          "feature": { "type": "string", "minLength": 1 },
+          "overlap_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "persona_overlap": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "synergy_opportunities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["opportunity_id", "opportunity_type", "entities_involved", "description", "potential_value"],
+        "properties": {
+          "opportunity_id": { "type": "string", "minLength": 1 },
+          "opportunity_type": {
+            "type": "string",
+            "enum": ["ma_target", "partnership", "integration", "build_vs_buy", "co_investment"]
+          },
+          "entities_involved": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 2
+          },
+          "description": { "type": "string", "minLength": 10 },
+          "potential_value": { "type": "string" },
+          "confidence": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          }
+        }
+      }
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

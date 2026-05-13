@@ -145,6 +145,51 @@ from .takeover import (
     ingest_screenshots,
 )
 from .export_pipeline import export_artifact
+from .code_analysis import (
+    CODE_UNDERSTANDING_SCHEMA,
+    analyze_code_repository,
+)
+from .vision_analysis import (
+    analyze_screenshot,
+    analyze_screenshots_batch,
+    link_screenshots_to_journey,
+)
+from .doc_ingestion import (
+    MULTI_MODAL_INGESTION_SCHEMA,
+    classify_file_content_aware,
+    ingest_document,
+    detect_contradictions,
+    build_ingestion_report,
+)
+from .atlas_synthesis import (
+    synthesize_takeover_brief,
+    decompose_problems,
+    grade_atlas_quality,
+)
+from .spec_pipeline import (
+    MULTI_JOURNEY_BUNDLE_SCHEMA,
+    BUILD_SPEC_BUNDLE_SCHEMA,
+    synthesize_multi_journey,
+    build_full_spec_chain,
+)
+from .spec_export import (
+    export_agent_native_json,
+    export_agent_tools_json,
+    export_github_issues,
+    export_spec_bundle,
+)
+from .portfolio_atlas import (
+    PORTFOLIO_ATLAS_SCHEMA,
+    PORTFOLIO_GAP_ANALYSIS_SCHEMA,
+    build_portfolio_atlas,
+    build_portfolio_gap_analysis,
+)
+from .ecosystem_map import (
+    ECOSYSTEM_MAP_SCHEMA,
+    build_ecosystem_map,
+    render_ecosystem_html,
+    render_portfolio_atlas_html,
+)
 
 __all__ = [
     "build_foundation_bundle_from_workspace",
@@ -275,4 +320,33 @@ __all__ = [
     "render_takeover_atlas_html",
     "ingest_screenshots",
     "export_artifact",
+    "CODE_UNDERSTANDING_SCHEMA",
+    "analyze_code_repository",
+    "analyze_screenshot",
+    "analyze_screenshots_batch",
+    "link_screenshots_to_journey",
+    "MULTI_MODAL_INGESTION_SCHEMA",
+    "classify_file_content_aware",
+    "ingest_document",
+    "detect_contradictions",
+    "build_ingestion_report",
+    "synthesize_takeover_brief",
+    "decompose_problems",
+    "grade_atlas_quality",
+    "MULTI_JOURNEY_BUNDLE_SCHEMA",
+    "BUILD_SPEC_BUNDLE_SCHEMA",
+    "synthesize_multi_journey",
+    "build_full_spec_chain",
+    "export_agent_native_json",
+    "export_agent_tools_json",
+    "export_github_issues",
+    "export_spec_bundle",
+    "PORTFOLIO_ATLAS_SCHEMA",
+    "PORTFOLIO_GAP_ANALYSIS_SCHEMA",
+    "build_portfolio_atlas",
+    "build_portfolio_gap_analysis",
+    "ECOSYSTEM_MAP_SCHEMA",
+    "build_ecosystem_map",
+    "render_ecosystem_html",
+    "render_portfolio_atlas_html",
 ]

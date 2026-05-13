@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "bundle_id": "mjb_example",
+  "workspace_id": "ws_example",
+  "title": "Multi-Journey Bundle: Example",
+  "source_problem_ids": ["p_onboarding", "p_search"],
+  "target_features": [
+    {
+      "feature_id": "f_onboarding",
+      "feature_name": "Onboarding Wizard",
+      "linked_problem_ids": ["p_onboarding"]
+    }
+  ],
+  "journeys": [
+    {
+      "feature_id": "f_onboarding",
+      "customer_journey_map_ref": "artifacts/customer_journey_map_f_onboarding.json",
+      "persona_refs": ["persona_end_user"]
+    }
+  ],
+  "cross_feature_dependencies": [],
+  "shared_moments_of_truth": [],
+  "generated_at": "2026-03-22T08:00:00Z"
+}

@@ -13,6 +13,11 @@ from .adoption import build_workspace_adoption_bundle_from_source
 from .lifecycle import init_workspace_from_template
 from .research import build_external_research_plan_from_workspace, run_external_research_loop_from_workspace
 from .journey_synthesis import synthesize_customer_journey_map
+from .vision_analysis import analyze_screenshots_batch, link_screenshots_to_journey
+from .atlas_synthesis import synthesize_takeover_brief, decompose_problems
+from .code_analysis import analyze_code_repository
+from .doc_ingestion import ingest_document, detect_contradictions, build_ingestion_report
+from .llm import OllamaProvider, OpenAIProvider, default_provider
 
 
 TAKEOVER_ARTIFACT_SCHEMAS: dict[str, str] = {
@@ -137,9 +142,30 @@ def build_takeover_brief(
     visual_product_atlas: dict[str, Any] | None = None,
     roadmap_recovery: dict[str, Any] | None = None,
     takeover_feature_scorecard: dict[str, Any] | None = None,
+    code_understanding: dict[str, Any] | None = None,
     generated_at: str | None = None,
 ) -> dict[str, Any]:
     generated_at = generated_at or _now_iso()
+
+    provider = default_provider()
+    _is_ai_available = isinstance(provider, (OllamaProvider, OpenAIProvider))
+
+    if _is_ai_available:
+        try:
+            source_note_cards = _load_source_note_cards(workspace_dir)
+            ai_brief = synthesize_takeover_brief(
+                code_understanding=code_understanding,
+                visual_product_atlas=visual_product_atlas,
+                source_note_cards=source_note_cards,
+                adoption_artifacts=adoption_bundle,
+                llm=provider,
+                workspace_id=workspace_id,
+                generated_at=generated_at,
+            )
+            return ai_brief
+        except Exception:
+            pass
+
     existing_problem_brief = _load_artifact(workspace_dir, "problem_brief.json")
     existing_competitor_dossier = _load_artifact(workspace_dir, "competitor_dossier.json")
     existing_persona_pack = _load_artifact(workspace_dir, "persona_pack.json")
@@ -261,6 +287,21 @@ def build_takeover_brief(
     }
 
 
+def _load_source_note_cards(workspace_dir: Path) -> list[dict[str, Any]]:
+    cards: list[dict[str, Any]] = []
+    inbox = workspace_dir / "inbox"
+    if not inbox.exists():
+        return cards
+    for f in sorted(inbox.rglob("*")):
+        if f.is_file() and f.suffix.lower() in {".md", ".txt", ".html", ".json"}:
+            try:
+                card = ingest_document(f, workspace_dir)
+                cards.append(card)
+            except Exception:
+                pass
+    return cards
+
+
 def build_problem_space_map(
     workspace_dir: Path,
     workspace_id: str,
@@ -268,6 +309,8 @@ def build_problem_space_map(
     generated_at: str | None = None,
 ) -> dict[str, Any]:
     generated_at = generated_at or _now_iso()
+
+    provider = default_provider()
     existing_problem_brief = _load_artifact(workspace_dir, "problem_brief.json")
     existing_segment_map = _load_artifact(workspace_dir, "segment_map.json")
     existing_persona_pack = _load_artifact(workspace_dir, "persona_pack.json")
@@ -276,7 +319,28 @@ def build_problem_space_map(
     existing_journey_map = _load_artifact(workspace_dir, "customer_journey_map.json")
 
     problems: list[dict[str, Any]] = []
-    if existing_problem_brief:
+
+    _is_ai_available_sp = isinstance(provider, (OllamaProvider, OpenAIProvider))
+    if existing_problem_brief and _is_ai_available_sp:
+        try:
+            main_problem = existing_problem_brief.get("problem_summary", existing_problem_brief.get("title", ""))
+            features = [{"feature_name": f.get("title", "")} for f in (existing_prd or {}).get("planned_features", [])] if existing_prd else []
+            decomposition = decompose_problems(
+                main_problem=main_problem,
+                product_context=workspace_id,
+                existing_features=features,
+                llm=provider,
+                generated_at=generated_at,
+            )
+            problems = decomposition.get("sub_problems", [])
+            orphan_nodes = [
+                {"node_type": "sub_problem", "node_id": sp.get("problem_id", ""), "reason": "No product feature addresses this sub-problem"}
+                for sp in decomposition.get("orphan_sub_problems", [])
+            ]
+        except Exception:
+            pass
+
+    if existing_problem_brief and not problems:
         problems.append({
             "problem_id": existing_problem_brief.get("problem_brief_id", "problem_1"),
             "title": existing_problem_brief.get("title", "Unknown problem"),
@@ -519,7 +583,23 @@ def build_visual_product_atlas(
 ) -> dict[str, Any]:
     generated_at = generated_at or _now_iso()
     existing_journey_map = _load_artifact(workspace_dir, "customer_journey_map.json")
-    visual_records = ingest_screenshots(workspace_dir, generated_at=generated_at)
+
+    provider = default_provider()
+
+    screenshots_dir = workspace_dir / "inbox" / "screenshots"
+    screenshot_paths: list[Path] = []
+    if screenshots_dir.exists():
+        known_extensions = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".bmp"}
+        for path in sorted(screenshots_dir.iterdir()):
+            if path.is_file() and path.suffix.lower() in known_extensions:
+                screenshot_paths.append(path)
+
+    _vision_ai = isinstance(provider, (OllamaProvider, OpenAIProvider))
+    if screenshot_paths and _vision_ai:
+        visual_records = analyze_screenshots_batch(screenshot_paths, llm=provider, generated_at=generated_at)
+        visual_records = link_screenshots_to_journey(visual_records, existing_journey_map)
+    else:
+        visual_records = ingest_screenshots(workspace_dir, generated_at=generated_at)
 
     journey_stage_links: list[dict[str, Any]] = []
     if existing_journey_map:
@@ -1050,6 +1130,8 @@ def build_takeover_bundle(
     mode: str,
     generated_at: str | None = None,
     adopt_bundle: dict[str, Any] | None = None,
+    enable_code_analysis: bool = True,
+    enable_live_research: bool = False,
 ) -> dict[str, dict[str, Any]]:
     generated_at = generated_at or _now_iso()
     root = Path(root_dir).resolve()
@@ -1079,6 +1161,16 @@ def build_takeover_bundle(
     else:
         adoption_bundle = adopt_bundle
 
+    code_understanding = None
+    if enable_code_analysis and source_dir:
+        try:
+            source_path = Path(source_dir) if isinstance(source_dir, str) else source_dir
+            if source_path.is_dir():
+                code_understanding = analyze_code_repository(source_path, generated_at=generated_at)
+                code_understanding["workspace_id"] = workspace_id
+        except Exception:
+            code_understanding = None
+
     problem_space_map = build_problem_space_map(destination, workspace_id, generated_at=generated_at)
     roadmap_recovery = build_roadmap_recovery_brief(destination, workspace_id, generated_at=generated_at)
     visual_product_atlas = build_visual_product_atlas(destination, workspace_id, generated_at=generated_at)
@@ -1089,6 +1181,7 @@ def build_takeover_bundle(
         problem_space_map=problem_space_map,
         visual_product_atlas=visual_product_atlas,
         roadmap_recovery=roadmap_recovery,
+        code_understanding=code_understanding,
         generated_at=generated_at,
     )
     takeover_feature_scorecard = build_takeover_feature_scorecard(
@@ -1108,6 +1201,9 @@ def build_takeover_bundle(
         "visual_product_atlas": visual_product_atlas,
         "takeover_feature_scorecard": takeover_feature_scorecard,
     }
+
+    if code_understanding:
+        bundle["code_understanding"] = code_understanding
 
     _write_takeover_artifacts(destination, bundle, workspace_id)
 
@@ -1131,4 +1227,30 @@ def build_takeover_bundle(
     ))
     (outputs_dir / "takeover_atlas.html").write_text(atlas_html, encoding="utf-8")
 
+    if enable_live_research:
+        try:
+            _run_live_research(destination, workspace_id)
+        except Exception:
+            pass
+
     return bundle
+
+
+def _run_live_research(workspace_dir: Path, workspace_id: str) -> None:
+    """Run live research pipeline for takeover (replaces stub at takeover.py:3329)."""
+    try:
+        research_plan = build_external_research_plan_from_workspace(
+            workspace_dir, workspace_id=workspace_id
+        )
+        results = run_external_research_loop_from_workspace(
+            workspace_dir, workspace_id=workspace_id
+        )
+        outputs_dir = workspace_dir / "outputs" / "takeover"
+        outputs_dir.mkdir(parents=True, exist_ok=True)
+        _write_json(outputs_dir / "takeover_live_research_results.json", {
+            "research_plan": research_plan if research_plan else {},
+            "research_results": results if results else {},
+            "generated_at": _now_iso(),
+        })
+    except Exception:
+        pass

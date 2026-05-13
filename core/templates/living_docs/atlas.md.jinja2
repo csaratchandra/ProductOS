@@ -1,0 +1,70 @@
+# {{ title }}
+
+**Generated:** {{ generated_at }}
+
+## Product Summary
+
+{{ product_summary }}
+
+## Target Segments
+
+{{ target_segment_summary }}
+
+## Target Personas
+
+{{ target_persona_summary }}
+
+## Competitor Summary
+
+{{ competitor_summary }}
+
+## Customer Journey
+
+{{ customer_journey_summary }}
+
+## Roadmap Summary
+
+{{ roadmap_summary }}
+
+{% if evidence_gaps %}
+## Evidence Gaps
+
+{% for gap in evidence_gaps %}
+- **[{{ gap.severity | upper }}]** {{ gap.description }}
+
+{% endfor %}
+{% endif %}
+
+{% if contradictions_found %}
+## Cross-Source Contradictions
+
+{% for c in contradictions_found %}
+- **Severity: {{ c.severity }}** — {{ c.description }}
+
+  Sources: {{ c.sources_involved | join(', ') }}
+
+{% endfor %}
+{% endif %}
+
+## First PM Actions
+
+### First 30 Days
+{% for action in first_pm_actions.get('first_30_days', []) %}
+- {{ action }}
+{% else %}
+- Review all takeover artifacts to build baseline understanding.
+{% endfor %}
+
+### First 60 Days
+{% for action in first_pm_actions.get('first_60_days', []) %}
+- {{ action }}
+{% else %}
+- Validate evidence gaps and refresh stale artifacts.
+{% endfor %}
+
+### First 90 Days
+{% for action in first_pm_actions.get('first_90_days', []) %}
+- {{ action }}
+{% else %}
+- Drive roadmap items toward delivery milestones.
+{% endfor %}

@@ -102,6 +102,18 @@
             }
           }
         },
+        "ui_patterns": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "interaction_elements": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "journey_stage_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
         "captured_at": { "type": "string", "format": "date-time" }
       }
     }

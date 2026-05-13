@@ -27,40 +27,42 @@
     "takeover_brief_id": { "type": "string", "minLength": 1 },
     "workspace_id": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 3 },
-    "product_summary": { "type": "string", "minLength": 10 },
-    "old_problem_framing": { "type": "string", "minLength": 10 },
+    "product_summary": { "type": "string", "minLength": 1 },
+    "old_problem_framing": { "type": "string", "minLength": 1 },
     "change_over_time": {
       "type": "array",
       "items": {
         "type": "object",
-        "additionalProperties": false,
-        "required": ["period", "summary"],
         "properties": {
-          "period": { "type": "string", "minLength": 1 },
-          "summary": { "type": "string", "minLength": 10 }
+          "period": { "type": "string" },
+          "summary": { "type": "string" },
+          "module_name": { "type": "string" },
+          "commits_per_month": { "type": "number" },
+          "active_contributors": { "type": "integer" },
+          "staleness_score": { "type": "string" },
+          "last_modified": { "type": "string", "format": "date-time" }
         }
       }
     },
-    "target_segment_summary": { "type": "string", "minLength": 10 },
+    "target_segment_summary": { "type": "string", "minLength": 1 },
     "target_segment_refs": {
       "type": "array",
       "items": { "$ref": "#/$defs/entityRef" }
     },
-    "target_persona_summary": { "type": "string", "minLength": 10 },
+    "target_persona_summary": { "type": "string", "minLength": 1 },
     "target_persona_refs": {
       "type": "array",
       "items": { "$ref": "#/$defs/entityRef" }
     },
-    "competitor_summary": { "type": "string", "minLength": 10 },
+    "competitor_summary": { "type": "string", "minLength": 1 },
     "competitor_dossier_ref": { "type": "string", "minLength": 1 },
-    "customer_journey_summary": { "type": "string", "minLength": 10 },
+    "customer_journey_summary": { "type": "string", "minLength": 1 },
     "customer_journey_ref": { "type": "string", "minLength": 1 },
-    "roadmap_summary": { "type": "string", "minLength": 10 },
+    "roadmap_summary": { "type": "string", "minLength": 1 },
     "roadmap_recovery_ref": { "type": "string", "minLength": 1 },
     "evidence_gaps": {
       "type": "array",
-      "items": { "$ref": "#/$defs/evidenceGap" },
-      "minItems": 1
+      "items": { "$ref": "#/$defs/evidenceGap" }
     },
     "first_pm_actions": {
       "type": "object",
@@ -69,18 +71,15 @@
       "properties": {
         "first_30_days": {
           "type": "array",
-          "items": { "type": "string", "minLength": 10 },
-          "minItems": 1
+          "items": { "type": "string", "minLength": 5 }
         },
         "first_60_days": {
           "type": "array",
-          "items": { "type": "string", "minLength": 10 },
-          "minItems": 1
+          "items": { "type": "string", "minLength": 5 }
         },
         "first_90_days": {
           "type": "array",
-          "items": { "type": "string", "minLength": 10 },
-          "minItems": 1
+          "items": { "type": "string", "minLength": 5 }
         }
       }
     },
@@ -88,6 +87,39 @@
     "problem_space_map_ref": { "type": "string", "minLength": 1 },
     "visual_product_atlas_ref": { "type": "string", "minLength": 1 },
     "takeover_feature_scorecard_ref": { "type": "string", "minLength": 1 },
+    "contradictions_found": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["contradiction_id", "description", "sources_involved", "severity"],
+        "properties": {
+          "contradiction_id": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 10 },
+          "sources_involved": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 2
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          },
+          "resolution_recommendation": { "type": "string" }
+        }
+      }
+    },
+    "confidence_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "summary": { "type": "string" },
+        "observed_count": { "type": "integer", "minimum": 0 },
+        "inferred_from_code_count": { "type": "integer", "minimum": 0 },
+        "inferred_from_docs_count": { "type": "integer", "minimum": 0 },
+        "assumed_count": { "type": "integer", "minimum": 0 }
+      }
+    },
     "generated_at": { "type": "string", "format": "date-time" }
   },
   "$defs": {
@@ -109,7 +141,7 @@
       "required": ["gap_id", "description", "severity", "related_artifact_refs"],
       "properties": {
         "gap_id": { "type": "string", "minLength": 1 },
-        "description": { "type": "string", "minLength": 10 },
+        "description": { "type": "string", "minLength": 5 },
         "severity": {
           "type": "string",
           "enum": ["low", "medium", "high", "critical"]

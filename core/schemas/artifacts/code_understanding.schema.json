@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/code_understanding.schema.json",
+  "title": "ProductOS Code Understanding",
+  "description": "Structural code repository analysis: extracted API endpoints, feature flags, module/directory structure, dependency graphs, change velocity, and evidence confidence per extraction.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "code_understanding_id",
+    "source_repo_path",
+    "workspace_id",
+    "module_graph",
+    "api_surface",
+    "feature_flags",
+    "change_velocity",
+    "evidence_confidence",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "code_understanding_id": { "type": "string", "minLength": 1 },
+    "source_repo_path": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "module_graph": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/moduleNode" },
+      "minItems": 1
+    },
+    "api_surface": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/apiEndpoint" }
+    },
+    "feature_flags": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/featureFlag" }
+    },
+    "change_velocity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module_velocity", "overall_summary"],
+      "properties": {
+        "module_velocity": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["module_name", "commits_per_month", "active_contributors", "staleness_score"],
+            "properties": {
+              "module_name": { "type": "string", "minLength": 1 },
+              "commits_per_month": { "type": "number", "minimum": 0 },
+              "active_contributors": { "type": "integer", "minimum": 0 },
+              "staleness_score": {
+                "type": "string",
+                "enum": ["active", "normal", "stale", "archived"]
+              },
+              "last_modified": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "overall_summary": { "type": "string", "minLength": 10 }
+      }
+    },
+    "evidence_confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary"],
+      "properties": {
+        "summary": { "type": "string", "minLength": 10 },
+        "observed_count": { "type": "integer", "minimum": 0 },
+        "inferred_count": { "type": "integer", "minimum": 0 },
+        "uncertain_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "moduleNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module_name", "module_path", "purpose", "dependencies", "change_frequency", "confidence"],
+      "properties": {
+        "module_name": { "type": "string", "minLength": 1 },
+        "module_path": { "type": "string", "minLength": 1 },
+        "purpose": { "type": "string", "minLength": 10 },
+        "dependencies": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "change_frequency": {
+          "type": "string",
+          "enum": ["frequent", "moderate", "rare", "static"]
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["observed", "inferred", "uncertain"]
+        },
+        "last_modified": { "type": "string", "format": "date-time" }
+      }
+    },
+    "apiEndpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "path", "inferred_feature", "confidence"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]
+        },
+        "path": { "type": "string", "minLength": 1 },
+        "inferred_feature": { "type": "string", "minLength": 1 },
+        "auth_scope": { "type": "string" },
+        "linked_personas": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["observed", "inferred", "uncertain"]
+        }
+      }
+    },
+    "featureFlag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["flag_name", "location", "confidence"],
+      "properties": {
+        "flag_name": { "type": "string", "minLength": 1 },
+        "location": { "type": "string", "minLength": 1 },
+        "inferred_feature": { "type": "string" },
+        "active_state": {
+          "type": "string",
+          "enum": ["active", "inactive", "unknown"]
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["observed", "inferred", "uncertain"]
+        }
+      }
+    }
+  }
+}

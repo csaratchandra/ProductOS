@@ -45,6 +45,21 @@ DOC_CONFIGS = {
             "artifacts/empathy_map.json",
         ],
     },
+    "atlas": {
+        "template": "atlas.md.jinja2",
+        "sources": [
+            "artifacts/takeover_brief.json",
+            "artifacts/visual_product_atlas.json",
+            "artifacts/problem_space_map.json",
+        ],
+    },
+    "problem-space": {
+        "template": "problem-space.md.jinja2",
+        "sources": [
+            "artifacts/problem_space_map.json",
+            "artifacts/takeover_brief.json",
+        ],
+    },
 }
 
 

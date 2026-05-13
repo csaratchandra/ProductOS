@@ -1,0 +1,12 @@
+workspace_id: ws_productos_sample_takeover
+name: ProductOS Sample Takeover
+mode: enterprise
+created_at: "2026-03-22T08:00:00Z"
+adapter: codex
+artifact_paths:
+  - artifacts/code_understanding.json
+  - artifacts/takeover_brief.json
+  - artifacts/problem_space_map.json
+  - artifacts/roadmap_recovery_brief.json
+  - artifacts/visual_product_atlas.json
+  - artifacts/takeover_feature_scorecard.json

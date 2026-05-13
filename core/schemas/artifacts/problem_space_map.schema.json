@@ -82,6 +82,10 @@
         "source_artifact_ids": {
           "type": "array",
           "items": { "type": "string", "minLength": 1 }
+        },
+        "linked_feature_ids": {
+          "type": "array",
+          "items": { "type": "string" }
         }
       }
     },

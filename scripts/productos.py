@@ -3418,6 +3418,8 @@ def cmd_takeover(args: argparse.Namespace) -> int:
         name=args.name,
         mode=args.mode,
         generated_at=args.generated_at,
+        enable_code_analysis=getattr(args, "code_analysis", True),
+        enable_live_research=getattr(args, "live_research", False),
     )
 
     failures = _validate_named_bundle(bundle, TAKEOVER_ARTIFACT_SCHEMAS)
@@ -3428,7 +3430,10 @@ def cmd_takeover(args: argparse.Namespace) -> int:
 
     output_dir = args.output_dir or (Path(args.dest) / "outputs" / "takeover")
     output_dir.mkdir(parents=True, exist_ok=True)
-    _write_artifacts(output_dir, bundle, {"takeover_brief": "takeover_brief.json", "problem_space_map": "problem_space_map.json", "roadmap_recovery_brief": "roadmap_recovery_brief.json", "visual_product_atlas": "visual_product_atlas.json", "takeover_feature_scorecard": "takeover_feature_scorecard.json"})
+    art_map = {"takeover_brief": "takeover_brief.json", "problem_space_map": "problem_space_map.json", "roadmap_recovery_brief": "roadmap_recovery_brief.json", "visual_product_atlas": "visual_product_atlas.json", "takeover_feature_scorecard": "takeover_feature_scorecard.json"}
+    if "code_understanding" in bundle:
+        art_map["code_understanding"] = "code_understanding.json"
+    _write_artifacts(output_dir, bundle, art_map)
 
     takeover_brief = bundle["takeover_brief"]
     print(f"Takeover Brief: {takeover_brief['takeover_brief_id']}")
@@ -3436,29 +3441,49 @@ def cmd_takeover(args: argparse.Namespace) -> int:
     print(f"Evidence Gaps: {len(takeover_brief['evidence_gaps'])}")
     print(f"Visual Records: {len(bundle['visual_product_atlas']['visual_evidence_records'])}")
     print(f"Scorecard: {bundle['takeover_feature_scorecard']['overall_score']}/5")
+    if "code_understanding" in bundle:
+        cu = bundle["code_understanding"]
+        print(f"Code Modules: {len(cu.get('module_graph', []))}")
+        print(f"API Endpoints: {len(cu.get('api_surface', []))}")
     print(f"Destination: {args.dest}")
-
-    if args.live_research:
-        print("Live research flag not yet implemented: use `run-research-loop` separately.")
     return 0
 
 
 def cmd_render_takeover_atlas(args: argparse.Namespace) -> int:
     workspace_dir = args.workspace_dir.resolve() if args.workspace_dir else _workspace_dir(args)
     ws_id = workspace_dir.name
-    with open(workspace_dir / "workspace_manifest.yaml", "r") as f:
+    manifest_path = workspace_dir / "workspace_manifest.yaml"
+    if manifest_path.exists():
         import yaml
-        manifest = yaml.safe_load(f)
-        ws_id = manifest.get("workspace_id", ws_id)
+        with open(manifest_path, "r") as f:
+            manifest = yaml.safe_load(f)
+            ws_id = manifest.get("workspace_id", ws_id)
 
-    takeover_brief = _load_json(workspace_dir / "artifacts" / f"takeover_brief_{ws_id}.json")
-    problem_space_map = _load_json(workspace_dir / "artifacts" / f"problem_space_map_{ws_id}.json")
-    roadmap_recovery = _load_json(workspace_dir / "artifacts" / f"roadmap_recovery_brief_{ws_id}.json")
-    visual_atlas = _load_json(workspace_dir / "artifacts" / f"visual_product_atlas_{ws_id}.json")
-    scorecard_path = workspace_dir / "artifacts" / f"takeover_feature_scorecard_{ws_id}.json"
-    scorecard = _load_json(scorecard_path) if scorecard_path.exists() else None
+    # Try loading takeover artifacts (try new _ws_id suffix first, then bare names)
+    def _load_ta(name: str) -> dict | None:
+        for candidate in [f"artifacts/{name}_{ws_id}.json", f"artifacts/{name}.json"]:
+            p = workspace_dir / candidate
+            if p.exists():
+                return _load_json(p)
+        return None
 
-    html = render_takeover_atlas_html(takeover_brief, problem_space_map, roadmap_recovery, visual_atlas, takeover_feature_scorecard=scorecard)
+    takeover_brief = _load_ta("takeover_brief")
+    problem_space_map = _load_ta("problem_space_map")
+    roadmap_recovery = _load_ta("roadmap_recovery_brief")
+    visual_atlas = _load_ta("visual_product_atlas")
+    scorecard = _load_ta("takeover_feature_scorecard")
+
+    if not takeover_brief:
+        print("ERROR: No takeover_brief artifact found in workspace.")
+        return 1
+
+    # Try the new atlas component first; fall back to inline renderer
+    try:
+        from components.atlas.python.productos_atlas import render_takeover_atlas_html as render_atlas
+    except ImportError:
+        render_atlas = render_takeover_atlas_html
+
+    html = render_atlas(takeover_brief, problem_space_map, roadmap_recovery, visual_atlas, takeover_feature_scorecard=scorecard)
     output_path = args.output_path or (workspace_dir / "outputs" / "takeover" / "takeover_atlas.html")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(html, encoding="utf-8")
@@ -3881,6 +3906,23 @@ def parse_args() -> argparse.Namespace:
     portfolio_build_parser.add_argument("--workspace", type=Path, action="append")
     portfolio_build_parser.add_argument("--suite-id")
     portfolio_build_parser.add_argument("--output-dir", type=Path)
+    portfolio_atlas_parser = portfolio_subparsers.add_parser("atlas")
+    portfolio_atlas_parser.add_argument("--suite-id", required=True)
+    portfolio_atlas_parser.add_argument("--workspace-dirs", nargs="+", type=Path, required=True, help="List of workspace directories to aggregate")
+    portfolio_atlas_parser.add_argument("--output-dir", type=Path)
+    portfolio_gaps_parser = portfolio_subparsers.add_parser("gaps")
+    portfolio_gaps_parser.add_argument("--suite-id", required=True)
+    portfolio_gaps_parser.add_argument("--workspace-dirs", nargs="+", type=Path, required=True)
+    portfolio_gaps_parser.add_argument("--output-dir", type=Path)
+    portfolio_ecosystem_parser = portfolio_subparsers.add_parser("ecosystem")
+    portfolio_ecosystem_parser.add_argument("--suite-ids", nargs="+", required=True)
+    portfolio_ecosystem_parser.add_argument("--workspace-dirs", nargs="+", type=Path, required=True)
+    portfolio_ecosystem_parser.add_argument("--output-dir", type=Path)
+    portfolio_export_parser = portfolio_subparsers.add_parser("export")
+    portfolio_export_parser.add_argument("--suite-id", required=True)
+    portfolio_export_parser.add_argument("--format", choices=["html", "deck", "stakeholder_update"], required=True)
+    portfolio_export_parser.add_argument("--input-path", type=Path, required=True)
+    portfolio_export_parser.add_argument("--output-path", type=Path)
 
     takeover_parser = subparsers.add_parser("takeover")
     takeover_parser.add_argument("--source", type=Path, required=True)
@@ -3889,11 +3931,43 @@ def parse_args() -> argparse.Namespace:
     takeover_parser.add_argument("--name", required=True)
     takeover_parser.add_argument("--mode", required=True)
     takeover_parser.add_argument("--live-research", action="store_true", help="Run live external research refresh as part of the takeover flow.")
+    takeover_parser.add_argument("--code-analysis", action="store_true", default=True, help="Enable AI-powered code repository analysis (default: on).")
     takeover_parser.add_argument("--output-dir", type=Path)
+
+    atlas_parser = subparsers.add_parser("atlas")
+    atlas_subparsers = atlas_parser.add_subparsers(dest="atlas_command", required=True)
+    atlas_build_parser = atlas_subparsers.add_parser("build")
+    atlas_build_parser.add_argument("--sources", nargs="+", choices=["code", "docs", "screenshots"], default=["code", "docs", "screenshots"], help="Source types to include in atlas")
+    atlas_build_parser.add_argument("--workspace-dir", type=Path)
+    atlas_build_parser.add_argument("--output-dir", type=Path)
+    atlas_render_parser = atlas_subparsers.add_parser("render")
+    atlas_render_parser.add_argument("--workspace-dir", type=Path)
+    atlas_render_parser.add_argument("--output-path", type=Path)
+    atlas_grade_parser = atlas_subparsers.add_parser("grade")
+    atlas_grade_parser.add_argument("--workspace-dir", type=Path)
+
+    spec_parser = subparsers.add_parser("spec")
+    spec_subparsers = spec_parser.add_subparsers(dest="spec_command", required=True)
+    spec_journey_parser = spec_subparsers.add_parser("journey-synthesize")
+    spec_journey_parser.add_argument("--problem-ids", nargs="+", required=True, help="Problem IDs from the problem space map")
+    spec_journey_parser.add_argument("--workspace-dir", type=Path)
+    spec_journey_parser.add_argument("--output-dir", type=Path)
+    spec_build_parser = spec_subparsers.add_parser("build")
+    spec_build_parser.add_argument("--feature-ids", nargs="+", required=True, help="Feature IDs to generate spec chain for")
+    spec_build_parser.add_argument("--workspace-dir", type=Path)
+    spec_build_parser.add_argument("--output-dir", type=Path)
+    spec_export_parser = spec_subparsers.add_parser("export")
+    spec_export_parser.add_argument("--bundle", type=Path, required=True, help="Path to build_spec_bundle.json")
+    spec_export_parser.add_argument("--format", choices=["json", "agent_tools", "github"], required=True)
+    spec_export_parser.add_argument("--output-path", type=Path)
+    spec_export_parser.add_argument("--dry-run", action="store_true", default=True)
+    spec_export_parser.add_argument("--repo", help="GitHub repo for issue creation (owner/repo)")
+    spec_living_parser = spec_subparsers.add_parser("living")
+    spec_living_parser.add_argument("--workspace-dir", type=Path)
 
     adopt_parser = subparsers.add_parser("import", aliases=["adopt-workspace"])
     adopt_parser.add_argument("--source", type=Path, required=True)
-    adopt_parser.add_argument("--dest", type=Path, required=True)
+    adopt_parser.add_argument("--dest", type=Path)
     adopt_parser.add_argument("--workspace-id", required=True)
     adopt_parser.add_argument("--name", required=True)
     adopt_parser.add_argument("--mode", required=True)
@@ -4000,6 +4074,236 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+# ---------------------------------------------------------------------------
+# V13 Command Handlers
+# ---------------------------------------------------------------------------
+
+
+def cmd_atlas_build(args: argparse.Namespace) -> int:
+    """Build AI-powered visual product atlas from multi-modal sources."""
+    workspace_dir = args.workspace_dir or Path.cwd()
+    ws_id = workspace_dir.name
+    print(f"Building atlas for workspace: {ws_id}")
+    print(f"Sources: {', '.join(args.sources)}")
+
+    bundle = build_takeover_bundle(
+        Path.cwd().resolve(),
+        source_dir=workspace_dir if workspace_dir.exists() else None,
+        dest=str(workspace_dir),
+        workspace_id=ws_id,
+        name=ws_id,
+        mode="enterprise",
+        generated_at=args.generated_at,
+        enable_code_analysis="code" in args.sources,
+    )
+
+    output_dir = args.output_dir or (workspace_dir / "outputs" / "atlas")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    print(f"Atlas built: {len(bundle.get('takeover_brief', {}).get('evidence_gaps', []))} gaps, {len(bundle.get('problem_space_map', {}).get('problems', []))} problems")
+    return 0
+
+
+def cmd_atlas_render(args: argparse.Namespace) -> int:
+    """Re-render interactive atlas HTML."""
+    return cmd_render_takeover_atlas(args)
+
+
+def cmd_atlas_grade(args: argparse.Namespace) -> int:
+    """Score atlas quality across evidence, consistency, depth."""
+    workspace_dir = args.workspace_dir or Path.cwd()
+    ws_id = workspace_dir.name
+    manifest_path = workspace_dir / "workspace_manifest.yaml"
+    if manifest_path.exists():
+        import yaml
+        with open(manifest_path) as f:
+            ws_id = yaml.safe_load(f).get("workspace_id", ws_id)
+
+    takeover_brief_path = workspace_dir / "artifacts" / f"takeover_brief_{ws_id}.json"
+    if not takeover_brief_path.exists():
+        takeover_brief_path = workspace_dir / "artifacts" / "takeover_brief.json"
+    if not takeover_brief_path.exists():
+        print("ERROR: No takeover brief found. Build atlas first.")
+        return 1
+
+    takeover_brief = _load_json(takeover_brief_path)
+    quality = grade_atlas_quality(takeover_brief, generated_at=args.generated_at)
+    print(f"Atlas Quality Score: {quality['overall_score']}/5")
+    for d in quality.get("dimension_scores", []):
+        print(f"  {d['dimension']}: {d['score']}/5")
+    return 0
+
+
+def cmd_spec_journey_synthesize(args: argparse.Namespace) -> int:
+    """Multi-journey generation from problems."""
+    workspace_dir = args.workspace_dir or Path.cwd()
+    ws_id = workspace_dir.name
+
+    problem_space = _load_json(workspace_dir / "artifacts" / f"problem_space_map_{ws_id}.json")
+    if not problem_space:
+        problem_space = _load_json(workspace_dir / "artifacts" / "problem_space_map.json")
+
+    if not problem_space:
+        print("ERROR: No problem space map found.")
+        return 1
+
+    bundle = synthesize_multi_journey(
+        workspace_dir,
+        problem_space,
+        problem_ids=args.problem_ids,
+        generated_at=args.generated_at,
+    )
+
+    output_dir = args.output_dir or (workspace_dir / "outputs" / "spec")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / "multi_journey_bundle.json").write_text(
+        json.dumps(bundle, indent=2) + "\n", encoding="utf-8"
+    )
+    print(f"Journeys: {len(bundle.get('journeys', []))}")
+    print(f"Dependencies: {len(bundle.get('cross_feature_dependencies', []))}")
+    return 0
+
+
+def cmd_spec_build(args: argparse.Namespace) -> int:
+    """Full spec chain generation."""
+    workspace_dir = args.workspace_dir or Path.cwd()
+    ws_id = workspace_dir.name
+
+    feature_specs = [{"feature_id": fid, "feature_name": fid.replace("_", " ").title(), "problem_ref": f"problem_space_map.json"} for fid in args.feature_ids]
+
+    bundle = build_full_spec_chain(
+        workspace_dir,
+        feature_specs,
+        generated_at=args.generated_at,
+    )
+
+    output_dir = args.output_dir or (workspace_dir / "outputs" / "spec")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / "build_spec_bundle.json").write_text(
+        json.dumps(bundle, indent=2) + "\n", encoding="utf-8"
+    )
+    features = bundle.get("features", [])
+    print(f"Features: {len(features)}")
+    for f in features:
+        print(f"  {f['feature_id']}: {len(f.get('user_stories', []))} stories, {len(f.get('api_contracts', []))} APIs")
+    return 0
+
+
+def cmd_spec_export(args: argparse.Namespace) -> int:
+    """Export specs in agent-native formats."""
+    if not args.bundle.exists():
+        print(f"ERROR: Bundle not found: {args.bundle}")
+        return 1
+    bundle = _load_json(args.bundle)
+
+    output_path = args.output_path or args.bundle.parent / f"spec_export_{args.format}.json"
+
+    if args.format == "github":
+        result = export_github_issues(bundle, dry_run=args.dry_run, repo=args.repo, output_path=output_path)
+        print(f"GitHub issues ({'dry-run' if args.dry_run else 'live'}): {len(result.get('epics', []))} epics")
+    elif args.format == "agent_tools":
+        result = export_agent_tools_json(bundle, output_path=output_path)
+        print(f"Agent tools: {len(result)} tool definitions")
+    else:
+        result = export_agent_native_json(bundle, output_path=output_path)
+        summary = result.get("execution_summary", {})
+        print(f"Features: {summary.get('total_features', 0)}, Stories: {summary.get('total_stories', 0)}, ACs: {summary.get('total_criteria', 0)}")
+
+    print(f"Export: {output_path}")
+    return 0
+
+
+def cmd_spec_living(args: argparse.Namespace) -> int:
+    """Wire specs into living system."""
+    workspace_dir = args.workspace_dir or Path.cwd()
+    prop_map = generate_impact_propagation_map(workspace_dir)
+    prop_map_path = workspace_dir / "artifacts" / "impact_propagation_map.json"
+    prop_map_path.parent.mkdir(parents=True, exist_ok=True)
+    prop_map_path.write_text(json.dumps(prop_map, indent=2) + "\n", encoding="utf-8")
+    dep_count = len(prop_map.get("dependencies", {}))
+    print(f"Impact propagation map updated: {dep_count} dependencies")
+    print(f"Spec artifacts registered in living system.")
+    return 0
+
+
+def cmd_portfolio_atlas(args: argparse.Namespace) -> int:
+    """Cross-product visual atlas."""
+    atlas = build_portfolio_atlas(
+        args.suite_id,
+        args.workspace_dirs,
+        generated_at=args.generated_at,
+    )
+    output_dir = args.output_dir or Path.cwd() / "outputs" / "portfolio"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / f"portfolio_atlas_{args.suite_id}.json").write_text(
+        json.dumps(atlas, indent=2) + "\n", encoding="utf-8"
+    )
+    html = render_portfolio_atlas_html(atlas)
+    (output_dir / f"portfolio_atlas_{args.suite_id}.html").write_text(html, encoding="utf-8")
+    print(f"Portfolio Atlas: {len(atlas.get('workspace_summaries', []))} products")
+    print(f"Shared Personas: {len(atlas.get('shared_personas', []))}")
+    print(f"Feature Overlaps: {len(atlas.get('feature_overlap_map', []))}")
+    return 0
+
+
+def cmd_portfolio_gaps(args: argparse.Namespace) -> int:
+    """Gap analysis across portfolio."""
+    atlas = build_portfolio_atlas(
+        args.suite_id,
+        args.workspace_dirs,
+        generated_at=args.generated_at,
+    )
+    gaps = build_portfolio_gap_analysis(atlas, args.workspace_dirs, generated_at=args.generated_at)
+    output_dir = args.output_dir or Path.cwd() / "outputs" / "portfolio"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / f"portfolio_gaps_{args.suite_id}.json").write_text(
+        json.dumps(gaps, indent=2) + "\n", encoding="utf-8"
+    )
+    print(f"Gaps: {len(gaps.get('gaps', []))}")
+    for g in gaps.get("gaps", [])[:5]:
+        print(f"  [{g.get('severity', 'medium')}] {g.get('gap_type', '')}: {g.get('description', '')[:100]}")
+    return 0
+
+
+def cmd_portfolio_ecosystem(args: argparse.Namespace) -> int:
+    """Multi-company ecosystem mapping."""
+    suite_portfolios: dict[str, dict] = {}
+    for sid in args.suite_ids:
+        atlas = build_portfolio_atlas(sid, args.workspace_dirs, generated_at=args.generated_at)
+        suite_portfolios[sid] = atlas
+
+    eco_map = build_ecosystem_map(args.suite_ids, suite_portfolios, generated_at=args.generated_at)
+    output_dir = args.output_dir or Path.cwd() / "outputs" / "portfolio"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / "ecosystem_map.json").write_text(
+        json.dumps(eco_map, indent=2) + "\n", encoding="utf-8"
+    )
+    html = render_ecosystem_html(eco_map)
+    (output_dir / "ecosystem_map.html").write_text(html, encoding="utf-8")
+    print(f"Ecosystem: {len(eco_map.get('entities', []))} entities, {len(eco_map.get('relationships', []))} relationships")
+    return 0
+
+
+def cmd_portfolio_export(args: argparse.Namespace) -> int:
+    """Export portfolio intelligence."""
+    input_path = args.input_path
+    if not input_path.exists():
+        print(f"ERROR: Input not found: {input_path}")
+        return 1
+
+    if args.format == "html":
+        data = _load_json(input_path)
+        if "workspace_summaries" in data:
+            from core.python.productos_runtime.ecosystem_map import render_portfolio_atlas_html
+            html = render_portfolio_atlas_html(data)
+        else:
+            from core.python.productos_runtime.ecosystem_map import render_ecosystem_html
+            html = render_ecosystem_html(data)
+        args.output_path.write_text(html, encoding="utf-8")
+
+    print(f"Export: {args.output_path} ({args.format})")
+    return 0
+
+
 def _dispatch_command(args: argparse.Namespace) -> int:
     """Dispatch to the concrete command handler."""
     if args.command == "status":
@@ -4047,6 +4351,30 @@ def _dispatch_command(args: argparse.Namespace) -> int:
     if args.command == "portfolio":
         if args.portfolio_command == "build":
             return cmd_portfolio_build(args)
+        if args.portfolio_command == "atlas":
+            return cmd_portfolio_atlas(args)
+        if args.portfolio_command == "gaps":
+            return cmd_portfolio_gaps(args)
+        if args.portfolio_command == "ecosystem":
+            return cmd_portfolio_ecosystem(args)
+        if args.portfolio_command == "export":
+            return cmd_portfolio_export(args)
+    if args.command == "atlas":
+        if args.atlas_command == "build":
+            return cmd_atlas_build(args)
+        if args.atlas_command == "render":
+            return cmd_atlas_render(args)
+        if args.atlas_command == "grade":
+            return cmd_atlas_grade(args)
+    if args.command == "spec":
+        if args.spec_command == "journey-synthesize":
+            return cmd_spec_journey_synthesize(args)
+        if args.spec_command == "build":
+            return cmd_spec_build(args)
+        if args.spec_command == "export":
+            return cmd_spec_export(args)
+        if args.spec_command == "living":
+            return cmd_spec_living(args)
     if args.command == "init-workspace":
         return cmd_init_workspace(args)
     if args.command == "init-mission":

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/multi_journey_bundle.schema.json",
+  "title": "ProductOS Multi-Journey Bundle",
+  "description": "Collection of customer journey maps across multiple features with cross-feature dependency detection, shared personas, and shared moments of truth.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_id",
+    "workspace_id",
+    "source_problem_ids",
+    "target_features",
+    "journeys",
+    "cross_feature_dependencies",
+    "shared_moments_of_truth",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "bundle_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "source_problem_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "target_features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["feature_id", "feature_name", "linked_problem_ids"],
+        "properties": {
+          "feature_id": { "type": "string", "minLength": 1 },
+          "feature_name": { "type": "string", "minLength": 1 },
+          "linked_problem_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "journeys": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["feature_id", "customer_journey_map_ref", "persona_refs"],
+        "properties": {
+          "feature_id": { "type": "string", "minLength": 1 },
+          "customer_journey_map_ref": { "type": "string", "minLength": 1 },
+          "persona_refs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "cross_feature_dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["dependency_id", "source_feature_id", "source_stage_id", "target_feature_id", "target_stage_id", "dependency_type"],
+        "properties": {
+          "dependency_id": { "type": "string", "minLength": 1 },
+          "source_feature_id": { "type": "string", "minLength": 1 },
+          "source_stage_id": { "type": "string", "minLength": 1 },
+          "target_feature_id": { "type": "string", "minLength": 1 },
+          "target_stage_id": { "type": "string", "minLength": 1 },
+          "dependency_type": {
+            "type": "string",
+            "enum": ["sequential", "parallel", "blocking", "informational"]
+          },
+          "description": { "type": "string", "minLength": 10 }
+        }
+      }
+    },
+    "shared_moments_of_truth": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["mot_id", "description", "feature_ids", "criticality"],
+        "properties": {
+          "mot_id": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 10 },
+          "feature_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 2
+          },
+          "criticality": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          }
+        }
+      }
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

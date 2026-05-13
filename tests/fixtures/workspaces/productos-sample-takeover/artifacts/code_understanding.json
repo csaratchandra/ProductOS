@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "code_understanding_id": "cu_productos_sample_takeover",
+  "source_repo_path": "tests/fixtures/workspaces/productos-sample-takeover",
+  "workspace_id": "ws_productos_sample_takeover",
+  "title": "Code Understanding: Sample Takeover",
+  "module_graph": [
+    {
+      "module_name": "api_routes",
+      "module_path": "src/api/routes.py",
+      "purpose": "API route definitions for the product",
+      "dependencies": ["flask", "auth"],
+      "change_frequency": "frequent",
+      "confidence": "observed",
+      "last_modified": "2026-03-20T10:00:00Z"
+    },
+    {
+      "module_name": "user_service",
+      "module_path": "src/services/user.py",
+      "purpose": "User management and authentication service",
+      "dependencies": ["database", "auth"],
+      "change_frequency": "moderate",
+      "confidence": "observed",
+      "last_modified": "2026-03-15T14:30:00Z"
+    }
+  ],
+  "api_surface": [
+    {
+      "method": "GET",
+      "path": "/api/v1/users",
+      "inferred_feature": "User Management",
+      "auth_scope": "admin",
+      "linked_personas": ["admin"],
+      "confidence": "observed"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/onboarding",
+      "inferred_feature": "Onboarding",
+      "auth_scope": "public",
+      "linked_personas": ["end_user"],
+      "confidence": "observed"
+    }
+  ],
+  "feature_flags": [
+    {
+      "flag_name": "NEW_ONBOARDING_FLOW",
+      "location": "src/features/flags.py",
+      "inferred_feature": "Onboarding",
+      "active_state": "active",
+      "confidence": "observed"
+    }
+  ],
+  "change_velocity": {
+    "module_velocity": [
+      {
+        "module_name": "api_routes",
+        "commits_per_month": 12.5,
+        "active_contributors": 3,
+        "staleness_score": "active",
+        "last_modified": "2026-03-20T10:00:00Z"
+      },
+      {
+        "module_name": "v7_bundle",
+        "commits_per_month": 0.5,
+        "active_contributors": 1,
+        "staleness_score": "stale",
+        "last_modified": "2025-11-01T08:00:00Z"
+      }
+    ],
+    "overall_summary": "Analyzed 2 modules"
+  },
+  "evidence_confidence": {
+    "summary": "2 observed modules, 2 inferred items, 0 uncertain",
+    "observed_count": 2,
+    "inferred_count": 2,
+    "uncertain_count": 0
+  },
+  "generated_at": "2026-03-22T08:00:00Z"
+}

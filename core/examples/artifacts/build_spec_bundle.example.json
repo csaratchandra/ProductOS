@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "build_spec_bundle_id": "bsb_example",
+  "workspace_id": "ws_example",
+  "title": "Build Spec Bundle: Example",
+  "features": [
+    {
+      "feature_id": "f_onboarding",
+      "feature_name": "Onboarding Wizard",
+      "agent_task_id": "task_f_onboarding",
+      "prd": {
+        "problem_summary": "Users struggle to onboard",
+        "outcome_summary": "80% completion rate",
+        "scope_boundaries": ["Wizard UI", "Progress tracking"],
+        "out_of_scope": ["Multi-language"],
+        "success_metrics": [
+          {"metric_name": "completion_rate", "target_value": "80%"}
+        ]
+      },
+      "user_stories": [
+        {
+          "story_id": "us_001",
+          "title": "User can start onboarding wizard",
+          "as_a": "New user",
+          "i_want": "to start the onboarding wizard",
+          "so_that": "I can set up my account",
+          "acceptance_criteria_ids": ["ac_001"],
+          "priority": "P0",
+          "estimated_story_points": 3
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "ac_id": "ac_001",
+          "story_id": "us_001",
+          "given": "User is authenticated",
+          "when": "User clicks start onboarding",
+          "then": "Wizard appears with first step",
+          "edge_cases": ["Network timeout"]
+        }
+      ],
+      "api_contracts": [
+        {
+          "endpoint": "/api/v1/onboarding/start",
+          "method": "POST",
+          "request_schema": {"type": "object"},
+          "response_schema": {"type": "object"},
+          "error_codes": ["400", "401"],
+          "auth_required": true,
+          "ac_source_ids": ["ac_001"]
+        }
+      ]
+    }
+  ],
+  "execution_graph": {
+    "nodes": [
+      {
+        "node_id": "node_f_onboarding",
+        "feature_id": "f_onboarding",
+        "task_type": "build_feature",
+        "description": "Build Onboarding Wizard"
+      }
+    ],
+    "edges": []
+  },
+  "validation_checks": [
+    {
+      "artifact_ref": "feature_f_onboarding",
+      "schema_valid": true,
+      "quality_score": 85,
+      "warnings": []
+    }
+  ],
+  "evidence_trail": [
+    {
+      "claim": "Onboarding improves retention",
+      "source_artifact_ref": "problem_space_map.json",
+      "confidence": "observed"
+    }
+  ],
+  "generated_at": "2026-03-22T08:00:00Z"
+}

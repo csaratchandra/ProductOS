@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "quality_report_id": "qar_example",
+  "workspace_id": "ws_example",
+  "atlas_ref": "takeover_brief_example",
+  "title": "Atlas Quality Report: Example",
+  "overall_score": 4.2,
+  "dimension_scores": [
+    {
+      "dimension": "evidence_coverage",
+      "score": 4.0,
+      "max_score": 5,
+      "rationale": "Good coverage across code, docs, and visuals",
+      "findings": ["Code modules well-documented", "Missing competitive analysis"]
+    },
+    {
+      "dimension": "cross_source_consistency",
+      "score": 4.5,
+      "max_score": 5,
+      "rationale": "High consistency across sources",
+      "findings": ["No contradictions detected"]
+    },
+    {
+      "dimension": "problem_decomposition_depth",
+      "score": 3.5,
+      "max_score": 5,
+      "rationale": "Problems identified but could be deeper",
+      "findings": ["Top-level problems clear", "Sub-problems need refinement"]
+    },
+    {
+      "dimension": "persona_identification_accuracy",
+      "score": 4.5,
+      "max_score": 5,
+      "rationale": "Personas well-identified",
+      "findings": ["Primary personas clear"]
+    },
+    {
+      "dimension": "gap_detection_completeness",
+      "score": 4.0,
+      "max_score": 5,
+      "rationale": "Evidence gaps identified",
+      "findings": ["3 gaps detected"]
+    },
+    {
+      "dimension": "narrative_coherence",
+      "score": 4.5,
+      "max_score": 5,
+      "rationale": "Coherent product narrative",
+      "findings": ["Clear story from problem to solution"]
+    }
+  ],
+  "recommendations": [
+    {
+      "recommendation_id": "rec_evidence_coverage",
+      "priority": "medium",
+      "action": "Add more diverse evidence sources",
+      "impacted_dimension": "evidence_coverage"
+    }
+  ],
+  "generated_at": "2026-03-22T08:00:00Z"
+}

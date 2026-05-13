@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/build_spec_bundle.schema.json",
+  "title": "ProductOS Build Spec Bundle",
+  "description": "Agent-native spec bundle with execution graph and evidence trail. One file containing everything an AI dev agent needs to build N features: PRDs, stories, acceptance criteria, API contracts, execution ordering, and quality checks.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "build_spec_bundle_id",
+    "workspace_id",
+    "features",
+    "execution_graph",
+    "validation_checks",
+    "evidence_trail",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "build_spec_bundle_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "features": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/featureSpec" },
+      "minItems": 1
+    },
+    "execution_graph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodes", "edges"],
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/executionNode" },
+          "minItems": 1
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["from_node_id", "to_node_id", "dependency_type"],
+            "properties": {
+              "from_node_id": { "type": "string", "minLength": 1 },
+              "to_node_id": { "type": "string", "minLength": 1 },
+              "dependency_type": {
+                "type": "string",
+                "enum": ["blocking", "sequential", "optional"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "validation_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_ref", "schema_valid", "quality_score"],
+        "properties": {
+          "artifact_ref": { "type": "string", "minLength": 1 },
+          "schema_valid": { "type": "boolean" },
+          "quality_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "warnings": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "evidence_trail": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceLink" }
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "featureSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["feature_id", "feature_name", "agent_task_id", "prd", "user_stories", "acceptance_criteria", "api_contracts"],
+      "properties": {
+        "feature_id": { "type": "string", "minLength": 1 },
+        "feature_name": { "type": "string", "minLength": 1 },
+        "agent_task_id": { "type": "string", "minLength": 1 },
+        "prd": { "$ref": "#/$defs/prdSpec" },
+        "user_stories": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/userStory" },
+          "minItems": 1
+        },
+        "acceptance_criteria": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/acceptanceCriterion" },
+          "minItems": 1
+        },
+        "api_contracts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/apiContract" }
+        },
+        "story_map_ref": { "type": "string" }
+      }
+    },
+    "prdSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["problem_summary", "outcome_summary", "scope_boundaries", "out_of_scope", "success_metrics"],
+      "properties": {
+        "problem_summary": { "type": "string", "minLength": 10 },
+        "outcome_summary": { "type": "string", "minLength": 10 },
+        "scope_boundaries": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "out_of_scope": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "success_metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["metric_name", "target_value"],
+            "properties": {
+              "metric_name": { "type": "string", "minLength": 1 },
+              "target_value": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "userStory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["story_id", "title", "as_a", "i_want", "so_that", "priority"],
+      "properties": {
+        "story_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 3 },
+        "as_a": { "type": "string", "minLength": 3 },
+        "i_want": { "type": "string", "minLength": 10 },
+        "so_that": { "type": "string", "minLength": 10 },
+        "acceptance_criteria_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["P0", "P1", "P2", "P3"]
+        },
+        "estimated_story_points": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "acceptanceCriterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ac_id", "story_id", "given", "when", "then"],
+      "properties": {
+        "ac_id": { "type": "string", "minLength": 1 },
+        "story_id": { "type": "string", "minLength": 1 },
+        "given": { "type": "string", "minLength": 10 },
+        "when": { "type": "string", "minLength": 10 },
+        "then": { "type": "string", "minLength": 10 },
+        "edge_cases": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "apiContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["endpoint", "method", "request_schema", "response_schema", "ac_source_ids"],
+      "properties": {
+        "endpoint": { "type": "string", "minLength": 1 },
+        "method": {
+          "type": "string",
+          "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+        },
+        "request_schema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "response_schema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "error_codes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "auth_required": { "type": "boolean" },
+        "ac_source_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "executionNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node_id", "feature_id", "task_type", "description"],
+      "properties": {
+        "node_id": { "type": "string", "minLength": 1 },
+        "feature_id": { "type": "string", "minLength": 1 },
+        "task_type": {
+          "type": "string",
+          "enum": ["build_feature", "implement_story", "write_tests", "create_api", "update_docs"]
+        },
+        "description": { "type": "string", "minLength": 10 }
+      }
+    },
+    "evidenceLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim", "source_artifact_ref", "confidence"],
+      "properties": {
+        "claim": { "type": "string", "minLength": 10 },
+        "source_artifact_ref": { "type": "string", "minLength": 1 },
+        "confidence": {
+          "type": "string",
+          "enum": ["observed", "inferred_from_code", "inferred_from_docs", "assumed"]
+        }
+      }
+    }
+  }
+}

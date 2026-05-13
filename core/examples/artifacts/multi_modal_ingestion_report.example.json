@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "ingestion_report_id": "ingest_example",
+  "workspace_id": "ws_example",
+  "title": "Ingestion Report: Example",
+  "ingested_sources": [
+    {
+      "source_id": "src_prd_001",
+      "source_type": "prd_document",
+      "source_path": "inbox/documents/prd.md",
+      "extraction_confidence": "observed",
+      "extracted_entities": {
+        "problems": ["User onboarding is too complex"],
+        "personas": ["End user", "Admin"],
+        "features": ["Onboarding wizard"],
+        "decisions": ["Build in-house"],
+        "competitors": ["Acme Corp"],
+        "metrics": ["80% completion rate"]
+      },
+      "ingested_at": "2026-03-22T08:00:00Z"
+    }
+  ],
+  "contradictions_found": [],
+  "ingestion_coverage": {
+    "domain_areas": [
+      {
+        "domain": "prd_document",
+        "coverage_pct": 100.0,
+        "status": "well_covered"
+      }
+    ],
+    "overall_coverage_pct": 100.0,
+    "gap_areas": []
+  },
+  "generated_at": "2026-03-22T08:00:00Z"
+}

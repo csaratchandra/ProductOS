@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/atlas_quality_report.schema.json",
+  "title": "ProductOS Atlas Quality Report",
+  "description": "Quality grading for visual product atlas across evidence coverage, cross-source consistency, problem decomposition depth, persona identification accuracy, gap detection completeness, and narrative coherence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "quality_report_id",
+    "workspace_id",
+    "atlas_ref",
+    "overall_score",
+    "dimension_scores",
+    "recommendations",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "quality_report_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "atlas_ref": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 3 },
+    "overall_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "dimension_scores": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["dimension", "score", "max_score", "rationale"],
+        "properties": {
+          "dimension": {
+            "type": "string",
+            "enum": [
+              "evidence_coverage",
+              "cross_source_consistency",
+              "problem_decomposition_depth",
+              "persona_identification_accuracy",
+              "gap_detection_completeness",
+              "narrative_coherence"
+            ]
+          },
+          "score": { "type": "number", "minimum": 0, "maximum": 5 },
+          "max_score": { "type": "number", "const": 5 },
+          "rationale": { "type": "string", "minLength": 10 },
+          "findings": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+      "minItems": 6
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["recommendation_id", "priority", "action"],
+        "properties": {
+          "recommendation_id": { "type": "string", "minLength": 1 },
+          "priority": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"]
+          },
+          "action": { "type": "string", "minLength": 10 },
+          "impacted_dimension": { "type": "string" }
+        }
+      }
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

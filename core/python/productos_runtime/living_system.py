@@ -334,6 +334,53 @@ def generate_impact_propagation_map(workspace_dir: Path) -> dict[str, Any]:
             for cjm in cjm_refs:
                 dependencies.setdefault(pref, []).append(cjm)
 
+    # V13: Add takeover artifact propagation edges
+    takeover_artifacts = [
+        "artifacts/code_understanding.json",
+        "artifacts/visual_product_atlas.json",
+    ]
+    takeover_downstream = [
+        "artifacts/takeover_brief.json",
+        "artifacts/problem_space_map.json",
+        "artifacts/roadmap_recovery_brief.json",
+        "artifacts/takeover_feature_scorecard.json",
+    ]
+    for ta in takeover_artifacts:
+        if (workspace_dir / ta).exists():
+            for td in takeover_downstream:
+                dependencies.setdefault(ta, []).append(td)
+
+    # V13: Add spec artifact propagation edges
+    spec_source_artifacts = [
+        "artifacts/problem_space_map.json",
+        "artifacts/persona_pack.json",
+    ]
+    spec_downstream = [
+        "artifacts/multi_journey_bundle.json",
+        "artifacts/build_spec_bundle.json",
+        "artifacts/acceptance_criteria_set.json",
+        "artifacts/api_contract.json",
+    ]
+    for sa in spec_source_artifacts:
+        if (workspace_dir / sa).exists():
+            for sd in spec_downstream:
+                dependencies.setdefault(sa, []).append(sd)
+
+    # V13: Add portfolio artifact propagation edges
+    portfolio_source_artifacts = [
+        "artifacts/takeover_brief.json",
+        "artifacts/problem_space_map.json",
+        "artifacts/visual_product_atlas.json",
+    ]
+    portfolio_downstream = [
+        "artifacts/portfolio_atlas.json",
+        "artifacts/portfolio_gap_analysis.json",
+    ]
+    for pa in portfolio_source_artifacts:
+        if (workspace_dir / pa).exists():
+            for pd in portfolio_downstream:
+                dependencies.setdefault(pa, []).append(pd)
+
     # Deduplicate
     for k, v in dependencies.items():
         dependencies[k] = sorted(set(v))

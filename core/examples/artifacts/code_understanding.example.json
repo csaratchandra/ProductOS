@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "code_understanding_id": "cu_example",
+  "source_repo_path": "/path/to/repo",
+  "workspace_id": "ws_example",
+  "title": "Code Understanding: Example Repo",
+  "module_graph": [
+    {
+      "module_name": "api",
+      "module_path": "src/api.py",
+      "purpose": "API route definitions",
+      "dependencies": ["flask"],
+      "change_frequency": "frequent",
+      "confidence": "observed",
+      "last_modified": "2026-03-22T08:00:00Z"
+    }
+  ],
+  "api_surface": [
+    {
+      "method": "GET",
+      "path": "/api/v1/users",
+      "inferred_feature": "User Management",
+      "auth_scope": "admin",
+      "linked_personas": ["admin"],
+      "confidence": "observed"
+    }
+  ],
+  "feature_flags": [
+    {
+      "flag_name": "NEW_FEATURE",
+      "location": "src/flags.py",
+      "inferred_feature": "New Feature",
+      "active_state": "active",
+      "confidence": "observed"
+    }
+  ],
+  "change_velocity": {
+    "module_velocity": [
+      {
+        "module_name": "api",
+        "commits_per_month": 10.0,
+        "active_contributors": 3,
+        "staleness_score": "active",
+        "last_modified": "2026-03-22T08:00:00Z"
+      }
+    ],
+    "overall_summary": "Example code analysis summary"
+  },
+  "evidence_confidence": {
+    "summary": "1 observed module",
+    "observed_count": 1,
+    "inferred_count": 0,
+    "uncertain_count": 0
+  },
+  "generated_at": "2026-03-22T08:00:00Z"
+}

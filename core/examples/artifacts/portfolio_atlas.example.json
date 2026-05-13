@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "portfolio_atlas_id": "pa_example",
+  "suite_id": "suite_example",
+  "source_workspace_ids": ["ws_product_a", "ws_product_b"],
+  "title": "Portfolio Atlas: Example",
+  "workspace_summaries": [
+    {
+      "workspace_id": "ws_product_a",
+      "product_name": "Product A",
+      "problem_count": 5,
+      "persona_count": 3,
+      "feature_count": 12
+    },
+    {
+      "workspace_id": "ws_product_b",
+      "product_name": "Product B",
+      "problem_count": 3,
+      "persona_count": 2,
+      "feature_count": 8
+    }
+  ],
+  "shared_personas": [
+    {
+      "persona_id": "shared_admin",
+      "persona_name": "Admin User",
+      "workspace_ids": ["ws_product_a", "ws_product_b"],
+      "shared_characteristics": ["Manages system configuration"],
+      "per_product_context": {
+        "ws_product_a": "System Admin",
+        "ws_product_b": "Platform Admin"
+      }
+    }
+  ],
+  "cross_product_problems": [
+    {
+      "problem_id": "cp_data_sync",
+      "description": "Data synchronization across products is unreliable",
+      "workspace_ids": ["ws_product_a", "ws_product_b"],
+      "severity": "high"
+    }
+  ],
+  "feature_overlap_map": [
+    {
+      "overlap_id": "overlap_onboarding",
+      "feature_name": "Onboarding Wizard",
+      "workspace_ids": ["ws_product_a", "ws_product_b"],
+      "overlap_type": "similar",
+      "description": "Both products have onboarding wizards"
+    }
+  ],
+  "product_dependency_graph": [
+    {
+      "source_workspace_id": "ws_product_a",
+      "target_workspace_id": "ws_product_b",
+      "dependency_description": "Product B depends on Product A APIs",
+      "dependency_type": "api"
+    }
+  ],
+  "aggregate_metrics": {
+    "total_problems": 8,
+    "total_personas": 5,
+    "total_features": 20,
+    "total_gaps": 3,
+    "shared_persona_count": 1,
+    "feature_overlap_count": 1
+  },
+  "generated_at": "2026-03-22T08:00:00Z"
+}

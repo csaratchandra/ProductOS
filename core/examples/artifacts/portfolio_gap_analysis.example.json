@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "gap_analysis_id": "pga_example",
+  "suite_id": "suite_example",
+  "title": "Portfolio Gap Analysis: Example",
+  "gaps": [
+    {
+      "gap_id": "pg_0001",
+      "gap_type": "underserved_persona",
+      "description": "Admin persona not fully served across all products",
+      "severity": "high",
+      "affected_persona_count": 1,
+      "revenue_implication": "Potential churn risk",
+      "affected_workspace_ids": ["ws_product_a", "ws_product_b"],
+      "recommendation": "Map admin journey across all products"
+    }
+  ],
+  "heat_map": {
+    "personas": ["Admin", "End User"],
+    "journey_stages": ["Awareness", "Discovery", "Evaluation", "Purchase", "Onboarding", "Adoption", "Retention", "Advocacy"],
+    "cells": [
+      {
+        "persona": "Admin",
+        "journey_stage": "Onboarding",
+        "coverage_status": "partial",
+        "covering_products": ["ws_product_a"],
+        "gap_detail": "Admin onboarding only supported in Product A",
+        "effort_estimate": "2 months"
+      }
+    ]
+  },
+  "portfolio_update": {
+    "top_gaps": [
+      {
+        "gap_id": "pg_0001",
+        "title": "[Underserved Persona] Admin persona not fully served",
+        "business_implication": "Potential churn risk",
+        "severity": "high"
+      }
+    ],
+    "recommended_allocations": [
+      {
+        "from_product": "ws_product_a",
+        "to_product": "ws_product_b",
+        "rationale": "Share admin onboarding implementation"
+      }
+    ],
+    "risk_watchlist": [
+      {
+        "risk_id": "risk_pg_0001",
+        "description": "Admin persona gap could cause enterprise deal loss",
+        "affected_products": ["ws_product_b"],
+        "severity": "high"
+      }
+    ]
+  },
+  "generated_at": "2026-03-22T08:00:00Z"
+}

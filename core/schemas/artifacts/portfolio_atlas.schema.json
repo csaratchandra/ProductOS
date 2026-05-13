@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://productos.dev/schemas/artifacts/portfolio_atlas.schema.json",
+  "title": "ProductOS Portfolio Atlas",
+  "description": "Cross-workspace atlas aggregation with shared personas, cross-product problems, feature overlap detection, product dependency graph, and aggregate metrics.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "portfolio_atlas_id",
+    "suite_id",
+    "source_workspace_ids",
+    "workspace_summaries",
+    "shared_personas",
+    "cross_product_problems",
+    "feature_overlap_map",
+    "aggregate_metrics",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "portfolio_atlas_id": { "type": "string", "minLength": 1 },
+    "suite_id": { "type": "string", "minLength": 1 },
+    "source_workspace_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "title": { "type": "string", "minLength": 3 },
+    "workspace_summaries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["workspace_id", "product_name", "problem_count", "persona_count", "feature_count"],
+        "properties": {
+          "workspace_id": { "type": "string", "minLength": 1 },
+          "product_name": { "type": "string", "minLength": 1 },
+          "problem_count": { "type": "integer", "minimum": 0 },
+          "persona_count": { "type": "integer", "minimum": 0 },
+          "feature_count": { "type": "integer", "minimum": 0 },
+          "atlas_ref": { "type": "string" }
+        }
+      },
+      "minItems": 1
+    },
+    "shared_personas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["persona_id", "persona_name", "workspace_ids", "shared_characteristics"],
+        "properties": {
+          "persona_id": { "type": "string", "minLength": 1 },
+          "persona_name": { "type": "string", "minLength": 1 },
+          "workspace_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 2
+          },
+          "shared_characteristics": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "per_product_context": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "cross_product_problems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["problem_id", "description", "workspace_ids", "severity"],
+        "properties": {
+          "problem_id": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 10 },
+          "workspace_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 2
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          }
+        }
+      }
+    },
+    "feature_overlap_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["overlap_id", "feature_name", "workspace_ids", "overlap_type"],
+        "properties": {
+          "overlap_id": { "type": "string", "minLength": 1 },
+          "feature_name": { "type": "string", "minLength": 1 },
+          "workspace_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 2
+          },
+          "overlap_type": {
+            "type": "string",
+            "enum": ["duplicate", "similar", "complementary", "shared_dependency"]
+          },
+          "description": { "type": "string", "minLength": 10 }
+        }
+      }
+    },
+    "product_dependency_graph": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_workspace_id", "target_workspace_id", "dependency_description"],
+        "properties": {
+          "source_workspace_id": { "type": "string", "minLength": 1 },
+          "target_workspace_id": { "type": "string", "minLength": 1 },
+          "dependency_description": { "type": "string", "minLength": 10 },
+          "dependency_type": {
+            "type": "string",
+            "enum": ["api", "data", "ui", "workflow", "infrastructure"]
+          }
+        }
+      }
+    },
+    "aggregate_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total_problems", "total_personas", "total_features", "total_gaps"],
+      "properties": {
+        "total_problems": { "type": "integer", "minimum": 0 },
+        "total_personas": { "type": "integer", "minimum": 0 },
+        "total_features": { "type": "integer", "minimum": 0 },
+        "total_gaps": { "type": "integer", "minimum": 0 },
+        "shared_persona_count": { "type": "integer", "minimum": 0 },
+        "feature_overlap_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

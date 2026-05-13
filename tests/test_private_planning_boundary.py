@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import subprocess
 from pathlib import Path
 
 
@@ -30,15 +31,23 @@ def test_core_docs_has_no_public_version_plan_files(root_dir: Path):
 
 
 def test_repo_has_no_public_references_to_private_internal_paths(root_dir: Path):
-    tracked_files = [
-        path
-        for path in root_dir.rglob("*")
-        if path.is_file()
-        and ".git" not in path.parts
-        and "internal" not in path.parts
-        and path.suffix in {".md", ".json", ".py"}
-        and path.name not in {"test_private_planning_boundary.py", "productos.py"}
-    ]
+    result = subprocess.run(
+        ["git", "ls-files"],
+        cwd=root_dir,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    tracked_files = []
+    for relative_path in result.stdout.splitlines():
+        path = root_dir / relative_path
+        if (
+            path.is_file()
+            and "internal" not in path.parts
+            and path.suffix in {".md", ".json", ".py"}
+            and path.name not in {"test_private_planning_boundary.py", "productos.py"}
+        ):
+            tracked_files.append(path)
 
     offending: list[str] = []
     for path in tracked_files:
